@@ -85,7 +85,7 @@ const EditExpenseModal = (props: Props) => {
       const expenseNameInput = document.querySelector(
         "[aria-label='expense-name-input']"
       ) as HTMLInputElement;
-      expenseNameInput.focus();
+      // expenseNameInput.focus();
     }, 100);
   };
   const handleClose = () => {

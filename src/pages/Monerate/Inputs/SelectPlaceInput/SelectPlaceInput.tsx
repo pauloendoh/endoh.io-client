@@ -60,7 +60,7 @@ const SelectPlaceInput: React.FC<Props> = (props) => {
         getOptionLabel={(option) => option.name}
         style={{ width: 200 }}
         renderInput={(params) => (
-          <MyTextField {...params} placeholder="e.g.: Amazon" size="small"/>
+          <MyTextField {...params} placeholder="e.g.: Amazon" size="small" />
         )}
         onChange={(e, value) => {
           const place = value as PlaceGetDto;

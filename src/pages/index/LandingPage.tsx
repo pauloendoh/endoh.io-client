@@ -44,8 +44,8 @@ const LandingPage = () => {
         <Box mt={10}>
           <MonerateDescription />
         </Box>
-        <Box mt={15}>
-          <FooterDescription mb={10} />
+        <Box mt={15} pb={5}>
+          <FooterDescription />
         </Box>
       </Container>
     </Box>
