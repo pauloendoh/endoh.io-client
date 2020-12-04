@@ -5,7 +5,6 @@ import {
   IconButton,
   makeStyles,
   Theme,
-  Typography,
 } from "@material-ui/core";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import InstagramIcon from "@material-ui/icons/Instagram";

@@ -19,6 +19,7 @@
     "@types/react-router-dom": "^5.1.6",
     "@types/react-scroll": "^1.8.2",
     "class-transformer": "^0.3.1",
+    "dotenv": "^8.2.0",
     "font-awesome": "^4.7.0",
     "formik": "^2.2.5",
     "luxon": "^1.25.0",
@@ -38,8 +39,8 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "set PORT=8000 && react-scripts start",
-    "dev": "npm start",
+    "start": "react-scripts start",
+    "dev": "set PORT=8000 & npm start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
