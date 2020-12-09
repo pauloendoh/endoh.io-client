@@ -1,15 +1,13 @@
-import { Box, makeStyles, Paper, Theme, useTheme } from "@material-ui/core";
+import { makeStyles, Theme } from "@material-ui/core";
 import React from "react";
 import CategoryGetDto from "../../dtos/monerate/CategoryDtos/CategoryGetDto";
 import FlexVCenter from "./Flexboxes/FlexVCenter";
 
+// maybe merge into <CategoryPlaceIcon/> ?
 const CategoryIcon = (props: Props) => {
-  const theme = useTheme();
   const classes = useStyles();
   return (
-    <FlexVCenter
-      className={classes.root}
-    >
+    <FlexVCenter className={classes.root}>
       {props.category.name[0].toUpperCase()}
     </FlexVCenter>
   );

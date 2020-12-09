@@ -1,24 +1,35 @@
-import { faFire } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { AppBar, Box, Button, createStyles, makeStyles, Theme, Toolbar, Typography } from '@material-ui/core';
-import React from 'react';
-import FlexVCenter from '../shared/Flexboxes/FlexVCenter';
-import ApplicationMenu from './SelectApplication/ApplicationMenu';
-import UserMenu from './UserMenu';
+import { faFire } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  AppBar,
+  Box,
+  Button,
+  createStyles,
+  makeStyles,
+  Theme,
+  Toolbar,
+  Typography,
+} from "@material-ui/core";
+import PATHS from "consts/PATHS";
+import React from "react";
+import { Route, Switch } from "react-router-dom";
+import RelearnNavbarContent from "../../pages/Relearn/RelearnNavbarContent";
+import FlexVCenter from "../shared/Flexboxes/FlexVCenter";
+import ApplicationMenu from "./SelectApplication/ApplicationMenu";
+import UserMenu from "./UserMenu";
 
-// PE 2/3 
+// PE 2/3
 const Navbar = () => {
   const classes = useStyles();
 
   return (
-    <AppBar className={classes.root} position="fixed" elevation={0} >
+    <AppBar className={classes.root} position="fixed" elevation={0}>
       <Toolbar>
-
-        {/* PE 2/3 - Change into a subcomponent? <MyLogo/> */}
+        {/* PE 2/3 - Change into a sub component? <MyLogo/> */}
         <Button variant="text" href="/" className={classes.logoButton}>
           <Typography variant="h5">
             <FlexVCenter>
-              <FontAwesomeIcon icon={faFire}  className={classes.fireIcon}/>
+              <FontAwesomeIcon icon={faFire} className={classes.fireIcon} />
               <Box ml={1}>endoh.io</Box>
             </FlexVCenter>
           </Typography>
@@ -28,6 +39,10 @@ const Navbar = () => {
           {/*  PE 2/3 - rename to ApplicationMenu ? */}
           <ApplicationMenu />
         </Box>
+
+        <Switch>
+          <Route path={PATHS.relearn.index} component={RelearnNavbarContent} />;
+        </Switch>
 
         <Box ml="auto">
           <UserMenu />
@@ -42,7 +57,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       flexGrow: 1,
       background: "#202020",
-      borderBottom: '1px solid rgba(255, 255, 255, 0.05)'
+      borderBottom: "1px solid rgba(255, 255, 255, 0.05)",
     },
     logoButton: {
       "&:hover": {
@@ -50,8 +65,8 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     fireIcon: {
-      color: theme.palette.secondary.main
-    }
+      color: theme.palette.secondary.main,
+    },
   })
 );
 

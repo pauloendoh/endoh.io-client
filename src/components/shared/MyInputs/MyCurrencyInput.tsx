@@ -3,13 +3,15 @@ import React from "react";
 import NumberFormat from "react-number-format";
 import MyTextField from "../../shared/MyInputs/MyTextField";
 
+type Props = React.ComponentProps<typeof TextField>;
+
 const MyCurrencyInput = (props: Props) => {
   return (
     <MyTextField
       value={props.value}
       onChange={props.onChange}
       name="numberformat"
-      id="formatted-numberformat-input"
+      id="formatted-numberformat-input" // should I remove it?
       InputProps={{
         inputComponent: InnerComponent as any,
       }}
@@ -47,6 +49,5 @@ const InnerComponent = (props: NumberFormatCustomProps) => {
   );
 };
 
-type Props = React.ComponentProps<typeof TextField>;
 
 export default MyCurrencyInput;

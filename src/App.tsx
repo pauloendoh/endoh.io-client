@@ -21,6 +21,7 @@ import MoneratePage from "./pages/Monerate/MoneratePage/MoneratePage";
 import SettingsNavbar from "./pages/settings/SettingsNavbar";
 import SettingsPage from "./pages/settings/SettingsPage";
 import myTheme from "./utils/myTheme";
+import RelearnPage from './pages/Relearn/RelearnPage/RelearnPage'
 
 // PE 2/3
 const App = (props: Props) => {
@@ -80,8 +81,8 @@ const App = (props: Props) => {
         <Box py={10}>
           <Switch>
             <Route path="/monerate" component={MoneratePage} />
+            <Route path="/relearn" component={RelearnPage} />
             <Route path="/settings" component={SettingsPage} />
-
             <Route path="/" exact component={Home} />
             <Redirect to="/" />
           </Switch>

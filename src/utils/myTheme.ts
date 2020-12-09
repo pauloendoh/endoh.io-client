@@ -30,6 +30,9 @@ const myTheme = createMuiTheme({
       }
     }
   },
+  zIndex: {
+    appBar: 1201 // zIndex.drawer + 1
+  }
 });
 
 export default myTheme

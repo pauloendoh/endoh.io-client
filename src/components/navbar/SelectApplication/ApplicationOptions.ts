@@ -1,4 +1,4 @@
-import { faFunnelDollar, faHome, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faFunnelDollar, faGraduationCap, faHome, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import PATHS from '../../../consts/PATHS';
 
 // PE 3/3 
@@ -18,6 +18,11 @@ export const applicationOptions: IApplicationOption[] =
         applicationName: 'Monerate',
         path: '/monerate',
         faIcon: faFunnelDollar
+    },
+    {
+        applicationName: 'Relearn',
+        path: '/relearn',
+        faIcon: faGraduationCap
     },
     ]
 

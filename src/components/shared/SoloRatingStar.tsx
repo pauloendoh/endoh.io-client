@@ -1,40 +1,33 @@
-import { Box, Typography, useTheme } from "@material-ui/core";
-import React, { useState } from "react";
-import FlexVCenter from "./Flexboxes/FlexVCenter";
-import StarRateIcon from "@material-ui/icons/StarRate";
-import myTheme from "utils/myTheme";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Box, useTheme } from "@material-ui/core";
+import React from "react";
+import FlexVCenter from "./Flexboxes/FlexVCenter";
 
 const SoloRatingStar = (props: Props) => {
-    const theme = useTheme()
+  const theme = useTheme();
+  const fontSize = props.fontSize ? props.fontSize : 40;
+
+  // PE 2/3 
   return (
     <Box>
-      {props.value > 0 ? (
+      {props.value ? (
         <FlexVCenter>
-            <Box mr={1}>
-            {Math.round(props.value * 10) / 10}
-
-            </Box>
+          {/* Up to 1 decimal place */}
+          <Box mr={1}>{Math.round(props.value * 10) / 10}</Box>
           <FontAwesomeIcon
             icon={faStar}
             color={props.color}
-            fontSize={props.fontSize ? props.fontSize : 40}
-            // className={classes.starIcon}
+            fontSize={fontSize}
           />
-          {/* <StarRateIcon color={props.color} fontSize="large" /> */}
         </FlexVCenter>
       ) : (
         <Box ml={1}>
           <FontAwesomeIcon
             icon={faStar}
             color={theme.palette.grey[400]}
-            fontSize={props.fontSize ? props.fontSize : 40}
-
-            // className={classes.starIcon}
+            fontSize={fontSize}
           />
-
-          {/* <StarRateIcon color="disabled" fontSize="large" /> */}
         </Box>
       )}
     </Box>

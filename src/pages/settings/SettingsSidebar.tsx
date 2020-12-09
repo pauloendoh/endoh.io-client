@@ -1,4 +1,4 @@
-import { faFunnelDollar, faUserAlt } from "@fortawesome/free-solid-svg-icons";
+import { faFunnelDollar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
@@ -11,7 +11,7 @@ import {
   ListItemText,
   makeStyles,
   Theme,
-  Toolbar,
+  Toolbar
 } from "@material-ui/core";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import React, { useState } from "react";
@@ -27,11 +27,6 @@ function SettingsSidebar(props: Props) {
 
   const location = useLocation();
   const pathName = location.pathname;
-
-  const [openEndoh, setOpenEndoh] = useState(false);
-  const handleClickEndoh = () => {
-    setOpenEndoh(!openEndoh);
-  };
 
   const [openMonerate, setOpenMonerate] = useState(
     pathName.startsWith(PATHS.settings.monerate.index)
@@ -56,23 +51,7 @@ function SettingsSidebar(props: Props) {
       <Toolbar />
       <Box className={classes.drawerContainer}>
         <List>
-          {/* <ListItem button onClick={handleClickEndoh}>
-            <ListItemIcon>
-              <FontAwesomeIcon icon={faUserAlt} />
-            </ListItemIcon>
-            <ListItemText primary="endoh.io" />
-            {openEndoh ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse in={openEndoh} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItem button className={classes.nested}>
-                <ListItemText primary="Account" />
-              </ListItem>
-              <ListItem button className={classes.nested}>
-                <ListItemText primary="General" />
-              </ListItem>
-            </List>
-          </Collapse> */}
+        
 
           <ListItem button onClick={handleClickMonerate}>
             <ListItemIcon>

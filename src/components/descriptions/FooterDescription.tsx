@@ -36,7 +36,7 @@ const FooterDescription = (props: Props) => {
           Built in ReactJS, Node, PostgreSQL, TypeORM, Typescript and
           MaterialUI.
         </Box>
-        <Box>Designed in Figma and hosted in AWS.</Box>
+        <Box>Designed in Figma and hosted in Heroku.</Box>
 
         <Box mt={3}>
           <IconButton

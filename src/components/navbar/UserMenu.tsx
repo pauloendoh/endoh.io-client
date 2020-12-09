@@ -41,7 +41,7 @@ const UserMenu = (props: Props) => {
         aria-haspopup="true"
       >
         <FlexVCenter>
-          {/* <Box mr={2}>{authUser.username}</Box> */}
+          <Box mr={2}>{authUser.username}</Box>
           <Avatar alt={authUser.username} src={authUser.picture} />
         </FlexVCenter>
       </Button>
