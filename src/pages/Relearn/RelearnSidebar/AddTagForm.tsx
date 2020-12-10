@@ -1,21 +1,15 @@
-import {
-  Box,
-  Button,
-  createStyles,
-  makeStyles,
-  Theme
-} from "@material-ui/core";
-import Flex from "components/shared/Flexboxes/Flex";
-import MyTextField from "components/shared/MyInputs/MyTextField";
-import API from "consts/API";
-import { newTagDto, TagDto } from "dtos/relearn/TagDto";
-import { Form, Formik } from "formik";
-import React from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import myAxios from "utils/myAxios";
-import * as relearnActions from '../../../store/relearn/relearnActions';
-import { ApplicationState } from "../../../store/store";
+import { Box, Button } from "@material-ui/core"
+import Flex from "components/shared/Flexboxes/Flex"
+import MyTextField from "components/shared/MyInputs/MyTextField"
+import API from "consts/API"
+import { newTagDto, TagDto } from "dtos/relearn/TagDto"
+import { Form, Formik } from "formik"
+import React from "react"
+import { connect } from "react-redux"
+import { Dispatch } from "redux"
+import myAxios from "utils/myAxios"
+import * as relearnActions from "../../../store/relearn/relearnActions"
+import { ApplicationState } from "../../../store/store"
 
 function AddTagForm(props: Props) {
   return (
@@ -23,17 +17,15 @@ function AddTagForm(props: Props) {
       <Formik
         initialValues={newTagDto()}
         onSubmit={(formikValues, { setSubmitting }) => {
-          console.log(formikValues);
-          // handleSubmit(formikValues);
           myAxios
             .post<TagDto[]>(API.relearn.tag, formikValues)
             .then((res) => {
               props.setTags(res.data)
             })
             .finally(() => {
-              setSubmitting(false);
-              props.onCloseForm();
-            });
+              setSubmitting(false)
+              props.onCloseForm()
+            })
         }}
       >
         {({ values, isSubmitting, handleChange }) => (
@@ -61,7 +53,7 @@ function AddTagForm(props: Props) {
                 <Button
                   variant="outlined"
                   onClick={() => {
-                    props.onCloseForm();
+                    props.onCloseForm()
                   }}
                   color="secondary"
                   size="small"
@@ -74,27 +66,23 @@ function AddTagForm(props: Props) {
         )}
       </Formik>
     </Box>
-  );
+  )
 }
-
-const useStyles = makeStyles((theme: Theme) => createStyles({}));
 
 const mapStateToProps = (state: ApplicationState) => ({
   // user: state.auth.user,
-});
+})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setTags: (tags: TagDto[]) => dispatch(relearnActions.setTags(tags))
-  // logout: () => dispatch(logoutActionCreator(dispatch)),
-});
+  setTags: (tags: TagDto[]) => dispatch(relearnActions.setTags(tags)),
+})
 
 interface OwnProps {
-  // onClickCancel: (e: React.MouseEvent<HTMLButtonElement>) => void,
-  onCloseForm: () => void;
+  onCloseForm: () => void
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
+  OwnProps
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddTagForm);
+export default connect(mapStateToProps, mapDispatchToProps)(AddTagForm)

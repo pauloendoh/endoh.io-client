@@ -29,7 +29,11 @@ export const applicationOptions: IApplicationOption[] =
 export const getCurrentApplicationByPath = (path: string): IApplicationOption => {
     if (path.startsWith(PATHS.monerate.index)) {
         return applicationOptions.find(option => option.applicationName === 'Monerate')
-    } else {
+    }
+    else if (path.startsWith(PATHS.relearn.index)) {
+        return applicationOptions.find(option => option.applicationName === 'Relearn')
+    }
+    else {
         return applicationOptions.find(option => option.applicationName === 'Home')
     }
 }

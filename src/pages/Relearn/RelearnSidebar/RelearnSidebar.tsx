@@ -1,5 +1,5 @@
-import { faPlus, faTags } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faTags } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   Box,
   Collapse,
@@ -12,53 +12,53 @@ import {
   makeStyles,
   Theme,
   Toolbar,
-  useTheme
-} from "@material-ui/core";
-import { ExpandLess, ExpandMore } from "@material-ui/icons";
-import PATHS from "consts/PATHS";
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
-import { Dispatch } from "redux";
-import API from "../../../consts/API";
-import { TagDto } from "../../../dtos/relearn/TagDto";
-import * as relearnActions from "../../../store/relearn/relearnActions";
-import { ApplicationState } from "../../../store/store";
-import myAxios from "../../../utils/myAxios";
-import AddTagForm from "./AddTagForm";
-import TagListItem from './TagListItem';
+  Typography,
+  useTheme,
+} from "@material-ui/core"
+import { ExpandLess, ExpandMore } from "@material-ui/icons"
+import PATHS from "consts/PATHS"
+import React, { useEffect, useState } from "react"
+import { connect } from "react-redux"
+import { Link, useLocation } from "react-router-dom"
+import { Dispatch } from "redux"
+import API from "../../../consts/API"
+import { TagDto } from "../../../dtos/relearn/TagDto"
+import * as relearnActions from "../../../store/relearn/relearnActions"
+import { ApplicationState } from "../../../store/store"
+import myAxios from "../../../utils/myAxios"
+import AddTagForm from "./AddTagForm"
+import TagListItem from "./TagListItem"
 
 function RelearnSidebar(props: Props) {
-  const classes = useStyles();
-  const theme = useTheme();
+  const classes = useStyles()
+  const theme = useTheme()
 
-  const location = useLocation();
-  const [pathName, setPathName] = useState(location.pathname);
+  const location = useLocation()
+  const [pathName, setPathName] = useState(location.pathname)
   useEffect(() => {
-    setPathName(location.pathname);
-  }, [location]);
+    setPathName(location.pathname)
+  }, [location])
 
-  const [openTags, setOpenTags] = useState(true);
+  const [openTags, setOpenTags] = useState(true)
   const handleClickTags = () => {
-    setOpenTags(!openTags);
-  };
+    setOpenTags(!openTags)
+  }
 
-  const [tagFormIsOpen, setTagFormIsOpen] = useState(false);
+  const [tagFormIsOpen, setTagFormIsOpen] = useState(false)
   const handleClickAddTag = () => {
-    setTagFormIsOpen(!tagFormIsOpen);
-  };
+    setTagFormIsOpen(!tagFormIsOpen)
+  }
 
-  const [isLoadingTags, setIsLoadingTags] = useState(true);
+  const [isLoadingTags, setIsLoadingTags] = useState(true)
   useEffect(
     () => {
       myAxios.get<TagDto[]>(API.relearn.tag).then((res) => {
-        props.setTags(res.data);
-      });
+        props.setTags(res.data)
+      })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
-  );
-  
+  )
 
   return (
     <Drawer
@@ -77,7 +77,12 @@ function RelearnSidebar(props: Props) {
             to={PATHS.relearn.index}
             selected={pathName === PATHS.relearn.index}
           >
-            <ListItemText>All Resources</ListItemText>
+            <ListItemText>
+              All Resources
+              <Typography variant="inherit" className={classes.resourcesCount}>
+                {props.resources.length}
+              </Typography>
+            </ListItemText>
           </ListItem>
           <ListItem
             button
@@ -85,7 +90,12 @@ function RelearnSidebar(props: Props) {
             to={PATHS.relearn.untagged}
             selected={pathName === PATHS.relearn.untagged}
           >
-            <ListItemText>Untagged</ListItemText>
+            <ListItemText>Untagged
+            <Typography variant="inherit" className={classes.resourcesCount}>
+                {props.resources.filter(resource => resource.tags.length === 0).length}
+              </Typography>
+
+            </ListItemText>
           </ListItem>
 
           <ListItem button onClick={handleClickTags}>
@@ -99,15 +109,15 @@ function RelearnSidebar(props: Props) {
           <Collapse in={openTags} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               {props.tags.map((tag) => (
-                <TagListItem key={tag.id} tag={tag}/>
-              
+                <TagListItem key={tag.id} tag={tag} />
               ))}
 
               {tagFormIsOpen ? (
                 <ListItem className={classes.nested}>
+                  {/* Probably this will not be used anymore, just the dialog */}
                   <AddTagForm
                     onCloseForm={() => {
-                      setTagFormIsOpen(false);
+                      setTagFormIsOpen(false)
                     }}
                   />
                 </ListItem>
@@ -116,9 +126,8 @@ function RelearnSidebar(props: Props) {
                   button
                   className={classes.nested}
                   onClick={() => {
-                    handleClickAddTag();
+                    props.startNewTag()
                   }}
-                  
                 >
                   <ListItemIcon className={classes.listItemIcon}>
                     <FontAwesomeIcon
@@ -134,7 +143,7 @@ function RelearnSidebar(props: Props) {
         </List>
       </Box>
     </Drawer>
-  );
+  )
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -166,20 +175,25 @@ const useStyles = makeStyles((theme: Theme) =>
     listItemIcon: {
       minWidth: 32,
     },
-
-   
+    resourcesCount: {
+      marginLeft: 8,
+      fontSize: 12,
+      color: theme.palette.grey[400],
+    },
   })
-);
+)
 
 const mapStateToProps = (state: ApplicationState) => ({
   tags: state.relearn.tags,
-});
+  resources: state.relearn.resources,
+})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setTags: (tags: TagDto[]) => dispatch(relearnActions.setTags(tags)),
-});
+  startNewTag: () => dispatch(relearnActions.startNewTag()),
+})
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps>
 
-export default connect(mapStateToProps, mapDispatchToProps)(RelearnSidebar);
+export default connect(mapStateToProps, mapDispatchToProps)(RelearnSidebar)

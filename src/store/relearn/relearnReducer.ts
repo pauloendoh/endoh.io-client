@@ -6,7 +6,8 @@ const INITIAL_STATE: RelearnState = {
   resources: [], 
   tags: [], 
 
-  editingResource: null
+  editingResource: null,
+  editingTag: null,
 }
 
 const relearnReducer: Reducer<RelearnState, RelearnActionReturns> = (state = INITIAL_STATE, action: RelearnActionReturns): RelearnState => {
@@ -19,6 +20,9 @@ const relearnReducer: Reducer<RelearnState, RelearnActionReturns> = (state = INI
     //   return setExpenses(state, action.payload)
     case relearnActionTypes.SET_EDITING_RESOURCE:
       return { ...state, editingResource: action.payload}
+      case relearnActionTypes.SET_EDITING_TAG:
+        return { ...state, editingTag: action.payload}
+
     default:
       return { ...state }
   }

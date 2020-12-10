@@ -6,17 +6,13 @@ export interface ResourceDto {
     userId: number
     title: string;
     url: string;
-
     thumbnail: string;
-
     estimatedTime: string;
-
     dueDate: string;
-
+    rating: number
+    isCompleted: boolean
     createdAt: string
-
     updatedAt: string
-
     tags: TagDto[]
 }
 
@@ -28,6 +24,8 @@ export const newResourceDto = (): ResourceDto => ({
     thumbnail: '',
     estimatedTime: '',
     dueDate: '',
+    rating: 0,
+    isCompleted: false,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     tags: []

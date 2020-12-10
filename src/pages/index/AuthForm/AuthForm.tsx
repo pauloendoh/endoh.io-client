@@ -6,23 +6,23 @@ import {
   makeStyles,
   Paper,
   Typography,
-} from "@material-ui/core";
-import MyTextField from "components/shared/MyInputs/MyTextField";
-import { AuthUserGetDto } from "dtos/AuthUserGetDto";
-import { Form, Formik } from "formik";
-import React, { MouseEvent, useState } from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import * as AuthActions from "store/auth/authActions";
-import { ApplicationState } from "store/store";
-import myAxios from "../../../utils/myAxios";
-import MyAxiosError, { MyFieldError } from "../../../utils/MyAxiosError";
+} from "@material-ui/core"
+import MyTextField from "components/shared/MyInputs/MyTextField"
+import { AuthUserGetDto } from "dtos/AuthUserGetDto"
+import { Form, Formik } from "formik"
+import React, { MouseEvent, useState } from "react"
+import { connect } from "react-redux"
+import { Dispatch } from "redux"
+import * as AuthActions from "store/auth/authActions"
+import { ApplicationState } from "store/store"
+import myAxios from "../../../utils/myAxios"
+import MyAxiosError, { MyFieldError } from "../../../utils/MyAxiosError"
 
 const AuthForm = (props: Props) => {
-  const classes = useStyles();
+  const classes = useStyles()
 
-  const [signupIsSelected, setSignupIsSelected] = useState(false);
-  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[]);
+  const [signupIsSelected, setSignupIsSelected] = useState(false)
+  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[])
 
   return (
     <Box display="flex">
@@ -39,35 +39,35 @@ const AuthForm = (props: Props) => {
             if (signupIsSelected && values.password !== values.password2) {
               setResponseErrors([
                 { field: "password", message: "Passwords don't match" },
-              ]);
-              setSubmitting(false);
-              return;
+              ])
+              setSubmitting(false)
+              return
             }
 
             const authData = {
               username: values.username,
               email: values.email,
               password: values.password,
-            };
+            }
 
-            const endpoint = signupIsSelected
-              ? "/auth/register"
-              : "/auth/login";
+            const endpoint = signupIsSelected ? "/auth/register" : "/auth/login"
 
-            setResponseErrors([]);
+            setResponseErrors([])
 
             myAxios
               .post<AuthUserGetDto>(endpoint, authData)
               .then((res) => {
-                const authUser = res.data;
-                props.setAuthUser(authUser);
+                const authUser = res.data
+                props.setAuthUser(authUser)
 
                 // props.UPDATE_AUTH_USER(res.data);
               })
               .catch((err: MyAxiosError) => {
-                setResponseErrors(err.response.data.errors);
+                setResponseErrors(err.response.data.errors)
               })
-         
+              .finally(() => {
+                setSubmitting(false)
+              })
           }}
         >
           {({ isSubmitting, handleChange, errors }) => (
@@ -164,9 +164,9 @@ const AuthForm = (props: Props) => {
               <Link
                 href="#"
                 onClick={(e: MouseEvent) => {
-                  e.preventDefault();
-                  setResponseErrors([]);
-                  setSignupIsSelected(false);
+                  e.preventDefault()
+                  setResponseErrors([])
+                  setSignupIsSelected(false)
                 }}
               >
                 Sign in
@@ -178,9 +178,9 @@ const AuthForm = (props: Props) => {
               <Link
                 href="#"
                 onClick={(e: MouseEvent) => {
-                  e.preventDefault();
-                  setResponseErrors([]);
-                  setSignupIsSelected(true);
+                  e.preventDefault()
+                  setResponseErrors([])
+                  setSignupIsSelected(true)
                 }}
               >
                 Sign up
@@ -190,10 +190,10 @@ const AuthForm = (props: Props) => {
         </Box>
       </Paper>
     </Box>
-  );
-};
+  )
+}
 
-type Props = ReturnType<typeof mapDispatchToProps>;
+type Props = ReturnType<typeof mapDispatchToProps>
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -207,15 +207,15 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 10,
     paddingBottom: 10,
   },
-}));
+}))
 
 const mapStateToProps = (state: ApplicationState) => ({
   user: state.auth.user,
-});
+})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setAuthUser: (authUser: AuthUserGetDto) =>
     dispatch(AuthActions.setAuthUser(authUser)),
-});
+})
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthForm);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthForm)
