@@ -133,6 +133,7 @@ const AuthForm = (props: Props) => {
 
               <Box mt={2}>
                 <Button
+                id="auth-submit-button"
                   className={classes.button}
                   type="submit"
                   variant="contained"

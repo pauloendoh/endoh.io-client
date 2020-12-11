@@ -69,6 +69,7 @@
     "@types/luxon": "^1.25.0",
     "@types/react-redux": "^7.1.11",
     "@types/react-text-mask": "^5.4.6",
+    "cypress": "^6.1.0",
     "eslint-import-resolver-typescript": "^2.3.0"
   }
 }
