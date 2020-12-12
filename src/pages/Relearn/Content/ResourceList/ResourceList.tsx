@@ -8,7 +8,9 @@ import ResourceItem from "./ResourceItem/ResourceItem"
 
 function ResourceList(props: Props) {
   return (
-    <Box borderTop="1px solid rgb(255 255 255 / 0.1)">
+    <Box 
+    // borderTop="1px solid rgb(255 255 255 / 0.1)"
+    >
       {props.resources.map((resource) => (
         <ResourceItem key={resource.id} resource={resource} />
       ))}

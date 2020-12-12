@@ -15,13 +15,14 @@ function ContentHeader(props: Props) {
   useEffect(() => {
     const { pathname } = location
     if (pathname === PATHS.relearn.index) {
-      setTagName("All Resources")
-    } else if (pathname === PATHS.relearn.untagged) {
       setTagName("Untagged")
     } else if (pathname.startsWith(PATHS.relearn.tag)) {
       const tagId = Number(pathname.split("/").pop())
       if (tagId) {
-        setTagName('# ' + props.tags.find((t) => t.id === tagId).name)
+        const currentTag = props.tags.find((t) => t.id === tagId)
+        if (currentTag) {
+          setTagName("# " + currentTag.name)
+        }
       }
     }
   }, [location, props.tags])
@@ -35,9 +36,7 @@ function ContentHeader(props: Props) {
 
   return (
     <Box>
-      {tagName.length > 0 && (
-        <Typography variant="h5">{tagName}</Typography>
-      )}
+      {tagName.length > 0 && <Typography variant="h5">{tagName}</Typography>}
       <Tabs
         className={classes.tabs}
         value={props.tabIndex}
@@ -48,7 +47,7 @@ function ContentHeader(props: Props) {
       >
         <Tab
           className={classes.tab}
-          label={`${props.todoResources.length} Resources`}
+          label={`${props.todoResources.length} Next`}
         />
         <Tab
           className={classes.tab}

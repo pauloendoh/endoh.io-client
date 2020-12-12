@@ -78,23 +78,13 @@ function RelearnSidebar(props: Props) {
             selected={pathName === PATHS.relearn.index}
           >
             <ListItemText>
-              All Resources
+              Untagged
               <Typography variant="inherit" className={classes.resourcesCount}>
-                {props.resources.length}
+                {
+                  props.resources.filter((resource) => resource.tag === null)
+                    .length
+                }
               </Typography>
-            </ListItemText>
-          </ListItem>
-          <ListItem
-            button
-            component={Link}
-            to={PATHS.relearn.untagged}
-            selected={pathName === PATHS.relearn.untagged}
-          >
-            <ListItemText>Untagged
-            <Typography variant="inherit" className={classes.resourcesCount}>
-                {props.resources.filter(resource => resource.tags.length === 0).length}
-              </Typography>
-
             </ListItemText>
           </ListItem>
 

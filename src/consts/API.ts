@@ -9,6 +9,9 @@ const API = {
     relearn:{
         resource: '/relearn/resource', 
         tag: '/relearn/tag', 
+        utils: {
+            linkPreview: '/relearn/utils/link-preview'
+        }
     }
 }
 

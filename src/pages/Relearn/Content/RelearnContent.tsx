@@ -1,11 +1,11 @@
-import { Box, Container } from "@material-ui/core"
+import { Box } from "@material-ui/core"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import { ResourceDto } from "../../../dtos/relearn/ResourceDto"
 import { ApplicationState } from "../../../store/store"
-import ResourceList from "./ResourceList/ResourceList"
 import ContentHeader from "./ContentHeader"
+import ResourceList from "./ResourceList/ResourceList"
 
 function RelearnContent(props: Props) {
   const [tabIndex, setTabIndex] = useState(0)
@@ -17,12 +17,12 @@ function RelearnContent(props: Props) {
 
   useEffect(() => {
     const todo = props.resources.filter(
-      (resource) => resource.rating === 0 && !resource.isCompleted
+      (resource) => (resource.rating === 0 || resource.rating === null) && resource.completedAt.length === 0
     )
     setTodoResources(todo)
 
     const completed = props.resources.filter(
-      (resource) => resource.rating > 0 || resource.isCompleted
+      (resource) => resource.rating > 0 || resource.completedAt.length > 0
     )
     setCompletedResources(completed)
   }, [props.resources])

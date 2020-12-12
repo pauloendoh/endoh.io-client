@@ -10,10 +10,10 @@ export interface ResourceDto {
     estimatedTime: string;
     dueDate: string;
     rating: number
-    isCompleted: boolean
+    completedAt: string,
     createdAt: string
     updatedAt: string
-    tags: TagDto[]
+    tag: TagDto
 }
 
 export const newResourceDto = (): ResourceDto => ({
@@ -25,8 +25,8 @@ export const newResourceDto = (): ResourceDto => ({
     estimatedTime: '',
     dueDate: '',
     rating: 0,
-    isCompleted: false,
+    completedAt: '',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
-    tags: []
+    tag: null
 })

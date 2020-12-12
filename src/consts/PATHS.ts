@@ -5,7 +5,6 @@ const PATHS = {
     }, 
     relearn: {
         index: '/relearn', 
-        untagged: '/relearn/untagged', 
         tag: '/relearn/tag', 
     },
     settings: {

@@ -45,20 +45,16 @@ const RelearnPage = (props: Props) => {
 
       // Filtrando resource por tags. Melhor colocar em outro arquivo?
       if (pathname === PATHS.relearn.index) {
-        setFilteredResources(props.resources)
-      } else if (pathname === PATHS.relearn.untagged) {
         setFilteredResources(
-          props.resources.filter((resource) => resource.tags.length === 0)
+          props.resources.filter((resource) => resource.tag === null)
         )
+    
       } else if (pathname.startsWith(PATHS.relearn.tag)) {
         const tagId = Number(pathname.split("/").pop())
         if (tagId) {
           setFilteredResources(
             props.resources.filter((resource) => {
-              for (const tag of resource.tags) {
-                if (tag.id === tagId) return true
-              }
-              return false
+              return resource.tag?.id === tagId
             })
           )
         }

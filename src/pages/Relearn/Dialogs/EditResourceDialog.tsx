@@ -1,10 +1,13 @@
 import {
   Box,
   Button,
+  Checkbox,
   Dialog,
   DialogContent,
   DialogTitle,
+  FormControlLabel,
   Grid,
+  Link,
 } from "@material-ui/core"
 import Chip from "@material-ui/core/Chip"
 import { Autocomplete } from "@material-ui/lab"
@@ -12,7 +15,7 @@ import Flex from "components/shared/Flexboxes/Flex"
 import MyTextField from "components/shared/MyInputs/MyTextField"
 import API from "consts/API"
 import { Form, Formik } from "formik"
-import React from "react"
+import React, { useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import myAxios from "utils/myAxios"
@@ -20,6 +23,7 @@ import { ResourceDto } from "../../../dtos/relearn/ResourceDto"
 import { TagDto } from "../../../dtos/relearn/TagDto"
 import * as relearnActions from "../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../store/store"
+import { LinkPreviewDto } from "../../../dtos/relearn/LinkPreviewDto"
 
 const EditResourceDialog = (props: Props) => {
   const handleSubmit = (resource: ResourceDto) => {
@@ -30,6 +34,27 @@ const EditResourceDialog = (props: Props) => {
       })
       .finally(() => {
         props.closeResourceDialog()
+      })
+  }
+
+  const [urlAutofillChecked, setUrlAutofillChecked] = useState(true)
+  const handleChangeUrlAutofillCheckbox = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setUrlAutofillChecked(event.target.checked)
+  }
+
+  const fetchLinkPreview = (
+    url: string,
+    setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void
+  ) => {
+    // TODO: checar se url é link válido
+    myAxios
+      .get<LinkPreviewDto>(API.relearn.utils.linkPreview + "?url=" + url)
+      .then((res) => {
+        const preview = res.data
+        setFieldValue("title", preview.title)
+        setFieldValue("thumbnail", preview.image)
       })
   }
 
@@ -54,27 +79,64 @@ const EditResourceDialog = (props: Props) => {
                 Add Resource
               </DialogTitle>
               <DialogContent>
-                <Box>
-                  <MyTextField
-                    id="title"
-                    name="title"
-                    value={values.title}
-                    inputProps={{ "aria-label": "resource-title-input" }}
-                    label="Title"
-                    required
-                    onChange={handleChange}
-                    fullWidth
-                  />
-                </Box>
+                <Flex>
+                {values.thumbnail.length > 0 && (
+                    <Box mr={2}>
+                      <Link href={values.url} target="_blank">
+                        <img
+                          style={{ maxHeight: 100 }}
+                          alt="link-preview-thumbnail"
+                          src={values.thumbnail}
+                        />
+                      </Link>
+                    </Box>
+                  )}
+
+                  <Box flexGrow={1}>
+                    <Box>
+                      <MyTextField
+                        id="title"
+                        name="title"
+                        value={values.title}
+                        inputProps={{ "aria-label": "resource-title-input" }}
+                        label="Title"
+                        required
+                        onChange={handleChange}
+                        fullWidth
+                      />
+                    </Box>
+
+                    <Box mt={2}>
+                      <MyTextField
+                        id="url"
+                        name="url"
+                        value={values.url}
+                        onChange={(e) => {
+                          handleChange(e)
+
+                          if (urlAutofillChecked) {
+                            fetchLinkPreview(e.target.value, setFieldValue)
+                          }
+                        }}
+                        fullWidth
+                        label="URL"
+                      />
+                    </Box>
+                  </Box>
+                 
+                </Flex>
 
                 <Box mt={2}>
-                  <MyTextField
-                    id="url"
-                    name="url"
-                    value={values.url}
-                    onChange={handleChange}
-                    fullWidth
-                    label="URL"
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={urlAutofillChecked}
+                        onChange={handleChangeUrlAutofillCheckbox}
+                        name="urlAutofillCheckBox"
+                        color="primary"
+                      />
+                    }
+                    label="Autofill via URL"
                   />
                 </Box>
 
@@ -105,18 +167,17 @@ const EditResourceDialog = (props: Props) => {
                     <Grid item xs={12} sm={6} md={8}>
                       {/* <Typography component="legend">Tags</Typography> */}
                       <Autocomplete
-                        multiple
                         id="tags-autocomplete-input"
                         options={props.tags}
-                        defaultValue={props.editingResource?.tags}
+                        defaultValue={props.editingResource?.tag}
                         getOptionLabel={(option) => option.name}
                         filterSelectedOptions
-                        onChange={(e, arr) => {
-                          const selectedTags = arr as TagDto[]
-                          setFieldValue("tags", selectedTags)
+                        onChange={(e, val) => {
+                          const selectedTag = val as TagDto
+                          setFieldValue("tag", selectedTag)
                         }}
                         renderInput={(params) => (
-                          <MyTextField {...params} size="small" label="Tags" />
+                          <MyTextField {...params} size="small" label="Tag" />
                         )}
                         renderTags={(tagValue, getTagProps) =>
                           tagValue.map((option, index) => (
