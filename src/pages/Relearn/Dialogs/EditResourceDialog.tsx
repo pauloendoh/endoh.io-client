@@ -8,13 +8,14 @@ import {
   FormControlLabel,
   Grid,
   Link,
+  Typography,
 } from "@material-ui/core"
 import Chip from "@material-ui/core/Chip"
 import { Autocomplete } from "@material-ui/lab"
 import Flex from "components/shared/Flexboxes/Flex"
 import MyTextField from "components/shared/MyInputs/MyTextField"
 import API from "consts/API"
-import { Form, Formik } from "formik"
+import { Form, Formik, FormikErrors } from "formik"
 import React, { useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
@@ -22,8 +23,14 @@ import myAxios from "utils/myAxios"
 import { ResourceDto } from "../../../dtos/relearn/ResourceDto"
 import { TagDto } from "../../../dtos/relearn/TagDto"
 import * as relearnActions from "../../../store/relearn/relearnActions"
+import * as utilsActions from "../../../store/utils/utilsActions"
 import { ApplicationState } from "../../../store/store"
 import { LinkPreviewDto } from "../../../dtos/relearn/LinkPreviewDto"
+import MyAxiosError from "utils/MyAxiosError"
+import { useLocation } from "react-router-dom"
+import PATHS from "consts/PATHS"
+import { isValidUrl } from "utils/isValidUrl"
+import FlexVCenter from "components/shared/Flexboxes/FlexVCenter"
 
 const EditResourceDialog = (props: Props) => {
   const handleSubmit = (resource: ResourceDto) => {
@@ -31,6 +38,15 @@ const EditResourceDialog = (props: Props) => {
       .post<ResourceDto[]>(API.relearn.resource, resource)
       .then((res) => {
         props.setResources(res.data)
+
+        props.setSuccessMessage("Resource saved!")
+
+        myAxios.get<TagDto[]>(API.relearn.tag).then((res) => {
+          props.setTags(res.data)
+        })
+      })
+      .catch((err: MyAxiosError) => {
+        props.setErrorMessage(err.response.data.errors[0].message)
       })
       .finally(() => {
         props.closeResourceDialog()
@@ -38,24 +54,48 @@ const EditResourceDialog = (props: Props) => {
   }
 
   const [urlAutofillChecked, setUrlAutofillChecked] = useState(true)
+
   const handleChangeUrlAutofillCheckbox = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setUrlAutofillChecked(event.target.checked)
   }
 
+  // Adding throttle to avoid LinkPreview over
+  const [throttle, setThrottle] = useState<NodeJS.Timeout>(null)
+
   const fetchLinkPreview = (
     url: string,
     setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void
   ) => {
-    // TODO: checar se url é link válido
-    myAxios
-      .get<LinkPreviewDto>(API.relearn.utils.linkPreview + "?url=" + url)
-      .then((res) => {
-        const preview = res.data
-        setFieldValue("title", preview.title)
-        setFieldValue("thumbnail", preview.image)
-      })
+    clearTimeout(throttle)
+    setThrottle(
+      setTimeout(() => {
+        if (isValidUrl(url)) {
+          myAxios
+            .get<LinkPreviewDto>(API.relearn.utils.linkPreview + "?url=" + url)
+            .then((res) => {
+              const preview = res.data
+              setFieldValue("title", preview.title)
+              setFieldValue("thumbnail", preview.image)
+            })
+        }
+      }, 200)
+    )
+  }
+
+  const location = useLocation()
+  const getCurrentTag = (): TagDto => {
+    if (location.pathname.startsWith(PATHS.relearn.tag)) {
+      const tagId = Number(location.pathname.split("/").pop())
+      if (tagId) {
+        const currentTag = props.tags.find((t) => t.id === tagId)
+        if (currentTag) {
+          return currentTag
+        }
+      }
+    }
+    return null
   }
 
   return (
@@ -68,19 +108,41 @@ const EditResourceDialog = (props: Props) => {
     >
       <Box pb={1} px={1}>
         <Formik
-          initialValues={props.editingResource}
+          initialValues={
+            {
+              ...props.editingResource,
+              tag: props.editingResource?.tag
+                ? props.editingResource.tag
+                : getCurrentTag(),
+            } as ResourceDto
+          }
           onSubmit={(formikValues, { setSubmitting }) => {
             handleSubmit(formikValues)
           }}
+          validate={(values: ResourceDto) => {
+            let errors: FormikErrors<ResourceDto> = {}
+
+            if (values.url.length > 0 && !isValidUrl(values.url)) {
+              errors.url = "Invalid URL"
+            }
+            return errors
+          }}
         >
-          {({ values, isSubmitting, handleChange, setFieldValue }) => (
+          {({
+            touched,
+            errors,
+            values,
+            isSubmitting,
+            handleChange,
+            setFieldValue,
+          }) => (
             <Form>
               <DialogTitle id="edit-resource-dialog-title">
                 Add Resource
               </DialogTitle>
               <DialogContent>
                 <Flex>
-                {values.thumbnail.length > 0 && (
+                  {values.thumbnail.length > 0 && (
                     <Box mr={2}>
                       <Link href={values.url} target="_blank">
                         <img
@@ -95,19 +157,6 @@ const EditResourceDialog = (props: Props) => {
                   <Box flexGrow={1}>
                     <Box>
                       <MyTextField
-                        id="title"
-                        name="title"
-                        value={values.title}
-                        inputProps={{ "aria-label": "resource-title-input" }}
-                        label="Title"
-                        required
-                        onChange={handleChange}
-                        fullWidth
-                      />
-                    </Box>
-
-                    <Box mt={2}>
-                      <MyTextField
                         id="url"
                         name="url"
                         value={values.url}
@@ -120,25 +169,43 @@ const EditResourceDialog = (props: Props) => {
                         }}
                         fullWidth
                         label="URL"
+                        error={errors?.url?.length > 0}
+                        autoFocus
+                      />
+                    </Box>
+                    <FlexVCenter justifyContent="space-between">
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={urlAutofillChecked}
+                            onChange={handleChangeUrlAutofillCheckbox}
+                            name="urlAutofillCheckBox"
+                            color="primary"
+                          />
+                        }
+                        label="Autofill via URL"
+                      />
+                      <Box>
+                        {errors.url && (
+                          <Typography color="error">{errors.url}</Typography>
+                        )}
+                      </Box>
+                    </FlexVCenter>
+
+                    <Box mt={2}>
+                      <MyTextField
+                        id="title"
+                        name="title"
+                        value={values.title}
+                        inputProps={{ "aria-label": "resource-title-input" }}
+                        label="Title"
+                        required
+                        onChange={handleChange}
+                        fullWidth
                       />
                     </Box>
                   </Box>
-                 
                 </Flex>
-
-                <Box mt={2}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={urlAutofillChecked}
-                        onChange={handleChangeUrlAutofillCheckbox}
-                        name="urlAutofillCheckBox"
-                        color="primary"
-                      />
-                    }
-                    label="Autofill via URL"
-                  />
-                </Box>
 
                 <Box mt={2}>
                   <Grid container spacing={3}>
@@ -169,7 +236,11 @@ const EditResourceDialog = (props: Props) => {
                       <Autocomplete
                         id="tags-autocomplete-input"
                         options={props.tags}
-                        defaultValue={props.editingResource?.tag}
+                        defaultValue={
+                          props.editingResource?.tag
+                            ? props.editingResource.tag
+                            : getCurrentTag()
+                        }
                         getOptionLabel={(option) => option.name}
                         filterSelectedOptions
                         onChange={(e, val) => {
@@ -225,6 +296,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   closeResourceDialog: () => dispatch(relearnActions.closeResourceDialog()),
   setResources: (resources: ResourceDto[]) =>
     dispatch(relearnActions.setResources(resources)),
+  setTags: (tags: TagDto[]) => dispatch(relearnActions.setTags(tags)),
+
+  setSuccessMessage: (message: string) =>
+    dispatch(utilsActions.setSuccessMessage(message)),
+  setErrorMessage: (message: string) =>
+    dispatch(utilsActions.setErrorMessage(message)),
 })
 
 type Props = ReturnType<typeof mapStateToProps> &

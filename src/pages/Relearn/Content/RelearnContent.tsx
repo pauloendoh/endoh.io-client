@@ -6,6 +6,7 @@ import { ResourceDto } from "../../../dtos/relearn/ResourceDto"
 import { ApplicationState } from "../../../store/store"
 import ContentHeader from "./ContentHeader"
 import ResourceList from "./ResourceList/ResourceList"
+import { getTodoResources } from "../../../utils/relearn/getTodoResources"
 
 function RelearnContent(props: Props) {
   const [tabIndex, setTabIndex] = useState(0)
@@ -16,29 +17,35 @@ function RelearnContent(props: Props) {
   )
 
   useEffect(() => {
-    const todo = props.resources.filter(
-      (resource) => (resource.rating === 0 || resource.rating === null) && resource.completedAt.length === 0
+    const todo = getTodoResources(props.resources).sort(
+      (resourceA, resourceB) => resourceA.position - resourceB.position
     )
+
     setTodoResources(todo)
 
-    const completed = props.resources.filter(
-      (resource) => resource.rating > 0 || resource.completedAt.length > 0
-    )
+    const completed = props.resources
+      .filter(
+        (resource) => resource.rating > 0 || resource.completedAt.length > 0
+      )
+      .sort((resourceA, resourceB) =>
+        resourceB.completedAt.localeCompare(resourceA.completedAt)
+      )
+
     setCompletedResources(completed)
   }, [props.resources])
 
   return (
     <Box m={2} maxWidth={700}>
-        <ContentHeader
-          onTabChange={(newTabIndex) => setTabIndex(newTabIndex)}
-          tabIndex={tabIndex}
-          todoResources={todoResources}
-          completedResources={completedResources}
-        />
-        <Box mt={3} />
-        <ResourceList
-          resources={tabIndex === 0 ? todoResources : completedResources}
-        />
+      <ContentHeader
+        onTabChange={(newTabIndex) => setTabIndex(newTabIndex)}
+        tabIndex={tabIndex}
+        todoResources={todoResources}
+        completedResources={completedResources}
+      />
+      <Box mt={3} />
+      <ResourceList
+        resources={tabIndex === 0 ? todoResources : completedResources}
+      />
     </Box>
   )
 }

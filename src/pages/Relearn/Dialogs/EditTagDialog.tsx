@@ -3,31 +3,37 @@ import {
   Button,
   Dialog,
   DialogContent,
-  DialogTitle
-} from "@material-ui/core";
-import { Form, Formik } from "formik";
-import React from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import Flex from "../../../components/shared/Flexboxes/Flex";
-import MyTextField from "../../../components/shared/MyInputs/MyTextField";
-import API from "../../../consts/API";
-import { TagDto } from '../../../dtos/relearn/TagDto';
-import * as relearnActions from "../../../store/relearn/relearnActions";
-import { ApplicationState } from "../../../store/store";
-import myAxios from "../../../utils/myAxios";
+  DialogTitle,
+} from "@material-ui/core"
+import { Form, Formik } from "formik"
+import React from "react"
+import { connect } from "react-redux"
+import { Dispatch } from "redux"
+import MyAxiosError from "utils/MyAxiosError"
+import Flex from "../../../components/shared/Flexboxes/Flex"
+import MyTextField from "../../../components/shared/MyInputs/MyTextField"
+import API from "../../../consts/API"
+import { TagDto } from "../../../dtos/relearn/TagDto"
+import * as relearnActions from "../../../store/relearn/relearnActions"
+import * as utilsActions from "../../../store/utils/utilsActions"
+import { ApplicationState } from "../../../store/store"
+import myAxios from "../../../utils/myAxios"
 
 const EditTagDialog = (props: Props) => {
   const handleSubmit = (tag: TagDto) => {
     myAxios
       .post<TagDto[]>(API.relearn.tag, tag)
       .then((res) => {
-        props.setTags(res.data);
+        props.setTags(res.data)
+        props.setSuccessMessage('Tag saved!')
+      })
+      .catch((err: MyAxiosError) => {
+        props.setErrorMessage(err.response.data.errors[0].message)
       })
       .finally(() => {
-        props.closeTagDialog();
-      });
-  };
+        props.closeTagDialog()
+      })
+  }
 
   return (
     <Dialog
@@ -41,14 +47,12 @@ const EditTagDialog = (props: Props) => {
         <Formik
           initialValues={props.editingTag}
           onSubmit={(formikValues, { setSubmitting }) => {
-            handleSubmit(formikValues);
+            handleSubmit(formikValues)
           }}
         >
           {({ values, isSubmitting, handleChange }) => (
             <Form>
-              <DialogTitle id="edit-tag-dialog-title">
-                Add Tag
-              </DialogTitle>
+              <DialogTitle id="edit-tag-dialog-title">Add Tag</DialogTitle>
               <DialogContent>
                 <Box>
                   <MyTextField
@@ -56,15 +60,14 @@ const EditTagDialog = (props: Props) => {
                     name="name"
                     value={values.name}
                     inputProps={{ "aria-label": "tag-name-input" }}
-                    
                     required
                     label="Tag Name"
                     onChange={handleChange}
                     fullWidth
+                    autoFocus
                   />
                 </Box>
 
-                
                 <Flex mt={2}>
                   <Button
                     disabled={isSubmitting}
@@ -90,19 +93,24 @@ const EditTagDialog = (props: Props) => {
         </Formik>
       </Box>
     </Dialog>
-  );
-};
+  )
+}
 
 const mapStateToProps = (state: ApplicationState) => ({
   editingTag: state.relearn.editingTag,
-});
+})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   closeTagDialog: () => dispatch(relearnActions.closeTagDialog()),
   setTags: (tags: TagDto[]) => dispatch(relearnActions.setTags(tags)),
-});
+
+  setSuccessMessage: (message: string) =>
+    dispatch(utilsActions.setSuccessMessage(message)),
+  setErrorMessage: (message: string) =>
+    dispatch(utilsActions.setErrorMessage(message)),
+})
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps>
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditTagDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(EditTagDialog)

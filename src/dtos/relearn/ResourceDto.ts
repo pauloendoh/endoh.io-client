@@ -11,6 +11,8 @@ export interface ResourceDto {
     dueDate: string;
     rating: number
     completedAt: string,
+    position: number, 
+
     createdAt: string
     updatedAt: string
     tag: TagDto
@@ -24,8 +26,10 @@ export const newResourceDto = (): ResourceDto => ({
     thumbnail: '',
     estimatedTime: '',
     dueDate: '',
-    rating: 0,
+    rating: null,
     completedAt: '',
+    position: null,
+
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     tag: null

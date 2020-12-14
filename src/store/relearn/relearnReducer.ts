@@ -1,6 +1,8 @@
+import { ResourceDto } from '../../dtos/relearn/ResourceDto';
 import { Reducer } from 'redux';
 import { RelearnActionReturns } from './relearnActions';
 import { relearnActionTypes, RelearnState } from './relearnTypes';
+import {sleep} from '../../utils/sleep'
 
 const INITIAL_STATE: RelearnState = {
   resources: [], 
@@ -19,13 +21,17 @@ const relearnReducer: Reducer<RelearnState, RelearnActionReturns> = (state = INI
     // case monerateActionTypes.SET_EXPENSES:
     //   return setExpenses(state, action.payload)
     case relearnActionTypes.SET_EDITING_RESOURCE:
-      return { ...state, editingResource: action.payload}
+      return setEditingResource(state, action.payload)
       case relearnActionTypes.SET_EDITING_TAG:
         return { ...state, editingTag: action.payload}
 
     default:
       return { ...state }
   }
+}
+
+const setEditingResource = (state: RelearnState, resource: ResourceDto): RelearnState => {
+  return { ...state, editingResource: resource }
 }
 
 

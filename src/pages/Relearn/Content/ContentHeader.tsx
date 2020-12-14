@@ -47,7 +47,7 @@ function ContentHeader(props: Props) {
       >
         <Tab
           className={classes.tab}
-          label={`${props.todoResources.length} Next`}
+          label={`${props.todoResources.length} Resources`}
         />
         <Tab
           className={classes.tab}

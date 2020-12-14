@@ -5,19 +5,19 @@ import PATHS from "consts/PATHS"
 import { ResourceDto } from "dtos/relearn/ResourceDto"
 import LoadingPage from "pages/index/LoadingPage"
 import React, { useEffect, useState } from "react"
+import { GlobalHotKeys } from "react-hotkeys"
 import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
 import myAxios from "utils/myAxios"
+import { sleep } from 'utils/sleep'
 import { TagDto } from "../../dtos/relearn/TagDto"
 import * as relearnActions from "../../store/relearn/relearnActions"
 import { ApplicationState } from "../../store/store"
-import ResourceList from "./Content/ResourceList/ResourceList"
+import RelearnContent from "./Content/RelearnContent"
 import EditResourceDialog from "./Dialogs/EditResourceDialog"
 import EditTagDialog from "./Dialogs/EditTagDialog"
 import RelearnSidebar from "./RelearnSidebar/RelearnSidebar"
-import RelearnContent from "./Content/RelearnContent"
-import { GlobalHotKeys } from "react-hotkeys"
 // PE 3/3
 const RelearnPage = (props: Props) => {
   const [isLoadingResources, setIsLoadingResources] = useState(true)
@@ -27,6 +27,8 @@ const RelearnPage = (props: Props) => {
         .get<ResourceDto[]>(API.relearn.resource)
         .then((res) => {
           props.setResources(res.data)
+
+          
         })
         .finally(() => {
           setIsLoadingResources(false)
@@ -48,7 +50,6 @@ const RelearnPage = (props: Props) => {
         setFilteredResources(
           props.resources.filter((resource) => resource.tag === null)
         )
-    
       } else if (pathname.startsWith(PATHS.relearn.tag)) {
         const tagId = Number(pathname.split("/").pop())
         if (tagId) {
@@ -66,7 +67,8 @@ const RelearnPage = (props: Props) => {
 
   const keyMap = { openModal: "q" }
   const handlers = {
-    openModal: () => {
+    openModal: async () => {
+      await sleep(100)  // required so it doesn't add 'q' at the title field immediately
       props.startNewResource()
     },
   }

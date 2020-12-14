@@ -17,6 +17,7 @@ import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Link, useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
+import { getTodoResources } from '../../../utils/relearn/getTodoResources'
 import PATHS from "../../../consts/PATHS"
 import { TagDto } from "../../../dtos/relearn/TagDto"
 import * as relearnActions from "../../../store/relearn/relearnActions"
@@ -62,7 +63,7 @@ function TagListItem(props: Props) {
       <ListItemText>
         {"# " + props.tag.name}
         <Typography variant="inherit" className={classes.resourcesCount}>
-          {props.tag.resources.length}
+          {getTodoResources(props.tag.resources).length}
         </Typography>
       </ListItemText>
 

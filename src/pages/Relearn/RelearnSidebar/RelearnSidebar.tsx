@@ -21,6 +21,7 @@ import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Link, useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
+import { getTodoResources } from "utils/relearn/getTodoResources"
 import API from "../../../consts/API"
 import { TagDto } from "../../../dtos/relearn/TagDto"
 import * as relearnActions from "../../../store/relearn/relearnActions"
@@ -78,11 +79,12 @@ function RelearnSidebar(props: Props) {
             selected={pathName === PATHS.relearn.index}
           >
             <ListItemText>
-              Untagged
+              Untagged Resources
               <Typography variant="inherit" className={classes.resourcesCount}>
                 {
-                  props.resources.filter((resource) => resource.tag === null)
-                    .length
+                  getTodoResources(
+                    props.resources.filter((resource) => resource.tag === null)
+                  ).length
                 }
               </Typography>
             </ListItemText>

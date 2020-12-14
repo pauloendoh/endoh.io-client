@@ -1,7 +1,8 @@
 import { Box, CssBaseline, MuiThemeProvider } from "@material-ui/core"
-import Navbar from "components/navbar/Navbar"
-import PATHS from "consts/PATHS"
-import Home from "pages/index/Home"
+import Navbar from "./components/navbar/Navbar"
+import MySnackBar from 'components/shared/SnackBars/MySnackBar'
+import PATHS from "./consts/PATHS"
+import Home from "./pages/index/Home"
 import React, { lazy, Suspense, useEffect, useState } from "react"
 import { connect } from "react-redux"
 import {
@@ -102,6 +103,8 @@ const App = (props: Props) => {
       {/* What does this do? */}
       <CssBaseline />
       {isLoading ? <LoadingPage /> : routes}
+
+      <MySnackBar/>
     </MuiThemeProvider>
   )
 }
