@@ -1,4 +1,3 @@
-import * as relearnActions from "../../../../../store/relearn/relearnActions"
 import {
   Box,
   IconButton,
@@ -14,10 +13,12 @@ import EditIcon from "@material-ui/icons/Edit"
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
 import React, { useState } from "react"
 import { connect } from "react-redux"
+import TimeAgo from "react-timeago"
 import { Dispatch } from "redux"
 import Flex from "../../../../../components/shared/Flexboxes/Flex"
 import FlexVCenter from "../../../../../components/shared/Flexboxes/FlexVCenter"
 import { ResourceDto } from "../../../../../dtos/relearn/ResourceDto"
+import * as relearnActions from "../../../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../../../store/store"
 import { isValidUrl } from "../../../../../utils/isValidUrl"
 import RateButton from "./RateButton"
@@ -48,18 +49,20 @@ function ResourceItem(props: Props) {
       borderBottom="1px solid rgb(255 255 255 / 0.1)"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      className="resource-item"
     >
-      {props.resource.thumbnail?.length > 0 && (
-        <Box mr={2}>
+      <Box mr={2} minWidth={100} width={100}>
+        {props.resource.thumbnail?.length > 0 && (
           <Link href={props.resource.url} target="_blank">
             <img
-              style={{ maxHeight: 75 }}
+              style={{ width: "100%" }}
               alt={props.resource.thumbnail}
               src={props.resource.thumbnail}
             />
           </Link>
-        </Box>
-      )}
+        )}
+      </Box>
+
       <Box flexGrow={1}>
         <Flex justifyContent="space-between" className={classes.firstRow}>
           <Typography variant="subtitle1">{props.resource.title}</Typography>
@@ -128,12 +131,19 @@ function ResourceItem(props: Props) {
         )}
 
         <Flex my={2}>
-          <FlexVCenter>
-            <Box pr={2}>{props.resource.estimatedTime}</Box>
-            <Box pl={2} borderLeft="1px solid rgb(255 255 255)">
-              {props.resource.dueDate}
-            </Box>
-          </FlexVCenter>
+          {props.resource.completedAt.length ? (
+            <FlexVCenter>
+              Completed&nbsp;
+              <TimeAgo date={props.resource.completedAt} live={false} />
+            </FlexVCenter>
+          ) : (
+            <FlexVCenter>
+              <Box pr={2}>{props.resource.estimatedTime}</Box>
+              <Box pl={2} borderLeft="1px solid rgb(255 255 255)">
+                {props.resource.dueDate}
+              </Box>
+            </FlexVCenter>
+          )}
 
           <Flex ml="auto">
             <RateButton resource={props.resource} />
@@ -149,6 +159,11 @@ function ResourceItem(props: Props) {
 const useStyles = makeStyles((theme) => ({
   link: {
     // fontSize: 12
+    display: "block",
+    maxWidth: 400,
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
   },
   listItemIcon: {
     width: 16,

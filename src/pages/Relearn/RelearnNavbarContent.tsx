@@ -17,6 +17,7 @@ function RelearnNavbarContent(props: Props) {
           variant="contained"
           color="primary"
           onClick={props.startNewResource}
+          id="add-resource-button"
         >
           <FlexVCenter>
             <FontAwesomeIcon icon={faPlus} />

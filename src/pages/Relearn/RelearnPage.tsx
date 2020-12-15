@@ -23,6 +23,8 @@ const RelearnPage = (props: Props) => {
   const [isLoadingResources, setIsLoadingResources] = useState(true)
   useEffect(
     () => {
+      
+
       myAxios
         .get<ResourceDto[]>(API.relearn.resource)
         .then((res) => {
@@ -50,6 +52,7 @@ const RelearnPage = (props: Props) => {
         setFilteredResources(
           props.resources.filter((resource) => resource.tag === null)
         )
+        document.title = 'Untagged - Relearn'
       } else if (pathname.startsWith(PATHS.relearn.tag)) {
         const tagId = Number(pathname.split("/").pop())
         if (tagId) {

@@ -68,17 +68,16 @@ function RateButton(props: Props) {
                   // setValue(newValue)
                 }}
                 onChangeActive={(event, newHover) => {
-                  setHover(newHover)
+                  if (newHover === rating) {
+                    setHover(0)
+                    
+                  } else {
+                    setHover(newHover)
+                  }
                 }}
               />
               <FlexHCenter>
-                {rating !== null ? (
-                  <Typography>
-                    {labels[hover !== -1 ? hover : rating]}
-                  </Typography>
-                ) : (
-                  <Typography>Select</Typography>
-                )}
+                <Typography>{labels[hover !== -1 ? hover : rating]}</Typography>
               </FlexHCenter>
             </React.Fragment>
           }
@@ -107,6 +106,7 @@ function RateButton(props: Props) {
 }
 
 const labels: { [index: string]: string } = {
+  0: "Remove",
   1: "Useless",
   2: "Poor",
   3: "Ok",
@@ -118,7 +118,7 @@ const useStyles = makeStyles((theme) => ({
   rateButton: {
     color: "#ffb400",
     border: "1px solid #ffb400",
-    width: 135
+    width: 135,
   },
 }))
 

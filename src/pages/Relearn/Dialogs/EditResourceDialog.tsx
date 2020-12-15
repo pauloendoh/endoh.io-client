@@ -55,7 +55,7 @@ const EditResourceDialog = (props: Props) => {
 
   const [urlAutofillChecked, setUrlAutofillChecked] = useState(true)
 
-  const handleChangeUrlAutofillCheckbox = (
+  const handleCheckAutofill = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setUrlAutofillChecked(event.target.checked)
@@ -76,6 +76,7 @@ const EditResourceDialog = (props: Props) => {
             .get<LinkPreviewDto>(API.relearn.utils.linkPreview + "?url=" + url)
             .then((res) => {
               const preview = res.data
+
               setFieldValue("title", preview.title)
               setFieldValue("thumbnail", preview.image)
             })
@@ -178,7 +179,7 @@ const EditResourceDialog = (props: Props) => {
                         control={
                           <Checkbox
                             checked={urlAutofillChecked}
-                            onChange={handleChangeUrlAutofillCheckbox}
+                            onChange={handleCheckAutofill}
                             name="urlAutofillCheckBox"
                             color="primary"
                           />
@@ -264,7 +265,7 @@ const EditResourceDialog = (props: Props) => {
                   </Grid>
                 </Box>
                 <Flex mt={2}>
-                  <Button type="submit" variant="contained" color="primary">
+                  <Button type="submit" variant="contained" color="primary" id="save-resource-button">
                     Save
                   </Button>
 

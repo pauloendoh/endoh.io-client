@@ -79,7 +79,7 @@ function RelearnSidebar(props: Props) {
             selected={pathName === PATHS.relearn.index}
           >
             <ListItemText>
-              Untagged Resources
+              Untagged
               <Typography variant="inherit" className={classes.resourcesCount}>
                 {
                   getTodoResources(
@@ -117,6 +117,7 @@ function RelearnSidebar(props: Props) {
                 <ListItem
                   button
                   className={classes.nested}
+                  id="add-tag-button"
                   onClick={() => {
                     props.startNewTag()
                   }}
@@ -141,7 +142,7 @@ function RelearnSidebar(props: Props) {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: 250,
+      width: 300,
       flexShrink: 0,
     },
 
@@ -150,7 +151,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
 
     drawerPaper: {
-      width: 250,
+      width: 300,
       background: "#202020",
       borderRight: "1px solid rgba(255, 255, 255, 0.05)",
     },

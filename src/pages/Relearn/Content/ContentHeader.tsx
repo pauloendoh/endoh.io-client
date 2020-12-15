@@ -1,12 +1,11 @@
 import { Box, makeStyles, Tab, Tabs, Typography } from "@material-ui/core"
-import { TagDto } from "../../../dtos/relearn/TagDto"
+import PATHS from "consts/PATHS"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
 import { ResourceDto } from "../../../dtos/relearn/ResourceDto"
 import { ApplicationState } from "../../../store/store"
-import PATHS from "consts/PATHS"
 
 function ContentHeader(props: Props) {
   const classes = useStyles()
@@ -22,6 +21,7 @@ function ContentHeader(props: Props) {
         const currentTag = props.tags.find((t) => t.id === tagId)
         if (currentTag) {
           setTagName("# " + currentTag.name)
+          document.title = "# " + currentTag.name + " - Relearn"
         }
       }
     }
@@ -35,7 +35,7 @@ function ContentHeader(props: Props) {
   }
 
   return (
-    <Box>
+    <Box className={classes.root} >
       {tagName.length > 0 && <Typography variant="h5">{tagName}</Typography>}
       <Tabs
         className={classes.tabs}
@@ -59,8 +59,16 @@ function ContentHeader(props: Props) {
 }
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    position: 'fixed',
+    background: theme.palette.background.default,
+    zIndex: theme.zIndex.appBar, 
+    top: 65,
+    paddingTop: 24
+  },
   tabs: {
-    minHeight: 32,
+    minHeight: 32, 
   },
   tab: {
     padding: 0,

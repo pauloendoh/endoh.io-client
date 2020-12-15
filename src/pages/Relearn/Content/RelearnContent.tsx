@@ -4,9 +4,9 @@ import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import { ResourceDto } from "../../../dtos/relearn/ResourceDto"
 import { ApplicationState } from "../../../store/store"
+import { getTodoResources } from "../../../utils/relearn/getTodoResources"
 import ContentHeader from "./ContentHeader"
 import ResourceList from "./ResourceList/ResourceList"
-import { getTodoResources } from "../../../utils/relearn/getTodoResources"
 
 function RelearnContent(props: Props) {
   const [tabIndex, setTabIndex] = useState(0)
@@ -42,7 +42,7 @@ function RelearnContent(props: Props) {
         todoResources={todoResources}
         completedResources={completedResources}
       />
-      <Box mt={3} />
+      <Box mt={12} />
       <ResourceList
         resources={tabIndex === 0 ? todoResources : completedResources}
       />

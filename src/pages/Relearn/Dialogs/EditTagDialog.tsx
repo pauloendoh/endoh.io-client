@@ -56,6 +56,7 @@ const EditTagDialog = (props: Props) => {
               <DialogContent>
                 <Box>
                   <MyTextField
+                  data-testid="tag-name-input"
                     id="name"
                     name="name"
                     value={values.name}
@@ -74,6 +75,7 @@ const EditTagDialog = (props: Props) => {
                     type="submit"
                     variant="contained"
                     color="primary"
+                    id="save-tag-button"
                   >
                     Save
                   </Button>

@@ -1,4 +1,5 @@
 import {
+  Box,
   createStyles,
   IconButton,
   ListItem,
@@ -17,7 +18,7 @@ import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Link, useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
-import { getTodoResources } from '../../../utils/relearn/getTodoResources'
+import { getTodoResources } from "../../../utils/relearn/getTodoResources"
 import PATHS from "../../../consts/PATHS"
 import { TagDto } from "../../../dtos/relearn/TagDto"
 import * as relearnActions from "../../../store/relearn/relearnActions"
@@ -52,7 +53,7 @@ function TagListItem(props: Props) {
   return (
     <ListItem
       key={props.tag.id}
-      className={classes.nested}
+      className={classes.tagListItem}
       button
       component={Link}
       to={PATHS.relearn.tag + "/" + props.tag.id}
@@ -67,18 +68,20 @@ function TagListItem(props: Props) {
         </Typography>
       </ListItemText>
 
-      {isHovered && (
-        <IconButton
-          size="small"
-          aria-label="tag-more"
-          onClick={(e) => {
-            e.preventDefault()
-            handleOpenMore(e)
-          }}
-        >
-          <MoreHorizIcon />
-        </IconButton>
-      )}
+      <Box className={classes.moreButtonBox}>
+        {isHovered && (
+          <IconButton
+            size="small"
+            aria-label="tag-more"
+            onClick={(e) => {
+              e.preventDefault()
+              handleOpenMore(e)
+            }}
+          >
+            <MoreHorizIcon />
+          </IconButton>
+        )}
+      </Box>
 
       <Menu
         id="tag-more"
@@ -123,9 +126,15 @@ function TagListItem(props: Props) {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    nested: {
+    tagListItem: {
       paddingLeft: theme.spacing(4),
+      alignItems: "flex-start",
     },
+    moreButtonBox: {
+      width: 32,
+      height: 32,
+    },
+
     listItemIcon: {
       width: 16,
     },
