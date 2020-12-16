@@ -1,9 +1,8 @@
 import { Box, CssBaseline, MuiThemeProvider } from "@material-ui/core"
-import Navbar from "./components/navbar/Navbar"
-import MySnackBar from 'components/shared/SnackBars/MySnackBar'
-import PATHS from "./consts/PATHS"
-import Home from "./pages/index/Home"
+import MySnackBar from "components/shared/SnackBars/MySnackBar"
 import React, { lazy, Suspense, useEffect, useState } from "react"
+import { DndProvider } from "react-dnd"
+import { HTML5Backend } from "react-dnd-html5-backend"
 import { connect } from "react-redux"
 import {
   Redirect,
@@ -16,6 +15,9 @@ import {
 import { Dispatch } from "redux"
 import { checkAuthOrLogoutActionCreator } from "store/auth/authActions"
 import { ApplicationState } from "store/store"
+import Navbar from "./components/navbar/Navbar"
+import PATHS from "./consts/PATHS"
+import Home from "./pages/index/Home"
 import LandingPage from "./pages/index/LandingPage"
 import LoadingPage from "./pages/index/LoadingPage"
 import SettingsNavbar from "./pages/settings/SettingsNavbar"
@@ -99,13 +101,15 @@ const App = (props: Props) => {
   }
 
   return (
-    <MuiThemeProvider theme={myTheme}>
-      {/* What does this do? */}
-      <CssBaseline />
-      {isLoading ? <LoadingPage /> : routes}
+    <DndProvider backend={HTML5Backend}>
+      <MuiThemeProvider theme={myTheme}>
+        {/* What does this do? */}
+        <CssBaseline />
+        {isLoading ? <LoadingPage /> : routes}
 
-      <MySnackBar/>
-    </MuiThemeProvider>
+        <MySnackBar />
+      </MuiThemeProvider>
+    </DndProvider>
   )
 }
 

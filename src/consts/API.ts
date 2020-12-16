@@ -2,13 +2,14 @@
 const API = {
     monerate: {
         expense: '/monerate/expense',
-        place: '/monerate/place', 
-        category: '/monerate/category', 
+        place: '/monerate/place',
+        category: '/monerate/category',
 
-    }, 
-    relearn:{
-        resource: '/relearn/resource', 
-        tag: '/relearn/tag', 
+    },
+    relearn: {
+        resource: '/relearn/resource',
+
+        tag: '/relearn/tag',
         utils: {
             linkPreview: '/relearn/utils/link-preview'
         }

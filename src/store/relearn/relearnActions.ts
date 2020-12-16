@@ -2,6 +2,7 @@ import { ResourceDto, newResourceDto } from '../../dtos/relearn/ResourceDto';
 import { relearnActionTypes } from './relearnTypes';
 import { action } from 'typesafe-actions';
 import { TagDto, newTagDto } from '../../dtos/relearn/TagDto';
+import { IMoveResource } from '../../utils/relearn/IMoveResource'
 
 export const setResources = (resources: ResourceDto[]) =>
   action(relearnActionTypes.SET_RESOURCES, resources)
@@ -25,6 +26,11 @@ export const editTag = (tag: TagDto) =>
   action(relearnActionTypes.SET_EDITING_TAG, tag)
 export const closeTagDialog = () => action(relearnActionTypes.SET_EDITING_TAG, null)
 
+export const moveResource = (moveResourceObj: IMoveResource) => action(relearnActionTypes.MOVE_RESOURCE,
+  moveResourceObj)
+
+
+
 // PE 2/3 - Perigo da pessoa esquecer de colocar aqui....
 export type RelearnActionReturns =
   ReturnType<typeof setResources> |
@@ -39,6 +45,8 @@ export type RelearnActionReturns =
 
   ReturnType<typeof startNewTag> |
   ReturnType<typeof editTag> |
-  ReturnType<typeof closeTagDialog>
+  ReturnType<typeof closeTagDialog> |
+
+  ReturnType<typeof moveResource>
 
 

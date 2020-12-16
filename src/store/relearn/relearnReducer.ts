@@ -3,6 +3,9 @@ import { Reducer } from 'redux';
 import { RelearnActionReturns } from './relearnActions';
 import { relearnActionTypes, RelearnState } from './relearnTypes';
 import { sleep } from '../../utils/sleep'
+import { IMoveResource } from '../../utils/relearn/IMoveResource'
+import myAxios from '../../utils/myAxios';
+import API from '../../consts/API'
 
 const INITIAL_STATE: RelearnState = {
   resources: [],
@@ -26,7 +29,8 @@ const relearnReducer: Reducer<RelearnState, RelearnActionReturns> = (state = INI
       return setEditingResource(state, action.payload)
     case relearnActionTypes.SET_EDITING_TAG:
       return { ...state, editingTag: action.payload }
-
+    case relearnActionTypes.MOVE_RESOURCE:
+      return moveResource(state, action.payload)
     default:
       return { ...state }
   }
@@ -58,6 +62,90 @@ const removeTag = (state: RelearnState, id: number): RelearnState => {
 
   return { ...state, resources, tags }
 }
+
+const moveResource = (state: RelearnState, params: IMoveResource): RelearnState => {
+  // get uncompleted resources from tag
+  let resources = state.resources.filter(resource => {
+    if (params.tagId === null && resource.tag === null) return true
+    if (params.tagId === resource.tag?.id) return true
+    return false
+  }).filter(resource => resource.completedAt.length === 0)
+
+  // sort them by position
+  resources = resources.sort(
+    (resourceA, resourceB) => resourceA.position - resourceB.position
+  )
+
+  // give each position its index
+  resources = resources.map((resource, index) => {
+    resource.position = index
+    return resource
+  })
+
+  // do splices
+  const dragged = resources[params.fromIndex]
+  resources.splice(params.fromIndex, 1)
+  resources.splice(params.toIndex, 0, dragged)
+
+  // give each position its index
+  resources = resources.map((resource, index) => {
+    resource.position = index
+    return resource
+  })
+
+  // concat to the other resources
+  const resourcesIds = resources.map(resource => resource.id)
+  const otherResources = state.resources.filter(resource => !resourcesIds.includes(resource.id))
+
+  resources = otherResources.concat(resources)
+
+  myAxios.post(API.relearn.resource + '/resources', resources)
+    .then(res => {
+      console.log('saved')
+    })
+  return { ...state, resources }
+}
+
+
+// const moveResource = (state: RelearnState, params: IMoveResource): RelearnState => {
+
+//   // THIS IS SUCH A FUCKING MESS LOL
+
+//   // First, I just want the uncompleted resources with the params.tagId
+//   let resources = state.resources.filter(resource => {
+//     if (params.tagId === null && resource.tag === null) {
+//       return true
+//     }
+//     if (params.tagId !== null && resource.tag?.id === params.tagId) {
+//       return true
+//     }
+//     return false
+//   }).filter(resource => resource.completedAt.length === 0)
+//     // then I wanna make sure they are in order 
+//     .sort(
+//       (resourceA, resourceB) => resourceA.position - resourceB.position
+//     )
+
+//   const draggedResource = resources[params.fromIndex]
+
+//   // then I make the changes 
+//   resources
+//     .splice(params.fromIndex, 1)
+//     .splice(params.toIndex, 0, draggedResource)
+
+//   resources = resources.map((r, index) => {
+//     r.position = index
+//     return r
+//   })
+//   const resourcesIds = resources.map(r => r.id)
+
+//   // then I make the changes in the state.resources
+//   const otherResources = state.resources.filter(r => !resourcesIds.includes(r.id))
+
+//   // TODO: if this is OK, I should save it via axios
+
+//   return { ...state, resources: otherResources.concat(resources) }
+// }
 
 
 export default relearnReducer

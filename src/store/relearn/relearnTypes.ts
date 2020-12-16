@@ -11,13 +11,14 @@ export enum relearnActionTypes {
 
     SET_EDITING_RESOURCE = '@relearn/SET_EDITING_RESOURCE',
     SET_EDITING_TAG = '@relearn/SET_EDITING_TAG',
-    
+
+    MOVE_RESOURCE = '@relearn/MOVE_RESOURCE',
 
 }
 
 export interface RelearnState {
     resources: ResourceDto[],
-    tags: TagDto[], 
+    tags: TagDto[],
 
     editingResource: ResourceDto,
     editingTag: TagDto,
