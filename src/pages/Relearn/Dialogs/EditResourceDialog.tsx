@@ -1,3 +1,9 @@
+import DateFnsUtils from "@date-io/date-fns"
+
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers"
 import {
   Box,
   Button,
@@ -31,6 +37,7 @@ import { useLocation } from "react-router-dom"
 import PATHS from "consts/PATHS"
 import { isValidUrl } from "utils/isValidUrl"
 import FlexVCenter from "components/shared/Flexboxes/FlexVCenter"
+import MaskedInput from "react-text-mask"
 
 const EditResourceDialog = (props: Props) => {
   const handleSubmit = (resource: ResourceDto) => {
@@ -55,9 +62,7 @@ const EditResourceDialog = (props: Props) => {
 
   const [urlAutofillChecked, setUrlAutofillChecked] = useState(true)
 
-  const handleCheckAutofill = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleCheckAutofill = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUrlAutofillChecked(event.target.checked)
   }
 
@@ -156,7 +161,22 @@ const EditResourceDialog = (props: Props) => {
                   )}
 
                   <Box flexGrow={1}>
+                   
+
                     <Box>
+                      <MyTextField
+                        id="title"
+                        name="title"
+                        value={values.title}
+                        inputProps={{ "aria-label": "resource-title-input" }}
+                        label="Title"
+                        required
+                        onChange={handleChange}
+                        fullWidth
+                        autoFocus
+                      />
+                    </Box>
+                    <Box mt={2}>
                       <MyTextField
                         id="url"
                         name="url"
@@ -171,7 +191,7 @@ const EditResourceDialog = (props: Props) => {
                         fullWidth
                         label="URL"
                         error={errors?.url?.length > 0}
-                        autoFocus
+                        
                       />
                     </Box>
                     <FlexVCenter justifyContent="space-between">
@@ -192,25 +212,12 @@ const EditResourceDialog = (props: Props) => {
                         )}
                       </Box>
                     </FlexVCenter>
-
-                    <Box mt={2}>
-                      <MyTextField
-                        id="title"
-                        name="title"
-                        value={values.title}
-                        inputProps={{ "aria-label": "resource-title-input" }}
-                        label="Title"
-                        required
-                        onChange={handleChange}
-                        fullWidth
-                      />
-                    </Box>
                   </Box>
                 </Flex>
 
                 <Box mt={2}>
                   <Grid container spacing={3}>
-                    <Grid item xs={6} sm={3} md={2}>
+                    <Grid item xs={6} sm={3}>
                       {/* <Typography component="legend">Duration</Typography> */}
                       <MyTextField
                         id="estimatedTime"
@@ -219,21 +226,27 @@ const EditResourceDialog = (props: Props) => {
                         onChange={handleChange}
                         label="Duration"
                         fullWidth
+                        InputProps={{
+                          inputComponent: TextMaskCustom as any,
+                        }}
                       />
                     </Grid>
-                    <Grid item xs={6} sm={3} md={2}>
+                    <Grid item xs={6} sm={3} >
                       {/* <Typography component="legend">Due Date</Typography> */}
                       <MyTextField
+                        type="date"
                         id="dueDate"
                         name="dueDate"
                         value={values.dueDate}
                         onChange={handleChange}
                         label="Due Date"
+                        InputLabelProps={{ shrink: true }}
                         fullWidth
                       />
+
+                  
                     </Grid>
-                    <Grid item xs={12} sm={6} md={8}>
-                      {/* <Typography component="legend">Tags</Typography> */}
+                    <Grid item xs={12} sm={6}>
                       <Autocomplete
                         id="tags-autocomplete-input"
                         options={props.tags}
@@ -265,7 +278,12 @@ const EditResourceDialog = (props: Props) => {
                   </Grid>
                 </Box>
                 <Flex mt={2}>
-                  <Button type="submit" variant="contained" color="primary" id="save-resource-button">
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    id="save-resource-button"
+                  >
                     Save
                   </Button>
 
@@ -284,6 +302,26 @@ const EditResourceDialog = (props: Props) => {
         </Formik>
       </Box>
     </Dialog>
+  )
+}
+
+interface TextMaskCustomProps {
+  inputRef: (ref: HTMLInputElement | null) => void
+}
+
+function TextMaskCustom(props: TextMaskCustomProps) {
+  const { inputRef, ...other } = props
+
+  return (
+    <MaskedInput
+      {...other}
+      ref={(ref: any) => {
+        inputRef(ref ? ref.inputElement : null)
+      }}
+      mask={[/\d/, /\d/, ":", /\d/, /\d/, "h"]}
+      placeholderChar={"\u2000"}
+      showMask
+    />
   )
 }
 

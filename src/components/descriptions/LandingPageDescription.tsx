@@ -3,7 +3,7 @@ import React from "react";
 import Flex from "../shared/Flexboxes/Flex";
 import TextPrimary from "../shared/Text/TextPrimary";
 import TextSecondary from "../shared/Text/TextSecondary";
-// PE 1/3 - Create <ColorPrimary> e <ColorSecondary>
+
 const LandingPageDescription = () => {
   return (
     <Box maxWidth={350}>

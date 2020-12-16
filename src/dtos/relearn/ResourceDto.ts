@@ -24,7 +24,7 @@ export const newResourceDto = (): ResourceDto => ({
     title: '',
     url: '',
     thumbnail: '',
-    estimatedTime: '',
+    estimatedTime: '00:00h',
     dueDate: '',
     rating: null,
     completedAt: '',

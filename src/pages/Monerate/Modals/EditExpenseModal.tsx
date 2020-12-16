@@ -1,52 +1,57 @@
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Tooltip } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import MuiDialogContent from "@material-ui/core/DialogContent";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import IconButton from "@material-ui/core/IconButton";
+import { faPlus } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Box, Tooltip } from "@material-ui/core"
+import Button from "@material-ui/core/Button"
+import Dialog from "@material-ui/core/Dialog"
+import MuiDialogContent from "@material-ui/core/DialogContent"
+import MuiDialogTitle from "@material-ui/core/DialogTitle"
+import IconButton from "@material-ui/core/IconButton"
 import {
   createStyles,
   Theme,
   WithStyles,
   withStyles,
-} from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import CloseIcon from "@material-ui/icons/Close";
-import Rating from "@material-ui/lab/Rating";
-import Flex from "components/shared/Flexboxes/Flex";
-import MyCurrencyInput from "components/shared/MyInputs/MyCurrencyInput";
-import MyTextField from "components/shared/MyInputs/MyTextField";
-import CategoryGetDto from "dtos/monerate/CategoryDtos/CategoryGetDto";
-import PlaceGetDto from "dtos/monerate/PlaceGetDto";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { GlobalHotKeys } from "react-hotkeys";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { ApplicationState } from "store/store";
-import myAxios from "utils/myAxios";
-import API from "../../../consts/API";
-import ExpenseGetDto from "../../../dtos/monerate/ExpenseGetDto";
-import ExpensePostDto from "../../../dtos/monerate/ExpensePostDto";
-import * as monerateActions from "../../../store/monerate/monerateActions";
-import SelectCategoryInput from "../Inputs/SelectCategoryInput/SelectCategoryInput";
-import SelectPlaceInput from "../Inputs/SelectPlaceInput/SelectPlaceInput";
+} from "@material-ui/core/styles"
+import Typography from "@material-ui/core/Typography"
+import CloseIcon from "@material-ui/icons/Close"
+import Rating from "@material-ui/lab/Rating"
+import Flex from "components/shared/Flexboxes/Flex"
+import MyCurrencyInput from "components/shared/MyInputs/MyCurrencyInput"
+import MyTextField from "components/shared/MyInputs/MyTextField"
+import CategoryGetDto from "dtos/monerate/CategoryDtos/CategoryGetDto"
+import PlaceGetDto from "dtos/monerate/PlaceGetDto"
+import { Form, Formik } from "formik"
+import React, { useEffect, useState } from "react"
+import { GlobalHotKeys } from "react-hotkeys"
+import { connect } from "react-redux"
+import { Dispatch } from "redux"
+import { ApplicationState } from "store/store"
+import myAxios from "utils/myAxios"
+import API from "../../../consts/API"
+import ExpenseGetDto, {
+  newExpenseDto,
+} from "../../../dtos/monerate/ExpenseGetDto"
+import ExpensePostDto from "../../../dtos/monerate/ExpensePostDto"
+import * as monerateActions from "../../../store/monerate/monerateActions"
+import SelectCategoryInput from "../Inputs/SelectCategoryInput/SelectCategoryInput"
+import SelectPlaceInput from "../Inputs/SelectPlaceInput/SelectPlaceInput"
+
 // PE 1/3 ?
 const EditExpenseModal = (props: Props) => {
-  const [rating, setRating] = React.useState(0);
+
+  // 20201215 - Actually, I can change rating inside formik values, using setFieldValue
+  const [rating, setRating] = React.useState(0)
   const [formikInitialValues, setFormikInitialValues] = useState<
     ExpensePostDto
-  >(null);
+  >(null)
 
   const handleSetRating = (val: number) => {
     if (val === rating) {
-      setRating(0);
+      setRating(0)
     } else {
-      setRating(val);
+      setRating(val)
     }
-  };
+  }
 
   useEffect(() => {
     // PE 1/3 - ew
@@ -60,80 +65,66 @@ const EditExpenseModal = (props: Props) => {
         value: props.editingExpense.value,
 
         categoryId: props.editingExpense.category?.id,
-      });
+      })
 
-      setRating(props.editingExpense.rating);
+      setRating(props.editingExpense.rating)
     } else {
-      setFormikInitialValues({
-        id: null,
-        placeId: null,
-        description: "",
-        name: "",
-        rating: 0,
-        value: 0,
-
-        categoryId: null,
-      });
+      setFormikInitialValues(newExpenseDto)
     }
-  }, [props.editingExpense]);
+  }, [props.editingExpense])
 
   const handleClickOpen = () => {
-    props.startNewExpense();
-    setRating(0);
-
-    setTimeout(() => {
-      const expenseNameInput = document.querySelector(
-        "[aria-label='expense-name-input']"
-      ) as HTMLInputElement;
-      // expenseNameInput.focus();
-    }, 100);
-  };
+    props.startNewExpense()
+    setRating(null)
+  }
   const handleClose = () => {
-    props.closeExpenseModal();
-  };
+    props.closeExpenseModal()
+  }
 
   const handleSubmit = (
     values: ExpensePostDto,
     setSubmitting: (isSubmitting: boolean) => void
   ) => {
     // I gotta fix this... MyCurrencyInput is returning event.target.value as string
-    values.value = parseFloat(values.value as any);
-    values.rating = rating;
+    values.value = parseFloat(values.value as any)
+    values.rating = rating
 
     myAxios
       .post<ExpenseGetDto>("/monerate/expense", values)
       .then((res) => {
-        props.addOrUpdateExpense(res.data);
+        props.addOrUpdateExpense(res.data)
       })
       .finally(() => {
-        setSubmitting(false);
-        props.closeExpenseModal();
-      });
-  };
+        setSubmitting(false)
+        props.closeExpenseModal()
+      })
+  }
 
   const handleConfirmDelete = (id: number) => {
     if (window.confirm("Delete this expense?")) {
       myAxios
         .delete(`${API.monerate.expense}/${id}`)
         .then((res) => {
-          props.removeExpense(id);
+          props.removeExpense(id)
         })
         .finally(() => {
-          props.closeExpenseModal();
-        });
+          props.closeExpenseModal()
+        })
     }
-  };
+  }
 
-  const keyMap = { openModal: "q" };
+  const keyMap = { openModal: "q" }
   const handlers = {
     openModal: () => {
-      handleClickOpen();
+      handleClickOpen()
     },
-  };
+  }
 
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={handlers}>
       <Box>
+
+        {/* This button should be out of this component...? */}
         <Tooltip title="(q) Quick add expense">
           <Button
             variant="contained"
@@ -160,7 +151,7 @@ const EditExpenseModal = (props: Props) => {
             <Formik
               initialValues={formikInitialValues}
               onSubmit={(formikValues, { setSubmitting }) => {
-                handleSubmit(formikValues, setSubmitting);
+                handleSubmit(formikValues, setSubmitting)
               }}
             >
               {({ setFieldValue, values, isSubmitting, handleChange }) => (
@@ -178,8 +169,8 @@ const EditExpenseModal = (props: Props) => {
                         <SelectPlaceInput
                           value={values.placeId}
                           onChange={(e, value) => {
-                            const place = value as PlaceGetDto;
-                            setFieldValue("placeId", place?.id);
+                            const place = value as PlaceGetDto
+                            setFieldValue("placeId", place?.id)
                           }}
                         />
                       </Box>
@@ -207,7 +198,7 @@ const EditExpenseModal = (props: Props) => {
                           variant="outlined"
                           autoComplete="off"
                           onChange={(e) => {
-                            handleChange(e);
+                            handleChange(e)
                           }}
                           size="small"
                         />
@@ -220,13 +211,13 @@ const EditExpenseModal = (props: Props) => {
                             name="simple-controlled"
                             value={rating}
                             onChange={(event, newValue) => {
-                              handleSetRating(newValue);
+                              handleSetRating(newValue)
                             }}
                             onKeyPress={(e) => {
                               if (
                                 ["0", "1", "2", "3", "4", "5"].includes(e.key)
                               ) {
-                                handleSetRating(parseFloat(e.key));
+                                handleSetRating(parseFloat(e.key))
                               }
                             }}
                           />
@@ -240,8 +231,8 @@ const EditExpenseModal = (props: Props) => {
                           <SelectCategoryInput
                             value={values.categoryId}
                             onChange={(e, value) => {
-                              const category = value as CategoryGetDto;
-                              setFieldValue("categoryId", category?.id);
+                              const category = value as CategoryGetDto
+                              setFieldValue("categoryId", category?.id)
                             }}
                           />
                         </Box>
@@ -296,8 +287,8 @@ const EditExpenseModal = (props: Props) => {
         </Dialog>
       </Box>
     </GlobalHotKeys>
-  );
-};
+  )
+}
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -311,16 +302,16 @@ const styles = (theme: Theme) =>
       top: theme.spacing(1),
       color: theme.palette.grey[500],
     },
-  });
+  })
 
 interface DialogTitleProps extends WithStyles<typeof styles> {
-  id: string;
-  children: React.ReactNode;
-  onClose: () => void;
+  id: string
+  children: React.ReactNode
+  onClose: () => void
 }
 
 const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
-  const { children, classes, onClose, ...other } = props;
+  const { children, classes, onClose, ...other } = props
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
       <Typography variant="h6">{children}</Typography>
@@ -334,8 +325,8 @@ const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
         </IconButton>
       ) : null}
     </MuiDialogTitle>
-  );
-});
+  )
+})
 
 const DialogContent = withStyles((theme: Theme) => ({
   root: {
@@ -343,11 +334,11 @@ const DialogContent = withStyles((theme: Theme) => ({
     paddingRight: theme.spacing(2),
     paddingBottom: theme.spacing(2),
   },
-}))(MuiDialogContent);
+}))(MuiDialogContent)
 
 const mapStateToProps = (state: ApplicationState) => ({
   editingExpense: state.monerate.editingExpense,
-});
+})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   addOrUpdateExpense: (expense: ExpenseGetDto) =>
@@ -356,9 +347,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
   startNewExpense: () => dispatch(monerateActions.startNewExpense()),
   closeExpenseModal: () => dispatch(monerateActions.closeExpenseModal()),
-});
+})
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps>
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditExpenseModal);
+export default connect(mapStateToProps, mapDispatchToProps)(EditExpenseModal)

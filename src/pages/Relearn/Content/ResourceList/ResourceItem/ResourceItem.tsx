@@ -11,18 +11,23 @@ import {
 import DeleteIcon from "@material-ui/icons/Delete"
 import EditIcon from "@material-ui/icons/Edit"
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
+import API from "consts/API"
+import { DateTime } from "luxon"
 import React, { useState } from "react"
 import { connect } from "react-redux"
 import TimeAgo from "react-timeago"
 import { Dispatch } from "redux"
+import myAxios from "utils/myAxios"
 import Flex from "../../../../../components/shared/Flexboxes/Flex"
 import FlexVCenter from "../../../../../components/shared/Flexboxes/FlexVCenter"
 import { ResourceDto } from "../../../../../dtos/relearn/ResourceDto"
 import * as relearnActions from "../../../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../../../store/store"
+import * as utilsActions from "../../../../../store/utils/utilsActions"
 import { isValidUrl } from "../../../../../utils/isValidUrl"
 import RateButton from "./RateButton"
 
+// PE 1/3
 function ResourceItem(props: Props) {
   const classes = useStyles()
 
@@ -32,10 +37,11 @@ function ResourceItem(props: Props) {
   }
   const handleMouseLeave = () => {
     setIsHovered(false)
-    setAnchorEl(null) // avoids error "The `anchorEl` prop provided to the component is invalid"
+    setAnchorEl(null) // Avoids error: "The `anchorEl` prop provided to the component is invalid"
   }
 
-  const [anchorEl, setAnchorEl] = React.useState(null)
+  // Anchor when you click 'More' icon
+  const [anchorEl, setAnchorEl] = useState(null)
   const handleOpenMore = (event: any) => {
     setAnchorEl(event.currentTarget)
   }
@@ -43,14 +49,25 @@ function ResourceItem(props: Props) {
     setAnchorEl(null)
   }
 
+  const handleDeleteResource = (id: number) => {
+    if (window.confirm("Confirm delete?")) {
+      myAxios.delete(`${API.relearn.resource}/${id}`).then((res) => {
+        props.setSuccessMessage("Resource deleted!")
+
+        props.removeResource(id)
+      })
+    }
+  }
+
   return (
     <Flex
-      p={2}
-      borderBottom="1px solid rgb(255 255 255 / 0.1)"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      p={2}
+      borderBottom="1px solid rgb(255 255 255 / 0.1)" // Could be a const?
       className="resource-item"
     >
+      {/* PE 2/3 - Thumbnail */}
       <Box mr={2} minWidth={100} width={100}>
         {props.resource.thumbnail?.length > 0 && (
           <Link href={props.resource.url} target="_blank">
@@ -64,9 +81,10 @@ function ResourceItem(props: Props) {
       </Box>
 
       <Box flexGrow={1}>
-        <Flex justifyContent="space-between" className={classes.firstRow}>
-          <Typography variant="subtitle1">{props.resource.title}</Typography>
+        <Flex className={classes.firstRow}>
+          <Typography variant="h6">{props.resource.title}</Typography>
 
+          {/* 'More' icon - PE 1/3 - can be a specific component */}
           <Box className={classes.moreButtonBox}>
             {isHovered && (
               <IconButton
@@ -81,7 +99,6 @@ function ResourceItem(props: Props) {
               </IconButton>
             )}
           </Box>
-
           <Menu
             id="tag-more"
             anchorEl={anchorEl}
@@ -110,7 +127,11 @@ function ResourceItem(props: Props) {
               </Typography>
             </MenuItem>
 
-            <MenuItem>
+            <MenuItem
+              onClick={() => {
+                handleDeleteResource(props.resource.id)
+              }}
+            >
               <ListItemIcon className={classes.listItemIcon}>
                 <DeleteIcon fontSize="small" />
               </ListItemIcon>
@@ -139,16 +160,16 @@ function ResourceItem(props: Props) {
           ) : (
             <FlexVCenter>
               <Box pr={2}>{props.resource.estimatedTime}</Box>
-              <Box pl={2} borderLeft="1px solid rgb(255 255 255)">
-                {props.resource.dueDate}
-              </Box>
+              {props.resource.dueDate.length > 0 && (
+                <Box pl={2} borderLeft="1px solid rgb(255 255 255)">
+                  {DateTime.fromISO(props.resource.dueDate).toFormat("LLL dd")}
+                </Box>
+              )}
             </FlexVCenter>
           )}
 
           <Flex ml="auto">
             <RateButton resource={props.resource} />
-
-            {/* <Box ml={2}>| Delete</Box> */}
           </Flex>
         </Flex>
       </Box>
@@ -169,6 +190,7 @@ const useStyles = makeStyles((theme) => ({
     width: 16,
   },
   firstRow: {
+    justifyContent: "space-between",
     minHeight: 32,
   },
   moreButtonBox: {
@@ -182,6 +204,10 @@ const mapStateToProps = (state: ApplicationState) => ({})
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   editResource: (resource: ResourceDto) =>
     dispatch(relearnActions.editResource(resource)),
+  removeResource: (id: number) => dispatch(relearnActions.removeResource(id)),
+
+  setSuccessMessage: (message: string) =>
+    dispatch(utilsActions.setSuccessMessage(message)),
 })
 
 interface OwnProps {

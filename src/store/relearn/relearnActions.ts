@@ -7,6 +7,12 @@ export const setResources = (resources: ResourceDto[]) =>
   action(relearnActionTypes.SET_RESOURCES, resources)
 export const setTags = (tags: TagDto[]) => action(relearnActionTypes.SET_TAGS, tags)
 
+
+export const removeResource = (id: number) =>
+  action(relearnActionTypes.REMOVE_RESOURCE, id)
+export const removeTag = (id: number) =>
+  action(relearnActionTypes.REMOVE_TAG, id)
+
 export const startNewResource = () =>
   action(relearnActionTypes.SET_EDITING_RESOURCE, newResourceDto())
 export const editResource = (resource: ResourceDto) =>
@@ -23,13 +29,16 @@ export const closeTagDialog = () => action(relearnActionTypes.SET_EDITING_TAG, n
 export type RelearnActionReturns =
   ReturnType<typeof setResources> |
   ReturnType<typeof setTags> |
-  
+
+  ReturnType<typeof removeResource> |
+  ReturnType<typeof removeTag> |
+
   ReturnType<typeof startNewResource> |
   ReturnType<typeof editResource> |
   ReturnType<typeof closeResourceDialog> |
 
   ReturnType<typeof startNewTag> |
   ReturnType<typeof editTag> |
-  ReturnType<typeof closeTagDialog> 
+  ReturnType<typeof closeTagDialog>
 
 

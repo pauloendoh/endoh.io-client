@@ -3,10 +3,13 @@
 context('Relearn', () => {
   beforeEach(() => {
     cy.visit('http://localhost:8000/')
+    
+    // Auth form submit
     cy.get('#email').type('test@test.com')
     cy.get('#password').type('123456')
     cy.get('#auth-submit-button').click()
     cy.get('[data-testid="application-menu-button"]').click()
+
     cy.get('#application-menu-option-Relearn').click()
   })
 
@@ -23,6 +26,7 @@ context('Relearn', () => {
     cy.contains('# tag test')
   })
 
+  
   it('should create two untagged resources, and they should appear at the end of the list', ()=>{
     cy.get('#add-resource-button').click()
     cy.get('[aria-label="resource-title-input"]').type('resource 1')

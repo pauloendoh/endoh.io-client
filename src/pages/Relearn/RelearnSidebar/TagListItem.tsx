@@ -14,15 +14,24 @@ import {
 import DeleteIcon from "@material-ui/icons/Delete"
 import EditIcon from "@material-ui/icons/Edit"
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
+import API from "consts/API"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
-import { Link, useLocation } from "react-router-dom"
+import {
+  Link,
+  Redirect,
+  RouteComponentProps,
+  useLocation,
+  withRouter,
+} from "react-router-dom"
 import { Dispatch } from "redux"
-import { getTodoResources } from "../../../utils/relearn/getTodoResources"
+import myAxios from "utils/myAxios"
 import PATHS from "../../../consts/PATHS"
 import { TagDto } from "../../../dtos/relearn/TagDto"
 import * as relearnActions from "../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../store/store"
+import { getTodoResources } from "../../../utils/relearn/getTodoResources"
+import * as utilsActions from "../../../store/utils/utilsActions"
 
 function TagListItem(props: Props) {
   const classes = useStyles()
@@ -48,6 +57,21 @@ function TagListItem(props: Props) {
   }
   const handleCloseMore = () => {
     setAnchorEl(null)
+  }
+
+  const [redirectTo, setRedirectTo] = useState("")
+  const handleDeleteTag = (id: number) => {
+    if (window.confirm("Confirm delete?")) {
+      myAxios.delete(`${API.relearn.tag}/${id}`).then((res) => {
+        props.setSuccessMessage("Tag deleted!")
+
+        if (pathName.endsWith(id.toString())) {
+          setRedirectTo(PATHS.relearn.index)
+        }
+
+        props.removeTag(id)
+      })
+    }
   }
 
   return (
@@ -111,7 +135,11 @@ function TagListItem(props: Props) {
           </Typography>
         </MenuItem>
 
-        <MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleDeleteTag(props.tag.id)
+          }}
+        >
           <ListItemIcon className={classes.listItemIcon}>
             <DeleteIcon fontSize="small" />
           </ListItemIcon>
@@ -120,6 +148,8 @@ function TagListItem(props: Props) {
           </Typography>
         </MenuItem>
       </Menu>
+
+      {redirectTo.length > 0 && <Redirect to={redirectTo} />}
     </ListItem>
   )
 }
@@ -153,6 +183,10 @@ const mapStateToProps = (state: ApplicationState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setTags: (tags: TagDto[]) => dispatch(relearnActions.setTags(tags)),
   editTag: (tag: TagDto) => dispatch(relearnActions.editTag(tag)),
+  removeTag: (id: number) => dispatch(relearnActions.removeTag(id)),
+
+  setSuccessMessage: (message: string) =>
+    dispatch(utilsActions.setSuccessMessage(message)),
   // logout: () => dispatch(logoutActionCreator(dispatch)),
 })
 

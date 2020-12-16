@@ -16,3 +16,19 @@ export default interface ExpenseGetDto {
     createdAt: string,
     updatedAt: string,
 }
+
+export const newExpenseDto: ExpenseGetDto = {
+    id: null,
+    userId: null,
+
+    name: '',
+    value: null,
+    rating: null,
+
+    place: null,
+    description: '',
+    category: null,
+
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+}
