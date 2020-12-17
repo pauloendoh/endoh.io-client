@@ -21,7 +21,7 @@ function ContentHeader(props: Props) {
         const currentTag = props.tags.find((t) => t.id === tagId)
         if (currentTag) {
           setTagName("# " + currentTag.name)
-          document.title = "# " + currentTag.name + " - Relearn"
+          document.title = currentTag.name + " - Relearn"
         }
       }
     }
@@ -35,7 +35,7 @@ function ContentHeader(props: Props) {
   }
 
   return (
-    <Box className={classes.root} >
+    <Box className={classes.root}>
       {tagName.length > 0 && <Typography variant="h5">{tagName}</Typography>}
       <Tabs
         className={classes.tabs}
@@ -60,15 +60,15 @@ function ContentHeader(props: Props) {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
-    position: 'fixed',
+    width: "100%",
+    position: "fixed",
     background: theme.palette.background.default,
-    zIndex: theme.zIndex.appBar, 
+    zIndex: theme.zIndex.appBar,
     top: 65,
-    paddingTop: 24
+    paddingTop: 24,
   },
   tabs: {
-    minHeight: 32, 
+    minHeight: 32,
   },
   tab: {
     padding: 0,

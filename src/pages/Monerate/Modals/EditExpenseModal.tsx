@@ -38,7 +38,6 @@ import SelectPlaceInput from "../Inputs/SelectPlaceInput/SelectPlaceInput"
 
 // PE 1/3 ?
 const EditExpenseModal = (props: Props) => {
-
   // 20201215 - Actually, I can change rating inside formik values, using setFieldValue
   const [rating, setRating] = React.useState(0)
   const [formikInitialValues, setFormikInitialValues] = useState<
@@ -123,7 +122,6 @@ const EditExpenseModal = (props: Props) => {
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={handlers}>
       <Box>
-
         {/* This button should be out of this component...? */}
         <Tooltip title="(q) Quick add expense">
           <Button
@@ -259,6 +257,7 @@ const EditExpenseModal = (props: Props) => {
                           // onClick={handleClose}
                           variant="contained"
                           color="primary"
+                          id="save-expense-button"
                         >
                           Save
                         </Button>

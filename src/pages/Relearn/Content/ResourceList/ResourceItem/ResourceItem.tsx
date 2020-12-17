@@ -178,7 +178,8 @@ function ResourceItem(props: Props) {
               {isHovered && (
                 <IconButton
                   size="small"
-                  aria-label="tag-more"
+                  id="resource-more-icon"
+                  aria-label="resource-more-icon"
                   onClick={(e) => {
                     e.preventDefault()
                     handleOpenMore(e)
@@ -220,6 +221,7 @@ function ResourceItem(props: Props) {
                 onClick={() => {
                   handleDeleteResource(props.resource.id)
                 }}
+                id="delete-resource-button"
               >
                 <ListItemIcon className={classes.listItemIcon}>
                   <DeleteIcon fontSize="small" />
@@ -310,10 +312,11 @@ const useStyles = makeStyles((theme) => ({
   firstRow: {
     justifyContent: "space-between",
     minHeight: 32,
+    alignItems: "stretch",
   },
   moreButtonBox: {
     width: 32,
-    height: 32,
+    minWidth: 32,
   },
 }))
 

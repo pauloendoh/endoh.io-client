@@ -1,38 +1,38 @@
-import { faSortDown } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, Menu, Typography } from "@material-ui/core";
-import MenuItem from "@material-ui/core/MenuItem";
-import FlexVCenter from "components/shared/Flexboxes/FlexVCenter";
-import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { faSortDown } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Box, Button, Menu, Typography } from "@material-ui/core"
+import MenuItem from "@material-ui/core/MenuItem"
+import FlexVCenter from "components/shared/Flexboxes/FlexVCenter"
+import React, { useEffect, useState } from "react"
+import { Link, useLocation } from "react-router-dom"
 import {
   applicationOptions,
   getCurrentApplicationByPath,
   IApplicationOption,
-} from "./ApplicationOptions";
+} from "./ApplicationOptions"
 
 // PE 3/3
 const ApplicationMenu = () => {
-  const location = useLocation();
+  const location = useLocation()
 
   const [currentApplication, setCurrentApplication] = useState<
     IApplicationOption
-  >(getCurrentApplicationByPath(""));
+  >(getCurrentApplicationByPath(""))
 
   useEffect(() => {
-    const pathName = location.pathname;
-    setCurrentApplication(getCurrentApplicationByPath(pathName));
+    const pathName = location.pathname
+    setCurrentApplication(getCurrentApplicationByPath(pathName))
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]);
+  }, [location])
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(null)
   const handleClick = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
   const handleClose = () => {
-    setAnchorEl(null);
-  };
+    setAnchorEl(null)
+  }
 
   return (
     <Box>
@@ -84,7 +84,7 @@ const ApplicationMenu = () => {
         ))}
       </Menu>
     </Box>
-  );
-};
+  )
+}
 
-export default ApplicationMenu;
+export default ApplicationMenu

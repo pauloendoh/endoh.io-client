@@ -77,7 +77,7 @@ function TagListItem(props: Props) {
   return (
     <ListItem
       key={props.tag.id}
-      className={classes.tagListItem}
+      className={classes.tagListItem + " tag-item"}
       button
       component={Link}
       to={PATHS.relearn.tag + "/" + props.tag.id}
@@ -95,6 +95,7 @@ function TagListItem(props: Props) {
       <Box className={classes.moreButtonBox}>
         {isHovered && (
           <IconButton
+            id="tag-more"
             size="small"
             aria-label="tag-more"
             onClick={(e) => {
@@ -139,6 +140,7 @@ function TagListItem(props: Props) {
           onClick={() => {
             handleDeleteTag(props.tag.id)
           }}
+          id="delete-tag-button"
         >
           <ListItemIcon className={classes.listItemIcon}>
             <DeleteIcon fontSize="small" />

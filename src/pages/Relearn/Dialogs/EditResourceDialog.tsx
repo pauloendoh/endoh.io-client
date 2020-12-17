@@ -166,7 +166,6 @@ const EditResourceDialog = (props: Props) => {
                         onChange={handleChange}
                         fullWidth
                         autoFocus
-                        multiline
                       />
                     </Box>
                     <Box mt={2}>
@@ -184,7 +183,6 @@ const EditResourceDialog = (props: Props) => {
                         fullWidth
                         label="URL"
                         error={errors?.url?.length > 0}
-                        multiline
                       />
                     </Box>
                     <FlexVCenter justifyContent="space-between">

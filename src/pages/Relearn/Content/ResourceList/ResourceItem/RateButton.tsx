@@ -18,6 +18,7 @@ import myAxios from "../../../../../utils/myAxios"
 import { ResourceDto } from "../../../../../dtos/relearn/ResourceDto"
 import { ApplicationState } from "../../../../../store/store"
 import * as relearnActions from "../../../../../store/relearn/relearnActions"
+import * as utilsActions from "../../../../../store/utils/utilsActions"
 
 function RateButton(props: Props) {
   const classes = useStyles()
@@ -41,6 +42,12 @@ function RateButton(props: Props) {
     const resource = { ...props.resource, rating } as ResourceDto
     myAxios.post<ResourceDto[]>(API.relearn.resource, resource).then((res) => {
       props.setResources(res.data)
+
+      if (resource.rating) {
+        props.setSuccessMessage("Resource rated!")
+      } else {
+        props.setSuccessMessage("Resource unrated!")
+      }
     })
   }
 
@@ -126,6 +133,9 @@ const mapStateToProps = (state: ApplicationState) => ({})
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setResources: (resources: ResourceDto[]) =>
     dispatch(relearnActions.setResources(resources)),
+
+  setSuccessMessage: (message: string) =>
+    dispatch(utilsActions.setSuccessMessage(message)),
 })
 
 interface OwnProps {
