@@ -30,6 +30,7 @@ import { useDrag, useDrop } from "react-dnd"
 import styled from "styled-components"
 import RootRef from "@material-ui/core/RootRef"
 import { IMoveResource } from "../../../../../utils/relearn/IMoveResource"
+import { warn } from "console"
 
 // PE 1/3
 function ResourceItem(props: Props) {
@@ -78,9 +79,7 @@ function ResourceItem(props: Props) {
       const draggedIndex = draggedItem.index as number
       const targetIndex = props.index
 
-      if (draggedIndex === targetIndex) {
-        return
-      }
+      if (draggedIndex === targetIndex) return
 
       const targetSize = ref.current.getBoundingClientRect()
       const targetCenter = (targetSize.bottom - targetSize.top) / 2
@@ -95,18 +94,17 @@ function ResourceItem(props: Props) {
         return
       }
 
-      // clearTimeout(throttle)
-      // setThrottle(
-      //   setTimeout(() => {
-      console.log("lol")
+      // Disable dnd for completed items
+      if (props.resource.completedAt.length > 0) {
+        props.setErrorMessage("Completed items can't be moved")
+        return
+      }
 
       props.moveResource({
         tagId: props.resource.tag ? props.resource.tag.id : null,
         fromIndex: draggedIndex,
         toIndex: targetIndex,
       })
-      //   }, 500)
-      // )
 
       draggedItem.index = targetIndex
     },
@@ -143,7 +141,7 @@ function ResourceItem(props: Props) {
 
         <Box flexGrow={1}>
           <Flex className={classes.firstRow}>
-            <Typography variant="h6">{props.resource.title}</Typography>
+            <Typography variant="body1">{props.resource.title}</Typography>
 
             {/* 'More' icon - PE 1/3 - can be a specific component */}
             <Box className={classes.moreButtonBox}>
@@ -280,6 +278,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
   setSuccessMessage: (message: string) =>
     dispatch(utilsActions.setSuccessMessage(message)),
+  setErrorMessage: (message: string) =>
+    dispatch(utilsActions.setErrorMessage(message)),
 })
 
 interface OwnProps {

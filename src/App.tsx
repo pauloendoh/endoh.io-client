@@ -64,6 +64,8 @@ const App = (props: Props) => {
   let redirectAfterLogout = "/"
   if (location.pathname.startsWith(PATHS.monerate.index)) {
     redirectAfterLogout = "/?next=/monerate"
+  } else if (location.pathname.startsWith(PATHS.relearn.index)) {
+    redirectAfterLogout = "/?next=/relearn"
   }
 
   // PE 2/3 - routes = nome ruim?

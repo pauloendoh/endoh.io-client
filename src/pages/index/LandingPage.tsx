@@ -1,15 +1,16 @@
-import { Box, Button, Container, Typography } from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import React, { useEffect } from "react";
-import { Link as ScrollLink } from "react-scroll";
-import FooterDescription from "../../components/descriptions/FooterDescription";
-import LandingPageDescription from "../../components/descriptions/LandingPageDescription";
-import MonerateDescription from "../../components/descriptions/MonerateDescription";
-import AuthForm from "./AuthForm/AuthForm";
+import { Box, Button, Container, Typography } from "@material-ui/core"
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
+import React, { useEffect } from "react"
+import { Link as ScrollLink } from "react-scroll"
+import FooterDescription from "../../components/descriptions/FooterDescription"
+import LandingPageDescription from "../../components/descriptions/LandingPageDescription"
+import MonerateDescription from "../../components/descriptions/MonerateDescription"
+import RelearnDescription from "../../components/descriptions/RelearnDescription"
+import AuthForm from "./AuthForm/AuthForm"
 
 const LandingPage = () => {
-  useEffect(()=> {
-    document.title = 'endoh.io'
+  useEffect(() => {
+    document.title = "endoh.io"
   }, [])
   return (
     <Box>
@@ -20,7 +21,7 @@ const LandingPage = () => {
           </Box>
           {/* TODO: create <AuthForm/> */}
           <Box ml={4}>
-            <AuthForm/>
+            <AuthForm />
           </Box>
         </Box>
         <Box mt={20} textAlign="center">
@@ -44,12 +45,15 @@ const LandingPage = () => {
         <Box mt={10}>
           <MonerateDescription />
         </Box>
+        <Box mt={10}>
+          <RelearnDescription />
+        </Box>
         <Box mt={15} pb={5}>
           <FooterDescription />
         </Box>
       </Container>
     </Box>
-  );
-};
+  )
+}
 
-export default LandingPage;
+export default LandingPage
