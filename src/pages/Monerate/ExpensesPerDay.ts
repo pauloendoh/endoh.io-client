@@ -1,4 +1,4 @@
-import ExpenseGetDto from '../../dtos/monerate/ExpenseGetDto';
+import ExpenseGetDto from '../../interfaces/dtos/monerate/ExpenseGetDto';
 import { DateTime } from "luxon";
 
 
@@ -10,7 +10,6 @@ export interface ExpensesPerDay {
     expenses: ExpenseGetDto[]
 }
 
-
 // This will be a mess lol
 export const getExpensesPerDay = (expenses: ExpenseGetDto[]): ExpensesPerDay[] => {
     const expensesPerDay: ExpensesPerDay[] = []
@@ -19,7 +18,7 @@ export const getExpensesPerDay = (expenses: ExpenseGetDto[]): ExpensesPerDay[] =
     const todayISO = DateTime.fromJSDate(new Date()).toISODate()
 
     // '2020-11-08'
-    const yesterdayISO = DateTime.fromJSDate(new Date()).minus({days: 1}).toISODate()
+    const yesterdayISO = DateTime.fromJSDate(new Date()).minus({ days: 1 }).toISODate()
     // const yesterdayISO = DateTime.fromJSDate(new Date()).minus({days: 1}).toISODate()
 
 
@@ -60,7 +59,7 @@ export const getExpensesPerDay = (expenses: ExpenseGetDto[]): ExpensesPerDay[] =
         const ratingCount = day.expenses.filter(e => e.rating > 0).length
         expensesPerDay[i].avgRating = day.avgRating / ratingCount
     })
-    
-  
+
+
     return expensesPerDay
 }

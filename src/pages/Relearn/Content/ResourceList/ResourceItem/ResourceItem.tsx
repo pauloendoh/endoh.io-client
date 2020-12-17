@@ -21,15 +21,15 @@ import { useDrag, useDrop } from "react-dnd"
 import { connect } from "react-redux"
 import TimeAgo from "react-timeago"
 import { Dispatch } from "redux"
-import myAxios from "utils/myAxios"
+import MY_AXIOS from "consts/MY_AXIOS"
 import Flex from "../../../../../components/shared/Flexboxes/Flex"
 import FlexVCenter from "../../../../../components/shared/Flexboxes/FlexVCenter"
-import { ResourceDto } from "../../../../../dtos/relearn/ResourceDto"
+import { ResourceDto } from "../../../../../interfaces/dtos/relearn/ResourceDto"
 import * as relearnActions from "../../../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../../../store/store"
 import * as utilsActions from "../../../../../store/utils/utilsActions"
-import { isValidUrl } from "../../../../../utils/isValidUrl"
-import { IMoveResource } from "../../../../../utils/relearn/IMoveResource"
+import { urlIsValid } from "../../../../../utils/isValidUrl"
+import { IMoveResource } from "../../../../../interfaces/relearn/IMoveResource"
 import RateButton from "./RateButton"
 import descriptionPng from "../../../../../static/images/description.png"
 import linkPng from "../../../../../static/images/link.png"
@@ -58,7 +58,7 @@ function ResourceItem(props: Props) {
 
   const handleDeleteResource = (id: number) => {
     if (window.confirm("Confirm delete?")) {
-      myAxios.delete(`${API.relearn.resource}/${id}`).then((res) => {
+      MY_AXIOS.delete(`${API.relearn.resource}/${id}`).then((res) => {
         props.setSuccessMessage("Resource deleted!")
 
         props.removeResource(id)
@@ -232,7 +232,7 @@ function ResourceItem(props: Props) {
               </MenuItem>
             </Menu>
           </Flex>
-          {isValidUrl(props.resource.url) && (
+          {urlIsValid(props.resource.url) && (
             <Link
               className={classes.link}
               href={props.resource.url}

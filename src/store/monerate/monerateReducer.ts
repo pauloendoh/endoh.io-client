@@ -1,4 +1,4 @@
-import ExpenseGetDto from 'dtos/monerate/ExpenseGetDto';
+import ExpenseGetDto from 'interfaces/dtos/monerate/ExpenseGetDto';
 import { getHighestExpenseValue } from 'pages/Monerate/ExpenseFilter/ExpenseFilter';
 import { Reducer } from 'redux';
 import { MonerateActionReturns } from './monerateActions';

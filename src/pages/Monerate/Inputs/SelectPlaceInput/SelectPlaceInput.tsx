@@ -1,26 +1,26 @@
-import { Box, Typography } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core"
 import {
   Autocomplete,
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
-} from "@material-ui/lab";
-import FlexHCenter from "components/shared/Flexboxes/FlexHCenter";
-import FlexVCenter from "components/shared/Flexboxes/FlexVCenter";
-import MyTextField from "components/shared/MyInputs/MyTextField";
-import PlaceIcon from "components/shared/PlaceIcon";
-import React, { useState } from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { ApplicationState } from "store/store";
-import PlaceGetDto from "../../../../dtos/monerate/PlaceGetDto";
-import * as monerateActions from "../../../../store/monerate/monerateActions";
+} from "@material-ui/lab"
+import FlexHCenter from "components/shared/Flexboxes/FlexHCenter"
+import FlexVCenter from "components/shared/Flexboxes/FlexVCenter"
+import MyTextField from "components/shared/MyInputs/MyTextField"
+import PlaceIcon from "components/shared/PlaceIcon"
+import React, { useState } from "react"
+import { connect } from "react-redux"
+import { Dispatch } from "redux"
+import { ApplicationState } from "store/store"
+import PlaceGetDto from "../../../../interfaces/dtos/monerate/PlaceGetDto"
+import * as monerateActions from "../../../../store/monerate/monerateActions"
 
 const SelectPlaceInput: React.FC<Props> = (props) => {
   const initialPlace = props.value
     ? props.places.find((p) => p.id === props.value)
-    : null;
+    : null
 
-  const [place, setPlace] = useState<PlaceGetDto>(initialPlace);
+  const [place, setPlace] = useState<PlaceGetDto>(initialPlace)
 
   return (
     <Box>
@@ -39,14 +39,12 @@ const SelectPlaceInput: React.FC<Props> = (props) => {
             updatedAt: "",
           },
         ]}
-        
         renderOption={(option) => (
           <FlexVCenter>
             {option.id ? (
               <FlexVCenter>
                 <Box minWidth={30}>
-                <PlaceIcon place={option} />
-
+                  <PlaceIcon place={option} />
                 </Box>
                 <Box ml={1}>
                   <Typography variant="body2">{option.name}</Typography>
@@ -63,22 +61,22 @@ const SelectPlaceInput: React.FC<Props> = (props) => {
           <MyTextField {...params} placeholder="e.g.: Amazon" size="small" />
         )}
         onChange={(e, value) => {
-          const place = value as PlaceGetDto;
+          const place = value as PlaceGetDto
           if (place && place.id === null) {
-            props.startNewPlace();
+            props.startNewPlace()
           } else {
-            setPlace(place);
-            props.onChange(e, place, null);
+            setPlace(place)
+            props.onChange(e, place, null)
           }
         }}
       />
     </Box>
-  );
-};
+  )
+}
 
 const mapStateToProps = (state: ApplicationState) => ({
   places: state.monerate.places,
-});
+})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   // add place
@@ -86,20 +84,20 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch(monerateActions.setPlaces(places)),
 
   startNewPlace: () => dispatch(monerateActions.startNewPlace()),
-});
+})
 
 interface OwnProps {
-  value: number;
+  value: number
   onChange?: (
     event: React.ChangeEvent<{}>,
     value: unknown,
     reason: AutocompleteChangeReason,
     details?: AutocompleteChangeDetails<unknown>
-  ) => void;
+  ) => void
 }
 
 type Props = OwnProps &
   ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps>
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectPlaceInput);
+export default connect(mapStateToProps, mapDispatchToProps)(SelectPlaceInput)

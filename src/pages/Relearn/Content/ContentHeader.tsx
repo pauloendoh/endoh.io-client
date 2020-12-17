@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
-import { ResourceDto } from "../../../dtos/relearn/ResourceDto"
+import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto"
 import { ApplicationState } from "../../../store/store"
 
 function ContentHeader(props: Props) {

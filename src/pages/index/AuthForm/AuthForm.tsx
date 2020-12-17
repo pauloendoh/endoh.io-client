@@ -8,15 +8,15 @@ import {
   Typography,
 } from "@material-ui/core"
 import MyTextField from "components/shared/MyInputs/MyTextField"
-import { AuthUserGetDto } from "dtos/AuthUserGetDto"
+import { AuthUserGetDto } from "interfaces/dtos/AuthUserGetDto"
 import { Form, Formik } from "formik"
 import React, { MouseEvent, useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import * as AuthActions from "store/auth/authActions"
 import { ApplicationState } from "store/store"
-import myAxios from "../../../utils/myAxios"
-import MyAxiosError, { MyFieldError } from "../../../utils/MyAxiosError"
+import MY_AXIOS from "../../../consts/MY_AXIOS"
+import MyAxiosError, { MyFieldError } from "../../../interfaces/MyAxiosError"
 
 const AuthForm = (props: Props) => {
   const classes = useStyles()
@@ -54,8 +54,7 @@ const AuthForm = (props: Props) => {
 
             setResponseErrors([])
 
-            myAxios
-              .post<AuthUserGetDto>(endpoint, authData)
+            MY_AXIOS.post<AuthUserGetDto>(endpoint, authData)
               .then((res) => {
                 const authUser = res.data
                 props.setAuthUser(authUser)
@@ -133,7 +132,7 @@ const AuthForm = (props: Props) => {
 
               <Box mt={2}>
                 <Button
-                id="auth-submit-button"
+                  id="auth-submit-button"
                   className={classes.button}
                   type="submit"
                   variant="contained"

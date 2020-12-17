@@ -1,7 +1,7 @@
-import CategoryGetDto from '../../dtos/monerate/CategoryDtos/CategoryGetDto';
-import PlaceGetDto from '../../dtos/monerate/PlaceGetDto';
+import CategoryGetDto from '../../interfaces/dtos/monerate/CategoryDtos/CategoryGetDto';
+import PlaceGetDto from '../../interfaces/dtos/monerate/PlaceGetDto';
 import { IExpenseFilter } from 'pages/Monerate/ExpenseFilter/IExpenseFilter';
-import ExpenseGetDto from '../../dtos/monerate/ExpenseGetDto';
+import ExpenseGetDto from '../../interfaces/dtos/monerate/ExpenseGetDto';
 
 export enum monerateActionTypes {
     SET_EXPENSES = '@monerate/SET_EXPENSES',

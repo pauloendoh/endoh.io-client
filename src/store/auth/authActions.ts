@@ -1,4 +1,4 @@
-import { AuthUserGetDto } from '../../dtos/AuthUserGetDto';
+import { AuthUserGetDto } from '../../interfaces/dtos/AuthUserGetDto';
 import { AuthActionTypes } from './authTypes';
 import { action } from 'typesafe-actions'
 import { Dispatch } from 'redux';

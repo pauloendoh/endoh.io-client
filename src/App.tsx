@@ -22,7 +22,7 @@ import LandingPage from "./pages/index/LandingPage"
 import LoadingPage from "./pages/index/LoadingPage"
 import SettingsNavbar from "./pages/settings/SettingsNavbar"
 import SettingsPage from "./pages/settings/SettingsPage"
-import myTheme from "./utils/myTheme"
+import MY_THEME from "./consts/MY_THEME"
 
 const MoneratePage = lazy(
   () => import("./pages/Monerate/MoneratePage/MoneratePage")
@@ -104,7 +104,7 @@ const App = (props: Props) => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <MuiThemeProvider theme={myTheme}>
+      <MuiThemeProvider theme={MY_THEME}>
         {/* What does this do? */}
         <CssBaseline />
         {isLoading ? <LoadingPage /> : routes}

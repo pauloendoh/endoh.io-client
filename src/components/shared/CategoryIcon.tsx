@@ -1,17 +1,17 @@
-import { makeStyles, Theme } from "@material-ui/core";
-import React from "react";
-import CategoryGetDto from "../../dtos/monerate/CategoryDtos/CategoryGetDto";
-import FlexVCenter from "./Flexboxes/FlexVCenter";
+import { makeStyles, Theme } from "@material-ui/core"
+import React from "react"
+import CategoryGetDto from "../../interfaces/dtos/monerate/CategoryDtos/CategoryGetDto"
+import FlexVCenter from "./Flexboxes/FlexVCenter"
 
 // maybe merge into <CategoryPlaceIcon/> ?
 const CategoryIcon = (props: Props) => {
-  const classes = useStyles();
+  const classes = useStyles()
   return (
     <FlexVCenter className={classes.root}>
       {props.category.name[0].toUpperCase()}
     </FlexVCenter>
-  );
-};
+  )
+}
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -22,10 +22,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderRadius: 30,
     fontWeight: 600,
   },
-}));
+}))
 
 interface Props {
-  category: CategoryGetDto;
+  category: CategoryGetDto
 }
 
-export default CategoryIcon;
+export default CategoryIcon

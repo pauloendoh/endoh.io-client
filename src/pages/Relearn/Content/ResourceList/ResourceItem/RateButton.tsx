@@ -14,8 +14,8 @@ import API from "../../../../../consts/API"
 import React from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
-import myAxios from "../../../../../utils/myAxios"
-import { ResourceDto } from "../../../../../dtos/relearn/ResourceDto"
+import MY_AXIOS from "../../../../../consts/MY_AXIOS"
+import { ResourceDto } from "../../../../../interfaces/dtos/relearn/ResourceDto"
 import { ApplicationState } from "../../../../../store/store"
 import * as relearnActions from "../../../../../store/relearn/relearnActions"
 import * as utilsActions from "../../../../../store/utils/utilsActions"
@@ -40,7 +40,7 @@ function RateButton(props: Props) {
     setOpen(false)
 
     const resource = { ...props.resource, rating } as ResourceDto
-    myAxios.post<ResourceDto[]>(API.relearn.resource, resource).then((res) => {
+    MY_AXIOS.post<ResourceDto[]>(API.relearn.resource, resource).then((res) => {
       props.setResources(res.data)
 
       if (resource.rating) {

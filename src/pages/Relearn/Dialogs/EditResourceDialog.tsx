@@ -23,26 +23,25 @@ import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
 import MaskedInput from "react-text-mask"
 import { Dispatch } from "redux"
-import { isValidUrl } from "utils/isValidUrl"
-import myAxios from "utils/myAxios"
-import MyAxiosError from "utils/MyAxiosError"
-import { LinkPreviewDto } from "../../../dtos/relearn/LinkPreviewDto"
-import { ResourceDto } from "../../../dtos/relearn/ResourceDto"
-import { TagDto } from "../../../dtos/relearn/TagDto"
+import { urlIsValid } from "utils/isValidUrl"
+import MY_AXIOS from "consts/MY_AXIOS"
+import MyAxiosError from "interfaces/MyAxiosError"
+import { LinkPreviewDto } from "../../../interfaces/dtos/relearn/LinkPreviewDto"
+import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto"
+import { TagDto } from "../../../interfaces/dtos/relearn/TagDto"
 import * as relearnActions from "../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../store/store"
 import * as utilsActions from "../../../store/utils/utilsActions"
 
 const EditResourceDialog = (props: Props) => {
   const handleSubmit = (resource: ResourceDto) => {
-    myAxios
-      .post<ResourceDto[]>(API.relearn.resource, resource)
+    MY_AXIOS.post<ResourceDto[]>(API.relearn.resource, resource)
       .then((res) => {
         props.setResources(res.data)
 
         props.setSuccessMessage("Resource saved!")
 
-        myAxios.get<TagDto[]>(API.relearn.tag).then((res) => {
+        MY_AXIOS.get<TagDto[]>(API.relearn.tag).then((res) => {
           props.setTags(res.data)
         })
       })
@@ -70,15 +69,15 @@ const EditResourceDialog = (props: Props) => {
     clearTimeout(throttle)
     setThrottle(
       setTimeout(() => {
-        if (isValidUrl(url)) {
-          myAxios
-            .get<LinkPreviewDto>(API.relearn.utils.linkPreview + "?url=" + url)
-            .then((res) => {
-              const preview = res.data
+        if (urlIsValid(url)) {
+          MY_AXIOS.get<LinkPreviewDto>(
+            API.relearn.utils.linkPreview + "?url=" + url
+          ).then((res) => {
+            const preview = res.data
 
-              setFieldValue("title", preview.title)
-              setFieldValue("thumbnail", preview.image)
-            })
+            setFieldValue("title", preview.title)
+            setFieldValue("thumbnail", preview.image)
+          })
         }
       }, 200)
     )
@@ -122,7 +121,7 @@ const EditResourceDialog = (props: Props) => {
           validate={(values: ResourceDto) => {
             let errors: FormikErrors<ResourceDto> = {}
 
-            if (values.url.length > 0 && !isValidUrl(values.url)) {
+            if (values.url.length > 0 && !urlIsValid(values.url)) {
               errors.url = "Invalid URL"
             }
             return errors

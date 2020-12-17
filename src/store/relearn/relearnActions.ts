@@ -1,8 +1,8 @@
-import { ResourceDto, newResourceDto } from '../../dtos/relearn/ResourceDto';
+import { ResourceDto, newResourceDto } from '../../interfaces/dtos/relearn/ResourceDto';
 import { relearnActionTypes } from './relearnTypes';
 import { action } from 'typesafe-actions';
-import { TagDto, newTagDto } from '../../dtos/relearn/TagDto';
-import { IMoveResource } from '../../utils/relearn/IMoveResource'
+import { TagDto, newTagDto } from '../../interfaces/dtos/relearn/TagDto';
+import { IMoveResource } from '../../interfaces/relearn/IMoveResource'
 
 export const setResources = (resources: ResourceDto[]) =>
   action(relearnActionTypes.SET_RESOURCES, resources)

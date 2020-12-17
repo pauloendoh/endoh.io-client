@@ -1,8 +1,8 @@
-import CategoryGetDto from '../../dtos/monerate/CategoryDtos/CategoryGetDto';
-import PlaceGetDto from '../../dtos/monerate/PlaceGetDto';
+import CategoryGetDto from '../../interfaces/dtos/monerate/CategoryDtos/CategoryGetDto';
+import PlaceGetDto from '../../interfaces/dtos/monerate/PlaceGetDto';
 import { IExpenseFilter } from 'pages/Monerate/ExpenseFilter/IExpenseFilter';
 import { action } from 'typesafe-actions';
-import ExpenseGetDto from '../../dtos/monerate/ExpenseGetDto';
+import ExpenseGetDto from '../../interfaces/dtos/monerate/ExpenseGetDto';
 import { monerateActionTypes } from './monerateTypes';
 import { newCategory, newExpense, newPlace } from '../../utils/factories/MonerateFactories';
 

@@ -2,11 +2,10 @@ import { Box, Button, Typography } from "@material-ui/core"
 import TextSecondary from "components/shared/Text/TextSecondary"
 import PATHS from "consts/PATHS"
 import React from "react"
-import { Link, useLocation } from "react-router-dom"
+import { Link } from "react-router-dom"
 
-// PE 1/3 - Seems like it has weird responsibilities
+// PE 2/3
 const MonerateDescription = () => {
-  const location = useLocation()
   return (
     <Box maxWidth={400} id="monerate-description">
       <Typography variant="h4">Monerate</Typography>

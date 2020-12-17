@@ -1,4 +1,4 @@
-import { AuthUserGetDto } from 'dtos/AuthUserGetDto';
+import { AuthUserGetDto } from 'interfaces/dtos/AuthUserGetDto';
 
 export enum AuthActionTypes {
     SET_AUTH_USER = '@auth/SET_AUTH_USER',
@@ -6,7 +6,7 @@ export enum AuthActionTypes {
     LOGOUT = '@auth/LOGOUT'
 }
 
-export interface AuthState{
+export interface AuthState {
     user: AuthUserGetDto
 }
 

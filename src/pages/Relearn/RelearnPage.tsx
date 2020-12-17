@@ -2,16 +2,16 @@ import { Box } from "@material-ui/core"
 import Flex from "components/shared/Flexboxes/Flex"
 import API from "consts/API"
 import PATHS from "consts/PATHS"
-import { ResourceDto } from "dtos/relearn/ResourceDto"
+import { ResourceDto } from "interfaces/dtos/relearn/ResourceDto"
 import LoadingPage from "pages/index/LoadingPage"
 import React, { useEffect, useState } from "react"
 import { GlobalHotKeys } from "react-hotkeys"
 import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
-import myAxios from "utils/myAxios"
-import { sleep } from 'utils/sleep'
-import { TagDto } from "../../dtos/relearn/TagDto"
+import MY_AXIOS from "consts/MY_AXIOS"
+import { sleep } from "utils/sleep"
+import { TagDto } from "../../interfaces/dtos/relearn/TagDto"
 import * as relearnActions from "../../store/relearn/relearnActions"
 import { ApplicationState } from "../../store/store"
 import RelearnContent from "./Content/RelearnContent"
@@ -23,14 +23,9 @@ const RelearnPage = (props: Props) => {
   const [isLoadingResources, setIsLoadingResources] = useState(true)
   useEffect(
     () => {
-      
-
-      myAxios
-        .get<ResourceDto[]>(API.relearn.resource)
+      MY_AXIOS.get<ResourceDto[]>(API.relearn.resource)
         .then((res) => {
           props.setResources(res.data)
-
-          
         })
         .finally(() => {
           setIsLoadingResources(false)
@@ -52,7 +47,7 @@ const RelearnPage = (props: Props) => {
         setFilteredResources(
           props.resources.filter((resource) => resource.tag === null)
         )
-        document.title = 'Untagged - Relearn'
+        document.title = "Untagged - Relearn"
       } else if (pathname.startsWith(PATHS.relearn.tag)) {
         const tagId = Number(pathname.split("/").pop())
         if (tagId) {
@@ -71,7 +66,7 @@ const RelearnPage = (props: Props) => {
   const keyMap = { openModal: "q" }
   const handlers = {
     openModal: async () => {
-      await sleep(100)  // required so it doesn't add 'q' at the title field immediately
+      await sleep(100) // required so it doesn't add 'q' at the title field immediately
       props.startNewResource()
     },
   }

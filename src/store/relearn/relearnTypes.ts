@@ -1,5 +1,5 @@
-import { TagDto } from '../../dtos/relearn/TagDto';
-import { ResourceDto } from '../../dtos/relearn/ResourceDto';
+import { TagDto } from '../../interfaces/dtos/relearn/TagDto';
+import { ResourceDto } from '../../interfaces/dtos/relearn/ResourceDto';
 
 export enum relearnActionTypes {
     SET_RESOURCES = '@relearn/SET_RESOURCES',

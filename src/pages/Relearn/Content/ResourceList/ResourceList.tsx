@@ -2,14 +2,12 @@ import { Box, makeStyles } from "@material-ui/core"
 import React from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
-import { ResourceDto } from "../../../../dtos/relearn/ResourceDto"
+import { ResourceDto } from "../../../../interfaces/dtos/relearn/ResourceDto"
 import { ApplicationState } from "../../../../store/store"
 import ResourceItem from "./ResourceItem/ResourceItem"
 
 function ResourceList(props: Props) {
   const classes = useStyles()
-
-  const moveResource = (tagId: number, fromIndex: number, toIndex: number) => {}
 
   return (
     <Box>

@@ -1,18 +1,18 @@
-import { Box } from "@material-ui/core";
-import Flex from "components/shared/Flexboxes/Flex";
-import PATHS from "consts/PATHS";
-import React, { useEffect } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
-import PlaceSettings from "./MonerateSettings/PlaceSettings";
-import SettingsSidebar from "./SettingsSidebar";
-import CategorySettings from "./MonerateSettings/CategorySettings";
-import EditPlaceModal from "pages/Monerate/Modals/EditPlaceModal";
-import EditCategoryModal from "pages/Monerate/Modals/EditCategoryModal";
+import { Box } from "@material-ui/core"
+import Flex from "components/shared/Flexboxes/Flex"
+import PATHS from "consts/PATHS"
+import React, { useEffect } from "react"
+import { Redirect, Route, Switch } from "react-router-dom"
+import PlaceSettings from "./monerate-specific/PlaceSettings"
+import SettingsSidebar from "./SettingsSidebar"
+import CategorySettings from "./monerate-specific/CategorySettings"
+import EditPlaceModal from "pages/Monerate/Modals/EditPlaceModal"
+import EditCategoryModal from "pages/Monerate/Modals/EditCategoryModal"
 
 function SettingsPage() {
   useEffect(() => {
-    document.title = "Settings";
-  }, []);
+    document.title = "Settings"
+  }, [])
 
   return (
     <Flex height="100%">
@@ -39,7 +39,7 @@ function SettingsPage() {
       <EditPlaceModal />
       <EditCategoryModal />
     </Flex>
-  );
+  )
 }
 
-export default SettingsPage;
+export default SettingsPage

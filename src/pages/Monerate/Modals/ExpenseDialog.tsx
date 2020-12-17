@@ -18,26 +18,29 @@ import Rating from "@material-ui/lab/Rating"
 import Flex from "components/shared/Flexboxes/Flex"
 import MyCurrencyInput from "components/shared/MyInputs/MyCurrencyInput"
 import MyTextField from "components/shared/MyInputs/MyTextField"
-import CategoryGetDto from "dtos/monerate/CategoryDtos/CategoryGetDto"
-import PlaceGetDto from "dtos/monerate/PlaceGetDto"
+import CategoryGetDto from "interfaces/dtos/monerate/CategoryDtos/CategoryGetDto"
+import PlaceGetDto from "interfaces/dtos/monerate/PlaceGetDto"
 import { Form, Formik } from "formik"
 import React, { useEffect, useState } from "react"
 import { GlobalHotKeys } from "react-hotkeys"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import { ApplicationState } from "store/store"
-import myAxios from "utils/myAxios"
+import MY_AXIOS from "consts/MY_AXIOS"
 import API from "../../../consts/API"
 import ExpenseGetDto, {
   newExpenseDto,
-} from "../../../dtos/monerate/ExpenseGetDto"
-import ExpensePostDto from "../../../dtos/monerate/ExpensePostDto"
+} from "../../../interfaces/dtos/monerate/ExpenseGetDto"
+import ExpensePostDto from "../../../interfaces/dtos/monerate/ExpensePostDto"
 import * as monerateActions from "../../../store/monerate/monerateActions"
 import SelectCategoryInput from "../Inputs/SelectCategoryInput/SelectCategoryInput"
 import SelectPlaceInput from "../Inputs/SelectPlaceInput/SelectPlaceInput"
 
-// PE 1/3 ?
-const EditExpenseModal = (props: Props) => {
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>
+
+// PE 1/3
+const ExpenseDialog = (props: Props) => {
   // 20201215 - Actually, I can change rating inside formik values, using setFieldValue
   const [rating, setRating] = React.useState(0)
   const [formikInitialValues, setFormikInitialValues] = useState<
@@ -88,8 +91,7 @@ const EditExpenseModal = (props: Props) => {
     values.value = parseFloat(values.value as any)
     values.rating = rating
 
-    myAxios
-      .post<ExpenseGetDto>("/monerate/expense", values)
+    MY_AXIOS.post<ExpenseGetDto>("/monerate/expense", values)
       .then((res) => {
         props.addOrUpdateExpense(res.data)
       })
@@ -101,8 +103,7 @@ const EditExpenseModal = (props: Props) => {
 
   const handleConfirmDelete = (id: number) => {
     if (window.confirm("Delete this expense?")) {
-      myAxios
-        .delete(`${API.monerate.expense}/${id}`)
+      MY_AXIOS.delete(`${API.monerate.expense}/${id}`)
         .then((res) => {
           props.removeExpense(id)
         })
@@ -327,6 +328,7 @@ const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
   )
 })
 
+// PE 1/3 ? do I use this? Do I need this?
 const DialogContent = withStyles((theme: Theme) => ({
   root: {
     paddingLeft: theme.spacing(2),
@@ -348,7 +350,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   closeExpenseModal: () => dispatch(monerateActions.closeExpenseModal()),
 })
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
-
-export default connect(mapStateToProps, mapDispatchToProps)(EditExpenseModal)
+export default connect(mapStateToProps, mapDispatchToProps)(ExpenseDialog)

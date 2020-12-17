@@ -1,11 +1,10 @@
-import { ResourceDto } from '../../dtos/relearn/ResourceDto';
 import { Reducer } from 'redux';
+import API from '../../consts/API';
+import MY_AXIOS from '../../consts/MY_AXIOS';
+import { ResourceDto } from '../../interfaces/dtos/relearn/ResourceDto';
+import { IMoveResource } from '../../interfaces/relearn/IMoveResource';
 import { RelearnActionReturns } from './relearnActions';
 import { relearnActionTypes, RelearnState } from './relearnTypes';
-import { sleep } from '../../utils/sleep'
-import { IMoveResource } from '../../utils/relearn/IMoveResource'
-import myAxios from '../../utils/myAxios';
-import API from '../../consts/API'
 
 const INITIAL_STATE: RelearnState = {
   resources: [],
@@ -102,7 +101,7 @@ const moveResource = (state: RelearnState, params: IMoveResource): RelearnState 
 
   resources = otherResources.concat(resources)
 
-  myAxios.post(API.relearn.resource + '/resources', resources)
+  MY_AXIOS.post(API.relearn.resource + '/resources', resources)
     .then(res => {
 
     })

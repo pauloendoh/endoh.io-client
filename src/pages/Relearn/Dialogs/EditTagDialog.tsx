@@ -11,15 +11,15 @@ import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Redirect } from "react-router-dom"
 import { Dispatch } from "redux"
-import MyAxiosError from "utils/MyAxiosError"
+import MyAxiosError from "interfaces/MyAxiosError"
 import Flex from "../../../components/shared/Flexboxes/Flex"
 import MyTextField from "../../../components/shared/MyInputs/MyTextField"
 import API from "../../../consts/API"
-import { TagDto } from "../../../dtos/relearn/TagDto"
+import { TagDto } from "../../../interfaces/dtos/relearn/TagDto"
 import * as relearnActions from "../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../store/store"
 import * as utilsActions from "../../../store/utils/utilsActions"
-import myAxios from "../../../utils/myAxios"
+import MY_AXIOS from "../../../consts/MY_AXIOS"
 
 const EditTagDialog = (props: Props) => {
   const [redirectTo, setRedirectTo] = useState("")
@@ -28,8 +28,7 @@ const EditTagDialog = (props: Props) => {
   }, [props.editingTag])
 
   const handleSubmit = (sentTag: TagDto) => {
-    myAxios
-      .post<TagDto[]>(API.relearn.tag, sentTag)
+    MY_AXIOS.post<TagDto[]>(API.relearn.tag, sentTag)
       .then((res) => {
         props.setTags(res.data)
         props.setSuccessMessage("Tag saved!")

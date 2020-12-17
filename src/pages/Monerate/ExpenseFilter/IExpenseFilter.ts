@@ -1,6 +1,4 @@
-import PlaceGetDto from '../../../dtos/monerate/PlaceGetDto';
-import ExpenseGetDto from '../../../dtos/monerate/ExpenseGetDto'
-import CategoryGetDto from '../../../dtos/monerate/CategoryDtos/CategoryGetDto';
+import ExpenseGetDto from '../../../interfaces/dtos/monerate/ExpenseGetDto';
 
 export interface IExpenseFilter {
     placeId: number,

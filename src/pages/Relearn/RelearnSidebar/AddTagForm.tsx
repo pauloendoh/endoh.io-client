@@ -2,12 +2,12 @@ import { Box, Button } from "@material-ui/core"
 import Flex from "components/shared/Flexboxes/Flex"
 import MyTextField from "components/shared/MyInputs/MyTextField"
 import API from "consts/API"
-import { newTagDto, TagDto } from "dtos/relearn/TagDto"
+import { newTagDto, TagDto } from "interfaces/dtos/relearn/TagDto"
 import { Form, Formik } from "formik"
 import React from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
-import myAxios from "utils/myAxios"
+import MY_AXIOS from "consts/MY_AXIOS"
 import * as relearnActions from "../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../store/store"
 
@@ -17,8 +17,7 @@ function AddTagForm(props: Props) {
       <Formik
         initialValues={newTagDto()}
         onSubmit={(formikValues, { setSubmitting }) => {
-          myAxios
-            .post<TagDto[]>(API.relearn.tag, formikValues)
+          MY_AXIOS.post<TagDto[]>(API.relearn.tag, formikValues)
             .then((res) => {
               props.setTags(res.data)
             })

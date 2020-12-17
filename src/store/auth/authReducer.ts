@@ -1,7 +1,7 @@
 import { AuthState, AuthActionTypes } from './authTypes';
 import { Reducer } from 'redux'
 import { AuthActionReturns } from './authActions';
-import { AuthUserGetDto } from 'dtos/AuthUserGetDto';
+import { AuthUserGetDto } from 'interfaces/dtos/AuthUserGetDto';
 
 const INITIAL_STATE: AuthState = {
   user: null

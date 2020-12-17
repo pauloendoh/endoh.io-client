@@ -23,10 +23,10 @@ import { Link, useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
 import { getTodoResources } from "utils/relearn/getTodoResources"
 import API from "../../../consts/API"
-import { TagDto } from "../../../dtos/relearn/TagDto"
+import MY_AXIOS from "../../../consts/MY_AXIOS"
+import { TagDto } from "../../../interfaces/dtos/relearn/TagDto"
 import * as relearnActions from "../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../store/store"
-import myAxios from "../../../utils/myAxios"
 import AddTagForm from "./AddTagForm"
 import TagListItem from "./TagListItem"
 
@@ -46,14 +46,10 @@ function RelearnSidebar(props: Props) {
   }
 
   const [tagFormIsOpen, setTagFormIsOpen] = useState(false)
-  const handleClickAddTag = () => {
-    setTagFormIsOpen(!tagFormIsOpen)
-  }
 
-  const [isLoadingTags, setIsLoadingTags] = useState(true)
   useEffect(
     () => {
-      myAxios.get<TagDto[]>(API.relearn.tag).then((res) => {
+      MY_AXIOS.get<TagDto[]>(API.relearn.tag).then((res) => {
         props.setTags(res.data)
       })
     },
