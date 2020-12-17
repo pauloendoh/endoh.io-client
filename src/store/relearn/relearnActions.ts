@@ -29,6 +29,8 @@ export const closeTagDialog = () => action(relearnActionTypes.SET_EDITING_TAG, n
 export const moveResource = (moveResourceObj: IMoveResource) => action(relearnActionTypes.MOVE_RESOURCE,
   moveResourceObj)
 
+export const clearRelearnReducer = () => action(relearnActionTypes.CLEAR_RELEARN_REDUCER)
+
 
 
 // PE 2/3 - Perigo da pessoa esquecer de colocar aqui....
@@ -47,6 +49,8 @@ export type RelearnActionReturns =
   ReturnType<typeof editTag> |
   ReturnType<typeof closeTagDialog> |
 
-  ReturnType<typeof moveResource>
+  ReturnType<typeof moveResource> |
+
+  ReturnType<typeof clearRelearnReducer>
 
 

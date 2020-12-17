@@ -70,7 +70,6 @@ function RateButton(props: Props) {
                 onChangeActive={(event, newHover) => {
                   if (newHover === rating) {
                     setHover(0)
-                    
                   } else {
                     setHover(newHover)
                   }
@@ -106,7 +105,7 @@ function RateButton(props: Props) {
 }
 
 const labels: { [index: string]: string } = {
-  0: "Remove",
+  0: "Unrate",
   1: "Useless",
   2: "Poor",
   3: "Ok",

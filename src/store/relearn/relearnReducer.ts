@@ -31,6 +31,9 @@ const relearnReducer: Reducer<RelearnState, RelearnActionReturns> = (state = INI
       return { ...state, editingTag: action.payload }
     case relearnActionTypes.MOVE_RESOURCE:
       return moveResource(state, action.payload)
+
+    case relearnActionTypes.CLEAR_RELEARN_REDUCER:
+      return { ...INITIAL_STATE }
     default:
       return { ...state }
   }

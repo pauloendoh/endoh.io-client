@@ -1,17 +1,17 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Box, Button, createStyles, makeStyles, Theme, Tooltip } from "@material-ui/core"
+import { Box, Button, Tooltip } from "@material-ui/core"
 import FlexVCenter from "components/shared/Flexboxes/FlexVCenter"
 import React from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import Flex from "../../components/shared/Flexboxes/Flex"
-import { ApplicationState } from "../../store/store"
 import * as relearnActions from "../../store/relearn/relearnActions"
+import { ApplicationState } from "../../store/store"
 
 function RelearnNavbarContent(props: Props) {
   return (
-    <Flex>
+    <Flex ml={5}>
       <Tooltip title="(q) Quick Add Resource">
         <Button
           variant="contained"
@@ -29,7 +29,7 @@ function RelearnNavbarContent(props: Props) {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) => createStyles({}))
+// const useStyles = makeStyles((theme: Theme) => createStyles({}))
 
 const mapStateToProps = (state: ApplicationState) => ({
   // user: state.auth.user,

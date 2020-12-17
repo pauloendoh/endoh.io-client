@@ -1,9 +1,3 @@
-import DateFnsUtils from "@date-io/date-fns"
-
-import {
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider,
-} from "@material-ui/pickers"
 import {
   Box,
   Button,
@@ -19,25 +13,25 @@ import {
 import Chip from "@material-ui/core/Chip"
 import { Autocomplete } from "@material-ui/lab"
 import Flex from "components/shared/Flexboxes/Flex"
+import FlexVCenter from "components/shared/Flexboxes/FlexVCenter"
 import MyTextField from "components/shared/MyInputs/MyTextField"
 import API from "consts/API"
+import PATHS from "consts/PATHS"
 import { Form, Formik, FormikErrors } from "formik"
 import React, { useState } from "react"
 import { connect } from "react-redux"
+import { useLocation } from "react-router-dom"
+import MaskedInput from "react-text-mask"
 import { Dispatch } from "redux"
+import { isValidUrl } from "utils/isValidUrl"
 import myAxios from "utils/myAxios"
+import MyAxiosError from "utils/MyAxiosError"
+import { LinkPreviewDto } from "../../../dtos/relearn/LinkPreviewDto"
 import { ResourceDto } from "../../../dtos/relearn/ResourceDto"
 import { TagDto } from "../../../dtos/relearn/TagDto"
 import * as relearnActions from "../../../store/relearn/relearnActions"
-import * as utilsActions from "../../../store/utils/utilsActions"
 import { ApplicationState } from "../../../store/store"
-import { LinkPreviewDto } from "../../../dtos/relearn/LinkPreviewDto"
-import MyAxiosError from "utils/MyAxiosError"
-import { useLocation } from "react-router-dom"
-import PATHS from "consts/PATHS"
-import { isValidUrl } from "utils/isValidUrl"
-import FlexVCenter from "components/shared/Flexboxes/FlexVCenter"
-import MaskedInput from "react-text-mask"
+import * as utilsActions from "../../../store/utils/utilsActions"
 
 const EditResourceDialog = (props: Props) => {
   const handleSubmit = (resource: ResourceDto) => {
@@ -161,8 +155,6 @@ const EditResourceDialog = (props: Props) => {
                   )}
 
                   <Box flexGrow={1}>
-                   
-
                     <Box>
                       <MyTextField
                         id="title"
@@ -174,6 +166,7 @@ const EditResourceDialog = (props: Props) => {
                         onChange={handleChange}
                         fullWidth
                         autoFocus
+                        multiline
                       />
                     </Box>
                     <Box mt={2}>
@@ -191,7 +184,7 @@ const EditResourceDialog = (props: Props) => {
                         fullWidth
                         label="URL"
                         error={errors?.url?.length > 0}
-                        
+                        multiline
                       />
                     </Box>
                     <FlexVCenter justifyContent="space-between">
@@ -231,7 +224,7 @@ const EditResourceDialog = (props: Props) => {
                         }}
                       />
                     </Grid>
-                    <Grid item xs={6} sm={3} >
+                    <Grid item xs={6} sm={3}>
                       {/* <Typography component="legend">Due Date</Typography> */}
                       <MyTextField
                         type="date"
@@ -243,8 +236,6 @@ const EditResourceDialog = (props: Props) => {
                         InputLabelProps={{ shrink: true }}
                         fullWidth
                       />
-
-                  
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <Autocomplete
@@ -283,6 +274,7 @@ const EditResourceDialog = (props: Props) => {
                     variant="contained"
                     color="primary"
                     id="save-resource-button"
+                    disabled={isSubmitting}
                   >
                     Save
                   </Button>

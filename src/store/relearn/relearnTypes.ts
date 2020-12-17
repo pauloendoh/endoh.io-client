@@ -14,6 +14,9 @@ export enum relearnActionTypes {
 
     MOVE_RESOURCE = '@relearn/MOVE_RESOURCE',
 
+
+    CLEAR_RELEARN_REDUCER = '@relearn/CLEAR_RELEARN_REDUCER',
+
 }
 
 export interface RelearnState {

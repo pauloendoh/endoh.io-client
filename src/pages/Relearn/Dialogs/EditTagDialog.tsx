@@ -5,9 +5,11 @@ import {
   DialogContent,
   DialogTitle,
 } from "@material-ui/core"
+import PATHS from "consts/PATHS"
 import { Form, Formik } from "formik"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
+import { Redirect } from "react-router-dom"
 import { Dispatch } from "redux"
 import MyAxiosError from "utils/MyAxiosError"
 import Flex from "../../../components/shared/Flexboxes/Flex"
@@ -15,17 +17,26 @@ import MyTextField from "../../../components/shared/MyInputs/MyTextField"
 import API from "../../../consts/API"
 import { TagDto } from "../../../dtos/relearn/TagDto"
 import * as relearnActions from "../../../store/relearn/relearnActions"
-import * as utilsActions from "../../../store/utils/utilsActions"
 import { ApplicationState } from "../../../store/store"
+import * as utilsActions from "../../../store/utils/utilsActions"
 import myAxios from "../../../utils/myAxios"
 
 const EditTagDialog = (props: Props) => {
-  const handleSubmit = (tag: TagDto) => {
+  const [redirectTo, setRedirectTo] = useState("")
+  useEffect(() => {
+    setRedirectTo("") // Avoids bug which redirects to the previously open tag dialog
+  }, [props.editingTag])
+
+  const handleSubmit = (sentTag: TagDto) => {
     myAxios
-      .post<TagDto[]>(API.relearn.tag, tag)
+      .post<TagDto[]>(API.relearn.tag, sentTag)
       .then((res) => {
         props.setTags(res.data)
-        props.setSuccessMessage('Tag saved!')
+        props.setSuccessMessage("Tag saved!")
+
+        const tags = res.data
+        const savedTagId = tags.find((t) => t.name === sentTag.name).id
+        setRedirectTo(PATHS.relearn.tag + "/" + savedTagId)
       })
       .catch((err: MyAxiosError) => {
         props.setErrorMessage(err.response.data.errors[0].message)
@@ -37,7 +48,9 @@ const EditTagDialog = (props: Props) => {
 
   return (
     <Dialog
-      onClose={() => props.closeTagDialog()}
+      onClose={() => {
+        props.closeTagDialog()
+      }}
       open={!!props.editingTag}
       fullWidth
       maxWidth="xs"
@@ -56,7 +69,7 @@ const EditTagDialog = (props: Props) => {
               <DialogContent>
                 <Box>
                   <MyTextField
-                  data-testid="tag-name-input"
+                    data-testid="tag-name-input"
                     id="name"
                     name="name"
                     value={values.name}
@@ -94,6 +107,8 @@ const EditTagDialog = (props: Props) => {
           )}
         </Formik>
       </Box>
+
+      {redirectTo.length > 0 && <Redirect to={redirectTo} />}
     </Dialog>
   )
 }

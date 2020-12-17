@@ -16,6 +16,8 @@ export enum monerateActionTypes {
     SET_EDITING_EXPENSE = '@monerate/SET_EDITING_EXPENSE',
     SET_EDITING_PLACE = '@monerate/SET_EDITING_PLACE',
     SET_EDITING_CATEGORY = '@monerate/SET_EDITING_CATEGORY',
+
+    CLEAR_MONERATE_REDUCER = '@monerate/CLEAR_MONERATE_REDUCER',
 }
 
 export interface MonerateState {

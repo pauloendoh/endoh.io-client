@@ -43,6 +43,9 @@ const monerateReducer: Reducer<MonerateState, MonerateActionReturns> = (state = 
       return { ...state, editingPlace: action.payload }
     case monerateActionTypes.SET_EDITING_CATEGORY:
       return { ...state, editingCategory: action.payload }
+
+    case monerateActionTypes.CLEAR_MONERATE_REDUCER:
+      return { ...INITIAL_STATE }
     default:
       return { ...state }
   }

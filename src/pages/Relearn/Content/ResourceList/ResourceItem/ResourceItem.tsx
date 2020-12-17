@@ -8,12 +8,16 @@ import {
   MenuItem,
   Typography,
 } from "@material-ui/core"
+import RootRef from "@material-ui/core/RootRef"
 import DeleteIcon from "@material-ui/icons/Delete"
 import EditIcon from "@material-ui/icons/Edit"
+import EventIcon from "@material-ui/icons/Event"
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
+import ScheduleIcon from "@material-ui/icons/Schedule"
 import API from "consts/API"
 import { DateTime } from "luxon"
 import React, { useRef, useState } from "react"
+import { useDrag, useDrop } from "react-dnd"
 import { connect } from "react-redux"
 import TimeAgo from "react-timeago"
 import { Dispatch } from "redux"
@@ -25,12 +29,10 @@ import * as relearnActions from "../../../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../../../store/store"
 import * as utilsActions from "../../../../../store/utils/utilsActions"
 import { isValidUrl } from "../../../../../utils/isValidUrl"
-import RateButton from "./RateButton"
-import { useDrag, useDrop } from "react-dnd"
-import styled from "styled-components"
-import RootRef from "@material-ui/core/RootRef"
 import { IMoveResource } from "../../../../../utils/relearn/IMoveResource"
-import { warn } from "console"
+import RateButton from "./RateButton"
+import descriptionPng from "../../../../../static/images/description.png"
+import linkPng from "../../../../../static/images/link.png"
 
 // PE 1/3
 function ResourceItem(props: Props) {
@@ -64,6 +66,29 @@ function ResourceItem(props: Props) {
     }
   }
 
+  const getThumbnailSrc = (resource: ResourceDto): string => {
+    if (resource.thumbnail.length) {
+      return resource.thumbnail
+    }
+
+    if (resource.url.length) {
+      return linkPng
+    }
+    return descriptionPng
+  }
+
+  const validateEstimatedTime = (estimatedTime: string) => {
+    if (
+      // invalid estimated times
+      estimatedTime === "  :  h" ||
+      estimatedTime === "00:00h" ||
+      estimatedTime === ""
+    ) {
+      return false
+    }
+    return true
+  }
+
   const [{ isDragging }, dragRef] = useDrag({
     item: { type: "CARD", index: props.index },
     collect: (monitor) => ({ isDragging: monitor.isDragging() }),
@@ -71,7 +96,6 @@ function ResourceItem(props: Props) {
 
   const ref = useRef<HTMLDivElement>()
 
-  const [throttle, setThrottle] = useState<NodeJS.Timeout>(null)
   const [, dropRef] = useDrop({
     accept: "CARD",
     hover(item, monitor) {
@@ -126,16 +150,22 @@ function ResourceItem(props: Props) {
           (isDragging ? classes.isDragging : "")
         }
       >
-        {/* PE 2/3 - Thumbnail */}
-        <Box mr={2} minWidth={100} width={100}>
-          {props.resource.thumbnail?.length > 0 && (
+        {/* PE 1/3 - DRY */}
+        <Box mr={2} minWidth={75} width={75}>
+          {props.resource.url.length > 0 ? (
             <Link href={props.resource.url} target="_blank">
               <img
                 style={{ width: "100%" }}
                 alt={props.resource.thumbnail}
-                src={props.resource.thumbnail}
+                src={getThumbnailSrc(props.resource)}
               />
             </Link>
+          ) : (
+            <img
+              style={{ width: "100%" }}
+              alt={props.resource.thumbnail}
+              src={getThumbnailSrc(props.resource)}
+            />
           )}
         </Box>
 
@@ -210,7 +240,7 @@ function ResourceItem(props: Props) {
             </Link>
           )}
 
-          <Flex my={2}>
+          <Flex my={1}>
             {props.resource.completedAt.length ? (
               <FlexVCenter>
                 Completed&nbsp;
@@ -218,13 +248,30 @@ function ResourceItem(props: Props) {
               </FlexVCenter>
             ) : (
               <FlexVCenter>
-                <Box pr={2}>{props.resource.estimatedTime}</Box>
+                {validateEstimatedTime(props.resource.estimatedTime) && (
+                  <FlexVCenter pr={2}>
+                    <FlexVCenter mr={1}>
+                      <ScheduleIcon fontSize="small" />
+                    </FlexVCenter>
+                    {props.resource.estimatedTime}
+                  </FlexVCenter>
+                )}
+
                 {props.resource.dueDate.length > 0 && (
-                  <Box pl={2} borderLeft="1px solid rgb(255 255 255)">
+                  <FlexVCenter
+                    className={
+                      validateEstimatedTime(props.resource.estimatedTime)
+                        ? classes.dueDateBox
+                        : ""
+                    }
+                  >
+                    <FlexVCenter mr={1}>
+                      <EventIcon fontSize="small" />
+                    </FlexVCenter>
                     {DateTime.fromISO(props.resource.dueDate).toFormat(
                       "LLL dd"
                     )}
-                  </Box>
+                  </FlexVCenter>
                 )}
               </FlexVCenter>
             )}
@@ -253,7 +300,10 @@ const useStyles = makeStyles((theme) => ({
     // background: "transparent",
     // p, img, header {opacity: 0}
   },
-
+  dueDateBox: {
+    paddingLeft: 16,
+    borderLeft: "1px solid rgb(255 255 255)",
+  },
   listItemIcon: {
     width: 16,
   },
