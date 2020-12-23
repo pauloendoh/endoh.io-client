@@ -11,18 +11,16 @@ import utilsReducer from './utils/utilsReducer';
 
 
 export interface ApplicationState {
-    auth: AuthState, 
+    auth: AuthState,
     monerate: MonerateState,
     relearn: RelearnState,
     utils: UtilsState
 }
 
-
-
 const rootReducer = combineReducers({
-    auth: authReducer, 
-    monerate: monerateReducer, 
-    relearn: relearnReducer, 
+    auth: authReducer,
+    monerate: monerateReducer,
+    relearn: relearnReducer,
     utils: utilsReducer
 })
 

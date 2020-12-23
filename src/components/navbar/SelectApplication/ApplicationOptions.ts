@@ -15,15 +15,17 @@ export const applicationOptions: IApplicationOption[] =
         faIcon: faHome
     },
     {
-        applicationName: 'Monerate',
-        path: '/monerate',
-        faIcon: faFunnelDollar
-    },
-    {
         applicationName: 'Relearn',
         path: '/relearn',
         faIcon: faGraduationCap
     },
+
+    {
+        applicationName: 'Monerate',
+        path: '/monerate',
+        faIcon: faFunnelDollar
+    },
+
     ]
 
 export const getCurrentApplicationByPath = (path: string): IApplicationOption => {

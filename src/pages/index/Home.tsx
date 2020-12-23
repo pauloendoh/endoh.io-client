@@ -15,10 +15,11 @@ function Home(props: Props) {
   return (
     <Container maxWidth="lg">
       <Box mt={10}>
-        <MonerateDescription />
-      </Box>
-      <Box mt={10}>
         <RelearnDescription />
+      </Box>
+
+      <Box mt={10}>
+        <MonerateDescription />
       </Box>
     </Container>
   )

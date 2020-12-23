@@ -26,7 +26,7 @@ const LandingPage = () => {
         </Box>
         <Box mt={20} textAlign="center">
           <ScrollLink
-            to="monerate-description"
+            to="relearn-description"
             spy={true}
             smooth={true}
             offset={-70}
@@ -42,12 +42,15 @@ const LandingPage = () => {
             </Button>
           </ScrollLink>
         </Box>
-        <Box mt={10}>
-          <MonerateDescription />
-        </Box>
+
         <Box mt={10}>
           <RelearnDescription />
         </Box>
+
+        <Box mt={10}>
+          <MonerateDescription />
+        </Box>
+
         <Box mt={15} pb={5}>
           <FooterDescription />
         </Box>
