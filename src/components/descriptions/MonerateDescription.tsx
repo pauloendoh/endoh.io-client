@@ -11,7 +11,7 @@ const MonerateDescription = () => {
       <Grid item xs={12} sm={4}>
         <Typography variant="h4">Monerate</Typography>
         <Typography variant="subtitle1">
-          A <TextSecondary>budget tool</TextSecondary> where I can rate my
+          A <TextSecondary>budget tool</TextSecondary> where you can rate your
           expenses
         </Typography>
 

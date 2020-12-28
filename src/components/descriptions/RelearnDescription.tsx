@@ -11,7 +11,7 @@ const RelearnDescription = () => {
       <Grid item xs={12} sm={4}>
         <Typography variant="h4">Relearn</Typography>
         <Typography variant="subtitle1">
-          A <TextSecondary>TO-DO list</TextSecondary> of learning resources
+          A <TextSecondary>TO-DO list</TextSecondary> for self-learners
         </Typography>
 
         <Box mt={2}>

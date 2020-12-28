@@ -1,4 +1,5 @@
 import { Box, Typography } from "@material-ui/core"
+import FlexHCenter from "components/shared/Flexboxes/FlexHCenter"
 import React from "react"
 import Flex from "../shared/Flexboxes/Flex"
 import TextPrimary from "../shared/Text/TextPrimary"
@@ -14,12 +15,12 @@ const LandingPageDescription = () => {
           {`/>`}
         </Flex>
       </Typography>
-      <Box>
+      <FlexHCenter>
         {/* TODO: create a utils/SecondaryTxt */}
         <Typography variant="subtitle1">
-          My personal<TextSecondary> web development sandbox</TextSecondary>
+          A suite of <TextSecondary>self-awareness</TextSecondary> tools
         </Typography>
-      </Box>
+      </FlexHCenter>
     </Box>
   )
 }
