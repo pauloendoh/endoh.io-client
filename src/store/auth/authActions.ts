@@ -16,25 +16,20 @@ const usingGoogleSession = () => action(AuthActionTypes.USING_GOOGLE_SESSION)
 
 export function checkAuthOrLogoutActionCreator(dispatch: Dispatch) {
   const userLocalStorage = localStorage.getItem('user')
-  const googleSession = getCookie('endoh_google_session')
+  // const googleSession = getCookie('endoh_google_session')
 
   if (!userLocalStorage) {
-    if (googleSession?.length) {
-      MY_AXIOS.get<AuthUserGetDto>(API.auth.googleLogin, {
-        withCredentials: true
+    MY_AXIOS.get<AuthUserGetDto>(API.auth.googleLogin, {
+      withCredentials: true
 
-      }).then((res) => {
-        deleteCookie('endoh_google_session')
+    }).then((res) => {
+      // deleteCookie('endoh_google_session')
 
-        localStorage.setItem('user', JSON.stringify(res.data))
-        window.location.reload()
-      })
-    } else {
-      return logout()
-    }
-  }
+      const user = res.data
+      localStorage.setItem('user', JSON.stringify(user))
+      dispatch(setAuthUser(user))
+    })
 
-  if (googleSession?.length) {
     return usingGoogleSession()
   }
   else {
