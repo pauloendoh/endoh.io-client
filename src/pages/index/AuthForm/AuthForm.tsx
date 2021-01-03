@@ -17,12 +17,20 @@ import * as AuthActions from "store/auth/authActions"
 import { ApplicationState } from "store/store"
 import MY_AXIOS from "../../../consts/MY_AXIOS"
 import MyAxiosError, { MyFieldError } from "../../../interfaces/MyAxiosError"
+import API from "../../../consts/API"
+require('dotenv').config()
 
 const AuthForm = (props: Props) => {
   const classes = useStyles()
 
   const [signupIsSelected, setSignupIsSelected] = useState(false)
   const [responseErrors, setResponseErrors] = useState([] as MyFieldError[])
+
+  const handleGoogleSignIn = () => {
+    // Authenticate using via passport api in the backend
+    // Open Twitter login page
+    window.open(process.env.REACT_APP_API_URL + "auth/google", "_self")
+  }
 
   return (
     <Box display="flex">
@@ -187,6 +195,12 @@ const AuthForm = (props: Props) => {
               </Link>
             </Box>
           )}
+        </Box>
+        <Box>
+          Or enter via
+          <Box>
+            <Button onClick={handleGoogleSignIn}>Google</Button>
+          </Box>
         </Box>
       </Paper>
     </Box>

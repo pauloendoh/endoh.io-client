@@ -4,24 +4,52 @@ import { action } from 'typesafe-actions'
 import { Dispatch } from 'redux';
 import { relearnActionTypes } from '../relearn/relearnTypes';
 import { monerateActionTypes } from '../monerate/monerateTypes';
+import { deleteCookie } from '../../utils/cookie/deleteCookie'
+import { getCookie } from '../../utils/cookie/getCookie'
+import MY_AXIOS from '../../consts/MY_AXIOS';
+import API from '../../consts/API';
 
 export const setAuthUser = (authUser: AuthUserGetDto) => action(AuthActionTypes.SET_AUTH_USER, authUser)
 const logout = () => action(AuthActionTypes.LOGOUT)
 
+const usingGoogleSession = () => action(AuthActionTypes.USING_GOOGLE_SESSION)
 
-export const checkAuthOrLogoutActionCreator = (dispatch: Dispatch) => {
-  const userStr = localStorage.getItem('user')
-  if (!userStr)
-    return logout()
+export function checkAuthOrLogoutActionCreator(dispatch: Dispatch) {
+  const userLocalStorage = localStorage.getItem('user')
+  const googleSession = getCookie('endoh_google_session')
 
-  const user: AuthUserGetDto = JSON.parse(userStr)
-  if (new Date(user.expiresAt) <= new Date())
-    return logout()
+  if (!userLocalStorage) {
+    if (googleSession?.length) {
+      MY_AXIOS.get<AuthUserGetDto>(API.auth.googleLogin, {
+        withCredentials: true
 
-  return setAuthUser(user)
+      }).then((res) => {
+        deleteCookie('endoh_google_session')
+
+        localStorage.setItem('user', JSON.stringify(res.data))
+        window.location.reload()
+      })
+    } else {
+      return logout()
+    }
+  }
+
+  if (googleSession?.length) {
+    return usingGoogleSession()
+  }
+  else {
+    const user: AuthUserGetDto = JSON.parse(userLocalStorage)
+    if (new Date(user.expiresAt) <= new Date())
+      return logout()
+
+    return setAuthUser(user)
+  }
 }
 
 export const logoutActionCreator = (dispatch: Dispatch) => {
+
+  deleteCookie('endoh_google_session')
+
   // dispatching other actions
   dispatch(action(relearnActionTypes.CLEAR_RELEARN_REDUCER))
   dispatch(action(monerateActionTypes.CLEAR_MONERATE_REDUCER))
@@ -30,4 +58,5 @@ export const logoutActionCreator = (dispatch: Dispatch) => {
 
 export type AuthActionReturns =
   ReturnType<typeof setAuthUser> |
-  ReturnType<typeof logout> 
+  ReturnType<typeof logout> |
+  ReturnType<typeof usingGoogleSession>

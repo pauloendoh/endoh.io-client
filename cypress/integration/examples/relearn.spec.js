@@ -34,7 +34,7 @@ context('Relearn', () => {
   })
 
 
-  it('should create and delete resource', () => {
+  it('create and delete resource', () => {
     cy.get('#add-resource-button').click()
     cy.get('[aria-label="resource-title-input"]').type('resource 1')
     cy.get('#save-resource-button').click()

@@ -14,6 +14,8 @@ const authReducer: Reducer<AuthState, AuthActionReturns> = (state = INITIAL_STAT
 
     case AuthActionTypes.LOGOUT:
       return logout(state)
+    case AuthActionTypes.USING_GOOGLE_SESSION:
+      return { ...state }
     default:
       return { ...state }
     // case AuthTypes.CHECK_USER_OR_LOGOUT:
@@ -33,8 +35,6 @@ const setAuthUser = (state: AuthState, authUser: AuthUserGetDto): AuthState => {
 
   return { ...state, user: authUser }
 }
-
-
 
 const logout = (state: AuthState): AuthState => {
   localStorage.removeItem('user')
