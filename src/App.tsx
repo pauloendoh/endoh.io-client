@@ -34,6 +34,7 @@ const RelearnPage = lazy(() => import("./pages/Relearn/RelearnPage"))
 const App = (props: Props) => {
   // 0.1s is enough time to check for auth user
   const [isLoading, setIsLoading] = useState(true)
+  const location = useLocation()
 
   useEffect(() => {
     props.checkAuthOrLogout()
@@ -58,7 +59,6 @@ const App = (props: Props) => {
     [props.user]
   )
 
-  const location = useLocation()
 
   // PE 2/3 - Not very scalable...
   let redirectAfterLogout = "/"

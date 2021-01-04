@@ -19,16 +19,24 @@ export function checkAuthOrLogoutActionCreator(dispatch: Dispatch) {
   // const googleSession = getCookie('endoh_google_session')
 
   if (!userLocalStorage) {
-    MY_AXIOS.get<AuthUserGetDto>(API.auth.googleLogin, {
-      withCredentials: true
-
+    const urlParams = new URLSearchParams(window.location.search);
+    const oauthToken = urlParams.get('oauthToken');
+    const userId = urlParams.get('userId');
+     
+    if(oauthToken?.length && userId?.length){
+      
+    MY_AXIOS.post<AuthUserGetDto>(API.auth.googleLogin, {
+      // withCredentials: true
+      userId: Number(userId), 
+      token: oauthToken
     }).then((res) => {
-      // deleteCookie('endoh_google_session')
 
       const user = res.data
       localStorage.setItem('user', JSON.stringify(user))
       dispatch(setAuthUser(user))
     })
+    }
+
 
     return usingGoogleSession()
   }
