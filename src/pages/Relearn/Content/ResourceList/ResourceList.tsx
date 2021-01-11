@@ -1,5 +1,7 @@
-import { Box, makeStyles } from "@material-ui/core"
+import { makeStyles } from "@material-ui/core"
 import React from "react"
+import { DndProvider } from "react-dnd"
+import { HTML5Backend } from "react-dnd-html5-backend"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import { ResourceDto } from "../../../../interfaces/dtos/relearn/ResourceDto"
@@ -10,7 +12,7 @@ function ResourceList(props: Props) {
   const classes = useStyles()
 
   return (
-    <Box>
+    <DndProvider backend={HTML5Backend}>
       {props.resources.map((resource, index) => (
         <ResourceItem
           key={resource.id}
@@ -19,7 +21,7 @@ function ResourceList(props: Props) {
           className={classes.resourceItem}
         />
       ))}
-    </Box>
+    </DndProvider>
   )
 }
 

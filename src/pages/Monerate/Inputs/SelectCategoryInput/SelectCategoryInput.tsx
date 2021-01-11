@@ -4,15 +4,15 @@ import {
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
 } from "@material-ui/lab"
-import CategoryIcon from "components/shared/CategoryIcon"
-import FlexHCenter from "components/shared/Flexboxes/FlexHCenter"
-import FlexVCenter from "components/shared/Flexboxes/FlexVCenter"
-import MyTextField from "components/shared/MyInputs/MyTextField"
-import CategoryGetDto from "interfaces/dtos/monerate/CategoryDtos/CategoryGetDto"
+import CategoryIcon from "../../../../components/shared/CategoryIcon"
+import FlexHCenter from "../../../../components/shared/Flexboxes/FlexHCenter"
+import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter"
+import MyTextField from "../../../../components/shared/MyInputs/MyTextField"
+import CategoryGetDto from "../../../../interfaces/dtos/monerate/CategoryDtos/CategoryGetDto"
 import React, { useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
-import { ApplicationState } from "store/store"
+import { ApplicationState } from "../../../../store/store"
 import * as monerateActions from "../../../../store/monerate/monerateActions"
 
 const SelectCategoryInput: React.FC<Props> = (props) => {

@@ -1,8 +1,12 @@
 // PE 3/3 
 const API = {
     auth: {
+        index: '/auth', 
         google: '/auth/google',
-        googleLogin: '/auth/google/login'
+        googleLogin: '/auth/google/login', 
+        resetPassword: '/auth/password-reset', 
+        authPasswordChange: '/auth/authenticated-password-change',
+        username: '/auth/username',
     },
     monerate: {
         expense: '/monerate/expense',
@@ -12,11 +16,11 @@ const API = {
     },
     relearn: {
         resource: '/relearn/resource',
-
         tag: '/relearn/tag',
-        utils: {
-            linkPreview: '/relearn/utils/link-preview'
-        }
+    }, 
+    utils: {
+        linkPreview: '/utils/link-preview',
+        passwordResetEmail: "/utils/passwordResetEmail",
     }
 }
 

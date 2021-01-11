@@ -6,13 +6,13 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core"
-import Flex from "components/shared/Flexboxes/Flex"
-import FlexVCenter from "components/shared/Flexboxes/FlexVCenter"
+import Flex from "../../components/shared/Flexboxes/Flex"
+import FlexVCenter from "../../components/shared/Flexboxes/FlexVCenter"
 import React, { useEffect, useState } from "react"
 import NumberFormat from "react-number-format"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
-import { ApplicationState } from "store/store"
+import { ApplicationState } from "../../store/store"
 import CategoryIcon from "../../components/shared/CategoryIcon"
 import PlaceIcon from "../../components/shared/PlaceIcon"
 import SoloRatingStar from "../../components/shared/SoloRatingStar"

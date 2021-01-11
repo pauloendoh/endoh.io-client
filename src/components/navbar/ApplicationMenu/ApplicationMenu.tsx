@@ -2,7 +2,7 @@ import { faSortDown } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Box, Button, Menu, Typography } from "@material-ui/core"
 import MenuItem from "@material-ui/core/MenuItem"
-import FlexVCenter from "components/shared/Flexboxes/FlexVCenter"
+import FlexVCenter from "../../shared/Flexboxes/FlexVCenter"
 import React, { useEffect, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 import {

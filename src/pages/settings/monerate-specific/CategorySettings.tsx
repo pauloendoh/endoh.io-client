@@ -8,8 +8,8 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core"
-import CategoryIcon from "components/shared/CategoryIcon"
-import FlexVCenter from "components/shared/Flexboxes/FlexVCenter"
+import CategoryIcon from "../../../components/shared/CategoryIcon"
+import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
 import React, { useEffect } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
@@ -27,6 +27,7 @@ const CategorySettings = (props: Props) => {
       props.setCategories(res.data)
     })
 
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -42,6 +43,7 @@ const CategorySettings = (props: Props) => {
 
   return (
     <Box>
+      
       <Button
         variant="outlined"
         color="secondary"

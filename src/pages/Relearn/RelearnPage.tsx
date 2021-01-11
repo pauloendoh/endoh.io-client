@@ -1,23 +1,23 @@
 import { Box } from "@material-ui/core"
-import Flex from "components/shared/Flexboxes/Flex"
-import API from "consts/API"
-import PATHS from "consts/PATHS"
-import { ResourceDto } from "interfaces/dtos/relearn/ResourceDto"
-import LoadingPage from "pages/index/LoadingPage"
+import MY_AXIOS from '../../consts/MY_AXIOS'
 import React, { useEffect, useState } from "react"
 import { GlobalHotKeys } from "react-hotkeys"
 import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
-import MY_AXIOS from "consts/MY_AXIOS"
-import { sleep } from "utils/sleep"
 import { TagDto } from "../../interfaces/dtos/relearn/TagDto"
 import * as relearnActions from "../../store/relearn/relearnActions"
 import { ApplicationState } from "../../store/store"
+import LoadingPage from '../index/LoadingPage'
 import RelearnContent from "./Content/RelearnContent"
 import EditResourceDialog from "./Dialogs/EditResourceDialog"
 import EditTagDialog from "./Dialogs/EditTagDialog"
 import RelearnSidebar from "./RelearnSidebar/RelearnSidebar"
+import { ResourceDto } from '../../interfaces/dtos/relearn/ResourceDto'
+import API from '../../consts/API'
+import PATHS from '../../consts/PATHS'
+import { sleep } from '../../utils/sleep'
+import Flex from '../../components/shared/Flexboxes/Flex'
 // PE 3/3
 const RelearnPage = (props: Props) => {
   const [isLoadingResources, setIsLoadingResources] = useState(true)

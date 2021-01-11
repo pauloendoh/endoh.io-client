@@ -1,5 +1,5 @@
-import { faFire } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFire } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   AppBar,
   Box,
@@ -9,18 +9,22 @@ import {
   Theme,
   Toolbar,
   Typography,
-} from "@material-ui/core";
-import PATHS from "consts/PATHS";
-import React from "react";
-import { Route, Switch } from "react-router-dom";
-import RelearnNavbarContent from "../../pages/Relearn/RelearnNavbarContent";
-import FlexVCenter from "../shared/Flexboxes/FlexVCenter";
-import ApplicationMenu from "./SelectApplication/ApplicationMenu";
-import UserMenu from "./UserMenu";
+} from "@material-ui/core"
+import PATHS from "consts/PATHS"
+import React from "react"
+import { connect } from "react-redux"
+import { Route, Switch } from "react-router-dom"
+import { Dispatch } from "redux"
+import RelearnNavbarContent from "../../pages/Relearn/RelearnNavbarContent"
+import { ApplicationState } from "../../store/store"
+import FlexVCenter from "../shared/Flexboxes/FlexVCenter"
+import ApplicationMenu from "./ApplicationMenu/ApplicationMenu"
+import RightToggleButton from "./RightToggleButton/RightToggleButton"
+import UserMenu from "./UserMenu/UserMenu"
 
 // PE 2/3
-const Navbar = () => {
-  const classes = useStyles();
+const Navbar = (props: Props) => {
+  const classes = useStyles()
 
   return (
     <AppBar className={classes.root} position="fixed" elevation={0}>
@@ -44,13 +48,14 @@ const Navbar = () => {
           <Route path={PATHS.relearn.index} component={RelearnNavbarContent} />;
         </Switch>
 
-        <Box ml="auto">
+        <FlexVCenter ml="auto">
           <UserMenu />
-        </Box>
+          <RightToggleButton />
+        </FlexVCenter>
       </Toolbar>
     </AppBar>
-  );
-};
+  )
+}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -68,6 +73,13 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.palette.secondary.main,
     },
   })
-);
+)
 
-export default Navbar;
+const mapStateToProps = (state: ApplicationState) => ({})
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({})
+
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar)

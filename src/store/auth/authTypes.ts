@@ -5,6 +5,8 @@ export enum AuthActionTypes {
     // CHECK_USER_OR_LOGOUT = '@auth/CHECK_USER_OR_LOGOUT',
     LOGOUT = '@auth/LOGOUT',
     USING_GOOGLE_SESSION = '@auth/USING_GOOGLE_SESSION',
+
+    SET_USERNAME = '@auth/SET_USERNAME',
 }
 
 export interface AuthState {

@@ -1,27 +1,43 @@
+
+import googleIcon from '../../../static/images/google-icon-white.png'
+
 import {
   Box,
   Button,
   CircularProgress,
+  Hidden,
   Link,
   makeStyles,
   Paper,
+  SvgIcon,
   Typography,
 } from "@material-ui/core"
-import MyTextField from "components/shared/MyInputs/MyTextField"
-import { AuthUserGetDto } from "interfaces/dtos/AuthUserGetDto"
 import { Form, Formik } from "formik"
 import React, { MouseEvent, useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import * as AuthActions from "store/auth/authActions"
 import { ApplicationState } from "store/store"
+import Flex from "../../../components/shared/Flexboxes/Flex"
 import MY_AXIOS from "../../../consts/MY_AXIOS"
+import { AuthFormTypes } from "../../../consts/enums/AuthFormTypes"
 import MyAxiosError, { MyFieldError } from "../../../interfaces/MyAxiosError"
-import API from "../../../consts/API"
-require('dotenv').config()
+import PasswordResetForm from "./ResetPasswordByEmailForm"
+import { AuthUserGetDto } from "interfaces/dtos/AuthUserGetDto"
+import MyTextField from "components/shared/MyInputs/MyTextField"
+import { Link as RouterLink } from "react-router-dom"
+import { MyDivider } from "../../../components/utils/MyDivider/MyDivider"
+import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
+require("dotenv").config()
+
+// PE 1/3 - Dividir em 3 possíveis forms: login, register, passwordReset
 const AuthForm = (props: Props) => {
   const classes = useStyles()
+
+  // TODO 20210105: substitute signUpIsSelected for this formType
+  const [formType, setFormType] = useState(AuthFormTypes.login)
 
   const [signupIsSelected, setSignupIsSelected] = useState(false)
   const [responseErrors, setResponseErrors] = useState([] as MyFieldError[])
@@ -33,177 +49,215 @@ const AuthForm = (props: Props) => {
   }
 
   return (
-    <Box display="flex">
-      <Paper className={classes.paper}>
-        <Formik
-          initialValues={{
-            username: "",
-            email: "",
-            password: "",
-            password2: "",
+    <Paper className={classes.paper}>
+      {formType === AuthFormTypes.passwordReset ? (
+        <PasswordResetForm
+          onExit={() => {
+            setFormType(AuthFormTypes.login)
           }}
-          // PE 2/3 jogar pra fora
-          onSubmit={(values, { setSubmitting }) => {
-            if (signupIsSelected && values.password !== values.password2) {
-              setResponseErrors([
-                { field: "password", message: "Passwords don't match" },
-              ])
-              setSubmitting(false)
-              return
-            }
-
-            const authData = {
-              username: values.username,
-              email: values.email,
-              password: values.password,
-            }
-
-            const endpoint = signupIsSelected ? "/auth/register" : "/auth/login"
-
-            setResponseErrors([])
-
-            MY_AXIOS.post<AuthUserGetDto>(endpoint, authData)
-              .then((res) => {
-                const authUser = res.data
-                props.setAuthUser(authUser)
-
-                // props.UPDATE_AUTH_USER(res.data);
-              })
-              .catch((err: MyAxiosError) => {
-                setResponseErrors(err.response.data.errors)
-              })
-              .finally(() => {
+        />
+      ) : (
+        <Box>
+          <Formik
+            initialValues={{
+              username: "",
+              email: "",
+              password: "",
+              password2: "",
+            }}
+            // PE 2/3 jogar pra fora
+            onSubmit={(values, { setSubmitting }) => {
+              if (signupIsSelected && values.password !== values.password2) {
+                setResponseErrors([
+                  { field: "password", message: "Passwords don't match" },
+                ])
                 setSubmitting(false)
-              })
-          }}
-        >
-          {({ isSubmitting, handleChange, errors }) => (
-            <Form className="d-flex flex-column">
-              <Box>
-                <MyTextField
-                  id="email"
-                  name="email"
-                  className="mt-3"
-                  type={signupIsSelected ? "email" : "text"}
-                  onChange={handleChange}
-                  label={signupIsSelected ? "Email" : "Email or username"}
-                  fullWidth
-                  required
-                  InputLabelProps={{ required: false }}
-                  autoFocus
-                />
-              </Box>
+                return
+              }
 
-              {signupIsSelected ? (
-                <Box mt={1}>
+              const authData = {
+                username: values.username,
+                email: values.email,
+                password: values.password,
+              }
+
+              const endpoint = signupIsSelected
+                ? "/auth/register"
+                : "/auth/login"
+
+              setResponseErrors([])
+
+              MY_AXIOS.post<AuthUserGetDto>(endpoint, authData)
+                .then((res) => {
+                  const authUser = res.data
+                  props.setAuthUser(authUser)
+
+                  // props.UPDATE_AUTH_USER(res.data);
+                })
+                .catch((err: MyAxiosError) => {
+                  setResponseErrors(err.response.data.errors)
+                })
+                .finally(() => {
+                  setSubmitting(false)
+                })
+            }}
+          >
+            {({ isSubmitting, handleChange, errors }) => (
+              <Form className="d-flex flex-column">
+                <Box>
                   <MyTextField
-                    id="username"
-                    name="username"
+                    id="email"
+                    name="email"
+                    className="mt-3"
+                    type={signupIsSelected ? "email" : "text"}
                     onChange={handleChange}
-                    label="Username"
+                    label={signupIsSelected ? "Email" : "Email or username"}
                     fullWidth
                     required
                     InputLabelProps={{ required: false }}
+                    autoFocus
                   />
                 </Box>
-              ) : null}
 
-              <Box mt={1}>
-                <MyTextField
-                  id="password"
-                  type="password"
-                  onChange={handleChange}
-                  size="small"
-                  label="Password"
-                  className="mt-3"
-                  fullWidth
-                  required
-                  InputLabelProps={{ required: false }}
-                />
-              </Box>
+                {signupIsSelected ? (
+                  <Box mt={1}>
+                    <MyTextField
+                      id="username"
+                      name="username"
+                      onChange={handleChange}
+                      label="Username"
+                      fullWidth
+                      required
+                      InputLabelProps={{ required: false }}
+                    />
+                  </Box>
+                ) : null}
 
-              {signupIsSelected ? (
                 <Box mt={1}>
                   <MyTextField
-                    id="password2"
-                    name="password2"
+                    id="password"
                     type="password"
                     onChange={handleChange}
-                    label="Confirm password"
+                    size="small"
+                    label="Password"
                     className="mt-3"
                     fullWidth
                     required
                     InputLabelProps={{ required: false }}
                   />
-                </Box>
-              ) : null}
 
-              <Box mt={2}>
-                <Button
-                  id="auth-submit-button"
-                  className={classes.button}
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  disabled={isSubmitting}
-                  style={{ textTransform: "none", fontSize: 16 }}
-                  fullWidth
-                >
-                  {signupIsSelected ? "SIGN UP" : "SIGN IN"}
-                  {isSubmitting && (
-                    <CircularProgress size={20} className="ml-3" />
+                  {!signupIsSelected && (
+                    <Flex justifyContent="flex-end">
+                      <Button
+                        color="primary"
+                        onClick={() => {
+                          setFormType(AuthFormTypes.passwordReset)
+                        }}
+                      >
+                        Forgot your password?
+                      </Button>
+                    </Flex>
                   )}
-                </Button>
-              </Box>
-
-              {responseErrors.map((err, i) => (
-                <Box key={i} mt={1}>
-                  <Typography color="error">{err.message}</Typography>
                 </Box>
-              ))}
-            </Form>
-          )}
-        </Formik>
 
-        <Box mt={3}>
-          {signupIsSelected ? (
-            <Box display="flex" alignItems="center" justifyContent="center">
-              <Box mr={1}> Already have an account?</Box>
-              <Link
-                href="#"
-                onClick={(e: MouseEvent) => {
-                  e.preventDefault()
-                  setResponseErrors([])
-                  setSignupIsSelected(false)
-                }}
+                {signupIsSelected ? (
+                  <Box mt={1}>
+                    <MyTextField
+                      id="password2"
+                      name="password2"
+                      type="password"
+                      onChange={handleChange}
+                      label="Confirm password"
+                      className="mt-3"
+                      fullWidth
+                      required
+                      InputLabelProps={{ required: false }}
+                    />
+                  </Box>
+                ) : null}
+
+                <Box mt={2}>
+                  <Button
+                    id="auth-submit-button"
+                    className={classes.button}
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    disabled={isSubmitting}
+                    style={{ textTransform: "none", fontSize: 16 }}
+                    fullWidth
+                  >
+                    {signupIsSelected ? "SIGN UP" : "SIGN IN"}
+                    {isSubmitting && (
+                      <CircularProgress size={20} className="ml-3" />
+                    )}
+                  </Button>
+                </Box>
+
+                {responseErrors.map((err, i) => (
+                  <Box key={i} mt={1}>
+                    <Typography color="error">{err.message}</Typography>
+                  </Box>
+                ))}
+              </Form>
+            )}
+          </Formik>
+
+          <Box mt={3}>
+            {signupIsSelected ? (
+              <Box display="flex" alignItems="center" justifyContent="center">
+                Already have an account? &nbsp;{" "}
+                <Link
+                  href="#"
+                  onClick={(e: MouseEvent) => {
+                    e.preventDefault()
+                    setResponseErrors([])
+                    setSignupIsSelected(false)
+                  }}
+                >
+                  Sign in
+                </Link>
+              </Box>
+            ) : (
+              <Box display="flex" alignItems="center" justifyContent="center">
+                Don't have an account? &nbsp;
+                <Link
+                  href="#"
+                  onClick={(e: MouseEvent) => {
+                    e.preventDefault()
+                    setResponseErrors([])
+                    setSignupIsSelected(true)
+                  }}
+                >
+                  Sign up
+                </Link>
+              </Box>
+            )}
+          </Box>
+
+          <Box mt={2}>
+            <MyDivider>
+              <Box minWidth={100}>Or enter via</Box>
+            </MyDivider>
+
+            <Box mt={2}>
+              <Button
+                onClick={handleGoogleSignIn}
+                fullWidth
+                className={classes.googleButton}
               >
-                Sign in
-              </Link>
+                <FlexVCenter>
+                  
+                  <img src={googleIcon} height={24} alt="Google button" />
+                  {/* <FontAwesomeIcon className="fab fa-google"/> */}
+                  <Box ml={2}>Google</Box>
+                </FlexVCenter>
+              </Button>
             </Box>
-          ) : (
-            <Box display="flex" alignItems="center" justifyContent="center">
-              <Box mr={1}>Don't have an account?</Box>
-              <Link
-                href="#"
-                onClick={(e: MouseEvent) => {
-                  e.preventDefault()
-                  setResponseErrors([])
-                  setSignupIsSelected(true)
-                }}
-              >
-                Sign up
-              </Link>
-            </Box>
-          )}
-        </Box>
-        <Box>
-          Or enter via
-          <Box>
-            <Button onClick={handleGoogleSignIn}>Google</Button>
           </Box>
         </Box>
-      </Paper>
-    </Box>
+      )}
+    </Paper>
   )
 }
 
@@ -212,7 +266,17 @@ type Props = ReturnType<typeof mapDispatchToProps>
 const useStyles = makeStyles((theme) => ({
   paper: {
     padding: "2rem",
-    width: 400,
+    marginLeft: "auto",
+    marginRight: "auto",
+    [theme.breakpoints.down("sm")]: {
+      width: 290,
+    },
+    [theme.breakpoints.between("sm", "md")]: {
+      width: 330,
+    },
+    [theme.breakpoints.up("md")]: {
+      width: 400,
+    },
     display: "flex",
     flexDirection: "column",
     textAlign: "center",
@@ -220,6 +284,11 @@ const useStyles = makeStyles((theme) => ({
   button: {
     paddingTop: 10,
     paddingBottom: 10,
+  },
+  googleButton: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    background: theme.palette.grey[800],
   },
 }))
 

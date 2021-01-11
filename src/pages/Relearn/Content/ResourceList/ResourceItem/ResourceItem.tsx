@@ -28,7 +28,7 @@ import { ResourceDto } from "../../../../../interfaces/dtos/relearn/ResourceDto"
 import * as relearnActions from "../../../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../../../store/store"
 import * as utilsActions from "../../../../../store/utils/utilsActions"
-import { urlIsValid } from "../../../../../utils/isValidUrl"
+import { urlIsValid } from "../../../../../utils/url/isValidUrl"
 import { IMoveResource } from "../../../../../interfaces/relearn/IMoveResource"
 import RateButton from "./RateButton"
 import descriptionPng from "../../../../../static/images/description.png"
@@ -142,7 +142,7 @@ function ResourceItem(props: Props) {
       <Flex
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        p={2}
+        p={1}
         borderBottom="1px solid rgb(255 255 255 / 0.1)" // Could be a const?
         className={
           props.className +

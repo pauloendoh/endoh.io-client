@@ -1,16 +1,16 @@
 import { faCog, faSignOutAlt } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Box } from "@material-ui/core"
+import { Box, Divider } from "@material-ui/core"
 import Button from "@material-ui/core/Button"
 import Menu from "@material-ui/core/Menu"
 import MenuItem from "@material-ui/core/MenuItem"
-import FlexVCenter from "components/shared/Flexboxes/FlexVCenter"
+import FlexVCenter from "../../shared/Flexboxes/FlexVCenter"
 import React from "react"
 import { connect } from "react-redux"
 import { Link, useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
-import { logoutActionCreator } from "../../store/auth/authActions"
-import { ApplicationState } from "../../store/store"
+import { logoutActionCreator } from "../../../store/auth/authActions"
+import { ApplicationState } from "../../../store/store"
 // PE 2/3
 const UserMenu = (props: Props) => {
   const location = useLocation()
@@ -61,6 +61,7 @@ const UserMenu = (props: Props) => {
           Settings
         </MenuItem>
 
+        <Divider />
         <MenuItem className="logout-option" onClick={() => props.logout()}>
           <Box mr={2}>
             <FontAwesomeIcon icon={faSignOutAlt} />

@@ -53,65 +53,64 @@ function RateButton(props: Props) {
 
   return (
     <ClickAwayListener onClickAway={handleTooltipClose}>
-      <Box>
-        <Tooltip
-          arrow
-          PopperProps={{
-            disablePortal: true,
-          }}
-          onClose={handleTooltipClose}
-          open={open}
-          interactive
-          disableFocusListener
-          disableHoverListener
-          disableTouchListener
-          title={
-            <React.Fragment>
-              <Rating
-                name="rating-input"
-                value={rating}
-                onChange={(event, newValue) => {
-                  handleSaveRating(newValue)
-                  // setValue(newValue)
-                }}
-                onChangeActive={(event, newHover) => {
-                  if (newHover === rating) {
-                    setHover(0)
-                  } else {
-                    setHover(newHover)
-                  }
-                }}
-              />
-              <FlexHCenter>
-                <Typography>{labels[hover !== -1 ? hover : rating]}</Typography>
-              </FlexHCenter>
-            </React.Fragment>
-          }
+      <Tooltip
+        arrow
+        PopperProps={{
+          disablePortal: true,
+        }}
+        onClose={handleTooltipClose}
+        open={open}
+        interactive
+        disableFocusListener
+        disableHoverListener
+        disableTouchListener
+        title={
+          <Box>
+            <Rating
+              name="rating-input"
+              value={rating}
+              onChange={(event, newValue) => {
+                handleSaveRating(newValue)
+                // setValue(newValue)
+              }}
+              onChangeActive={(event, newHover) => {
+                if (newHover === rating) {
+                  setHover(0)
+                } else {
+                  setHover(newHover)
+                }
+              }}
+            />
+            <FlexHCenter>
+              <Typography>{labels[hover !== -1 ? hover : rating]}</Typography>
+            </FlexHCenter>
+          </Box>
+        }
+      >
+        <Button
+          size="small"
+          onClick={handleTooltipOpen}
+          variant="outlined"
+          className={classes.rateButton}
         >
-          <Button
-            size="small"
-            onClick={handleTooltipOpen}
-            variant="outlined"
-            className={classes.rateButton}
-          >
-            <FlexVCenter>
-              <StarRateIcon />
-              {props.resource.rating > 0 ? (
-                <Box mr={1}>
-                  {props.resource.rating} - {labels[props.resource.rating]}
-                </Box>
-              ) : (
-                <Box mr={1}>Rate</Box>
-              )}
-            </FlexVCenter>
-          </Button>
-        </Tooltip>
-      </Box>
+          <FlexVCenter>
+            <StarRateIcon />
+            {props.resource.rating > 0 ? (
+              <Box mr={1}>
+                {props.resource.rating} - {labels[props.resource.rating]}
+              </Box>
+            ) : (
+              <Box mr={1}>Rate</Box>
+            )}
+          </FlexVCenter>
+        </Button>
+      </Tooltip>
     </ClickAwayListener>
   )
 }
 
 const labels: { [index: string]: string } = {
+  null: "Give a rating",
   0: "Unrate",
   1: "Useless",
   2: "Poor",

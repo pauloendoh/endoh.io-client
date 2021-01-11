@@ -1,19 +1,20 @@
-import { applyMiddleware, combineReducers, compose, createStore, Store } from 'redux'
+import { applyMiddleware, combineReducers, compose, createStore, Store } from 'redux';
 import thunk from 'redux-thunk';
-import authReducer from './auth/authReducer'
-import { AuthState } from './auth/authTypes'
+import authReducer from './auth/authReducer';
+import { AuthState } from './auth/authTypes';
 import monerateReducer from './monerate/monerateReducer';
 import { MonerateState } from './monerate/monerateTypes';
+import relearnReducer from './relearn/relearnReducer';
 import { RelearnState } from './relearn/relearnTypes';
-import relearnReducer from './relearn/relearnReducer'
-import { UtilsState } from './utils/utilsTypes';
+import skillbaseReducer from './skillbase/skillbaseReducer';
+import { SkillbaseState } from './skillbase/skillbaseTypes';
 import utilsReducer from './utils/utilsReducer';
-
-
+import { UtilsState } from './utils/utilsTypes';
 export interface ApplicationState {
     auth: AuthState,
     monerate: MonerateState,
     relearn: RelearnState,
+    skillbase: SkillbaseState,
     utils: UtilsState
 }
 
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
     auth: authReducer,
     monerate: monerateReducer,
     relearn: relearnReducer,
+    skillbase: skillbaseReducer,
     utils: utilsReducer
 })
 

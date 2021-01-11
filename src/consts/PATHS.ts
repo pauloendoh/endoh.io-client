@@ -1,5 +1,6 @@
 // PE 3/3
 const PATHS = {
+    index: '/',
     monerate: {
         index: '/monerate'
     }, 
@@ -7,7 +8,11 @@ const PATHS = {
         index: '/relearn', 
         tag: '/relearn/tag', 
     },
+    skillbase: {
+        index: '/skillbase',
+    },
     settings: {
+        account: "/settings/account",
         monerate: {
             index: '/settings/monerate',
             places: '/settings/monerate/places',

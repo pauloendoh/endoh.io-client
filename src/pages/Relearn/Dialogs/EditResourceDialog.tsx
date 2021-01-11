@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Checkbox,
+  CircularProgress,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -12,20 +13,20 @@ import {
 } from "@material-ui/core"
 import Chip from "@material-ui/core/Chip"
 import { Autocomplete } from "@material-ui/lab"
-import Flex from "components/shared/Flexboxes/Flex"
-import FlexVCenter from "components/shared/Flexboxes/FlexVCenter"
-import MyTextField from "components/shared/MyInputs/MyTextField"
-import API from "consts/API"
-import PATHS from "consts/PATHS"
+import Flex from "../../../components/shared/Flexboxes/Flex"
+import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
+import MyTextField from "../../../components/shared/MyInputs/MyTextField"
+import API from "../../../consts/API"
+import PATHS from "../../../consts/PATHS"
 import { Form, Formik, FormikErrors } from "formik"
 import React, { useState } from "react"
 import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
 import MaskedInput from "react-text-mask"
 import { Dispatch } from "redux"
-import { urlIsValid } from "utils/isValidUrl"
-import MY_AXIOS from "consts/MY_AXIOS"
-import MyAxiosError from "interfaces/MyAxiosError"
+import { urlIsValid } from "../../../utils/url/isValidUrl"
+import MY_AXIOS from "../../../consts/MY_AXIOS"
+import MyAxiosError from "../../../interfaces/MyAxiosError"
 import { LinkPreviewDto } from "../../../interfaces/dtos/relearn/LinkPreviewDto"
 import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto"
 import { TagDto } from "../../../interfaces/dtos/relearn/TagDto"
@@ -34,6 +35,8 @@ import { ApplicationState } from "../../../store/store"
 import * as utilsActions from "../../../store/utils/utilsActions"
 
 const EditResourceDialog = (props: Props) => {
+  const [isFetchingLinkPreview, setIsFetchingLinkPreview] = useState(false)
+
   const handleSubmit = (resource: ResourceDto) => {
     MY_AXIOS.post<ResourceDto[]>(API.relearn.resource, resource)
       .then((res) => {
@@ -70,14 +73,17 @@ const EditResourceDialog = (props: Props) => {
     setThrottle(
       setTimeout(() => {
         if (urlIsValid(url)) {
-          MY_AXIOS.get<LinkPreviewDto>(
-            API.relearn.utils.linkPreview + "?url=" + url
-          ).then((res) => {
-            const preview = res.data
+          setIsFetchingLinkPreview(true)
+          MY_AXIOS.get<LinkPreviewDto>(API.utils.linkPreview + "?url=" + url)
+            .then((res) => {
+              const preview = res.data
 
-            setFieldValue("title", preview.title)
-            setFieldValue("thumbnail", preview.image)
-          })
+              setFieldValue("title", preview.title)
+              setFieldValue("thumbnail", preview.image)
+            })
+            .finally(() => {
+              setIsFetchingLinkPreview(false)
+            })
         }
       }, 200)
     )
@@ -185,17 +191,23 @@ const EditResourceDialog = (props: Props) => {
                       />
                     </Box>
                     <FlexVCenter justifyContent="space-between">
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={urlAutofillChecked}
-                            onChange={handleCheckAutofill}
-                            name="urlAutofillCheckBox"
-                            color="primary"
-                          />
-                        }
-                        label="Autofill via URL"
-                      />
+                      <FlexVCenter>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={urlAutofillChecked}
+                              onChange={handleCheckAutofill}
+                              name="urlAutofillCheckBox"
+                              color="primary"
+                            />
+                          }
+                          label="Autofill via URL"
+                        />
+                        {isFetchingLinkPreview && (
+                          <CircularProgress size={24} />
+                        )}
+                      </FlexVCenter>
+
                       <Box>
                         {errors.url && (
                           <Typography color="error">{errors.url}</Typography>

@@ -1,9 +1,9 @@
 import { Box, makeStyles, Tab, Tabs, Typography } from "@material-ui/core"
-import PATHS from "consts/PATHS"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
+import PATHS from '../../../consts/PATHS'
 import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto"
 import { ApplicationState } from "../../../store/store"
 

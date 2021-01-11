@@ -1,15 +1,23 @@
+import { faFunnelDollar } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Box, Button, Grid, Typography } from "@material-ui/core"
-import TextSecondary from "components/shared/Text/TextSecondary"
-import PATHS from "consts/PATHS"
 import React from "react"
 import { Link } from "react-router-dom"
+import PATHS from "../../consts/PATHS"
 import monerateDemo from "../../static/videos/monerate-demo.mp4"
+import FlexVCenter from "../shared/Flexboxes/FlexVCenter"
+import TextSecondary from "../shared/Text/TextSecondary"
 // PE 2/3
 const MonerateDescription = () => {
   return (
     <Grid id="monerate-description" spacing={3} container>
       <Grid item xs={12} sm={4}>
-        <Typography variant="h4">Monerate</Typography>
+        <Typography variant="h4">
+          <FlexVCenter>
+            <FontAwesomeIcon icon={faFunnelDollar} />
+            <Box ml={1}>Monerate</Box>
+          </FlexVCenter>
+        </Typography>
         <Typography variant="subtitle1">
           A <TextSecondary>budget tool</TextSecondary> where you can rate your
           expenses

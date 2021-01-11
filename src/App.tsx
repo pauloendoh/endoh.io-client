@@ -1,5 +1,5 @@
 import { Box, CssBaseline, MuiThemeProvider } from "@material-ui/core"
-import MySnackBar from "components/shared/SnackBars/MySnackBar"
+
 import React, { lazy, Suspense, useEffect, useState } from "react"
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
@@ -13,8 +13,6 @@ import {
   withRouter,
 } from "react-router-dom"
 import { Dispatch } from "redux"
-import { checkAuthOrLogoutActionCreator } from "store/auth/authActions"
-import { ApplicationState } from "store/store"
 import Navbar from "./components/navbar/Navbar"
 import PATHS from "./consts/PATHS"
 import Home from "./pages/index/Home"
@@ -23,6 +21,14 @@ import LoadingPage from "./pages/index/LoadingPage"
 import SettingsNavbar from "./pages/settings/SettingsNavbar"
 import SettingsPage from "./pages/settings/SettingsPage"
 import MY_THEME from "./consts/MY_THEME"
+import MySnackBar from './components/shared/SnackBars/MySnackBar'
+import ResetPasswordPage from './pages/index/ResetPasswordPage'
+import { ApplicationState } from './store/store'
+import { checkAuthOrLogoutActionCreator } from './store/auth/authActions'
+import SkillbasePage from './pages/SkillbasePage/SkillbasePage'
+
+
+
 
 const MoneratePage = lazy(
   () => import("./pages/Monerate/MoneratePage/MoneratePage")
@@ -66,13 +72,16 @@ const App = (props: Props) => {
     redirectAfterLogout = "/?next=/monerate"
   } else if (location.pathname.startsWith(PATHS.relearn.index)) {
     redirectAfterLogout = "/?next=/relearn"
-  }
+ }
+ else if (location.pathname.startsWith(PATHS.skillbase.index)) {
+  redirectAfterLogout = "/?next=/skillbase"
+}
 
   // PE 2/3 - routes = nome ruim?
   let routes = (
     <Switch>
       <Route path="/" exact component={LandingPage} />
-      {/* <Route path="/login" component={EnterApplication} /> */}
+      <Route path="/password-reset" component={ResetPasswordPage} />
       <Redirect to={redirectAfterLogout} />
     </Switch>
   )
@@ -92,6 +101,8 @@ const App = (props: Props) => {
             <Switch>
               <Route path="/monerate" component={MoneratePage} />
               <Route path="/relearn" component={RelearnPage} />
+              <Route path="/skillbase" component={SkillbasePage} />
+
               <Route path="/settings" component={SettingsPage} />
               <Route path="/" exact component={Home} />
               <Redirect to="/" />
@@ -103,7 +114,6 @@ const App = (props: Props) => {
   }
 
   return (
-    <DndProvider backend={HTML5Backend}>
       <MuiThemeProvider theme={MY_THEME}>
         {/* What does this do? */}
         <CssBaseline />
@@ -111,7 +121,6 @@ const App = (props: Props) => {
 
         <MySnackBar />
       </MuiThemeProvider>
-    </DndProvider>
   )
 }
 

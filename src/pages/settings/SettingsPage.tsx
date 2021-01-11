@@ -1,13 +1,14 @@
 import { Box } from "@material-ui/core"
-import Flex from "components/shared/Flexboxes/Flex"
-import PATHS from "consts/PATHS"
 import React, { useEffect } from "react"
 import { Redirect, Route, Switch } from "react-router-dom"
-import PlaceSettings from "./monerate-specific/PlaceSettings"
-import SettingsSidebar from "./SettingsSidebar"
+import Flex from "../../components/shared/Flexboxes/Flex"
+import PATHS from "../../consts/PATHS"
+import EditCategoryModal from "../../pages/Monerate/Modals/EditCategoryModal"
+import EditPlaceModal from "../../pages/Monerate/Modals/EditPlaceModal"
+import PersonalInformationPaper from "./account/paper/PersonalInformationPaper"
 import CategorySettings from "./monerate-specific/CategorySettings"
-import EditPlaceModal from "pages/Monerate/Modals/EditPlaceModal"
-import EditCategoryModal from "pages/Monerate/Modals/EditCategoryModal"
+import PlaceSettings from "./monerate-specific/PlaceSettings"
+import SettingsSidebar from "./SettingsSidebar/SettingsSidebar"
 
 function SettingsPage() {
   useEffect(() => {
@@ -20,6 +21,11 @@ function SettingsPage() {
       <Box pt={1} px={4} flexGrow={1}>
         <Switch>
           <Route
+            path={PATHS.settings.account}
+            component={PersonalInformationPaper}
+          />
+
+          <Route
             path={PATHS.settings.monerate.places}
             component={PlaceSettings}
           />
@@ -31,7 +37,7 @@ function SettingsPage() {
           {/* por hora, redirecionar para o settings/monerate/places */}
           <Route
             path="/"
-            render={() => <Redirect to={PATHS.settings.monerate.places} />}
+            render={() => <Redirect to={PATHS.settings.account} />}
           />
         </Switch>
       </Box>

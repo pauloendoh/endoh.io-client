@@ -1,7 +1,7 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Box, Button, Tooltip } from "@material-ui/core"
-import FlexVCenter from "components/shared/Flexboxes/FlexVCenter"
+import FlexVCenter from "../../components/shared/Flexboxes/FlexVCenter"
 import React from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"

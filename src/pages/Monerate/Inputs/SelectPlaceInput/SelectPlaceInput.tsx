@@ -4,10 +4,10 @@ import {
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
 } from "@material-ui/lab"
-import FlexHCenter from "components/shared/Flexboxes/FlexHCenter"
-import FlexVCenter from "components/shared/Flexboxes/FlexVCenter"
-import MyTextField from "components/shared/MyInputs/MyTextField"
-import PlaceIcon from "components/shared/PlaceIcon"
+import FlexHCenter from "../../../../components/shared/Flexboxes/FlexHCenter"
+import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter"
+import MyTextField from "../../../../components/shared/MyInputs/MyTextField"
+import PlaceIcon from "../../../../components/shared/PlaceIcon"
 import React, { useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"

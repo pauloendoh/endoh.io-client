@@ -11,7 +11,8 @@ const MY_THEME = createMuiTheme({
     secondary: { main: "#C862AC" }
   },
   typography: {
-    fontFamily: `'Saira', sans-serif;`, // imported at index.css
+    fontFamily: `'Open Sans', sans-serif;`, // imported at index.css
+    // fontFamily: `'Saira', sans-serif;`, // imported at index.css
     fontSize: 14,
     button: {
       textTransform: "none",

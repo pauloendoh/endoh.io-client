@@ -1,40 +1,44 @@
-import { AuthUserGetDto } from '../../interfaces/dtos/AuthUserGetDto';
-import { AuthActionTypes } from './authTypes';
-import { action } from 'typesafe-actions'
 import { Dispatch } from 'redux';
-import { relearnActionTypes } from '../relearn/relearnTypes';
-import { monerateActionTypes } from '../monerate/monerateTypes';
-import { deleteCookie } from '../../utils/cookie/deleteCookie'
-import { getCookie } from '../../utils/cookie/getCookie'
-import MY_AXIOS from '../../consts/MY_AXIOS';
+import { action } from 'typesafe-actions';
+import { getQueryParam } from 'utils/url/getQueryParam';
 import API from '../../consts/API';
+import MY_AXIOS from '../../consts/MY_AXIOS';
+import { AuthUserGetDto } from '../../interfaces/dtos/AuthUserGetDto';
+import { deleteCookie } from '../../utils/cookie/deleteCookie';
+import { monerateActionTypes } from '../monerate/monerateTypes';
+import { relearnActionTypes } from '../relearn/relearnTypes';
+import { AuthActionTypes } from './authTypes';
 
 export const setAuthUser = (authUser: AuthUserGetDto) => action(AuthActionTypes.SET_AUTH_USER, authUser)
+
+
 const logout = () => action(AuthActionTypes.LOGOUT)
 
 const usingGoogleSession = () => action(AuthActionTypes.USING_GOOGLE_SESSION)
+
+export const setUsername = (newUsername: string) => action(AuthActionTypes.SET_USERNAME, newUsername)
+
 
 export function checkAuthOrLogoutActionCreator(dispatch: Dispatch) {
   const userLocalStorage = localStorage.getItem('user')
   // const googleSession = getCookie('endoh_google_session')
 
   if (!userLocalStorage) {
-    const urlParams = new URLSearchParams(window.location.search);
-    const oauthToken = urlParams.get('oauthToken');
-    const userId = urlParams.get('userId');
-     
-    if(oauthToken?.length && userId?.length){
-      
-    MY_AXIOS.post<AuthUserGetDto>(API.auth.googleLogin, {
-      // withCredentials: true
-      userId: Number(userId), 
-      token: oauthToken
-    }).then((res) => {
+    const oauthToken = getQueryParam('oauthToken')
+    const userId = getQueryParam('userId')
 
-      const user = res.data
-      localStorage.setItem('user', JSON.stringify(user))
-      dispatch(setAuthUser(user))
-    })
+    if (oauthToken?.length && userId?.length) {
+
+      MY_AXIOS.post<AuthUserGetDto>(API.auth.googleLogin, {
+        // withCredentials: true
+        userId: Number(userId),
+        token: oauthToken
+      }).then((res) => {
+
+        const user = res.data
+        localStorage.setItem('user', JSON.stringify(user))
+        dispatch(setAuthUser(user))
+      })
     }
 
 
@@ -62,4 +66,5 @@ export const logoutActionCreator = (dispatch: Dispatch) => {
 export type AuthActionReturns =
   ReturnType<typeof setAuthUser> |
   ReturnType<typeof logout> |
-  ReturnType<typeof usingGoogleSession>
+  ReturnType<typeof usingGoogleSession> |
+  ReturnType<typeof setUsername> 

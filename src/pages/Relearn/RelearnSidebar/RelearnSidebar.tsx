@@ -142,9 +142,6 @@ const useStyles = makeStyles((theme: Theme) =>
       flexShrink: 0,
     },
 
-    appBar: {
-      zIndex: theme.zIndex.drawer + 1,
-    },
 
     drawerPaper: {
       width: 300,
