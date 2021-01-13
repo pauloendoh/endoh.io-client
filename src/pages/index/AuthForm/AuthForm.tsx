@@ -1,34 +1,28 @@
-
-import googleIcon from '../../../static/images/google-icon-white.png'
-
 import {
   Box,
   Button,
   CircularProgress,
-  Hidden,
   Link,
   makeStyles,
   Paper,
-  SvgIcon,
   Typography,
 } from "@material-ui/core"
+import MyTextField from "components/shared/MyInputs/MyTextField"
 import { Form, Formik } from "formik"
+import { AuthUserGetDto } from "interfaces/dtos/AuthUserGetDto"
 import React, { MouseEvent, useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import * as AuthActions from "store/auth/authActions"
 import { ApplicationState } from "store/store"
 import Flex from "../../../components/shared/Flexboxes/Flex"
-import MY_AXIOS from "../../../consts/MY_AXIOS"
-import { AuthFormTypes } from "../../../consts/enums/AuthFormTypes"
-import MyAxiosError, { MyFieldError } from "../../../interfaces/MyAxiosError"
-import PasswordResetForm from "./ResetPasswordByEmailForm"
-import { AuthUserGetDto } from "interfaces/dtos/AuthUserGetDto"
-import MyTextField from "components/shared/MyInputs/MyTextField"
-import { Link as RouterLink } from "react-router-dom"
-import { MyDivider } from "../../../components/utils/MyDivider/MyDivider"
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { MyDivider } from "../../../components/utils/MyDivider/MyDivider"
+import { AuthFormTypes } from "../../../consts/enums/AuthFormTypes"
+import MY_AXIOS from "../../../consts/MY_AXIOS"
+import MyAxiosError, { MyFieldError } from "../../../interfaces/MyAxiosError"
+import googleIcon from "../../../static/images/google-icon-white.png"
+import PasswordResetForm from "./ResetPasswordByEmailForm"
 
 require("dotenv").config()
 
@@ -247,7 +241,6 @@ const AuthForm = (props: Props) => {
                 className={classes.googleButton}
               >
                 <FlexVCenter>
-                  
                   <img src={googleIcon} height={24} alt="Google button" />
                   {/* <FontAwesomeIcon className="fab fa-google"/> */}
                   <Box ml={2}>Google</Box>

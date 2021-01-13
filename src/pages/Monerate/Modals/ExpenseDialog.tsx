@@ -159,7 +159,7 @@ const ExpenseDialog = (props: Props) => {
                     id="edit-expense-dialog-title"
                     onClose={handleClose}
                   >
-                    New Expense
+                    {values.id ? "Edit expense" : "New expense"}
                   </DialogTitle>
                   <DialogContent>
                     <Flex>

@@ -16,11 +16,46 @@ context('Relearn', () => {
   })
 
   it('should create and delete expense', () => {
-    cy.get('[data-testid="new-expense-button"]').click()
-    cy.get('#name').type('test expense')
-    cy.get('#save-expense-button').click()
+   
+    const testName = createNewExpense()
 
-    // TODO rest 
+    const expenseItem = cy.get('.expense-item').eq(0)
+    expenseItem.contains(testName)
+    expenseItem.click()
+
+    cy.contains('Delete').click()
+
+    // TODO: show success message
   })
 
+  it("open /settings/monerate/places when clicking 'settings'", () => {
+    cy.get('#user-menu-btn').click()
+    cy.get('#settings-user-menu').click()
+
+    cy.location().should((loc) => {
+      expect(loc.pathname).to.eq('/settings/monerate/places')
+    })
+  })
+ 
+  it("should show 'Edit expense' instead of 'New expense'", () => {
+    const testName = createNewExpense()
+
+    const expenseItem = cy.get('.expense-item').eq(0)
+    expenseItem.contains(testName)
+    expenseItem.click()
+
+    cy.contains(/edit expense/i)
+  })
 })
+
+const createNewExpense = () => {
+  cy.get('[data-testid="new-expense-button"]').click()
+
+  const testName = 'test ' + new Date().toISOString()
+  cy.get('#name').type(testName)
+  cy.get('#save-expense-button').click()
+
+  cy.wait(1000)
+
+  return testName
+}

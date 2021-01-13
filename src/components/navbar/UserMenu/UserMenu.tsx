@@ -33,7 +33,7 @@ const UserMenu = (props: Props) => {
   return (
     <div>
       <Button
-        className="user-email d-flex justify-content-between"
+        id="user-menu-btn"
         onClick={handleClick}
         fullWidth
         aria-controls="simple-menu"
@@ -54,7 +54,7 @@ const UserMenu = (props: Props) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem component={Link} to={settingsHref}>
+        <MenuItem component={Link} to={settingsHref} id="settings-user-menu">
           <Box mr={2}>
             <FontAwesomeIcon icon={faCog} />
           </Box>

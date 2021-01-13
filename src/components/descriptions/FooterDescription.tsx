@@ -4,8 +4,9 @@ import {
   createStyles,
   Hidden,
   IconButton,
+  Link,
   makeStyles,
-  Theme,
+  Theme
 } from "@material-ui/core"
 import GitHubIcon from "@material-ui/icons/GitHub"
 import InstagramIcon from "@material-ui/icons/Instagram"
@@ -14,7 +15,6 @@ import TwitterIcon from "@material-ui/icons/Twitter"
 import React from "react"
 import pauloendoh from "../../static/images/pauloendoh.jpg"
 import Flex from "../shared/Flexboxes/Flex"
-import TextSecondary from "../shared/Text/TextSecondary"
 
 // PE 2/3 - DRY - separate social links in a const array and map it
 const FooterDescription = (props: Props) => {
@@ -30,7 +30,7 @@ const FooterDescription = (props: Props) => {
 
       <Box ml={2}>
         <Box fontWeight="bold">Paulo Ricardo Endoh</Box>
-        <Box mt={1}>25yo CompSci student from São Paulo, Brazil.</Box>
+        <Box mt={1}>25 years old computer science student from São Paulo</Box>
 
         <Hidden smDown>
           <Box mt={2}>
@@ -70,7 +70,9 @@ const FooterDescription = (props: Props) => {
             <GitHubIcon />
           </IconButton>
         </Box>
-        <Box>pauloendoh@gmail.com</Box>
+        <Box>
+          <Link href="mailto:pauloendoh@gmail.com">pauloendoh@gmail.com</Link>
+          </Box>
       </Box>
     </Flex>
   )

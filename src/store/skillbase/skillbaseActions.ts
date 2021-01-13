@@ -1,10 +1,24 @@
 import { action } from 'typesafe-actions';
+import { SkillDto } from '../../dtos/skillbase/SkillDto';
 import { skillbaseActionTypes } from './skillbaseTypes';
+
+export const setSkills = (skills: SkillDto[]) => action(skillbaseActionTypes.SET_SKILLS, skills)
+export const setSkill = (skill: SkillDto) => action(skillbaseActionTypes.SET_SKILL, skill)
+
+export const addSkill = (skill: SkillDto) => action(skillbaseActionTypes.ADD_SKILL, skill)
+
+export const removeSkills = (ids: number[]) => action(skillbaseActionTypes.REMOVE_SKILLS, ids)
+
 
 export const setSidebarIsOpen = (value: boolean) =>
   action(skillbaseActionTypes.SET_SIDEBAR_IS_OPEN, value)
 
 export type SkillbaseActionReturns =
+  ReturnType<typeof setSkills> | 
+  ReturnType<typeof setSkill> | 
+  
+  ReturnType<typeof addSkill> | 
+  ReturnType<typeof removeSkills> | 
   ReturnType<typeof setSidebarIsOpen>
 
 

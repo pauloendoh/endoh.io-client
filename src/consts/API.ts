@@ -18,6 +18,10 @@ const API = {
         resource: '/relearn/resource',
         tag: '/relearn/tag',
     }, 
+    skillbase: {
+        index: '/skillbase', 
+        skill: '/skillbase/skill'
+    },
     utils: {
         linkPreview: '/utils/link-preview',
         passwordResetEmail: "/utils/passwordResetEmail",

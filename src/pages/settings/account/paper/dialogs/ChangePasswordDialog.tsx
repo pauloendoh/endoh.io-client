@@ -24,7 +24,6 @@ import { ApplicationState } from "../../../../../store/store"
 import * as utilsActions from "../../../../../store/utils/utilsActions"
 
 const ChangePasswordDialog = (props: Props) => {
-  const classes = useStyles()
 
   const [responseErrors, setResponseErrors] = useState([] as MyFieldError[])
 
@@ -97,6 +96,7 @@ const ChangePasswordDialog = (props: Props) => {
                     className="mt-3"
                     fullWidth
                     required
+                    autoFocus
                     InputLabelProps={{ required: false }}
                   />
                 </Box>
@@ -162,17 +162,7 @@ const ChangePasswordDialog = (props: Props) => {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    width: 400,
-    marginLeft: "auto",
-    marginRight: "auto",
-  },
-  button: {
-    paddingTop: 10,
-    paddingBottom: 10,
-  },
-}))
+
 
 const mapStateToProps = (state: ApplicationState) => ({
   // editingTag: state.relearn.editingTag,

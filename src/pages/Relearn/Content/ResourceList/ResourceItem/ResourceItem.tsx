@@ -1,38 +1,25 @@
-import {
-  Box,
-  IconButton,
-  Link,
-  ListItemIcon,
-  makeStyles,
-  Menu,
-  MenuItem,
-  Typography,
-} from "@material-ui/core"
+import { Box, Link, makeStyles, Typography } from "@material-ui/core"
 import RootRef from "@material-ui/core/RootRef"
-import DeleteIcon from "@material-ui/icons/Delete"
-import EditIcon from "@material-ui/icons/Edit"
 import EventIcon from "@material-ui/icons/Event"
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
 import ScheduleIcon from "@material-ui/icons/Schedule"
-import API from "consts/API"
 import { DateTime } from "luxon"
 import React, { useRef, useState } from "react"
 import { useDrag, useDrop } from "react-dnd"
 import { connect } from "react-redux"
 import TimeAgo from "react-timeago"
 import { Dispatch } from "redux"
-import MY_AXIOS from "consts/MY_AXIOS"
 import Flex from "../../../../../components/shared/Flexboxes/Flex"
 import FlexVCenter from "../../../../../components/shared/Flexboxes/FlexVCenter"
 import { ResourceDto } from "../../../../../interfaces/dtos/relearn/ResourceDto"
+import { IMoveResource } from "../../../../../interfaces/relearn/IMoveResource"
+import descriptionPng from "../../../../../static/images/description.png"
+import linkPng from "../../../../../static/images/link.png"
 import * as relearnActions from "../../../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../../../store/store"
 import * as utilsActions from "../../../../../store/utils/utilsActions"
 import { urlIsValid } from "../../../../../utils/url/isValidUrl"
-import { IMoveResource } from "../../../../../interfaces/relearn/IMoveResource"
 import RateButton from "./RateButton"
-import descriptionPng from "../../../../../static/images/description.png"
-import linkPng from "../../../../../static/images/link.png"
+import ResourceMoreIcon from "./ResourceMoreIcon/ResourceMoreIcon"
 
 // PE 1/3
 function ResourceItem(props: Props) {
@@ -44,26 +31,6 @@ function ResourceItem(props: Props) {
   }
   const handleMouseLeave = () => {
     setIsHovered(false)
-    setAnchorEl(null) // Avoids error: "The `anchorEl` prop provided to the component is invalid"
-  }
-
-  // Anchor when you click 'More' icon
-  const [anchorEl, setAnchorEl] = useState(null)
-  const handleOpenMore = (event: any) => {
-    setAnchorEl(event.currentTarget)
-  }
-  const handleCloseMore = () => {
-    setAnchorEl(null)
-  }
-
-  const handleDeleteResource = (id: number) => {
-    if (window.confirm("Confirm delete?")) {
-      MY_AXIOS.delete(`${API.relearn.resource}/${id}`).then((res) => {
-        props.setSuccessMessage("Resource deleted!")
-
-        props.removeResource(id)
-      })
-    }
   }
 
   const getThumbnailSrc = (resource: ResourceDto): string => {
@@ -174,63 +141,7 @@ function ResourceItem(props: Props) {
             <Typography variant="body1">{props.resource.title}</Typography>
 
             {/* 'More' icon - PE 1/3 - can be a specific component */}
-            <Box className={classes.moreButtonBox}>
-              {isHovered && (
-                <IconButton
-                  size="small"
-                  id="resource-more-icon"
-                  aria-label="resource-more-icon"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    handleOpenMore(e)
-                  }}
-                >
-                  <MoreHorizIcon />
-                </IconButton>
-              )}
-            </Box>
-            <Menu
-              id="tag-more"
-              anchorEl={anchorEl}
-              getContentAnchorEl={null}
-              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-              transformOrigin={{ vertical: "top", horizontal: "right" }}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={(e) => {
-                const event = e as any
-                event.preventDefault()
-                handleCloseMore()
-              }}
-            >
-              <MenuItem
-                onClick={(e) => {
-                  e.preventDefault()
-                  props.editResource(props.resource)
-                }}
-              >
-                <ListItemIcon className={classes.listItemIcon}>
-                  <EditIcon fontSize="small" />
-                </ListItemIcon>
-                <Typography variant="inherit" noWrap>
-                  Edit
-                </Typography>
-              </MenuItem>
-
-              <MenuItem
-                onClick={() => {
-                  handleDeleteResource(props.resource.id)
-                }}
-                id="delete-resource-button"
-              >
-                <ListItemIcon className={classes.listItemIcon}>
-                  <DeleteIcon fontSize="small" />
-                </ListItemIcon>
-                <Typography variant="inherit" noWrap>
-                  Delete
-                </Typography>
-              </MenuItem>
-            </Menu>
+            <ResourceMoreIcon resource={props.resource} isHovered={isHovered} />
           </Flex>
           {urlIsValid(props.resource.url) && (
             <Link
@@ -299,8 +210,6 @@ const useStyles = makeStyles((theme) => ({
   },
   isDragging: {
     border: "1px dashed rgba(255, 255, 255, 0.2)",
-    // background: "transparent",
-    // p, img, header {opacity: 0}
   },
   dueDateBox: {
     paddingLeft: 16,
@@ -313,10 +222,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     minHeight: 32,
     alignItems: "stretch",
-  },
-  moreButtonBox: {
-    width: 32,
-    minWidth: 32,
   },
 }))
 

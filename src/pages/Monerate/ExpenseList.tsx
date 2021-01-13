@@ -32,7 +32,7 @@ const ExpenseList = (props: Props) => {
         <Box p={2}>
           {expensesPerDay.map((day, index) => (
             <Box key={index}>
-              <Grid container spacing={3}>
+              <Grid container spacing={3} >
                 <Grid item xs={3}>
                   <Typography variant="h6">{day.dayString}</Typography>
                 </Grid>
@@ -61,6 +61,7 @@ const ExpenseList = (props: Props) => {
                   }}
                   fullWidth
                   style={{ textAlign: "inherit", fontWeight: "normal" }}
+                  className="expense-item"
                 >
                   <Grid container spacing={3} alignItems="center">
                     <Grid item xs={3}>
