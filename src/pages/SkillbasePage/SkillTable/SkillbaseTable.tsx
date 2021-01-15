@@ -1,4 +1,4 @@
-import { Box, TableFooter } from "@material-ui/core"
+import { Box } from "@material-ui/core"
 import Checkbox from "@material-ui/core/Checkbox"
 import IconButton from "@material-ui/core/IconButton"
 import Paper from "@material-ui/core/Paper"
@@ -6,7 +6,7 @@ import {
   createStyles,
   lighten,
   makeStyles,
-  Theme
+  Theme,
 } from "@material-ui/core/styles"
 import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"
@@ -31,7 +31,7 @@ import { removeSkills } from "../../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../../store/store"
 import { setSuccessMessage } from "../../../store/utils/utilsActions"
 import AddSkillButton from "./AddSkillButton/AddSkillButton"
-import SkillbaseTableRow from "./SkillTableRow/SkillbaseTableRow"
+import SkillbaseTableRow from "./SkillbaseTableRow/SkillbaseTableRow"
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -361,16 +361,12 @@ const SkillbaseTable = (props: Props) => {
                 })
               }
             </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TableCell colSpan={3}>
-                  <AddSkillButton />
-                </TableCell>
-                <TableCell colSpan={4} />
-              </TableRow>
-            </TableFooter>
           </Table>
         </TableContainer>
+
+        <Toolbar>
+          <AddSkillButton />
+        </Toolbar>
       </Paper>
     </Box>
   )

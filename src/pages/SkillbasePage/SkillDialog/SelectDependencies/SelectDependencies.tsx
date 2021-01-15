@@ -18,12 +18,17 @@ const SelectDependencies = (props: Props) => {
 
   // filtering options
   useEffect(() => {
-    const selectedIds = props.selected.map((skill) => skill.id)
+    const dontShowTheseIds = [
+      ...props.selected.map((skill) => skill.id),
+      props.parentSkillId
+    ]
 
     setOptions(
-      props.allSkills.filter((skill) => !selectedIds.includes(skill.id))
+      props.allSkills.filter((skill) => !dontShowTheseIds.includes(skill.id))
     )
-  }, [props.allSkills, props.selected])
+  }, 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  [props.allSkills, props.selected])
 
   return (
     <Box>
@@ -48,7 +53,7 @@ const SelectDependencies = (props: Props) => {
         renderInput={(params) => (
           <MyTextField
             fullWidth
-            label="High Dependencies"
+            label="Dependencies"
             {...params}
             size="small"
           />
@@ -71,6 +76,7 @@ const mapStateToProps = (state: ApplicationState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({})
 
 interface OwnProps {
+  parentSkillId: number
   selected: SkillDto[]
   onChange?: (
     event: React.ChangeEvent<{}>,

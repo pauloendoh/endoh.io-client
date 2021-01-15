@@ -1,4 +1,4 @@
-import { faFunnelDollar, faGraduationCap, faHome, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faChessKnight, faFunnelDollar, faGraduationCap, faHome, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import PATHS from '../../../consts/PATHS';
 
 // PE 3/3 
@@ -19,6 +19,11 @@ export const applicationOptions: IApplicationOption[] =
         path: '/relearn',
         faIcon: faGraduationCap
     },
+    {
+        applicationName: 'Skillbase',
+        path: '/skillbase',
+        faIcon: faChessKnight
+    },
 
     {
         applicationName: 'Monerate',
@@ -34,6 +39,9 @@ export const getCurrentApplicationByPath = (path: string): IApplicationOption =>
     }
     else if (path.startsWith(PATHS.relearn.index)) {
         return applicationOptions.find(option => option.applicationName === 'Relearn')
+    }
+    else if (path.startsWith(PATHS.skillbase.index)) {
+        return applicationOptions.find(option => option.applicationName === 'Skillbase')
     }
     else {
         return applicationOptions.find(option => option.applicationName === 'Home')

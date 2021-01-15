@@ -1,5 +1,6 @@
-import { Box, Grid, makeStyles } from "@material-ui/core"
-import React, { useEffect, useState } from "react"
+import { Box, makeStyles } from "@material-ui/core"
+import clsx from "clsx"
+import React, { useEffect } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import Flex from "../../components/shared/Flexboxes/Flex"
@@ -9,23 +10,17 @@ import { SkillDto } from "../../dtos/skillbase/SkillDto"
 import { setSkills } from "../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../store/store"
 import ProgressSidebar from "./ProgressSidebar/ProgressSidebar"
+import SkillDialog from "./SkillDialog/SkillDialog"
 import SkillbaseTable from "./SkillTable/SkillbaseTable"
-import SkillDialog from './SkillDialog/SkillDialog'
-import clsx from "clsx"
 // PE 3/3
 const SkillbasePage = (props: Props) => {
-  const [isFetching, setIsFetching] = useState(true)
   const classes = useStyles()
 
   useEffect(
     () => {
-      MY_AXIOS.get<SkillDto[]>(API.skillbase.skill)
-        .then((res) => {
-          props.setSkills(res.data)
-        })
-        .finally(() => {
-          setIsFetching(false)
-        })
+      MY_AXIOS.get<SkillDto[]>(API.skillbase.skill).then((res) => {
+        props.setSkills(res.data)
+      })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
@@ -43,7 +38,7 @@ const SkillbasePage = (props: Props) => {
 
       <ProgressSidebar />
 
-      <SkillDialog/>
+      <SkillDialog />
       {/* <RelearnSidebar /> */}
     </Flex>
   )

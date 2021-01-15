@@ -1,41 +1,54 @@
 import {
   Box,
   Button,
-  Checkbox,
+
   Dialog,
   DialogContent,
   DialogTitle,
-  FormControlLabel,
+
   Grid,
+  IconButton,
+  makeStyles,
+  TextField,
+  Tooltip
 } from "@material-ui/core"
+import StarIcon from "@material-ui/icons/Star"
+import clsx from "clsx"
 import { Form, Formik } from "formik"
 import React from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import Flex from "../../../components/shared/Flexboxes/Flex"
-import MyTextField from "../../../components/shared/MyInputs/MyTextField"
+import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
 import API from "../../../consts/API"
 import MY_AXIOS from "../../../consts/MY_AXIOS"
 import { SkillDto } from "../../../dtos/skillbase/SkillDto"
 import MyAxiosError from "../../../interfaces/MyAxiosError"
 import {
   setEditingSkill,
-  setSkills,
+  setSkills
 } from "../../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../../store/store"
 import * as utilsActions from "../../../store/utils/utilsActions"
 import SelectDependencies from "./SelectDependencies/SelectDependencies"
+import SelectSkillLevel from "./SelectSkillLevel/SelectSkillLevel"
 import SelectTag from "./SelectTag/SelectTag"
 
 const SkillDialog = (props: Props) => {
+  const classes = useStyles()
+
   const handleSubmit = (
-    skill: SkillDto,
+    payload: SkillDto,
 
     setSubmitting: (isSubmitting: boolean) => void
   ) => {
     setSubmitting(true)
 
-    MY_AXIOS.post(API.skillbase.skill, skill)
+    // Current level 5 -> Current level ""
+    if ((payload.currentLevel as unknown) === "") payload.currentLevel = null
+    if ((payload.goalLevel as unknown) === "") payload.goalLevel = null
+
+    MY_AXIOS.post(API.skillbase.skill, payload)
       .then((res) => {
         props.setSkills(res.data)
         props.setEditingSkill(null)
@@ -68,73 +81,71 @@ const SkillDialog = (props: Props) => {
         >
           {({ values, setFieldValue, isSubmitting, handleChange }) => (
             <Form>
-              <DialogTitle id="skill-dialog-title">Add Skill</DialogTitle>
-              <DialogContent>
-                <Box>
-                  <MyTextField
-                    data-testid="skill-name-input"
-                    id={"name" as keyof SkillDto}
-                    name={"name" as keyof SkillDto}
-                    value={values.name}
-                    inputProps={{ "aria-label": "skill-name-input" }}
-                    required
-                    onChange={handleChange}
-                    label="Skill Name"
+              <DialogTitle id="skill-dialog-title">
+                <FlexVCenter justifyContent="space-between">
+                  <TextField
+                    className={classes.nameTextField}
                     fullWidth
+                    placeholder="Untitled skill"
+                    InputProps={{
+                      disableUnderline: true,
+                      className: classes.nameInput,
+                    }}
+                    id={"name"}
+                    name={"name"}
+                    value={values.name}
+                    onChange={handleChange}
                     autoFocus
+                    required
                   />
-                </Box>
-
-                <Box my={2}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={values.isPriority}
-                        onChange={(e) =>
-                          setFieldValue("isPriority", e.target.checked)
-                        }
-                        name="isPriority"
-                      />
-                    }
-                    label="Is Priority"
-                  />
-                </Box>
-
+                  <FlexVCenter>
+                    <Tooltip
+                      title="This skill is a priority in your life right now"
+                      enterDelay={500}
+                      enterNextDelay={500}
+                    >
+                      <IconButton
+                        size="small"
+                        onClick={() => {
+                          setFieldValue("isPriority", !values.isPriority)
+                        }}
+                      >
+                        <StarIcon
+                          className={clsx({
+                            [classes.isNotPriority]: !values.isPriority,
+                            [classes.isPriority]: values.isPriority,
+                          })}
+                        />
+                      </IconButton>
+                    </Tooltip>
+                  </FlexVCenter>
+                </FlexVCenter>
+              </DialogTitle>
+              <DialogContent>
                 <Grid container alignItems="center" spacing={2}>
                   <Grid item xs={6}>
-                    <MyTextField
-                      value={
-                        values.currentLevel !== null ? values.currentLevel : ""
-                      }
-                      name="currentLevel"
-                      id="currentLevel"
-                      type="number"
-                      onChange={handleChange}
-                      label="Current Level"
-                      InputProps={{
-                        inputProps: {
-                          min: 0,
-                          max: 10,
-                        },
+                    <SelectSkillLevel
+                      type="currentLevel"
+                      value={values.currentLevel}
+                      onChange={(newValue: number) => {
+                        setFieldValue("currentLevel", newValue)
                       }}
-                      fullWidth
                     />
                   </Grid>
                   <Grid item xs={6}>
-                    <MyTextField
-                      value={values.goalLevel !== null ? values.goalLevel : ""}
-                      name="goalLevel"
-                      id="goalLevel"
-                      type="number"
-                      onChange={handleChange}
-                      label="Goal"
-                      fullWidth
+                    <SelectSkillLevel
+                      type="goalLevel"
+                      value={values.goalLevel}
+                      onChange={(newValue: number) => {
+                        setFieldValue("goalLevel", newValue)
+                      }}
                     />
                   </Grid>
                 </Grid>
 
                 <Box mt={2}>
                   <SelectDependencies
+                    parentSkillId={values.id}
                     selected={values.dependencies}
                     onChange={(e, values) => {
                       setFieldValue("dependencies", values)
@@ -179,6 +190,21 @@ const SkillDialog = (props: Props) => {
     </Dialog>
   )
 }
+
+const useStyles = makeStyles((theme) => ({
+  nameTextField: {
+    background: "transparent",
+  },
+  nameInput: {
+    fontSize: 24,
+  },
+  isNotPriority: {
+    color: theme.palette.grey[800],
+  },
+  isPriority: {
+    color: "#ffb400",
+  },
+}))
 
 const mapStateToProps = (state: ApplicationState) => ({
   editingSkill: state.skillbase.editingSkill,

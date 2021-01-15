@@ -71,6 +71,7 @@ const ApplicationMenu = () => {
             component={Link}
             to={option.path}
             onClick={handleClose}
+            selected={option.path === currentApplication.path}
             id={"application-menu-option-" + option.applicationName}
           >
             <Box display="flex" alignItems="center">

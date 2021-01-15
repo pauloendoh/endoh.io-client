@@ -7,7 +7,7 @@ context('Endoh.io - Landing Page', () => {
 
   it('should render endoh.io at landing page', () => {
     cy.contains('endoh.io')
-    cy.contains(/Or enter via/i)
+    cy.contains(/Google/i)
   })
 
   it('should login with test credentials', () => {

@@ -46,7 +46,7 @@ const SelectTag = (props: Props) => {
         renderInput={(params) => (
           <MyTextField
             fullWidth
-            label="Tag"
+            label="# tag"
             {...params}
             size="small"
           />
