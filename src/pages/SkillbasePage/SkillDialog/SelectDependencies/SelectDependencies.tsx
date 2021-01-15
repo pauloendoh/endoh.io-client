@@ -2,29 +2,35 @@ import { Box, Typography } from "@material-ui/core"
 import {
   Autocomplete,
   AutocompleteChangeDetails,
-  AutocompleteChangeReason
+  AutocompleteChangeReason,
 } from "@material-ui/lab"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
-import FlexHCenter from "../../../../../components/shared/Flexboxes/FlexHCenter"
-import FlexVCenter from "../../../../../components/shared/Flexboxes/FlexVCenter"
-import MyTextField from "../../../../../components/shared/MyInputs/MyTextField"
-import { SkillDto } from "../../../../../dtos/skillbase/SkillDto"
-import { ApplicationState } from "../../../../../store/store"
+import { SkillDto } from "../../../../dtos/skillbase/SkillDto"
+import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter"
+import FlexHCenter from "../../../../components/shared/Flexboxes/FlexHCenter"
+import MyTextField from "../../../../components/shared/MyInputs/MyTextField"
+import { ApplicationState } from "../../../../store/store"
 
 const SelectDependencies = (props: Props) => {
-  const [dependencies, setDependencies] = useState<SkillDto[]>(
-    props.initialValues
-  )
+  const [options, setOptions] = useState<SkillDto[]>([])
+
+  // filtering options
+  useEffect(() => {
+    const selectedIds = props.selected.map((skill) => skill.id)
+
+    setOptions(
+      props.allSkills.filter((skill) => !selectedIds.includes(skill.id))
+    )
+  }, [props.allSkills, props.selected])
 
   return (
     <Box>
       <Autocomplete
         multiple
-        id="select-dependencies-input"
-        value={dependencies}
-        options={[...props.skills]}
+        value={props.selected}
+        options={[...options]}
         renderOption={(option) => (
           <FlexVCenter>
             {option.id ? (
@@ -39,14 +45,18 @@ const SelectDependencies = (props: Props) => {
           </FlexVCenter>
         )}
         getOptionLabel={(option) => option.name}
-        style={{ width: 200 }}
         renderInput={(params) => (
-          <MyTextField {...params} placeholder="e.g.: Amazon" size="small" />
+          <MyTextField
+            fullWidth
+            label="High Dependencies"
+            {...params}
+            size="small"
+          />
         )}
         onChange={(e, value) => {
           const skills = value as SkillDto[]
 
-          setDependencies(skills)
+          // setDependencies(skills)
           props.onChange(e, skills, null)
         }}
       />
@@ -55,13 +65,13 @@ const SelectDependencies = (props: Props) => {
 }
 
 const mapStateToProps = (state: ApplicationState) => ({
-  skills: state.skillbase.skills,
+  allSkills: state.skillbase.skills,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({})
 
 interface OwnProps {
-  initialValues: SkillDto[]
+  selected: SkillDto[]
   onChange?: (
     event: React.ChangeEvent<{}>,
     value: unknown,

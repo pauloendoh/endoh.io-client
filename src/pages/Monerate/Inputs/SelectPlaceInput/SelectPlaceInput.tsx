@@ -15,11 +15,14 @@ import { ApplicationState } from "store/store"
 import PlaceGetDto from "../../../../interfaces/dtos/monerate/PlaceGetDto"
 import * as monerateActions from "../../../../store/monerate/monerateActions"
 
+// PE 2/3 
 const SelectPlaceInput: React.FC<Props> = (props) => {
+  // PE 1/3 20210113 
   const initialPlace = props.value
     ? props.places.find((p) => p.id === props.value)
     : null
 
+  // localValue ?
   const [place, setPlace] = useState<PlaceGetDto>(initialPlace)
 
   return (
@@ -29,7 +32,7 @@ const SelectPlaceInput: React.FC<Props> = (props) => {
         value={place}
         options={[
           ...props.places,
-          {
+          { // create a newPlaceDto() or something
             id: null,
             userId: 0,
             name: "+ New place",
@@ -40,7 +43,8 @@ const SelectPlaceInput: React.FC<Props> = (props) => {
           },
         ]}
         renderOption={(option) => (
-          <FlexVCenter>
+          // divide into a component? 
+          <FlexVCenter> 
             {option.id ? (
               <FlexVCenter>
                 <Box minWidth={30}>
@@ -61,6 +65,8 @@ const SelectPlaceInput: React.FC<Props> = (props) => {
           <MyTextField {...params} placeholder="e.g.: Amazon" size="small" />
         )}
         onChange={(e, value) => {
+
+          // create a handleChange method
           const place = value as PlaceGetDto
           if (place && place.id === null) {
             props.startNewPlace()

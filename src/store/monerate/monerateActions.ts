@@ -1,10 +1,10 @@
-import CategoryGetDto from '../../interfaces/dtos/monerate/CategoryDtos/CategoryGetDto';
-import PlaceGetDto from '../../interfaces/dtos/monerate/PlaceGetDto';
 import { IExpenseFilter } from 'pages/Monerate/ExpenseFilter/IExpenseFilter';
 import { action } from 'typesafe-actions';
-import ExpenseGetDto from '../../interfaces/dtos/monerate/ExpenseGetDto';
+import CategoryGetDto from '../../interfaces/dtos/monerate/CategoryDtos/CategoryGetDto';
+import ExpenseGetDto, { newExpenseDto } from '../../interfaces/dtos/monerate/ExpenseGetDto';
+import PlaceGetDto from '../../interfaces/dtos/monerate/PlaceGetDto';
+import { newCategory, newPlace } from '../../utils/factories/MonerateFactories';
 import { monerateActionTypes } from './monerateTypes';
-import { newCategory, newExpense, newPlace } from '../../utils/factories/MonerateFactories';
 
 export const setExpenses = (expenses: ExpenseGetDto[]) => action(monerateActionTypes.SET_EXPENSES, expenses)
 
@@ -19,7 +19,7 @@ export const setPlaces = (places: PlaceGetDto[]) => action(monerateActionTypes.S
 
 export const setCategories = (places: CategoryGetDto[]) => action(monerateActionTypes.SET_CATEGORIES, places)
 
-export const startNewExpense = () => action(monerateActionTypes.SET_EDITING_EXPENSE, newExpense)
+export const startNewExpense = () => action(monerateActionTypes.SET_EDITING_EXPENSE, newExpenseDto)
 export const editExpense = (expense: ExpenseGetDto) => action(monerateActionTypes.SET_EDITING_EXPENSE, expense)
 export const closeExpenseModal = () => action(monerateActionTypes.SET_EDITING_EXPENSE, null)
 

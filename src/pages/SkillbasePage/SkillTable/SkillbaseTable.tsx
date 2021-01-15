@@ -6,7 +6,7 @@ import {
   createStyles,
   lighten,
   makeStyles,
-  Theme,
+  Theme
 } from "@material-ui/core/styles"
 import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"
@@ -23,15 +23,15 @@ import clsx from "clsx"
 import React from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
-import API from '../../../consts/API'
-import MY_AXIOS from '../../../consts/MY_AXIOS'
+import API from "../../../consts/API"
+import MY_AXIOS from "../../../consts/MY_AXIOS"
+import { IdsDto } from "../../../dtos/IdsDto"
 import { SkillDto } from "../../../dtos/skillbase/SkillDto"
+import { removeSkills } from "../../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../../store/store"
+import { setSuccessMessage } from "../../../store/utils/utilsActions"
 import AddSkillButton from "./AddSkillButton/AddSkillButton"
-import SkillTableRow from "./SkillTableRow/SkillTableRow"
-import {IdsDto} from '../../../dtos/IdsDto'
-import { removeSkills } from '../../../store/skillbase/skillbaseActions'
-import { setSuccessMessage } from '../../../store/utils/utilsActions'
+import SkillbaseTableRow from "./SkillTableRow/SkillbaseTableRow"
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -89,7 +89,13 @@ const headCells: HeadCell[] = [
     label: "Current",
   },
   { id: "goalLevel", numeric: true, disablePadding: false, label: "Goal" },
-  { id: "dependencies", numeric: false, disablePadding: false, label: "Dependencies" },
+  {
+    id: "dependencies",
+    numeric: false,
+    disablePadding: false,
+    label: "Dependencies",
+  },
+  { id: "tagId", numeric: false, disablePadding: false, label: "Tag" },
 ]
 
 interface EnhancedTableProps {
@@ -181,7 +187,7 @@ const useToolbarStyles = makeStyles((theme: Theme) =>
 )
 
 interface EnhancedTableToolbarProps {
-  numSelected: number, 
+  numSelected: number
   onClickDelete: () => void
 }
 
@@ -217,9 +223,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       {
         numSelected > 0 && (
           <Tooltip title="Delete">
-            <IconButton 
-            onClick={props.onClickDelete}
-            aria-label="delete">
+            <IconButton onClick={props.onClickDelete} aria-label="delete">
               <DeleteIcon />
             </IconButton>
           </Tooltip>
@@ -260,7 +264,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-const SkillTable = (props: Props) => {
+const SkillbaseTable = (props: Props) => {
   const classes = useStyles()
   const [order, setOrder] = React.useState<Order>("asc")
   const [orderBy, setOrderBy] = React.useState<keyof SkillDto>("goalLevel")
@@ -309,7 +313,7 @@ const SkillTable = (props: Props) => {
   const handleDelete = () => {
     MY_AXIOS.delete<SkillDto[]>(API.skillbase.skill, {
       headers: {},
-      data: {ids: selectedIds} as IdsDto,
+      data: { ids: selectedIds } as IdsDto,
     }).then((res) => {
       props.removeSkills(selectedIds)
       props.setSuccessMessage("Skills deleted successfully!")
@@ -320,9 +324,10 @@ const SkillTable = (props: Props) => {
   return (
     <Box className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar 
-        onClickDelete={handleDelete}
-        numSelected={selectedIds.length} />
+        <EnhancedTableToolbar
+          onClickDelete={handleDelete}
+          numSelected={selectedIds.length}
+        />
         <TableContainer>
           <Table
             className={classes.table}
@@ -345,7 +350,7 @@ const SkillTable = (props: Props) => {
 
                 props.skills.map((skill, index) => {
                   return (
-                    <SkillTableRow
+                    <SkillbaseTableRow
                       key={skill.id}
                       skill={skill}
                       index={index}
@@ -379,9 +384,9 @@ const mapStateToProps = (state: ApplicationState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  removeSkills: (ids: number[]) => dispatch(removeSkills(ids)), 
+  removeSkills: (ids: number[]) => dispatch(removeSkills(ids)),
 
-  setSuccessMessage: (message: string) => dispatch(setSuccessMessage(message))
+  setSuccessMessage: (message: string) => dispatch(setSuccessMessage(message)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SkillTable)
+export default connect(mapStateToProps, mapDispatchToProps)(SkillbaseTable)

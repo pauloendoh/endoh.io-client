@@ -6,8 +6,10 @@ export const setSkills = (skills: SkillDto[]) => action(skillbaseActionTypes.SET
 export const setSkill = (skill: SkillDto) => action(skillbaseActionTypes.SET_SKILL, skill)
 
 export const addSkill = (skill: SkillDto) => action(skillbaseActionTypes.ADD_SKILL, skill)
+export const setEditingSkill = (skill: SkillDto) => action(skillbaseActionTypes.SET_EDITING_SKILL, skill)
 
 export const removeSkills = (ids: number[]) => action(skillbaseActionTypes.REMOVE_SKILLS, ids)
+
 
 
 export const setSidebarIsOpen = (value: boolean) =>
@@ -18,7 +20,10 @@ export type SkillbaseActionReturns =
   ReturnType<typeof setSkill> | 
   
   ReturnType<typeof addSkill> | 
+  ReturnType<typeof setEditingSkill> | 
   ReturnType<typeof removeSkills> | 
+
+
   ReturnType<typeof setSidebarIsOpen>
 
 

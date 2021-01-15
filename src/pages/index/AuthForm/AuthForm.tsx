@@ -23,10 +23,12 @@ import MY_AXIOS from "../../../consts/MY_AXIOS"
 import MyAxiosError, { MyFieldError } from "../../../interfaces/MyAxiosError"
 import googleIcon from "../../../static/images/google-icon-white.png"
 import PasswordResetForm from "./ResetPasswordByEmailForm"
+import AccessAlarmIcon from '@material-ui/icons/AccessAlarm';
+import API from '../../../consts/API'
 
 require("dotenv").config()
 
-// PE 1/3 - Dividir em 3 possíveis forms: login, register, passwordReset
+// PE 1/3 20210109 - Dividir em 3 possíveis forms: login, register, passwordReset 
 const AuthForm = (props: Props) => {
   const classes = useStyles()
 
@@ -40,6 +42,12 @@ const AuthForm = (props: Props) => {
     // Authenticate using via passport api in the backend
     // Open Twitter login page
     window.open(process.env.REACT_APP_API_URL + "auth/google", "_self")
+  }
+
+  const handleTempSignIn = () => {
+    MY_AXIOS.get<AuthUserGetDto>(API.auth.tempUser).then(res => {
+      props.setAuthUser(res.data)
+    })
   }
 
   return (
@@ -231,7 +239,7 @@ const AuthForm = (props: Props) => {
 
           <Box mt={2}>
             <MyDivider>
-              <Box minWidth={100}>Or enter via</Box>
+              <Box minWidth={30}>Or</Box>
             </MyDivider>
 
             <Box mt={2}>
@@ -243,10 +251,26 @@ const AuthForm = (props: Props) => {
                 <FlexVCenter>
                   <img src={googleIcon} height={24} alt="Google button" />
                   {/* <FontAwesomeIcon className="fab fa-google"/> */}
-                  <Box ml={2}>Google</Box>
+                  <Box ml={2} width={180}>Enter with Google</Box>
                 </FlexVCenter>
               </Button>
             </Box>
+
+            <Box mt={1}>
+              <Button
+                onClick={handleTempSignIn}
+                fullWidth
+                className={classes.googleButton}
+              >
+                <FlexVCenter>
+                  
+                  
+                  <AccessAlarmIcon fontSize="large"/>
+                  <Box ml={2} width={180}>Test with Temporary User</Box>
+                </FlexVCenter>
+              </Button>
+            </Box>
+
           </Box>
         </Box>
       )}

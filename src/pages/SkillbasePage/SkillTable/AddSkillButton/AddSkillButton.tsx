@@ -4,24 +4,18 @@ import { Button } from "@material-ui/core"
 import React from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
-import API from "../../../../consts/API"
-import MY_AXIOS from "../../../../consts/MY_AXIOS"
+import { newSkillDto, SkillDto } from "../../../../dtos/skillbase/SkillDto"
+import { setEditingSkill } from "../../../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../../../store/store"
-import { SkillDto } from "../../../../dtos/skillbase/SkillDto"
-import { addSkill } from "../../../../store/skillbase/skillbaseActions"
 
 const AddSkillButton = (props: Props) => {
   const handleSubmit = () => {
-    MY_AXIOS.post<SkillDto>(API.skillbase.skill).then((res) => {
-      props.addSkill(res.data)
-    })
+    props.setEditingSkill(newSkillDto)
   }
 
   return (
     <Button
       onClick={handleSubmit}
-      variant="contained"
-      color="primary"
       size="small"
       startIcon={<FontAwesomeIcon icon={faPlus} size="xs" />}
     >
@@ -33,7 +27,7 @@ const AddSkillButton = (props: Props) => {
 const mapStateToProps = (state: ApplicationState) => ({})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  addSkill: (skill: SkillDto) => dispatch(addSkill(skill)),
+  setEditingSkill: (skill: SkillDto) => dispatch(setEditingSkill(skill)),
 })
 
 type Props = ReturnType<typeof mapStateToProps> &

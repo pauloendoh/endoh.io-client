@@ -43,9 +43,6 @@ type Props = ReturnType<typeof mapStateToProps> &
 const ExpenseDialog = (props: Props) => {
   // 20201215 - Actually, I can change rating inside formik values, using setFieldValue
   const [rating, setRating] = React.useState(0)
-  const [formikInitialValues, setFormikInitialValues] = useState<
-    ExpensePostDto
-  >(null)
 
   const handleSetRating = (val: number) => {
     if (val === rating) {
@@ -54,26 +51,6 @@ const ExpenseDialog = (props: Props) => {
       setRating(val)
     }
   }
-
-  useEffect(() => {
-    // PE 1/3 - ew
-    if (props.editingExpense?.id) {
-      setFormikInitialValues({
-        id: props.editingExpense.id,
-        placeId: props.editingExpense.place?.id,
-        description: props.editingExpense.description,
-        name: props.editingExpense.name,
-        rating: props.editingExpense.rating,
-        value: props.editingExpense.value,
-
-        categoryId: props.editingExpense.category?.id,
-      })
-
-      setRating(props.editingExpense.rating)
-    } else {
-      setFormikInitialValues(newExpenseDto)
-    }
-  }, [props.editingExpense])
 
   const handleClickOpen = () => {
     props.startNewExpense()
@@ -148,7 +125,7 @@ const ExpenseDialog = (props: Props) => {
         >
           <Box pb={1} px={1}>
             <Formik
-              initialValues={formikInitialValues}
+              initialValues={props.editingExpense}
               onSubmit={(formikValues, { setSubmitting }) => {
                 handleSubmit(formikValues, setSubmitting)
               }}
@@ -166,10 +143,10 @@ const ExpenseDialog = (props: Props) => {
                       <Box>
                         <Typography component="legend">Place</Typography>
                         <SelectPlaceInput
-                          value={values.placeId}
+                          value={values.place?.id ? values.place.id : null}
                           onChange={(e, value) => {
                             const place = value as PlaceGetDto
-                            setFieldValue("placeId", place?.id)
+                            setFieldValue("place", place)
                           }}
                         />
                       </Box>
@@ -228,10 +205,10 @@ const ExpenseDialog = (props: Props) => {
                         <Box>
                           <Typography component="legend">Category</Typography>
                           <SelectCategoryInput
-                            value={values.categoryId}
+                            value={values.category ? values.category.id : null}
                             onChange={(e, value) => {
                               const category = value as CategoryGetDto
-                              setFieldValue("categoryId", category?.id)
+                              setFieldValue("category", category)
                             }}
                           />
                         </Box>

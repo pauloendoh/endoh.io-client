@@ -1,4 +1,4 @@
-import { Grid } from "@material-ui/core"
+import { Box, Grid, makeStyles } from "@material-ui/core"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
@@ -9,10 +9,13 @@ import { SkillDto } from "../../dtos/skillbase/SkillDto"
 import { setSkills } from "../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../store/store"
 import ProgressSidebar from "./ProgressSidebar/ProgressSidebar"
-import SkillTable from "./SkillTable/SkillTable"
+import SkillbaseTable from "./SkillTable/SkillbaseTable"
+import SkillDialog from './SkillDialog/SkillDialog'
+import clsx from "clsx"
 // PE 3/3
 const SkillbasePage = (props: Props) => {
   const [isFetching, setIsFetching] = useState(true)
+  const classes = useStyles()
 
   useEffect(
     () => {
@@ -29,22 +32,48 @@ const SkillbasePage = (props: Props) => {
   )
 
   return (
-    <Flex height="100%" px={5} pt={5}>
-      <Grid container>
-        <Grid item xs>
-          <SkillTable />
-        </Grid>
-      </Grid>
+    <Flex height="100%" pt={5}>
+      <Box
+        className={clsx(classes.content, {
+          [classes.contentShift]: props.sidebarIsOpen,
+        })}
+      >
+        <SkillbaseTable />
+      </Box>
+
       <ProgressSidebar />
+
+      <SkillDialog/>
       {/* <RelearnSidebar /> */}
     </Flex>
   )
 }
 
+const useStyles = makeStyles((theme) => ({
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginRight: 0,
+  },
+  contentShift: {
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginRight: 300,
+  },
+}))
+
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>
 
-const mapStateToProps = (state: ApplicationState) => ({})
+const mapStateToProps = (state: ApplicationState) => ({
+  sidebarIsOpen: state.skillbase.sidebarIsOpen,
+})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setSkills: (skills: SkillDto[]) => dispatch(setSkills(skills)),

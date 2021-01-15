@@ -7,6 +7,7 @@ const API = {
         resetPassword: '/auth/password-reset', 
         authPasswordChange: '/auth/authenticated-password-change',
         username: '/auth/username',
+        tempUser: '/auth/temp-user'
     },
     monerate: {
         expense: '/monerate/expense',
@@ -20,7 +21,8 @@ const API = {
     }, 
     skillbase: {
         index: '/skillbase', 
-        skill: '/skillbase/skill'
+        skill: '/skillbase/skill', 
+        tag: '/skillbase/tag', 
     },
     utils: {
         linkPreview: '/utils/link-preview',

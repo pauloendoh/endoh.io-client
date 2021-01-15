@@ -5,7 +5,7 @@ import { skillbaseActionTypes, SkillbaseState } from './skillbaseTypes';
 
 const INITIAL_STATE: SkillbaseState = {
   skills: [],
-
+  editingSkill: null, 
   sidebarIsOpen: true,
 }
 
@@ -17,10 +17,10 @@ const skillbaseReducer: Reducer<SkillbaseState, SkillbaseActionReturns> = (state
       return setSkill(state, action.payload)
     case skillbaseActionTypes.ADD_SKILL:
       return addSkill(state, action.payload)
-
+      case skillbaseActionTypes.SET_EDITING_SKILL:
+        return {...state, editingSkill: action.payload}
     case skillbaseActionTypes.REMOVE_SKILLS:
       return removeSkills(state, action.payload)
-
     case skillbaseActionTypes.SET_SIDEBAR_IS_OPEN:
       return { ...state, sidebarIsOpen: action.payload }
 
@@ -56,5 +56,7 @@ const removeSkills = (state: SkillbaseState, idsToRemove: number[]) => {
 
   return { ...state, skills: skillsToKeep }
 }
+
+
 
 export default skillbaseReducer

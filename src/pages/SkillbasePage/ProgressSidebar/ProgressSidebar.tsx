@@ -47,7 +47,6 @@ function ProgressSidebar(props: Props) {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: 300,
       flexShrink: 0,
     },
 
