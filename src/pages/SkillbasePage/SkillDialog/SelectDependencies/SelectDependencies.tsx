@@ -14,21 +14,22 @@ import MyTextField from "../../../../components/shared/MyInputs/MyTextField"
 import { ApplicationState } from "../../../../store/store"
 
 const SelectDependencies = (props: Props) => {
-  const [options, setOptions] = useState<SkillDto[]>([])
+  const [options, setOptions] = useState<SkillDto[]>(props.allSkills)
 
   // filtering options
-  useEffect(() => {
-    const dontShowTheseIds = [
-      ...props.selected.map((skill) => skill.id),
-      props.parentSkillId
-    ]
+  useEffect(
+    () => {
+      const dontShowTheseIds = [
+        props.parentSkillId,
+      ]
 
-    setOptions(
-      props.allSkills.filter((skill) => !dontShowTheseIds.includes(skill.id))
-    )
-  }, 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  [props.allSkills, props.selected])
+      setOptions(
+        props.allSkills.filter((skill) => !dontShowTheseIds.includes(skill.id))
+      )
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [props.allSkills, props.selected]
+  )
 
   return (
     <Box>
@@ -36,6 +37,9 @@ const SelectDependencies = (props: Props) => {
         multiple
         value={props.selected}
         options={[...options]}
+        getOptionSelected={(option, value) => {
+          return option.id === value.id
+        }}
         renderOption={(option) => (
           <FlexVCenter>
             {option.id ? (

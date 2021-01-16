@@ -19,7 +19,7 @@ const SkillLevelText = (props: { value: number }) => {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    fontWeight: 500,
+    fontWeight: 900,
   },
   basic: {
     color: "#ffaa00",

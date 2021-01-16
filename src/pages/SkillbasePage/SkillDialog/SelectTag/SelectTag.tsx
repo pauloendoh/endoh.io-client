@@ -18,7 +18,9 @@ const SelectTag = (props: Props) => {
 
   useEffect(
     () => {
-      setTag(props.allTags.find((tag) => tag.id === props.tagId))
+      if (props.tagId) {
+        setTag(props.allTags.find((tag) => tag.id === props.tagId))
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.tagId]
@@ -44,12 +46,7 @@ const SelectTag = (props: Props) => {
         )}
         getOptionLabel={(option) => option.name}
         renderInput={(params) => (
-          <MyTextField
-            fullWidth
-            label="# tag"
-            {...params}
-            size="small"
-          />
+          <MyTextField fullWidth label="# tag" {...params} size="small" />
         )}
         onChange={(e, value) => {
           const tag = value as TagDto

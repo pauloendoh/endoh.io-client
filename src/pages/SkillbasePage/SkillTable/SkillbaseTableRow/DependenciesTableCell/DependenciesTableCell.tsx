@@ -1,4 +1,4 @@
-import { Box, Chip, makeStyles } from "@material-ui/core"
+import { Box, Chip, makeStyles, Typography } from "@material-ui/core"
 import React from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"

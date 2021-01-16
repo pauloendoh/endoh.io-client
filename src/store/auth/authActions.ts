@@ -4,7 +4,6 @@ import { getQueryParam } from 'utils/url/getQueryParam';
 import API from '../../consts/API';
 import MY_AXIOS from '../../consts/MY_AXIOS';
 import { AuthUserGetDto } from '../../interfaces/dtos/AuthUserGetDto';
-import { deleteCookie } from '../../utils/cookie/deleteCookie';
 import { monerateActionTypes } from '../monerate/monerateTypes';
 import { relearnActionTypes } from '../relearn/relearnTypes';
 import { AuthActionTypes } from './authTypes';
@@ -41,7 +40,6 @@ export function checkAuthOrLogoutActionCreator(dispatch: Dispatch) {
       })
     }
 
-
     return usingGoogleSession()
   }
   else {
@@ -54,10 +52,6 @@ export function checkAuthOrLogoutActionCreator(dispatch: Dispatch) {
 }
 
 export const logoutActionCreator = (dispatch: Dispatch) => {
-
-  deleteCookie('endoh_google_session')
-
-  // dispatching other actions
   dispatch(action(relearnActionTypes.CLEAR_RELEARN_REDUCER))
   dispatch(action(monerateActionTypes.CLEAR_MONERATE_REDUCER))
   return logout()

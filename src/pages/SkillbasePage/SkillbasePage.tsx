@@ -1,14 +1,19 @@
 import { Box, makeStyles } from "@material-ui/core"
 import clsx from "clsx"
 import React, { useEffect } from "react"
+import { GlobalHotKeys } from "react-hotkeys"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import Flex from "../../components/shared/Flexboxes/Flex"
 import API from "../../consts/API"
 import MY_AXIOS from "../../consts/MY_AXIOS"
-import { SkillDto } from "../../dtos/skillbase/SkillDto"
-import { setSkills } from "../../store/skillbase/skillbaseActions"
+import { newSkillDto, SkillDto } from "../../dtos/skillbase/SkillDto"
+import {
+  setEditingSkill,
+  setSkills,
+} from "../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../store/store"
+import { sleep } from "../../utils/sleep"
 import ProgressSidebar from "./ProgressSidebar/ProgressSidebar"
 import SkillDialog from "./SkillDialog/SkillDialog"
 import SkillbaseTable from "./SkillTable/SkillbaseTable"
@@ -26,21 +31,31 @@ const SkillbasePage = (props: Props) => {
     []
   )
 
+  const keyMap = { openModal: "q" }
+  const handlers = {
+    openModal: async () => {
+      await sleep(100) // required so it doesn't add 'q' at the title field immediately
+      props.setEditingSkill(newSkillDto)
+    },
+  }
+
   return (
-    <Flex height="100%" pt={5}>
-      <Box
-        className={clsx(classes.content, {
-          [classes.contentShift]: props.sidebarIsOpen,
-        })}
-      >
-        <SkillbaseTable />
-      </Box>
+    <GlobalHotKeys keyMap={keyMap} handlers={handlers}>
+      <Flex height="100%" pt={5}>
+        <Box
+          className={clsx(classes.content, {
+            [classes.contentShift]: props.sidebarIsOpen,
+          })}
+        >
+          <SkillbaseTable />
+        </Box>
 
-      <ProgressSidebar />
+        <ProgressSidebar />
 
-      <SkillDialog />
-      {/* <RelearnSidebar /> */}
-    </Flex>
+        <SkillDialog />
+        {/* <RelearnSidebar /> */}
+      </Flex>
+    </GlobalHotKeys>
   )
 }
 
@@ -72,6 +87,7 @@ const mapStateToProps = (state: ApplicationState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setSkills: (skills: SkillDto[]) => dispatch(setSkills(skills)),
+  setEditingSkill: (skill: SkillDto) => dispatch(setEditingSkill(skill)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SkillbasePage)

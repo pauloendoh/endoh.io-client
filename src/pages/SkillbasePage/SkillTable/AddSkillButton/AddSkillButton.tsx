@@ -1,6 +1,6 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Button } from "@material-ui/core"
+import { Button, Tooltip } from "@material-ui/core"
 import React from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
@@ -9,18 +9,16 @@ import { setEditingSkill } from "../../../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../../../store/store"
 
 const AddSkillButton = (props: Props) => {
-  const handleSubmit = () => {
-    props.setEditingSkill(newSkillDto)
-  }
-
   return (
-    <Button
-      onClick={handleSubmit}
-      size="small"
-      startIcon={<FontAwesomeIcon icon={faPlus} size="xs" />}
-    >
-      Add Skill
-    </Button>
+    <Tooltip title="(q) Quick Add Skill">
+      <Button
+        onClick={() => props.setEditingSkill(newSkillDto)}
+        size="small"
+        startIcon={<FontAwesomeIcon icon={faPlus} size="xs" />}
+      >
+        Add Skill
+      </Button>
+    </Tooltip>
   )
 }
 

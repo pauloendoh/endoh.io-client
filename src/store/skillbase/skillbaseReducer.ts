@@ -5,8 +5,11 @@ import { skillbaseActionTypes, SkillbaseState } from './skillbaseTypes';
 
 const INITIAL_STATE: SkillbaseState = {
   skills: [],
-  editingSkill: null, 
-  sidebarIsOpen: true,
+
+  sortBy: null,
+
+  editingSkill: null,
+  sidebarIsOpen: false,
 }
 
 const skillbaseReducer: Reducer<SkillbaseState, SkillbaseActionReturns> = (state = INITIAL_STATE, action: SkillbaseActionReturns): SkillbaseState => {
@@ -17,13 +20,15 @@ const skillbaseReducer: Reducer<SkillbaseState, SkillbaseActionReturns> = (state
       return setSkill(state, action.payload)
     case skillbaseActionTypes.ADD_SKILL:
       return addSkill(state, action.payload)
-      case skillbaseActionTypes.SET_EDITING_SKILL:
-        return {...state, editingSkill: action.payload}
+    case skillbaseActionTypes.SET_EDITING_SKILL:
+      return { ...state, editingSkill: action.payload }
+
+    case skillbaseActionTypes.SORT_SKILL:
+      return { ...state, sortBy: action.payload }
     case skillbaseActionTypes.REMOVE_SKILLS:
       return removeSkills(state, action.payload)
     case skillbaseActionTypes.SET_SIDEBAR_IS_OPEN:
       return { ...state, sidebarIsOpen: action.payload }
-
     default:
       return { ...state }
   }

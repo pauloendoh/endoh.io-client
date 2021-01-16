@@ -20,28 +20,33 @@ import Tooltip from "@material-ui/core/Tooltip"
 import Typography from "@material-ui/core/Typography"
 import DeleteIcon from "@material-ui/icons/Delete"
 import clsx from "clsx"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
+import MyTextField from "../../../components/shared/MyInputs/MyTextField"
 import API from "../../../consts/API"
 import MY_AXIOS from "../../../consts/MY_AXIOS"
 import { IdsDto } from "../../../dtos/IdsDto"
 import { SkillDto } from "../../../dtos/skillbase/SkillDto"
-import { removeSkills } from "../../../store/skillbase/skillbaseActions"
+import {
+  removeSkills,
+  sortSkill,
+} from "../../../store/skillbase/skillbaseActions"
+import { SortSkill } from "../../../store/skillbase/skillbaseTypes"
 import { ApplicationState } from "../../../store/store"
 import { setSuccessMessage } from "../../../store/utils/utilsActions"
 import AddSkillButton from "./AddSkillButton/AddSkillButton"
 import SkillbaseTableRow from "./SkillbaseTableRow/SkillbaseTableRow"
 
-function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1
-  }
-  return 0
-}
+// function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
+//   if (b[orderBy] < a[orderBy]) {
+//     return -1
+//   }
+//   if (b[orderBy] > a[orderBy]) {
+//     return 1
+//   }
+//   return 0
+// }
 
 type Order = "asc" | "desc"
 
@@ -86,7 +91,7 @@ const headCells: HeadCell[] = [
     id: "currentLevel",
     numeric: true,
     disablePadding: false,
-    label: "Current",
+    label: "Now",
   },
   { id: "goalLevel", numeric: true, disablePadding: false, label: "Goal" },
   {
@@ -141,7 +146,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
+            align="left"
             padding={headCell.disablePadding ? "none" : "default"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -188,12 +193,15 @@ const useToolbarStyles = makeStyles((theme: Theme) =>
 
 interface EnhancedTableToolbarProps {
   numSelected: number
+  onChangeFilter: (text: string) => void
   onClickDelete: () => void
 }
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const classes = useToolbarStyles()
   const { numSelected } = props
+
+  const [throttle, setThrottle] = useState<NodeJS.Timeout>(null)
 
   return (
     <Toolbar
@@ -220,20 +228,21 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           Your skills
         </Typography>
       )}
-      {
-        numSelected > 0 && (
-          <Tooltip title="Delete">
-            <IconButton onClick={props.onClickDelete} aria-label="delete">
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        )
-        // <Tooltip title="Filter list">
-        //   {/* <IconButton aria-label="filter list">
-        //     <FilterListIcon />
-        //   </IconButton> */}
-        // </Tooltip>
-      }
+      {numSelected > 0 ? (
+        <Tooltip title="Delete">
+          <IconButton onClick={props.onClickDelete} aria-label="delete">
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
+      ) : (
+        <Box mr={2} width={450}>
+          <MyTextField
+            label="Filter by name or tag"
+            onChange={(e) => props.onChangeFilter(e.target.value)}
+            fullWidth
+          />
+        </Box>
+      )}
     </Toolbar>
   )
 }
@@ -270,6 +279,89 @@ const SkillbaseTable = (props: Props) => {
   const [orderBy, setOrderBy] = React.useState<keyof SkillDto>("goalLevel")
   const [selectedIds, setSelectedIds] = React.useState<number[]>([])
 
+  const [textFilter, setTextFilter] = useState("")
+
+  const filterAndSortSkills = () => {
+    let skills = props.skills
+
+    if (textFilter.length) {
+      const text = textFilter.replace("#", "").trim().toLowerCase()
+      skills = skills.filter((skill) => {
+        if (skill.name.trim().toLowerCase().includes(text)) return true
+
+        const tag = props.allTags.find((tag) => tag.id === skill.tagId)
+
+        if (tag?.name.trim().toLowerCase().includes(text)) return true
+        
+      })
+    }
+
+    if (!props.sortBy) {
+      return skills
+    }
+
+    const property = props.sortBy.property
+    const order = props.sortBy.order
+
+    if (property === "isPriority") {
+      if (order === "asc") {
+        skills = skills.sort((a, b) => {
+          if (a.isPriority === b.isPriority) return 0
+          if (a.isPriority) return -1
+          return 1
+        })
+      } else {
+        skills = skills.sort((a, b) => {
+          if (a.isPriority === b.isPriority) return 0
+          if (b.isPriority) return -1 // only difference
+          return 1
+        })
+      }
+    } else if (property === "name") {
+      if (order === "asc") {
+        skills = skills.sort((a, b) => a.name.localeCompare(b.name))
+      } else {
+        skills = skills.sort((a, b) => b.name.localeCompare(a.name))
+      }
+    } else if (property === "currentLevel" || property === "goalLevel") {
+      if (order === "asc") {
+        skills = skills.sort((a, b) => a[property] - b[property])
+      } else {
+        skills = skills.sort((a, b) => b[property] - a[property])
+      }
+    } else if (property === "dependencies") {
+      if (order === "asc") {
+        skills = skills.sort(
+          (a, b) => a.dependencies.length - b.dependencies.length
+        )
+      } else {
+        skills = skills.sort(
+          (a, b) => b.dependencies.length - a.dependencies.length
+        )
+      }
+    } else if (property === "tagId") {
+      if (order === "asc") {
+        skills = skills.sort((a, b) => a.tagId - b.tagId)
+      } else {
+        skills = skills.sort((a, b) => b.tagId - a.tagId)
+      }
+    }
+
+    return skills
+  }
+
+  const [visibleSkills, setVisibleSkills] = useState<SkillDto[]>(
+    filterAndSortSkills()
+  )
+
+  useEffect(
+    () => {
+      setVisibleSkills(filterAndSortSkills())
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [props.skills, props.sortBy, textFilter]
+  )
+
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
     property: keyof SkillDto
@@ -277,11 +369,16 @@ const SkillbaseTable = (props: Props) => {
     const isAsc = orderBy === property && order === "asc"
     setOrder(isAsc ? "desc" : "asc")
     setOrderBy(property)
+
+    props.sortSkill({
+      order: isAsc ? "desc" : "asc",
+      property: property,
+    })
   }
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = props.skills.map((skill) => skill.id)
+      const newSelecteds = visibleSkills.map((skill) => skill.id)
       setSelectedIds(newSelecteds)
       return
     }
@@ -327,11 +424,13 @@ const SkillbaseTable = (props: Props) => {
         <EnhancedTableToolbar
           onClickDelete={handleDelete}
           numSelected={selectedIds.length}
+          onChangeFilter={setTextFilter}
         />
         <TableContainer>
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
+            size="small"
             // size={dense ? "small" : "medium"}
             aria-label="enhanced table"
           >
@@ -348,7 +447,7 @@ const SkillbaseTable = (props: Props) => {
               {
                 // stableSort(props.skills, getComparator(order, orderBy))
 
-                props.skills.map((skill, index) => {
+                visibleSkills.map((skill, index) => {
                   return (
                     <SkillbaseTableRow
                       key={skill.id}
@@ -376,10 +475,14 @@ type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>
 
 const mapStateToProps = (state: ApplicationState) => ({
+  allTags: state.relearn.tags,
   skills: state.skillbase.skills,
+  sortBy: state.skillbase.sortBy,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  sortSkill: (sortBy: SortSkill) => dispatch(sortSkill(sortBy)),
+
   removeSkills: (ids: number[]) => dispatch(removeSkills(ids)),
 
   setSuccessMessage: (message: string) => dispatch(setSuccessMessage(message)),

@@ -4,24 +4,22 @@ import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto"
 import { ApplicationState } from "../../../store/store"
-import { getTodoResources } from "../../../utils/relearn/getTodoResources"
+import { getTodoResources as filterTodo } from "../../../utils/relearn/getTodoResources"
 import ContentHeader from "./ContentHeader"
 import ResourceList from "./ResourceList/ResourceList"
 
 function RelearnContent(props: Props) {
   const [tabIndex, setTabIndex] = useState(0)
 
-  const [todoResources, setTodoResources] = useState<ResourceDto[]>([])
-  const [completedResources, setCompletedResources] = useState<ResourceDto[]>(
-    []
-  )
+  const [todo, setTodo] = useState<ResourceDto[]>([])
+  const [completed, setCompleted] = useState<ResourceDto[]>([])
 
   useEffect(() => {
-    const todo = getTodoResources(props.resources).sort(
-      (resourceA, resourceB) => resourceA.position - resourceB.position
+    const todo = filterTodo(props.resources).sort(
+      (a, b) => a.position - b.position
     )
 
-    setTodoResources(todo)
+    setTodo(todo)
 
     const completed = props.resources
       .filter(
@@ -31,7 +29,7 @@ function RelearnContent(props: Props) {
         resourceB.completedAt.localeCompare(resourceA.completedAt)
       )
 
-    setCompletedResources(completed)
+    setCompleted(completed)
   }, [props.resources])
 
   return (
@@ -39,13 +37,11 @@ function RelearnContent(props: Props) {
       <ContentHeader
         onTabChange={(newTabIndex) => setTabIndex(newTabIndex)}
         tabIndex={tabIndex}
-        todoResources={todoResources}
-        completedResources={completedResources}
+        todoResources={todo}
+        completedResources={completed}
       />
       <Box mt={12} />
-      <ResourceList
-        resources={tabIndex === 0 ? todoResources : completedResources}
-      />
+      <ResourceList resources={tabIndex === 0 ? todo : completed} />
     </Box>
   )
 }

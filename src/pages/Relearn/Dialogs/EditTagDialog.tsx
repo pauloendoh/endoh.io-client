@@ -4,6 +4,7 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  Input,
 } from "@material-ui/core"
 import PATHS from "consts/PATHS"
 import { Form, Formik } from "formik"
@@ -20,6 +21,7 @@ import * as relearnActions from "../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../store/store"
 import * as utilsActions from "../../../store/utils/utilsActions"
 import MY_AXIOS from "../../../consts/MY_AXIOS"
+import { SketchPicker } from "react-color"
 
 const EditTagDialog = (props: Props) => {
   const [redirectTo, setRedirectTo] = useState("")
@@ -62,7 +64,7 @@ const EditTagDialog = (props: Props) => {
             handleSubmit(formikValues)
           }}
         >
-          {({ values, isSubmitting, handleChange }) => (
+          {({ values, isSubmitting, setFieldValue, handleChange }) => (
             <Form>
               <DialogTitle id="edit-tag-dialog-title">Add Tag</DialogTitle>
               <DialogContent>
@@ -81,7 +83,20 @@ const EditTagDialog = (props: Props) => {
                   />
                 </Box>
 
-                <Flex mt={2}>
+                <Box mt={2}> 
+                  <Flex>
+                    <input
+                      type="color"
+                      value={values.color}
+                      onChange={(event) => {
+                        setFieldValue("color", event.target.value)
+                      }}
+                    />
+                    <Box ml={2}>{values.color}</Box>
+                  </Flex>
+                </Box>
+
+                <Flex mt={4}>
                   <Button
                     disabled={isSubmitting}
                     type="submit"

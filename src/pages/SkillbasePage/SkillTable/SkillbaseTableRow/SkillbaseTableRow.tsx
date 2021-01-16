@@ -1,18 +1,22 @@
-import { Checkbox, makeStyles, TableCell, TableRow } from "@material-ui/core"
+import {
+  Checkbox,
+  makeStyles,
+  TableCell,
+  TableRow
+} from "@material-ui/core"
 import StarIcon from "@material-ui/icons/Star"
 import clsx from "clsx"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import Flex from "../../../../components/shared/Flexboxes/Flex"
-import SkillLevelChip from "../../../../components/skillbase/SkillLevelChip/SkillLevelChip"
 import { SkillDto } from "../../../../dtos/skillbase/SkillDto"
 import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto"
 import {
   setEditingSkill,
   setSkill
 } from "../../../../store/skillbase/skillbaseActions"
-import { ApplicationState } from "../../../../store/store" 
+import { ApplicationState } from "../../../../store/store"
 import DependenciesTableCell from "./DependenciesTableCell/DependenciesTableCell"
 import SkillLevelText from "./SkillLevelText/SkillLevelText"
 
@@ -34,7 +38,17 @@ const SkillbaseTableRow = (props: Props) => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.skill.tagId]
+    []
+  )
+
+  useEffect(
+    () => {
+      if (props.skill.tagId) {
+        setTag(findTagById(props.skill.tagId))
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [props.skill.tagId, props.allTags]
   )
 
   return (
@@ -68,14 +82,18 @@ const SkillbaseTableRow = (props: Props) => {
 
       <TableCell>
         <Flex>
-          {props.skill.name}
+          {props.skill.isPriority ? (
+            <span style={{ fontWeight: 900 }}>{props.skill.name}</span>
+          ) : (
+            props.skill.name
+          )}
 
-          {(props.skill.currentLevel || props.skill.goalLevel) && (
+          {/* {(props.skill.currentLevel || props.skill.goalLevel) && (
             <SkillLevelChip
               currentLevel={props.skill.currentLevel}
               goalLevel={props.skill.goalLevel}
             />
-          )}
+          )} */}
         </Flex>
       </TableCell>
 
