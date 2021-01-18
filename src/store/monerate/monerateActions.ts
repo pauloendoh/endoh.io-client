@@ -1,9 +1,8 @@
 import { IExpenseFilter } from 'pages/Monerate/ExpenseFilter/IExpenseFilter';
 import { action } from 'typesafe-actions';
-import CategoryGetDto from '../../interfaces/dtos/monerate/CategoryDtos/CategoryGetDto';
+import CategoryGetDto, { newCategory } from '../../interfaces/dtos/monerate/CategoryDtos/CategoryGetDto';
 import ExpenseGetDto, { newExpenseDto } from '../../interfaces/dtos/monerate/ExpenseGetDto';
-import PlaceGetDto from '../../interfaces/dtos/monerate/PlaceGetDto';
-import { newCategory, newPlace } from '../../utils/factories/MonerateFactories';
+import PlaceGetDto, { newPlace } from '../../interfaces/dtos/monerate/PlaceGetDto';
 import { monerateActionTypes } from './monerateTypes';
 
 export const setExpenses = (expenses: ExpenseGetDto[]) => action(monerateActionTypes.SET_EXPENSES, expenses)

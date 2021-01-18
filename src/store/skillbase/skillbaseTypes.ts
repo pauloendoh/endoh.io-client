@@ -1,3 +1,4 @@
+import { ProgressDto } from './../../dtos/skillbase/ProgressDto';
 import { SkillDto } from '../../dtos/skillbase/SkillDto';
 
 export enum skillbaseActionTypes {
@@ -9,6 +10,9 @@ export enum skillbaseActionTypes {
     SORT_SKILL = '@skillbase/SORT_SKILL',
 
     SET_EDITING_SKILL = '@skillbase/SET_EDITING_SKILL',
+
+
+    SET_PROGRESSES = '@skillbase/SET_PROGRESSES',
     SET_SIDEBAR_IS_OPEN = '@skillbase/SET_SIDEBAR_IS_OPEN',
 }
 
@@ -18,6 +22,8 @@ export interface SkillbaseState {
     sortBy: SortSkill,
 
     editingSkill: SkillDto,
+
+    progresses: ProgressDto[],
     sidebarIsOpen: boolean
 }
 

@@ -47,7 +47,7 @@ const ExpenseFilter = (props: Props) => {
     setThrottle(
       setTimeout(() => {
         props.setFilter(filter)
-      }, 200)
+      }, 1000)
     )
   }
 

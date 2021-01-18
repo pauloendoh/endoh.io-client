@@ -1,16 +1,19 @@
-import { AuthState, AuthActionTypes } from './authTypes';
-import { Reducer } from 'redux'
+import { AuthUserGetDto, UserPreferenceDto } from 'interfaces/dtos/AuthUserGetDto';
+import { Reducer } from 'redux';
 import { AuthActionReturns } from './authActions';
-import { AuthUserGetDto } from 'interfaces/dtos/AuthUserGetDto';
+import { AuthActionTypes, AuthState } from './authTypes';
 
 const INITIAL_STATE: AuthState = {
-  user: null
+  user: null, 
+  preference: null
 }
 
 const authReducer: Reducer<AuthState, AuthActionReturns> = (state = INITIAL_STATE, action: AuthActionReturns): AuthState => {
   switch (action.type) {
     case AuthActionTypes.SET_AUTH_USER:
       return setAuthUser(state, action.payload)
+    case AuthActionTypes.SET_PREFERENCE:
+      return {...state, preference: action.payload}
     case AuthActionTypes.LOGOUT:
       return logout(state)
     case AuthActionTypes.USING_GOOGLE_SESSION:
@@ -37,9 +40,10 @@ const setAuthUser = (state: AuthState, authUser: AuthUserGetDto): AuthState => {
   return { ...state, user: authUser }
 }
 
+
 const logout = (state: AuthState): AuthState => {
   localStorage.removeItem('user')
-  return { ...state, user: null }
+  return INITIAL_STATE
 }
 
 

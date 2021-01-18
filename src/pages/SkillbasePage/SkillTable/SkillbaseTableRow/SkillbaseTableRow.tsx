@@ -1,24 +1,27 @@
 import {
+  Box,
   Checkbox,
   makeStyles,
   TableCell,
-  TableRow
+  TableRow,
 } from "@material-ui/core"
+import LabelIcon from "@material-ui/icons/Label"
 import StarIcon from "@material-ui/icons/Star"
 import clsx from "clsx"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import Flex from "../../../../components/shared/Flexboxes/Flex"
+import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter"
 import { SkillDto } from "../../../../dtos/skillbase/SkillDto"
 import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto"
 import {
   setEditingSkill,
-  setSkill
+  setSkill,
 } from "../../../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../../../store/store"
 import DependenciesTableCell from "./DependenciesTableCell/DependenciesTableCell"
-import SkillLevelText from "./SkillLevelText/SkillLevelText"
+import LevelTableCell from "./LevelTableCell/LevelTableCell"
 
 // PE 3/3
 const SkillbaseTableRow = (props: Props) => {
@@ -71,7 +74,7 @@ const SkillbaseTableRow = (props: Props) => {
           inputProps={{ "aria-labelledby": labelId }}
         />
       </TableCell>
-      <TableCell align="center">
+      <TableCell align="center" width={100}>
         <StarIcon
           className={clsx({
             [classes.isPriority]: props.skill.isPriority,
@@ -80,7 +83,7 @@ const SkillbaseTableRow = (props: Props) => {
         />
       </TableCell>
 
-      <TableCell>
+      <TableCell width={180} >
         <Flex>
           {props.skill.isPriority ? (
             <span style={{ fontWeight: 900 }}>{props.skill.name}</span>
@@ -97,16 +100,20 @@ const SkillbaseTableRow = (props: Props) => {
         </Flex>
       </TableCell>
 
-      <TableCell align="center" width="50px">
-        <SkillLevelText value={props.skill.currentLevel} />
-      </TableCell>
-      <TableCell align="center" width="50px">
-        <SkillLevelText value={props.skill.goalLevel} />
-      </TableCell>
+      <LevelTableCell value={props.skill.currentLevel}  isPriority={props.skill.isPriority}/>
+      <LevelTableCell value={props.skill.goalLevel} isPriority={props.skill.isPriority}/>
+{/* 
       <TableCell>
         <DependenciesTableCell values={props.skill.dependencies} />
+      </TableCell> */}
+      <TableCell>
+        {tag ? (
+          <FlexVCenter>
+            <LabelIcon style={{ color: tag.color }} />
+            <Box ml={1}>{tag.name}</Box>
+          </FlexVCenter>
+        ) : null}
       </TableCell>
-      <TableCell>{tag ? "# " + tag.name : null}</TableCell>
     </TableRow>
   )
 }

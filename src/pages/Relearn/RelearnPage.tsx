@@ -1,23 +1,25 @@
 import { Box } from "@material-ui/core"
-import MY_AXIOS from '../../consts/MY_AXIOS'
 import React, { useEffect, useState } from "react"
 import { GlobalHotKeys } from "react-hotkeys"
 import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
+import Flex from "../../components/shared/Flexboxes/Flex"
+import API from "../../consts/API"
+import MY_AXIOS from "../../consts/MY_AXIOS"
+import PATHS from "../../consts/PATHS"
+import { SkillDto } from "../../dtos/skillbase/SkillDto"
+import { ResourceDto } from "../../interfaces/dtos/relearn/ResourceDto"
 import { TagDto } from "../../interfaces/dtos/relearn/TagDto"
 import * as relearnActions from "../../store/relearn/relearnActions"
+import { setSkills } from "../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../store/store"
-import LoadingPage from '../index/LoadingPage'
+import { sleep } from "../../utils/sleep"
+import LoadingPage from "../index/LoadingPage"
 import RelearnContent from "./Content/RelearnContent"
 import EditResourceDialog from "./Dialogs/EditResourceDialog"
 import EditTagDialog from "./Dialogs/EditTagDialog"
 import RelearnSidebar from "./RelearnSidebar/RelearnSidebar"
-import { ResourceDto } from '../../interfaces/dtos/relearn/ResourceDto'
-import API from '../../consts/API'
-import PATHS from '../../consts/PATHS'
-import { sleep } from '../../utils/sleep'
-import Flex from '../../components/shared/Flexboxes/Flex'
 // PE 3/3
 const RelearnPage = (props: Props) => {
   const [isLoadingResources, setIsLoadingResources] = useState(true)
@@ -30,10 +32,16 @@ const RelearnPage = (props: Props) => {
         .finally(() => {
           setIsLoadingResources(false)
         })
+
+      MY_AXIOS.get<SkillDto[]>(API.skillbase.skill).then((res) => {
+        props.setSkills(res.data)
+      })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
+
+  const [skills, setSkills] = useState<SkillDto[]>([])
 
   const location = useLocation()
   // filter resources by tag (from path name)
@@ -56,6 +64,8 @@ const RelearnPage = (props: Props) => {
               return resource.tag?.id === tagId
             })
           )
+
+          setSkills(props.allSkills.filter((skill) => skill.tagId === tagId))
         }
       }
     },
@@ -79,7 +89,7 @@ const RelearnPage = (props: Props) => {
           {isLoadingResources ? (
             <LoadingPage />
           ) : (
-            <RelearnContent resources={filteredResources} />
+            <RelearnContent resources={filteredResources} skills={skills} />
             // <ResourceList resources={filteredResources} />
           )}
         </Box>
@@ -95,12 +105,15 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 const mapStateToProps = (state: ApplicationState) => ({
   resources: state.relearn.resources,
+  allSkills: state.skillbase.skills,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setResources: (resources: ResourceDto[]) =>
     dispatch(relearnActions.setResources(resources)),
   setTags: (tags: TagDto[]) => dispatch(relearnActions.setTags(tags)),
+  setSkills: (skills: SkillDto[]) => dispatch(setSkills(skills)),
+
   startNewResource: () => dispatch(relearnActions.startNewResource()),
 })
 

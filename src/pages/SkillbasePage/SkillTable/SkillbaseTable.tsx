@@ -6,7 +6,7 @@ import {
   createStyles,
   lighten,
   makeStyles,
-  Theme,
+  Theme
 } from "@material-ui/core/styles"
 import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"
@@ -28,9 +28,11 @@ import API from "../../../consts/API"
 import MY_AXIOS from "../../../consts/MY_AXIOS"
 import { IdsDto } from "../../../dtos/IdsDto"
 import { SkillDto } from "../../../dtos/skillbase/SkillDto"
+import { UserPreferenceDto } from "../../../interfaces/dtos/AuthUserGetDto"
+import { savePreferenceActionCreator } from "../../../store/auth/authActions"
 import {
   removeSkills,
-  sortSkill,
+  sortSkill
 } from "../../../store/skillbase/skillbaseActions"
 import { SortSkill } from "../../../store/skillbase/skillbaseTypes"
 import { ApplicationState } from "../../../store/store"
@@ -77,6 +79,7 @@ interface HeadCell {
   id: keyof SkillDto
   label: string
   numeric: boolean
+  align: "center" | "left" | "right"
 }
 
 const headCells: HeadCell[] = [
@@ -85,22 +88,43 @@ const headCells: HeadCell[] = [
     numeric: false,
     disablePadding: true,
     label: "Priority",
+    align: "center",
   },
-  { id: "name", numeric: false, disablePadding: false, label: "Skill Name" },
+  {
+    id: "name",
+    numeric: false,
+    disablePadding: false,
+    label: "Skill Name",
+    align: "left",
+  },
   {
     id: "currentLevel",
     numeric: true,
     disablePadding: false,
     label: "Now",
+    align: "center",
   },
-  { id: "goalLevel", numeric: true, disablePadding: false, label: "Goal" },
   {
-    id: "dependencies",
+    id: "goalLevel",
+    numeric: true,
+    disablePadding: false,
+    label: "Goal",
+    align: "center",
+  },
+  // {
+  //   id: "dependencies",
+  //   numeric: false,
+  //   disablePadding: false,
+  //   label: "Dependencies",
+  //   align: "left",
+  // },
+  {
+    id: "tagId",
     numeric: false,
     disablePadding: false,
-    label: "Dependencies",
+    label: "Tag",
+    align: "left",
   },
-  { id: "tagId", numeric: false, disablePadding: false, label: "Tag" },
 ]
 
 interface EnhancedTableProps {
@@ -146,13 +170,13 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align="left"
+            align={headCell.align}
             padding={headCell.disablePadding ? "none" : "default"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
+              direction={orderBy === headCell.id ? order : "desc"}
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
@@ -193,6 +217,7 @@ const useToolbarStyles = makeStyles((theme: Theme) =>
 
 interface EnhancedTableToolbarProps {
   numSelected: number
+  textFilter: string
   onChangeFilter: (text: string) => void
   onClickDelete: () => void
 }
@@ -200,8 +225,6 @@ interface EnhancedTableToolbarProps {
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const classes = useToolbarStyles()
   const { numSelected } = props
-
-  const [throttle, setThrottle] = useState<NodeJS.Timeout>(null)
 
   return (
     <Toolbar
@@ -238,6 +261,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         <Box mr={2} width={450}>
           <MyTextField
             label="Filter by name or tag"
+            value={props.textFilter}
             onChange={(e) => props.onChangeFilter(e.target.value)}
             fullWidth
           />
@@ -258,6 +282,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     table: {
       minWidth: 750,
+
+      "& .MuiTableCell-root": {
+        padding: 8,
+        borderBottom: "1px solid rgb(255 255 255 / 0.1)",
+      },
     },
     visuallyHidden: {
       border: 0,
@@ -275,11 +304,30 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const SkillbaseTable = (props: Props) => {
   const classes = useStyles()
-  const [order, setOrder] = React.useState<Order>("asc")
-  const [orderBy, setOrderBy] = React.useState<keyof SkillDto>("goalLevel")
+  const [order, setOrder] = React.useState<Order>(
+    props.preference?.skillbaseSortSkill?.order
+  )
+  const [orderBy, setOrderBy] = React.useState<keyof SkillDto>(
+    props.preference?.skillbaseSortSkill?.sortBy as keyof SkillDto
+  )
   const [selectedIds, setSelectedIds] = React.useState<number[]>([])
 
-  const [textFilter, setTextFilter] = useState("")
+  const [textFilter, setTextFilter] = useState(
+    props.preference?.skillbaseTextFilter
+  )
+
+  const [throttle, setThrottle] = useState<NodeJS.Timeout>(null)
+
+  const handleChangeTextFilter = (text: string) => {
+    setTextFilter(text)
+
+    clearTimeout(throttle)
+    setThrottle(
+      setTimeout(() => {
+        props.savePreference({ ...props.preference, skillbaseTextFilter: text })
+      }, 200)
+    )
+  }
 
   const filterAndSortSkills = () => {
     let skills = props.skills
@@ -292,7 +340,7 @@ const SkillbaseTable = (props: Props) => {
         const tag = props.allTags.find((tag) => tag.id === skill.tagId)
 
         if (tag?.name.trim().toLowerCase().includes(text)) return true
-        
+        return false
       })
     }
 
@@ -307,13 +355,13 @@ const SkillbaseTable = (props: Props) => {
       if (order === "asc") {
         skills = skills.sort((a, b) => {
           if (a.isPriority === b.isPriority) return 0
-          if (a.isPriority) return -1
+          if (b.isPriority) return -1
           return 1
         })
       } else {
         skills = skills.sort((a, b) => {
           if (a.isPriority === b.isPriority) return 0
-          if (b.isPriority) return -1 // only difference
+          if (a.isPriority) return -1 // only difference
           return 1
         })
       }
@@ -366,12 +414,12 @@ const SkillbaseTable = (props: Props) => {
     event: React.MouseEvent<unknown>,
     property: keyof SkillDto
   ) => {
-    const isAsc = orderBy === property && order === "asc"
-    setOrder(isAsc ? "desc" : "asc")
+    const isDesc = orderBy === property && order === "desc"
+    setOrder(isDesc ? "asc" : "desc")
     setOrderBy(property)
 
     props.sortSkill({
-      order: isAsc ? "desc" : "asc",
+      order: isDesc ? "asc" : "desc",
       property: property,
     })
   }
@@ -423,8 +471,9 @@ const SkillbaseTable = (props: Props) => {
       <Paper className={classes.paper}>
         <EnhancedTableToolbar
           onClickDelete={handleDelete}
+          textFilter={textFilter}
           numSelected={selectedIds.length}
-          onChangeFilter={setTextFilter}
+          onChangeFilter={handleChangeTextFilter}
         />
         <TableContainer>
           <Table
@@ -475,12 +524,16 @@ type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>
 
 const mapStateToProps = (state: ApplicationState) => ({
+  preference: state.auth.preference,
+
   allTags: state.relearn.tags,
   skills: state.skillbase.skills,
   sortBy: state.skillbase.sortBy,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  savePreference: (preference: UserPreferenceDto) =>
+    savePreferenceActionCreator(dispatch, preference),
   sortSkill: (sortBy: SortSkill) => dispatch(sortSkill(sortBy)),
 
   removeSkills: (ids: number[]) => dispatch(removeSkills(ids)),

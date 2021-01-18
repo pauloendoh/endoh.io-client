@@ -1,4 +1,5 @@
 import { action } from 'typesafe-actions';
+import { ProgressDto } from '../../dtos/skillbase/ProgressDto';
 import { SkillDto } from '../../dtos/skillbase/SkillDto';
 import { skillbaseActionTypes, SortSkill } from './skillbaseTypes';
 
@@ -10,7 +11,7 @@ export const setEditingSkill = (skill: SkillDto) => action(skillbaseActionTypes.
 
 export const sortSkill = (sortBy: SortSkill) => action(skillbaseActionTypes.SORT_SKILL, sortBy)
 
-
+export const setProgresses = (progresses: ProgressDto[]) => action(skillbaseActionTypes.SET_PROGRESSES, progresses)
 export const removeSkills = (ids: number[]) => action(skillbaseActionTypes.REMOVE_SKILLS, ids)
 
 
@@ -30,7 +31,7 @@ export type SkillbaseActionReturns =
 
   ReturnType<typeof removeSkills> |
 
-
+  ReturnType<typeof setProgresses> |
   ReturnType<typeof setSidebarIsOpen>
 
 

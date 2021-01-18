@@ -7,3 +7,13 @@ export default interface CategoryGetDto {
     createdAt: string
     updatedAt: string
 }
+
+export const newCategory: CategoryGetDto = {
+    id: null,
+    userId: null,
+    name: '',
+    icon: '',
+    bgColor: '#C862AC',
+    createdAt: '',
+    updatedAt: '',
+  }

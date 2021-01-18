@@ -1,8 +1,5 @@
 import { Box, CssBaseline, MuiThemeProvider } from "@material-ui/core"
-
 import React, { lazy, Suspense, useEffect, useState } from "react"
-import { DndProvider } from "react-dnd"
-import { HTML5Backend } from "react-dnd-html5-backend"
 import { connect } from "react-redux"
 import {
   Redirect,
@@ -14,21 +11,24 @@ import {
 } from "react-router-dom"
 import { Dispatch } from "redux"
 import Navbar from "./components/navbar/Navbar"
+import MySnackBar from "./components/shared/SnackBars/MySnackBar"
+import API from "./consts/API"
+import MY_AXIOS from "./consts/MY_AXIOS"
+import MY_THEME from "./consts/MY_THEME"
 import PATHS from "./consts/PATHS"
+import { UserPreferenceDto } from "./interfaces/dtos/AuthUserGetDto"
 import Home from "./pages/index/Home"
 import LandingPage from "./pages/index/LandingPage"
 import LoadingPage from "./pages/index/LoadingPage"
+import ResetPasswordPage from "./pages/index/ResetPasswordPage"
 import SettingsNavbar from "./pages/settings/SettingsNavbar"
 import SettingsPage from "./pages/settings/SettingsPage"
-import MY_THEME from "./consts/MY_THEME"
-import MySnackBar from './components/shared/SnackBars/MySnackBar'
-import ResetPasswordPage from './pages/index/ResetPasswordPage'
-import { ApplicationState } from './store/store'
-import { checkAuthOrLogoutActionCreator } from './store/auth/authActions'
-import SkillbasePage from './pages/SkillbasePage/SkillbasePage'
-
-
-
+import SkillbasePage from "./pages/SkillbasePage/SkillbasePage"
+import {
+  checkAuthOrLogoutActionCreator,
+  setPreference,
+} from "./store/auth/authActions"
+import { ApplicationState } from "./store/store"
 
 const MoneratePage = lazy(
   () => import("./pages/Monerate/MoneratePage/MoneratePage")
@@ -59,12 +59,15 @@ const App = (props: Props) => {
         if (nextUrl) {
           props.history.push(nextUrl)
         }
+
+        MY_AXIOS.get<UserPreferenceDto>(API.auth.userPreference).then((res) => {
+          props.setPreference(res.data)
+        })
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.user]
   )
-
 
   // PE 2/3 - Not very scalable...
   let redirectAfterLogout = "/"
@@ -72,10 +75,9 @@ const App = (props: Props) => {
     redirectAfterLogout = "/?next=/monerate"
   } else if (location.pathname.startsWith(PATHS.relearn.index)) {
     redirectAfterLogout = "/?next=/relearn"
- }
- else if (location.pathname.startsWith(PATHS.skillbase.index)) {
-  redirectAfterLogout = "/?next=/skillbase"
-}
+  } else if (location.pathname.startsWith(PATHS.skillbase.index)) {
+    redirectAfterLogout = "/?next=/skillbase"
+  }
 
   // PE 2/3 - routes = nome ruim?
   let routes = (
@@ -114,13 +116,13 @@ const App = (props: Props) => {
   }
 
   return (
-      <MuiThemeProvider theme={MY_THEME}>
-        {/* What does this do? */}
-        <CssBaseline />
-        {isLoading ? <LoadingPage /> : routes}
+    <MuiThemeProvider theme={MY_THEME}>
+      {/* What does this do? */}
+      <CssBaseline />
+      {isLoading ? <LoadingPage /> : routes}
 
-        <MySnackBar />
-      </MuiThemeProvider>
+      <MySnackBar />
+    </MuiThemeProvider>
   )
 }
 
@@ -133,6 +135,8 @@ const mapStateToProps = (state: ApplicationState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  setPreference: (preference: UserPreferenceDto) =>
+    dispatch(setPreference(preference)),
   checkAuthOrLogout: () => dispatch(checkAuthOrLogoutActionCreator(dispatch)),
 })
 

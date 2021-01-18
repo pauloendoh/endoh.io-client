@@ -2,6 +2,7 @@ import { Box } from "@material-ui/core"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
+import { SkillDto } from '../../../dtos/skillbase/SkillDto'
 import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto"
 import { ApplicationState } from "../../../store/store"
 import { getTodoResources as filterTodo } from "../../../utils/relearn/getTodoResources"
@@ -39,6 +40,7 @@ function RelearnContent(props: Props) {
         tabIndex={tabIndex}
         todoResources={todo}
         completedResources={completed}
+        skills={props.skills}
       />
       <Box mt={12} />
       <ResourceList resources={tabIndex === 0 ? todo : completed} />
@@ -51,7 +53,8 @@ const mapStateToProps = (state: ApplicationState) => ({})
 const mapDispatchToProps = (dispatch: Dispatch) => ({})
 
 interface OwnProps {
-  resources: ResourceDto[]
+  resources: ResourceDto[], 
+  skills: SkillDto[]
 }
 
 type Props = ReturnType<typeof mapStateToProps> &

@@ -7,3 +7,13 @@ export default interface PlaceGetDto {
     createdAt: string,
     updatedAt: string,
 }
+
+export const newPlace: PlaceGetDto = {
+    id: null,
+    userId: null,
+    name: '',
+    icon: '',
+    bgColor: '#3DAC8D',
+    createdAt: '',
+    updatedAt: '',
+  }

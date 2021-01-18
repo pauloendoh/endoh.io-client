@@ -144,13 +144,13 @@ const SkillDialog = (props: Props) => {
                 </Grid>
 
                 <Box mt={2}>
-                  <SelectDependencies
+                  {/* <SelectDependencies
                     parentSkillId={values.id}
                     selected={values.dependencies}
                     onChange={(e, values) => {
                       setFieldValue("dependencies", values)
                     }}
-                  />
+                  /> */}
                 </Box>
 
                 <Box mt={2}>

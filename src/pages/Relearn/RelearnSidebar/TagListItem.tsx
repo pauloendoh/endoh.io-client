@@ -13,6 +13,7 @@ import {
 } from "@material-ui/core"
 import DeleteIcon from "@material-ui/icons/Delete"
 import EditIcon from "@material-ui/icons/Edit"
+import LabelIcon from "@material-ui/icons/Label"
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
 import API from "consts/API"
 import MY_AXIOS from "consts/MY_AXIOS"
@@ -20,6 +21,7 @@ import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Link, Redirect, useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
+import Flex from "../../../components/shared/Flexboxes/Flex"
 import PATHS from "../../../consts/PATHS"
 import { TagDto } from "../../../interfaces/dtos/relearn/TagDto"
 import * as relearnActions from "../../../store/relearn/relearnActions"
@@ -27,16 +29,19 @@ import { ApplicationState } from "../../../store/store"
 import * as utilsActions from "../../../store/utils/utilsActions"
 import { getTodoResources } from "../../../utils/relearn/getTodoResources"
 
+// PE 2/3 - MenuItem could be shorter? 
 function TagListItem(props: Props) {
   const classes = useStyles()
-
   const location = useLocation()
+
+  // PE 2/3 -  desnecessário?
   const [pathName, setPathName] = useState(location.pathname)
   useEffect(() => {
     setPathName(location.pathname)
   }, [location])
 
   const [isHovered, setIsHovered] = useState(false)
+
   const handleMouseEnter = () => {
     setIsHovered(true)
   }
@@ -54,6 +59,8 @@ function TagListItem(props: Props) {
   }
 
   const [redirectTo, setRedirectTo] = useState("")
+
+  // handleDelete would be better?
   const handleDeleteTag = (id: number) => {
     if (window.confirm("Confirm delete?")) {
       MY_AXIOS.delete(`${API.relearn.tag}/${id}`).then((res) => {
@@ -80,10 +87,15 @@ function TagListItem(props: Props) {
       onMouseLeave={handleMouseLeave}
     >
       <ListItemText>
-        {"# " + props.tag.name}
-        <Typography variant="inherit" className={classes.resourcesCount}>
-          {getTodoResources(props.tag.resources).length}
-        </Typography>
+        <Flex>
+          <LabelIcon style={{ color: props.tag.color }} />
+          <Box ml={1}>
+            {props.tag.name}
+            <Typography variant="inherit" className={classes.resourcesCount}>
+              {getTodoResources(props.tag.resources).length}
+            </Typography>
+          </Box>
+        </Flex>
       </ListItemText>
 
       <Box className={classes.moreButtonBox}>
@@ -157,8 +169,10 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "flex-start",
     },
     moreButtonBox: {
+      position: "absolute",
       width: 32,
       height: 32,
+      right: 0,
     },
 
     listItemIcon: {

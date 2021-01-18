@@ -7,10 +7,14 @@ import { Dispatch } from "redux"
 import Flex from "../../components/shared/Flexboxes/Flex"
 import API from "../../consts/API"
 import MY_AXIOS from "../../consts/MY_AXIOS"
+import { ProgressDto } from "../../dtos/skillbase/ProgressDto"
 import { newSkillDto, SkillDto } from "../../dtos/skillbase/SkillDto"
+import { TagDto } from "../../interfaces/dtos/relearn/TagDto"
+import { setTags } from "../../store/relearn/relearnActions"
 import {
   setEditingSkill,
-  setSkills,
+  setProgresses,
+  setSkills
 } from "../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../store/store"
 import { sleep } from "../../utils/sleep"
@@ -23,8 +27,18 @@ const SkillbasePage = (props: Props) => {
 
   useEffect(
     () => {
+      document.title = "Skillbase"
+
       MY_AXIOS.get<SkillDto[]>(API.skillbase.skill).then((res) => {
         props.setSkills(res.data)
+      })
+
+      MY_AXIOS.get<ProgressDto[]>(API.skillbase.progress).then((res) => {
+        props.setProgresses(res.data)
+      })
+
+      MY_AXIOS.get<TagDto[]>(API.relearn.tag).then((res) => {
+        props.setTags(res.data)
       })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -63,6 +77,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    maxWidth: 1200,
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -87,7 +102,10 @@ const mapStateToProps = (state: ApplicationState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setSkills: (skills: SkillDto[]) => dispatch(setSkills(skills)),
+  setProgresses: (progresses: ProgressDto[]) =>
+    dispatch(setProgresses(progresses)),
   setEditingSkill: (skill: SkillDto) => dispatch(setEditingSkill(skill)),
+  setTags: (tags: TagDto[]) => dispatch(setTags(tags)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SkillbasePage)

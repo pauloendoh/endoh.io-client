@@ -5,10 +5,11 @@ import { skillbaseActionTypes, SkillbaseState } from './skillbaseTypes';
 
 const INITIAL_STATE: SkillbaseState = {
   skills: [],
-
   sortBy: null,
 
   editingSkill: null,
+
+  progresses: [],
   sidebarIsOpen: false,
 }
 
@@ -27,6 +28,10 @@ const skillbaseReducer: Reducer<SkillbaseState, SkillbaseActionReturns> = (state
       return { ...state, sortBy: action.payload }
     case skillbaseActionTypes.REMOVE_SKILLS:
       return removeSkills(state, action.payload)
+
+    case skillbaseActionTypes.SET_PROGRESSES:
+      return { ...state, progresses: action.payload }
+
     case skillbaseActionTypes.SET_SIDEBAR_IS_OPEN:
       return { ...state, sidebarIsOpen: action.payload }
     default:

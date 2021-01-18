@@ -27,7 +27,6 @@ import MY_AXIOS from "../../../consts/MY_AXIOS"
 import { TagDto } from "../../../interfaces/dtos/relearn/TagDto"
 import * as relearnActions from "../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../store/store"
-import AddTagForm from "./AddTagForm"
 import TagListItem from "./TagListItem"
 
 function RelearnSidebar(props: Props) {
@@ -35,18 +34,20 @@ function RelearnSidebar(props: Props) {
   const theme = useTheme()
 
   const location = useLocation()
+
+  // PE 2/3 - not worth having this?
   const [pathName, setPathName] = useState(location.pathname)
   useEffect(() => {
     setPathName(location.pathname)
   }, [location])
 
+  // PE 2/3 - change to tagsAreOpen
   const [openTags, setOpenTags] = useState(true)
   const handleClickTags = () => {
     setOpenTags(!openTags)
   }
 
-  const [tagFormIsOpen, setTagFormIsOpen] = useState(false)
-
+  // PE 2/3 - melhor deixar o setTags no RelearnPage ? E chamar tudo de uma vez em uma request?
   useEffect(
     () => {
       MY_AXIOS.get<TagDto[]>(API.relearn.tag).then((res) => {
@@ -68,6 +69,8 @@ function RelearnSidebar(props: Props) {
       <Toolbar />
       <Box className={classes.drawerContainer}>
         <List disablePadding>
+          {/* PE 2/3 - Muito grande para mostrar apenas "Untagged - 16" */}
+          {/* criar um <UntaggedLi/> ? */}
           <ListItem
             button
             component={Link}
@@ -86,6 +89,7 @@ function RelearnSidebar(props: Props) {
             </ListItemText>
           </ListItem>
 
+          {/* PE 2/3 - Dividir em um componente <YourTagsLi/> */}
           <ListItem button onClick={handleClickTags}>
             <ListItemIcon className={classes.listItemIcon}>
               <FontAwesomeIcon icon={faTags} />
@@ -100,33 +104,22 @@ function RelearnSidebar(props: Props) {
                 <TagListItem key={tag.id} tag={tag} />
               ))}
 
-              {tagFormIsOpen ? (
-                <ListItem className={classes.nested}>
-                  {/* Probably this will not be used anymore, just the dialog */}
-                  <AddTagForm
-                    onCloseForm={() => {
-                      setTagFormIsOpen(false)
-                    }}
+              <ListItem
+                button
+                className={classes.nested}
+                id="add-tag-button"
+                onClick={() => {
+                  props.startNewTag()
+                }}
+              >
+                <ListItemIcon className={classes.listItemIcon}>
+                  <FontAwesomeIcon
+                    icon={faPlus}
+                    color={theme.palette.primary.main}
                   />
-                </ListItem>
-              ) : (
-                <ListItem
-                  button
-                  className={classes.nested}
-                  id="add-tag-button"
-                  onClick={() => {
-                    props.startNewTag()
-                  }}
-                >
-                  <ListItemIcon className={classes.listItemIcon}>
-                    <FontAwesomeIcon
-                      icon={faPlus}
-                      color={theme.palette.primary.main}
-                    />
-                  </ListItemIcon>
-                  <ListItemText primary="Add Tag" />
-                </ListItem>
-              )}
+                </ListItemIcon>
+                <ListItemText primary="Add Tag" />
+              </ListItem>
             </List>
           </Collapse>
         </List>
@@ -141,7 +134,6 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 300,
       flexShrink: 0,
     },
-
 
     drawerPaper: {
       width: 300,

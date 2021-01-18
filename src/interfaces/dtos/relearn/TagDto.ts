@@ -17,7 +17,7 @@ export const newTagDto = (): TagDto => ({
     userId: null,
     name: '',
     position: null,
-    color: '#424242',
+    color: '#ffffff',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     resources: []

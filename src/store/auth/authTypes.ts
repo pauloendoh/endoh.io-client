@@ -1,8 +1,9 @@
-import { AuthUserGetDto } from 'interfaces/dtos/AuthUserGetDto';
+import { AuthUserGetDto, UserPreferenceDto } from 'interfaces/dtos/AuthUserGetDto';
 
 export enum AuthActionTypes {
     SET_AUTH_USER = '@auth/SET_AUTH_USER',
-    // CHECK_USER_OR_LOGOUT = '@auth/CHECK_USER_OR_LOGOUT',
+    SET_PREFERENCE = '@auth/SET_PREFERENCE',
+
     LOGOUT = '@auth/LOGOUT',
     USING_GOOGLE_SESSION = '@auth/USING_GOOGLE_SESSION',
 
@@ -10,6 +11,7 @@ export enum AuthActionTypes {
 }
 
 export interface AuthState {
-    user: AuthUserGetDto
+    user: AuthUserGetDto, 
+    preference: UserPreferenceDto
 }
 
