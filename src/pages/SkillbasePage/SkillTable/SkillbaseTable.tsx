@@ -332,7 +332,7 @@ const SkillbaseTable = (props: Props) => {
   const filterAndSortSkills = () => {
     let skills = props.skills
 
-    if (textFilter.length) {
+    if (textFilter?.length) {
       const text = textFilter.replace("#", "").trim().toLowerCase()
       skills = skills.filter((skill) => {
         if (skill.name.trim().toLowerCase().includes(text)) return true
