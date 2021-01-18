@@ -6,7 +6,7 @@ import {
   createStyles,
   lighten,
   makeStyles,
-  Theme
+  Theme,
 } from "@material-ui/core/styles"
 import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"
@@ -32,7 +32,7 @@ import { UserPreferenceDto } from "../../../interfaces/dtos/AuthUserGetDto"
 import { savePreferenceActionCreator } from "../../../store/auth/authActions"
 import {
   removeSkills,
-  sortSkill
+  sortSkill,
 } from "../../../store/skillbase/skillbaseActions"
 import { SortSkill } from "../../../store/skillbase/skillbaseTypes"
 import { ApplicationState } from "../../../store/store"
@@ -332,6 +332,55 @@ const SkillbaseTable = (props: Props) => {
   const filterAndSortSkills = () => {
     let skills = props.skills
 
+    if (props.sortBy) {
+      const property = props.sortBy.property
+      const order = props.sortBy.order
+
+      if (property === "isPriority") {
+        if (order === "asc") {
+          skills = skills.sort((a, b) => {
+            if (a.isPriority === b.isPriority) return 0
+            if (b.isPriority) return -1
+            return 1
+          })
+        } else {
+          skills = skills.sort((a, b) => {
+            if (a.isPriority === b.isPriority) return 0
+            if (a.isPriority) return -1 // only difference
+            return 1
+          })
+        }
+      } else if (property === "name") {
+        if (order === "asc") {
+          skills = skills.sort((a, b) => a.name.localeCompare(b.name))
+        } else {
+          skills = skills.sort((a, b) => b.name.localeCompare(a.name))
+        }
+      } else if (property === "currentLevel" || property === "goalLevel") {
+        if (order === "asc") {
+          skills = skills.sort((a, b) => a[property] - b[property])
+        } else {
+          skills = skills.sort((a, b) => b[property] - a[property])
+        }
+      } else if (property === "dependencies") {
+        if (order === "asc") {
+          skills = skills.sort(
+            (a, b) => a.dependencies.length - b.dependencies.length
+          )
+        } else {
+          skills = skills.sort(
+            (a, b) => b.dependencies.length - a.dependencies.length
+          )
+        }
+      } else if (property === "tagId") {
+        if (order === "asc") {
+          skills = skills.sort((a, b) => a.tagId - b.tagId)
+        } else {
+          skills = skills.sort((a, b) => b.tagId - a.tagId)
+        }
+      }
+    }
+
     if (textFilter?.length) {
       const text = textFilter.replace("#", "").trim().toLowerCase()
       skills = skills.filter((skill) => {
@@ -342,57 +391,6 @@ const SkillbaseTable = (props: Props) => {
         if (tag?.name.trim().toLowerCase().includes(text)) return true
         return false
       })
-    }
-
-    if (!props.sortBy) {
-      return skills
-    }
-
-    const property = props.sortBy.property
-    const order = props.sortBy.order
-
-    if (property === "isPriority") {
-      if (order === "asc") {
-        skills = skills.sort((a, b) => {
-          if (a.isPriority === b.isPriority) return 0
-          if (b.isPriority) return -1
-          return 1
-        })
-      } else {
-        skills = skills.sort((a, b) => {
-          if (a.isPriority === b.isPriority) return 0
-          if (a.isPriority) return -1 // only difference
-          return 1
-        })
-      }
-    } else if (property === "name") {
-      if (order === "asc") {
-        skills = skills.sort((a, b) => a.name.localeCompare(b.name))
-      } else {
-        skills = skills.sort((a, b) => b.name.localeCompare(a.name))
-      }
-    } else if (property === "currentLevel" || property === "goalLevel") {
-      if (order === "asc") {
-        skills = skills.sort((a, b) => a[property] - b[property])
-      } else {
-        skills = skills.sort((a, b) => b[property] - a[property])
-      }
-    } else if (property === "dependencies") {
-      if (order === "asc") {
-        skills = skills.sort(
-          (a, b) => a.dependencies.length - b.dependencies.length
-        )
-      } else {
-        skills = skills.sort(
-          (a, b) => b.dependencies.length - a.dependencies.length
-        )
-      }
-    } else if (property === "tagId") {
-      if (order === "asc") {
-        skills = skills.sort((a, b) => a.tagId - b.tagId)
-      } else {
-        skills = skills.sort((a, b) => b.tagId - a.tagId)
-      }
     }
 
     return skills
