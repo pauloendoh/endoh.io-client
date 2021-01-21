@@ -13,7 +13,7 @@ const MY_THEME = createMuiTheme({
   typography: {
     fontFamily: `'Open Sans', sans-serif;`, // imported at index.css
     // fontFamily: `'Saira', sans-serif;`, // imported at index.css
-    fontSize: 14,
+    fontSize: 12,
     button: {
       textTransform: "none",
       fontWeight: 500,
