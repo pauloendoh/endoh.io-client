@@ -8,6 +8,7 @@ import { ResourceDto } from "../../../../interfaces/dtos/relearn/ResourceDto"
 import { ApplicationState } from "../../../../store/store"
 import ResourceItem from "./ResourceItem/ResourceItem"
 
+
 function ResourceList(props: Props) {
   const classes = useStyles()
 

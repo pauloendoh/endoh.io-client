@@ -3,6 +3,7 @@ import { ProgressDto } from '../../dtos/skillbase/ProgressDto';
 import { SkillDto } from '../../dtos/skillbase/SkillDto';
 import { skillbaseActionTypes, SortSkill } from './skillbaseTypes';
 
+export const clearSkillbaseReducer = () => action(skillbaseActionTypes.CLEAR_SKILLBASE_REDUCER)
 export const setSkills = (skills: SkillDto[]) => action(skillbaseActionTypes.SET_SKILLS, skills)
 export const setSkill = (skill: SkillDto) => action(skillbaseActionTypes.SET_SKILL, skill)
 
@@ -20,6 +21,7 @@ export const setSidebarIsOpen = (value: boolean) =>
   action(skillbaseActionTypes.SET_SIDEBAR_IS_OPEN, value)
 
 export type SkillbaseActionReturns =
+  ReturnType<typeof clearSkillbaseReducer> |
   ReturnType<typeof setSkills> |
   ReturnType<typeof setSkill> |
 

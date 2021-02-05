@@ -1,10 +1,10 @@
-import { AuthUserGetDto, UserPreferenceDto } from 'interfaces/dtos/AuthUserGetDto';
+import { AuthUserGetDto } from 'interfaces/dtos/AuthUserGetDto';
 import { Reducer } from 'redux';
 import { AuthActionReturns } from './authActions';
 import { AuthActionTypes, AuthState } from './authTypes';
 
 const INITIAL_STATE: AuthState = {
-  user: null, 
+  user: null,
   preference: null
 }
 
@@ -13,7 +13,7 @@ const authReducer: Reducer<AuthState, AuthActionReturns> = (state = INITIAL_STAT
     case AuthActionTypes.SET_AUTH_USER:
       return setAuthUser(state, action.payload)
     case AuthActionTypes.SET_PREFERENCE:
-      return {...state, preference: action.payload}
+      return { ...state, preference: action.payload }
     case AuthActionTypes.LOGOUT:
       return logout(state)
     case AuthActionTypes.USING_GOOGLE_SESSION:

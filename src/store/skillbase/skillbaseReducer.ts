@@ -15,6 +15,9 @@ const INITIAL_STATE: SkillbaseState = {
 
 const skillbaseReducer: Reducer<SkillbaseState, SkillbaseActionReturns> = (state = INITIAL_STATE, action: SkillbaseActionReturns): SkillbaseState => {
   switch (action.type) {
+    case skillbaseActionTypes.CLEAR_SKILLBASE_REDUCER:
+      return INITIAL_STATE
+      
     case skillbaseActionTypes.SET_SKILLS:
       return { ...state, skills: action.payload }
     case skillbaseActionTypes.SET_SKILL:

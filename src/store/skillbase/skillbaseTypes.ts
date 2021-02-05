@@ -2,6 +2,7 @@ import { ProgressDto } from './../../dtos/skillbase/ProgressDto';
 import { SkillDto } from '../../dtos/skillbase/SkillDto';
 
 export enum skillbaseActionTypes {
+    CLEAR_SKILLBASE_REDUCER = '@skillbase/CLEAR_SKILLBASE_REDUCER',
     SET_SKILLS = '@skillbase/SET_SKILLS',
     SET_SKILL = '@skillbase/SET_SKILL',
     ADD_SKILL = '@skillbase/ADD_SKILL',

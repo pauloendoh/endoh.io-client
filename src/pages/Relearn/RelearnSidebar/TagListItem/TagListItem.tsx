@@ -21,15 +21,16 @@ import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Link, Redirect, useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
-import Flex from "../../../components/shared/Flexboxes/Flex"
-import PATHS from "../../../consts/PATHS"
-import { TagDto } from "../../../interfaces/dtos/relearn/TagDto"
-import * as relearnActions from "../../../store/relearn/relearnActions"
-import { ApplicationState } from "../../../store/store"
-import * as utilsActions from "../../../store/utils/utilsActions"
-import { getTodoResources } from "../../../utils/relearn/getTodoResources"
+import TagMoreIcon from "../../../../components/resources/TagMoreIcon/TagMoreIcon"
+import Flex from "../../../../components/shared/Flexboxes/Flex"
+import PATHS from "../../../../consts/PATHS"
+import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto"
+import * as relearnActions from "../../../../store/relearn/relearnActions"
+import { ApplicationState } from "../../../../store/store"
+import * as utilsActions from "../../../../store/utils/utilsActions"
+import { getTodoResources } from "../../../../utils/relearn/getTodoResources"
 
-// PE 2/3 - MenuItem could be shorter? 
+// PE 2/3 - MenuItem could be shorter?
 function TagListItem(props: Props) {
   const classes = useStyles()
   const location = useLocation()
@@ -98,64 +99,16 @@ function TagListItem(props: Props) {
         </Flex>
       </ListItemText>
 
-      <Box className={classes.moreButtonBox}>
-        {isHovered && (
-          <IconButton
-            id="tag-more"
-            size="small"
-            aria-label="tag-more"
-            onClick={(e) => {
-              e.preventDefault()
-              handleOpenMore(e)
-            }}
-          >
-            <MoreHorizIcon />
-          </IconButton>
-        )}
-      </Box>
-
-      <Menu
-        id="tag-more"
-        anchorEl={anchorEl}
-        getContentAnchorEl={null}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        transformOrigin={{ vertical: "top", horizontal: "right" }}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={(e) => {
-          const event = e as any
-          event.preventDefault()
-          handleCloseMore()
+      {/* PE 1/3 - transformar em um componente próprio */}
+      <TagMoreIcon
+        show={isHovered}
+        afterDelete={() => {
+          if (pathName.endsWith(props.tag.id.toString())) {
+            setRedirectTo(PATHS.relearn.index)
+          }
         }}
-      >
-        <MenuItem
-          onClick={(e) => {
-            e.preventDefault()
-            props.editTag(props.tag)
-          }}
-        >
-          <ListItemIcon className={classes.listItemIcon}>
-            <EditIcon fontSize="small" />
-          </ListItemIcon>
-          <Typography variant="inherit" noWrap>
-            Edit
-          </Typography>
-        </MenuItem>
-
-        <MenuItem
-          onClick={() => {
-            handleDeleteTag(props.tag.id)
-          }}
-          id="delete-tag-button"
-        >
-          <ListItemIcon className={classes.listItemIcon}>
-            <DeleteIcon fontSize="small" />
-          </ListItemIcon>
-          <Typography variant="inherit" noWrap>
-            Delete
-          </Typography>
-        </MenuItem>
-      </Menu>
+        tag={props.tag}
+      />
 
       {redirectTo.length > 0 && <Redirect to={redirectTo} />}
     </ListItem>

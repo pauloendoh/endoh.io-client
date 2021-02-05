@@ -1,16 +1,14 @@
 import {
   Box,
   Button,
-
   Dialog,
   DialogContent,
   DialogTitle,
-
   Grid,
   IconButton,
   makeStyles,
   TextField,
-  Tooltip
+  Tooltip,
 } from "@material-ui/core"
 import StarIcon from "@material-ui/icons/Star"
 import clsx from "clsx"
@@ -26,29 +24,28 @@ import { SkillDto } from "../../../dtos/skillbase/SkillDto"
 import MyAxiosError from "../../../interfaces/MyAxiosError"
 import {
   setEditingSkill,
-  setSkills
+  setSkills,
 } from "../../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../../store/store"
 import * as utilsActions from "../../../store/utils/utilsActions"
-import SelectDependencies from "./SelectDependencies/SelectDependencies"
 import SelectSkillLevel from "./SelectSkillLevel/SelectSkillLevel"
 import SelectTag from "./SelectTag/SelectTag"
 
+// PE 2/3
 const SkillDialog = (props: Props) => {
   const classes = useStyles()
 
   const handleSubmit = (
-    payload: SkillDto,
-
+    skill: SkillDto,
     setSubmitting: (isSubmitting: boolean) => void
   ) => {
     setSubmitting(true)
 
-    // Current level 5 -> Current level ""
-    if ((payload.currentLevel as unknown) === "") payload.currentLevel = null
-    if ((payload.goalLevel as unknown) === "") payload.goalLevel = null
+    // E.g;: if you change from 5 to ""
+    if ((skill.currentLevel as unknown) === "") skill.currentLevel = null
+    if ((skill.goalLevel as unknown) === "") skill.goalLevel = null
 
-    MY_AXIOS.post(API.skillbase.skill, payload)
+    MY_AXIOS.post(API.skillbase.skill, skill)
       .then((res) => {
         props.setSkills(res.data)
         props.setEditingSkill(null)
@@ -83,22 +80,8 @@ const SkillDialog = (props: Props) => {
             <Form>
               <DialogTitle id="skill-dialog-title">
                 <FlexVCenter justifyContent="space-between">
-                  <TextField
-                    className={classes.nameTextField}
-                    fullWidth
-                    placeholder="Untitled skill"
-                    InputProps={{
-                      disableUnderline: true,
-                      className: classes.nameInput,
-                    }}
-                    id={"name"}
-                    name={"name"}
-                    value={values.name}
-                    onChange={handleChange}
-                    autoFocus
-                    required
-                  />
-                  <FlexVCenter>
+                  <FlexVCenter mr={2}>
+                    {/* Divide into another component? */}
                     <Tooltip
                       title="This skill is a priority in your life right now"
                       enterDelay={500}
@@ -119,8 +102,25 @@ const SkillDialog = (props: Props) => {
                       </IconButton>
                     </Tooltip>
                   </FlexVCenter>
+
+                  <TextField
+                    className={classes.nameTextField}
+                    fullWidth
+                    placeholder="Untitled skill"
+                    InputProps={{
+                      disableUnderline: true,
+                      className: classes.nameInput,
+                    }}
+                    id={"name"}
+                    name={"name"}
+                    value={values.name}
+                    onChange={handleChange}
+                    autoFocus
+                    required
+                  />
                 </FlexVCenter>
               </DialogTitle>
+
               <DialogContent>
                 <Grid container alignItems="center" spacing={2}>
                   <Grid item xs={6}>
@@ -163,6 +163,7 @@ const SkillDialog = (props: Props) => {
                 </Box>
 
                 <Flex mt={2}>
+                  {/* This save & cancel button is recurrent. Should I create one for it? */}
                   <Button
                     disabled={isSubmitting}
                     type="submit"
@@ -208,7 +209,6 @@ const useStyles = makeStyles((theme) => ({
 
 const mapStateToProps = (state: ApplicationState) => ({
   editingSkill: state.skillbase.editingSkill,
-  tags: state.relearn.tags,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

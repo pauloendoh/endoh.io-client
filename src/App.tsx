@@ -7,7 +7,7 @@ import {
   RouteComponentProps,
   Switch,
   useLocation,
-  withRouter,
+  withRouter
 } from "react-router-dom"
 import { Dispatch } from "redux"
 import Navbar from "./components/navbar/Navbar"
@@ -26,7 +26,7 @@ import SettingsPage from "./pages/settings/SettingsPage"
 import SkillbasePage from "./pages/SkillbasePage/SkillbasePage"
 import {
   checkAuthOrLogoutActionCreator,
-  setPreference,
+  setPreference
 } from "./store/auth/authActions"
 import { ApplicationState } from "./store/store"
 
@@ -35,6 +35,7 @@ const MoneratePage = lazy(
 )
 
 const RelearnPage = lazy(() => import("./pages/Relearn/RelearnPage"))
+const UserPage = lazy(() => import("./pages/UserPage/UserPage"))
 
 // PE 2/3
 const App = (props: Props) => {
@@ -104,10 +105,11 @@ const App = (props: Props) => {
               <Route path="/monerate" component={MoneratePage} />
               <Route path="/relearn" component={RelearnPage} />
               <Route path="/skillbase" component={SkillbasePage} />
+              <Route path="/user/:username" component={UserPage} />
 
               <Route path="/settings" component={SettingsPage} />
-              <Route path="/" exact component={Home} />
-              <Redirect to="/" />
+              {/* <Route path="/" exact component={Home} /> */}
+              <Redirect to="/relearn" />
             </Switch>
           </Suspense>
         </Box>

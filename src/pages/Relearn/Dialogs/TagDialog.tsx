@@ -4,40 +4,40 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  Input,
 } from "@material-ui/core"
 import PATHS from "consts/PATHS"
 import { Form, Formik } from "formik"
-import React, { useEffect, useState } from "react"
-import { connect } from "react-redux"
-import { Redirect } from "react-router-dom"
-import { Dispatch } from "redux"
 import MyAxiosError from "interfaces/MyAxiosError"
+import React from "react"
+import { connect } from "react-redux"
+import { Dispatch } from "redux"
+import {
+  IWithRedirectProps,
+  withRedirect,
+} from "../../../components/hocs/withRedirect"
 import Flex from "../../../components/shared/Flexboxes/Flex"
 import MyTextField from "../../../components/shared/MyInputs/MyTextField"
 import API from "../../../consts/API"
+import MY_AXIOS from "../../../consts/MY_AXIOS"
 import { TagDto } from "../../../interfaces/dtos/relearn/TagDto"
 import * as relearnActions from "../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../store/store"
 import * as utilsActions from "../../../store/utils/utilsActions"
-import MY_AXIOS from "../../../consts/MY_AXIOS"
-import { SketchPicker } from "react-color"
+import SelectColor from "./SelectColor/SelectColor"
 
-const EditTagDialog = (props: Props) => {
-  const [redirectTo, setRedirectTo] = useState("")
-  useEffect(() => {
-    setRedirectTo("") // Avoids bug which redirects to the previously open tag dialog
-  }, [props.editingTag])
-
+// PE 2/3
+const TagDialog = (props: Props) => {
   const handleSubmit = (sentTag: TagDto) => {
     MY_AXIOS.post<TagDto[]>(API.relearn.tag, sentTag)
       .then((res) => {
-        props.setTags(res.data)
         props.setSuccessMessage("Tag saved!")
 
-        const tags = res.data
-        const savedTagId = tags.find((t) => t.name === sentTag.name).id
-        setRedirectTo(PATHS.relearn.tag + "/" + savedTagId)
+        const returnedTags = res.data
+        props.setTags(returnedTags)
+
+        const savedTagId = returnedTags.find((t) => t.name === sentTag.name).id
+
+        props.redirectTo(PATHS.relearn.tag + "/" + savedTagId)
       })
       .catch((err: MyAxiosError) => {
         props.setErrorMessage(err.response.data.errors[0].message)
@@ -66,7 +66,9 @@ const EditTagDialog = (props: Props) => {
         >
           {({ values, isSubmitting, setFieldValue, handleChange }) => (
             <Form>
-              <DialogTitle id="edit-tag-dialog-title">Add Tag</DialogTitle>
+              <DialogTitle id="edit-tag-dialog-title">
+                {values.id ? "Edit Tag" : "Add Tag"}
+              </DialogTitle>
               <DialogContent>
                 <Box>
                   <MyTextField
@@ -83,17 +85,14 @@ const EditTagDialog = (props: Props) => {
                   />
                 </Box>
 
-                <Box mt={2}> 
-                  <Flex>
-                    <input
-                      type="color"
-                      value={values.color}
-                      onChange={(event) => {
-                        setFieldValue("color", event.target.value)
-                      }}
-                    />
-                    <Box ml={2}>{values.color}</Box>
-                  </Flex>
+                <Box mt={2}>
+                  {/*  */}
+                  <SelectColor
+                    value={values.color}
+                    onChange={(newValue) => {
+                      setFieldValue("color", newValue)
+                    }}
+                  />
                 </Box>
 
                 <Flex mt={4}>
@@ -121,8 +120,6 @@ const EditTagDialog = (props: Props) => {
           )}
         </Formik>
       </Box>
-
-      {redirectTo.length > 0 && <Redirect to={redirectTo} />}
     </Dialog>
   )
 }
@@ -142,6 +139,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 })
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+  ReturnType<typeof mapDispatchToProps> &
+  IWithRedirectProps
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditTagDialog)
+export default withRedirect(
+  connect(mapStateToProps, mapDispatchToProps)(TagDialog)
+)

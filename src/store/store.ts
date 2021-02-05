@@ -4,6 +4,8 @@ import authReducer from './auth/authReducer';
 import { AuthState } from './auth/authTypes';
 import monerateReducer from './monerate/monerateReducer';
 import { MonerateState } from './monerate/monerateTypes';
+import profileReducer from './profile/profileReducer';
+import { ProfileState } from './profile/profileTypes';
 import relearnReducer from './relearn/relearnReducer';
 import { RelearnState } from './relearn/relearnTypes';
 import skillbaseReducer from './skillbase/skillbaseReducer';
@@ -15,7 +17,9 @@ export interface ApplicationState {
     monerate: MonerateState,
     relearn: RelearnState,
     skillbase: SkillbaseState,
-    utils: UtilsState
+    utils: UtilsState,
+
+    profile: ProfileState
 }
 
 const rootReducer = combineReducers({
@@ -23,7 +27,9 @@ const rootReducer = combineReducers({
     monerate: monerateReducer,
     relearn: relearnReducer,
     skillbase: skillbaseReducer,
-    utils: utilsReducer
+    utils: utilsReducer,
+
+    profile: profileReducer
 })
 
 const composeEnhancers =

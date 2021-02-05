@@ -20,8 +20,7 @@ import {
   setSkill,
 } from "../../../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../../../store/store"
-import DependenciesTableCell from "./DependenciesTableCell/DependenciesTableCell"
-import LevelTableCell from "./LevelTableCell/LevelTableCell"
+import SkillLevelTD from "./SkillLevelTd/SkillLevelTd"
 
 // PE 3/3
 const SkillbaseTableRow = (props: Props) => {
@@ -83,7 +82,7 @@ const SkillbaseTableRow = (props: Props) => {
         />
       </TableCell>
 
-      <TableCell width={180} >
+      <TableCell width={180}>
         <Flex>
           {props.skill.isPriority ? (
             <span style={{ fontWeight: 900 }}>{props.skill.name}</span>
@@ -100,9 +99,15 @@ const SkillbaseTableRow = (props: Props) => {
         </Flex>
       </TableCell>
 
-      <LevelTableCell value={props.skill.currentLevel}  isPriority={props.skill.isPriority}/>
-      <LevelTableCell value={props.skill.goalLevel} isPriority={props.skill.isPriority}/>
-{/* 
+      <SkillLevelTD
+        value={props.skill.currentLevel}
+        isPriority={props.skill.isPriority}
+      />
+      <SkillLevelTD
+        value={props.skill.goalLevel}
+        isPriority={props.skill.isPriority}
+      />
+      {/* 
       <TableCell>
         <DependenciesTableCell values={props.skill.dependencies} />
       </TableCell> */}

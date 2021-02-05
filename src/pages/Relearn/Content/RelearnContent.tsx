@@ -1,12 +1,12 @@
 import { Box } from "@material-ui/core"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
-import { SkillDto } from '../../../dtos/skillbase/SkillDto'
+import { SkillDto } from "../../../dtos/skillbase/SkillDto"
 import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto"
 import { ApplicationState } from "../../../store/store"
 import { getTodoResources as filterTodo } from "../../../utils/relearn/getTodoResources"
-import ContentHeader from "./ContentHeader"
+import ContentHeader from "./ContentHeader/ContentHeader"
 import ResourceList from "./ResourceList/ResourceList"
 
 function RelearnContent(props: Props) {
@@ -15,6 +15,9 @@ function RelearnContent(props: Props) {
   const [todo, setTodo] = useState<ResourceDto[]>([])
   const [completed, setCompleted] = useState<ResourceDto[]>([])
 
+  const [headerHeight, setHeaderHeight] = useState(0)
+
+  // PE 2/3 - it's not clear if this props.resources is "ALL RESOURCES" or "RESOURCES FROM LIST"
   useEffect(() => {
     const todo = filterTodo(props.resources).sort(
       (a, b) => a.position - b.position
@@ -34,15 +37,18 @@ function RelearnContent(props: Props) {
   }, [props.resources])
 
   return (
-    <Box m={2} maxWidth={700}>
+    <Box m={2} maxWidth={700} >
       <ContentHeader
         onTabChange={(newTabIndex) => setTabIndex(newTabIndex)}
         tabIndex={tabIndex}
         todoResources={todo}
         completedResources={completed}
         skills={props.skills}
+        onHeightChange={(newHeight) => {
+          setHeaderHeight(newHeight)
+        }}
       />
-      <Box mt={12} />
+      <Box mt={headerHeight + 8 + "px"} />
       <ResourceList resources={tabIndex === 0 ? todo : completed} />
     </Box>
   )
@@ -53,7 +59,7 @@ const mapStateToProps = (state: ApplicationState) => ({})
 const mapDispatchToProps = (dispatch: Dispatch) => ({})
 
 interface OwnProps {
-  resources: ResourceDto[], 
+  resources: ResourceDto[]
   skills: SkillDto[]
 }
 

@@ -27,7 +27,7 @@ import MY_AXIOS from "../../../consts/MY_AXIOS"
 import { TagDto } from "../../../interfaces/dtos/relearn/TagDto"
 import * as relearnActions from "../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../store/store"
-import TagListItem from "./TagListItem"
+import TagListItem from "./TagListItem/TagListItem"
 
 function RelearnSidebar(props: Props) {
   const classes = useStyles()

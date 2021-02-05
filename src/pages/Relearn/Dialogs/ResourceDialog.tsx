@@ -13,35 +13,35 @@ import {
 } from "@material-ui/core"
 import Chip from "@material-ui/core/Chip"
 import { Autocomplete } from "@material-ui/lab"
-import Flex from "../../../components/shared/Flexboxes/Flex"
-import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
-import MyTextField from "../../../components/shared/MyInputs/MyTextField"
-import API from "../../../consts/API"
-import PATHS from "../../../consts/PATHS"
 import { Form, Formik, FormikErrors } from "formik"
 import React, { useState } from "react"
 import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
 import MaskedInput from "react-text-mask"
 import { Dispatch } from "redux"
-import { urlIsValid } from "../../../utils/url/isValidUrl"
+import Flex from "../../../components/shared/Flexboxes/Flex"
+import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
+import MyTextField from "../../../components/shared/MyInputs/MyTextField"
+import API from "../../../consts/API"
 import MY_AXIOS from "../../../consts/MY_AXIOS"
-import MyAxiosError from "../../../interfaces/MyAxiosError"
+import PATHS from "../../../consts/PATHS"
 import { LinkPreviewDto } from "../../../interfaces/dtos/relearn/LinkPreviewDto"
 import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto"
 import { TagDto } from "../../../interfaces/dtos/relearn/TagDto"
+import MyAxiosError from "../../../interfaces/MyAxiosError"
 import * as relearnActions from "../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../store/store"
 import * as utilsActions from "../../../store/utils/utilsActions"
+import { urlIsValid } from "../../../utils/url/isValidUrl"
 
-const EditResourceDialog = (props: Props) => {
+// PE 1/3 - tá muito grande;; mudar para ResourceDialog
+const ResourceDialog = (props: Props) => {
   const [isFetchingLinkPreview, setIsFetchingLinkPreview] = useState(false)
 
   const handleSubmit = (resource: ResourceDto) => {
     MY_AXIOS.post<ResourceDto[]>(API.relearn.resource, resource)
       .then((res) => {
         props.setResources(res.data)
-
         props.setSuccessMessage("Resource saved!")
 
         MY_AXIOS.get<TagDto[]>(API.relearn.tag).then((res) => {
@@ -49,6 +49,8 @@ const EditResourceDialog = (props: Props) => {
         })
       })
       .catch((err: MyAxiosError) => {
+        // PE 1/3 - This is common. Should I create a getFirstErrorMessage(err: MyAxiosErr)
+        // or even props.showAxiosError(err: MyAxiosError)
         props.setErrorMessage(err.response.data.errors[0].message)
       })
       .finally(() => {
@@ -143,7 +145,7 @@ const EditResourceDialog = (props: Props) => {
           }) => (
             <Form>
               <DialogTitle id="edit-resource-dialog-title">
-                Add Resource
+                {values.id > 0 ? "Edit Resource" : "Add Resource"}
               </DialogTitle>
               <DialogContent>
                 <Flex>
@@ -277,6 +279,27 @@ const EditResourceDialog = (props: Props) => {
                     </Grid>
                   </Grid>
                 </Box>
+                <Box mt={2}>
+                  <MyTextField
+                    id="publicReview"
+                    name="publicReview"
+                    value={values.publicReview}
+                    onChange={handleChange}
+                    fullWidth
+                    label="Public Review"
+                  />
+                </Box>
+                <Box mt={2}>
+                  <MyTextField
+                    id="privateNote"
+                    name="privateNote"
+                    value={values.privateNote}
+                    onChange={handleChange}
+                    fullWidth
+                    label="Private Note"
+                  />
+                </Box>
+
                 <Flex mt={2}>
                   <Button
                     type="submit"
@@ -347,4 +370,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditResourceDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(ResourceDialog)

@@ -12,17 +12,18 @@ import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import { ApplicationState } from "store/store"
 import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter"
-import H5 from "../../../../components/shared/Text/H5"
 import ChangePasswordDialog from "./dialogs/ChangePasswordDialog"
 import DeleteAccountDialog from "./dialogs/DeleteAccountDialog"
 import EditUsernameDialog from "./dialogs/EditUsernameDialog"
 
+// PE 2/3 - Maybe I should separate this into <UsernameRow/>, <EmailRow/>, <PasswordRow/> and <DeleteAccountRow>
 const PersonalInformationPaper = (props: Props) => {
   const classes = useStyles()
 
-  const [changePasswordDialog, setChangePasswordDialog] = useState(false)
-  const [deleteAccountDialog, setDeleteAccountDialog] = useState(false)
   const [editUsernameDialog, setEditUsernameDialog] = useState(false)
+  const [changePasswordDialog, setChangePasswordDialog] = useState(false)
+
+  const [deleteAccountDialog, setDeleteAccountDialog] = useState(false)
 
   return (
     <Paper>
@@ -77,9 +78,7 @@ const PersonalInformationPaper = (props: Props) => {
               <ChangePasswordDialog
                 open={changePasswordDialog}
                 onClose={() => {
-                  // ???? why is this not working?
-                  setChangePasswordDialog(false)
-
+                  // I need to add an small delay (why, tho?)
                   setTimeout(() => {
                     setChangePasswordDialog(false)
                   }, 25)
@@ -89,10 +88,10 @@ const PersonalInformationPaper = (props: Props) => {
           </Grid>
         </Grid>
 
-        <Box pt={3}/>
+        <Box pt={3} />
 
         <Divider />
-          <FlexVCenter pt={3}>
+        <FlexVCenter pt={3}>
           <Button
             variant="outlined"
             color="secondary"

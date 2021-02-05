@@ -20,7 +20,7 @@ import { EmailPostDto } from "../../../interfaces/dtos/auth/EmailPostDto"
 import MyAxiosError, { MyFieldError } from "../../../interfaces/MyAxiosError"
 import { ApplicationState } from "../../../store/store"
 
-// PE 2/3 
+// PE 2/3
 const ResetPasswordByEmailForm = (props: Props) => {
   const classes = useStyles()
   const [responseErrors, setResponseErrors] = useState([] as MyFieldError[])

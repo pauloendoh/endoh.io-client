@@ -5,6 +5,7 @@ export interface ProgressDto {
     skillId: number;
     oldLevel: number;
     newLevel: number;
+    goalLevel: number;
 
     createdAt: string
     updatedAt: string

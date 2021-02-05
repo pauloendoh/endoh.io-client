@@ -7,7 +7,7 @@ import { Dispatch } from "redux"
 import PATHS from "../../../consts/PATHS"
 import { setSidebarIsOpen } from "../../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../../store/store"
-const RightToggleButton = (props: Props) => {
+const LeftToggleButton = (props: Props) => {
   const location = useLocation()
 
   return (
@@ -37,4 +37,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>
 
-export default connect(mapStateToProps, mapDispatchToProps)(RightToggleButton)
+export default connect(mapStateToProps, mapDispatchToProps)(LeftToggleButton)

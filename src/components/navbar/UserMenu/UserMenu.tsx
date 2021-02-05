@@ -1,16 +1,16 @@
-import { faCog, faSignOutAlt } from "@fortawesome/free-solid-svg-icons"
+import { faCog, faSignOutAlt, faUser } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Box, Divider } from "@material-ui/core"
 import Button from "@material-ui/core/Button"
 import Menu from "@material-ui/core/Menu"
 import MenuItem from "@material-ui/core/MenuItem"
-import FlexVCenter from "../../shared/Flexboxes/FlexVCenter"
 import React from "react"
 import { connect } from "react-redux"
 import { Link, useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
 import { logoutActionCreator } from "../../../store/auth/authActions"
 import { ApplicationState } from "../../../store/store"
+import FlexVCenter from "../../shared/Flexboxes/FlexVCenter"
 // PE 2/3
 const UserMenu = (props: Props) => {
   const location = useLocation()
@@ -54,6 +54,19 @@ const UserMenu = (props: Props) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
+        <MenuItem
+          component={Link}
+          to={"/user/" + props.authUser.username}
+          id="profile-user-menu-option"
+          onClick={handleClose}
+        >
+          <Box mr={2}>
+            <FontAwesomeIcon icon={faUser} />
+          </Box>
+          Profile
+        </MenuItem>
+        <Divider />
+
         <MenuItem component={Link} to={settingsHref} id="settings-user-menu">
           <Box mr={2}>
             <FontAwesomeIcon icon={faCog} />

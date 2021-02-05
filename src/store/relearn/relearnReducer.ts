@@ -14,6 +14,8 @@ const INITIAL_STATE: RelearnState = {
   editingTag: null,
 }
 
+let throttle: NodeJS.Timeout = null
+
 const relearnReducer: Reducer<RelearnState, RelearnActionReturns> = (state = INITIAL_STATE, action: RelearnActionReturns): RelearnState => {
   switch (action.type) {
     case relearnActionTypes.SET_RESOURCES:
@@ -95,10 +97,17 @@ const moveResource = (state: RelearnState, params: IMoveResource): RelearnState 
     return resource
   })
 
-  MY_AXIOS.post(API.relearn.resource + '/resources', resources)
-    .then(res => {
+  // Saving changes at database (1s throttle)
+  clearTimeout(throttle)
+  throttle = (setTimeout(() => {
+    MY_AXIOS.post(API.relearn.resource + '/resources', resources)
+      .then(res => {
 
-    })
+      }).catch(err => {
+        alert("Error while saving new position.")
+      })
+  }, 1000))
+
 
   // concat to the other resources
   const resourcesIds = resources.map(resource => resource.id)

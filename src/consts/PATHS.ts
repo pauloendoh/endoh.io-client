@@ -10,6 +10,8 @@ const PATHS = {
     },
     skillbase: {
         index: '/skillbase',
+        list: '/skillbase/list',
+        unlisted: '/skillbase/unlisted'
     },
     settings: {
         account: "/settings/account",
@@ -18,7 +20,10 @@ const PATHS = {
             places: '/settings/monerate/places',
             categories: '/settings/monerate/categories',
         }
-
+    }, 
+    feed: {
+        index: '/feed', 
+        
     }
 }
 

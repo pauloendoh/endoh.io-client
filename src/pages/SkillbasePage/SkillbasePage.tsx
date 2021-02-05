@@ -14,7 +14,7 @@ import { setTags } from "../../store/relearn/relearnActions"
 import {
   setEditingSkill,
   setProgresses,
-  setSkills
+  setSkills,
 } from "../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../store/store"
 import { sleep } from "../../utils/sleep"
@@ -56,6 +56,8 @@ const SkillbasePage = (props: Props) => {
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={handlers}>
       <Flex height="100%" pt={5}>
+        <ProgressSidebar />
+
         <Box
           className={clsx(classes.content, {
             [classes.contentShift]: props.sidebarIsOpen,
@@ -63,8 +65,6 @@ const SkillbasePage = (props: Props) => {
         >
           <SkillbaseTable />
         </Box>
-
-        <ProgressSidebar />
 
         <SkillDialog />
         {/* <RelearnSidebar /> */}
@@ -89,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
-    marginRight: 300,
+    marginLeft: 300,
   },
 }))
 

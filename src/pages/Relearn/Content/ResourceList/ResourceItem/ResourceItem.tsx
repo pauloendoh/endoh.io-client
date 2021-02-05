@@ -10,6 +10,7 @@ import TimeAgo from "react-timeago"
 import { Dispatch } from "redux"
 import Flex from "../../../../../components/shared/Flexboxes/Flex"
 import FlexVCenter from "../../../../../components/shared/Flexboxes/FlexVCenter"
+import MyTextField from "../../../../../components/shared/MyInputs/MyTextField"
 import { ResourceDto } from "../../../../../interfaces/dtos/relearn/ResourceDto"
 import { IMoveResource } from "../../../../../interfaces/relearn/IMoveResource"
 import descriptionPng from "../../../../../static/images/description.png"
@@ -20,6 +21,7 @@ import * as utilsActions from "../../../../../store/utils/utilsActions"
 import { urlIsValid } from "../../../../../utils/url/isValidUrl"
 import RateButton from "./RateButton"
 import ResourceMoreIcon from "./ResourceMoreIcon/ResourceMoreIcon"
+import { getDomainFromUrl } from "../../../../../utils/url/getDomainFromUrl"
 
 // PE 1/3
 function ResourceItem(props: Props) {
@@ -118,7 +120,7 @@ function ResourceItem(props: Props) {
         }
       >
         {/* PE 1/3 - DRY */}
-        <Box mr={2} minWidth={75} width={75}>
+        <Box mr={2} minWidth={50} width={50}>
           {props.resource.url.length > 0 ? (
             <Link href={props.resource.url} target="_blank">
               <img
@@ -138,61 +140,107 @@ function ResourceItem(props: Props) {
 
         <Box flexGrow={1}>
           <Flex className={classes.firstRow}>
-            <Typography variant="body1">{props.resource.title}</Typography>
-
             {/* 'More' icon - PE 1/3 - can be a specific component */}
+            <Box>
+              {urlIsValid(props.resource.url) ? (
+                <>
+                  <Link
+                    className={classes.link}
+                    href={props.resource.url}
+                    target="_blank"
+                  >
+                    {props.resource.title}
+                  </Link>
+                  <span style={{ marginRight: 16, display: "inline-flex" }}>
+                    ({getDomainFromUrl(props.resource.url)})
+                  </span>
+                </>
+              ) : (
+                <span style={{ marginRight: 16 }}>{props.resource.title}</span>
+              )}
+              {props.resource.estimatedTime.length > 0 && (
+                <span
+                  style={{
+                    marginRight: 16,
+                    display: "inline-flex",
+                    position: "relative",
+                    top: 5,
+                  }}
+                >
+                  <ScheduleIcon fontSize="small" />
+                  {props.resource.estimatedTime}
+                </span>
+              )}
+
+              {props.resource.dueDate.length > 0 && (
+                <span
+                  style={{
+                    display: "inline-flex",
+                    marginRight: 16,
+                    position: "relative",
+                    top: 5,
+                  }}
+                >
+                  <EventIcon fontSize="small" />
+                  {DateTime.fromISO(props.resource.dueDate).toFormat("LLL dd")}
+                </span>
+              )}
+            </Box>
+
             <ResourceMoreIcon resource={props.resource} isHovered={isHovered} />
           </Flex>
-          {urlIsValid(props.resource.url) && (
-            <Link
-              className={classes.link}
-              href={props.resource.url}
-              target="_blank"
-            >
-              {props.resource.url}
-            </Link>
-          )}
 
-          <Flex my={1}>
-            {props.resource.completedAt.length ? (
-              <FlexVCenter>
-                Completed&nbsp;
-                <TimeAgo date={props.resource.completedAt} live={false} />
-              </FlexVCenter>
-            ) : (
-              <FlexVCenter>
-                {validateEstimatedTime(props.resource.estimatedTime) && (
-                  <FlexVCenter pr={2}>
-                    <FlexVCenter mr={1}>
-                      <ScheduleIcon fontSize="small" />
-                    </FlexVCenter>
-                    {props.resource.estimatedTime}
-                  </FlexVCenter>
-                )}
-
-                {props.resource.dueDate.length > 0 && (
-                  <FlexVCenter
-                    className={
-                      validateEstimatedTime(props.resource.estimatedTime)
-                        ? classes.dueDateBox
-                        : ""
-                    }
-                  >
-                    <FlexVCenter mr={1}>
-                      <EventIcon fontSize="small" />
-                    </FlexVCenter>
-                    {DateTime.fromISO(props.resource.dueDate).toFormat(
-                      "LLL dd"
-                    )}
-                  </FlexVCenter>
-                )}
-              </FlexVCenter>
-            )}
-
+          <Flex mt={1}>
+            <RateButton resource={props.resource} />
             <Flex ml="auto">
-              <RateButton resource={props.resource} />
+              {props.resource.completedAt.length ? (
+                <FlexVCenter>
+                  Completed&nbsp;
+                  <TimeAgo date={props.resource.completedAt} live={false} />
+                </FlexVCenter>
+              ) : (
+                <FlexVCenter>
+                  {/* {validateEstimatedTime(props.resource.estimatedTime) && (
+                  <FlexVCenter pr={2}>
+                   
+                  </FlexVCenter>
+                )} */}
+
+                  {props.resource.dueDate.length > 0 && (
+                    <FlexVCenter
+                      className={
+                        validateEstimatedTime(props.resource.estimatedTime)
+                          ? classes.dueDateBox
+                          : ""
+                      }
+                    ></FlexVCenter>
+                  )}
+                </FlexVCenter>
+              )}
             </Flex>
           </Flex>
+
+          {props.resource.publicReview.length > 0 && (
+            <Box mt={2}>
+              <MyTextField
+                value={props.resource.publicReview}
+                fullWidth
+                label="Public Review"
+                disabled
+              />
+            </Box>
+          )}
+
+          {props.resource.privateNote.length > 0 && (
+            <Box mt={2}>
+              <MyTextField
+                value={props.resource.privateNote}
+                fullWidth
+                label="Private Note"
+                disabled
+              />
+            </Box>
+          )}
         </Box>
       </Flex>
     </RootRef>
@@ -202,11 +250,9 @@ function ResourceItem(props: Props) {
 const useStyles = makeStyles((theme) => ({
   link: {
     // fontSize: 12
-    display: "block",
     maxWidth: 400,
     overflow: "hidden",
-    whiteSpace: "nowrap",
-    textOverflow: "ellipsis",
+    marginRight: 16,
   },
   isDragging: {
     border: "1px dashed rgba(255, 255, 255, 0.2)",
@@ -221,7 +267,6 @@ const useStyles = makeStyles((theme) => ({
   firstRow: {
     justifyContent: "space-between",
     minHeight: 32,
-    alignItems: "stretch",
   },
 }))
 

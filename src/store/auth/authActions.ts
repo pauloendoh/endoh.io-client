@@ -5,7 +5,9 @@ import API from '../../consts/API';
 import MY_AXIOS from '../../consts/MY_AXIOS';
 import { AuthUserGetDto, UserPreferenceDto } from '../../interfaces/dtos/AuthUserGetDto';
 import { monerateActionTypes } from '../monerate/monerateTypes';
+import { clearProfile } from '../profile/profileActions';
 import { relearnActionTypes } from '../relearn/relearnTypes';
+import { skillbaseActionTypes } from '../skillbase/skillbaseTypes';
 import { AuthActionTypes } from './authTypes';
 
 export const setAuthUser = (authUser: AuthUserGetDto) => action(AuthActionTypes.SET_AUTH_USER, authUser)
@@ -60,6 +62,8 @@ export function checkAuthOrLogoutActionCreator(dispatch: Dispatch) {
 export const logoutActionCreator = (dispatch: Dispatch) => {
   dispatch(action(relearnActionTypes.CLEAR_RELEARN_REDUCER))
   dispatch(action(monerateActionTypes.CLEAR_MONERATE_REDUCER))
+  dispatch(action(skillbaseActionTypes.CLEAR_SKILLBASE_REDUCER))
+  dispatch(clearProfile())
   return logout()
 }
 

@@ -2,7 +2,8 @@ import { makeStyles, TableCell } from "@material-ui/core"
 import clsx from "clsx"
 import React from "react"
 
-const LevelTableCell = (props: { value: number, isPriority: boolean }) => {
+// PE 2/3 - Not so easy to understand the classes logic
+const SkillLevelTd = (props: { value: number; isPriority: boolean }) => {
   const classes = useStyles()
   return (
     <TableCell
@@ -11,7 +12,7 @@ const LevelTableCell = (props: { value: number, isPriority: boolean }) => {
         [classes.basic]: props.value >= 1 && props.value <= 3,
         [classes.intermediary]: props.value >= 4 && props.value <= 6,
         [classes.advanced]: props.value >= 7 && props.value <= 10,
-        [classes.isPriority]: props.isPriority
+        [classes.isPriority]: props.isPriority,
       })}
     >
       {props.value}
@@ -22,10 +23,10 @@ const LevelTableCell = (props: { value: number, isPriority: boolean }) => {
 const useStyles = makeStyles((theme) => ({
   root: {
     color: "black",
-    width: 50, 
+    width: 50,
   },
-  isPriority:{
-    fontWeight: 'bold'
+  isPriority: {
+    fontWeight: "bold",
   },
   basic: {
     background: "#FFF2CC",
@@ -34,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
   intermediary: {
     background: "#B6D7A8",
 
-    // color: "#3DAC8D",
   },
   advanced: {
     background: "#B4A7D6",
@@ -43,4 +43,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default LevelTableCell
+export default SkillLevelTd

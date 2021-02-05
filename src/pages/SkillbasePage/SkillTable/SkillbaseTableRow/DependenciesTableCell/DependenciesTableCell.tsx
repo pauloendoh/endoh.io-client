@@ -1,4 +1,4 @@
-import { Box, Chip, makeStyles, Typography } from "@material-ui/core"
+import { Box, Chip, makeStyles } from "@material-ui/core"
 import React from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
@@ -7,6 +7,7 @@ import SkillLevelChip from "../../../../../components/skillbase/SkillLevelChip/S
 import { SkillDto } from "../../../../../dtos/skillbase/SkillDto"
 import { ApplicationState } from "../../../../../store/store"
 
+// PE 1/3 - não está sendo usado... remover futuramente? 20210125
 const DependenciesTableCell = (props: Props) => {
   const classes = useStyles()
   return (

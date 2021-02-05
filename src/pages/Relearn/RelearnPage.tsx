@@ -17,8 +17,8 @@ import { ApplicationState } from "../../store/store"
 import { sleep } from "../../utils/sleep"
 import LoadingPage from "../index/LoadingPage"
 import RelearnContent from "./Content/RelearnContent"
-import EditResourceDialog from "./Dialogs/EditResourceDialog"
-import EditTagDialog from "./Dialogs/EditTagDialog"
+import ResourceDialog from "./Dialogs/ResourceDialog"
+import TagDialog from "./Dialogs/TagDialog"
 import RelearnSidebar from "./RelearnSidebar/RelearnSidebar"
 // PE 3/3
 const RelearnPage = (props: Props) => {
@@ -93,8 +93,8 @@ const RelearnPage = (props: Props) => {
             // <ResourceList resources={filteredResources} />
           )}
         </Box>
-        <EditResourceDialog />
-        <EditTagDialog />
+        <ResourceDialog />
+        <TagDialog />
       </Flex>
     </GlobalHotKeys>
   )

@@ -57,9 +57,9 @@ const LandingPage = () => {
         <RelearnDescription />
       </Box>
 
-      <Box mt={10}>
+      {/* <Box mt={10}>
         <MonerateDescription />
-      </Box>
+      </Box> */}
 
       <Box mt={15} pb={5}>
         <FooterDescription />

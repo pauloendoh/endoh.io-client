@@ -5,8 +5,9 @@ import {
   Link,
   makeStyles,
   Paper,
-  Typography,
+  Typography
 } from "@material-ui/core"
+import AccessAlarmIcon from "@material-ui/icons/AccessAlarm"
 import MyTextField from "components/shared/MyInputs/MyTextField"
 import { Form, Formik } from "formik"
 import { AuthUserGetDto } from "interfaces/dtos/AuthUserGetDto"
@@ -18,44 +19,35 @@ import { ApplicationState } from "store/store"
 import Flex from "../../../components/shared/Flexboxes/Flex"
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
 import { MyDivider } from "../../../components/utils/MyDivider/MyDivider"
-import { AuthFormTypes } from "../../../consts/enums/AuthFormTypes"
+import API from "../../../consts/API"
 import MY_AXIOS from "../../../consts/MY_AXIOS"
 import MyAxiosError, { MyFieldError } from "../../../interfaces/MyAxiosError"
-import googleIcon from "../../../static/images/google-icon-white.png"
+import GoogleButton from "./GoogleButton/GoogleButton"
 import PasswordResetForm from "./ResetPasswordByEmailForm"
-import AccessAlarmIcon from '@material-ui/icons/AccessAlarm';
-import API from '../../../consts/API'
 
-require("dotenv").config()
-
-// PE 1/3 20210109 - Dividir em 3 possíveis forms: login, register, passwordReset 
+// PE 1/3 20210109 - Dividir em 3 possíveis forms: login, register, passwordReset
 const AuthForm = (props: Props) => {
   const classes = useStyles()
 
   // TODO 20210105: substitute signUpIsSelected for this formType
-  const [formType, setFormType] = useState(AuthFormTypes.login)
+  const [formType, setFormType] = useState<
+    "login" | "register" | "passwordReset"
+  >("login")
 
-  const [signupIsSelected, setSignupIsSelected] = useState(false)
   const [responseErrors, setResponseErrors] = useState([] as MyFieldError[])
 
-  const handleGoogleSignIn = () => {
-    // Authenticate using via passport api in the backend
-    // Open Twitter login page
-    window.open(process.env.REACT_APP_API_URL + "auth/google", "_self")
-  }
-
   const handleTempSignIn = () => {
-    MY_AXIOS.get<AuthUserGetDto>(API.auth.tempUser).then(res => {
+    MY_AXIOS.get<AuthUserGetDto>(API.auth.tempUser).then((res) => {
       props.setAuthUser(res.data)
     })
   }
 
   return (
     <Paper className={classes.paper}>
-      {formType === AuthFormTypes.passwordReset ? (
+      {formType === "passwordReset" ? (
         <PasswordResetForm
           onExit={() => {
-            setFormType(AuthFormTypes.login)
+            setFormType("login")
           }}
         />
       ) : (
@@ -69,7 +61,10 @@ const AuthForm = (props: Props) => {
             }}
             // PE 2/3 jogar pra fora
             onSubmit={(values, { setSubmitting }) => {
-              if (signupIsSelected && values.password !== values.password2) {
+              if (
+                formType === "register" &&
+                values.password !== values.password2
+              ) {
                 setResponseErrors([
                   { field: "password", message: "Passwords don't match" },
                 ])
@@ -83,9 +78,8 @@ const AuthForm = (props: Props) => {
                 password: values.password,
               }
 
-              const endpoint = signupIsSelected
-                ? "/auth/register"
-                : "/auth/login"
+              const endpoint =
+                formType === "register" ? "/auth/register" : "/auth/login"
 
               setResponseErrors([])
 
@@ -111,9 +105,11 @@ const AuthForm = (props: Props) => {
                     id="email"
                     name="email"
                     className="mt-3"
-                    type={signupIsSelected ? "email" : "text"}
+                    type={formType === "register" ? "email" : "text"}
                     onChange={handleChange}
-                    label={signupIsSelected ? "Email" : "Email or username"}
+                    label={
+                      formType === "register" ? "Email" : "Email or username"
+                    }
                     fullWidth
                     required
                     InputLabelProps={{ required: false }}
@@ -121,7 +117,7 @@ const AuthForm = (props: Props) => {
                   />
                 </Box>
 
-                {signupIsSelected ? (
+                {formType === "register" ? (
                   <Box mt={1}>
                     <MyTextField
                       id="username"
@@ -148,12 +144,12 @@ const AuthForm = (props: Props) => {
                     InputLabelProps={{ required: false }}
                   />
 
-                  {!signupIsSelected && (
+                  {formType === "login" && (
                     <Flex justifyContent="flex-end">
                       <Button
                         color="primary"
                         onClick={() => {
-                          setFormType(AuthFormTypes.passwordReset)
+                          setFormType("passwordReset")
                         }}
                       >
                         Forgot your password?
@@ -162,7 +158,7 @@ const AuthForm = (props: Props) => {
                   )}
                 </Box>
 
-                {signupIsSelected ? (
+                {formType === "register" ? (
                   <Box mt={1}>
                     <MyTextField
                       id="password2"
@@ -189,7 +185,7 @@ const AuthForm = (props: Props) => {
                     style={{ textTransform: "none", fontSize: 16 }}
                     fullWidth
                   >
-                    {signupIsSelected ? "SIGN UP" : "SIGN IN"}
+                    {formType === "register" ? "SIGN UP" : "SIGN IN"}
                     {isSubmitting && (
                       <CircularProgress size={20} className="ml-3" />
                     )}
@@ -206,7 +202,7 @@ const AuthForm = (props: Props) => {
           </Formik>
 
           <Box mt={3}>
-            {signupIsSelected ? (
+            {formType === "register" ? (
               <Box display="flex" alignItems="center" justifyContent="center">
                 Already have an account? &nbsp;{" "}
                 <Link
@@ -214,7 +210,7 @@ const AuthForm = (props: Props) => {
                   onClick={(e: MouseEvent) => {
                     e.preventDefault()
                     setResponseErrors([])
-                    setSignupIsSelected(false)
+                    setFormType("login")
                   }}
                 >
                   Sign in
@@ -228,7 +224,7 @@ const AuthForm = (props: Props) => {
                   onClick={(e: MouseEvent) => {
                     e.preventDefault()
                     setResponseErrors([])
-                    setSignupIsSelected(true)
+                    setFormType("register")
                   }}
                 >
                   Sign up
@@ -243,34 +239,23 @@ const AuthForm = (props: Props) => {
             </MyDivider>
 
             <Box mt={2}>
-              <Button
-                onClick={handleGoogleSignIn}
-                fullWidth
-                className={classes.googleButton}
-              >
-                <FlexVCenter>
-                  <img src={googleIcon} height={24} alt="Google button" />
-                  {/* <FontAwesomeIcon className="fab fa-google"/> */}
-                  <Box ml={2} width={180}>Enter with Google</Box>
-                </FlexVCenter>
-              </Button>
+              <GoogleButton />
             </Box>
 
             <Box mt={1}>
               <Button
                 onClick={handleTempSignIn}
                 fullWidth
-                className={classes.googleButton}
+                className={classes.testUserButton}
               >
                 <FlexVCenter>
-                  
-                  
-                  <AccessAlarmIcon fontSize="large"/>
-                  <Box ml={2} width={180}>Test with Temporary User</Box>
+                  <AccessAlarmIcon fontSize="large" />
+                  <Box ml={2} width={180}>
+                    Test with Temporary User
+                  </Box>
                 </FlexVCenter>
               </Button>
             </Box>
-
           </Box>
         </Box>
       )}
@@ -307,6 +292,11 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 10,
     background: theme.palette.grey[800],
   },
+  testUserButton: {
+    paddingTop: 7,
+    paddingBottom: 7,
+    background: theme.palette.grey[800],
+  }
 }))
 
 const mapStateToProps = (state: ApplicationState) => ({

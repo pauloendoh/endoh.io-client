@@ -4,20 +4,20 @@ import {
   ClickAwayListener,
   makeStyles,
   Tooltip,
-  Typography,
+  Typography
 } from "@material-ui/core"
-import StarRateIcon from "@material-ui/icons/StarRate"
+import StarBorderOutlined from '@material-ui/icons/StarBorderOutlined'
 import { Rating } from "@material-ui/lab"
-import FlexHCenter from "../../../../../components/shared/Flexboxes/FlexHCenter"
-import FlexVCenter from "../../../../../components/shared/Flexboxes/FlexVCenter"
-import API from "../../../../../consts/API"
 import React from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
+import FlexHCenter from "../../../../../components/shared/Flexboxes/FlexHCenter"
+import FlexVCenter from "../../../../../components/shared/Flexboxes/FlexVCenter"
+import API from "../../../../../consts/API"
 import MY_AXIOS from "../../../../../consts/MY_AXIOS"
 import { ResourceDto } from "../../../../../interfaces/dtos/relearn/ResourceDto"
-import { ApplicationState } from "../../../../../store/store"
 import * as relearnActions from "../../../../../store/relearn/relearnActions"
+import { ApplicationState } from "../../../../../store/store"
 import * as utilsActions from "../../../../../store/utils/utilsActions"
 
 function RateButton(props: Props) {
@@ -90,17 +90,17 @@ function RateButton(props: Props) {
         <Button
           size="small"
           onClick={handleTooltipOpen}
-          variant="outlined"
+          // variant="outlined"
           className={classes.rateButton}
         >
           <FlexVCenter>
-            <StarRateIcon />
+            <StarBorderOutlined />
             {props.resource.rating > 0 ? (
-              <Box mr={1}>
+              <Box ml={1}>
                 {props.resource.rating} - {labels[props.resource.rating]}
               </Box>
             ) : (
-              <Box mr={1}>Rate</Box>
+              <Box ml={1}>Rate this resource</Box>
             )}
           </FlexVCenter>
         </Button>
@@ -121,9 +121,8 @@ const labels: { [index: string]: string } = {
 
 const useStyles = makeStyles((theme) => ({
   rateButton: {
-    color: "#ffb400",
-    border: "1px solid #ffb400",
-    width: 135,
+    position: 'relative', 
+    right: 8
   },
 }))
 

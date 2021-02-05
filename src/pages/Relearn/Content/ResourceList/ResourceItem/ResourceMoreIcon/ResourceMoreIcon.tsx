@@ -1,5 +1,6 @@
 import {
   Box,
+  Divider,
   IconButton,
   ListItemIcon,
   makeStyles,
@@ -9,6 +10,7 @@ import {
 } from "@material-ui/core"
 import DeleteIcon from "@material-ui/icons/Delete"
 import EditIcon from "@material-ui/icons/Edit"
+import FileCopyIcon from "@material-ui/icons/FileCopy"
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
 import React, { useState } from "react"
 import { connect } from "react-redux"
@@ -19,6 +21,7 @@ import { ResourceDto } from "../../../../../../interfaces/dtos/relearn/ResourceD
 import {
   editResource,
   removeResource,
+  setResources,
 } from "../../../../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../../../../store/store"
 import {
@@ -47,6 +50,20 @@ function ResourceMoreIcon(props: Props) {
         props.removeResource(id)
       })
     }
+  }
+
+  const duplicateResource = (resource: ResourceDto) => {
+    MY_AXIOS.post<ResourceDto[]>(
+      `${API.relearn.resourceDuplicate}/${resource.id}`
+    )
+      .then((res) => {
+        props.setSuccessMessage("Resource duplicated!")
+
+        props.setResources(res.data)
+      })
+      .catch((err) => {
+        props.setErrorMessage(err.response.data.errors[0].message)
+      })
   }
 
   return (
@@ -98,6 +115,23 @@ function ResourceMoreIcon(props: Props) {
         </MenuItem>
 
         <MenuItem
+          onClick={(e) => {
+            e.preventDefault()
+            handleCloseMore()
+            duplicateResource(props.resource)
+          }}
+        >
+          <ListItemIcon className={classes.listItemIcon}>
+            <FileCopyIcon fontSize="small" />
+          </ListItemIcon>
+          <Typography variant="inherit" noWrap>
+            Duplicate
+          </Typography>
+        </MenuItem>
+
+        <Divider light />
+
+        <MenuItem
           onClick={() => {
             handleCloseMore()
             handleDeleteResource(props.resource.id)
@@ -131,6 +165,8 @@ const mapStateToProps = (state: ApplicationState) => ({})
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   editResource: (resource: ResourceDto) => dispatch(editResource(resource)),
   removeResource: (id: number) => dispatch(removeResource(id)),
+
+  setResources: (resources: ResourceDto[]) => dispatch(setResources(resources)),
 
   setSuccessMessage: (message: string) => dispatch(setSuccessMessage(message)),
   setErrorMessage: (message: string) => dispatch(setErrorMessage(message)),

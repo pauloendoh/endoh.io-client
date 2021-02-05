@@ -9,6 +9,7 @@ import Flex from "../../components/shared/Flexboxes/Flex"
 import * as relearnActions from "../../store/relearn/relearnActions"
 import { ApplicationState } from "../../store/store"
 
+// PE 2/3 - I won't use this in the future, probably.
 function RelearnNavbarContent(props: Props) {
   return (
     <Flex ml={5}>

@@ -29,7 +29,13 @@ const MY_THEME = createMuiTheme({
       root: {
         background: "#1E1E1E",
       }
-    }
+    },
+    MuiTooltip: {
+      arrow: { color: "#292929" },
+      tooltip: {
+        backgroundColor: "#292929"
+      }
+    },
   },
   zIndex: {
     appBar: 1201 // zIndex.drawer + 1

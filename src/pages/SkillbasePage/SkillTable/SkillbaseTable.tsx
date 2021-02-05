@@ -22,10 +22,12 @@ import DeleteIcon from "@material-ui/icons/Delete"
 import clsx from "clsx"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
+import { useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
 import MyTextField from "../../../components/shared/MyInputs/MyTextField"
 import API from "../../../consts/API"
 import MY_AXIOS from "../../../consts/MY_AXIOS"
+import PATHS from "../../../consts/PATHS"
 import { IdsDto } from "../../../dtos/IdsDto"
 import { SkillDto } from "../../../dtos/skillbase/SkillDto"
 import { UserPreferenceDto } from "../../../interfaces/dtos/AuthUserGetDto"
@@ -39,6 +41,9 @@ import { ApplicationState } from "../../../store/store"
 import { setSuccessMessage } from "../../../store/utils/utilsActions"
 import AddSkillButton from "./AddSkillButton/AddSkillButton"
 import SkillbaseTableRow from "./SkillbaseTableRow/SkillbaseTableRow"
+import SkillListSelect from "./SkillListSelect/SkillListSelect"
+
+// PE 1/3 - tá muito grande, temos q limpar um monte de coisa que nem está sendo mais usada.
 
 // function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 //   if (b[orderBy] < a[orderBy]) {
@@ -159,8 +164,9 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
+        <TableCell padding="checkbox" className={classes.th}>
           <Checkbox
+            className={classes.th}
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
@@ -169,6 +175,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
+            className={classes.th}
             key={headCell.id}
             align={headCell.align}
             padding={headCell.disablePadding ? "none" : "default"}
@@ -259,12 +266,13 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         </Tooltip>
       ) : (
         <Box mr={2} width={450}>
-          <MyTextField
+          <SkillListSelect />
+          {/* <MyTextField
             label="Filter by name or tag"
             value={props.textFilter}
             onChange={(e) => props.onChangeFilter(e.target.value)}
             fullWidth
-          />
+          /> */}
         </Box>
       )}
     </Toolbar>
@@ -279,6 +287,12 @@ const useStyles = makeStyles((theme: Theme) =>
     paper: {
       width: "100%",
       marginBottom: theme.spacing(2),
+    },
+    container: {
+      maxHeight: 440,
+    },
+    th: {
+      backgroundColor: "#2B2B2B",
     },
     table: {
       minWidth: 750,
@@ -304,6 +318,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const SkillbaseTable = (props: Props) => {
   const classes = useStyles()
+  const location = useLocation()
+
   const [order, setOrder] = React.useState<Order>(
     props.preference?.skillbaseSortSkill?.order
   )
@@ -311,6 +327,8 @@ const SkillbaseTable = (props: Props) => {
     props.preference?.skillbaseSortSkill?.sortBy as keyof SkillDto
   )
   const [selectedIds, setSelectedIds] = React.useState<number[]>([])
+
+  const [listId, setListId] = useState<number>(null) // null = "show all", 0 = "unlisted"
 
   const [textFilter, setTextFilter] = useState(
     props.preference?.skillbaseTextFilter
@@ -381,16 +399,26 @@ const SkillbaseTable = (props: Props) => {
       }
     }
 
-    if (textFilter?.length) {
-      const text = textFilter.replace("#", "").trim().toLowerCase()
-      skills = skills.filter((skill) => {
-        if (skill.name.trim().toLowerCase().includes(text)) return true
+    // if (textFilter?.length) {
+    //   const text = textFilter.replace("#", "").trim().toLowerCase()
+    //   skills = skills.filter((skill) => {
+    //     if (skill.name.trim().toLowerCase().includes(text)) return true
 
-        const tag = props.allTags.find((tag) => tag.id === skill.tagId)
+    //     const tag = props.allTags.find((tag) => tag.id === skill.tagId)
 
-        if (tag?.name.trim().toLowerCase().includes(text)) return true
-        return false
-      })
+    //     if (tag?.name.trim().toLowerCase().includes(text)) return true
+    //     return false
+    //   })
+    // }
+
+    const { pathname } = location
+    if (pathname.startsWith(PATHS.skillbase.unlisted)) {
+      skills = skills.filter((s) => s.tagId === null)
+    } else if (pathname.startsWith(PATHS.skillbase.list + "/")) {
+      const listId = Number(pathname.split("/").pop())
+      if (listId) {
+        skills = skills.filter((s) => s.tagId === listId)
+      }
     }
 
     return skills
@@ -405,7 +433,7 @@ const SkillbaseTable = (props: Props) => {
       setVisibleSkills(filterAndSortSkills())
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.skills, props.sortBy, textFilter]
+    [props.skills, props.sortBy, location]
   )
 
   const handleRequestSort = (
@@ -454,14 +482,16 @@ const SkillbaseTable = (props: Props) => {
   const isSelected = (id: number) => selectedIds.indexOf(id) !== -1
 
   const handleDelete = () => {
-    MY_AXIOS.delete<SkillDto[]>(API.skillbase.skill, {
-      headers: {},
-      data: { ids: selectedIds } as IdsDto,
-    }).then((res) => {
-      props.removeSkills(selectedIds)
-      props.setSuccessMessage("Skills deleted successfully!")
-      setSelectedIds([])
-    })
+    if (window.confirm(`Delete ${selectedIds.length} skill(s)?`)) {
+      MY_AXIOS.delete<SkillDto[]>(API.skillbase.skill, {
+        headers: {},
+        data: { ids: selectedIds } as IdsDto,
+      }).then((res) => {
+        props.removeSkills(selectedIds)
+        props.setSuccessMessage("Skills deleted successfully!")
+        setSelectedIds([])
+      })
+    }
   }
 
   return (
@@ -473,8 +503,9 @@ const SkillbaseTable = (props: Props) => {
           numSelected={selectedIds.length}
           onChangeFilter={handleChangeTextFilter}
         />
-        <TableContainer>
+        <TableContainer className={classes.container}>
           <Table
+            stickyHeader
             className={classes.table}
             aria-labelledby="tableTitle"
             size="small"
@@ -488,7 +519,7 @@ const SkillbaseTable = (props: Props) => {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={props.skills.length}
+              rowCount={visibleSkills.length}
             />
             <TableBody>
               {

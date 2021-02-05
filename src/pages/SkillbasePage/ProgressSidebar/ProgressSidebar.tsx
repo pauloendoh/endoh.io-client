@@ -30,6 +30,7 @@ import { setProgresses } from "../../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../../store/store"
 import Flex from "../../../components/shared/Flexboxes/Flex"
 import ProgressItem from "./ProgressItem/ProgressItem"
+import { DateTime } from "luxon"
 
 interface IProgressPerDay {
   day: string
@@ -56,8 +57,15 @@ function ProgressSidebar(props: Props) {
   ): IProgressPerDay[] => {
     const resultDays: IProgressPerDay[] = []
     for (const progress of progresses) {
-      const days = resultDays.map((d) => d.day)
-      const progressDay = progress.createdAt.substring(0, 10)
+      let progressDay = ""
+      if (
+        new Date().toISOString().substring(0, 10) ===
+        progress.createdAt.substring(0, 10)
+      ) {
+        progressDay = "Today"
+      } else {
+        progressDay = DateTime.fromISO(progress.createdAt).toFormat("LLL dd")
+      }
 
       const index = resultDays.findIndex((r) => r.day === progressDay)
       if (~index) {
@@ -81,7 +89,7 @@ function ProgressSidebar(props: Props) {
 
   return (
     <Drawer
-      anchor="right"
+      anchor="left"
       className={classes.root}
       variant="persistent"
       open={props.sidebarIsOpen}
@@ -101,19 +109,17 @@ function ProgressSidebar(props: Props) {
                 <TimelineDot />
                 {progressesPerDay.length > index + 1 && <TimelineConnector />}
               </TimelineSeparator>
-              <TimelineContent>
-                <Box>{day.day}</Box>
-                <Paper>
-                  <Box px={2} py={1} position="relative">
-                    {day.progresses.map((progress, i) => (
-                      <ProgressItem
-                        progress={progress}
-                        index={i}
-                        key={progress.id}
-                      />
-                    ))}
-                  </Box>
-                </Paper>
+              <TimelineContent style={{padding: 5}}>
+                <Box className={classes.day}>{day.day}</Box>
+                <Box py={1}>
+                  {day.progresses.map((progress, i) => (
+                    <ProgressItem
+                      progress={progress}
+                      index={i}
+                      key={progress.id}
+                    />
+                  ))}
+                </Box>
               </TimelineContent>
             </TimelineItem>
           ))}
@@ -151,6 +157,9 @@ const useStyles = makeStyles((theme: Theme) =>
     listItemIcon: {
       minWidth: 32,
     },
+    day: {
+      color: theme.palette.grey[400]
+    }
   })
 )
 

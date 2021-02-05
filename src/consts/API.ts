@@ -18,6 +18,7 @@ const API = {
     },
     relearn: {
         resource: '/relearn/resource',
+        resourceDuplicate: '/relearn/resource/duplicate',
         tag: '/relearn/tag',
     }, 
     skillbase: {
@@ -29,6 +30,11 @@ const API = {
     utils: {
         linkPreview: '/utils/link-preview',
         passwordResetEmail: "/utils/passwordResetEmail",
+    }, 
+
+    user: {
+        index: '/user', 
+        ratedResources: (username: string) => '/user/' + username + '/rated-resources'
     }
 }
 
