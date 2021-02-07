@@ -8,16 +8,13 @@ context('Relearn', () => {
     cy.get('#email').type('test@test.com')
     cy.get('#password').type('123456')
     cy.get('#auth-submit-button').click()
-    cy.get('[data-testid="application-menu-button"]').click()
-
-    cy.get('#application-menu-option-Relearn').click()
   })
 
   it('should render "Untagged" at the sidebar', () => {
     cy.contains('Untagged')
   })
 
-  it('should create and delete tag', () => {
+  const createDeleteTag = () => {
     cy.get('#add-tag-button').click()
 
     cy.get('[data-testid="tag-name-input"]').type('tag test')
@@ -31,26 +28,54 @@ context('Relearn', () => {
     cy.get('#tag-more').click()
     cy.get('#delete-tag-button').click()
     cy.contains('Tag deleted!')
+  }
+  it('should create and delete tag', () => {
+    createDeleteTag()
   })
 
 
-  it('create and delete resource', () => {
+  function createResource(resourceName) {
     cy.get('#add-resource-button').click()
-    cy.get('[aria-label="resource-title-input"]').type('resource 1')
+    cy.get('[aria-label="resource-title-input"]').type(resourceName)
     cy.get('#save-resource-button').click()
     cy.contains('saved!')
 
     cy.wait(1000)
-    cy.contains('resource 1')
+    cy.contains(resourceName)
+  }
+  it('create and delete resource', () => {
+    const resourceName = new Date().toISOString()
 
+    createResource(resourceName)
 
     const resource = cy.get('.resource-item').last()
-    resource.contains('resource 1')
+    resource.contains(resourceName)
     resource.trigger('mouseover')
     cy.get('#resource-more-icon').click()
     cy.get('#delete-resource-button').click({ force: true })
     cy.contains('Resource deleted!')
+
+  })
+
+  it('rate and unrate resource', () => {
+    const resourceName = new Date().toISOString()
+    createResource(resourceName)
+
+    const resource = cy.get('.resource-item').last()
+    resource.contains(resourceName)
+    resource.get(".rate-button").last().click()
+
+    cy.get('#rating-input-5').click({force: true})
+    cy.get('#completed-resources-tab-button').click()
+
+
     // TODO: appear at the end of the list
 
+    const completedResource = cy.get('.resource-item').first()
+    completedResource.contains(resourceName)
+    completedResource.get(".rate-button").first().click()
+    cy.get('#rating-input-5').click({force: true})
+
+    cy.contains('unrated!')
   })
 })

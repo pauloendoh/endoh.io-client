@@ -19,6 +19,7 @@ import { ResourceDto } from "../../../../../interfaces/dtos/relearn/ResourceDto"
 import * as relearnActions from "../../../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../../../store/store"
 import * as utilsActions from "../../../../../store/utils/utilsActions"
+import clsx from 'clsx'
 
 function RateButton(props: Props) {
   const classes = useStyles()
@@ -91,7 +92,8 @@ function RateButton(props: Props) {
           size="small"
           onClick={handleTooltipOpen}
           // variant="outlined"
-          className={classes.rateButton}
+          className={(clsx([classes.rateButton, "rate-button" ]))}
+          
         >
           <FlexVCenter>
             <StarBorderOutlined />

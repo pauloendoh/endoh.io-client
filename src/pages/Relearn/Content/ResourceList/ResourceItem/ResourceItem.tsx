@@ -220,7 +220,7 @@ function ResourceItem(props: Props) {
             </Flex>
           </Flex>
 
-          {props.resource.publicReview.length > 0 && (
+          {props.resource.publicReview?.length > 0 && (
             <Box mt={2}>
               <MyTextField
                 value={props.resource.publicReview}
@@ -231,7 +231,7 @@ function ResourceItem(props: Props) {
             </Box>
           )}
 
-          {props.resource.privateNote.length > 0 && (
+          {props.resource.privateNote?.length > 0 && (
             <Box mt={2}>
               <MyTextField
                 value={props.resource.privateNote}

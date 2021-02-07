@@ -106,6 +106,7 @@ function ContentHeader(props: Props) {
         />
         <Tab
           className={classes.tab}
+          id="completed-resources-tab-button"
           label={`${props.completedResources.length} Completed`}
         />
       </Tabs>
