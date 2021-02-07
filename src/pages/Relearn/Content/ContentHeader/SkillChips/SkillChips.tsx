@@ -46,7 +46,7 @@ function SkillChips(props: Props) {
   }, [props.allSkills, location])
 
   return (
-    <Flex>
+    <Flex className={classes.root}>
       <SkillDialog />
 
       {skills.map((skill) => (
@@ -94,6 +94,7 @@ function SkillChips(props: Props) {
         variant="outlined"
         size="small"
         color="secondary"
+        className={classes.manageSkillsButton}
       >
         Manage skills
       </Button>
@@ -102,8 +103,13 @@ function SkillChips(props: Props) {
 }
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    flexWrap: "wrap",
+    maxWidth: 700
+  },
   skillButton: {
     marginRight: 8,
+    marginBottom: 8,
     fontWeight: 400,
   },
   innerChip: {
@@ -111,6 +117,9 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: 4,
     paddingRight: 4,
     borderRadius: 3,
+  },
+  manageSkillsButton:{
+    marginBottom: 8
   },
 }))
 
