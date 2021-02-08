@@ -105,7 +105,7 @@ function SkillChips(props: Props) {
 const useStyles = makeStyles((theme) => ({
   root: {
     flexWrap: "wrap",
-    maxWidth: 700
+    maxWidth: 600
   },
   skillButton: {
     marginRight: 8,

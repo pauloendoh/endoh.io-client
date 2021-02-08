@@ -112,8 +112,8 @@ const moveResource = (state: RelearnState, params: IMoveResource): RelearnState 
   // concat to the other resources
   const resourcesIds = resources.map(resource => resource.id)
   const otherResources = state.resources.filter(resource => !resourcesIds.includes(resource.id))
-  resources = otherResources.concat(resources)
-  return { ...state, resources }
+  const allResources = otherResources.concat(resources)
+  return { ...state, resources: allResources }
 }
 
 

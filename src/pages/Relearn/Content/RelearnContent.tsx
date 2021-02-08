@@ -37,7 +37,7 @@ function RelearnContent(props: Props) {
   }, [props.resources])
 
   return (
-    <Box m={2} maxWidth={700} >
+    <Box m={2} maxWidth={600} >
       <ContentHeader
         onTabChange={(newTabIndex) => setTabIndex(newTabIndex)}
         tabIndex={tabIndex}
@@ -48,7 +48,7 @@ function RelearnContent(props: Props) {
           setHeaderHeight(newHeight)
         }}
       />
-      <Box mt={headerHeight + 8 + "px"} />
+      <Box mt={headerHeight + 16 + "px"} />
       <ResourceList resources={tabIndex === 0 ? todo : completed} />
     </Box>
   )
