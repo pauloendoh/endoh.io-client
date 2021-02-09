@@ -6,8 +6,13 @@ import { Dispatch } from "redux"
 import API from "../../consts/API"
 import MY_AXIOS from "../../consts/MY_AXIOS"
 import { ResourceDto } from "../../interfaces/dtos/relearn/ResourceDto"
-import { clearProfile, setProfileResources } from "../../store/profile/profileActions"
+import {
+  clearProfile,
+  setProfileResources
+} from "../../store/profile/profileActions"
 import { ApplicationState } from "../../store/store"
+import ResourcesChart from "./ResourcesChart/ResourcesChart"
+
 // PE 3/3
 const UserPage = (props: Props) => {
   const classes = useStyles()
@@ -22,9 +27,17 @@ const UserPage = (props: Props) => {
         props.setProfileResources(res.data)
       }
     )
-  })
+  }, 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  [])
 
-  return <Box>User: {username}</Box>
+  return (
+    <Box>
+      User: {username}
+      <Box>Chart:</Box>
+      <ResourcesChart resources={props.resources}/>
+    </Box>
+  )
 }
 
 const useStyles = makeStyles((theme) => ({}))
@@ -32,12 +45,13 @@ const useStyles = makeStyles((theme) => ({}))
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>
 
-const mapStateToProps = (state: ApplicationState) => ({})
+const mapStateToProps = (state: ApplicationState) => ({
+  resources: state.profile.resources
+})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  clearProfile: () =>
-  dispatch(clearProfile()),
-  
+  clearProfile: () => dispatch(clearProfile()),
+
   setProfileResources: (resources: ResourceDto[]) =>
     dispatch(setProfileResources(resources)),
 })

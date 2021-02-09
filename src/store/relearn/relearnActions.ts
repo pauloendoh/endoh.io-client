@@ -20,8 +20,12 @@ export const editResource = (resource: ResourceDto) =>
   action(relearnActionTypes.SET_EDITING_RESOURCE, resource)
 export const closeResourceDialog = () => action(relearnActionTypes.SET_EDITING_RESOURCE, null)
 
-export const startNewTag = () =>
-  action(relearnActionTypes.SET_EDITING_TAG, newTagDto())
+export const startNewTag = (isPrivate: boolean) => {
+  const newTag = newTagDto()
+  newTag.isPrivate = isPrivate
+  return action(relearnActionTypes.SET_EDITING_TAG, newTag)
+}
+
 export const editTag = (tag: TagDto) =>
   action(relearnActionTypes.SET_EDITING_TAG, tag)
 export const closeTagDialog = () => action(relearnActionTypes.SET_EDITING_TAG, null)

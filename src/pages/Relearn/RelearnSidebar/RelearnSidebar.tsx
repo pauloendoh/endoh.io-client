@@ -1,21 +1,15 @@
-import { faPlus, faTags } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   Box,
-  Collapse,
   createStyles,
   Drawer,
   List,
   ListItem,
-  ListItemIcon,
   ListItemText,
   makeStyles,
   Theme,
   Toolbar,
   Typography,
-  useTheme,
 } from "@material-ui/core"
-import { ExpandLess, ExpandMore } from "@material-ui/icons"
 import PATHS from "consts/PATHS"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
@@ -27,11 +21,10 @@ import MY_AXIOS from "../../../consts/MY_AXIOS"
 import { TagDto } from "../../../interfaces/dtos/relearn/TagDto"
 import * as relearnActions from "../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../store/store"
-import TagListItem from "./TagListItem/TagListItem"
+import YourTagsLi from "./YourTagsLi/YourTagsLi"
 
 function RelearnSidebar(props: Props) {
   const classes = useStyles()
-  const theme = useTheme()
 
   const location = useLocation()
 
@@ -40,12 +33,6 @@ function RelearnSidebar(props: Props) {
   useEffect(() => {
     setPathName(location.pathname)
   }, [location])
-
-  // PE 2/3 - change to tagsAreOpen
-  const [openTags, setOpenTags] = useState(true)
-  const handleClickTags = () => {
-    setOpenTags(!openTags)
-  }
 
   // PE 2/3 - melhor deixar o setTags no RelearnPage ? E chamar tudo de uma vez em uma request?
   useEffect(
@@ -57,6 +44,14 @@ function RelearnSidebar(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
+
+  const [publicLists, setPublicLists] = useState<TagDto[]>([])
+  const [privateLists, setPrivateLists] = useState<TagDto[]>([])
+
+  useEffect(() => {
+    setPublicLists(props.tags.filter((t) => t.isPrivate === false))
+    setPrivateLists(props.tags.filter((t) => t.isPrivate === true))
+  }, [props.tags])
 
   return (
     <Drawer
@@ -90,38 +85,11 @@ function RelearnSidebar(props: Props) {
           </ListItem>
 
           {/* PE 2/3 - Dividir em um componente <YourTagsLi/> */}
-          <ListItem button onClick={handleClickTags}>
-            <ListItemIcon className={classes.listItemIcon}>
-              <FontAwesomeIcon icon={faTags} />
-            </ListItemIcon>
-            <ListItemText primary="Your Tags" />
-            {openTags ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
+          {/* <YourTagsLi lists={props.tags} type="public" /> */}
 
-          <Collapse in={openTags} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              {props.tags.map((tag) => (
-                <TagListItem key={tag.id} tag={tag} />
-              ))}
+          <YourTagsLi lists={publicLists} type="public" />
 
-              <ListItem
-                button
-                className={classes.nested}
-                id="add-tag-button"
-                onClick={() => {
-                  props.startNewTag()
-                }}
-              >
-                <ListItemIcon className={classes.listItemIcon}>
-                  <FontAwesomeIcon
-                    icon={faPlus}
-                    color={theme.palette.primary.main}
-                  />
-                </ListItemIcon>
-                <ListItemText primary="Add Tag" />
-              </ListItem>
-            </List>
-          </Collapse>
+          <YourTagsLi lists={privateLists} type="private" />
         </List>
       </Box>
     </Drawer>
@@ -168,7 +136,6 @@ const mapStateToProps = (state: ApplicationState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setTags: (tags: TagDto[]) => dispatch(relearnActions.setTags(tags)),
-  startNewTag: () => dispatch(relearnActions.startNewTag()),
 })
 
 type Props = ReturnType<typeof mapStateToProps> &

@@ -7,6 +7,7 @@ export interface TagDto {
     name: string;
     position: number;
     color: string;
+    isPrivate: boolean; 
     createdAt: string
     updatedAt: string
     resources: ResourceDto[]
@@ -18,6 +19,7 @@ export const newTagDto = (): TagDto => ({
     name: '',
     position: null,
     color: '#ffffff',
+    isPrivate: false, 
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     resources: []

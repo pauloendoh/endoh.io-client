@@ -236,7 +236,7 @@ function ResourceItem(props: Props) {
               <MyTextField
                 value={props.resource.privateNote}
                 fullWidth
-                label="Private Note"
+                label="Private Notes"
                 disabled
               />
             </Box>

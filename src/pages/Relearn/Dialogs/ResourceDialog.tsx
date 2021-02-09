@@ -296,7 +296,7 @@ const ResourceDialog = (props: Props) => {
                     value={values.privateNote}
                     onChange={handleChange}
                     fullWidth
-                    label="Private Note"
+                    label="Private Notes"
                   />
                 </Box>
 

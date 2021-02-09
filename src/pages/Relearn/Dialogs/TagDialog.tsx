@@ -1,9 +1,11 @@
 import {
   Box,
   Button,
+  Checkbox,
   Dialog,
   DialogContent,
   DialogTitle,
+  FormControlLabel,
 } from "@material-ui/core"
 import PATHS from "consts/PATHS"
 import { Form, Formik } from "formik"
@@ -16,6 +18,7 @@ import {
   withRedirect,
 } from "../../../components/hocs/withRedirect"
 import Flex from "../../../components/shared/Flexboxes/Flex"
+import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
 import MyTextField from "../../../components/shared/MyInputs/MyTextField"
 import API from "../../../consts/API"
 import MY_AXIOS from "../../../consts/MY_AXIOS"
@@ -94,6 +97,21 @@ const TagDialog = (props: Props) => {
                     }}
                   />
                 </Box>
+
+                <FlexVCenter>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={values.isPrivate}
+                        onChange={() => {
+                          setFieldValue("isPrivate", !values.isPrivate)
+                        }}
+                        color="primary"
+                      />
+                    }
+                    label="Private list"
+                  />
+                </FlexVCenter>
 
                 <Flex mt={4}>
                   <Button
