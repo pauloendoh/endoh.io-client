@@ -1,8 +1,7 @@
 import {
   faGlobeAmericas,
-  faPlus,
-  faTags,
   faLock,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
@@ -109,7 +108,8 @@ const mapStateToProps = (state: ApplicationState) => ({})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setTags: (tags: TagDto[]) => dispatch(relearnActions.setTags(tags)),
-  startNewTag: (isPrivate: boolean) => dispatch(relearnActions.startNewTag(isPrivate)),
+  startNewTag: (isPrivate: boolean) =>
+    dispatch(relearnActions.startNewTag(isPrivate)),
 })
 
 interface OwnProps {

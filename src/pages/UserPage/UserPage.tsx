@@ -74,7 +74,7 @@ const UserPage = (props: Props) => {
             <Box mt={2}>
               <FlexVCenter>
                 <FontAwesomeIcon icon={faLock} />
-                <Box ml={1}>Public lists</Box>
+                <Box ml={1}>Private lists</Box>
               </FlexVCenter>
               {props.privateLists.map((list) => (
                 <Flex key={list.id}>
@@ -88,7 +88,7 @@ const UserPage = (props: Props) => {
             </Box>
           )}
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={9} lg={6}>
           <ProfileHeader />
 
           <Box mt={5} />
@@ -100,7 +100,7 @@ const UserPage = (props: Props) => {
           </Flex>
           <FeedResources resources={filteredResources} />
         </Grid>
-        <Grid item xs={3}></Grid>
+        <Grid item lg={3}></Grid>
       </Grid>
     </Box>
   )

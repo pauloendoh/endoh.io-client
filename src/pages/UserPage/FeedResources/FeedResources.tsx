@@ -38,7 +38,7 @@ const FeedResources = (props: Props) => {
         //   {new Date(new Date(rpd.day).setHours(12)).toISOString()}
         //   <ReactTimeago date={rpd.day} live={false} />
 
-        <Box>
+        <Box key={rpd.day}>
           {rpd.resources.map((resource) => (
             <FeedResourceItem key={resource.id} resource={resource} />
           ))}

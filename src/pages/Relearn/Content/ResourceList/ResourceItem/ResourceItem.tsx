@@ -1,33 +1,28 @@
-import { Box, Link, makeStyles, Typography } from "@material-ui/core"
+import { faGlobeAmericas, faLock } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Box, Link, makeStyles } from "@material-ui/core"
 import RootRef from "@material-ui/core/RootRef"
-import EventIcon from "@material-ui/icons/Event"
-import ScheduleIcon from "@material-ui/icons/Schedule"
-import { DateTime } from "luxon"
 import React, { useRef, useState } from "react"
 import { useDrag, useDrop } from "react-dnd"
 import { connect } from "react-redux"
 import TimeAgo from "react-timeago"
 import { Dispatch } from "redux"
+import RateButton from "../../../../../components/resources/RateButton/RateButton"
 import Flex from "../../../../../components/shared/Flexboxes/Flex"
 import FlexVCenter from "../../../../../components/shared/Flexboxes/FlexVCenter"
 import MyTextField from "../../../../../components/shared/MyInputs/MyTextField"
+import API from "../../../../../consts/API"
+import MY_AXIOS from "../../../../../consts/MY_AXIOS"
 import { ResourceDto } from "../../../../../interfaces/dtos/relearn/ResourceDto"
 import { IMoveResource } from "../../../../../interfaces/relearn/IMoveResource"
-import descriptionPng from "../../../../../static/images/description.png"
-import linkPng from "../../../../../static/images/link.png"
 import * as relearnActions from "../../../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../../../store/store"
 import * as utilsActions from "../../../../../store/utils/utilsActions"
-import { urlIsValid } from "../../../../../utils/url/isValidUrl"
-import RateButton from "../../../../../components/resources/RateButton/RateButton"
-import ResourceMoreIcon from "./ResourceMoreIcon/ResourceMoreIcon"
-import { getDomainFromUrl } from "../../../../../utils/url/getDomainFromUrl"
-import MY_AXIOS from "../../../../../consts/MY_AXIOS"
-import API from "../../../../../consts/API"
-import ResourceThumbnail from "./ResourceThumbnail/ResourceThumbnail"
 import { validateEstimatedTime } from "../../../../../utils/relearn/validateEstimatedTime"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faGlobeAmericas, faLock } from "@fortawesome/free-solid-svg-icons"
+import { getDomainFromUrl } from "../../../../../utils/url/getDomainFromUrl"
+import { urlIsValid } from "../../../../../utils/url/isValidUrl"
+import ResourceMoreIcon from "./ResourceMoreIcon/ResourceMoreIcon"
+import ResourceThumbnail from "./ResourceThumbnail/ResourceThumbnail"
 
 // PE 1/3
 function ResourceItem(props: Props) {
@@ -39,17 +34,6 @@ function ResourceItem(props: Props) {
   }
   const handleMouseLeave = () => {
     setIsHovered(false)
-  }
-
-  const getThumbnailSrc = (resource: ResourceDto): string => {
-    if (resource.thumbnail.length) {
-      return resource.thumbnail
-    }
-
-    if (resource.url.length) {
-      return linkPng
-    }
-    return descriptionPng
   }
 
   const [{ isDragging }, dragRef] = useDrag({

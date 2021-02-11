@@ -36,6 +36,7 @@ import * as relearnActions from "../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../store/store"
 import * as utilsActions from "../../../store/utils/utilsActions"
 import { urlIsValid } from "../../../utils/url/isValidUrl"
+import SaveCancelButtons from "../../../components/shared/Buttons/SaveCancelButtons"
 
 // PE 1/3 - tá muito grande;; mudar para ResourceDialog
 const ResourceDialog = (props: Props) => {
@@ -338,26 +339,11 @@ const ResourceDialog = (props: Props) => {
                   />
                 </Box>
 
-                <Flex mt={2}>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    id="save-resource-button"
-                    disabled={isSubmitting}
-                  >
-                    Save
-                  </Button>
-
-                  <Box ml={1}>
-                    <Button
-                      onClick={() => props.closeResourceDialog()}
-                      variant="text"
-                    >
-                      Cancel
-                    </Button>
-                  </Box>
-                </Flex>
+                <Box mt={2} />
+                <SaveCancelButtons
+                  disabled={isSubmitting}
+                  onCancel={() => props.closeResourceDialog()}
+                />
               </DialogContent>
             </Form>
           )}

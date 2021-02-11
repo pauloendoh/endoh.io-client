@@ -29,7 +29,7 @@ const Navbar = (props: Props) => {
   const classes = useStyles()
   const location = useLocation()
 
-  const [tabIndex, setTabIndex] = useState(null)
+  const [tabIndex, setTabIndex] = useState<number | boolean>(false)
 
   useEffect(() => {
     if (location.pathname.startsWith(PATHS.relearn.index)) {
@@ -39,7 +39,7 @@ const Navbar = (props: Props) => {
     } else if (location.pathname.startsWith(PATHS.skillbase.index)) {
       setTabIndex(2)
     } else {
-      setTabIndex(null)
+      setTabIndex(false)
     }
   }, [location])
 

@@ -65,7 +65,9 @@ context('Relearn', () => {
     resource.contains(resourceName)
     resource.get(".rate-button").last().click()
 
-    cy.get('#rating-input-5').click({force: true})
+    cy.get('#rating-input-5').click({ force: true })
+
+    cy.wait(1000)
     cy.get('#completed-resources-tab-button').click()
 
 
@@ -74,8 +76,25 @@ context('Relearn', () => {
     const completedResource = cy.get('.resource-item').first()
     completedResource.contains(resourceName)
     completedResource.get(".rate-button").first().click()
-    cy.get('#rating-input-5').click({force: true})
+    cy.get('#rating-input-5').click({ force: true })
 
     cy.contains('Rating removed!')
+  })
+
+  it.only("reposition resources via drag and drop", () => {
+    // create two resources
+    createResource("resource X")
+    createResource("resource Y")
+
+    const resourceItems = cy.get('.resource-item')
+    const resourceX = resourceItems.eq(Cypress.$(resourceItems).length - 2)
+    const resourceY = resourceItems.eq(Cypress.$(resourceItems).length - 1)
+
+
+
+    resourceY
+      .trigger("mouseDown", { which: 1, pageX: 600, pageY: 100 })
+      .trigger('mousemove', { which: 1, pageX: 600, pageY: 600 })
+      .trigger('mouseup')
   })
 })

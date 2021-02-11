@@ -2,6 +2,8 @@ import { DateTime } from "luxon"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import {
+  Bar,
+  BarChart,
   CartesianGrid,
   Legend,
   Line,
@@ -58,7 +60,6 @@ const ResourcesChart = (props: Props) => {
       days.push(day)
     }
 
-    console.log(lists)
     // fill the data of each day { name: "Tue", tagId1: 6, tagId3: 4, tagId5: 0 }
     const data = []
     for (const day of days) {
@@ -80,43 +81,61 @@ const ResourcesChart = (props: Props) => {
       data.push(obj)
     }
     setData(data)
-    console.log(data)
   }, [props.resources])
 
   return (
-    <LineChart
+    // <LineChart
+    //   width={450}
+    //   height={300}
+    //   data={data}
+    //   margin={{
+    //     top: 5,
+    //     right: 30,
+    //     left: 20,
+    //     bottom: 5,
+    //   }}
+    // >
+    //   <CartesianGrid strokeDasharray="3 3" />
+    //   <XAxis dataKey="name" />
+    //   <YAxis />
+    //   <Tooltip />
+    //   <Legend />
+    //   {lists.map((list) => (
+    //     <Line
+    //       key={list.id}
+    //       type="monotone"
+    //       dataKey={list.name}
+    //       stroke={list.color}
+    //     />
+    //   ))}
+
+    // </LineChart>
+    <BarChart
       width={450}
       height={300}
       data={data}
       margin={{
-        top: 5,
+        top: 20,
         right: 30,
         left: 20,
-        bottom: 5,
+        bottom: 8,
       }}
     >
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="name" />
       <YAxis />
       <Tooltip />
-      <Legend />
+      <Legend margin={{ top: 8 }} />
       {lists.map((list) => (
-        <Line
+        <Bar
           key={list.id}
           type="monotone"
           dataKey={list.name}
-          stroke={list.color}
+          stackId="a"
+          fill={list.color}
         />
       ))}
-      {/* <Line
-        type="monotone"
-        dataKey="pv"
-        stroke="#8884d8"
-        activeDot={{ r: 8 }}
-      />
-      <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-      <Line type="monotone" dataKey="amt" stroke="#ffffff" /> */}
-    </LineChart>
+    </BarChart>
   )
 }
 

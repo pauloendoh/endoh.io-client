@@ -5,7 +5,7 @@ import {
   Link,
   makeStyles,
   Paper,
-  Typography
+  Typography,
 } from "@material-ui/core"
 import AccessAlarmIcon from "@material-ui/icons/AccessAlarm"
 import MyTextField from "components/shared/MyInputs/MyTextField"
@@ -92,8 +92,6 @@ const AuthForm = (props: Props) => {
                 })
                 .catch((err: MyAxiosError) => {
                   setResponseErrors(err.response.data.errors)
-                })
-                .finally(() => {
                   setSubmitting(false)
                 })
             }}
@@ -296,7 +294,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 7,
     paddingBottom: 7,
     background: theme.palette.grey[800],
-  }
+  },
 }))
 
 const mapStateToProps = (state: ApplicationState) => ({

@@ -1,4 +1,4 @@
-import { Box, Button, Link, makeStyles, Typography } from "@material-ui/core"
+import { Box, Button, Link, Typography } from "@material-ui/core"
 import React, { useState } from "react"
 import { connect } from "react-redux"
 import { useParams } from "react-router-dom"
@@ -9,7 +9,6 @@ import EditProfileDialog from "../EditProfileDialog/EditProfileDialog"
 
 // PE 3/3
 const ProfileHeader = (props: Props) => {
-  const classes = useStyles()
   const { username } = useParams<{ username: string }>()
 
   const [openProfileDialog, setOpenProfileDialog] = useState(false)
@@ -43,13 +42,13 @@ const ProfileHeader = (props: Props) => {
 
       <Box mt={2}>{props.profile?.bio}</Box>
       <Box mt={1}>
-        <Link href={props.profile?.website}>{props.profile?.website}</Link>
+        {props.profile?.website.length > 0 && (
+          <Link href={props.profile?.website}>{props.profile?.website}</Link>
+        )}
       </Box>
     </Box>
   )
 }
-
-const useStyles = makeStyles((theme) => ({}))
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>

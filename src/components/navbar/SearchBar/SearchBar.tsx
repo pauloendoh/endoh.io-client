@@ -39,7 +39,6 @@ const SearchBar = (props: Props) => {
           />
         )}
         onChange={(e, value) => {
-          console.log(value)
           props.editResource(value as ResourceDto)
         }}
       />
@@ -49,7 +48,7 @@ const SearchBar = (props: Props) => {
 
 const useStyles = makeStyles((theme) => ({
   textfield: {
-    width: 200
+    width: 200,
   },
 }))
 
