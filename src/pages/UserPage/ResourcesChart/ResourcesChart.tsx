@@ -123,7 +123,7 @@ const ResourcesChart = (props: Props) => {
     >
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="name" />
-      <YAxis />
+      <YAxis allowDecimals={false} />
       <Tooltip />
       <Legend margin={{ top: 8 }} />
       {lists.map((list) => (
