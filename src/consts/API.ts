@@ -1,10 +1,10 @@
 // PE 3/3 
 const API = {
     auth: {
-        index: '/auth', 
+        index: '/auth',
         google: '/auth/google',
-        googleLogin: '/auth/google/login', 
-        resetPassword: '/auth/password-reset', 
+        googleLogin: '/auth/google/login',
+        resetPassword: '/auth/password-reset',
         authPasswordChange: '/auth/authenticated-password-change',
         username: '/auth/username',
         tempUser: '/auth/temp-user',
@@ -20,21 +20,23 @@ const API = {
         resource: '/relearn/resource',
         resourceDuplicate: '/relearn/resource/duplicate',
         tag: '/relearn/tag',
-    }, 
+    },
     skillbase: {
-        index: '/skillbase', 
-        skill: '/skillbase/skill', 
-        tag: '/skillbase/tag', 
-        progress: '/skillbase/progress', 
+        index: '/skillbase',
+        skill: '/skillbase/skill',
+        tag: '/skillbase/tag',
+        progress: '/skillbase/progress',
     },
     utils: {
         linkPreview: '/utils/link-preview',
         passwordResetEmail: "/utils/passwordResetEmail",
-    }, 
+    },
 
     user: {
-        index: '/user', 
-        ratedResources: (username: string) => '/user/' + username + '/rated-resources'
+        index: '/user',
+        ratedResources: (username: string) => '/user/' + username + '/rated-resources',
+        userInfo: (username: string) => '/user/' + username + '/all',
+        profile: '/user/profile',
     }
 }
 

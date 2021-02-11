@@ -1,3 +1,5 @@
+import { faGlobeAmericas, faLock } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   Box,
   Button,
@@ -19,6 +21,7 @@ import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
 import MaskedInput from "react-text-mask"
 import { Dispatch } from "redux"
+import RateButton from "../../../components/resources/RateButton/RateButton"
 import Flex from "../../../components/shared/Flexboxes/Flex"
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
 import MyTextField from "../../../components/shared/MyInputs/MyTextField"
@@ -280,23 +283,58 @@ const ResourceDialog = (props: Props) => {
                   </Grid>
                 </Box>
                 <Box mt={2}>
+                  <RateButton
+                    resource={values}
+                    onChange={(newRating) => {
+                      setFieldValue("rating", newRating)
+
+                      // If you're adding a rating, set "completedAt"
+                      setFieldValue(
+                        "completedAt",
+                        newRating > 0 ? new Date().toISOString() : ""
+                      )
+                    }}
+                  />
+                </Box>
+
+                {/* public review */}
+                <Box mt={2}>
                   <MyTextField
                     id="publicReview"
                     name="publicReview"
                     value={values.publicReview}
+                    multiline
                     onChange={handleChange}
                     fullWidth
-                    label="Public Review"
+                    label={
+                      <FlexVCenter>
+                        <FontAwesomeIcon
+                          icon={faGlobeAmericas}
+                          style={{ marginRight: 4 }}
+                        />
+                        Public Review
+                      </FlexVCenter>
+                    }
                   />
                 </Box>
+
                 <Box mt={2}>
                   <MyTextField
                     id="privateNote"
                     name="privateNote"
                     value={values.privateNote}
+                    multiline
                     onChange={handleChange}
                     fullWidth
-                    label="Private Notes"
+                    label={
+                      <FlexVCenter>
+                        <FontAwesomeIcon
+                          icon={faLock}
+                          style={{ marginRight: 4 }}
+                        />
+                        Private Notes
+                      </FlexVCenter>
+                    }
                   />
                 </Box>
 

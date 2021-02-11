@@ -85,7 +85,7 @@ const ResourcesChart = (props: Props) => {
 
   return (
     <LineChart
-      width={500}
+      width={450}
       height={300}
       data={data}
       margin={{

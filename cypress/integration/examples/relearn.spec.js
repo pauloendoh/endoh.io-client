@@ -57,7 +57,7 @@ context('Relearn', () => {
 
   })
 
-  it('rate and unrate resource', () => {
+  it("rate and remove a resource's rating", () => {
     const resourceName = new Date().toISOString()
     createResource(resourceName)
 
@@ -76,6 +76,6 @@ context('Relearn', () => {
     completedResource.get(".rate-button").first().click()
     cy.get('#rating-input-5').click({force: true})
 
-    cy.contains('unrated!')
+    cy.contains('Rating removed!')
   })
 })

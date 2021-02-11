@@ -2,7 +2,6 @@ import { faFire } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   AppBar,
-  Box,
   Button,
   createStyles,
   makeStyles,
@@ -21,17 +20,16 @@ import RelearnNavbarContent from "../../pages/Relearn/RelearnNavbarContent"
 import { ApplicationState } from "../../store/store"
 import Flex from "../shared/Flexboxes/Flex"
 import FlexVCenter from "../shared/Flexboxes/FlexVCenter"
-import ApplicationMenu from "./ApplicationMenu/ApplicationMenu"
 import LeftToggleButton from "./LeftToggleButton/LeftToggleButton"
-import UserMenu from "./UserMenu/UserMenu"
 import SearchBar from "./SearchBar/SearchBar"
+import UserMenu from "./UserMenu/UserMenu"
 
 // PE 2/3
 const Navbar = (props: Props) => {
   const classes = useStyles()
   const location = useLocation()
 
-  const [tabIndex, setTabIndex] = useState(0)
+  const [tabIndex, setTabIndex] = useState(null)
 
   useEffect(() => {
     if (location.pathname.startsWith(PATHS.relearn.index)) {
@@ -40,6 +38,8 @@ const Navbar = (props: Props) => {
       setTabIndex(1)
     } else if (location.pathname.startsWith(PATHS.skillbase.index)) {
       setTabIndex(2)
+    } else {
+      setTabIndex(null)
     }
   }, [location])
 
