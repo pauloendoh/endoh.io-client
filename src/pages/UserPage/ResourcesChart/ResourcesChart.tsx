@@ -1,17 +1,11 @@
-import {
-  Box,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-} from "@material-ui/core"
-import { DateTime } from "luxon"
+import { Box, FormControl, MenuItem, Select } from "@material-ui/core"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import {
   Bar,
   BarChart,
   CartesianGrid,
+  LabelList,
   Legend,
   Tooltip,
   XAxis,
@@ -50,25 +44,38 @@ const ResourcesChart = (props: Props) => {
     }
   }, [props.resources, chartRange])
 
+  // @ts-ignore
+  const valueAccessor = (attribute: string) => ({ payload }): number => {
+    return payload[attribute]
+  }
+
   return (
     <Box>
-      <FormControl variant="outlined" size="small">
-        <Select
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          value={chartRange}
-          onChange={(e) => setChartRange(e.target.value as ChartRange)}
-        >
-          <MenuItem value={"Last week" as ChartRange}>Last week</MenuItem>
-          <MenuItem value={"Last year" as ChartRange}>Last year</MenuItem>
-        </Select>
-      </FormControl>
+      <Box ml={25}>
+        <FormControl variant="outlined" size="small">
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={chartRange}
+            onChange={(e) => setChartRange(e.target.value as ChartRange)}
+          >
+            <MenuItem value={"Last week" as ChartRange}>Last week</MenuItem>
+            <MenuItem value={"Last year" as ChartRange}>Last year</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
 
-      <BarChart width={450} height={300} data={data} margin={{ top: 16 }}>
+      <BarChart width={450} height={300} data={data} margin={{ top: 32 }}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
         <YAxis allowDecimals={false} />
-        <Tooltip />
+        <Tooltip
+          contentStyle={{
+            background: "#292929",
+            border: "none",
+            borderRadius: 3,
+          }}
+        />
         <Legend margin={{ top: 8 }} />
         {lists.map((list) => (
           <Bar
@@ -77,7 +84,9 @@ const ResourcesChart = (props: Props) => {
             dataKey={list.name}
             stackId="a"
             fill={list.color}
-          />
+          >
+            {/* <LabelList dataKey={list.name} /> */}
+          </Bar>
         ))}
       </BarChart>
     </Box>

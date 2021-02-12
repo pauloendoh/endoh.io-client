@@ -56,7 +56,7 @@ function YourTagsLi(props: Props) {
           />
         </ListItemIcon>
         <ListItemText
-          primary={props.type === "public" ? "Public Lists" : "Private Lists"}
+          primary={props.type === "public" ? "Public Tags" : "Private Tags"}
         />
         {openTags ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
@@ -83,7 +83,7 @@ function YourTagsLi(props: Props) {
             </ListItemIcon>
             <ListItemText
               primary={
-                props.type === "public" ? "Add public list" : "Add private list"
+                props.type === "public" ? "Add public tag" : "Add private tag"
               }
             />
           </ListItem>

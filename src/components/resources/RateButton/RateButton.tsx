@@ -44,9 +44,9 @@ function RateButton(props: Props) {
       case 2:
         return "#968864"
       case 3:
-        return "#968864"
+        return "#aa8833"
       case 4:
-        return "#D3A229"
+        return "#d1a024"
       case 5:
         return "#FFB600"
       default:

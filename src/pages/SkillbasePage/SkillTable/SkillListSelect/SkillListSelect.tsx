@@ -1,11 +1,19 @@
 import { faSortDown } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Box, Button, makeStyles, Menu, MenuItem } from "@material-ui/core"
+import {
+  Box,
+  Button,
+  makeStyles,
+  Menu,
+  MenuItem,
+  Typography,
+} from "@material-ui/core"
 import LabelIcon from "@material-ui/icons/Label"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Link, useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
+import Flex from "../../../../components/shared/Flexboxes/Flex"
 import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter"
 import PATHS from "../../../../consts/PATHS"
 import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto"
@@ -32,7 +40,7 @@ const SkillListSelect = (props: Props) => {
 
     if (pathname === PATHS.skillbase.index) {
       setListId(null)
-    } else if (pathname.startsWith(PATHS.skillbase.unlisted)) {
+    } else if (pathname.startsWith(PATHS.skillbase.untagged)) {
       setListId(0)
     } else if (pathname.startsWith(PATHS.skillbase.list + "/")) {
       const listId = Number(pathname.split("/").pop())
@@ -45,23 +53,29 @@ const SkillListSelect = (props: Props) => {
   }, [location, props.allTags])
 
   return (
-    <Box>
-      <Button onClick={handleClick} fullWidth aria-haspopup="true">
-        <FlexVCenter>
+    <Flex justifyContent="flex-end">
+      <Button
+        onClick={handleClick}
+        aria-haspopup="true"
+        className={classes.button}
+      >
+        <Flex>
           <Box ml={1} mr={2}>
             {listId === null && "All skills"}
-            {listId === 0 && "Unlisted"}
+            {listId === 0 && "Untagged"}
             {listId > 0 && list && (
-              <FlexVCenter>
+              <Flex>
                 <LabelIcon style={{ color: list.color }} />
-                <Box ml={1}>{list.name}</Box>
-              </FlexVCenter>
+                <Box ml={1} textAlign="left">
+                  {list.name}
+                </Box>
+              </Flex>
             )}
           </Box>
-          <Box mb="5px">
+          <Box position="relative" bottom={2}>
             <FontAwesomeIcon icon={faSortDown} />
           </Box>
-        </FlexVCenter>
+        </Flex>
       </Button>
 
       <Menu
@@ -88,12 +102,12 @@ const SkillListSelect = (props: Props) => {
         {/* Unlisted */}
         <MenuItem
           component={Link}
-          to={PATHS.skillbase.unlisted}
+          to={PATHS.skillbase.untagged}
           onClick={handleClose}
           selected={listId === 0}
         >
           <FlexVCenter>
-            <Box>Unlisted</Box>
+            <Box>Untagged</Box>
           </FlexVCenter>
         </MenuItem>
 
@@ -106,19 +120,23 @@ const SkillListSelect = (props: Props) => {
             onClick={handleClose}
             selected={listId === tag.id}
           >
-            <FlexVCenter>
+            <Flex>
               <LabelIcon style={{ color: tag.color }} />
 
               <Box ml={1}>{tag.name}</Box>
-            </FlexVCenter>
+            </Flex>
           </MenuItem>
         ))}
       </Menu>
-    </Box>
+    </Flex>
   )
 }
 
-const useStyles = makeStyles((theme) => ({}))
+const useStyles = makeStyles((theme) => ({
+  button: {
+    width: 250,
+  },
+}))
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>

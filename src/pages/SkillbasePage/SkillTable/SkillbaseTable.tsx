@@ -412,7 +412,7 @@ const SkillbaseTable = (props: Props) => {
     // }
 
     const { pathname } = location
-    if (pathname.startsWith(PATHS.skillbase.unlisted)) {
+    if (pathname.startsWith(PATHS.skillbase.untagged)) {
       skills = skills.filter((s) => s.tagId === null)
     } else if (pathname.startsWith(PATHS.skillbase.list + "/")) {
       const listId = Number(pathname.split("/").pop())

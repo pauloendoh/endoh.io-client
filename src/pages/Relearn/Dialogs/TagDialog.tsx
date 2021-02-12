@@ -109,7 +109,7 @@ const TagDialog = (props: Props) => {
                         color="primary"
                       />
                     }
-                    label="Private list"
+                    label="Private tag"
                   />
                 </FlexVCenter>
 
