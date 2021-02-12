@@ -15,7 +15,7 @@ import { ApplicationState } from "../../../store/store"
 // PE 3/3
 const UserPageLists = (props: Props) => {
   const classes = useStyles()
-  const { username, listId } = useParams<{ username: string; listId: string }>()
+  const { username, tagId } = useParams<{ username: string; tagId: string }>()
 
   const getResourcesFromListId = (listId: number) => {
     return props.resources.filter((r) => r.tag?.id === listId)
@@ -28,7 +28,7 @@ const UserPageLists = (props: Props) => {
           button
           component={Link}
           to={PATHS.user.index(username)}
-          selected={listId === undefined}
+          selected={tagId === undefined}
         >
           <ListItemText>
             All resources
@@ -44,7 +44,7 @@ const UserPageLists = (props: Props) => {
             key={list.id}
             component={Link}
             to={PATHS.user.tag(username, list.id)}
-            selected={Number(listId) === list.id}
+            selected={Number(tagId) === list.id}
           >
             <ListItemText>
               <Flex>
@@ -81,7 +81,7 @@ const UserPageLists = (props: Props) => {
                 key={list.id}
                 component={Link}
                 to={PATHS.user.tag(username, list.id)}
-                selected={Number(listId) === list.id}
+                selected={Number(tagId) === list.id}
               >
                 <ListItemText>
                   <Flex>

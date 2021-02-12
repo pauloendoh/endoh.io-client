@@ -106,7 +106,7 @@ const App = (props: Props) => {
               <Route path="/relearn" component={RelearnPage} />
               <Route path="/skillbase" component={SkillbasePage} />
 
-              <Route path="/user/:username/list/:listId" component={UserPage} />
+              <Route path="/user/:username/tag/:tagId" component={UserPage} />
               <Route path="/user/:username" component={UserPage} />
 
               <Route path="/settings" component={SettingsPage} />

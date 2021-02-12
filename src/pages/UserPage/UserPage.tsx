@@ -25,9 +25,9 @@ import UserPageLists from "./UserPageLists/UserPageLists"
 
 // PE 3/3
 const UserPage = (props: Props) => {
-  const { username, listId: tagId } = useParams<{
+  const { username, tagId } = useParams<{
     username: string
-    listId: string
+    tagId: string
   }>()
 
   const [filteredResources, setFilteredResources] = useState<ResourceDto[]>([])
