@@ -55,7 +55,7 @@ const UserPageLists = (props: Props) => {
                     variant="inherit"
                     className={classes.resourcesCount}
                   >
-                    {getResourcesFromListId(list.id).length} resources
+                    {getResourcesFromListId(list.id).length}
                   </Typography>
                 </Box>
               </Flex>
@@ -92,7 +92,7 @@ const UserPageLists = (props: Props) => {
                         variant="inherit"
                         className={classes.resourcesCount}
                       >
-                        {getResourcesFromListId(list.id).length} resources
+                        {getResourcesFromListId(list.id).length}
                       </Typography>
                     </Box>
                   </Flex>

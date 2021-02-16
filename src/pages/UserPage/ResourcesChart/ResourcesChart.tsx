@@ -85,7 +85,7 @@ const ResourcesChart = (props: Props) => {
             stackId="a"
             fill={list.color}
           >
-            {/* <LabelList dataKey={list.name} /> */}
+            <LabelList dataKey={list.name} />
           </Bar>
         ))}
       </BarChart>
