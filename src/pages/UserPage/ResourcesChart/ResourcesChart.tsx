@@ -65,10 +65,16 @@ const ResourcesChart = (props: Props) => {
         </FormControl>
       </Box>
 
-      <BarChart width={450} height={300} data={data} margin={{ top: 32 }}>
+      <BarChart
+        width={500}
+        height={300}
+        data={data}
+        margin={{ top: 32, left: 32 }}
+      >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
-        <YAxis allowDecimals={false} />
+        <YAxis orientation="right" allowDecimals={false} />
+
         <Tooltip
           contentStyle={{
             background: "#292929",
@@ -85,7 +91,7 @@ const ResourcesChart = (props: Props) => {
             stackId="a"
             fill={list.color}
           >
-            <LabelList dataKey={list.name} />
+            {/* <LabelList dataKey={list.name} /> */}
           </Bar>
         ))}
       </BarChart>
