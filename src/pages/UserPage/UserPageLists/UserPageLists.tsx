@@ -22,7 +22,7 @@ const UserPageLists = (props: Props) => {
   }
 
   return (
-    <Box maxWidth={250}>
+    <Box maxWidth={300} ml="auto">
       <List component="nav" aria-label="User resource lists">
         <ListItem
           button

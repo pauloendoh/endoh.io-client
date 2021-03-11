@@ -66,27 +66,6 @@ function YourTagsLi(props: Props) {
           {props.lists.map((tag) => (
             <TagListItem key={tag.id} tag={tag} />
           ))}
-
-          <ListItem
-            button
-            className={classes.nested}
-            id="add-tag-button"
-            onClick={() => {
-              props.startNewTag(props.type === "private")
-            }}
-          >
-            <ListItemIcon className={classes.listItemIcon}>
-              <FontAwesomeIcon
-                icon={faPlus}
-                color={theme.palette.primary.main}
-              />
-            </ListItemIcon>
-            <ListItemText
-              primary={
-                props.type === "public" ? "Add public tag" : "Add private tag"
-              }
-            />
-          </ListItem>
         </List>
       </Collapse>
     </React.Fragment>

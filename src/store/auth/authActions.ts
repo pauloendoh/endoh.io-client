@@ -3,6 +3,8 @@ import { action } from 'typesafe-actions';
 import { getQueryParam } from 'utils/url/getQueryParam';
 import API from '../../consts/API';
 import MY_AXIOS from '../../consts/MY_AXIOS';
+import { FollowingTagDto } from '../../dtos/feed/FollowingTagDto';
+import { UserInfoDto } from '../../dtos/UserInfoDto';
 import { AuthUserGetDto, UserPreferenceDto } from '../../interfaces/dtos/AuthUserGetDto';
 import { monerateActionTypes } from '../monerate/monerateTypes';
 import { clearProfile } from '../profile/profileActions';
@@ -18,6 +20,10 @@ const logout = () => action(AuthActionTypes.LOGOUT)
 const usingGoogleSession = () => action(AuthActionTypes.USING_GOOGLE_SESSION)
 
 export const setUsername = (newUsername: string) => action(AuthActionTypes.SET_USERNAME, newUsername)
+
+
+export const setFollowingTags = (followingTags: FollowingTagDto[]) => action(AuthActionTypes.SET_FOLLOWING_TAGS, followingTags)
+
 
 export const setPreference = (preference: UserPreferenceDto) => action(AuthActionTypes.SET_PREFERENCE, preference)
 
@@ -59,6 +65,8 @@ export function checkAuthOrLogoutActionCreator(dispatch: Dispatch) {
   }
 }
 
+
+
 export const logoutActionCreator = (dispatch: Dispatch) => {
   dispatch(action(relearnActionTypes.CLEAR_RELEARN_REDUCER))
   dispatch(action(monerateActionTypes.CLEAR_MONERATE_REDUCER))
@@ -67,10 +75,14 @@ export const logoutActionCreator = (dispatch: Dispatch) => {
   return logout()
 }
 
+export const setAuthProfile = (userInfo: UserInfoDto) => action(AuthActionTypes.SET_AUTH_PROFILE, userInfo)
+
 export type AuthActionReturns =
   ReturnType<typeof setAuthUser> |
   ReturnType<typeof setPreference> |
 
   ReturnType<typeof logout> |
   ReturnType<typeof usingGoogleSession> |
-  ReturnType<typeof setUsername> 
+  ReturnType<typeof setUsername> |
+  ReturnType<typeof setFollowingTags> |
+  ReturnType<typeof setAuthProfile> 

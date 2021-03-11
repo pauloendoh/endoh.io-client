@@ -1,5 +1,5 @@
-import { Box, Grid, makeStyles, Typography } from "@material-ui/core"
-import React, { useEffect, useState } from "react"
+import { Box, Grid, Typography } from "@material-ui/core"
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { connect } from "react-redux"
 import { useParams } from "react-router-dom"
 import { Dispatch } from "redux"
@@ -15,13 +15,13 @@ import {
   setProfileResources,
   setUserInfo,
 } from "../../store/profile/profileActions"
-import { setTags } from "../../store/relearn/relearnActions"
 import { ApplicationState } from "../../store/store"
 import LoadingPage from "../index/LoadingPage"
 import FeedResources from "./FeedResources/FeedResources"
 import ProfileHeader from "./ProfileHeader/ProfileHeader"
 import ResourcesChart from "./ResourcesChart/ResourcesChart"
 import UserPageLists from "./UserPageLists/UserPageLists"
+import UserSuggestions from "../../components/feed/UserSuggestions/UserSuggestions"
 
 // PE 3/3
 const UserPage = (props: Props) => {
@@ -68,15 +68,17 @@ const UserPage = (props: Props) => {
   )
 
   return (
-    <Box p={5}>
+    <Box p={3}>
       {props.profile === null ? (
         <LoadingPage />
       ) : (
         <Grid container spacing={3}>
-          <Grid item xs={3}>
-            <UserPageLists />
+          <Grid item xs={3} style={{ width: "22%" }}>
+            <Box position="fixed" width="inherit">
+              <UserPageLists />
+            </Box>
           </Grid>
-          <Grid item xs={9} lg={6}>
+          <Grid item xs={9} md={6} lg={5}>
             <ProfileHeader />
 
             <Box mt={5} />
@@ -90,7 +92,11 @@ const UserPage = (props: Props) => {
             </Flex>
             <FeedResources resources={filteredResources} />
           </Grid>
-          <Grid item lg={3}></Grid>
+          <Grid item lg={4}>
+            <Box mt={10} position="fixed">
+              <UserSuggestions userSuggestions={props.userSuggestions} />
+            </Box>
+          </Grid>
         </Grid>
       )}
     </Box>
@@ -101,6 +107,7 @@ type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>
 
 const mapStateToProps = (state: ApplicationState) => ({
+  userSuggestions: state.feed.userSuggestions,
   authUser: state.auth.user,
   resources: state.profile.resources,
   profile: state.profile.profile,

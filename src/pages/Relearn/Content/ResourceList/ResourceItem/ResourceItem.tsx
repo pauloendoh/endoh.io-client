@@ -1,6 +1,10 @@
+import ScheduleIcon from "@material-ui/icons/Schedule"
+import EventIcon from "@material-ui/icons/Event"
+
+import DoneIcon from "@material-ui/icons/Done"
 import { faGlobeAmericas, faLock } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Box, Link, makeStyles } from "@material-ui/core"
+import { Box, Link, makeStyles, Typography } from "@material-ui/core"
 import RootRef from "@material-ui/core/RootRef"
 import React, { useRef, useState } from "react"
 import { useDrag, useDrop } from "react-dnd"
@@ -23,6 +27,7 @@ import { getDomainFromUrl } from "../../../../../utils/url/getDomainFromUrl"
 import { urlIsValid } from "../../../../../utils/url/isValidUrl"
 import ResourceMoreIcon from "./ResourceMoreIcon/ResourceMoreIcon"
 import ResourceThumbnail from "./ResourceThumbnail/ResourceThumbnail"
+import { DateTime } from "luxon"
 
 // PE 1/3
 function ResourceItem(props: Props) {
@@ -116,7 +121,7 @@ function ResourceItem(props: Props) {
         <Box flexGrow={1}>
           <Flex className={classes.firstRow}>
             {/* 'More' icon - PE 1/3 - can be a specific component */}
-            <Box>
+            {/* <Box>
               {urlIsValid(props.resource.url) ? (
                 <>
                   <Link
@@ -138,8 +143,9 @@ function ResourceItem(props: Props) {
                 </>
               ) : (
                 <span style={{ marginRight: 16 }}>{props.resource.title}</span>
-              )}
-              {/* {props.resource.estimatedTime.length > 0 && (
+              )} */}
+
+            {/* {props.resource.estimatedTime.length > 0 && (
                 <span
                   style={{
                     marginRight: 16,
@@ -153,7 +159,7 @@ function ResourceItem(props: Props) {
                 </span>
               )} */}
 
-              {/* {props.resource.dueDate.length > 0 && (
+            {/* {props.resource.dueDate.length > 0 && (
                 <span
                   style={{
                     display: "inline-flex",
@@ -166,40 +172,58 @@ function ResourceItem(props: Props) {
                   {DateTime.fromISO(props.resource.dueDate).toFormat("LLL dd")}
                 </span>
               )} */}
-            </Box>
+            {/* </Box> */}
 
+            <Box>
+              <Typography>{props.resource.title}</Typography>
+              {props.resource.url.length > 0 && (
+                <Link
+                  className={classes.link}
+                  href={props.resource.url}
+                  target="_blank"
+                >
+                  <Typography noWrap style={{ maxWidth: "inherit" }}>
+                    {props.resource.url}
+                  </Typography>
+                </Link>
+              )}
+            </Box>
             <ResourceMoreIcon resource={props.resource} isHovered={isHovered} />
           </Flex>
 
-          <Flex mt={1}>
-            <RateButton resource={props.resource} onChange={handleSaveRating} />
-            <Flex ml="auto">
-              {props.resource.completedAt.length ? (
-                <FlexVCenter>
-                  Completed&nbsp;
+          <FlexVCenter justifyContent="space-between">
+            <FlexVCenter>
+              {/* Due date */}
+              {props.resource.dueDate.length > 0 &&
+                props.resource.completedAt.length === 0 && (
+                  <FlexVCenter mr={2}>
+                    <EventIcon fontSize="inherit" style={{ marginRight: 4 }} />
+                    {DateTime.fromISO(props.resource.dueDate).toFormat(
+                      "LLL dd"
+                    )}
+                  </FlexVCenter>
+                )}
+
+              {/* Completed timeago */}
+              {props.resource.completedAt.length > 0 && (
+                <FlexVCenter mr={2}>
+                  <DoneIcon />
+                  &nbsp;
                   <TimeAgo date={props.resource.completedAt} live={false} />
                 </FlexVCenter>
-              ) : (
-                <FlexVCenter>
-                  {/* {validateEstimatedTime(props.resource.estimatedTime) && (
-                  <FlexVCenter pr={2}>
-                   
-                  </FlexVCenter>
-                )} */}
+              )}
 
-                  {props.resource.dueDate.length > 0 && (
-                    <FlexVCenter
-                      className={
-                        validateEstimatedTime(props.resource.estimatedTime)
-                          ? classes.dueDateBox
-                          : ""
-                      }
-                    ></FlexVCenter>
-                  )}
+              {/* Duration */}
+              {validateEstimatedTime(props.resource.estimatedTime) && (
+                <FlexVCenter mr={2}>
+                  <ScheduleIcon style={{ marginRight: 4 }} />
+                  {props.resource.estimatedTime}
                 </FlexVCenter>
               )}
-            </Flex>
-          </Flex>
+            </FlexVCenter>
+
+            <RateButton resource={props.resource} onChange={handleSaveRating} />
+          </FlexVCenter>
 
           {props.resource.publicReview?.length > 0 && (
             <Box mt={2}>

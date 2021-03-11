@@ -11,7 +11,7 @@ import React from "react"
 import GeneralSubmenu from "./GeneralSubmenu/GeneralSubmenu"
 import MonerateSubmenu from "./MonerateSubmenu/MonerateSubmenu"
 
-// PE 3/3 
+// PE 3/3
 function SettingsSidebar() {
   const classes = useStyles()
 
@@ -27,7 +27,7 @@ function SettingsSidebar() {
       <Box>
         <List>
           <GeneralSubmenu />
-          <MonerateSubmenu />
+          {/* <MonerateSubmenu /> */}
         </List>
       </Box>
     </Drawer>

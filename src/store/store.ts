@@ -2,9 +2,11 @@ import { applyMiddleware, combineReducers, compose, createStore, Store } from 'r
 import thunk from 'redux-thunk';
 import authReducer from './auth/authReducer';
 import { AuthState } from './auth/authTypes';
+import { FeedState } from './feed/feedTypes';
 import monerateReducer from './monerate/monerateReducer';
 import { MonerateState } from './monerate/monerateTypes';
 import profileReducer from './profile/profileReducer';
+import feedReducer from './feed/feedReducer';
 import { ProfileState } from './profile/profileTypes';
 import relearnReducer from './relearn/relearnReducer';
 import { RelearnState } from './relearn/relearnTypes';
@@ -19,7 +21,8 @@ export interface ApplicationState {
     skillbase: SkillbaseState,
     utils: UtilsState,
 
-    profile: ProfileState
+    profile: ProfileState,
+    feed: FeedState,
 }
 
 const rootReducer = combineReducers({
@@ -29,7 +32,8 @@ const rootReducer = combineReducers({
     skillbase: skillbaseReducer,
     utils: utilsReducer,
 
-    profile: profileReducer
+    profile: profileReducer,
+    feed: feedReducer,
 })
 
 const composeEnhancers =

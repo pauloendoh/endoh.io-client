@@ -16,8 +16,9 @@ import API from "./consts/API"
 import MY_AXIOS from "./consts/MY_AXIOS"
 import MY_THEME from "./consts/MY_THEME"
 import PATHS from "./consts/PATHS"
+import { FollowingTagDto } from "./dtos/feed/FollowingTagDto"
+import { UserSuggestionDto } from "./dtos/feed/UserSuggestionDto"
 import { UserPreferenceDto } from "./interfaces/dtos/AuthUserGetDto"
-import Home from "./pages/index/Home"
 import LandingPage from "./pages/index/LandingPage"
 import LoadingPage from "./pages/index/LoadingPage"
 import ResetPasswordPage from "./pages/index/ResetPasswordPage"
@@ -26,10 +27,11 @@ import SettingsPage from "./pages/settings/SettingsPage"
 import SkillbasePage from "./pages/SkillbasePage/SkillbasePage"
 import {
   checkAuthOrLogoutActionCreator,
+  setFollowingTags,
   setPreference,
 } from "./store/auth/authActions"
+import { setUserSuggestions } from "./store/feed/feedActions"
 import { ApplicationState } from "./store/store"
-import { parse, end, toSeconds, pattern } from "iso8601-duration"
 
 const MoneratePage = lazy(
   () => import("./pages/Monerate/MoneratePage/MoneratePage")
@@ -37,6 +39,7 @@ const MoneratePage = lazy(
 
 const RelearnPage = lazy(() => import("./pages/Relearn/RelearnPage"))
 const UserPage = lazy(() => import("./pages/UserPage/UserPage"))
+const FeedPage = lazy(() => import("./pages/FeedPage/FeedPage"))
 
 // PE 2/3
 const App = (props: Props) => {
@@ -62,9 +65,21 @@ const App = (props: Props) => {
           props.history.push(nextUrl)
         }
 
+        MY_AXIOS.get<FollowingTagDto[]>(
+          API.user.followingTags(props.user.username)
+        ).then((res) => {
+          props.setFollowingTags(res.data)
+        })
+
         MY_AXIOS.get<UserPreferenceDto>(API.auth.userPreference).then((res) => {
           props.setPreference(res.data)
         })
+
+        MY_AXIOS.get<UserSuggestionDto[]>(API.feed.myUserSuggestions).then(
+          (res) => {
+            props.setUserSuggestions(res.data)
+          }
+        )
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -106,6 +121,7 @@ const App = (props: Props) => {
               <Route path="/monerate" component={MoneratePage} />
               <Route path="/relearn" component={RelearnPage} />
               <Route path="/skillbase" component={SkillbasePage} />
+              <Route path="/feed" component={FeedPage} />
 
               <Route path="/user/:username/tag/:tagId" component={UserPage} />
               <Route path="/user/:username" component={UserPage} />
@@ -140,8 +156,12 @@ const mapStateToProps = (state: ApplicationState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  setUserSuggestions: (userSuggestions: UserSuggestionDto[]) =>
+    dispatch(setUserSuggestions(userSuggestions)),
   setPreference: (preference: UserPreferenceDto) =>
     dispatch(setPreference(preference)),
+  setFollowingTags: (followingTags: FollowingTagDto[]) =>
+    dispatch(setFollowingTags(followingTags)),
   checkAuthOrLogout: () => dispatch(checkAuthOrLogoutActionCreator(dispatch)),
 })
 

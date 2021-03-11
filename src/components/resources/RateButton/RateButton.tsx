@@ -7,20 +7,18 @@ import {
   Typography,
 } from "@material-ui/core"
 import StarBorderOutlined from "@material-ui/icons/StarBorderOutlined"
+import StarRateIcon from "@material-ui/icons/StarRate"
 import { Rating } from "@material-ui/lab"
+import clsx from "clsx"
 import React from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
-import FlexHCenter from "../../shared/Flexboxes/FlexHCenter"
-import FlexVCenter from "../../shared/Flexboxes/FlexVCenter"
-import API from "../../../consts/API"
-import MY_AXIOS from "../../../consts/MY_AXIOS"
 import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto"
-import * as relearnActions from "../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../store/store"
 import * as utilsActions from "../../../store/utils/utilsActions"
-import clsx from "clsx"
-import StarRateIcon from "@material-ui/icons/StarRate"
+import { getColorByRating } from "../../../utils/relearn/getColorByRating"
+import FlexHCenter from "../../shared/Flexboxes/FlexHCenter"
+import FlexVCenter from "../../shared/Flexboxes/FlexVCenter"
 
 function RateButton(props: Props) {
   const classes = useStyles()
@@ -36,23 +34,6 @@ function RateButton(props: Props) {
     props.resource.rating
   )
   const [hover, setHover] = React.useState(-1)
-
-  function getColorByRating(rating: number) {
-    switch (rating) {
-      case 1:
-        return "#929292"
-      case 2:
-        return "#968864"
-      case 3:
-        return "#aa8833"
-      case 4:
-        return "#d1a024"
-      case 5:
-        return "#FFB600"
-      default:
-        return "white"
-    }
-  }
 
   return (
     <ClickAwayListener onClickAway={handleTooltipClose}>

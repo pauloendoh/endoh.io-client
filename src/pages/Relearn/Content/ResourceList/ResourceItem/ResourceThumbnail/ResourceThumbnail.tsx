@@ -31,9 +31,9 @@ function ResourceThumbnail(props: Props) {
 
   return (
     <Box mr={2}>
-      <Box minWidth={75} width={75} position="relative">
+      <Box minWidth={50} width={50} position="relative">
         {/* estimated time */}
-        {validateEstimatedTime(props.resource.estimatedTime) && (
+        {/* {validateEstimatedTime(props.resource.estimatedTime) && (
           <FlexVCenter
             position="absolute"
             top={0}
@@ -44,7 +44,7 @@ function ResourceThumbnail(props: Props) {
             <ScheduleIcon fontSize="inherit" />
             {props.resource.estimatedTime}
           </FlexVCenter>
-        )}
+        )} */}
 
         {/* image */}
         {props.resource.url.length > 0 ? (
@@ -64,7 +64,7 @@ function ResourceThumbnail(props: Props) {
         )}
 
         {/* due date  */}
-        {props.resource.dueDate.length > 0 &&
+        {/* {props.resource.dueDate.length > 0 &&
           props.resource.completedAt.length === 0 && (
             <FlexVCenter
               position="absolute"
@@ -76,7 +76,7 @@ function ResourceThumbnail(props: Props) {
               <EventIcon fontSize="inherit" />
               {DateTime.fromISO(props.resource.dueDate).toFormat("LLL dd")}
             </FlexVCenter>
-          )}
+          )} */}
       </Box>
     </Box>
   )

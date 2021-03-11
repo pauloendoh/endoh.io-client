@@ -1,14 +1,18 @@
+import { faPlus } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   Box,
   createStyles,
   Drawer,
   List,
   ListItem,
+  ListItemIcon,
   ListItemText,
   makeStyles,
   Theme,
   Toolbar,
   Typography,
+  useTheme,
 } from "@material-ui/core"
 import PATHS from "consts/PATHS"
 import React, { useEffect, useState } from "react"
@@ -25,6 +29,7 @@ import YourTagsLi from "./YourTagsLi/YourTagsLi"
 
 function RelearnSidebar(props: Props) {
   const classes = useStyles()
+  const theme = useTheme()
 
   const location = useLocation()
 
@@ -64,6 +69,23 @@ function RelearnSidebar(props: Props) {
       <Toolbar />
       <Box className={classes.drawerContainer}>
         <List disablePadding>
+          <ListItem
+            button
+            className={classes.nested}
+            id="add-tag-button"
+            onClick={() => {
+              props.startNewTag()
+            }}
+          >
+            <ListItemIcon className={classes.listItemIcon}>
+              <FontAwesomeIcon
+                icon={faPlus}
+                color={theme.palette.primary.main}
+              />
+            </ListItemIcon>
+            <ListItemText primary="Add tag" />
+          </ListItem>
+
           {/* PE 2/3 - Muito grande para mostrar apenas "Untagged - 16" */}
           {/* criar um <UntaggedLi/> ? */}
           <ListItem
@@ -136,6 +158,7 @@ const mapStateToProps = (state: ApplicationState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setTags: (tags: TagDto[]) => dispatch(relearnActions.setTags(tags)),
+  startNewTag: () => dispatch(relearnActions.startNewTag(false)),
 })
 
 type Props = ReturnType<typeof mapStateToProps> &

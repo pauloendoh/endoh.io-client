@@ -25,14 +25,14 @@ function SettingsPage() {
             component={PersonalInformationPaper}
           />
 
-          <Route
+          {/* <Route
             path={PATHS.settings.monerate.places}
             component={PlaceSettings}
           />
           <Route
             path={PATHS.settings.monerate.categories}
             component={CategorySettings}
-          />
+          /> */}
 
           {/* por hora, redirecionar para o settings/monerate/places */}
           <Route

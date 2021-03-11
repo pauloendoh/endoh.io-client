@@ -37,6 +37,12 @@ const API = {
         ratedResources: (username: string) => '/user/' + username + '/rated-resources',
         userInfo: (username: string) => '/user/' + username + '/all',
         profile: '/user/profile',
+        followingTags: (username: string) => '/user/' + username + '/followingTags',
+
+    },
+    feed: {
+        myUserSuggestions: '/feed/my-user-suggestions',
+        resources: '/feed/resources',
     }
 }
 

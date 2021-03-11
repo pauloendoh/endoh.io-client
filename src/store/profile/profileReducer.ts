@@ -9,6 +9,9 @@ const INITIAL_STATE: ProfileState = {
 
   publicLists: [],
   privateLists: [],
+
+  followingUsers: [],
+  followers: [],
 }
 
 const profileReducer: Reducer<ProfileState, ProfileActionReturns> = (state = INITIAL_STATE, action: ProfileActionReturns): ProfileState => {
@@ -26,7 +29,9 @@ const profileReducer: Reducer<ProfileState, ProfileActionReturns> = (state = INI
         profile: payload.profile,
         resources: payload.resources,
         publicLists: payload.publicLists,
-        privateLists: payload.privateLists
+        privateLists: payload.privateLists,
+        followingUsers: payload.followingUsers,
+        followers: payload.followers,
       }
     default:
       return { ...state }

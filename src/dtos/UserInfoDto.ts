@@ -1,5 +1,7 @@
 import { ResourceDto } from '../interfaces/dtos/relearn/ResourceDto'
 import { TagDto } from '../interfaces/dtos/relearn/TagDto'
+import { FollowerDto } from './feed/FollowerDto'
+import { FollowingUserDto } from './feed/FollowingUserDto'
 import { ProfileDto } from './ProfileDto'
 
 export interface UserInfoDto {
@@ -8,6 +10,9 @@ export interface UserInfoDto {
 
     publicLists: TagDto[],
     privateLists: TagDto[],
+
+    followingUsers: FollowingUserDto[],
+    followers: FollowerDto[]
 }
 
 export const newUserInfo: UserInfoDto = {
@@ -16,4 +21,7 @@ export const newUserInfo: UserInfoDto = {
 
     publicLists: [],
     privateLists: [],
+
+    followingUsers: [],
+    followers: [],
 }

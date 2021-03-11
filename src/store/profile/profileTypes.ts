@@ -1,6 +1,8 @@
 import { ProfileDto } from '../../dtos/ProfileDto';
 import { ResourceDto } from '../../interfaces/dtos/relearn/ResourceDto';
 import { TagDto } from '../../interfaces/dtos/relearn/TagDto';
+import { FollowingUserDto } from '../../dtos/feed/FollowingUserDto'
+import { FollowerDto } from '../../dtos/feed/FollowerDto'
 
 export enum ProfileActionTypes {
     CLEAR_PROFILE = '@profile/CLEAR_PROFILE',
@@ -15,6 +17,10 @@ export interface ProfileState {
     resources: ResourceDto[],
 
     publicLists: TagDto[],
-    privateLists: TagDto[]
+    privateLists: TagDto[],
+
+    followingUsers: FollowingUserDto[],
+    followers: FollowerDto[],
+
 }
 
