@@ -20,8 +20,6 @@ import { connect } from "react-redux"
 import { Link, useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
 import { getTodoResources } from "utils/relearn/getTodoResources"
-import API from "../../../consts/API"
-import MY_AXIOS from "../../../consts/MY_AXIOS"
 import { TagDto } from "../../../interfaces/dtos/relearn/TagDto"
 import * as relearnActions from "../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../store/store"
@@ -38,17 +36,6 @@ function RelearnSidebar(props: Props) {
   useEffect(() => {
     setPathName(location.pathname)
   }, [location])
-
-  // PE 2/3 - melhor deixar o setTags no RelearnPage ? E chamar tudo de uma vez em uma request?
-  useEffect(
-    () => {
-      MY_AXIOS.get<TagDto[]>(API.relearn.tag).then((res) => {
-        props.setTags(res.data)
-      })
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
 
   const [publicLists, setPublicLists] = useState<TagDto[]>([])
   const [privateLists, setPrivateLists] = useState<TagDto[]>([])
@@ -157,7 +144,6 @@ const mapStateToProps = (state: ApplicationState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setTags: (tags: TagDto[]) => dispatch(relearnActions.setTags(tags)),
   startNewTag: () => dispatch(relearnActions.startNewTag(false)),
 })
 

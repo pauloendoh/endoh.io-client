@@ -1,3 +1,4 @@
+import { setProfile } from './../profile/profileActions';
 import { Dispatch } from 'redux';
 import { action } from 'typesafe-actions';
 import { getQueryParam } from 'utils/url/getQueryParam';
@@ -5,6 +6,7 @@ import API from '../../consts/API';
 import MY_AXIOS from '../../consts/MY_AXIOS';
 import { FollowingTagDto } from '../../dtos/feed/FollowingTagDto';
 import { UserInfoDto } from '../../dtos/UserInfoDto';
+import { NotificationDto } from '../../dtos/utils/NotificationDto';
 import { AuthUserGetDto, UserPreferenceDto } from '../../interfaces/dtos/AuthUserGetDto';
 import { monerateActionTypes } from '../monerate/monerateTypes';
 import { clearProfile } from '../profile/profileActions';
@@ -27,10 +29,14 @@ export const setFollowingTags = (followingTags: FollowingTagDto[]) => action(Aut
 
 export const setPreference = (preference: UserPreferenceDto) => action(AuthActionTypes.SET_PREFERENCE, preference)
 
+export const setNotifications = (notifications: NotificationDto[]) => action(AuthActionTypes.SET_NOTIFICATIONS, notifications)
+
 export function savePreferenceActionCreator(dispatch: Dispatch, preference: UserPreferenceDto) {
   dispatch(setPreference(preference))
   MY_AXIOS.post(API.auth.userPreference, preference)
 }
+export const setProfilePicture = (pictureUrl: string) => action(AuthActionTypes.SET_PROFILE_PICTURE, pictureUrl)
+
 
 export function checkAuthOrLogoutActionCreator(dispatch: Dispatch) {
   const userLocalStorage = localStorage.getItem('user')
@@ -85,4 +91,6 @@ export type AuthActionReturns =
   ReturnType<typeof usingGoogleSession> |
   ReturnType<typeof setUsername> |
   ReturnType<typeof setFollowingTags> |
-  ReturnType<typeof setAuthProfile> 
+  ReturnType<typeof setAuthProfile> |
+  ReturnType<typeof setNotifications> |
+  ReturnType<typeof setProfilePicture>

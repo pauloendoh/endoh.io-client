@@ -23,6 +23,7 @@ import FlexVCenter from "../shared/Flexboxes/FlexVCenter"
 import LeftToggleButton from "./LeftToggleButton/LeftToggleButton"
 import SearchBar from "./SearchBar/SearchBar"
 import UserMenu from "./UserMenu/UserMenu"
+import Notification from "./Notification/Notification"
 
 // PE 2/3
 const Navbar = (props: Props) => {
@@ -62,9 +63,7 @@ const Navbar = (props: Props) => {
           <Box ml={2}>
             <ApplicationMenu />
           </Box> */}
-          <Switch>
-            <Route path={PATHS.relearn.index} component={SearchBar} />
-          </Switch>
+          <SearchBar />
         </FlexVCenter>
 
         <Flex>
@@ -105,6 +104,7 @@ const Navbar = (props: Props) => {
           </Switch>
           <Flex mr={4} />
 
+          <Notification />
           <UserMenu />
         </FlexVCenter>
       </Toolbar>

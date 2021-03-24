@@ -14,6 +14,7 @@ import Flex from "../../../components/shared/Flexboxes/Flex"
 import PATHS from "../../../consts/PATHS"
 import { FollowerDto } from "../../../dtos/feed/FollowerDto"
 import { ApplicationState } from "../../../store/store"
+import ProfilePicture from "../../shared/ProfilePicture/ProfilePicture"
 
 // PE 2/3
 const FollowersDialog = (props: Props) => {
@@ -32,15 +33,24 @@ const FollowersDialog = (props: Props) => {
       aria-labelledby="followers-dialog"
     >
       <Box pb={1} px={1}>
-        <DialogTitle id="followers-title">@{username}'s followers</DialogTitle>
+        <DialogTitle id="followers-title">
+          {username?.length > 0 ? (
+            <span>{username}'s followers</span>
+          ) : (
+            <span>Your followers</span>
+          )}
+        </DialogTitle>
 
         <DialogContent>
           {props.followers.map((follower) => (
             <Box key={follower.follower.userId} mb={3}>
               <Flex>
-                <Avatar alt={follower.follower.username}>
-                  {follower.follower.username[0]}
-                </Avatar>
+                <ProfilePicture
+                  isLink
+                  pictureUrl={follower.follower.pictureUrl}
+                  username={follower.follower.username}
+                  size={48}
+                />
                 <Box ml={2}>
                   <Box>
                     <Link

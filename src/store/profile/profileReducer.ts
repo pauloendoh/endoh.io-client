@@ -31,8 +31,13 @@ const profileReducer: Reducer<ProfileState, ProfileActionReturns> = (state = INI
         publicLists: payload.publicLists,
         privateLists: payload.privateLists,
         followingUsers: payload.followingUsers,
-        followers: payload.followers,
+        followers:
+          payload.followers,
       }
+    case ProfileActionTypes.SET_PROFILE_PICTURE:
+      const profile = { ...state.profile }
+      profile.pictureUrl = action.payload
+      return { ...state, profile }
     default:
       return { ...state }
   }

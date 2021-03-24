@@ -9,8 +9,6 @@ import API from "../../consts/API"
 import MY_AXIOS from "../../consts/MY_AXIOS"
 import { ProgressDto } from "../../dtos/skillbase/ProgressDto"
 import { newSkillDto, SkillDto } from "../../dtos/skillbase/SkillDto"
-import { TagDto } from "../../interfaces/dtos/relearn/TagDto"
-import { setTags } from "../../store/relearn/relearnActions"
 import {
   setEditingSkill,
   setProgresses,
@@ -19,7 +17,6 @@ import {
 import { ApplicationState } from "../../store/store"
 import { sleep } from "../../utils/sleep"
 import ProgressSidebar from "./ProgressSidebar/ProgressSidebar"
-import SkillDialog from "./SkillDialog/SkillDialog"
 import SkillbaseTable from "./SkillTable/SkillbaseTable"
 // PE 3/3
 const SkillbasePage = (props: Props) => {
@@ -27,7 +24,7 @@ const SkillbasePage = (props: Props) => {
 
   useEffect(
     () => {
-      document.title = "Skillbase"
+      document.title = "Skills - Endoh.io"
 
       MY_AXIOS.get<SkillDto[]>(API.skillbase.skill).then((res) => {
         props.setSkills(res.data)
@@ -35,10 +32,6 @@ const SkillbasePage = (props: Props) => {
 
       MY_AXIOS.get<ProgressDto[]>(API.skillbase.progress).then((res) => {
         props.setProgresses(res.data)
-      })
-
-      MY_AXIOS.get<TagDto[]>(API.relearn.tag).then((res) => {
-        props.setTags(res.data)
       })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -66,7 +59,6 @@ const SkillbasePage = (props: Props) => {
           <SkillbaseTable />
         </Box>
 
-        <SkillDialog />
         {/* <RelearnSidebar /> */}
       </Flex>
     </GlobalHotKeys>
@@ -105,7 +97,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   setProgresses: (progresses: ProgressDto[]) =>
     dispatch(setProgresses(progresses)),
   setEditingSkill: (skill: SkillDto) => dispatch(setEditingSkill(skill)),
-  setTags: (tags: TagDto[]) => dispatch(setTags(tags)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SkillbasePage)

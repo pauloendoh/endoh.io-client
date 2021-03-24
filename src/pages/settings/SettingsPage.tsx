@@ -12,7 +12,7 @@ import SettingsSidebar from "./SettingsSidebar/SettingsSidebar"
 
 function SettingsPage() {
   useEffect(() => {
-    document.title = "Settings"
+    document.title = "Settings - Endoh.io"
   }, [])
 
   return (

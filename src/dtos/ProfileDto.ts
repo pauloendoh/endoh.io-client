@@ -3,5 +3,7 @@ export interface ProfileDto {
     userId: number
     fullName: string
     bio: string
+    pictureUrl: string,
+    pictureName: string,
     website: string
 }

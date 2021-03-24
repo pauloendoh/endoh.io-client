@@ -20,6 +20,7 @@ import { setFollowingTags } from "../../../store/auth/authActions"
 import { ApplicationState } from "../../../store/store"
 import * as utilsActions from "../../../store/utils/utilsActions"
 import { FollowingUserDto } from "../../../dtos/feed/FollowingUserDto"
+import ProfilePicture from "../../shared/ProfilePicture/ProfilePicture"
 
 // PE 2/3
 const FollowingUsersDialog = (props: Props) => {
@@ -39,16 +40,24 @@ const FollowingUsersDialog = (props: Props) => {
     >
       <Box pb={1} px={1}>
         <DialogTitle id="following-users-title">
-          @{username} is following
+          {username?.length > 0 ? (
+            <span>{username} is following</span>
+          ) : (
+            <span>You're following</span>
+          )}
         </DialogTitle>
 
         <DialogContent>
           {props.followingUsers.map((followingUser) => (
             <Box key={followingUser.followingUser.userId} mb={3}>
               <Flex>
-                <Avatar alt={followingUser.followingUser.username}>
-                  {followingUser.followingUser.username[0]}
-                </Avatar>
+                <ProfilePicture
+                  isLink
+                  pictureUrl={followingUser.followingUser.pictureUrl}
+                  username={followingUser.followingUser.username}
+                  size={48}
+                />
+
                 <Box ml={2}>
                   <Box>
                     <Link

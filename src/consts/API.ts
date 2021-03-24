@@ -30,6 +30,9 @@ const API = {
     utils: {
         linkPreview: '/utils/link-preview',
         passwordResetEmail: "/utils/passwordResetEmail",
+        search: (q: string) => "/utils/search?q=" + q,
+        notifications: "/utils/notifications",
+        notificationsSeeAll: "/utils/notifications/seeAll",
     },
 
     user: {
@@ -37,13 +40,16 @@ const API = {
         ratedResources: (username: string) => '/user/' + username + '/rated-resources',
         userInfo: (username: string) => '/user/' + username + '/all',
         profile: '/user/profile',
+        picture: '/user/picture',
         followingTags: (username: string) => '/user/' + username + '/followingTags',
+
+
 
     },
     feed: {
         myUserSuggestions: '/feed/my-user-suggestions',
         resources: '/feed/resources',
-    }
+    },
 }
 
 export default API

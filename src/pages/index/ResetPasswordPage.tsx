@@ -37,13 +37,12 @@ function ResetPasswordPage(props: Props) {
 
   const [redirectTo, setRedirectTo] = useState("")
 
-  
   useEffect(
     () => {
       if (token.length === 0 || !userId) {
         setRedirectTo(PATHS.index)
       }
-      document.title = "endoh.io - Reset Password"
+      document.title = "Reset Password - Endoh.io"
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []

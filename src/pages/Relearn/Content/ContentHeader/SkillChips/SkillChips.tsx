@@ -1,16 +1,14 @@
-import { Box, Button, makeStyles } from "@material-ui/core"
-import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt"
+import { Button, makeStyles } from "@material-ui/core"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Link as RouterLink, useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
 import Flex from "../../../../../components/shared/Flexboxes/Flex"
-import FlexVCenter from "../../../../../components/shared/Flexboxes/FlexVCenter"
+import SkillChip from "../../../../../components/skillbase/SkillChip/SkillChip"
 import PATHS from "../../../../../consts/PATHS"
 import { SkillDto } from "../../../../../dtos/skillbase/SkillDto"
 import { setEditingSkill } from "../../../../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../../../../store/store"
-import SkillDialog from "../../../../SkillbasePage/SkillDialog/SkillDialog"
 
 // PE 2/3
 function SkillChips(props: Props) {
@@ -47,46 +45,8 @@ function SkillChips(props: Props) {
 
   return (
     <Flex className={classes.root}>
-      <SkillDialog />
-
       {skills.map((skill) => (
-        <Button
-          key={skill.id}
-          variant="outlined"
-          size="small"
-          className={classes.skillButton}
-          onClick={() => {
-            props.editSkill(skill)
-          }}
-        >
-          <Flex>
-            <Box>{skill.name}</Box>
-
-            {(skill.currentLevel || skill.goalLevel) && (
-              <FlexVCenter ml={1} className={classes.innerChip}>
-                {/* only has current level */}
-                {skill.currentLevel && !skill.goalLevel && skill.currentLevel}
-
-                {/* only has goal */}
-                {!skill.currentLevel && skill.goalLevel && (
-                  <>
-                    ?<ArrowRightAltIcon />
-                    {skill.goalLevel}
-                  </>
-                )}
-
-                {/* has both */}
-                {skill.currentLevel && skill.goalLevel && (
-                  <>
-                    {skill.currentLevel}
-                    <ArrowRightAltIcon />
-                    {skill.goalLevel}
-                  </>
-                )}
-              </FlexVCenter>
-            )}
-          </Flex>
-        </Button>
+        <SkillChip key={skill.id} skill={skill} />
       ))}
       <Button
         component={RouterLink}
@@ -105,7 +65,7 @@ function SkillChips(props: Props) {
 const useStyles = makeStyles((theme) => ({
   root: {
     flexWrap: "wrap",
-    maxWidth: 600
+    maxWidth: 600,
   },
   skillButton: {
     marginRight: 8,
@@ -118,8 +78,8 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 4,
     borderRadius: 3,
   },
-  manageSkillsButton:{
-    marginBottom: 8
+  manageSkillsButton: {
+    marginBottom: 8,
   },
 }))
 

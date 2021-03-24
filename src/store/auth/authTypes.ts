@@ -3,6 +3,7 @@ import { FollowerDto } from '../../dtos/feed/FollowerDto';
 import { FollowingTagDto } from '../../dtos/feed/FollowingTagDto';
 import { FollowingUserDto } from '../../dtos/feed/FollowingUserDto';
 import { ProfileDto } from '../../dtos/ProfileDto';
+import { NotificationDto } from '../../dtos/utils/NotificationDto';
 
 export enum AuthActionTypes {
     SET_AUTH_USER = '@auth/SET_AUTH_USER',
@@ -15,6 +16,9 @@ export enum AuthActionTypes {
     SET_FOLLOWING_TAGS = '@auth/SET_FOLLOWING_TAGS',
 
     SET_AUTH_PROFILE = '@auth/SET_AUTH_PROFILE',
+    SET_NOTIFICATIONS = '@auth/SET_NOTIFICATIONS',
+    SET_PROFILE_PICTURE = '@auth/SET_PROFILE_PICTURE',
+
 }
 
 export interface AuthState {
@@ -24,6 +28,7 @@ export interface AuthState {
 
     profile: ProfileDto,
     followingUsers: FollowingUserDto[],
-    followers: FollowerDto[]
+    followers: FollowerDto[],
+    notifications: NotificationDto[]
 }
 

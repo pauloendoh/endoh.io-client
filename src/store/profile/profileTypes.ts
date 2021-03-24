@@ -10,6 +10,7 @@ export enum ProfileActionTypes {
     SET_PROFILE = '@profile/SET_PROFILE',
     SET_PROFILE_RESOURCES = '@profile/SET_PROFILE_RESOURCES',
     SET_USER_INFO = '@profile/SET_USER_INFO',
+    SET_PROFILE_PICTURE = '@profile/SET_PROFILE_PICTURE',
 }
 
 export interface ProfileState {

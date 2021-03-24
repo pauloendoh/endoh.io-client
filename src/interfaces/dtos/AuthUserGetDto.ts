@@ -2,12 +2,10 @@ export interface AuthUserGetDto {
     id: number
     username: string
     email: string
-    picture: string
-
     // preference: UserPreferenceDto
 
     token: string
-    expiresAt: string 
+    expiresAt: string
 }
 
 export interface UserPreferenceDto {

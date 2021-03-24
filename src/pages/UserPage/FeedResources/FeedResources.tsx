@@ -2,7 +2,7 @@ import { Box } from "@material-ui/core"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
-import FeedResourceItem from "../../../components/feed/FeedResourceItem"
+import FeedResourceItem from "../../../components/feed/FeedResourceItem/FeedResourceItem"
 import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto"
 import { ApplicationState } from "../../../store/store"
 

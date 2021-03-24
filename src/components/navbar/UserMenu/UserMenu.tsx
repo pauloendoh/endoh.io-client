@@ -11,6 +11,7 @@ import { Dispatch } from "redux"
 import { logoutActionCreator } from "../../../store/auth/authActions"
 import { ApplicationState } from "../../../store/store"
 import FlexVCenter from "../../shared/Flexboxes/FlexVCenter"
+import ProfilePicture from "../../shared/ProfilePicture/ProfilePicture"
 // PE 2/3
 const UserMenu = (props: Props) => {
   const location = useLocation()
@@ -39,9 +40,14 @@ const UserMenu = (props: Props) => {
         aria-controls="simple-menu"
         aria-haspopup="true"
       >
-        <FlexVCenter>
-          <Box mr={2}>{props.authUser.username}</Box>
-        </FlexVCenter>
+        {props.profile && (
+          <ProfilePicture
+            isLink={false}
+            pictureUrl={props.profile.pictureUrl}
+            username={props.authUser.username}
+            size={25}
+          />
+        )}
       </Button>
 
       <Menu
@@ -88,6 +94,7 @@ const UserMenu = (props: Props) => {
 
 const mapStateToProps = (state: ApplicationState) => ({
   authUser: state.auth.user,
+  profile: state.auth.profile,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

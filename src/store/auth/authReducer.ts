@@ -11,7 +11,8 @@ const INITIAL_STATE: AuthState = {
 
   profile: null,
   followers: [],
-  followingUsers: []
+  followingUsers: [],
+  notifications: []
 }
 
 const authReducer: Reducer<AuthState, AuthActionReturns> = (state = INITIAL_STATE, action: AuthActionReturns): AuthState => {
@@ -30,6 +31,12 @@ const authReducer: Reducer<AuthState, AuthActionReturns> = (state = INITIAL_STAT
       return { ...state, followingTags: action.payload }
     case AuthActionTypes.SET_AUTH_PROFILE:
       return setAuthProfile(state, action.payload)
+    case AuthActionTypes.SET_PROFILE_PICTURE:
+      const profile = { ...state.profile }
+      profile.pictureUrl = action.payload
+      return { ...state, profile }
+    case AuthActionTypes.SET_NOTIFICATIONS:
+      return { ...state, notifications: action.payload }
     default:
       return { ...state }
     // case AuthTypes.CHECK_USER_OR_LOGOUT:

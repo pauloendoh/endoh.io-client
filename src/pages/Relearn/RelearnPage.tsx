@@ -10,7 +10,6 @@ import MY_AXIOS from "../../consts/MY_AXIOS"
 import PATHS from "../../consts/PATHS"
 import { SkillDto } from "../../dtos/skillbase/SkillDto"
 import { ResourceDto } from "../../interfaces/dtos/relearn/ResourceDto"
-import { TagDto } from "../../interfaces/dtos/relearn/TagDto"
 import * as relearnActions from "../../store/relearn/relearnActions"
 import { setSkills } from "../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../store/store"
@@ -55,7 +54,7 @@ const RelearnPage = (props: Props) => {
         setFilteredResources(
           props.resources.filter((resource) => resource.tag === null)
         )
-        document.title = "Untagged - Relearn"
+        document.title = "Untagged - Endoh.io"
       } else if (pathname.startsWith(PATHS.relearn.tag)) {
         const tagId = Number(pathname.split("/").pop())
         if (tagId) {
@@ -93,7 +92,6 @@ const RelearnPage = (props: Props) => {
             // <ResourceList resources={filteredResources} />
           )}
         </Box>
-        <ResourceDialog />
         <TagDialog />
       </Flex>
     </GlobalHotKeys>
@@ -111,7 +109,6 @@ const mapStateToProps = (state: ApplicationState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setResources: (resources: ResourceDto[]) =>
     dispatch(relearnActions.setResources(resources)),
-  setTags: (tags: TagDto[]) => dispatch(relearnActions.setTags(tags)),
   setSkills: (skills: SkillDto[]) => dispatch(setSkills(skills)),
 
   startNewResource: () => dispatch(relearnActions.startNewResource()),

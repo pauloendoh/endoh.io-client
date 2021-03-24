@@ -3,22 +3,23 @@ import React, { useState } from "react"
 import { connect } from "react-redux"
 import TimeAgo from "react-timeago"
 import { Dispatch } from "redux"
-import API from "../../consts/API"
-import MY_AXIOS from "../../consts/MY_AXIOS"
-import { ResourceDto } from "../../interfaces/dtos/relearn/ResourceDto"
-import ResourceMoreIcon from "../../pages/Relearn/Content/ResourceList/ResourceItem/ResourceMoreIcon/ResourceMoreIcon"
-import ResourceThumbnail from "../../pages/Relearn/Content/ResourceList/ResourceItem/ResourceThumbnail/ResourceThumbnail"
-import * as relearnActions from "../../store/relearn/relearnActions"
-import { ApplicationState } from "../../store/store"
-import * as utilsActions from "../../store/utils/utilsActions"
-import { validateEstimatedTime } from "../../utils/relearn/validateEstimatedTime"
-import { getDomainFromUrl } from "../../utils/url/getDomainFromUrl"
-import { urlIsValid } from "../../utils/url/isValidUrl"
-import RateButton from "../resources/RateButton/RateButton"
-import Flex from "../shared/Flexboxes/Flex"
-import FlexVCenter from "../shared/Flexboxes/FlexVCenter"
-import MyTextField from "../shared/MyInputs/MyTextField"
+import API from "../../../consts/API"
+import MY_AXIOS from "../../../consts/MY_AXIOS"
+import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto"
+import ResourceMoreIcon from "../../../pages/Relearn/Content/ResourceList/ResourceItem/ResourceMoreIcon/ResourceMoreIcon"
+import ResourceThumbnail from "../../../pages/Relearn/Content/ResourceList/ResourceItem/ResourceThumbnail/ResourceThumbnail"
+import * as relearnActions from "../../../store/relearn/relearnActions"
+import { ApplicationState } from "../../../store/store"
+import * as utilsActions from "../../../store/utils/utilsActions"
+import { validateEstimatedTime } from "../../../utils/relearn/validateEstimatedTime"
+import { getDomainFromUrl } from "../../../utils/url/getDomainFromUrl"
+import { urlIsValid } from "../../../utils/url/isValidUrl"
+import RateButton from "../../resources/RateButton/RateButton"
+import Flex from "../../shared/Flexboxes/Flex"
+import FlexVCenter from "../../shared/Flexboxes/FlexVCenter"
+import MyTextField from "../../shared/MyInputs/MyTextField"
 
+// This is for the user page... for the feed page, look for FeedResource.tsx
 function FeedResourceItem(props: Props) {
   const classes = useStyles()
 
@@ -79,33 +80,6 @@ function FeedResourceItem(props: Props) {
             ) : (
               <span style={{ marginRight: 16 }}>{props.resource.title}</span>
             )}
-            {/* {props.resource.estimatedTime.length > 0 && (
-                <span
-                  style={{
-                    marginRight: 16,
-                    display: "inline-flex",
-                    position: "relative",
-                    top: 5,
-                  }}
-                >
-                  <ScheduleIcon fontSize="small" />
-                  {props.resource.estimatedTime}
-                </span>
-              )} */}
-
-            {/* {props.resource.dueDate.length > 0 && (
-                <span
-                  style={{
-                    display: "inline-flex",
-                    marginRight: 16,
-                    position: "relative",
-                    top: 5,
-                  }}
-                >
-                  <EventIcon fontSize="small" />
-                  {DateTime.fromISO(props.resource.dueDate).toFormat("LLL dd")}
-                </span>
-              )} */}
           </Box>
 
           <ResourceMoreIcon resource={props.resource} isHovered={isHovered} />

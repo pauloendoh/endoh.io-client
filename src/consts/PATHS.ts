@@ -27,9 +27,9 @@ const PATHS = {
     user: {
         index: (username: string) => `/user/${username}`,
         tag: (username: string, listId: number) => `/user/${username}/tag/${listId}`
-
-
-    }
+    },
+    notFound: '/404',
+    search: (query: string) => "/search?q=" + query
 }
 
 export default PATHS

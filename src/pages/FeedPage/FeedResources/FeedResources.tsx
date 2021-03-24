@@ -22,7 +22,8 @@ import linkPng from "../../../static/images/link.png"
 import { ApplicationState } from "../../../store/store"
 import { getColorByRating } from "../../../utils/relearn/getColorByRating"
 import MinRatingButton from "../../../components/resources/MinRatingButton/MinRatingButton"
-
+import SaveFeedResourceButton from "./SaveFeedResourceButton/SaveFeedResourceButton"
+import ProfilePicture from "../../../components/shared/ProfilePicture/ProfilePicture"
 // PE 3/3
 const FeedResources = (props: Props) => {
   const classes = useStyles()
@@ -56,9 +57,13 @@ const FeedResources = (props: Props) => {
       {filteredResources.map((resource) => (
         <Paper key={resource.id} style={{ marginBottom: 16, padding: 16 }}>
           <FlexVCenter>
-            <Avatar style={{ height: 32, width: 32 }}>
-              {resource.user.username[0]}
-            </Avatar>
+            <ProfilePicture
+              pictureUrl={resource.user.pictureUrl}
+              username={resource.user.username}
+              size={32}
+              isLink
+            />
+
             <Box ml={1}>
               <Link
                 variant="button"
@@ -82,7 +87,7 @@ const FeedResources = (props: Props) => {
                 </Link>
               </Box>
 
-              <Box ml={1}>
+              <Box ml={1} width="100%">
                 <Typography>{resource.title}</Typography>
                 <Box>
                   <Link
@@ -107,6 +112,9 @@ const FeedResources = (props: Props) => {
                       <Box>
                         {resource.rating} - {labels[resource.rating]}
                       </Box>
+                    </FlexVCenter>
+                    <FlexVCenter>
+                      <SaveFeedResourceButton feedResource={resource} />
                     </FlexVCenter>
                   </FlexVCenter>
                 </FlexVCenter>

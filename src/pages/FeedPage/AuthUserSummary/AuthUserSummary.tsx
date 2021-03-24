@@ -8,6 +8,7 @@ import { Link as RouterLink } from "react-router-dom"
 import PATHS from "../../../consts/PATHS"
 import FollowingUsersDialog from "../../../components/feed/FollowingUsersDialog/FollowingUsersDialog"
 import FollowersDialog from "../../../components/feed/FollowersDialog/FollowersDialog"
+import ProfilePicture from "../../../components/shared/ProfilePicture/ProfilePicture"
 
 // PE 3/3
 const AuthUserSummary = (props: Props) => {
@@ -20,7 +21,15 @@ const AuthUserSummary = (props: Props) => {
 
   return (
     <Flex>
-      <Avatar>{props.authUser.username[0].toUpperCase()}</Avatar>
+      {props.profile && (
+        <ProfilePicture
+          pictureUrl={props.profile.pictureUrl}
+          username={props.authUser.username}
+          isLink
+          size={32}
+        />
+      )}
+
       <Box>
         <Link
           variant="button"
@@ -69,6 +78,7 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 const mapStateToProps = (state: ApplicationState) => ({
   authUser: state.auth.user,
+  profile: state.auth.profile,
   followingUsers: state.auth.followingUsers,
   followers: state.auth.followers,
 })

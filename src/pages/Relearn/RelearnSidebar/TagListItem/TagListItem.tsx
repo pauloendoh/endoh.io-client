@@ -144,7 +144,6 @@ const mapStateToProps = (state: ApplicationState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setTags: (tags: TagDto[]) => dispatch(relearnActions.setTags(tags)),
   editTag: (tag: TagDto) => dispatch(relearnActions.editTag(tag)),
   removeTag: (id: number) => dispatch(relearnActions.removeTag(id)),
 

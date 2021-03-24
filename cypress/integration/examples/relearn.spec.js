@@ -81,7 +81,7 @@ context('Relearn', () => {
     cy.contains('Rating removed!')
   })
 
-  it.only("reposition resources via drag and drop", () => {
+  it("reposition resources via drag and drop", () => {
     // create two resources
     createResource("resource X")
     createResource("resource Y")

@@ -1,20 +1,41 @@
-import { Box, makeStyles, Typography } from "@material-ui/core"
-import { Autocomplete } from "@material-ui/lab"
+import { Box, makeStyles } from "@material-ui/core"
+import { Form, Formik } from "formik"
 import React from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
+import PATHS from "../../../consts/PATHS"
 import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto"
 import { editResource } from "../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../store/store"
-import FlexHCenter from "../../shared/Flexboxes/FlexHCenter"
-import FlexVCenter from "../../shared/Flexboxes/FlexVCenter"
+import { IWithRedirectProps, withRedirect } from "../../hocs/withRedirect"
 import MyTextField from "../../shared/MyInputs/MyTextField"
 
 const SearchBar = (props: Props) => {
   const classes = useStyles()
   return (
     <Box>
-      <Autocomplete
+      <Formik
+        initialValues={{ query: "" }}
+        onSubmit={(values, { setSubmitting }) => {
+          if (values.query.length) {
+            props.redirectTo(PATHS.search(values.query))
+          }
+        }}
+      >
+        {({ errors, values, isSubmitting, setFieldValue, handleChange }) => (
+          <Form>
+            <MyTextField
+              id="query"
+              name="query"
+              label="Search Endoh.io"
+              onChange={handleChange}
+            />
+          </Form>
+        )}
+      </Formik>
+
+      {/* Old search box with autocomplete */}
+      {/* <Autocomplete
         options={props.allResources}
         renderOption={(option) => (
           <FlexVCenter>
@@ -41,7 +62,7 @@ const SearchBar = (props: Props) => {
         onChange={(e, value) => {
           props.editResource(value as ResourceDto)
         }}
-      />
+      /> */}
     </Box>
   )
 }
@@ -61,6 +82,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 })
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+  ReturnType<typeof mapDispatchToProps> &
+  IWithRedirectProps
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchBar)
+export default withRedirect(
+  connect(mapStateToProps, mapDispatchToProps)(SearchBar)
+)

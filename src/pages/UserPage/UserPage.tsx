@@ -1,12 +1,18 @@
-import { Box, Grid, Typography } from "@material-ui/core"
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
+import { Box, Grid, Hidden, Typography } from "@material-ui/core"
+import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { useParams } from "react-router-dom"
 import { Dispatch } from "redux"
+import UserSuggestions from "../../components/feed/UserSuggestions/UserSuggestions"
+import {
+  IWithRedirectProps,
+  withRedirect,
+} from "../../components/hocs/withRedirect"
 import MinRatingButton from "../../components/resources/MinRatingButton/MinRatingButton"
 import Flex from "../../components/shared/Flexboxes/Flex"
 import API from "../../consts/API"
 import MY_AXIOS from "../../consts/MY_AXIOS"
+import PATHS from "../../consts/PATHS"
 import { UserInfoDto } from "../../dtos/UserInfoDto"
 import { ResourceDto } from "../../interfaces/dtos/relearn/ResourceDto"
 import { TagDto } from "../../interfaces/dtos/relearn/TagDto"
@@ -21,7 +27,6 @@ import FeedResources from "./FeedResources/FeedResources"
 import ProfileHeader from "./ProfileHeader/ProfileHeader"
 import ResourcesChart from "./ResourcesChart/ResourcesChart"
 import UserPageLists from "./UserPageLists/UserPageLists"
-import UserSuggestions from "../../components/feed/UserSuggestions/UserSuggestions"
 
 // PE 3/3
 const UserPage = (props: Props) => {
@@ -57,11 +62,19 @@ const UserPage = (props: Props) => {
 
   useEffect(
     () => {
+      document.title = username + " - Endoh.io"
+
       props.clearProfile()
 
-      MY_AXIOS.get<UserInfoDto>(API.user.userInfo(username)).then((res) => {
-        props.setUserInfo(res.data)
-      })
+      MY_AXIOS.get<UserInfoDto>(API.user.userInfo(username))
+        .then((res) => {
+          props.setUserInfo(res.data)
+        })
+        .catch((err) => {
+          if (err.response && err.response.status === 404) {
+            props.redirectTo(PATHS.notFound)
+          }
+        })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [username]
@@ -92,10 +105,18 @@ const UserPage = (props: Props) => {
             </Flex>
             <FeedResources resources={filteredResources} />
           </Grid>
+
           <Grid item lg={4}>
-            <Box mt={10} position="fixed">
-              <UserSuggestions userSuggestions={props.userSuggestions} />
-            </Box>
+            <Hidden mdDown>
+              <Box mt={10} position="fixed">
+                {props.userSuggestions.length > 0 && (
+                  <UserSuggestions
+                    userSuggestions={props.userSuggestions}
+                    followingUsers={props.followingUsers}
+                  />
+                )}
+              </Box>
+            </Hidden>
           </Grid>
         </Grid>
       )}
@@ -104,11 +125,13 @@ const UserPage = (props: Props) => {
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+  ReturnType<typeof mapDispatchToProps> &
+  IWithRedirectProps
 
 const mapStateToProps = (state: ApplicationState) => ({
   userSuggestions: state.feed.userSuggestions,
   authUser: state.auth.user,
+  followingUsers: state.auth.followingUsers,
   resources: state.profile.resources,
   profile: state.profile.profile,
   publicLists: state.profile.publicLists,
@@ -124,4 +147,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   setUserInfo: (userInfo: UserInfoDto) => dispatch(setUserInfo(userInfo)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserPage)
+export default withRedirect(
+  connect(mapStateToProps, mapDispatchToProps)(UserPage)
+)

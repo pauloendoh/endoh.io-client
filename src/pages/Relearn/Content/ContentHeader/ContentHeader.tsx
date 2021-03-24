@@ -30,11 +30,10 @@ function ContentHeader(props: Props) {
 
   useLayoutEffect(() => {
     const newHeight = ref.current.clientHeight
-    if(height !== newHeight){
+    if (height !== newHeight) {
       setHeight(newHeight)
       props.onHeightChange(newHeight)
     }
-
   })
 
   // PE 2/3
@@ -55,7 +54,7 @@ function ContentHeader(props: Props) {
         if (currentTag) {
           setTagName(currentTag.name)
           setTag(currentTag)
-          document.title = currentTag.name + " - Relearn"
+          document.title = currentTag.name + " - Endoh.io"
         }
       }
     }

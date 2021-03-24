@@ -19,7 +19,7 @@ const LandingPage = () => {
   const classes = useStyles()
 
   useEffect(() => {
-    document.title = "endoh.io"
+    document.title = "Endoh.io"
   }, [])
   return (
     <Container maxWidth="md">
@@ -33,7 +33,6 @@ const LandingPage = () => {
         </Grid>
       </Grid>
 
-   
       <Box className={classes.checkApplications} textAlign="center">
         <ScrollLink
           to="relearn-description"
@@ -72,14 +71,14 @@ const useStyles = makeStyles((theme) => ({
   flexGrow: {
     flexGrow: 1,
   },
-  checkApplications:{
-    [theme.breakpoints.down('sm')]:{
-      marginTop: 32
+  checkApplications: {
+    [theme.breakpoints.down("sm")]: {
+      marginTop: 32,
     },
-    [theme.breakpoints.up('sm')]:{
-      marginTop: 160
+    [theme.breakpoints.up("sm")]: {
+      marginTop: 160,
     },
-  }
+  },
 }))
 
 export default LandingPage

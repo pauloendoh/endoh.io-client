@@ -6,29 +6,22 @@ import UserSuggestions from "../../components/feed/UserSuggestions/UserSuggestio
 import API from "../../consts/API"
 import MY_AXIOS from "../../consts/MY_AXIOS"
 import { FeedResourceDto } from "../../dtos/feed/FeedResourceDto"
-import { UserSuggestionDto } from "../../dtos/feed/UserSuggestionDto"
 import { UserInfoDto } from "../../dtos/UserInfoDto"
 import { setAuthProfile } from "../../store/auth/authActions"
-import {
-  setFeedResources,
-  setUserSuggestions,
-} from "../../store/feed/feedActions"
+import { setFeedResources } from "../../store/feed/feedActions"
 import { ApplicationState } from "../../store/store"
-import FeedResources from "./FeedResources/FeedResources"
+import ResourceDialog from "../Relearn/Dialogs/ResourceDialog"
 import AuthUserSummary from "./AuthUserSummary/AuthUserSummary"
+import FeedResources from "./FeedResources/FeedResources"
 
 // PE 3/3
 const FeedPage = (props: Props) => {
   useEffect(
     () => {
+      document.title = "Feed - Endoh.io"
+
       MY_AXIOS.get<FeedResourceDto[]>(API.feed.resources).then((res) => {
         props.setFeedResources(res.data)
-      })
-
-      MY_AXIOS.get<UserInfoDto>(
-        API.user.userInfo(props.authUser.username)
-      ).then((res) => {
-        props.setAuthProfile(res.data)
       })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -46,7 +39,12 @@ const FeedPage = (props: Props) => {
         <Grid item xs={4}>
           <AuthUserSummary />
           <Box mt={2} />
-          <UserSuggestions userSuggestions={props.userSuggestions} />
+          {props.userSuggestions.length > 0 && (
+            <UserSuggestions
+              userSuggestions={props.userSuggestions}
+              followingUsers={props.followingUsers}
+            />
+          )}
         </Grid>
       </Grid>
     </Box>
@@ -59,13 +57,13 @@ type Props = ReturnType<typeof mapStateToProps> &
 const mapStateToProps = (state: ApplicationState) => ({
   userSuggestions: state.feed.userSuggestions,
   authUser: state.auth.user,
+
+  followingUsers: state.auth.followingUsers,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setFeedResources: (feedResources: FeedResourceDto[]) =>
     dispatch(setFeedResources(feedResources)),
-
-  setAuthProfile: (userInfo: UserInfoDto) => dispatch(setAuthProfile(userInfo)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedPage)
