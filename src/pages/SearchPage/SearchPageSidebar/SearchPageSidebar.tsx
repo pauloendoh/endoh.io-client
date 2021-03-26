@@ -1,23 +1,9 @@
-import {
-  Box,
-  Grid,
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
-} from "@material-ui/core"
-import React, { useEffect, useState } from "react"
-import { useLocation } from "react-router"
-import Flex from "../../../components/shared/Flexboxes/Flex"
-import SkillChip from "../../../components/skillbase/SkillChip/SkillChip"
-import API from "../../../consts/API"
-import MY_AXIOS from "../../../consts/MY_AXIOS"
-import { SearchResultsDto } from "../../../dtos/utils/SearchResultsDto"
-import LoadingPage from "../../index/LoadingPage"
-import ResourceList from "../../Relearn/Content/ResourceList/ResourceList"
+import { List, ListItem, ListItemText } from "@material-ui/core"
+import React from "react"
+import { FilterByType } from "../SearchPage"
 
 // PE 3/3
-const SearchPageSidebar = () => {
+const SearchPageSidebar = (props: Props) => {
   return (
     <List
       component="nav"
@@ -27,33 +13,50 @@ const SearchPageSidebar = () => {
       <ListItem
         style={{ marginBottom: 32 }}
         button
-        // selected={tagId === undefined}
+        selected={props.value === "all"}
+        onClick={() => {
+          props.onChange("all")
+        }}
       >
         <ListItemText>All</ListItemText>
       </ListItem>
 
       <ListItem
         button
-        // selected={tagId === undefined}
+        selected={props.value === "resources"}
+        onClick={() => {
+          props.onChange("resources")
+        }}
       >
         <ListItemText>Your Resources</ListItemText>
       </ListItem>
 
       <ListItem
         button
-        // selected={tagId === undefined}
+        selected={props.value === "users"}
+        onClick={() => {
+          props.onChange("users")
+        }}
       >
         <ListItemText>Users</ListItemText>
       </ListItem>
 
       <ListItem
         button
-        // selected={tagId === undefined}
+        selected={props.value === "skills"}
+        onClick={() => {
+          props.onChange("skills")
+        }}
       >
         <ListItemText>Your Skills</ListItemText>
       </ListItem>
     </List>
   )
+}
+
+interface Props {
+  value: FilterByType
+  onChange: (filterBy: FilterByType) => void
 }
 
 export default SearchPageSidebar

@@ -11,9 +11,11 @@ export interface ResourceDto {
     dueDate: string;
     rating: number
     completedAt: string,
-    position: number, 
-    publicReview: string, 
-    privateNote: string, 
+    position: number,
+    publicReview: string,
+    privateNote: string,
+
+    fromResourceId: number,
 
     createdAt: string
     updatedAt: string
@@ -31,8 +33,10 @@ export const newResourceDto = (): ResourceDto => ({
     rating: null,
     completedAt: '',
     position: null,
-    publicReview: '', 
-    privateNote: '', 
+    publicReview: '',
+    privateNote: '',
+
+    fromResourceId: null,
 
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),

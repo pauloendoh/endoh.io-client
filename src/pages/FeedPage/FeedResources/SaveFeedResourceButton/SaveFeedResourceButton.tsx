@@ -19,6 +19,7 @@ const SaveFeedResourceButton = (props: Props) => {
     const resource = newResourceDto()
     const { feedResource } = props
 
+    resource.fromResourceId = feedResource.id
     resource.title = feedResource.title
     resource.url = feedResource.url
     resource.thumbnail = feedResource.thumbnail

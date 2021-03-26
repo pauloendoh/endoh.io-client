@@ -38,7 +38,7 @@ import * as utilsActions from "../../../store/utils/utilsActions"
 import { urlIsValid } from "../../../utils/url/isValidUrl"
 import SaveCancelButtons from "../../../components/shared/Buttons/SaveCancelButtons"
 
-// PE 1/3 - tá muito grande;; mudar para ResourceDialog
+// PE 1/3 - tá muito grande
 const ResourceDialog = (props: Props) => {
   const [isFetchingLinkPreview, setIsFetchingLinkPreview] = useState(false)
 

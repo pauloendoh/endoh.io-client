@@ -1,11 +1,11 @@
-import ScheduleIcon from "@material-ui/icons/Schedule"
-import EventIcon from "@material-ui/icons/Event"
-
-import DoneIcon from "@material-ui/icons/Done"
 import { faGlobeAmericas, faLock } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Box, Link, makeStyles, Typography } from "@material-ui/core"
 import RootRef from "@material-ui/core/RootRef"
+import DoneIcon from "@material-ui/icons/Done"
+import EventIcon from "@material-ui/icons/Event"
+import ScheduleIcon from "@material-ui/icons/Schedule"
+import { DateTime } from "luxon"
 import React, { useRef, useState } from "react"
 import { useDrag, useDrop } from "react-dnd"
 import { connect } from "react-redux"
@@ -23,11 +23,8 @@ import * as relearnActions from "../../../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../../../store/store"
 import * as utilsActions from "../../../../../store/utils/utilsActions"
 import { validateEstimatedTime } from "../../../../../utils/relearn/validateEstimatedTime"
-import { getDomainFromUrl } from "../../../../../utils/url/getDomainFromUrl"
-import { urlIsValid } from "../../../../../utils/url/isValidUrl"
 import ResourceMoreIcon from "./ResourceMoreIcon/ResourceMoreIcon"
 import ResourceThumbnail from "./ResourceThumbnail/ResourceThumbnail"
-import { DateTime } from "luxon"
 
 // PE 1/3
 function ResourceItem(props: Props) {
@@ -87,7 +84,6 @@ function ResourceItem(props: Props) {
   })
 
   dragRef(dropRef(ref))
-  // const StyledFlex = styled(Flex)``
 
   const handleSaveRating = (rating: number) => {
     const resource = { ...props.resource, rating } as ResourceDto
@@ -120,60 +116,6 @@ function ResourceItem(props: Props) {
 
         <Box flexGrow={1}>
           <Flex className={classes.firstRow}>
-            {/* 'More' icon - PE 1/3 - can be a specific component */}
-            {/* <Box>
-              {urlIsValid(props.resource.url) ? (
-                <>
-                  <Link
-                    className={classes.link}
-                    href={props.resource.url}
-                    target="_blank"
-                  >
-                    {props.resource.title}
-                  </Link>
-                  <span
-                    style={{
-                      marginRight: 16,
-                      display: "inline-flex",
-                      opacity: 0.75,
-                    }}
-                  >
-                    ({getDomainFromUrl(props.resource.url)})
-                  </span>
-                </>
-              ) : (
-                <span style={{ marginRight: 16 }}>{props.resource.title}</span>
-              )} */}
-
-            {/* {props.resource.estimatedTime.length > 0 && (
-                <span
-                  style={{
-                    marginRight: 16,
-                    display: "inline-flex",
-                    position: "relative",
-                    top: 5,
-                  }}
-                >
-                  <ScheduleIcon fontSize="small" />
-                  {props.resource.estimatedTime}
-                </span>
-              )} */}
-
-            {/* {props.resource.dueDate.length > 0 && (
-                <span
-                  style={{
-                    display: "inline-flex",
-                    marginRight: 16,
-                    position: "relative",
-                    top: 5,
-                  }}
-                >
-                  <EventIcon fontSize="small" />
-                  {DateTime.fromISO(props.resource.dueDate).toFormat("LLL dd")}
-                </span>
-              )} */}
-            {/* </Box> */}
-
             <Box>
               <Typography>{props.resource.title}</Typography>
               {props.resource.url.length > 0 && (

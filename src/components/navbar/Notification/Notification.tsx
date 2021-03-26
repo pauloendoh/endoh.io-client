@@ -20,6 +20,7 @@ import PATHS from "../../../consts/PATHS"
 import { NotificationDto } from "../../../dtos/utils/NotificationDto"
 import { setNotifications } from "../../../store/auth/authActions"
 import { ApplicationState } from "../../../store/store"
+import Flex from "../../shared/Flexboxes/Flex"
 import FlexHCenter from "../../shared/Flexboxes/FlexHCenter"
 import FlexVCenter from "../../shared/Flexboxes/FlexVCenter"
 import ProfilePicture from "../../shared/ProfilePicture/ProfilePicture"
@@ -79,28 +80,35 @@ const Notification = (props: Props) => {
         >
           {props.notifications.map((not) => (
             <MenuItem key={not.id} className={classes.menuItem}>
-              <FlexVCenter my={1}>
-                <FlexHCenter width={20}>
-                  {!not.seen && (
-                    <FontAwesomeIcon icon={faCircle} className={classes.dot} />
-                  )}
-                </FlexHCenter>
+              <Flex>
+                <FlexVCenter mt={1} height="fit-content">
+                  <FlexHCenter width={20}>
+                    {!not.seen && (
+                      <FontAwesomeIcon
+                        icon={faCircle}
+                        className={classes.dot}
+                      />
+                    )}
+                  </FlexHCenter>
 
-                <ProfilePicture
-                  pictureUrl={not.pictureUrl}
-                  isLink
-                  username={not.username}
-                />
+                  <ProfilePicture
+                    pictureUrl={not.pictureUrl}
+                    isLink
+                    username={not.username}
+                  />
+                </FlexVCenter>
 
                 <Box ml={2}>
-                  <Box>{not.message}</Box>
+                  <Box>
+                    <Typography>{not.message}</Typography>
+                  </Box>
                   <Box>
                     <Typography variant="body2" color="primary">
                       <ReactTimeago date={not.createdAt} live={false} />
                     </Typography>
                   </Box>
                 </Box>
-              </FlexVCenter>
+              </Flex>
             </MenuItem>
           ))}
         </Menu>
@@ -112,6 +120,8 @@ const Notification = (props: Props) => {
 const useStyles = makeStyles((theme) => ({
   menu: {},
   menuItem: {
+    whiteSpace: "normal",
+    width: 450,
     paddingLeft: 8,
   },
   dot: {

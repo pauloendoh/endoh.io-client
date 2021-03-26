@@ -53,7 +53,9 @@ const Navbar = (props: Props) => {
           <Button variant="text" href="/" className={classes.logoButton}>
             <Typography variant="h5">
               <FlexVCenter>
-                <FontAwesomeIcon icon={faFire} className={classes.fireIcon} />
+                <Button component={Link} to={PATHS.index}>
+                  <FontAwesomeIcon icon={faFire} className={classes.fireIcon} />
+                </Button>
 
                 {/* <Box ml={1}>endoh.io</Box> */}
               </FlexVCenter>
@@ -131,6 +133,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     fireIcon: {
       color: theme.palette.secondary.main,
+      width: "24px !important",
+      height: "24px !important",
     },
 
     tabs: {
