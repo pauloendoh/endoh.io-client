@@ -19,7 +19,7 @@ const LandingPageDescription = () => {
       <FlexHCenter mt={1}>
         {/* TODO: create a utils/SecondaryTxt */}
         <Typography variant="subtitle1">
-          A suite of self-awareness tools
+          A suite of self-learning tools
         </Typography>
       </FlexHCenter>
     </FlexHCenter>
@@ -28,11 +28,11 @@ const LandingPageDescription = () => {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    [theme.breakpoints.up('xs')]:{
-      marginTop: 32
+    [theme.breakpoints.up("xs")]: {
+      marginTop: 32,
     },
-    [theme.breakpoints.down('xs')]:{
-      marginTop: 16
+    [theme.breakpoints.down("xs")]: {
+      marginTop: 16,
     },
   },
   fireIcon: {

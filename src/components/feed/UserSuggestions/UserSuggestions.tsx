@@ -1,11 +1,4 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Link,
-  makeStyles,
-  Typography,
-} from "@material-ui/core"
+import { Box, Button, Link, makeStyles, Typography } from "@material-ui/core"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Link as RouterLink } from "react-router-dom"
@@ -14,7 +7,6 @@ import PATHS from "../../../consts/PATHS"
 import { FollowingUserDto } from "../../../dtos/feed/FollowingUserDto"
 import { UserSuggestionDto } from "../../../dtos/feed/UserSuggestionDto"
 import { ApplicationState } from "../../../store/store"
-import Flex from "../../shared/Flexboxes/Flex"
 import FlexVCenter from "../../shared/Flexboxes/FlexVCenter"
 import ProfilePicture from "../../shared/ProfilePicture/ProfilePicture"
 import UserSuggestionsDialog from "./UserSuggestionsDialog/UserSuggestionsDialog"

@@ -1,20 +1,13 @@
 import {
   Box,
   createStyles,
-  IconButton,
   ListItem,
-  ListItemIcon,
   ListItemText,
   makeStyles,
-  Menu,
-  MenuItem,
   Theme,
   Typography,
 } from "@material-ui/core"
-import DeleteIcon from "@material-ui/icons/Delete"
-import EditIcon from "@material-ui/icons/Edit"
 import LabelIcon from "@material-ui/icons/Label"
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
 import API from "consts/API"
 import MY_AXIOS from "consts/MY_AXIOS"
 import React, { useEffect, useState } from "react"

@@ -1,25 +1,21 @@
 import {
-  Avatar,
   Box,
-  Button,
   Dialog,
   DialogContent,
   DialogTitle,
   Link,
-  List,
-  ListItem,
 } from "@material-ui/core"
 import React from "react"
 import { connect } from "react-redux"
 import { Link as RouterLink, useParams } from "react-router-dom"
 import { Dispatch } from "redux"
-import Flex from "../../shared//Flexboxes/Flex"
 import PATHS from "../../../consts/PATHS"
 import { FollowingTagDto } from "../../../dtos/feed/FollowingTagDto"
+import { FollowingUserDto } from "../../../dtos/feed/FollowingUserDto"
 import { setFollowingTags } from "../../../store/auth/authActions"
 import { ApplicationState } from "../../../store/store"
 import * as utilsActions from "../../../store/utils/utilsActions"
-import { FollowingUserDto } from "../../../dtos/feed/FollowingUserDto"
+import Flex from "../../shared//Flexboxes/Flex"
 import ProfilePicture from "../../shared/ProfilePicture/ProfilePicture"
 
 // PE 2/3
