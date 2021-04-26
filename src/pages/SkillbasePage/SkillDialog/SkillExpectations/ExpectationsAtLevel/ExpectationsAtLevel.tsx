@@ -112,7 +112,13 @@ const ExpectationsAtLevel = (props: Props) => {
                 style={{ cursor: "pointer" }}
                 onClick={() => setEditingIndex(i)}
               >
-                <Typography>{expectation.description}</Typography>
+                <Typography>
+                  {expectation.checked ? (
+                    <s>{expectation.description}</s>
+                  ) : (
+                    expectation.description
+                  )}
+                </Typography>
               </Box>
             )}
           </Box>
