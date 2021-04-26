@@ -120,10 +120,11 @@ const SkillDialog = (props: Props) => {
                     required
                   />
                 </FlexVCenter>
-              </DialogTitle>
 
-              <DialogContent>
-                <FlexVCenter>
+                <FlexVCenter
+                  mt={1}
+                  style={{ fontSize: 14, fontWeight: "normal" }}
+                >
                   <SelectSkillLevel
                     type="currentLevel"
                     value={values.currentLevel}
@@ -140,18 +141,10 @@ const SkillDialog = (props: Props) => {
                     }}
                   />
                 </FlexVCenter>
+              </DialogTitle>
 
-                <Box mt={2}>
-                  {/* <SelectDependencies
-                    parentSkillId={values.id}
-                    selected={values.dependencies}
-                    onChange={(e, values) => {
-                      setFieldValue("dependencies", values)
-                    }}
-                  /> */}
-                </Box>
-
-                <Box mt={2}>
+              <DialogContent>
+                <Box>
                   <SelectTag
                     tagId={values.tagId}
                     onChange={(e, value) => {
