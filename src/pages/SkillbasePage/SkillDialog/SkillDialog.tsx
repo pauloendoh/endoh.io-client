@@ -174,6 +174,7 @@ const SkillDialog = (props: Props) => {
 
                 <Box mt={2} maxHeight={450}>
                   <SkillExpectations
+                    currentLevel={values.currentLevel}
                     expectations={values.expectations}
                     onChangeExpectations={(expectations) =>
                       setFieldValue("expectations", expectations)

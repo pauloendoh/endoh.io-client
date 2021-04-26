@@ -27,6 +27,7 @@ const SkillExpectations = (props: Props) => {
             key={level}
             expectations={props.expectations}
             level={level}
+            isHighlighted={props.currentLevel + 1 === level}
             onChangeExpectations={props.onChangeExpectations}
           />
         ))}
@@ -40,6 +41,7 @@ const mapStateToProps = (state: ApplicationState) => ({})
 const mapDispatchToProps = (dispatch: Dispatch) => ({})
 
 interface OwnProps {
+  currentLevel: number
   expectations: SkillExpectationDto[]
   onChangeExpectations: (expectations: SkillExpectationDto[]) => void
 }

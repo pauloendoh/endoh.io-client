@@ -85,7 +85,9 @@ const ExpectationsAtLevel = (props: Props) => {
   return (
     <Box mt={3}>
       <Element name={`expectation-title-${props.level}`} />
-      <Typography>
+      <Typography
+        style={{ color: props.isHighlighted ? "#ffb400" : "inherit" }}
+      >
         <b>
           {props.level} - {getLevelDescription(props.level)}
         </b>
@@ -194,6 +196,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({})
 interface OwnProps {
   expectations: SkillExpectationDto[]
   level: number
+  isHighlighted: boolean
   onChangeExpectations: (expectations: SkillExpectationDto[]) => void
 }
 
