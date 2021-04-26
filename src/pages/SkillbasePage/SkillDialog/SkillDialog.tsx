@@ -48,7 +48,7 @@ const SkillDialog = (props: Props) => {
             delay: 100,
             smooth: true,
             containerId: "scroll-container",
-            offset: 250, // Scrolls to element + 50 pixels down the page
+            offset: 0, // Scrolls to element + 50 pixels down the page
           }
         )
       }, 300)
