@@ -30,6 +30,7 @@ import { ApplicationState } from "../../../store/store"
 import * as utilsActions from "../../../store/utils/utilsActions"
 import SelectSkillLevel from "./SelectSkillLevel/SelectSkillLevel"
 import SelectTag from "./SelectTag/SelectTag"
+import SkillExpectations from "./SkillExpectations/SkillExpectations"
 
 // PE 2/3
 const SkillDialog = (props: Props) => {
@@ -66,7 +67,7 @@ const SkillDialog = (props: Props) => {
       }}
       open={!!props.editingSkill}
       fullWidth
-      maxWidth="xs"
+      maxWidth="sm"
       aria-labelledby="skill-dialog"
     >
       <Box pb={1} px={1}>
@@ -122,26 +123,23 @@ const SkillDialog = (props: Props) => {
               </DialogTitle>
 
               <DialogContent>
-                <Grid container alignItems="center" spacing={2}>
-                  <Grid item xs={6}>
-                    <SelectSkillLevel
-                      type="currentLevel"
-                      value={values.currentLevel}
-                      onChange={(newValue: number) => {
-                        setFieldValue("currentLevel", newValue)
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <SelectSkillLevel
-                      type="goalLevel"
-                      value={values.goalLevel}
-                      onChange={(newValue: number) => {
-                        setFieldValue("goalLevel", newValue)
-                      }}
-                    />
-                  </Grid>
-                </Grid>
+                <FlexVCenter>
+                  <SelectSkillLevel
+                    type="currentLevel"
+                    value={values.currentLevel}
+                    onChange={(newValue: number) => {
+                      setFieldValue("currentLevel", newValue)
+                    }}
+                  />
+                  <Box ml={4} />
+                  <SelectSkillLevel
+                    type="goalLevel"
+                    value={values.goalLevel}
+                    onChange={(newValue: number) => {
+                      setFieldValue("goalLevel", newValue)
+                    }}
+                  />
+                </FlexVCenter>
 
                 <Box mt={2}>
                   {/* <SelectDependencies
@@ -159,6 +157,15 @@ const SkillDialog = (props: Props) => {
                     onChange={(e, value) => {
                       setFieldValue("tagId", value)
                     }}
+                  />
+                </Box>
+
+                <Box mt={2}>
+                  <SkillExpectations
+                    expectations={values.expectations}
+                    onChangeExpectations={(expectations) =>
+                      setFieldValue("expectations", expectations)
+                    }
                   />
                 </Box>
 
