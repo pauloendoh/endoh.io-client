@@ -1,18 +1,19 @@
-import DeleteIcon from "@material-ui/icons/Delete"
 import { Box, Button, Checkbox, Typography, useTheme } from "@material-ui/core"
 import React, { useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
-import { SkillExpectationDto } from "../../../../../dtos/skillbase/SkillExpectationDto"
-import { ApplicationState } from "../../../../../store/store"
-import { createSkillExpectation } from "../../../../../dtos/skillbase/SkillExpectationDto"
 import Flex from "../../../../../components/shared/Flexboxes/Flex"
-import MyTextField from "../../../../../components/shared/MyInputs/MyTextField"
+import {
+  createSkillExpectation,
+  SkillExpectationDto,
+} from "../../../../../dtos/skillbase/SkillExpectationDto"
+import { ApplicationState } from "../../../../../store/store"
 import ExpectationTextarea from "./ExpectationTextarea/ExpectationTextarea"
 
 const ExpectationsAtLevel = (props: Props) => {
   const theme = useTheme()
   const [editingIndex, setEditingIndex] = useState<number>(null)
+  const [isAddingNew, setIsAddingNew] = useState(false)
 
   const handleAddExpectation = () => {
     const newExpectation = createSkillExpectation(
@@ -23,18 +24,8 @@ const ExpectationsAtLevel = (props: Props) => {
     const expectations = [...props.expectations]
     expectations.push(newExpectation)
 
-    changeExpectations(expectations)
     setEditingIndex(newExpectation.index)
-  }
-
-  const filterAndSortExpectations = () => {
-    return props.expectations
-      .filter((expectation) => expectation.level === props.level)
-      .sort((a, b) => {
-        if (a.index > b.index) return 1
-        if (a.index < b.index) return -1
-        return 0
-      })
+    changeExpectations(expectations)
   }
 
   const handleCheck = (
@@ -51,33 +42,41 @@ const ExpectationsAtLevel = (props: Props) => {
     )
   }
 
-  const editDescription = (
-    expectation: SkillExpectationDto,
-    newDescription: string
-  ) => {
-    changeExpectations(
-      props.expectations.map((e) => {
-        if (e.index === expectation.index && e.level === expectation.level) {
-          e.description = newDescription
-        }
-        return e
-      })
-    )
+  const editDescription = (index: number, newDescription: string) => {
+    // remove
+    if (newDescription.trim().length === 0) {
+      changeExpectations(
+        props.expectations.filter((e) => {
+          if (e.index === index && e.level === props.level) return false
+          return true
+        })
+      )
+    } else {
+      // update
+      changeExpectations(
+        props.expectations.map((e) => {
+          if (e.index === index && e.level === props.level) {
+            e.description = newDescription
+          }
+          return e
+        })
+      )
+    }
   }
 
   const changeExpectations = (expectations: SkillExpectationDto[]) => {
-    if (editingIndex === null) {
-      // won't filter out if you're still editing. Eg: just after adding new expectation
-      props.onChangeExpectations(expectations)
-    } else {
-      // filtering out expectations with no description
-      const filtered = expectations.filter(
-        (e) => e.description.trim().length > 0
-      )
-      props.onChangeExpectations(filtered)
-    }
+    const otherLevelsExpectations = expectations.filter(
+      (e) => e.level !== props.level
+    )
+    const thisLevelExpectation = filterAndSortExpectations(
+      expectations,
+      props.level
+    ).map((exp, index) => ({ ...exp, index }))
 
-    setEditingIndex(null)
+    props.onChangeExpectations([
+      ...otherLevelsExpectations,
+      ...thisLevelExpectation,
+    ])
   }
 
   return (
@@ -88,42 +87,45 @@ const ExpectationsAtLevel = (props: Props) => {
         </b>
       </Typography>
 
-      {filterAndSortExpectations().map((expectation, i) => (
-        <Flex key={i}>
-          <Box>
-            <Checkbox
-              onChange={(event) => handleCheck(event, expectation)}
-              checked={expectation.checked}
-              color="primary"
-            />
-          </Box>
-
-          <Box width="100%" position="relative">
-            {editingIndex === i ? (
-              <ExpectationTextarea
-                initialValue={expectation.description}
-                onSave={(newDescription) => {
-                  editDescription(expectation, newDescription)
-                }}
+      {filterAndSortExpectations(props.expectations, props.level).map(
+        (expectation, i) => (
+          <Flex key={i}>
+            <Box>
+              <Checkbox
+                onChange={(event) => handleCheck(event, expectation)}
+                checked={expectation.checked}
+                color="primary"
               />
-            ) : (
-              <Box
-                pt={1}
-                style={{ cursor: "pointer" }}
-                onClick={() => setEditingIndex(i)}
-              >
-                <Typography>
-                  {expectation.checked ? (
-                    <s>{expectation.description}</s>
-                  ) : (
-                    expectation.description
-                  )}
-                </Typography>
-              </Box>
-            )}
-          </Box>
-        </Flex>
-      ))}
+            </Box>
+
+            <Box width="100%" position="relative">
+              {editingIndex === i ? (
+                <ExpectationTextarea
+                  initialValue={expectation.description}
+                  onSave={(newDescription) => {
+                    editDescription(i, newDescription)
+                    setEditingIndex(null)
+                  }}
+                />
+              ) : (
+                <Box
+                  pt={1}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setEditingIndex(i)}
+                >
+                  <Typography>
+                    {expectation.checked ? (
+                      <s>{expectation.description}</s>
+                    ) : (
+                      expectation.description
+                    )}
+                  </Typography>
+                </Box>
+              )}
+            </Box>
+          </Flex>
+        )
+      )}
 
       <Box mt={0.5} ml={1}>
         {editingIndex === null && (
@@ -141,6 +143,19 @@ const ExpectationsAtLevel = (props: Props) => {
       </Box>
     </Box>
   )
+}
+
+const filterAndSortExpectations = (
+  expectations: SkillExpectationDto[],
+  level: number
+) => {
+  return expectations
+    .filter((expectation) => expectation.level === level)
+    .sort((a, b) => {
+      if (a.index > b.index) return 1
+      if (a.index < b.index) return -1
+      return 0
+    })
 }
 
 const getLevelDescription = (level: number) => {
