@@ -160,7 +160,7 @@ const SkillDialog = (props: Props) => {
                   />
                 </Box>
 
-                <Box mt={2}>
+                <Box mt={2} maxHeight={450}>
                   <SkillExpectations
                     expectations={values.expectations}
                     onChangeExpectations={(expectations) =>
@@ -168,7 +168,8 @@ const SkillDialog = (props: Props) => {
                     }
                   />
                 </Box>
-
+              </DialogContent>
+              <DialogTitle>
                 <Flex mt={2}>
                   {/* This save & cancel button is recurrent. Should I create one for it? */}
                   <Button
@@ -190,7 +191,7 @@ const SkillDialog = (props: Props) => {
                     </Button>
                   </Box>
                 </Flex>
-              </DialogContent>
+              </DialogTitle>
             </Form>
           )}
         </Formik>
