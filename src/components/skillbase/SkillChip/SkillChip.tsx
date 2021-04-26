@@ -54,7 +54,7 @@ function SkillChip(props: Props) {
         )}
 
         {/* skill expectations? */}
-        {props.skill.expectations.length > 0 && (
+        {props.skill.expectations?.length > 0 && (
           <FlexVCenter ml={0.5}>
             <Tooltip
               title={`${
