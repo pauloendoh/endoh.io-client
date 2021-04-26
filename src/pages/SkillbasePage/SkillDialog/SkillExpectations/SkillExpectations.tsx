@@ -6,7 +6,7 @@ import { SkillExpectationDto } from "../../../../dtos/skillbase/SkillExpectation
 import { ApplicationState } from "../../../../store/store"
 import ExpectationsAtLevel from "./ExpectationsAtLevel/ExpectationsAtLevel"
 const SkillExpectations = (props: Props) => {
-  const [isExpanded, setIsExpanded] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(true)
   const theme = useTheme()
 
   const levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
