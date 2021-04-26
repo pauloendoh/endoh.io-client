@@ -55,14 +55,14 @@ function SkillChip(props: Props) {
 
         {/* skill expectations? */}
         {props.skill.expectations.length > 0 && (
-          <FlexVCenter ml={1}>
+          <FlexVCenter ml={0.5}>
             <Tooltip
               title={`${
                 props.skill.expectations.filter((e) => e.checked === true)
                   .length
               }/${props.skill.expectations.length} expectations`}
             >
-              <AssignmentIcon />
+              <AssignmentIcon fontSize="small" />
             </Tooltip>
           </FlexVCenter>
         )}
