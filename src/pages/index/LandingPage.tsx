@@ -11,7 +11,6 @@ import React, { useEffect } from "react"
 import { Link as ScrollLink } from "react-scroll"
 import FooterDescription from "../../components/descriptions/FooterDescription"
 import LandingPageDescription from "../../components/descriptions/LandingPageDescription"
-import MonerateDescription from "../../components/descriptions/MonerateDescription"
 import RelearnDescription from "../../components/descriptions/RelearnDescription"
 import AuthForm from "./AuthForm/AuthForm"
 

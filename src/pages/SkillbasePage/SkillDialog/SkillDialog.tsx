@@ -13,8 +13,9 @@ import {
 import StarIcon from "@material-ui/icons/Star"
 import clsx from "clsx"
 import { Form, Formik } from "formik"
-import React from "react"
+import React, { useEffect } from "react"
 import { connect } from "react-redux"
+import { scroller } from "react-scroll"
 import { Dispatch } from "redux"
 import Flex from "../../../components/shared/Flexboxes/Flex"
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
@@ -35,6 +36,24 @@ import SkillExpectations from "./SkillExpectations/SkillExpectations"
 // PE 2/3
 const SkillDialog = (props: Props) => {
   const classes = useStyles()
+
+  useEffect(() => {
+    if (props.editingSkill?.currentLevel > 0) {
+      setTimeout(() => {
+        console.log("xd")
+        scroller.scrollTo(
+          "expectation-title-" + (props.editingSkill?.currentLevel + 1),
+          {
+            duration: 500,
+            delay: 100,
+            smooth: true,
+            containerId: "scroll-container",
+            offset: 250, // Scrolls to element + 50 pixels down the page
+          }
+        )
+      }, 300)
+    }
+  }, [props.editingSkill])
 
   const handleSubmit = (
     skill: SkillDto,
@@ -143,7 +162,7 @@ const SkillDialog = (props: Props) => {
                 </FlexVCenter>
               </DialogTitle>
 
-              <DialogContent>
+              <DialogContent id="scroll-container">
                 <Box>
                   <SelectTag
                     tagId={values.tagId}

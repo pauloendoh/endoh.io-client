@@ -1,6 +1,7 @@
 import { Box, Button, Checkbox, Typography, useTheme } from "@material-ui/core"
 import React, { useState } from "react"
 import { connect } from "react-redux"
+import { Element } from "react-scroll"
 import { Dispatch } from "redux"
 import Flex from "../../../../../components/shared/Flexboxes/Flex"
 import {
@@ -68,6 +69,8 @@ const ExpectationsAtLevel = (props: Props) => {
     const otherLevelsExpectations = expectations.filter(
       (e) => e.level !== props.level
     )
+
+    // Fixing this level's indexes
     const thisLevelExpectation = filterAndSortExpectations(
       expectations,
       props.level
@@ -81,6 +84,7 @@ const ExpectationsAtLevel = (props: Props) => {
 
   return (
     <Box mt={3}>
+      <Element name={`expectation-title-${props.level}`} />
       <Typography>
         <b>
           {props.level} - {getLevelDescription(props.level)}
