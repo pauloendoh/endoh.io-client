@@ -50,7 +50,7 @@ const Navbar = (props: Props) => {
         <FlexVCenter>
           <LeftToggleButton />
 
-          <Button variant="text" href="/" className={classes.logoButton}>
+          <Button className={classes.logoButton}>
             <Typography variant="h5">
               <FlexVCenter>
                 <Button component={Link} to={PATHS.index}>
@@ -89,6 +89,7 @@ const Navbar = (props: Props) => {
               to={PATHS.feed.index}
             />
             <Tab
+              id="skill-tab"
               className={classes.tab}
               label={`Skills`}
               component={Link}

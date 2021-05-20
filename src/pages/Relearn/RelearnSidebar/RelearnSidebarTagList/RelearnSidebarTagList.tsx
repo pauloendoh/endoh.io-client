@@ -63,6 +63,7 @@ function RelearnSidebarTagList(props: Props) {
             handleAddTag()
           }}
           size="small"
+          id={`add-${props.type}-tag`}
         >
           <AddIcon />
         </IconButton>

@@ -1,16 +1,9 @@
-import {
-  Box,
-  Button,
-  Grid,
-  makeStyles,
-  Paper,
-  Typography,
-  useTheme,
-} from "@material-ui/core"
+import { Box, Button, Grid, Paper, Typography } from "@material-ui/core"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { useLocation } from "react-router"
 import { Dispatch } from "redux"
+import DarkButton from "../../components/shared/Buttons/DarkButton"
 import Flex from "../../components/shared/Flexboxes/Flex"
 import FlexVCenter from "../../components/shared/Flexboxes/FlexVCenter"
 import SkillChip from "../../components/skillbase/SkillChip/SkillChip"
@@ -28,7 +21,6 @@ export type FilterByType = "all" | "resources" | "users" | "skills"
 // PE 3/3
 const SearchPage = (props: Props) => {
   const location = useLocation()
-  const classes = useStyles()
 
   const [q, setQ] = useState("")
 
@@ -118,15 +110,16 @@ const SearchPage = (props: Props) => {
 
                             {results.resources.length > 3 &&
                               filterBy === "all" && (
-                                <Button
-                                  className={classes.moreButton}
-                                  fullWidth
-                                  onClick={() => {
-                                    setFilterBy("resources")
-                                  }}
-                                >
-                                  Show More
-                                </Button>
+                                <Box mt={2}>
+                                  <DarkButton
+                                    fullWidth
+                                    onClick={() => {
+                                      setFilterBy("resources")
+                                    }}
+                                  >
+                                    Show More
+                                  </DarkButton>
+                                </Box>
                               )}
                           </Box>
                         </Paper>
@@ -153,15 +146,16 @@ const SearchPage = (props: Props) => {
                             />
 
                             {results.users.length > 3 && filterBy === "all" && (
-                              <Button
-                                className={classes.moreButton}
-                                fullWidth
-                                onClick={() => {
-                                  setFilterBy("users")
-                                }}
-                              >
-                                Show More
-                              </Button>
+                              <Box mt={2}>
+                                <DarkButton
+                                  fullWidth
+                                  onClick={() => {
+                                    setFilterBy("users")
+                                  }}
+                                >
+                                  Show More
+                                </DarkButton>
+                              </Box>
                             )}
                           </Box>
                         </Paper>
@@ -198,13 +192,6 @@ const SearchPage = (props: Props) => {
     </Box>
   )
 }
-
-const useStyles = makeStyles((theme) => ({
-  moreButton: {
-    marginTop: 16,
-    background: theme.palette.grey[800],
-  },
-}))
 
 const mapStateToProps = (state: ApplicationState) => ({
   resources: state.relearn.resources,

@@ -84,7 +84,8 @@ const ResourceDialog = (props: Props) => {
           MY_AXIOS.get<LinkPreviewDto>(API.utils.linkPreview + "?url=" + url)
             .then((res) => {
               const preview = res.data
-
+              if (preview.duration !== "00:00h")
+                setFieldValue("estimatedTime", preview.duration)
               setFieldValue("title", preview.title)
               setFieldValue("thumbnail", preview.image)
             })
@@ -174,22 +175,10 @@ const ResourceDialog = (props: Props) => {
                   <Box flexGrow={1}>
                     <Box>
                       <MyTextField
-                        id="title"
-                        name="title"
-                        value={values.title}
-                        inputProps={{ "aria-label": "resource-title-input" }}
-                        label="Title"
-                        required
-                        onChange={handleChange}
-                        fullWidth
-                        autoFocus
-                      />
-                    </Box>
-                    <Box mt={2}>
-                      <MyTextField
                         id="url"
                         name="url"
                         value={values.url}
+                        autoFocus
                         onChange={(e) => {
                           handleChange(e)
 
@@ -200,6 +189,18 @@ const ResourceDialog = (props: Props) => {
                         fullWidth
                         label="URL"
                         error={errors?.url?.length > 0}
+                      />{" "}
+                    </Box>
+                    <Box mt={2}>
+                      <MyTextField
+                        id="title"
+                        name="title"
+                        value={values.title}
+                        inputProps={{ "aria-label": "resource-title-input" }}
+                        label="Title"
+                        required
+                        onChange={handleChange}
+                        fullWidth
                       />
                     </Box>
                     <FlexVCenter justifyContent="space-between">
@@ -347,6 +348,7 @@ const ResourceDialog = (props: Props) => {
 
                 <Box mt={2} />
                 <SaveCancelButtons
+                  submitButtonId="save-resource-button"
                   disabled={isSubmitting}
                   onCancel={() => props.closeResourceDialog()}
                 />

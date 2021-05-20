@@ -97,7 +97,6 @@ const SkillDialog = (props: Props) => {
           }}
           validateOnChange
           validate={(newValues) => {
-            console.log(!_.isEqual(props.skill, newValues))
             setHasChanged(!_.isEqual(props.skill, newValues))
           }}
         >
@@ -162,6 +161,7 @@ const SkillDialog = (props: Props) => {
               </DialogContent>
               <DialogTitle id="skill-dialog-footer">
                 <SaveCancelButtons
+                  submitButtonId="save-skill-btn"
                   disabled={isSubmitting}
                   onCancel={confirmClose}
                 />

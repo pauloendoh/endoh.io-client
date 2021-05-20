@@ -1,6 +1,7 @@
 import { Box } from "@material-ui/core"
 import React, { useEffect, useRef, useState } from "react"
 import { connect } from "react-redux"
+import { useLocation } from "react-router"
 import { Dispatch } from "redux"
 import { SkillDto } from "../../../dtos/skillbase/SkillDto"
 import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto"
@@ -17,8 +18,17 @@ function RelearnContent(props: Props) {
 
   const [headerHeight, setHeaderHeight] = useState(0)
 
+  const previousPathnameRef = useRef("")
+  const location = useLocation()
+
   // PE 2/3 - it's not clear if this props.resources is "ALL RESOURCES" or "RESOURCES FROM LIST"
   useEffect(() => {
+    // When changing to another tag, go to "TO-DO" resources
+    if (location.pathname !== previousPathnameRef.current) {
+      setTabIndex(0)
+      previousPathnameRef.current = location.pathname
+    }
+
     const todo = filterTodo(props.resources).sort(
       (a, b) => a.position - b.position
     )
@@ -37,7 +47,7 @@ function RelearnContent(props: Props) {
   }, [props.resources])
 
   return (
-    <Box m={2} maxWidth={600} >
+    <Box m={2} maxWidth={600}>
       <ContentHeader
         onTabChange={(newTabIndex) => setTabIndex(newTabIndex)}
         tabIndex={tabIndex}

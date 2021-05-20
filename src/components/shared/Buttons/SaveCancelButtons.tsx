@@ -9,7 +9,7 @@ const SaveCancelButtons = (props: Props) => {
         type="submit"
         variant="contained"
         color="primary"
-        id="save-resource-button"
+        id={props.submitButtonId}
         disabled={props.disabled}
         onClick={props.onSave}
       >
@@ -26,6 +26,7 @@ const SaveCancelButtons = (props: Props) => {
 }
 
 interface Props {
+  submitButtonId?: string
   disabled?: boolean
   onSave?: () => void
   onCancel?: () => void

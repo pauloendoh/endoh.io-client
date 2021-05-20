@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@material-ui/core"
 import AccessAlarmIcon from "@material-ui/icons/AccessAlarm"
-import MyTextField from "components/shared/MyInputs/MyTextField"
+import MyTextField from "../../../components/shared/MyInputs/MyTextField"
 import { Form, Formik } from "formik"
 import { AuthUserGetDto } from "interfaces/dtos/AuthUserGetDto"
 import React, { MouseEvent, useState } from "react"

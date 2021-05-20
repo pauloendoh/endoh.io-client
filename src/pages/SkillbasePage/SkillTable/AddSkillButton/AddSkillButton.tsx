@@ -15,6 +15,7 @@ const AddSkillButton = (props: Props) => {
   return (
     <Tooltip title="(q) Quick Add Skill">
       <Button
+        id="add-skill-btn"
         onClick={() =>
           props.setEditingSkill(newSkillDto(getCurrentTagId(location.pathname)))
         }
