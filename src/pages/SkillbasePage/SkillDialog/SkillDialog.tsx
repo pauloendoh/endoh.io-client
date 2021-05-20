@@ -1,23 +1,10 @@
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Grid,
-  IconButton,
-  makeStyles,
-  TextField,
-  Tooltip,
-} from "@material-ui/core"
-import StarIcon from "@material-ui/icons/Star"
-import clsx from "clsx"
+import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core"
 import { Form, Formik } from "formik"
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { scroller } from "react-scroll"
 import { Dispatch } from "redux"
-import Flex from "../../../components/shared/Flexboxes/Flex"
+import SaveCancelButtons from "../../../components/shared/Buttons/SaveCancelButtons"
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
 import API from "../../../consts/API"
 import MY_AXIOS from "../../../consts/MY_AXIOS"
@@ -29,32 +16,46 @@ import {
 } from "../../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../../store/store"
 import * as utilsActions from "../../../store/utils/utilsActions"
+import PriorityStarIcon from "./PriorityStarIcon/PriorityStarIcon"
 import SelectSkillLevel from "./SelectSkillLevel/SelectSkillLevel"
-import SelectTag from "./SelectTag/SelectTag"
+import TagSelector from "./SkillDialogTagSelector/SkillDialogTagSelector"
+import TitleTextField from "./SkillDialogTitleTextField/SkillDialogTitleTextField"
 import SkillExpectations from "./SkillExpectations/SkillExpectations"
+import _ from "lodash"
 
 // PE 2/3
 const SkillDialog = (props: Props) => {
-  const classes = useStyles()
+  const [hasChanged, setHasChanged] = useState(false)
 
   useEffect(() => {
-    if (props.editingSkill?.currentLevel > 0) {
-      setTimeout(() => {
-        console.log("xd")
-        scroller.scrollTo(
-          "expectation-title-" + (props.editingSkill?.currentLevel + 1),
-          {
-            duration: 500,
-            delay: 100,
-            smooth: true,
-            containerId: "scroll-container",
-            offset: 0, // Scrolls to element + 50 pixels down the page
-          }
-        )
-      }, 300)
+    setHasChanged(false)
+    if (props.skill?.currentLevel > 0) {
+      scrollToExpectation()
     }
-  }, [props.editingSkill])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.skill])
 
+  const scrollToExpectation = () => {
+    setTimeout(() => {
+      scroller.scrollTo("expectation-title-" + props.skill?.currentLevel, {
+        containerId: "skill-dialog-content",
+        duration: 500,
+        smooth: true,
+      })
+    }, 0)
+  }
+
+  const confirmClose = () => {
+    if (hasChanged) {
+      if (window.confirm("Discard changes?")) {
+        props.setEditingSkill(null)
+      }
+    } else {
+      props.setEditingSkill(null)
+    }
+  }
+
+  // PE 2/3
   const handleSubmit = (
     skill: SkillDto,
     setSubmitting: (isSubmitting: boolean) => void
@@ -80,66 +81,47 @@ const SkillDialog = (props: Props) => {
   }
 
   return (
-    <Dialog
-      onClose={() => {
-        props.setEditingSkill(null)
-      }}
-      open={!!props.editingSkill}
+    <Dialog // PE 2/3
+      onClose={confirmClose}
+      open={props.skill !== null}
       fullWidth
       maxWidth="sm"
       aria-labelledby="skill-dialog"
     >
+      {/* Maybe I should make a MyDialog or something? With default paddings */}
       <Box pb={1} px={1}>
         <Formik
-          initialValues={props.editingSkill}
+          initialValues={props.skill}
           onSubmit={(formikValues, { setSubmitting }) => {
             handleSubmit(formikValues, setSubmitting)
+          }}
+          validateOnChange
+          validate={(newValues) => {
+            console.log(!_.isEqual(props.skill, newValues))
+            setHasChanged(!_.isEqual(props.skill, newValues))
           }}
         >
           {({ values, setFieldValue, isSubmitting, handleChange }) => (
             <Form>
+              {/* Separate into <SkillDialogTitle skill={skill}/> */}
               <DialogTitle id="skill-dialog-title">
-                <FlexVCenter justifyContent="space-between">
-                  <FlexVCenter mr={2}>
-                    {/* Divide into another component? */}
-                    <Tooltip
-                      title="This skill is a priority in your life right now"
-                      enterDelay={500}
-                      enterNextDelay={500}
-                    >
-                      <IconButton
-                        size="small"
-                        onClick={() => {
-                          setFieldValue("isPriority", !values.isPriority)
-                        }}
-                      >
-                        <StarIcon
-                          className={clsx({
-                            [classes.isNotPriority]: !values.isPriority,
-                            [classes.isPriority]: values.isPriority,
-                          })}
-                        />
-                      </IconButton>
-                    </Tooltip>
-                  </FlexVCenter>
+                <FlexVCenter>
+                  <Box mr={2}>
+                    <PriorityStarIcon
+                      isPriority={values.isPriority}
+                      onClick={() => {
+                        setFieldValue("isPriority", !values.isPriority)
+                      }}
+                    />
+                  </Box>
 
-                  <TextField
-                    className={classes.nameTextField}
-                    fullWidth
-                    placeholder="Untitled skill"
-                    InputProps={{
-                      disableUnderline: true,
-                      className: classes.nameInput,
-                    }}
-                    id={"name"}
-                    name={"name"}
-                    value={values.name}
-                    onChange={handleChange}
-                    autoFocus
-                    required
+                  <TitleTextField
+                    initialValue={values.name}
+                    onChange={(newValue) => setFieldValue("name", newValue)}
                   />
                 </FlexVCenter>
 
+                {/* Separate into <SkillLevelSelectors/> */}
                 <FlexVCenter
                   mt={1}
                   style={{ fontSize: 14, fontWeight: "normal" }}
@@ -162,48 +144,27 @@ const SkillDialog = (props: Props) => {
                 </FlexVCenter>
               </DialogTitle>
 
-              <DialogContent id="scroll-container">
-                <Box>
-                  <SelectTag
-                    tagId={values.tagId}
-                    onChange={(e, value) => {
-                      setFieldValue("tagId", value)
-                    }}
-                  />
-                </Box>
+              <DialogContent id="skill-dialog-content">
+                <TagSelector
+                  valueTagId={values.tagId}
+                  onChange={(e, value) => {
+                    setFieldValue("tagId", value)
+                  }}
+                />
 
-                <Box mt={2} maxHeight={450}>
-                  <SkillExpectations
-                    currentLevel={values.currentLevel}
-                    expectations={values.expectations}
-                    onChangeExpectations={(expectations) =>
-                      setFieldValue("expectations", expectations)
-                    }
-                  />
-                </Box>
+                <SkillExpectations
+                  currentLevel={values.currentLevel}
+                  expectations={values.expectations}
+                  onChangeExpectations={(expectations) =>
+                    setFieldValue("expectations", expectations)
+                  }
+                />
               </DialogContent>
-              <DialogTitle>
-                <Flex mt={2}>
-                  {/* This save & cancel button is recurrent. Should I create one for it? */}
-                  <Button
-                    disabled={isSubmitting}
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    id="save-skill-button"
-                  >
-                    Save
-                  </Button>
-
-                  <Box ml={1}>
-                    <Button
-                      onClick={() => props.setEditingSkill(null)}
-                      variant="text"
-                    >
-                      Cancel
-                    </Button>
-                  </Box>
-                </Flex>
+              <DialogTitle id="skill-dialog-footer">
+                <SaveCancelButtons
+                  disabled={isSubmitting}
+                  onCancel={confirmClose}
+                />
               </DialogTitle>
             </Form>
           )}
@@ -213,23 +174,8 @@ const SkillDialog = (props: Props) => {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
-  nameTextField: {
-    background: "transparent",
-  },
-  nameInput: {
-    fontSize: 24,
-  },
-  isNotPriority: {
-    color: theme.palette.grey[800],
-  },
-  isPriority: {
-    color: "#ffb400",
-  },
-}))
-
 const mapStateToProps = (state: ApplicationState) => ({
-  editingSkill: state.skillbase.editingSkill,
+  skill: state.skillbase.editingSkill,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

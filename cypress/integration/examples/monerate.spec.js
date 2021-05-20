@@ -16,7 +16,7 @@ context('Relearn', () => {
   })
 
   it('should create and delete expense', () => {
-   
+
     const testName = createNewExpense()
 
     const expenseItem = cy.get('.expense-item').eq(0)
@@ -28,15 +28,15 @@ context('Relearn', () => {
     // TODO: show success message
   })
 
-  it("open /settings/monerate/places when clicking 'settings'", () => {
-    cy.get('#user-menu-btn').click()
-    cy.get('#settings-user-menu').click()
+  // it("open /settings/monerate/places when clicking 'settings'", () => {
+  //   cy.get('#user-menu-btn').click()
+  //   cy.get('#settings-user-menu').click()
 
-    cy.location().should((loc) => {
-      expect(loc.pathname).to.eq('/settings/monerate/places')
-    })
-  })
- 
+  //   cy.location().should((loc) => {
+  //     expect(loc.pathname).to.eq('/settings/monerate/places')
+  //   })
+  // })
+
   it("should show 'Edit expense' instead of 'New expense'", () => {
     const testName = createNewExpense()
 

@@ -18,8 +18,12 @@ import { ApplicationState } from "../../store/store"
 import { sleep } from "../../utils/sleep"
 import ProgressSidebar from "./ProgressSidebar/ProgressSidebar"
 import SkillbaseTable from "./SkillTable/SkillbaseTable"
+import { getCurrentTagId } from "../../utils/skillbase/getCurrentTagId"
+import { useLocation } from "react-router"
+
 // PE 3/3
 const SkillbasePage = (props: Props) => {
+  const location = useLocation()
   const classes = useStyles()
 
   useEffect(
@@ -42,7 +46,7 @@ const SkillbasePage = (props: Props) => {
   const handlers = {
     openModal: async () => {
       await sleep(100) // required so it doesn't add 'q' at the title field immediately
-      props.setEditingSkill(newSkillDto)
+      props.setEditingSkill(newSkillDto(getCurrentTagId(location.pathname)))
     },
   }
 

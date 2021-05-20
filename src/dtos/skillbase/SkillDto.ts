@@ -17,10 +17,10 @@ export interface SkillDto {
   updatedAt: string
 }
 
-export const newSkillDto: SkillDto = {
+export const newSkillDto = (tagId: number = null): SkillDto => ({
   id: null,
   userId: null,
-  tagId: null,
+  tagId,
 
   dependencies: [],
   expectations: [],
@@ -32,4 +32,4 @@ export const newSkillDto: SkillDto = {
 
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
-}
+})

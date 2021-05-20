@@ -25,14 +25,14 @@ import MyAxiosError, { MyFieldError } from "../../../interfaces/MyAxiosError"
 import GoogleButton from "./GoogleButton/GoogleButton"
 import PasswordResetForm from "./ResetPasswordByEmailForm"
 
+type FormType = "login" | "register" | "passwordReset"
+
 // PE 1/3 20210109 - Dividir em 3 possíveis forms: login, register, passwordReset
-const AuthForm = (props: Props) => {
+const LandingPageForm = (props: Props) => {
   const classes = useStyles()
 
   // TODO 20210105: substitute signUpIsSelected for this formType
-  const [formType, setFormType] = useState<
-    "login" | "register" | "passwordReset"
-  >("login")
+  const [formType, setFormType] = useState<FormType>("login")
 
   const [responseErrors, setResponseErrors] = useState([] as MyFieldError[])
 
@@ -306,4 +306,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch(AuthActions.setAuthUser(authUser)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthForm)
+export default connect(mapStateToProps, mapDispatchToProps)(LandingPageForm)

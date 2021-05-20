@@ -13,17 +13,17 @@ import MyTextField from "../../../../components/shared/MyInputs/MyTextField"
 import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto"
 import { ApplicationState } from "../../../../store/store"
 
-const SelectTag = (props: Props) => {
+const SkillDialogTagSelector = (props: Props) => {
   const [tag, setTag] = useState<TagDto>(null)
 
   useEffect(
     () => {
-      if (props.tagId) {
-        setTag(props.allTags.find((tag) => tag.id === props.tagId))
+      if (props.valueTagId) {
+        setTag(props.allTags.find((tag) => tag.id === props.valueTagId))
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.tagId]
+    [props.valueTagId]
   )
 
   return (
@@ -70,7 +70,7 @@ const mapStateToProps = (state: ApplicationState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({})
 
 interface OwnProps {
-  tagId: number
+  valueTagId: number
   onChange?: (
     event: React.ChangeEvent<{}>,
     value: unknown,
@@ -83,4 +83,7 @@ type Props = OwnProps &
   ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectTag)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SkillDialogTagSelector)

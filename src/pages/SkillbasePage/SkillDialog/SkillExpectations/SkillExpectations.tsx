@@ -12,7 +12,7 @@ const SkillExpectations = (props: Props) => {
   const levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
   return (
-    <Box>
+    <Box mt={2} maxHeight={450}>
       <Button
         onClick={() => setIsExpanded(!isExpanded)}
         fullWidth
@@ -27,7 +27,7 @@ const SkillExpectations = (props: Props) => {
             key={level}
             expectations={props.expectations}
             level={level}
-            isHighlighted={props.currentLevel + 1 === level}
+            isHighlighted={props.currentLevel === level}
             onChangeExpectations={props.onChangeExpectations}
           />
         ))}

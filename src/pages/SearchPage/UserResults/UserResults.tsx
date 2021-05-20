@@ -16,7 +16,11 @@ const UserResults = (props: Props) => {
         <Flex
           key={profile.userId}
           py={1}
-          borderBottom="1px solid rgb(255 255 255 / 0.1)"
+          borderBottom={
+            i === props.userProfiles.length - 1
+              ? "none"
+              : "1px solid rgb(255 255 255 / 0.1)"
+          }
         >
           <ProfilePicture
             isLink

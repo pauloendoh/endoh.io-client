@@ -1,25 +1,13 @@
-import { Box, Link, makeStyles } from "@material-ui/core"
-import EventIcon from "@material-ui/icons/Event"
-import ScheduleIcon from "@material-ui/icons/Schedule"
-import { DateTime } from "luxon"
+import { Box, Link } from "@material-ui/core"
 import React from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import FlexVCenter from "../../../../../../components/shared/Flexboxes/FlexVCenter"
 import { ResourceDto } from "../../../../../../interfaces/dtos/relearn/ResourceDto"
-// @ts-ignore
 import descriptionPng from "../../../../../../static/images/description.png"
-// @ts-ignore
 import linkPng from "../../../../../../static/images/link.png"
-import { ApplicationState } from "../../../../../../store/store"
-import { validateEstimatedTime } from "../../../../../../utils/relearn/validateEstimatedTime"
 
 // PE 2/3
 function ResourceThumbnail(props: Props) {
-  const classes = useStyles()
-
   const getThumbnailSrc = (resource: ResourceDto): string => {
-    if (resource.thumbnail.length) {
+    if (resource.thumbnail.length > 0) {
       return resource.thumbnail
     }
 
@@ -29,30 +17,24 @@ function ResourceThumbnail(props: Props) {
     return descriptionPng
   }
 
+  const isLink = () => {
+    return props.resource.url.length > 0
+  }
+
   return (
     <Box mr={2}>
       <Box minWidth={50} width={50} position="relative">
-        {/* estimated time */}
-        {/* {validateEstimatedTime(props.resource.estimatedTime) && (
-          <FlexVCenter
-            position="absolute"
-            top={0}
-            right={0}
-            bgcolor="black"
-            fontSize={12}
-          >
-            <ScheduleIcon fontSize="inherit" />
-            {props.resource.estimatedTime}
-          </FlexVCenter>
-        )} */}
-
-        {/* image */}
-        {props.resource.url.length > 0 ? (
+        {isLink() ? (
           <Link href={props.resource.url} target="_blank">
             <img
               style={{ width: "100%" }}
               alt={props.resource.thumbnail}
               src={getThumbnailSrc(props.resource)}
+              // Testing... 20210510
+              onError={(e: any) => {
+                e.target.onerror = null
+                e.target.src = linkPng
+              }}
             />
           </Link>
         ) : (
@@ -82,18 +64,8 @@ function ResourceThumbnail(props: Props) {
   )
 }
 
-const useStyles = makeStyles((theme) => ({}))
-
-const mapStateToProps = (state: ApplicationState) => ({})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
-
-interface OwnProps {
+interface Props {
   resource: ResourceDto
 }
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps
-
-export default connect(mapStateToProps, mapDispatchToProps)(ResourceThumbnail)
+export default ResourceThumbnail

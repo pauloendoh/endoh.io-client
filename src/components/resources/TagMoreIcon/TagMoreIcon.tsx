@@ -7,7 +7,7 @@ import {
   Menu,
   MenuItem,
   Theme,
-  Typography
+  Typography,
 } from "@material-ui/core"
 import DeleteIcon from "@material-ui/icons/Delete"
 import EditIcon from "@material-ui/icons/Edit"
@@ -31,7 +31,7 @@ function TagMoreIcon(props: Props) {
     setAnchorEl(event.currentTarget)
   }
   const handleCloseMore = () => {
-    setAnchorEl(null)
+    setAnchorEl(null) // avoids error "The `anchorEl` prop provided to the component is invalid"
   }
 
   // handleDelete would be better?
@@ -48,23 +48,18 @@ function TagMoreIcon(props: Props) {
   }
 
   return (
-    <Box>
-      {/* PE 1/3 - transformar em um componente próprio */}
-      <Box className={classes.moreButtonBox}>
-        {props.show && (
-          <IconButton
-            id="tag-more"
-            size="small"
-            aria-label="tag-more"
-            onClick={(e) => {
-              e.preventDefault()
-              handleOpenMore(e)
-            }}
-          >
-            <MoreHorizIcon />
-          </IconButton>
-        )}
-      </Box>
+    <React.Fragment>
+      <IconButton
+        id="tag-more"
+        size="small"
+        aria-label="tag-more"
+        onClick={(e) => {
+          e.preventDefault()
+          handleOpenMore(e)
+        }}
+      >
+        <MoreHorizIcon />
+      </IconButton>
 
       <Menu
         id="tag-more"
@@ -110,7 +105,7 @@ function TagMoreIcon(props: Props) {
           </Typography>
         </MenuItem>
       </Menu>
-    </Box>
+    </React.Fragment>
   )
 }
 
@@ -147,7 +142,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 interface OwnProps {
   tag: TagDto
-  show: boolean
   afterDelete?: () => void
 }
 

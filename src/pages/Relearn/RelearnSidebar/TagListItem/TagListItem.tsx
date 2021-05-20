@@ -8,14 +8,14 @@ import {
   Typography,
 } from "@material-ui/core"
 import LabelIcon from "@material-ui/icons/Label"
-import API from "consts/API"
-import MY_AXIOS from "consts/MY_AXIOS"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Link, Redirect, useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
 import TagMoreIcon from "../../../../components/resources/TagMoreIcon/TagMoreIcon"
 import Flex from "../../../../components/shared/Flexboxes/Flex"
+import FlexHCenter from "../../../../components/shared/Flexboxes/FlexHCenter"
+import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter"
 import PATHS from "../../../../consts/PATHS"
 import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto"
 import * as relearnActions from "../../../../store/relearn/relearnActions"
@@ -41,33 +41,9 @@ function TagListItem(props: Props) {
   }
   const handleMouseLeave = () => {
     setIsHovered(false)
-    setAnchorEl(null) // avoids error "The `anchorEl` prop provided to the component is invalid"
-  }
-
-  const [anchorEl, setAnchorEl] = React.useState(null)
-  const handleOpenMore = (event: any) => {
-    setAnchorEl(event.currentTarget)
-  }
-  const handleCloseMore = () => {
-    setAnchorEl(null)
   }
 
   const [redirectTo, setRedirectTo] = useState("")
-
-  // handleDelete would be better?
-  const handleDeleteTag = (id: number) => {
-    if (window.confirm("Confirm delete?")) {
-      MY_AXIOS.delete(`${API.relearn.tag}/${id}`).then((res) => {
-        props.setSuccessMessage("Tag deleted!")
-
-        if (pathName.endsWith(id.toString())) {
-          setRedirectTo(PATHS.relearn.index)
-        }
-
-        props.removeTag(id)
-      })
-    }
-  }
 
   return (
     <ListItem
@@ -83,25 +59,30 @@ function TagListItem(props: Props) {
       <ListItemText>
         <Flex>
           <LabelIcon style={{ color: props.tag.color }} />
-          <Box ml={1}>
-            {props.tag.name}
-            <Typography variant="inherit" className={classes.resourcesCount}>
-              {getTodoResources(props.tag.resources).length}
+          <Box ml={1} width={210}>
+            <Typography noWrap style={{ maxWidth: "inherit" }}>
+              {props.tag.name}
             </Typography>
           </Box>
         </Flex>
       </ListItemText>
 
-      {/* PE 1/3 - transformar em um componente próprio */}
-      <TagMoreIcon
-        show={isHovered}
-        afterDelete={() => {
-          if (pathName.endsWith(props.tag.id.toString())) {
-            setRedirectTo(PATHS.relearn.index)
-          }
-        }}
-        tag={props.tag}
-      />
+      {isHovered ? (
+        <TagMoreIcon
+          afterDelete={() => {
+            if (pathName.endsWith(props.tag.id.toString())) {
+              setRedirectTo(PATHS.relearn.index)
+            }
+          }}
+          tag={props.tag}
+        />
+      ) : (
+        <FlexHCenter mt={0.5} width={24}>
+          <Typography className={classes.resourcesCount}>
+            {getTodoResources(props.tag.resources).length}
+          </Typography>
+        </FlexHCenter>
+      )}
 
       {redirectTo.length > 0 && <Redirect to={redirectTo} />}
     </ListItem>
@@ -111,7 +92,6 @@ function TagListItem(props: Props) {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     tagListItem: {
-      paddingLeft: theme.spacing(4),
       alignItems: "flex-start",
     },
     moreButtonBox: {
@@ -125,7 +105,6 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 16,
     },
     resourcesCount: {
-      marginLeft: 8,
       fontSize: 12,
       color: theme.palette.grey[400],
     },

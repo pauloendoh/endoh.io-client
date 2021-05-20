@@ -1,22 +1,34 @@
-import { Box, Button, Grid, Typography } from "@material-ui/core"
+import {
+  Box,
+  Button,
+  Grid,
+  makeStyles,
+  Paper,
+  Typography,
+  useTheme,
+} from "@material-ui/core"
 import React, { useEffect, useState } from "react"
+import { connect } from "react-redux"
 import { useLocation } from "react-router"
+import { Dispatch } from "redux"
 import Flex from "../../components/shared/Flexboxes/Flex"
 import FlexVCenter from "../../components/shared/Flexboxes/FlexVCenter"
 import SkillChip from "../../components/skillbase/SkillChip/SkillChip"
 import API from "../../consts/API"
 import MY_AXIOS from "../../consts/MY_AXIOS"
 import { SearchResultsDto } from "../../dtos/utils/SearchResultsDto"
+import { ApplicationState } from "../../store/store"
 import LoadingPage from "../index/LoadingPage"
-import ResourceList from "../Relearn/Content/ResourceList/ResourceList"
+import ResourceItem from "../Relearn/Content/ResourceList/DraggableResourceItem/ResourceItem/ResourceItem"
 import SearchPageSidebar from "./SearchPageSidebar/SearchPageSidebar"
 import UserResults from "./UserResults/UserResults"
 
 export type FilterByType = "all" | "resources" | "users" | "skills"
 
 // PE 3/3
-const SearchPage = () => {
+const SearchPage = (props: Props) => {
   const location = useLocation()
+  const classes = useStyles()
 
   const [q, setQ] = useState("")
 
@@ -31,9 +43,15 @@ const SearchPage = () => {
     if (results) {
       count += results.resources.length
       count += results.users.length
-      count += results.resources.length
+      count += results.skills.length
     }
     return count
+  }
+
+  const filterResources = () => {
+    return filterBy === "resources"
+      ? results.resources
+      : results.resources.slice(0, 3)
   }
 
   useEffect(() => {
@@ -49,7 +67,7 @@ const SearchPage = () => {
       .finally(() => {
         setIsLoading(false)
       })
-  }, [location])
+  }, [location, props.resources])
 
   return (
     <Box p={3}>
@@ -60,76 +78,112 @@ const SearchPage = () => {
           {countAllResults() ? (
             <Grid container>
               <Grid item xs={3}>
-                <SearchPageSidebar value={filterBy} onChange={setFilterBy} />
+                <SearchPageSidebar
+                  value={filterBy}
+                  onChange={setFilterBy}
+                  results={results}
+                />
               </Grid>
               <Grid item xs={9}>
-                <Typography style={{ fontSize: 20 }}>
-                  Results for <b>{q}</b>
-                </Typography>
-                <Box mt={5} />
-                <Box maxWidth={600}>
+                <Box pt={2}>
+                  <Typography style={{ fontSize: 20 }}>
+                    Results for <b>{q}</b>
+                  </Typography>
+                </Box>
+
+                <Box maxWidth={600} mt={3}>
                   {results.resources.length > 0 &&
                     (filterBy === "all" || filterBy === "resources") && (
-                      <Box mb={8}>
-                        <FlexVCenter mb={2}>
-                          <Typography>Your Resources -</Typography>
-                          <Button
-                            onClick={() => {
-                              setFilterBy("resources")
-                            }}
-                          >
-                            View all {results.resources.length}
-                          </Button>
-                        </FlexVCenter>
-                        <ResourceList
-                          resources={
-                            filterBy === "resources"
-                              ? results.resources
-                              : results.resources.slice(0, 3)
-                          }
-                        />
+                      <Box mb={4}>
+                        <Paper>
+                          <Box p={2}>
+                            <FlexVCenter mb={2}>
+                              <Typography>
+                                <b>{results.resources.length} Resources</b>
+                              </Typography>
+                            </FlexVCenter>
+                            {filterResources().map((resource, index) => (
+                              <Box
+                                key={resource.id}
+                                p={1}
+                                borderBottom={
+                                  index === filterResources().length - 1
+                                    ? "none"
+                                    : "1px solid rgb(255 255 255 / 0.1)"
+                                }
+                              >
+                                <ResourceItem resource={resource} />
+                              </Box>
+                            ))}
+
+                            {results.resources.length > 3 &&
+                              filterBy === "all" && (
+                                <Button
+                                  className={classes.moreButton}
+                                  fullWidth
+                                  onClick={() => {
+                                    setFilterBy("resources")
+                                  }}
+                                >
+                                  Show More
+                                </Button>
+                              )}
+                          </Box>
+                        </Paper>
                       </Box>
                     )}
 
                   {results.users.length > 0 &&
                     (filterBy === "all" || filterBy === "users") && (
-                      <Box mb={8}>
-                        <FlexVCenter mb={2}>
-                          <Typography>Users -</Typography>
-                          <Button
-                            onClick={() => {
-                              setFilterBy("users")
-                            }}
-                          >
-                            View all {results.users.length}
-                          </Button>
-                        </FlexVCenter>
-                        <UserResults
-                          userProfiles={
-                            filterBy === "users"
-                              ? results.users
-                              : results.users.slice(0, 3)
-                          }
-                        />
+                      <Box mb={4}>
+                        <Paper>
+                          <Box p={2}>
+                            <FlexVCenter mb={2}>
+                              <Typography>
+                                <b>{results.users.length} Users</b>
+                              </Typography>
+                            </FlexVCenter>
+
+                            <UserResults
+                              userProfiles={
+                                filterBy === "users"
+                                  ? results.users
+                                  : results.users.slice(0, 3)
+                              }
+                            />
+
+                            {results.users.length > 3 && filterBy === "all" && (
+                              <Button
+                                className={classes.moreButton}
+                                fullWidth
+                                onClick={() => {
+                                  setFilterBy("users")
+                                }}
+                              >
+                                Show More
+                              </Button>
+                            )}
+                          </Box>
+                        </Paper>
                       </Box>
                     )}
 
                   {results.skills.length > 0 &&
                     (filterBy === "all" || filterBy === "skills") && (
-                      <Box>
-                        <FlexVCenter mb={2}>
-                          <Typography>Your Skills -</Typography>
-
-                          <Button onClick={() => setFilterBy("skills")}>
-                            View all {results.skills.length}
-                          </Button>
-                        </FlexVCenter>
-                        <Flex flexWrap="wrap">
-                          {results.skills.map((skill) => (
-                            <SkillChip key={skill.id} skill={skill} />
-                          ))}
-                        </Flex>
-                      </Box>
+                      <Paper>
+                        <Box p={2}>
+                          <FlexVCenter mb={2}>
+                            <Typography>
+                              <b>{results.skills.length} Skill</b>
+                            </Typography>
+                          </FlexVCenter>
+                          <Flex flexWrap="wrap">
+                            {results.skills.map((skill) => (
+                              <SkillChip key={skill.id} skill={skill} />
+                            ))}
+                          </Flex>
+                        </Box>
+                      </Paper>
                     )}
                 </Box>
               </Grid>
@@ -145,4 +199,20 @@ const SearchPage = () => {
   )
 }
 
-export default SearchPage
+const useStyles = makeStyles((theme) => ({
+  moreButton: {
+    marginTop: 16,
+    background: theme.palette.grey[800],
+  },
+}))
+
+const mapStateToProps = (state: ApplicationState) => ({
+  resources: state.relearn.resources,
+})
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({})
+
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchPage)

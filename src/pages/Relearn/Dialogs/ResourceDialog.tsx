@@ -1,8 +1,9 @@
+import linkPng from "../../../static/images/link.png"
+
 import { faGlobeAmericas, faLock } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   Box,
-  Button,
   Checkbox,
   CircularProgress,
   Dialog,
@@ -22,6 +23,7 @@ import { useLocation } from "react-router-dom"
 import MaskedInput from "react-text-mask"
 import { Dispatch } from "redux"
 import RateButton from "../../../components/resources/RateButton/RateButton"
+import SaveCancelButtons from "../../../components/shared/Buttons/SaveCancelButtons"
 import Flex from "../../../components/shared/Flexboxes/Flex"
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
 import MyTextField from "../../../components/shared/MyInputs/MyTextField"
@@ -36,7 +38,6 @@ import * as relearnActions from "../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../store/store"
 import * as utilsActions from "../../../store/utils/utilsActions"
 import { urlIsValid } from "../../../utils/url/isValidUrl"
-import SaveCancelButtons from "../../../components/shared/Buttons/SaveCancelButtons"
 
 // PE 1/3 - tá muito grande
 const ResourceDialog = (props: Props) => {
@@ -160,6 +161,11 @@ const ResourceDialog = (props: Props) => {
                           style={{ maxHeight: 100 }}
                           alt="link-preview-thumbnail"
                           src={values.thumbnail}
+                          // Testing... 20210510
+                          onError={(e: any) => {
+                            e.target.onerror = null
+                            e.target.src = linkPng
+                          }}
                         />
                       </Link>
                     </Box>

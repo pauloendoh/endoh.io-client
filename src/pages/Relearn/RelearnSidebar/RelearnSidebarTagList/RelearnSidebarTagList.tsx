@@ -1,24 +1,19 @@
-import {
-  faGlobeAmericas,
-  faLock,
-  faPlus,
-} from "@fortawesome/free-solid-svg-icons"
+import { faGlobeAmericas, faLock } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
+  Box,
   Collapse,
-  createStyles,
+  IconButton,
   List,
   ListItem,
-  ListItemIcon,
   ListItemText,
-  makeStyles,
-  Theme,
-  useTheme,
 } from "@material-ui/core"
 import { ExpandLess, ExpandMore } from "@material-ui/icons"
+import AddIcon from "@material-ui/icons/Add"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
+import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter"
 import API from "../../../../consts/API"
 import MY_AXIOS from "../../../../consts/MY_AXIOS"
 import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto"
@@ -26,10 +21,7 @@ import * as relearnActions from "../../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../../store/store"
 import TagListItem from "../TagListItem/TagListItem"
 
-function YourTagsLi(props: Props) {
-  const classes = useStyles()
-  const theme = useTheme()
-
+function RelearnSidebarTagList(props: Props) {
   // PE 2/3 - change to tagsAreOpen
   const [openTags, setOpenTags] = useState(true)
   const handleClickTags = () => {
@@ -46,19 +38,34 @@ function YourTagsLi(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
+  const handleAddTag = () => {
+    props.startNewTag(props.type === "private")
+  }
 
   return (
     <React.Fragment>
       <ListItem button onClick={handleClickTags}>
-        <ListItemIcon className={classes.listItemIcon}>
-          <FontAwesomeIcon
-            icon={props.type === "public" ? faGlobeAmericas : faLock}
-          />
-        </ListItemIcon>
-        <ListItemText
-          primary={props.type === "public" ? "Public Tags" : "Private Tags"}
-        />
-        {openTags ? <ExpandLess /> : <ExpandMore />}
+        <ListItemText>
+          <FlexVCenter>
+            {openTags ? <ExpandLess /> : <ExpandMore />}
+            <Box mx={1}>
+              {props.type === "public" ? "Public Tags" : "Private Tags"}
+            </Box>
+
+            <FontAwesomeIcon
+              icon={props.type === "public" ? faGlobeAmericas : faLock}
+            />
+          </FlexVCenter>
+        </ListItemText>
+        <IconButton
+          onClick={(e) => {
+            e.stopPropagation()
+            handleAddTag()
+          }}
+          size="small"
+        >
+          <AddIcon />
+        </IconButton>
       </ListItem>
 
       <Collapse in={openTags} timeout="auto" unmountOnExit>
@@ -71,17 +78,6 @@ function YourTagsLi(props: Props) {
     </React.Fragment>
   )
 }
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    nested: {
-      paddingLeft: theme.spacing(4),
-    },
-    listItemIcon: {
-      minWidth: 32,
-    },
-  })
-)
 
 const mapStateToProps = (state: ApplicationState) => ({})
 
@@ -100,4 +96,7 @@ type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   OwnProps
 
-export default connect(mapStateToProps, mapDispatchToProps)(YourTagsLi)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RelearnSidebarTagList)

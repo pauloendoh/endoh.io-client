@@ -14,7 +14,6 @@ import ExpectationTextarea from "./ExpectationTextarea/ExpectationTextarea"
 const ExpectationsAtLevel = (props: Props) => {
   const theme = useTheme()
   const [editingIndex, setEditingIndex] = useState<number>(null)
-  const [isAddingNew, setIsAddingNew] = useState(false)
 
   const handleAddExpectation = () => {
     const newExpectation = createSkillExpectation(
@@ -185,7 +184,7 @@ const getLevelDescription = (level: number) => {
     case 9:
       return "Advanced III"
     case 10:
-      return "Godlike"
+      return "God Tier"
   }
 }
 

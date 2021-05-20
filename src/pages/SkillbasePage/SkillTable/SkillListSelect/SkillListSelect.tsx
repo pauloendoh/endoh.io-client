@@ -42,7 +42,7 @@ const SkillListSelect = (props: Props) => {
       setListId(null)
     } else if (pathname.startsWith(PATHS.skillbase.untagged)) {
       setListId(0)
-    } else if (pathname.startsWith(PATHS.skillbase.list + "/")) {
+    } else if (pathname.startsWith(PATHS.skillbase.tag + "/")) {
       const listId = Number(pathname.split("/").pop())
       if (listId) {
         setListId(listId)
@@ -116,7 +116,7 @@ const SkillListSelect = (props: Props) => {
           <MenuItem
             key={tag.id}
             component={Link}
-            to={PATHS.skillbase.list + "/" + tag.id}
+            to={PATHS.skillbase.tag + "/" + tag.id}
             onClick={handleClose}
             selected={listId === tag.id}
           >

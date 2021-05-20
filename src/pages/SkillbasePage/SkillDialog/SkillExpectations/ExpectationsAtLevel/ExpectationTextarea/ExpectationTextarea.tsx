@@ -1,14 +1,8 @@
-import DeleteIcon from "@material-ui/icons/Delete"
-
-import { Button, Typography } from "@material-ui/core"
 import React, { useState } from "react"
-import SaveCancelButtons from "../../../../../../components/shared/Buttons/SaveCancelButtons"
-import FlexVCenter from "../../../../../../components/shared/Flexboxes/FlexVCenter"
 import MyTextField from "../../../../../../components/shared/MyInputs/MyTextField"
 
 const ExpectationTextarea = (props: Props) => {
   const [value, setValue] = useState(props.initialValue)
-  const [throttle, setThrottle] = useState<NodeJS.Timeout>(null)
 
   return (
     <>
@@ -18,6 +12,9 @@ const ExpectationTextarea = (props: Props) => {
         onChange={(e) => setValue(e.target.value)}
         onKeyPress={(e) => {
           if (e.key === "Enter") props.onSave(value)
+          else if (e.key === "ESC") {
+            props.onSave(value)
+          }
         }}
         fullWidth
         multiline

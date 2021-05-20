@@ -4,6 +4,7 @@ import { connect } from "react-redux"
 import { Link as RouterLink, useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
 import Flex from "../../../../../components/shared/Flexboxes/Flex"
+import FlexVCenter from "../../../../../components/shared/Flexboxes/FlexVCenter"
 import SkillChip from "../../../../../components/skillbase/SkillChip/SkillChip"
 import PATHS from "../../../../../consts/PATHS"
 import { SkillDto } from "../../../../../dtos/skillbase/SkillDto"
@@ -18,6 +19,14 @@ function SkillChips(props: Props) {
   const [skills, setSkills] = useState(props.allSkills)
   const [skillsHref, setSkillsHref] = useState("")
 
+  const getSkillsFromCurrentTag = () => {
+    const tagId = Number(location.pathname.split("/").pop())
+    if (tagId) {
+      return props.allSkills.filter((skill) => skill.tagId === tagId)
+    }
+    return []
+  }
+
   useEffect(() => {
     const { pathname } = location
 
@@ -27,7 +36,7 @@ function SkillChips(props: Props) {
         (s) => s.tagId === null && s.isPriority === true
       )
       setSkills(unlistedSkills)
-      setSkillsHref(PATHS.skillbase.list + "/untagged")
+      setSkillsHref(PATHS.skillbase.tag + "/untagged")
     }
     // /relearn/tag/:id
     else if (pathname.startsWith(PATHS.relearn.tag)) {
@@ -38,7 +47,7 @@ function SkillChips(props: Props) {
           (s) => s.tagId === listId && s.isPriority === true
         )
         setSkills(listedSkills)
-        setSkillsHref(PATHS.skillbase.list + "/" + listId)
+        setSkillsHref(PATHS.skillbase.tag + "/" + listId)
       }
     }
   }, [props.allSkills, location])
@@ -56,7 +65,10 @@ function SkillChips(props: Props) {
         color="secondary"
         className={classes.manageSkillsButton}
       >
-        Manage skills
+        Edit Skills
+        <FlexVCenter ml={1} className={classes.innerChip}>
+          {getSkillsFromCurrentTag().length}
+        </FlexVCenter>
       </Button>
     </Flex>
   )
@@ -73,7 +85,8 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 400,
   },
   innerChip: {
-    background: "#393939",
+    background: theme.palette.secondary.main,
+    color: "#fff",
     paddingLeft: 4,
     paddingRight: 4,
     borderRadius: 3,

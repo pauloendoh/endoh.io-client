@@ -6,7 +6,7 @@ import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import { ResourceDto } from "../../../../interfaces/dtos/relearn/ResourceDto"
 import { ApplicationState } from "../../../../store/store"
-import ResourceItem from "./ResourceItem/ResourceItem"
+import DraggableResourceItem from "./DraggableResourceItem/DraggableResourceItem"
 
 function ResourceList(props: Props) {
   const classes = useStyles()
@@ -14,7 +14,7 @@ function ResourceList(props: Props) {
   return (
     <DndProvider backend={HTML5Backend}>
       {props.resources.map((resource, index) => (
-        <ResourceItem
+        <DraggableResourceItem
           key={resource.id}
           resource={resource}
           index={index}

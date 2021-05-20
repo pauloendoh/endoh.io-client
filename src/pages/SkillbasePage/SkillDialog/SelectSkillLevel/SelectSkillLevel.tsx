@@ -1,14 +1,12 @@
-import { Box, makeStyles, withStyles } from "@material-ui/core"
-import FavoriteIcon from "@material-ui/icons/Favorite"
-import { Rating } from "@material-ui/lab"
+import { Box, makeStyles } from "@material-ui/core"
 import clsx from "clsx"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
-import { getConstantValue } from "typescript"
 import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter"
 import { ApplicationState } from "../../../../store/store"
 
+// PE 1/3
 const SelectSkillLevel = (props: Props) => {
   const classes = useStyles()
 
@@ -58,7 +56,8 @@ const SelectSkillLevel = (props: Props) => {
 
   return (
     <Box>
-      {label}
+      <Box className={classes.label}>{label}</Box>
+
       <FlexVCenter>
         {options.map((option) => (
           <Box
@@ -115,6 +114,9 @@ const SelectSkillLevel = (props: Props) => {
 }
 
 const useStyles = makeStyles((theme) => ({
+  label: {
+    width: 125,
+  },
   outerBox: {
     display: "flex",
     alignItems: "center",
@@ -138,9 +140,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const mapStateToProps = (state: ApplicationState) => ({
-  allTags: state.relearn.tags,
-})
+const mapStateToProps = (state: ApplicationState) => ({})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({})
 

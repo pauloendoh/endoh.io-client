@@ -21,8 +21,6 @@ function UserSuggestions(props: Props) {
   >([])
 
   useEffect(() => {
-    console.log("filtering user suggestions")
-
     // guarantees that you're not showing users you already follow (or yourself)
     const userIds = props.followingUsers.map(
       (user) => user.followingUser.userId

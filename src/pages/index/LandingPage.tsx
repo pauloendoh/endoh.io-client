@@ -12,7 +12,7 @@ import { Link as ScrollLink } from "react-scroll"
 import FooterDescription from "../../components/descriptions/FooterDescription"
 import LandingPageDescription from "../../components/descriptions/LandingPageDescription"
 import RelearnDescription from "../../components/descriptions/RelearnDescription"
-import AuthForm from "./AuthForm/AuthForm"
+import LandingPageForm from "./LandingPageForm/LandingPageForm"
 
 const LandingPage = () => {
   const classes = useStyles()
@@ -28,7 +28,7 @@ const LandingPage = () => {
           <LandingPageDescription />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <AuthForm />
+          <LandingPageForm />
         </Grid>
       </Grid>
 

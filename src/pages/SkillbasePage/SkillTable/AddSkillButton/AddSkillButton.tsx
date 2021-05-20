@@ -3,16 +3,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Button, Tooltip } from "@material-ui/core"
 import React from "react"
 import { connect } from "react-redux"
+import { useLocation } from "react-router"
 import { Dispatch } from "redux"
 import { newSkillDto, SkillDto } from "../../../../dtos/skillbase/SkillDto"
 import { setEditingSkill } from "../../../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../../../store/store"
+import { getCurrentTagId } from "../../../../utils/skillbase/getCurrentTagId"
 
 const AddSkillButton = (props: Props) => {
+  const location = useLocation()
   return (
     <Tooltip title="(q) Quick Add Skill">
       <Button
-        onClick={() => props.setEditingSkill(newSkillDto)}
+        onClick={() =>
+          props.setEditingSkill(newSkillDto(getCurrentTagId(location.pathname)))
+        }
         size="small"
         startIcon={<FontAwesomeIcon icon={faPlus} size="xs" />}
       >
