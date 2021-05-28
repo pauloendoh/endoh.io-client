@@ -15,7 +15,6 @@ import { Dispatch } from "redux"
 import TagMoreIcon from "../../../../components/resources/TagMoreIcon/TagMoreIcon"
 import Flex from "../../../../components/shared/Flexboxes/Flex"
 import FlexHCenter from "../../../../components/shared/Flexboxes/FlexHCenter"
-import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter"
 import PATHS from "../../../../consts/PATHS"
 import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto"
 import * as relearnActions from "../../../../store/relearn/relearnActions"
@@ -79,7 +78,11 @@ function TagListItem(props: Props) {
       ) : (
         <FlexHCenter mt={0.5} width={24}>
           <Typography className={classes.resourcesCount}>
-            {getTodoResources(props.tag.resources).length}
+            {
+              getTodoResources(
+                props.allResources.filter((r) => r.tag?.id === props.tag.id)
+              ).length
+            }
           </Typography>
         </FlexHCenter>
       )}
@@ -113,6 +116,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const mapStateToProps = (state: ApplicationState) => ({
   // user: state.auth.user,
+  allResources: state.relearn.resources,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

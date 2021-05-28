@@ -403,18 +403,6 @@ const SkillbaseTable = (props: Props) => {
       }
     }
 
-    // if (textFilter?.length) {
-    //   const text = textFilter.replace("#", "").trim().toLowerCase()
-    //   skills = skills.filter((skill) => {
-    //     if (skill.name.trim().toLowerCase().includes(text)) return true
-
-    //     const tag = props.allTags.find((tag) => tag.id === skill.tagId)
-
-    //     if (tag?.name.trim().toLowerCase().includes(text)) return true
-    //     return false
-    //   })
-    // }
-
     const { pathname } = location
     if (pathname.startsWith(PATHS.skillbase.untagged)) {
       skills = skills.filter((s) => s.tagId === null)
