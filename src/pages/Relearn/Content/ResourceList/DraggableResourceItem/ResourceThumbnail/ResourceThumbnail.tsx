@@ -18,12 +18,16 @@ function ResourceThumbnail(props: Props) {
   }
 
   const isLink = () => {
-    return props.resource.url.length > 0
+    return props.resource.url.length > 0 && props.linkable !== false
+  }
+
+  const getWidth = () => {
+    return props.width ? props.width : 50
   }
 
   return (
     <Box mr={2}>
-      <Box minWidth={50} width={50} position="relative">
+      <Box minWidth={getWidth()} width={getWidth()} position="relative">
         {isLink() ? (
           <Link href={props.resource.url} target="_blank">
             <img
@@ -66,6 +70,8 @@ function ResourceThumbnail(props: Props) {
 
 interface Props {
   resource: ResourceDto
+  linkable: boolean
+  width?: number
 }
 
 export default ResourceThumbnail

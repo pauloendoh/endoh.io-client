@@ -144,10 +144,10 @@ const App = (props: Props) => {
             <Switch>
               <Route path="/monerate" component={MoneratePage} />
               <Route path="/relearn" component={RelearnPage} />
+              <Route path="/skillbase/tag/:tagId" component={SkillbasePage} />
               <Route path="/skillbase" component={SkillbasePage} />
               <Route path="/feed" component={FeedPage} />
 
-              <Route path="/user/:username/tag/:tagId" component={UserPage} />
               <Route path="/user/:username" component={UserPage} />
 
               <Route path="/settings" component={SettingsPage} />

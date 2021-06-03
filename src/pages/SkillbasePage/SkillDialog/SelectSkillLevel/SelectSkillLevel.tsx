@@ -24,7 +24,7 @@ const SelectSkillLevel = (props: Props) => {
     7: "7 - Advanced I",
     8: "8 - Advanced II",
     9: "9 - Advanced III",
-    10: "10 - God Tier",
+    10: "10 - Expert",
   }
 
   const getLabel = () => {

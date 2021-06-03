@@ -1,7 +1,9 @@
 import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core"
 import { Form, Formik } from "formik"
+import _ from "lodash"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
+import { useLocation } from "react-router"
 import { scroller } from "react-scroll"
 import { Dispatch } from "redux"
 import SaveCancelButtons from "../../../components/shared/Buttons/SaveCancelButtons"
@@ -16,15 +18,18 @@ import {
 } from "../../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../../store/store"
 import * as utilsActions from "../../../store/utils/utilsActions"
+import { getCurrentTagId } from "../../../utils/skillbase/getCurrentTagId"
 import PriorityStarIcon from "./PriorityStarIcon/PriorityStarIcon"
 import SelectSkillLevel from "./SelectSkillLevel/SelectSkillLevel"
 import TagSelector from "./SkillDialogTagSelector/SkillDialogTagSelector"
 import TitleTextField from "./SkillDialogTitleTextField/SkillDialogTitleTextField"
 import SkillExpectations from "./SkillExpectations/SkillExpectations"
-import _ from "lodash"
+import SkillMoreIcon from "./SkillMoreIcon/SkillMoreIcon"
 
 // PE 2/3
 const SkillDialog = (props: Props) => {
+  const location = useLocation()
+
   const [hasChanged, setHasChanged] = useState(false)
 
   useEffect(() => {
@@ -80,6 +85,15 @@ const SkillDialog = (props: Props) => {
       })
   }
 
+  const getInitialValues = (): SkillDto => {
+    return {
+      ...props.skill,
+      tagId: props.skill?.tagId
+        ? props.skill.tagId
+        : getCurrentTagId(location.pathname),
+    }
+  }
+
   return (
     <Dialog // PE 2/3
       onClose={confirmClose}
@@ -91,7 +105,7 @@ const SkillDialog = (props: Props) => {
       {/* Maybe I should make a MyDialog or something? With default paddings */}
       <Box pb={1} px={1}>
         <Formik
-          initialValues={props.skill}
+          initialValues={getInitialValues()}
           onSubmit={(formikValues, { setSubmitting }) => {
             handleSubmit(formikValues, setSubmitting)
           }}
@@ -118,6 +132,13 @@ const SkillDialog = (props: Props) => {
                     initialValue={values.name}
                     onChange={(newValue) => setFieldValue("name", newValue)}
                   />
+
+                  {values.id > 0 && (
+                    <SkillMoreIcon
+                      skillId={values.id}
+                      afterDelete={() => props.setEditingSkill(null)}
+                    />
+                  )}
                 </FlexVCenter>
 
                 {/* Separate into <SkillLevelSelectors/> */}

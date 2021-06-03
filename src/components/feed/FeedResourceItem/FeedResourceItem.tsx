@@ -52,7 +52,7 @@ function FeedResourceItem(props: Props) {
       borderBottom="1px solid rgb(255 255 255 / 0.1)" // Could be a const?
     >
       {/* PE 1/3 - DRY */}
-      <ResourceThumbnail resource={props.resource} />
+      <ResourceThumbnail resource={props.resource} linkable={true} />
 
       <Box flexGrow={1}>
         <Flex className={classes.firstRow}>

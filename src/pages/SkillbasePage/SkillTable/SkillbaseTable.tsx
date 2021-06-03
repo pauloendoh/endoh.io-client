@@ -476,7 +476,7 @@ const SkillbaseTable = (props: Props) => {
   const handleDelete = () => {
     if (window.confirm(`Delete ${selectedIds.length} skill(s)?`)) {
       MY_AXIOS.delete<SkillDto[]>(API.skillbase.skill, {
-        headers: {},
+        headers: {}, // why is this?
         data: { ids: selectedIds } as IdsDto,
       }).then((res) => {
         props.removeSkills(selectedIds)

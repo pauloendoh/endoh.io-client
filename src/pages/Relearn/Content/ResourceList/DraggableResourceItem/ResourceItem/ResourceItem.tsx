@@ -51,7 +51,7 @@ function ResourceItem(props: Props) {
 
   return (
     <Flex onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <ResourceThumbnail resource={props.resource} />
+      <ResourceThumbnail resource={props.resource} linkable={true} />
 
       <Box flexGrow={1}>
         <Flex className={classes.firstRow}>
@@ -105,7 +105,7 @@ function ResourceItem(props: Props) {
         </FlexVCenter>
 
         {props.resource.publicReview?.length > 0 && (
-          <Box mt={2}>
+          <Box mt={2} mb={1}>
             <MyTextField
               value={props.resource.publicReview}
               fullWidth
@@ -125,7 +125,7 @@ function ResourceItem(props: Props) {
         )}
 
         {props.resource.privateNote?.length > 0 && (
-          <Box mt={2}>
+          <Box mt={2} mb={1}>
             <MyTextField
               value={props.resource.privateNote}
               fullWidth

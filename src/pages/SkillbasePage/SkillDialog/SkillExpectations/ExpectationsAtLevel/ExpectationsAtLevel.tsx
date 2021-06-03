@@ -184,7 +184,7 @@ const getLevelDescription = (level: number) => {
     case 9:
       return "Advanced III"
     case 10:
-      return "God Tier"
+      return "Expert"
   }
 }
 

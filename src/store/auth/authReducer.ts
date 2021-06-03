@@ -1,8 +1,8 @@
-import { AuthUserGetDto } from 'interfaces/dtos/AuthUserGetDto';
-import { Reducer } from 'redux';
-import { UserInfoDto } from '../../dtos/UserInfoDto';
-import { AuthActionReturns } from './authActions';
-import { AuthActionTypes, AuthState } from './authTypes';
+import { AuthUserGetDto } from "interfaces/dtos/AuthUserGetDto"
+import { Reducer } from "redux"
+import { UserInfoDto } from "../../dtos/UserInfoDto"
+import { AuthActionReturns } from "./authActions"
+import { AuthActionTypes, AuthState } from "./authTypes"
 
 const INITIAL_STATE: AuthState = {
   user: null,
@@ -12,10 +12,13 @@ const INITIAL_STATE: AuthState = {
   profile: null,
   followers: [],
   followingUsers: [],
-  notifications: []
+  notifications: [],
 }
 
-const authReducer: Reducer<AuthState, AuthActionReturns> = (state = INITIAL_STATE, action: AuthActionReturns): AuthState => {
+const authReducer: Reducer<AuthState, AuthActionReturns> = (
+  state = INITIAL_STATE,
+  action: AuthActionReturns
+): AuthState => {
   switch (action.type) {
     case AuthActionTypes.SET_AUTH_USER:
       return setAuthUser(state, action.payload)
@@ -44,29 +47,32 @@ const authReducer: Reducer<AuthState, AuthActionReturns> = (state = INITIAL_STAT
 }
 
 const setAuthUser = (state: AuthState, authUser: AuthUserGetDto): AuthState => {
-
   const expiresAt = new Date(authUser.expiresAt)
 
-  localStorage.setItem('user', JSON.stringify(authUser))
+  localStorage.setItem("user", JSON.stringify(authUser))
 
   // Refresh logout timeout
   setTimeout(() => {
     return logout(state)
-  }, expiresAt.getTime() - (new Date()).getTime())
+  }, expiresAt.getTime() - new Date().getTime())
 
   return { ...state, user: authUser }
 }
 
-
 const logout = (state: AuthState): AuthState => {
-  localStorage.removeItem('user')
+  localStorage.removeItem("user")
   return INITIAL_STATE
 }
-
 
 const setUsername = (state: AuthState, newUsername: string): AuthState => {
   const user = state.user
   user.username = newUsername
+
+  // Updating username at local storage
+  const userStored: AuthUserGetDto = JSON.parse(localStorage.getItem("user"))
+  userStored.username = newUsername
+  localStorage.setItem("user", JSON.stringify(userStored))
+
   return { ...state, user }
 }
 
@@ -74,6 +80,5 @@ const setAuthProfile = (state: AuthState, userInfo: UserInfoDto): AuthState => {
   const { profile, followers, followingUsers } = userInfo
   return { ...state, profile, followers, followingUsers }
 }
-
 
 export default authReducer

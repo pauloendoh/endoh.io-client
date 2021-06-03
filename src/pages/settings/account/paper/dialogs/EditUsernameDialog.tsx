@@ -20,10 +20,7 @@ import { UsernamePutDto } from "../../../../../interfaces/dtos/auth/UsernamePutD
 import MyAxiosError, {
   MyFieldError,
 } from "../../../../../interfaces/MyAxiosError"
-import {
-  logoutActionCreator,
-  setUsername,
-} from "../../../../../store/auth/authActions"
+import { setUsername } from "../../../../../store/auth/authActions"
 import { ApplicationState } from "../../../../../store/store"
 import * as utilsActions from "../../../../../store/utils/utilsActions"
 

@@ -1,15 +1,11 @@
-import linkPng from "../../../static/images/link.png"
-
 import { faGlobeAmericas, faLock } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   Box,
-  Checkbox,
   CircularProgress,
   Dialog,
   DialogContent,
   DialogTitle,
-  FormControlLabel,
   Grid,
   Link,
   Typography,
@@ -34,10 +30,12 @@ import { LinkPreviewDto } from "../../../interfaces/dtos/relearn/LinkPreviewDto"
 import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto"
 import { TagDto } from "../../../interfaces/dtos/relearn/TagDto"
 import MyAxiosError from "../../../interfaces/MyAxiosError"
+import linkPng from "../../../static/images/link.png"
 import * as relearnActions from "../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../store/store"
 import * as utilsActions from "../../../store/utils/utilsActions"
 import { urlIsValid } from "../../../utils/url/isValidUrl"
+import ResourceThumbnail from "../Content/ResourceList/DraggableResourceItem/ResourceThumbnail/ResourceThumbnail"
 
 // PE 1/3 - tá muito grande
 const ResourceDialog = (props: Props) => {
@@ -157,28 +155,38 @@ const ResourceDialog = (props: Props) => {
                 <Flex>
                   {values.thumbnail.length > 0 && (
                     <Box mr={2}>
-                      <Link href={values.url} target="_blank">
-                        <img
-                          style={{ maxHeight: 100 }}
-                          alt="link-preview-thumbnail"
-                          src={values.thumbnail}
-                          // Testing... 20210510
-                          onError={(e: any) => {
-                            e.target.onerror = null
-                            e.target.src = linkPng
-                          }}
-                        />
-                      </Link>
+                      <img
+                        style={{ maxHeight: 90, maxWidth: 200 }}
+                        alt="link-preview-thumbnail"
+                        src={values.thumbnail}
+                        // Testing... 20210510
+                        onError={(e: any) => {
+                          e.target.onerror = null
+                          e.target.src = linkPng
+                        }}
+                      />
                     </Box>
                   )}
 
                   <Box flexGrow={1}>
                     <Box>
                       <MyTextField
+                        id="title"
+                        name="title"
+                        value={values.title}
+                        inputProps={{ "aria-label": "resource-title-input" }}
+                        label="Title"
+                        required
+                        onChange={handleChange}
+                        fullWidth
+                        autoFocus
+                      />
+                    </Box>
+                    <Box mt={2}>
+                      <MyTextField
                         id="url"
                         name="url"
                         value={values.url}
-                        autoFocus
                         onChange={(e) => {
                           handleChange(e)
 
@@ -189,23 +197,11 @@ const ResourceDialog = (props: Props) => {
                         fullWidth
                         label="URL"
                         error={errors?.url?.length > 0}
-                      />{" "}
-                    </Box>
-                    <Box mt={2}>
-                      <MyTextField
-                        id="title"
-                        name="title"
-                        value={values.title}
-                        inputProps={{ "aria-label": "resource-title-input" }}
-                        label="Title"
-                        required
-                        onChange={handleChange}
-                        fullWidth
                       />
                     </Box>
                     <FlexVCenter justifyContent="space-between">
-                      <FlexVCenter>
-                        <FormControlLabel
+                      <FlexVCenter mt={1}>
+                        {/* <FormControlLabel
                           control={
                             <Checkbox
                               checked={urlAutofillChecked}
@@ -215,7 +211,7 @@ const ResourceDialog = (props: Props) => {
                             />
                           }
                           label="Autofill via URL"
-                        />
+                        /> */}
                         {isFetchingLinkPreview && (
                           <CircularProgress size={24} />
                         )}
