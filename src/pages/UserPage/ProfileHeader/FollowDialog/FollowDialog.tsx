@@ -147,7 +147,7 @@ const FollowDialog = (props: Props) => {
 
 const mapStateToProps = (state: ApplicationState) => ({
   profile: state.profile.profile,
-  publicTags: state.profile.publicLists,
+  publicTags: state.profile.publicTags,
   followingTags: state.auth.followingTags,
 })
 

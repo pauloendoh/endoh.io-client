@@ -26,7 +26,7 @@ import LoadingPage from "../index/LoadingPage"
 import FeedResources from "./FeedResources/FeedResources"
 import ProfileHeader from "./ProfileHeader/ProfileHeader"
 import ResourcesChart from "./ResourcesChart/ResourcesChart"
-import UserPageLists from "./UserPageLists/UserPageLists"
+import UserPageSidebar from "./UserPageSidebar/UserPageSidebar"
 
 // PE 3/3
 const UserPage = (props: Props) => {
@@ -38,7 +38,7 @@ const UserPage = (props: Props) => {
   const [filteredResources, setFilteredResources] = useState<ResourceDto[]>([])
   const [minRating, setMinRating] = useState(0)
 
-  const [tag, setTag] = useState<TagDto>(null)
+  const [filterByTag, setFilterByTag] = useState<TagDto>(null)
 
   // filtering resources by min rating
   useEffect(() => {
@@ -48,16 +48,17 @@ const UserPage = (props: Props) => {
 
     const filtered = minResources.filter((r) => {
       if (tagId !== undefined) {
-        const allTags = props.publicLists.concat(props.privateLists)
-        setTag(allTags.find((t) => t.id === Number(tagId)))
+        const allTags = props.publicTags.concat(props.privateTags)
+        setFilterByTag(allTags.find((t) => t.id === Number(tagId)))
         return r.tag?.id === Number(tagId)
       } else {
-        setTag(null)
+        setFilterByTag(null)
         return true
       }
     })
 
     setFilteredResources(filtered)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.resources, minRating, tagId])
 
   useEffect(
@@ -88,7 +89,7 @@ const UserPage = (props: Props) => {
         <Grid container spacing={3}>
           <Grid item xs={3} style={{ width: "22%" }}>
             <Box position="fixed" width="inherit">
-              <UserPageLists />
+              <UserPageSidebar />
             </Box>
           </Grid>
           <Grid item xs={9} md={6} lg={5}>
@@ -99,7 +100,7 @@ const UserPage = (props: Props) => {
 
             <Flex mt={3} justifyContent="space-between">
               <Typography variant="h5">
-                {tag === null ? "All resources" : tag.name}
+                {filterByTag === null ? "All resources" : filterByTag.name}
               </Typography>
               <MinRatingButton onChange={setMinRating} value={minRating} />
             </Flex>
@@ -134,8 +135,8 @@ const mapStateToProps = (state: ApplicationState) => ({
   followingUsers: state.auth.followingUsers,
   resources: state.profile.resources,
   profile: state.profile.profile,
-  publicLists: state.profile.publicLists,
-  privateLists: state.profile.privateLists,
+  publicTags: state.profile.publicTags,
+  privateTags: state.profile.privateTags,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

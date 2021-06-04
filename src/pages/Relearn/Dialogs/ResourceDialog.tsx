@@ -163,6 +163,7 @@ const ResourceDialog = (props: Props) => {
                         onError={(e: any) => {
                           e.target.onerror = null
                           e.target.src = linkPng
+                          e.target.alt = "default-link-thumbnail"
                         }}
                       />
                     </Box>

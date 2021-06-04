@@ -62,34 +62,39 @@ const SkillbaseTagSelector = (props: Props) => {
   return (
     <FormControl variant="outlined" size="small" style={{ width: 250 }}>
       <InputLabel id="tag-selector-label">Tag</InputLabel>
-      <Select
-        labelId="tag-selector-label"
-        value={getProperValue(props.value)}
-        label="Tag"
-        onChange={handleChange}
-      >
-        {options.map((option, index) => (
-          <MenuItem key={index} value={getProperValue(option)}>
-            <FlexVCenter justifyContent="space-between" width="100%">
-              <FlexVCenter>
-                {typeof option !== "string" && (
-                  <FlexVCenter width={24} mr={1}>
-                    <TagIcon tag={option} />
-                  </FlexVCenter>
-                )}
 
-                <Typography noWrap style={{ maxWidth: 150 }}>
-                  {getLabel(option)}
-                </Typography>
+      {/* Use this conditional to hide warning message: "There are no options available for the selected value" */}
+      {options.length > 0 && (
+        <Select
+          id="tag-selector"
+          labelId="tag-selector-label"
+          value={getProperValue(props.value)}
+          label="Tag"
+          onChange={handleChange}
+        >
+          {options.map((option, index) => (
+            <MenuItem key={index} value={getProperValue(option)}>
+              <FlexVCenter justifyContent="space-between" width="100%">
+                <FlexVCenter>
+                  {typeof option !== "string" && (
+                    <FlexVCenter width={24} mr={1}>
+                      <TagIcon tag={option} />
+                    </FlexVCenter>
+                  )}
+
+                  <Typography noWrap style={{ maxWidth: 150 }}>
+                    {getLabel(option)}
+                  </Typography>
+                </FlexVCenter>
+
+                <FlexHCenter width={24} color={theme.palette.grey[400]}>
+                  {getSkillCount(option)}
+                </FlexHCenter>
               </FlexVCenter>
-
-              <FlexHCenter width={24} color={theme.palette.grey[400]}>
-                {getSkillCount(option)}
-              </FlexHCenter>
-            </FlexVCenter>
-          </MenuItem>
-        ))}
-      </Select>
+            </MenuItem>
+          ))}
+        </Select>
+      )}
     </FormControl>
   )
 }

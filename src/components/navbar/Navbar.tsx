@@ -77,12 +77,14 @@ const Navbar = (props: Props) => {
             aria-label="disabled tabs example"
           >
             <Tab
+              id="resources-tab"
               className={classes.tab}
               label={`Resources`}
               component={Link}
               to={PATHS.relearn.index}
             />
             <Tab
+              id="feed-tab"
               className={classes.tab}
               label={`Feed`}
               component={Link}

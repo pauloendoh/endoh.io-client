@@ -46,7 +46,13 @@ const SkillDialogTagSelector = (props: Props) => {
         )}
         getOptionLabel={(option) => option.name}
         renderInput={(params) => (
-          <MyTextField fullWidth label="# tag" {...params} size="small" />
+          <MyTextField
+            InputProps={{ id: "skill-dialog-tag-selector" }}
+            fullWidth
+            label="# tag"
+            {...params}
+            size="small"
+          />
         )}
         onChange={(e, value) => {
           const tag = value as TagDto

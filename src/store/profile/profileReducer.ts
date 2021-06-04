@@ -1,20 +1,22 @@
-import { Reducer } from 'redux';
-import { ProfileActionReturns } from './profileActions';
-import { ProfileActionTypes, ProfileState } from './profileTypes';
-
+import { Reducer } from "redux"
+import { ProfileActionReturns } from "./profileActions"
+import { ProfileActionTypes, ProfileState } from "./profileTypes"
 
 const INITIAL_STATE: ProfileState = {
   profile: null,
   resources: [],
 
-  publicLists: [],
-  privateLists: [],
+  publicTags: [],
+  privateTags: [],
 
   followingUsers: [],
   followers: [],
 }
 
-const profileReducer: Reducer<ProfileState, ProfileActionReturns> = (state = INITIAL_STATE, action: ProfileActionReturns): ProfileState => {
+const profileReducer: Reducer<ProfileState, ProfileActionReturns> = (
+  state = INITIAL_STATE,
+  action: ProfileActionReturns
+): ProfileState => {
   switch (action.type) {
     case ProfileActionTypes.CLEAR_PROFILE:
       return INITIAL_STATE
@@ -28,11 +30,10 @@ const profileReducer: Reducer<ProfileState, ProfileActionReturns> = (state = INI
         ...state,
         profile: payload.profile,
         resources: payload.resources,
-        publicLists: payload.publicLists,
-        privateLists: payload.privateLists,
+        publicTags: payload.publicLists,
+        privateTags: payload.privateLists,
         followingUsers: payload.followingUsers,
-        followers:
-          payload.followers,
+        followers: payload.followers,
       }
     case ProfileActionTypes.SET_PROFILE_PICTURE:
       const profile = { ...state.profile }

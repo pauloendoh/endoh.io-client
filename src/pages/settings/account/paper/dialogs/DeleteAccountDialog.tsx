@@ -4,7 +4,6 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  makeStyles,
   Typography,
 } from "@material-ui/core"
 import { Form, Formik } from "formik"
@@ -25,8 +24,6 @@ import { ApplicationState } from "../../../../../store/store"
 import * as utilsActions from "../../../../../store/utils/utilsActions"
 
 const DeleteAccountDialog = (props: Props) => {
-  const classes = useStyles()
-
   const [responseErrors, setResponseErrors] = useState([] as MyFieldError[])
 
   const handleClose = () => {
@@ -130,18 +127,6 @@ const DeleteAccountDialog = (props: Props) => {
     </Dialog>
   )
 }
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    width: 400,
-    marginLeft: "auto",
-    marginRight: "auto",
-  },
-  button: {
-    paddingTop: 10,
-    paddingBottom: 10,
-  },
-}))
 
 const mapStateToProps = (state: ApplicationState) => ({
   // editingTag: state.relearn.editingTag,

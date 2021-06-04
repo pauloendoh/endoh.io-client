@@ -6,8 +6,6 @@ import PATHS from "../../consts/PATHS"
 import EditCategoryModal from "../../pages/Monerate/Modals/EditCategoryModal"
 import EditPlaceModal from "../../pages/Monerate/Modals/EditPlaceModal"
 import PersonalInformationPaper from "./account/paper/PersonalInformationPaper"
-import CategorySettings from "./monerate-specific/CategorySettings"
-import PlaceSettings from "./monerate-specific/PlaceSettings"
 import SettingsSidebar from "./SettingsSidebar/SettingsSidebar"
 
 function SettingsPage() {

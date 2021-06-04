@@ -1,23 +1,9 @@
 /// <reference types="cypress" />
 
-import { login } from './skills.spec'
+import { clickAddResourceButton, createDeleteAllTags, login, createResource } from '../utils/utils.spec'
 
 
-const createDeleteTag = () => {
-  cy.get('#add-public-tag').click()
 
-  cy.get('[data-testid="tag-name-input"]').type('tag test')
-  cy.get("#save-tag-button").click()
-
-  cy.wait(1000)
-  const savedTagItem = cy.get('.tag-item').eq(0)
-  savedTagItem.contains('tag test')
-  savedTagItem.trigger('mouseover')
-
-  cy.get('#tag-more').click()
-  cy.get('#delete-tag-button').click()
-  cy.contains('Tag deleted!')
-}
 
 context('Relearn', () => {
   beforeEach(() => {
@@ -29,20 +15,12 @@ context('Relearn', () => {
   })
 
 
-  it('should create and delete tag', () => {
-    createDeleteTag()
+  it('should create and delete all tags', () => {
+    createDeleteAllTags()
   })
 
 
-  function createResource(resourceName) {
-    cy.get('#add-resource-button').click()
-    cy.get('[aria-label="resource-title-input"]').type(resourceName)
-    cy.get('#save-resource-button').click()
-    cy.contains('saved!')
 
-    cy.wait(1000)
-    cy.contains(resourceName)
-  }
   it('create and delete resource', () => {
     const resourceName = new Date().toISOString()
 
@@ -78,7 +56,7 @@ context('Relearn', () => {
     completedResource.get(".rate-button").first().click()
     cy.get('#rating-input-5').click({ force: true })
 
-    cy.contains('Rating removed!')
+    cy.contains('Rating removed!', { matchCase: false, timeout: 10000 })
   })
 
   it("reposition resources via drag and drop", () => {
@@ -90,11 +68,25 @@ context('Relearn', () => {
     const resourceX = resourceItems.eq(Cypress.$(resourceItems).length - 2)
     const resourceY = resourceItems.eq(Cypress.$(resourceItems).length - 1)
 
-
-
     resourceY
       .trigger("mouseDown", { which: 1, pageX: 600, pageY: 100 })
       .trigger('mousemove', { which: 1, pageX: 600, pageY: 600 })
       .trigger('mouseup')
   })
+
+  it.only("Should autocomplete 'Duration' if the resource is a Youtube video", () => {
+    clickAddResourceButton()
+    cy.get('[name="url"]').type(`https://www.youtube.com/watch?v=mW61VTLhNjQ`)
+
+    cy.wait(2500)
+    cy.get('#estimatedTime').should("have.value", "00:04h")
+  })
+
+  it("Should show default 'link' image for a broken thumbnail", () => {
+    clickAddResourceButton()
+    cy.get('[name="url"]').type(`https://newsabc.net/tsm-president-leena-xu-explains-how-to-make-40-million-in-esports/`)
+
+    cy.get('[alt="default-link-thumbnail"]')
+  })
 })
+

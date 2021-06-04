@@ -4,7 +4,6 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  makeStyles,
   Typography,
 } from "@material-ui/core"
 import { Form, Formik } from "formik"
@@ -24,7 +23,6 @@ import { ApplicationState } from "../../../../../store/store"
 import * as utilsActions from "../../../../../store/utils/utilsActions"
 
 const ChangePasswordDialog = (props: Props) => {
-
   const [responseErrors, setResponseErrors] = useState([] as MyFieldError[])
 
   const handleClose = () => {
@@ -157,12 +155,9 @@ const ChangePasswordDialog = (props: Props) => {
           )}
         </Formik>
       </Box>
-
     </Dialog>
   )
 }
-
-
 
 const mapStateToProps = (state: ApplicationState) => ({
   // editingTag: state.relearn.editingTag,

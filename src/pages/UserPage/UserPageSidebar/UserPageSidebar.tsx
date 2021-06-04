@@ -13,7 +13,7 @@ import PATHS from "../../../consts/PATHS"
 import { ApplicationState } from "../../../store/store"
 
 // PE 3/3
-const UserPageLists = (props: Props) => {
+const UserPageSidebar = (props: Props) => {
   const classes = useStyles()
   const { username, tagId } = useParams<{ username: string; tagId: string }>()
 
@@ -119,10 +119,10 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 const mapStateToProps = (state: ApplicationState) => ({
   resources: state.profile.resources,
-  publicLists: state.profile.publicLists,
-  privateLists: state.profile.privateLists,
+  publicLists: state.profile.publicTags,
+  privateLists: state.profile.privateTags,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({})
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserPageLists)
+export default connect(mapStateToProps, mapDispatchToProps)(UserPageSidebar)

@@ -148,6 +148,7 @@ const App = (props: Props) => {
               <Route path="/skillbase" component={SkillbasePage} />
               <Route path="/feed" component={FeedPage} />
 
+              <Route path="/user/:username/tag/:tagId" component={UserPage} />
               <Route path="/user/:username" component={UserPage} />
 
               <Route path="/settings" component={SettingsPage} />
