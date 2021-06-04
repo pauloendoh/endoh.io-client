@@ -182,7 +182,7 @@ const ResourceDialog = (props: Props) => {
                         autoFocus
                       />
                     </Box>
-                    <Box mt={2}>
+                    <Box mt={2} position="relative">
                       <MyTextField
                         id="url"
                         name="url"
@@ -198,6 +198,12 @@ const ResourceDialog = (props: Props) => {
                         label="URL"
                         error={errors?.url?.length > 0}
                       />
+                      {isFetchingLinkPreview && (
+                        <CircularProgress
+                          style={{ position: "absolute", right: 12, top: 10 }}
+                          size={16}
+                        />
+                      )}
                     </Box>
                     <FlexVCenter justifyContent="space-between">
                       <FlexVCenter mt={1}>
@@ -212,9 +218,6 @@ const ResourceDialog = (props: Props) => {
                           }
                           label="Autofill via URL"
                         /> */}
-                        {isFetchingLinkPreview && (
-                          <CircularProgress size={24} />
-                        )}
                       </FlexVCenter>
 
                       <Box>

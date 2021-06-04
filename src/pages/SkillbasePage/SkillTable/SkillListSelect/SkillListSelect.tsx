@@ -1,13 +1,6 @@
 import { faSortDown } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import {
-  Box,
-  Button,
-  makeStyles,
-  Menu,
-  MenuItem,
-  Typography,
-} from "@material-ui/core"
+import { Box, Button, makeStyles, Menu, MenuItem } from "@material-ui/core"
 import LabelIcon from "@material-ui/icons/Label"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
@@ -18,6 +11,8 @@ import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter"
 import PATHS from "../../../../consts/PATHS"
 import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto"
 import { ApplicationState } from "../../../../store/store"
+
+// PE 1/3 - SUBSTITUTED BY <SkillbaseTagSelector/> (DELETE?)
 
 // PE 2/3 - Not so easy to understand the classes logic
 const SkillListSelect = (props: Props) => {

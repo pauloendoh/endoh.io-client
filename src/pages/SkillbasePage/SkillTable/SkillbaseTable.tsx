@@ -1,6 +1,5 @@
 import { Box } from "@material-ui/core"
 import Checkbox from "@material-ui/core/Checkbox"
-import IconButton from "@material-ui/core/IconButton"
 import Paper from "@material-ui/core/Paper"
 import {
   createStyles,
@@ -16,15 +15,10 @@ import TableHead from "@material-ui/core/TableHead"
 import TableRow from "@material-ui/core/TableRow"
 import TableSortLabel from "@material-ui/core/TableSortLabel"
 import Toolbar from "@material-ui/core/Toolbar"
-import Tooltip from "@material-ui/core/Tooltip"
-import Typography from "@material-ui/core/Typography"
-import DeleteIcon from "@material-ui/icons/Delete"
-import clsx from "clsx"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
-import MyTextField from "../../../components/shared/MyInputs/MyTextField"
 import API from "../../../consts/API"
 import MY_AXIOS from "../../../consts/MY_AXIOS"
 import PATHS from "../../../consts/PATHS"
@@ -41,7 +35,7 @@ import { ApplicationState } from "../../../store/store"
 import { setSuccessMessage } from "../../../store/utils/utilsActions"
 import AddSkillButton from "./AddSkillButton/AddSkillButton"
 import SkillbaseTableRow from "./SkillbaseTableRow/SkillbaseTableRow"
-import SkillListSelect from "./SkillListSelect/SkillListSelect"
+import SkillTableToolbar from "./SkillTableToolbar/SkillTableToolbar"
 
 // PE 1/3 - tá muito grande, temos q limpar um monte de coisa que nem está sendo mais usada.
 
@@ -221,67 +215,6 @@ const useToolbarStyles = makeStyles((theme: Theme) =>
     },
   })
 )
-
-interface EnhancedTableToolbarProps {
-  numSelected: number
-  textFilter: string
-  onChangeFilter: (text: string) => void
-  onClickDelete: () => void
-}
-
-const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  const classes = useToolbarStyles()
-  const { numSelected } = props
-
-  return (
-    <Toolbar
-      className={clsx(classes.root, {
-        [classes.highlight]: numSelected > 0,
-      })}
-    >
-      {numSelected > 0 ? (
-        <Typography
-          className={classes.title}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography
-          className={classes.title}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          Your skills
-        </Typography>
-      )}
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton
-            id="delete-skills-icon"
-            onClick={props.onClickDelete}
-            aria-label="delete"
-          >
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Box mr={2} width={450}>
-          <SkillListSelect />
-          {/* <MyTextField
-            label="Filter by name or tag"
-            value={props.textFilter}
-            onChange={(e) => props.onChangeFilter(e.target.value)}
-            fullWidth
-          /> */}
-        </Box>
-      )}
-    </Toolbar>
-  )
-}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -489,7 +422,7 @@ const SkillbaseTable = (props: Props) => {
   return (
     <Box className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar
+        <SkillTableToolbar
           onClickDelete={handleDelete}
           textFilter={textFilter}
           numSelected={selectedIds.length}

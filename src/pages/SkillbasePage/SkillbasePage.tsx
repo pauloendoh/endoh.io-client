@@ -49,7 +49,7 @@ const SkillbasePage = (props: Props) => {
 
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={handlers}>
-      <Flex height="100%" pt={5}>
+      <Flex height="100%" pt={5} justifyContent="center">
         <ProgressSidebar />
 
         <Box
@@ -75,7 +75,6 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    marginRight: 0,
   },
   contentShift: {
     transition: theme.transitions.create("margin", {
