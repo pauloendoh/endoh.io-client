@@ -142,7 +142,7 @@ const ExpectationsAtLevel = (props: Props) => {
               fontWeight: "normal",
             }}
           >
-            Add Expectation
+            Add Goal or Concept to Learn
           </Button>
         )}
       </Box>

@@ -18,7 +18,7 @@ const SkillExpectations = (props: Props) => {
         fullWidth
         style={{ background: theme.palette.grey[800] }}
       >
-        {isExpanded ? "Hide Expectations" : "Show Expectations"}
+        {isExpanded ? "Hide Roadmap" : "Show Roadmap"}
       </Button>
 
       <Collapse in={isExpanded} timeout="auto" unmountOnExit>

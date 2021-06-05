@@ -79,6 +79,7 @@ const ResourceDialog = (props: Props) => {
       setTimeout(() => {
         if (urlIsValid(url)) {
           setIsFetchingLinkPreview(true)
+          setFieldValue("title", "Loading...")
           MY_AXIOS.get<LinkPreviewDto>(API.utils.linkPreview + "?url=" + url)
             .then((res) => {
               const preview = res.data
@@ -86,6 +87,9 @@ const ResourceDialog = (props: Props) => {
                 setFieldValue("estimatedTime", preview.duration)
               setFieldValue("title", preview.title)
               setFieldValue("thumbnail", preview.image)
+            })
+            .catch(() => {
+              setFieldValue("title", "")
             })
             .finally(() => {
               setIsFetchingLinkPreview(false)
@@ -170,7 +174,7 @@ const ResourceDialog = (props: Props) => {
                   )}
 
                   <Box flexGrow={1}>
-                    <Box>
+                    <Box position="relative">
                       <MyTextField
                         id="title"
                         name="title"
