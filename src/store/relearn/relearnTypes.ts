@@ -1,29 +1,26 @@
-import { TagDto } from '../../interfaces/dtos/relearn/TagDto';
-import { ResourceDto } from '../../interfaces/dtos/relearn/ResourceDto';
+import { TagDto } from "../../interfaces/dtos/relearn/TagDto"
+import { ResourceDto } from "../../interfaces/dtos/relearn/ResourceDto"
 
 export enum relearnActionTypes {
-    SET_RESOURCES = '@relearn/SET_RESOURCES',
-    SET_TAGS = '@relearn/SET_TAGS',
+  SET_RESOURCES = "@relearn/SET_RESOURCES",
+  SET_TAGS = "@relearn/SET_TAGS",
 
-    REMOVE_RESOURCE = '@relearn/REMOVE_RESOURCE',
-    REMOVE_TAG = '@relearn/REMOVE_TAG',
+  REMOVE_RESOURCE = "@relearn/REMOVE_RESOURCE",
+  REMOVE_TAG = "@relearn/REMOVE_TAG",
 
+  SET_EDITING_RESOURCE = "@relearn/SET_EDITING_RESOURCE",
+  SET_EDITING_TAG = "@relearn/SET_EDITING_TAG",
 
-    SET_EDITING_RESOURCE = '@relearn/SET_EDITING_RESOURCE',
-    SET_EDITING_TAG = '@relearn/SET_EDITING_TAG',
+  MOVE_RESOURCE = "@relearn/MOVE_RESOURCE",
 
-    MOVE_RESOURCE = '@relearn/MOVE_RESOURCE',
-
-
-    CLEAR_RELEARN_REDUCER = '@relearn/CLEAR_RELEARN_REDUCER',
-
+  CLEAR_RELEARN_REDUCER = "@relearn/CLEAR_RELEARN_REDUCER",
 }
 
 export interface RelearnState {
-    resources: ResourceDto[],
-    tags: TagDto[],
+  resources: ResourceDto[]
+  hasFirstLoaded: boolean
+  tags: TagDto[]
 
-    editingResource: ResourceDto,
-    editingTag: TagDto,
+  editingResource: ResourceDto
+  editingTag: TagDto
 }
-

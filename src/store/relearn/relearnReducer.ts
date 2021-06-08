@@ -1,13 +1,15 @@
-import { Reducer } from 'redux';
-import API from '../../consts/API';
-import MY_AXIOS from '../../consts/MY_AXIOS';
-import { ResourceDto } from '../../interfaces/dtos/relearn/ResourceDto';
-import { IMoveResource } from '../../interfaces/relearn/IMoveResource';
-import { RelearnActionReturns } from './relearnActions';
-import { relearnActionTypes, RelearnState } from './relearnTypes';
+import { Reducer } from "redux"
+import API from "../../consts/API"
+import MY_AXIOS from "../../consts/MY_AXIOS"
+import { ResourceDto } from "../../interfaces/dtos/relearn/ResourceDto"
+import { IMoveResource } from "../../interfaces/relearn/IMoveResource"
+import { RelearnActionReturns } from "./relearnActions"
+import { relearnActionTypes, RelearnState } from "./relearnTypes"
 
 const INITIAL_STATE: RelearnState = {
   resources: [],
+  hasFirstLoaded: false,
+
   tags: [],
 
   editingResource: null,
@@ -16,10 +18,13 @@ const INITIAL_STATE: RelearnState = {
 
 let throttle: NodeJS.Timeout = null
 
-const relearnReducer: Reducer<RelearnState, RelearnActionReturns> = (state = INITIAL_STATE, action: RelearnActionReturns): RelearnState => {
+const relearnReducer: Reducer<RelearnState, RelearnActionReturns> = (
+  state = INITIAL_STATE,
+  action: RelearnActionReturns
+): RelearnState => {
   switch (action.type) {
     case relearnActionTypes.SET_RESOURCES:
-      return { ...state, resources: action.payload }
+      return { ...state, resources: action.payload, hasFirstLoaded: true }
     case relearnActionTypes.SET_TAGS:
       return { ...state, tags: action.payload }
     case relearnActionTypes.REMOVE_RESOURCE:
@@ -40,15 +45,20 @@ const relearnReducer: Reducer<RelearnState, RelearnActionReturns> = (state = INI
   }
 }
 
-const setEditingResource = (state: RelearnState, resource: ResourceDto): RelearnState => {
+const setEditingResource = (
+  state: RelearnState,
+  resource: ResourceDto
+): RelearnState => {
   return { ...state, editingResource: resource }
 }
 
 const removeResource = (state: RelearnState, id: number): RelearnState => {
   // remove from resources, and from tags
-  const resources = [...state.resources].filter(resource => resource.id !== id)
-  const tags = [...state.tags].map(tag => {
-    tag.resources = tag.resources.filter(resource => resource.id !== id)
+  const resources = [...state.resources].filter(
+    (resource) => resource.id !== id
+  )
+  const tags = [...state.tags].map((tag) => {
+    tag.resources = tag.resources.filter((resource) => resource.id !== id)
     return tag
   })
 
@@ -58,22 +68,29 @@ const removeResource = (state: RelearnState, id: number): RelearnState => {
 const removeTag = (state: RelearnState, id: number): RelearnState => {
   // remove tag and resources from that tag
 
-  const tag = state.tags.find(t => t.id === id)
-  const resourcesIds = tag.resources.map(r => r.id) // Resources which will be removed
+  const tag = state.tags.find((t) => t.id === id)
+  const resourcesIds = tag.resources.map((r) => r.id) // Resources which will be removed
 
-  const resources = [...state.resources].filter(r => !resourcesIds.includes(r.id))
-  const tags = [...state.tags].filter(t => t.id !== id)
+  const resources = [...state.resources].filter(
+    (r) => !resourcesIds.includes(r.id)
+  )
+  const tags = [...state.tags].filter((t) => t.id !== id)
 
   return { ...state, resources, tags }
 }
 
-const moveResource = (state: RelearnState, params: IMoveResource): RelearnState => {
+const moveResource = (
+  state: RelearnState,
+  params: IMoveResource
+): RelearnState => {
   // get uncompleted resources from tag
-  let resources = state.resources.filter(resource => {
-    if (params.tagId === null && resource.tag === null) return true
-    if (params.tagId === resource.tag?.id) return true
-    return false
-  }).filter(resource => resource.completedAt.length === 0)
+  let resources = state.resources
+    .filter((resource) => {
+      if (params.tagId === null && resource.tag === null) return true
+      if (params.tagId === resource.tag?.id) return true
+      return false
+    })
+    .filter((resource) => resource.completedAt.length === 0)
 
   // sort them by position
   resources = resources.sort(
@@ -99,23 +116,21 @@ const moveResource = (state: RelearnState, params: IMoveResource): RelearnState 
 
   // Saving changes at database (1s throttle)
   clearTimeout(throttle)
-  throttle = (setTimeout(() => {
-    MY_AXIOS.post(API.relearn.resource + '/resources', resources)
-      .then(res => {
-
-      }).catch(err => {
+  throttle = setTimeout(() => {
+    MY_AXIOS.post(API.relearn.resource + "/resources", resources)
+      .then((res) => {})
+      .catch((err) => {
         alert("Error while saving new position.")
       })
-  }, 1000))
-
+  }, 1000)
 
   // concat to the other resources
-  const resourcesIds = resources.map(resource => resource.id)
-  const otherResources = state.resources.filter(resource => !resourcesIds.includes(resource.id))
+  const resourcesIds = resources.map((resource) => resource.id)
+  const otherResources = state.resources.filter(
+    (resource) => !resourcesIds.includes(resource.id)
+  )
   const allResources = otherResources.concat(resources)
   return { ...state, resources: allResources }
 }
-
-
 
 export default relearnReducer

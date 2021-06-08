@@ -1,10 +1,12 @@
-import { Reducer } from 'redux';
-import { SkillDto } from '../../dtos/skillbase/SkillDto';
-import { SkillbaseActionReturns } from './skillbaseActions';
-import { skillbaseActionTypes, SkillbaseState } from './skillbaseTypes';
+import { Reducer } from "redux"
+import { SkillDto } from "../../dtos/skillbase/SkillDto"
+import { SkillbaseActionReturns } from "./skillbaseActions"
+import { skillbaseActionTypes, SkillbaseState } from "./skillbaseTypes"
 
 const INITIAL_STATE: SkillbaseState = {
   skills: [],
+  hasFirstLoaded: false,
+
   sortBy: null,
 
   editingSkill: null,
@@ -13,13 +15,16 @@ const INITIAL_STATE: SkillbaseState = {
   sidebarIsOpen: false,
 }
 
-const skillbaseReducer: Reducer<SkillbaseState, SkillbaseActionReturns> = (state = INITIAL_STATE, action: SkillbaseActionReturns): SkillbaseState => {
+const skillbaseReducer: Reducer<SkillbaseState, SkillbaseActionReturns> = (
+  state = INITIAL_STATE,
+  action: SkillbaseActionReturns
+): SkillbaseState => {
   switch (action.type) {
     case skillbaseActionTypes.CLEAR_SKILLBASE_REDUCER:
       return INITIAL_STATE
-      
+
     case skillbaseActionTypes.SET_SKILLS:
-      return { ...state, skills: action.payload }
+      return { ...state, skills: action.payload, hasFirstLoaded: true }
     case skillbaseActionTypes.SET_SKILL:
       return setSkill(state, action.payload)
     case skillbaseActionTypes.ADD_SKILL:
@@ -42,11 +47,9 @@ const skillbaseReducer: Reducer<SkillbaseState, SkillbaseActionReturns> = (state
   }
 }
 
-
 const setSkill = (state: SkillbaseState, skill: SkillDto) => {
-
   const skills = [...state.skills]
-  const index = skills.findIndex(s => s.id === skill.id)
+  const index = skills.findIndex((s) => s.id === skill.id)
 
   if (~index) {
     skills[index] = skill
@@ -56,20 +59,17 @@ const setSkill = (state: SkillbaseState, skill: SkillDto) => {
 }
 
 const addSkill = (state: SkillbaseState, skill: SkillDto) => {
-
   const skills = [...state.skills]
   skills.push(skill)
   return { ...state, skills }
 }
 
-
 const removeSkills = (state: SkillbaseState, idsToRemove: number[]) => {
-
-  const skillsToKeep = [...state.skills].filter(skill => !idsToRemove.includes(skill.id))
+  const skillsToKeep = [...state.skills].filter(
+    (skill) => !idsToRemove.includes(skill.id)
+  )
 
   return { ...state, skills: skillsToKeep }
 }
-
-
 
 export default skillbaseReducer

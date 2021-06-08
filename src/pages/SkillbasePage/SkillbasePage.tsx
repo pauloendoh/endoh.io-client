@@ -19,6 +19,7 @@ import {
 } from "../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../store/store"
 import { sleep } from "../../utils/sleep"
+import LoadingPage from "../index/LoadingPage"
 import ProgressSidebar from "./ProgressSidebar/ProgressSidebar"
 import SkillbaseTable from "./SkillTable/SkillbaseTable"
 
@@ -76,9 +77,13 @@ const SkillbasePage = (props: Props) => {
           })}
         >
           <Box width="100%">
-            <Paper className={classes.paper}>
-              <SkillbaseTable tag={selectedTag} fixedTag={null} />
-            </Paper>
+            {props.hasFirstLoaded ? (
+              <Paper className={classes.paper}>
+                <SkillbaseTable tag={selectedTag} fixedTag={null} />
+              </Paper>
+            ) : (
+              <LoadingPage />
+            )}
           </Box>
         </Box>
       </Flex>
@@ -114,6 +119,7 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 const mapStateToProps = (state: ApplicationState) => ({
   sidebarIsOpen: state.skillbase.sidebarIsOpen,
+  hasFirstLoaded: state.skillbase.hasFirstLoaded,
   allTags: state.relearn.tags,
 })
 

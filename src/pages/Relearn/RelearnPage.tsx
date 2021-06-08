@@ -16,21 +16,15 @@ import { ApplicationState } from "../../store/store"
 import { sleep } from "../../utils/sleep"
 import LoadingPage from "../index/LoadingPage"
 import RelearnContent from "./Content/RelearnContent"
-import ResourceDialog from "./Dialogs/ResourceDialog"
 import TagDialog from "./Dialogs/TagDialog"
 import RelearnSidebar from "./RelearnSidebar/RelearnSidebar"
 // PE 3/3
 const RelearnPage = (props: Props) => {
-  const [isLoadingResources, setIsLoadingResources] = useState(true)
   useEffect(
     () => {
-      MY_AXIOS.get<ResourceDto[]>(API.relearn.resource)
-        .then((res) => {
-          props.setResources(res.data)
-        })
-        .finally(() => {
-          setIsLoadingResources(false)
-        })
+      MY_AXIOS.get<ResourceDto[]>(API.relearn.resource).then((res) => {
+        props.setResources(res.data)
+      })
 
       MY_AXIOS.get<SkillDto[]>(API.skillbase.skill).then((res) => {
         props.setSkills(res.data)
@@ -85,11 +79,10 @@ const RelearnPage = (props: Props) => {
       <Flex height="100%">
         <RelearnSidebar />
         <Box pt={1} px={4} flexGrow={1}>
-          {isLoadingResources ? (
-            <LoadingPage />
-          ) : (
+          {props.hasFirstLoaded ? (
             <RelearnContent resources={filteredResources} skills={skills} />
-            // <ResourceList resources={filteredResources} />
+          ) : (
+            <LoadingPage />
           )}
         </Box>
         <TagDialog />
@@ -103,6 +96,7 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 const mapStateToProps = (state: ApplicationState) => ({
   resources: state.relearn.resources,
+  hasFirstLoaded: state.relearn.hasFirstLoaded,
   allSkills: state.skillbase.skills,
 })
 

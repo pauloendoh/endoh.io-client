@@ -1,35 +1,34 @@
-import { ProgressDto } from './../../dtos/skillbase/ProgressDto';
-import { SkillDto } from '../../dtos/skillbase/SkillDto';
+import { ProgressDto } from "./../../dtos/skillbase/ProgressDto"
+import { SkillDto } from "../../dtos/skillbase/SkillDto"
 
 export enum skillbaseActionTypes {
-    CLEAR_SKILLBASE_REDUCER = '@skillbase/CLEAR_SKILLBASE_REDUCER',
-    SET_SKILLS = '@skillbase/SET_SKILLS',
-    SET_SKILL = '@skillbase/SET_SKILL',
-    ADD_SKILL = '@skillbase/ADD_SKILL',
-    REMOVE_SKILLS = '@skillbase/REMOVE_SKILLS',
+  CLEAR_SKILLBASE_REDUCER = "@skillbase/CLEAR_SKILLBASE_REDUCER",
+  SET_SKILLS = "@skillbase/SET_SKILLS",
+  SET_SKILL = "@skillbase/SET_SKILL",
+  ADD_SKILL = "@skillbase/ADD_SKILL",
+  REMOVE_SKILLS = "@skillbase/REMOVE_SKILLS",
 
-    SORT_SKILL = '@skillbase/SORT_SKILL',
+  SORT_SKILL = "@skillbase/SORT_SKILL",
 
-    SET_EDITING_SKILL = '@skillbase/SET_EDITING_SKILL',
+  SET_EDITING_SKILL = "@skillbase/SET_EDITING_SKILL",
 
-
-    SET_PROGRESSES = '@skillbase/SET_PROGRESSES',
-    SET_SIDEBAR_IS_OPEN = '@skillbase/SET_SIDEBAR_IS_OPEN',
+  SET_PROGRESSES = "@skillbase/SET_PROGRESSES",
+  SET_SIDEBAR_IS_OPEN = "@skillbase/SET_SIDEBAR_IS_OPEN",
 }
 
 export interface SkillbaseState {
-    skills: SkillDto[],
+  skills: SkillDto[]
+  hasFirstLoaded: boolean
 
-    sortBy: SortSkill,
+  sortBy: SortSkill
 
-    editingSkill: SkillDto,
+  editingSkill: SkillDto
 
-    progresses: ProgressDto[],
-    sidebarIsOpen: boolean
+  progresses: ProgressDto[]
+  sidebarIsOpen: boolean
 }
 
 export interface SortSkill {
-    property: keyof SkillDto,
-    order: "asc" | "desc"
+  property: keyof SkillDto
+  order: "asc" | "desc"
 }
-
