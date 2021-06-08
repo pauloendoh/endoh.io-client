@@ -1,14 +1,17 @@
-import { Box, makeStyles } from "@material-ui/core"
+import { Box, makeStyles, Paper } from "@material-ui/core"
 import clsx from "clsx"
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { GlobalHotKeys } from "react-hotkeys"
 import { connect } from "react-redux"
+import { useLocation } from "react-router"
 import { Dispatch } from "redux"
 import Flex from "../../components/shared/Flexboxes/Flex"
 import API from "../../consts/API"
 import MY_AXIOS from "../../consts/MY_AXIOS"
+import PATHS from "../../consts/PATHS"
 import { ProgressDto } from "../../dtos/skillbase/ProgressDto"
 import { newSkillDto, SkillDto } from "../../dtos/skillbase/SkillDto"
+import { TagDto } from "../../interfaces/dtos/relearn/TagDto"
 import {
   setEditingSkill,
   setProgresses,
@@ -22,6 +25,9 @@ import SkillbaseTable from "./SkillTable/SkillbaseTable"
 // PE 3/3
 const SkillbasePage = (props: Props) => {
   const classes = useStyles()
+  const { pathname } = useLocation()
+
+  const [selectedTag, setSelectedTag] = useState<TagDto | "Untagged">()
 
   useEffect(
     () => {
@@ -38,6 +44,18 @@ const SkillbasePage = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
+
+  useEffect(() => {
+    if (pathname.startsWith(PATHS.skillbase.untagged)) {
+      setSelectedTag("Untagged")
+    } else if (pathname.startsWith(PATHS.skillbase.tag + "/")) {
+      const tagId = Number(pathname.split("/").pop())
+      if (tagId) {
+        const tag = props.allTags.find((tag) => tag.id === tagId)
+        setSelectedTag(tag)
+      }
+    } else setSelectedTag(null)
+  }, [pathname])
 
   const keyMap = { openModal: "q" }
   const handlers = {
@@ -57,10 +75,12 @@ const SkillbasePage = (props: Props) => {
             [classes.contentShift]: props.sidebarIsOpen,
           })}
         >
-          <SkillbaseTable />
+          <Box width="100%">
+            <Paper className={classes.paper}>
+              <SkillbaseTable tag={selectedTag} fixedTag={null} />
+            </Paper>
+          </Box>
         </Box>
-
-        {/* <RelearnSidebar /> */}
       </Flex>
     </GlobalHotKeys>
   )
@@ -83,6 +103,10 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: 300,
   },
+  paper: {
+    width: "100%",
+    marginBottom: theme.spacing(2),
+  },
 }))
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -90,6 +114,7 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 const mapStateToProps = (state: ApplicationState) => ({
   sidebarIsOpen: state.skillbase.sidebarIsOpen,
+  allTags: state.relearn.tags,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

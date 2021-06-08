@@ -1,20 +1,11 @@
 import { Box } from "@material-ui/core"
-import Checkbox from "@material-ui/core/Checkbox"
 import Paper from "@material-ui/core/Paper"
-import {
-  createStyles,
-  lighten,
-  makeStyles,
-  Theme,
-} from "@material-ui/core/styles"
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"
-import TableCell from "@material-ui/core/TableCell"
 import TableContainer from "@material-ui/core/TableContainer"
-import TableHead from "@material-ui/core/TableHead"
-import TableRow from "@material-ui/core/TableRow"
-import TableSortLabel from "@material-ui/core/TableSortLabel"
 import Toolbar from "@material-ui/core/Toolbar"
+import { PortraitSharp } from "@material-ui/icons"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
@@ -25,6 +16,7 @@ import PATHS from "../../../consts/PATHS"
 import { IdsDto } from "../../../dtos/IdsDto"
 import { SkillDto } from "../../../dtos/skillbase/SkillDto"
 import { UserPreferenceDto } from "../../../interfaces/dtos/AuthUserGetDto"
+import { TagDto } from "../../../interfaces/dtos/relearn/TagDto"
 import { savePreferenceActionCreator } from "../../../store/auth/authActions"
 import {
   removeSkills,
@@ -34,230 +26,16 @@ import { SortSkill } from "../../../store/skillbase/skillbaseTypes"
 import { ApplicationState } from "../../../store/store"
 import { setSuccessMessage } from "../../../store/utils/utilsActions"
 import AddSkillButton from "./AddSkillButton/AddSkillButton"
+import SkillbaseTableHead from "./SkillbaseTableHead/SkillbaseTableHead"
 import SkillbaseTableRow from "./SkillbaseTableRow/SkillbaseTableRow"
 import SkillTableToolbar from "./SkillTableToolbar/SkillTableToolbar"
 
 // PE 1/3 - tá muito grande, temos q limpar um monte de coisa que nem está sendo mais usada.
 
-// function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-//   if (b[orderBy] < a[orderBy]) {
-//     return -1
-//   }
-//   if (b[orderBy] > a[orderBy]) {
-//     return 1
-//   }
-//   return 0
-// }
-
-type Order = "asc" | "desc"
-
-// function getComparator<Key extends keyof any>(
-//   order: Order,
-//   orderBy: Key
-// ): (
-//   a: { [key in Key]: number | string },
-//   b: { [key in Key]: number | string }
-// ) => number {
-//   return order === "desc"
-//     ? (a, b) => descendingComparator(a, b, orderBy)
-//     : (a, b) => -descendingComparator(a, b, orderBy)
-// }
-
-// function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
-//   const stabilizedThis = array.map((el, index) => [el, index] as [T, number])
-//   stabilizedThis.sort((a, b) => {
-//     const order = comparator(a[0], b[0])
-//     if (order !== 0) return order
-//     return a[1] - b[1]
-//   })
-//   return stabilizedThis.map((el) => el[0])
-// }
-
-interface HeadCell {
-  disablePadding: boolean
-  id: keyof SkillDto
-  label: string
-  numeric: boolean
-  align: "center" | "left" | "right"
-}
-
-const headCells: HeadCell[] = [
-  {
-    id: "isPriority",
-    numeric: false,
-    disablePadding: true,
-    label: "Priority",
-    align: "center",
-  },
-  {
-    id: "name",
-    numeric: false,
-    disablePadding: false,
-    label: "Skill Name",
-    align: "left",
-  },
-  {
-    id: "currentLevel",
-    numeric: true,
-    disablePadding: false,
-    label: "Now",
-    align: "center",
-  },
-  {
-    id: "goalLevel",
-    numeric: true,
-    disablePadding: false,
-    label: "Goal",
-    align: "center",
-  },
-  // {
-  //   id: "dependencies",
-  //   numeric: false,
-  //   disablePadding: false,
-  //   label: "Dependencies",
-  //   align: "left",
-  // },
-  {
-    id: "tagId",
-    numeric: false,
-    disablePadding: false,
-    label: "Tag",
-    align: "left",
-  },
-]
-
-interface EnhancedTableProps {
-  classes: ReturnType<typeof useStyles>
-  numSelected: number
-  onRequestSort: (
-    event: React.MouseEvent<unknown>,
-    property: keyof SkillDto
-  ) => void
-  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void
-  order: Order
-  orderBy: string
-  rowCount: number
-}
-
-function EnhancedTableHead(props: EnhancedTableProps) {
-  const {
-    classes,
-    onSelectAllClick,
-    order,
-    orderBy,
-    numSelected,
-    rowCount,
-    onRequestSort,
-  } = props
-  const createSortHandler = (property: keyof SkillDto) => (
-    event: React.MouseEvent<unknown>
-  ) => {
-    onRequestSort(event, property)
-  }
-
-  return (
-    <TableHead>
-      <TableRow>
-        <TableCell padding="checkbox" className={classes.th}>
-          <Checkbox
-            className={classes.th}
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{ "aria-label": "select all desserts" }}
-          />
-        </TableCell>
-        {headCells.map((headCell) => (
-          <TableCell
-            className={classes.th}
-            key={headCell.id}
-            align={headCell.align}
-            padding={headCell.disablePadding ? "none" : "default"}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "desc"}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <span className={classes.visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </span>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  )
-}
-
-const useToolbarStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(1),
-    },
-    highlight:
-      theme.palette.type === "light"
-        ? {
-            color: theme.palette.secondary.main,
-            backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-          }
-        : {
-            color: theme.palette.text.primary,
-            backgroundColor: theme.palette.secondary.dark,
-          },
-    title: {
-      flex: "1 1 100%",
-    },
-  })
-)
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      width: "100%",
-    },
-    paper: {
-      width: "100%",
-      marginBottom: theme.spacing(2),
-    },
-    container: {
-      maxHeight: 440,
-    },
-    th: {
-      backgroundColor: "#2B2B2B",
-    },
-    table: {
-      minWidth: 750,
-
-      "& .MuiTableCell-root": {
-        padding: 8,
-        borderBottom: "1px solid rgb(255 255 255 / 0.1)",
-      },
-    },
-    visuallyHidden: {
-      border: 0,
-      clip: "rect(0 0 0 0)",
-      height: 1,
-      margin: -1,
-      overflow: "hidden",
-      padding: 0,
-      position: "absolute",
-      top: 20,
-      width: 1,
-    },
-  })
-)
-
 const SkillbaseTable = (props: Props) => {
   const classes = useStyles()
-  const location = useLocation()
 
-  const [order, setOrder] = React.useState<Order>(
+  const [order, setOrder] = React.useState<"asc" | "desc">(
     props.preference?.skillbaseSortSkill?.order
   )
   const [orderBy, setOrderBy] = React.useState<keyof SkillDto>(
@@ -265,27 +43,8 @@ const SkillbaseTable = (props: Props) => {
   )
   const [selectedIds, setSelectedIds] = React.useState<number[]>([])
 
-  const [listId, setListId] = useState<number>(null) // null = "show all", 0 = "unlisted"
-
-  const [textFilter, setTextFilter] = useState(
-    props.preference?.skillbaseTextFilter
-  )
-
-  const [throttle, setThrottle] = useState<NodeJS.Timeout>(null)
-
-  const handleChangeTextFilter = (text: string) => {
-    setTextFilter(text)
-
-    clearTimeout(throttle)
-    setThrottle(
-      setTimeout(() => {
-        props.savePreference({ ...props.preference, skillbaseTextFilter: text })
-      }, 200)
-    )
-  }
-
   const filterAndSortSkills = () => {
-    let skills = props.skills
+    let skills = props.allSkills
 
     if (props.sortBy) {
       const property = props.sortBy.property
@@ -336,14 +95,11 @@ const SkillbaseTable = (props: Props) => {
       }
     }
 
-    const { pathname } = location
-    if (pathname.startsWith(PATHS.skillbase.untagged)) {
+    if (props.tag === "Untagged") {
       skills = skills.filter((s) => s.tagId === null)
-    } else if (pathname.startsWith(PATHS.skillbase.tag + "/")) {
-      const listId = Number(pathname.split("/").pop())
-      if (listId) {
-        skills = skills.filter((s) => s.tagId === listId)
-      }
+    } else if (props.tag?.id) {
+      const tagId = props.tag.id
+      skills = skills.filter((s) => s.tagId === tagId)
     }
 
     return skills
@@ -358,7 +114,7 @@ const SkillbaseTable = (props: Props) => {
       setVisibleSkills(filterAndSortSkills())
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.skills, props.sortBy, location]
+    [props.allSkills, props.sortBy, props.tag]
   )
 
   const handleRequestSort = (
@@ -420,68 +176,70 @@ const SkillbaseTable = (props: Props) => {
   }
 
   return (
-    <Box className={classes.root}>
-      <Paper className={classes.paper}>
-        <SkillTableToolbar
-          onClickDelete={handleDelete}
-          textFilter={textFilter}
-          numSelected={selectedIds.length}
-          onChangeFilter={handleChangeTextFilter}
-        />
-        <TableContainer className={classes.container}>
-          <Table
-            stickyHeader
-            className={classes.table}
-            aria-labelledby="tableTitle"
-            size="small"
-            // size={dense ? "small" : "medium"}
-            aria-label="enhanced table"
-          >
-            <EnhancedTableHead
-              classes={classes}
-              numSelected={selectedIds.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={visibleSkills.length}
-            />
-            <TableBody>
-              {
-                // stableSort(props.skills, getComparator(order, orderBy))
+    <React.Fragment>
+      <SkillTableToolbar
+        fixedTag={props.fixedTag}
+        onClickDelete={handleDelete}
+        numSelected={selectedIds.length}
+      />
+      <TableContainer className={classes.container}>
+        <Table
+          stickyHeader
+          className={classes.table}
+          aria-labelledby="tableTitle"
+          size="small"
+          aria-label="enhanced table"
+        >
+          <SkillbaseTableHead
+            numSelected={selectedIds.length}
+            order={order}
+            orderBy={orderBy}
+            onSelectAllClick={handleSelectAllClick}
+            onRequestSort={handleRequestSort}
+            rowCount={visibleSkills.length}
+          />
+          <TableBody>
+            {visibleSkills.map((skill, index) => {
+              return (
+                <SkillbaseTableRow
+                  key={skill.id}
+                  skill={skill}
+                  index={index}
+                  isSelected={isSelected(skill.id)}
+                  onCheck={handleCheck}
+                />
+              )
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
-                visibleSkills.map((skill, index) => {
-                  return (
-                    <SkillbaseTableRow
-                      key={skill.id}
-                      skill={skill}
-                      index={index}
-                      isSelected={isSelected(skill.id)}
-                      onCheck={handleCheck}
-                    />
-                  )
-                })
-              }
-            </TableBody>
-          </Table>
-        </TableContainer>
-
-        <Toolbar>
-          <AddSkillButton />
-        </Toolbar>
-      </Paper>
-    </Box>
+      <Toolbar>
+        <AddSkillButton tag={props.tag} />
+      </Toolbar>
+    </React.Fragment>
   )
 }
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+const useStyles = makeStyles((theme: Theme) => ({
+  container: {
+    maxHeight: 440,
+  },
+
+  table: {
+    minWidth: 750,
+    "& .MuiTableCell-root": {
+      padding: 8,
+      borderBottom: "1px solid rgb(255 255 255 / 0.1)",
+    },
+  },
+}))
 
 const mapStateToProps = (state: ApplicationState) => ({
   preference: state.auth.preference,
 
   allTags: state.relearn.tags,
-  skills: state.skillbase.skills,
+  allSkills: state.skillbase.skills,
   sortBy: state.skillbase.sortBy,
 })
 
@@ -494,5 +252,14 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
   setSuccessMessage: (message: string) => dispatch(setSuccessMessage(message)),
 })
+
+interface OwnProps {
+  tag: TagDto | "Untagged"
+  fixedTag: TagDto
+}
+
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps> &
+  OwnProps
 
 export default connect(mapStateToProps, mapDispatchToProps)(SkillbaseTable)

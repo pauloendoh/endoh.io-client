@@ -3,7 +3,7 @@ import React from "react"
 import { TagDto } from "../../../interfaces/dtos/relearn/TagDto"
 
 const TagIcon = (props: Props) => {
-  return <LabelIcon style={{ color: props.tag.color }} />
+  return <LabelIcon style={{ color: props.tag.color }} fontSize="inherit" />
 }
 
 interface Props {

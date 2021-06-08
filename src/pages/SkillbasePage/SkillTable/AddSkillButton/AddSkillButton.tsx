@@ -6,19 +6,25 @@ import { connect } from "react-redux"
 import { useLocation } from "react-router"
 import { Dispatch } from "redux"
 import { newSkillDto, SkillDto } from "../../../../dtos/skillbase/SkillDto"
+import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto"
 import { setEditingSkill } from "../../../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../../../store/store"
 import { getCurrentTagId } from "../../../../utils/skillbase/getCurrentTagId"
 
 const AddSkillButton = (props: Props) => {
-  const location = useLocation()
+  const handleClick = () => {
+    if (props.tag === "Untagged" || props.tag === null) {
+      props.setEditingSkill(newSkillDto(null))
+    } else {
+      props.setEditingSkill(newSkillDto(props.tag.id))
+    }
+  }
+
   return (
     <Tooltip title="(q) Quick Add Skill">
       <Button
         id="add-skill-btn"
-        onClick={() =>
-          props.setEditingSkill(newSkillDto(getCurrentTagId(location.pathname)))
-        }
+        onClick={handleClick}
         size="small"
         startIcon={<FontAwesomeIcon icon={faPlus} size="xs" />}
       >
@@ -34,7 +40,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   setEditingSkill: (skill: SkillDto) => dispatch(setEditingSkill(skill)),
 })
 
+interface OwnProps {
+  tag: TagDto | "Untagged"
+}
+
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+  ReturnType<typeof mapDispatchToProps> &
+  OwnProps
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddSkillButton)

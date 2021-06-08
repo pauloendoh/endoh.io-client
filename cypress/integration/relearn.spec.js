@@ -74,7 +74,7 @@ context('Relearn', () => {
       .trigger('mouseup')
   })
 
-  it.only("Should autocomplete 'Duration' if the resource is a Youtube video", () => {
+  it("Should autocomplete 'Duration' if the resource is a Youtube video", () => {
     clickAddResourceButton()
     cy.get('[name="url"]').type(`https://www.youtube.com/watch?v=mW61VTLhNjQ`)
 

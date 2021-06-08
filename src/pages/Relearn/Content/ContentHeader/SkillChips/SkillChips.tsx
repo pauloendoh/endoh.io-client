@@ -1,15 +1,15 @@
-import { Button, makeStyles } from "@material-ui/core"
+import { makeStyles } from "@material-ui/core"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
-import { Link as RouterLink, useLocation } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
 import Flex from "../../../../../components/shared/Flexboxes/Flex"
-import FlexVCenter from "../../../../../components/shared/Flexboxes/FlexVCenter"
 import SkillChip from "../../../../../components/skillbase/SkillChip/SkillChip"
 import PATHS from "../../../../../consts/PATHS"
 import { SkillDto } from "../../../../../dtos/skillbase/SkillDto"
 import { setEditingSkill } from "../../../../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../../../../store/store"
+import EditSkillsButton from "./EditSkillsButton/EditSkillsButton"
 
 // PE 2/3
 function SkillChips(props: Props) {
@@ -17,15 +17,6 @@ function SkillChips(props: Props) {
   const location = useLocation()
 
   const [skills, setSkills] = useState(props.allSkills)
-  const [skillsHref, setSkillsHref] = useState("")
-
-  const getSkillsFromCurrentTag = () => {
-    const tagId = Number(location.pathname.split("/").pop())
-    if (tagId) {
-      return props.allSkills.filter((skill) => skill.tagId === tagId)
-    }
-    return []
-  }
 
   useEffect(() => {
     const { pathname } = location
@@ -36,7 +27,6 @@ function SkillChips(props: Props) {
         (s) => s.tagId === null && s.isPriority === true
       )
       setSkills(unlistedSkills)
-      setSkillsHref(PATHS.skillbase.tag + "/untagged")
     }
     // /relearn/tag/:id
     else if (pathname.startsWith(PATHS.relearn.tag)) {
@@ -47,7 +37,6 @@ function SkillChips(props: Props) {
           (s) => s.tagId === listId && s.isPriority === true
         )
         setSkills(listedSkills)
-        setSkillsHref(PATHS.skillbase.tag + "/" + listId)
       }
     }
   }, [props.allSkills, location])
@@ -57,19 +46,7 @@ function SkillChips(props: Props) {
       {skills.map((skill) => (
         <SkillChip key={skill.id} skill={skill} />
       ))}
-      <Button
-        component={RouterLink}
-        to={skillsHref}
-        variant="outlined"
-        size="small"
-        color="secondary"
-        className={classes.manageSkillsButton}
-      >
-        Edit Skills
-        <FlexVCenter ml={1} className={classes.innerChip}>
-          {getSkillsFromCurrentTag().length}
-        </FlexVCenter>
-      </Button>
+      <EditSkillsButton />
     </Flex>
   )
 }
@@ -97,7 +74,6 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const mapStateToProps = (state: ApplicationState) => ({
-  allTags: state.relearn.tags,
   allSkills: state.skillbase.skills,
 })
 

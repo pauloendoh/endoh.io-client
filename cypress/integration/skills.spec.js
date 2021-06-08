@@ -59,7 +59,7 @@ const addSkill = (name) => {
 
 const deleteAllSkills = () => {
   addSkill('xd')
-  cy.get('[aria-label="select all desserts"]').click()
+  cy.get('[aria-label="Select all skills"]').click()
   cy.get('#delete-skills-icon').click()
   cy.contains('Skills deleted successfully!')
 }

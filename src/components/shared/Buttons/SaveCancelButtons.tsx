@@ -17,7 +17,7 @@ const SaveCancelButtons = (props: Props) => {
       </Button>
 
       <Box ml={1}>
-        <Button onClick={props.onCancel} variant="text">
+        <Button onClick={props.onCancel} variant="outlined">
           Cancel
         </Button>
       </Box>
