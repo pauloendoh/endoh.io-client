@@ -7,7 +7,7 @@ const INITIAL_STATE: SkillbaseState = {
   skills: [],
   hasFirstLoaded: false,
 
-  sortBy: null,
+  sortBy: { property: "isPriority", order: "desc" },
 
   editingSkill: null,
 

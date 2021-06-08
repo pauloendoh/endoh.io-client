@@ -1,6 +1,8 @@
 import {
   Box,
   Checkbox,
+  CircularProgress,
+  IconButton,
   makeStyles,
   TableCell,
   TableRow,
@@ -13,13 +15,20 @@ import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import Flex from "../../../../components/shared/Flexboxes/Flex"
 import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter"
+import API from "../../../../consts/API"
+import MY_AXIOS from "../../../../consts/MY_AXIOS"
 import { SkillDto } from "../../../../dtos/skillbase/SkillDto"
 import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto"
+import MyAxiosError from "../../../../interfaces/MyAxiosError"
 import {
   setEditingSkill,
-  setSkill,
+  setSkills,
 } from "../../../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../../../store/store"
+import {
+  setErrorMessage,
+  setSuccessMessage,
+} from "../../../../store/utils/utilsActions"
 import SkillLevelTD from "./SkillLevelTd/SkillLevelTd"
 
 // PE 3/3
@@ -53,6 +62,27 @@ const SkillbaseTableRow = (props: Props) => {
     [props.skill.tagId, props.allTags]
   )
 
+  const [isChangingPriority, setIsChangingPriority] = useState(false)
+
+  const togglePriority = () => {
+    setIsChangingPriority(true)
+    const changedSkill: SkillDto = {
+      ...props.skill,
+      isPriority: !props.skill.isPriority,
+    }
+    MY_AXIOS.post(API.skillbase.skill, changedSkill)
+      .then((res) => {
+        props.setSkills(res.data)
+        props.setSuccessMessage("Priority changed!")
+      })
+      .catch((err: MyAxiosError) => {
+        props.setErrorMessage(err.response.data.errors[0].message)
+      })
+      .finally(() => {
+        setIsChangingPriority(false)
+      })
+  }
+
   return (
     <TableRow
       hover
@@ -74,12 +104,24 @@ const SkillbaseTableRow = (props: Props) => {
         />
       </TableCell>
       <TableCell align="center" width={100}>
-        <StarIcon
-          className={clsx({
-            [classes.isPriority]: props.skill.isPriority,
-            [classes.isNotPriority]: !props.skill.isPriority,
-          })}
-        />
+        {isChangingPriority ? (
+          <CircularProgress size={22} />
+        ) : (
+          <IconButton
+            size="small"
+            onClick={(e) => {
+              e.stopPropagation()
+              togglePriority()
+            }}
+          >
+            <StarIcon
+              className={clsx({
+                [classes.isPriority]: props.skill.isPriority,
+                [classes.isNotPriority]: !props.skill.isPriority,
+              })}
+            />
+          </IconButton>
+        )}
       </TableCell>
 
       <TableCell width={180}>
@@ -89,13 +131,6 @@ const SkillbaseTableRow = (props: Props) => {
           ) : (
             props.skill.name
           )}
-
-          {/* {(props.skill.currentLevel || props.skill.goalLevel) && (
-            <SkillLevelChip
-              currentLevel={props.skill.currentLevel}
-              goalLevel={props.skill.goalLevel}
-            />
-          )} */}
         </Flex>
       </TableCell>
 
@@ -107,10 +142,7 @@ const SkillbaseTableRow = (props: Props) => {
         value={props.skill.goalLevel}
         isPriority={props.skill.isPriority}
       />
-      {/* 
-      <TableCell>
-        <DependenciesTableCell values={props.skill.dependencies} />
-      </TableCell> */}
+
       <TableCell>
         {tag ? (
           <FlexVCenter>
@@ -150,8 +182,9 @@ const mapStateToProps = (state: ApplicationState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setEditingSkill: (skill: SkillDto) => dispatch(setEditingSkill(skill)),
-
-  setSkill: (skill: SkillDto) => dispatch(setSkill(skill)),
+  setSkills: (skills: SkillDto[]) => dispatch(setSkills(skills)),
+  setSuccessMessage: (message: string) => dispatch(setSuccessMessage(message)),
+  setErrorMessage: (message: string) => dispatch(setErrorMessage(message)),
 })
 
 interface OwnProps {

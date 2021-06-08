@@ -35,12 +35,9 @@ import SkillTableToolbar from "./SkillTableToolbar/SkillTableToolbar"
 const SkillbaseTable = (props: Props) => {
   const classes = useStyles()
 
-  const [order, setOrder] = React.useState<"asc" | "desc">(
-    props.preference?.skillbaseSortSkill?.order
-  )
-  const [orderBy, setOrderBy] = React.useState<keyof SkillDto>(
-    props.preference?.skillbaseSortSkill?.sortBy as keyof SkillDto
-  )
+  const [order, setOrder] = React.useState<"asc" | "desc">("desc")
+  const [orderBy, setOrderBy] = React.useState<keyof SkillDto>("isPriority")
+
   const [selectedIds, setSelectedIds] = React.useState<number[]>([])
 
   const filterAndSortSkills = () => {
