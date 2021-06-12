@@ -74,7 +74,9 @@ const DocTable = (props: Props) => {
         >
           <TableHead>
             <TableRow>
-              <TableCell className={classes.th}>#</TableCell>
+              <TableCell className={classes.th} align="center">
+                #
+              </TableCell>
               <TableCell className={classes.th}>Notes</TableCell>
               <TableCell className={classes.th}>Flashcard Question</TableCell>
               <TableCell align="center" className={classes.th}>
@@ -84,8 +86,9 @@ const DocTable = (props: Props) => {
           </TableHead>
 
           <TableBody>
-            {sortedNotes().map((note) => (
+            {sortedNotes().map((note, index) => (
               <DocTableRow
+                index={index}
                 key={getRowKey(note)}
                 initialValue={note}
                 onChange={handleNoteChange}

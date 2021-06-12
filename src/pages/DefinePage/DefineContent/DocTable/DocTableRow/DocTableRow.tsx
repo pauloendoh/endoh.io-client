@@ -35,7 +35,9 @@ const DocTableRow = (props: Props) => {
 
   return (
     <TableRow>
-      <TableCell>{note.index + 1}</TableCell>
+      <TableCell className={classes.td} align="center">
+        {props.index + 1}
+      </TableCell>
       <TableCell className={classes.textareaCell} onClick={focusDescription}>
         <TextareaAutosize
           ref={descriptionRef}
@@ -53,7 +55,9 @@ const DocTableRow = (props: Props) => {
           ref={questionRef}
         />
       </TableCell>
-      <TableCell align="center">{note.weight}</TableCell>
+      <TableCell align="center" className={classes.td}>
+        {note.weight}
+      </TableCell>
     </TableRow>
   )
 }
@@ -62,13 +66,16 @@ const useStyles = makeStyles((theme) => ({
   textareaCell: {
     cursor: "pointer !important",
   },
+  td: {
+    fontSize: 14,
+  },
   textarea: {
     resize: "none",
     border: "none",
     minWidth: 125,
     width: "-webkit-fill-available",
     background: "none",
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: theme.typography.fontFamily,
     color: "white",
     cursor: "pointer",
@@ -80,6 +87,7 @@ const mapStateToProps = (state: ApplicationState) => ({})
 const mapDispatchToProps = (dispatch: Dispatch) => ({})
 
 interface OwnProps {
+  index: number
   initialValue: NoteDto
   onChange: (newValue: NoteDto) => void
 }

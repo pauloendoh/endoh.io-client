@@ -46,7 +46,7 @@ const DefinePage = (props: Props) => {
     <Box p={3}>
       <Flex height="100%">
         <DefineSidebar selectedDocId={selectedDocId} />
-        <Box pt={1} px={4} flexGrow={1} maxWidth={800}>
+        <Box pt={1} px={4} flexGrow={1}>
           {props.hasFirstLoaded ? (
             <React.Fragment>
               {selectedDocId && <DefineContent docId={selectedDocId} />}
