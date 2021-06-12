@@ -154,8 +154,8 @@ const App = (props: Props) => {
 
               <Route path="/settings" component={SettingsPage} />
 
+              <Route path="/define" exact component={DefinePage} />
               <Route path="/define/doc/:docId" component={DefinePage} />
-              <Route path="/define" component={DefinePage} />
 
               <Route path="/404" component={NotFoundPage} />
               <Route path="/search" component={SearchPage} />
