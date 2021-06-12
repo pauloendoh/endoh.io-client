@@ -28,10 +28,13 @@ const DocTable = (props: Props) => {
   const classes = useStyles()
 
   const addNote = () => {
+    setSubmitting(true)
     const newNote = newNoteDto(sortedNotes().length, props.docId, props.userId)
-    MY_AXIOS.post<NoteDto>(API.define.note, newNote).then((res) => {
-      props.addOrReplaceNote(res.data)
-    })
+    MY_AXIOS.post<NoteDto>(API.define.note, newNote)
+      .then((res) => {
+        props.addOrReplaceNote(res.data)
+      })
+      .finally(() => setSubmitting(false))
   }
 
   const sortedNotes = () => {
@@ -56,6 +59,8 @@ const DocTable = (props: Props) => {
   const getRowKey = (note: NoteDto) => {
     return `${note.id}-${note.weight}`
   }
+
+  const [submitting, setSubmitting] = useState(false)
 
   return (
     <Paper>
@@ -91,7 +96,9 @@ const DocTable = (props: Props) => {
       </TableContainer>
 
       <Toolbar>
-        <DarkButton onClick={addNote}>+ Add Note</DarkButton>
+        <DarkButton onClick={addNote} disabled={submitting}>
+          + Add Note
+        </DarkButton>
         {/* <AddSkillButton tag={props.tag} /> */}
       </Toolbar>
     </Paper>
