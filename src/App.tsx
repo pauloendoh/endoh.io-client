@@ -48,6 +48,7 @@ const MoneratePage = lazy(
 const RelearnPage = lazy(() => import("./pages/Relearn/RelearnPage"))
 const UserPage = lazy(() => import("./pages/UserPage/UserPage"))
 const FeedPage = lazy(() => import("./pages/FeedPage/FeedPage"))
+const DefinePage = lazy(() => import("./pages/DefinePage/DefinePage"))
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage/NotFoundPage"))
 const SearchPage = lazy(() => import("./pages/SearchPage/SearchPage"))
 
@@ -152,6 +153,10 @@ const App = (props: Props) => {
               <Route path="/user/:username" component={UserPage} />
 
               <Route path="/settings" component={SettingsPage} />
+
+              <Route path="/define/doc/:docId" component={DefinePage} />
+              <Route path="/define" component={DefinePage} />
+
               <Route path="/404" component={NotFoundPage} />
               <Route path="/search" component={SearchPage} />
               <Redirect to="/relearn" />

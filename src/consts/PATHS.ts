@@ -24,6 +24,10 @@ const PATHS = {
   feed: {
     index: "/feed",
   },
+  define: {
+    index: "/define",
+    doc: (docId: number) => `/define/doc/${docId}`,
+  },
   user: {
     index: (username: string) => `/user/${username}`,
     tag: (username: string, listId: number) =>

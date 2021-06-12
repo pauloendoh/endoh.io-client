@@ -3,13 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Button, Tooltip } from "@material-ui/core"
 import React from "react"
 import { connect } from "react-redux"
-import { useLocation } from "react-router"
 import { Dispatch } from "redux"
 import { newSkillDto, SkillDto } from "../../../../dtos/skillbase/SkillDto"
 import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto"
 import { setEditingSkill } from "../../../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../../../store/store"
-import { getCurrentTagId } from "../../../../utils/skillbase/getCurrentTagId"
 
 const AddSkillButton = (props: Props) => {
   const handleClick = () => {

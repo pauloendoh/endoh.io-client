@@ -68,7 +68,7 @@ function RelearnSidebar(props: Props) {
 
           <RelearnSidebarTagList lists={publicLists} type="public" />
 
-          <Box mt={4} />
+          <Box mt={2} />
           <RelearnSidebarTagList lists={privateLists} type="private" />
         </List>
       </Box>
