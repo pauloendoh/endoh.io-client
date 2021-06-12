@@ -36,6 +36,12 @@ function DefineSidebar(props: Props) {
     return props.allNotes.filter((note) => note.docId === doc.id).length
   }
 
+  const getQuestionsCount = (doc: DocDto) => {
+    return props.allNotes.filter(
+      (note) => note.docId === doc.id && note.question.trim().length > 0
+    ).length
+  }
+
   const [textFilter, setTextFilter] = useState("")
 
   const filterAndSortDocs = () => {
@@ -107,6 +113,8 @@ function DefineSidebar(props: Props) {
                   <FlexHCenter width={24}>
                     <Typography className={classes.resourcesCount}>
                       {getNotesCount(doc)}
+                      {getQuestionsCount(doc) > 0 &&
+                        `/${getQuestionsCount(doc)}`}
                     </Typography>
                   </FlexHCenter>
                 </Flex>
