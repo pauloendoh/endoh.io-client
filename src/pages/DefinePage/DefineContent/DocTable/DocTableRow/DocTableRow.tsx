@@ -30,13 +30,13 @@ const DocTableRow = (props: Props) => {
   const descriptionRef = createRef<HTMLTextAreaElement>()
   const questionRef = createRef<HTMLTextAreaElement>()
 
-  const selectDescription = () => descriptionRef.current.select()
-  const selectQuestion = () => questionRef.current.select()
+  const focusDescription = () => descriptionRef.current.focus()
+  const focusQuestion = () => questionRef.current.focus()
 
   return (
     <TableRow>
       <TableCell>{note.index + 1}</TableCell>
-      <TableCell className={classes.textareaCell} onClick={selectDescription}>
+      <TableCell className={classes.textareaCell} onClick={focusDescription}>
         <TextareaAutosize
           ref={descriptionRef}
           onChange={(e) => changeDescription(e.target.value)}
@@ -45,7 +45,7 @@ const DocTableRow = (props: Props) => {
           autoFocus
         />
       </TableCell>
-      <TableCell className={classes.textareaCell} onClick={selectQuestion}>
+      <TableCell className={classes.textareaCell} onClick={focusQuestion}>
         <TextareaAutosize
           onChange={(e) => changeQuestion(e.target.value)}
           value={note.question}

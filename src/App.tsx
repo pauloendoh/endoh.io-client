@@ -149,13 +149,13 @@ const App = (props: Props) => {
               <Route path="/skillbase" component={SkillbasePage} />
               <Route path="/feed" component={FeedPage} />
 
+              <Route path="/define" exact component={DefinePage} />
+              <Route path="/define/doc/:docId" component={DefinePage} />
+
               <Route path="/user/:username/tag/:tagId" component={UserPage} />
               <Route path="/user/:username" component={UserPage} />
 
               <Route path="/settings" component={SettingsPage} />
-
-              <Route path="/define" exact component={DefinePage} />
-              <Route path="/define/doc/:docId" component={DefinePage} />
 
               <Route path="/404" component={NotFoundPage} />
               <Route path="/search" component={SearchPage} />
