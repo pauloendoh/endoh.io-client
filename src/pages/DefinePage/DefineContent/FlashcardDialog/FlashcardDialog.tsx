@@ -162,7 +162,7 @@ const FlashcardDialog = (props: Props) => {
                 </li>
                 <li>
                   By increasing the flashcard’s weight, it proportionally
-                  increases the changes of appearing in the next try;
+                  increases the chances of appearing in the next try;
                 </li>
                 <li>You can set up a minimum flashcard weight;</li>
               </ul>
