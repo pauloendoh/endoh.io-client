@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
     cursor: "pointer !important",
   },
   td: {
-    fontSize: 14,
+    fontSize: 13,
   },
   textarea: {
     resize: "none",
@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 125,
     width: "-webkit-fill-available",
     background: "none",
-    fontSize: 14,
+    fontSize: 13,
     fontFamily: theme.typography.fontFamily,
     color: "white",
     cursor: "pointer",
