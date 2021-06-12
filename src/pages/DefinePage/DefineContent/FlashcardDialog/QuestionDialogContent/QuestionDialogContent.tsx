@@ -35,14 +35,15 @@ const QuestionDialogContent = (props: Props) => {
     nextQuestion()
 
     const currentNote = props.notes[currentIndex]
-    setResults([...results, { ...currentNote, weight: currentNote.weight * 2 }])
+    setResults([...results, { ...currentNote, weight: currentNote.weight * 4 }])
   }
 
   const handleHalf = () => {
     setHalves(halves + 1)
     nextQuestion()
 
-    setResults([...results, props.notes[currentIndex]])
+    const currentNote = props.notes[currentIndex]
+    setResults([...results, { ...currentNote, weight: currentNote.weight * 2 }])
   }
 
   const handleCorrect = () => {
@@ -134,7 +135,7 @@ const QuestionDialogContent = (props: Props) => {
           <DialogTitle>
             {showingAnswer === false ? (
               <DarkButton onClick={() => setShowingAnswer(true)} fullWidth>
-                Show Answer (Space)
+                Show Answer (Space, J, K or L)
               </DarkButton>
             ) : (
               <FlexVCenter mx="auto" justifyContent="space-between">

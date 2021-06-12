@@ -25,7 +25,7 @@ const PATHS = {
     index: "/feed",
   },
   define: {
-    index: "/define",
+    index: "/define/",
     doc: (docId: number) => `/define/doc/${docId}`,
   },
   user: {

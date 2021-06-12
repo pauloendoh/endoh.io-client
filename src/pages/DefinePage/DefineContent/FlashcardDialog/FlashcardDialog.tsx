@@ -157,8 +157,8 @@ const FlashcardDialog = (props: Props) => {
               <b>Rules:</b>
               <ul style={{ paddingLeft: 24 }}>
                 <li>
-                  If you get the question wrong, the flashcard’s weight is
-                  doubled. If you get it correct, its weight is halved;
+                  Wrong answer = 4x weight; Half answer = 2x weight; Correct
+                  answer = 1/2 weight;
                 </li>
                 <li>
                   By increasing the flashcard’s weight, it proportionally

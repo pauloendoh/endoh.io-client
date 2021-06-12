@@ -39,6 +39,8 @@ const Navbar = (props: Props) => {
       setTabIndex(1)
     } else if (location.pathname.startsWith(PATHS.skillbase.index)) {
       setTabIndex(2)
+    } else if (location.pathname.startsWith(PATHS.define.index)) {
+      setTabIndex(3)
     } else {
       setTabIndex(false)
     }
@@ -96,6 +98,13 @@ const Navbar = (props: Props) => {
               label={`Skills`}
               component={Link}
               to={PATHS.skillbase.index}
+            />
+            <Tab
+              id="notes-tab"
+              className={classes.tab}
+              label={`Notes`}
+              component={Link}
+              to={PATHS.define.index}
             />
           </Tabs>
         </Flex>
