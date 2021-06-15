@@ -83,6 +83,12 @@ const SkillbaseTableRow = (props: Props) => {
       })
   }
 
+  const getUncheckedExpectations = () => {
+    return props.skill.expectations.filter(
+      (expectation) => !expectation.checked
+    )
+  }
+
   return (
     <TableRow
       hover
@@ -150,6 +156,14 @@ const SkillbaseTableRow = (props: Props) => {
             <Box ml={1}>{tag.name}</Box>
           </FlexVCenter>
         ) : null}
+      </TableCell>
+
+      <TableCell align="center">
+        {props.skill.expectations.length > 0 && (
+          <React.Fragment>
+            {getUncheckedExpectations().length}/{props.skill.expectations.length} expectations
+          </React.Fragment>
+        )}
       </TableCell>
     </TableRow>
   )

@@ -1,24 +1,24 @@
-import { Box, makeStyles } from "@material-ui/core"
+import { Box } from "@material-ui/core"
 import { Form, Formik } from "formik"
 import React from "react"
 import { connect } from "react-redux"
+import { useHistory } from "react-router"
 import { Dispatch } from "redux"
 import PATHS from "../../../consts/PATHS"
 import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto"
 import { editResource } from "../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../store/store"
-import { IWithRedirectProps, withRedirect } from "../../hocs/withRedirect"
 import MyTextField from "../../shared/MyInputs/MyTextField"
 
 const SearchBar = (props: Props) => {
-  const classes = useStyles()
+  const history = useHistory()
   return (
     <Box>
       <Formik
         initialValues={{ query: "" }}
         onSubmit={(values, { setSubmitting }) => {
           if (values.query.length) {
-            props.redirectTo(PATHS.search(values.query))
+            history.push(PATHS.search(values.query))
           }
         }}
       >
@@ -33,45 +33,9 @@ const SearchBar = (props: Props) => {
           </Form>
         )}
       </Formik>
-
-      {/* Old search box with autocomplete */}
-      {/* <Autocomplete
-        options={props.allResources}
-        renderOption={(option) => (
-          <FlexVCenter>
-            {option.id ? (
-              <FlexVCenter>
-                <Box ml={1}>
-                  <Typography variant="body2">{option.title}</Typography>
-                </Box>
-              </FlexVCenter>
-            ) : (
-              <FlexHCenter>{option.title}</FlexHCenter>
-            )}
-          </FlexVCenter>
-        )}
-        getOptionLabel={(option) => option.title}
-        renderInput={(params) => (
-          <MyTextField
-            label="Search endoh.io"
-            {...params}
-            size="small"
-            className={classes.textfield}
-          />
-        )}
-        onChange={(e, value) => {
-          props.editResource(value as ResourceDto)
-        }}
-      /> */}
     </Box>
   )
 }
-
-const useStyles = makeStyles((theme) => ({
-  textfield: {
-    width: 200,
-  },
-}))
 
 const mapStateToProps = (state: ApplicationState) => ({
   allResources: state.relearn.resources,
@@ -82,9 +46,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 })
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  IWithRedirectProps
+  ReturnType<typeof mapDispatchToProps>
 
-export default withRedirect(
-  connect(mapStateToProps, mapDispatchToProps)(SearchBar)
-)
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBar)

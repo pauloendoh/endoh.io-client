@@ -1,5 +1,3 @@
-import { TagDto } from "../../interfaces/dtos/relearn/TagDto"
-import { ResourceDto } from "../../interfaces/dtos/relearn/ResourceDto"
 import { DocDto } from "../../dtos/define/DocDto"
 import { NoteDto } from "../../dtos/define/NoteDto"
 

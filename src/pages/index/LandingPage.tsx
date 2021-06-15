@@ -12,7 +12,10 @@ import { Link as ScrollLink } from "react-scroll"
 import FooterDescription from "../../components/descriptions/FooterDescription"
 import LandingPageDescription from "../../components/descriptions/LandingPageDescription"
 import RelearnDescription from "../../components/descriptions/RelearnDescription"
+import SocialDescription from "../../components/descriptions/SocialDescription"
+import SkillbaseDescription from "../../components/descriptions/SkillbaseDescription"
 import LandingPageForm from "./LandingPageForm/LandingPageForm"
+import NotesDescription from "../../components/descriptions/NotesDescription"
 
 const LandingPage = () => {
   const classes = useStyles()
@@ -55,9 +58,17 @@ const LandingPage = () => {
         <RelearnDescription />
       </Box>
 
-      {/* <Box mt={10}>
-        <MonerateDescription />
-      </Box> */}
+      <Box mt={10}>
+        <SocialDescription />
+      </Box>
+
+      <Box mt={15}>
+        <SkillbaseDescription />
+      </Box>
+
+      <Box mt={15} pb={5}>
+        <NotesDescription />
+      </Box>
 
       <Box mt={15} pb={5}>
         <FooterDescription />

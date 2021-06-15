@@ -1,3 +1,4 @@
+import HighlightOffIcon from "@material-ui/icons/HighlightOff"
 import { faGlobeAmericas, faLock } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
@@ -7,6 +8,7 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
+  IconButton,
   Link,
   Typography,
 } from "@material-ui/core"
@@ -158,7 +160,7 @@ const ResourceDialog = (props: Props) => {
               <DialogContent>
                 <Flex>
                   {values.thumbnail.length > 0 && (
-                    <Box mr={2}>
+                    <Box mr={2} position="relative">
                       <img
                         style={{ maxHeight: 90, maxWidth: 200 }}
                         alt="link-preview-thumbnail"
@@ -170,6 +172,13 @@ const ResourceDialog = (props: Props) => {
                           e.target.alt = "default-link-thumbnail"
                         }}
                       />
+                      <IconButton
+                      onClick={()=> setFieldValue("thumbnail", "")}
+                        size="small"
+                        style={{ position: "absolute", right: 0 }}
+                      >
+                        <HighlightOffIcon />
+                      </IconButton>
                     </Box>
                   )}
 

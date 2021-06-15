@@ -89,6 +89,15 @@ const SkillbaseTable = (props: Props) => {
         } else {
           skills = skills.sort((a, b) => b.tagId - a.tagId)
         }
+      } else if (property === "expectations") {
+        if (order === "asc")
+          skills = skills.sort(
+            (a, b) => a.expectations.length - b.expectations.length
+          )
+        else
+          skills = skills.sort(
+            (a, b) => b.expectations.length - a.expectations.length
+          )
       }
     }
 

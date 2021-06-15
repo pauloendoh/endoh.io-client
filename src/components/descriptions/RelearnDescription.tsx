@@ -1,3 +1,5 @@
+import YouTube from "react-youtube"
+
 import { faGraduationCap } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Box, Button, Grid, Typography } from "@material-ui/core"
@@ -20,7 +22,7 @@ const RelearnDescription = () => {
         </Typography>
 
         <Typography variant="subtitle1">
-          A <TextSecondary>TO-DO list</TextSecondary> for self-learners
+          A TO-DO list for self-learners
         </Typography>
 
         <Box mt={2}>
@@ -34,9 +36,7 @@ const RelearnDescription = () => {
 
       <Grid item xs={12} sm={8}>
         <Box>
-          <video width="100%" loop controls={true} muted>
-            <source src={relearnDemo} type="video/mp4" />
-          </video>
+        <iframe width="480" height="315" src="https://www.youtube.com/embed/GEbfYVS21CU" title="YouTube video player"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"  style={{border:'none'}}></iframe>
         </Box>
       </Grid>
     </Grid>

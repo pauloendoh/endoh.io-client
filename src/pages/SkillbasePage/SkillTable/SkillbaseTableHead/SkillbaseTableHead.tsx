@@ -52,6 +52,13 @@ const headCells: IHeadCell[] = [
     label: "Tag",
     align: "left",
   },
+  {
+    id: "expectations",
+    numeric: false,
+    disablePadding: false,
+    label: "Expectations",
+    align: "center",
+  },
 ]
 
 interface OwnProps {
