@@ -1,14 +1,10 @@
-import YouTube from "react-youtube"
-
 import { faGraduationCap } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Box, Button, Grid, Typography } from "@material-ui/core"
 import React from "react"
 import { Link } from "react-router-dom"
 import PATHS from "../../consts/PATHS"
-import relearnDemo from "../../static/videos/relearn-demo.mp4"
 import FlexVCenter from "../shared/Flexboxes/FlexVCenter"
-import TextSecondary from "../shared/Text/TextSecondary"
 
 const RelearnDescription = () => {
   return (
@@ -36,7 +32,14 @@ const RelearnDescription = () => {
 
       <Grid item xs={12} sm={8}>
         <Box>
-        <iframe width="480" height="315" src="https://www.youtube.com/embed/GEbfYVS21CU" title="YouTube video player"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"  style={{border:'none'}}></iframe>
+          <iframe
+            width="480"
+            height="315"
+            src="https://www.youtube.com/embed/GEbfYVS21CU"
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            style={{ border: "none" }}
+          ></iframe>
         </Box>
       </Grid>
     </Grid>

@@ -15,6 +15,8 @@ const defineReducer: Reducer<DefineState, DefineActionReturns> = (
   action: DefineActionReturns
 ): DefineState => {
   switch (action.type) {
+    case defineActionTypes.CLEAR_DEFINE_REDUCER:
+      return { ...INITIAL_STATE }
     case defineActionTypes.SET_DOCS:
       return { ...state, docs: action.payload, hasFirstLoaded: true }
     case defineActionTypes.ADD_OR_REPLACE_DOC:

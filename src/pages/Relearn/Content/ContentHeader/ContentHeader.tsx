@@ -3,11 +3,6 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
-import {
-  IWithRedirectProps,
-  withRedirect,
-} from "../../../../components/hocs/withRedirect"
-import TagMoreIcon from "../../../../components/resources/TagMoreIcon/TagMoreIcon"
 import Flex from "../../../../components/shared/Flexboxes/Flex"
 import PATHS from "../../../../consts/PATHS"
 import { SkillDto } from "../../../../dtos/skillbase/SkillDto"
@@ -74,18 +69,6 @@ function ContentHeader(props: Props) {
     <Box className={classes.root} {...{ ref: ref }}>
       <Flex justifyContent="space-between" width="100%">
         <Typography variant="h5">{tag ? tag.name : "Untagged"}</Typography>
-        {/* Não tá dando certo isso */}
-        {/* {tag && (
-          <TagMoreIcon
-            show
-            afterDelete={() => {
-              if (location.pathname.endsWith(tag.id.toString())) {
-                props.redirectTo(PATHS.relearn.index)
-              }
-            }}
-            tag={tag}
-          />
-        )} */}
       </Flex>
 
       <Box mt={2} />
@@ -160,9 +143,6 @@ interface OwnProps {
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps &
-  IWithRedirectProps
+  OwnProps
 
-export default withRedirect(
-  connect(mapStateToProps, mapDispatchToProps)(ContentHeader)
-)
+export default connect(mapStateToProps, mapDispatchToProps)(ContentHeader)

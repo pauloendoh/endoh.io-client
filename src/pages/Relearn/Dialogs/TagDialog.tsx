@@ -12,11 +12,8 @@ import { Form, Formik } from "formik"
 import MyAxiosError from "interfaces/MyAxiosError"
 import React from "react"
 import { connect } from "react-redux"
+import { useHistory } from "react-router-dom"
 import { Dispatch } from "redux"
-import {
-  IWithRedirectProps,
-  withRedirect,
-} from "../../../components/hocs/withRedirect"
 import Flex from "../../../components/shared/Flexboxes/Flex"
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
 import MyTextField from "../../../components/shared/MyInputs/MyTextField"
@@ -30,6 +27,8 @@ import SelectColor from "./SelectColor/SelectColor"
 
 // PE 2/3
 const TagDialog = (props: Props) => {
+  const history = useHistory()
+
   const handleSubmit = (sentTag: TagDto) => {
     MY_AXIOS.post<TagDto[]>(API.relearn.tag, sentTag)
       .then((res) => {
@@ -40,7 +39,7 @@ const TagDialog = (props: Props) => {
 
         const savedTagId = returnedTags.find((t) => t.name === sentTag.name).id
 
-        props.redirectTo(PATHS.relearn.tag + "/" + savedTagId)
+        history.push(PATHS.relearn.tag + "/" + savedTagId)
       })
       .catch((err: MyAxiosError) => {
         props.setErrorMessage(err.response.data.errors[0].message)
@@ -157,9 +156,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 })
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  IWithRedirectProps
+  ReturnType<typeof mapDispatchToProps>
 
-export default withRedirect(
-  connect(mapStateToProps, mapDispatchToProps)(TagDialog)
-)
+export default connect(mapStateToProps, mapDispatchToProps)(TagDialog)

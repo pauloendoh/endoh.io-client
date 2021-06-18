@@ -7,7 +7,7 @@ import {
   IconButton,
   Typography,
 } from "@material-ui/core"
-import React from "react"
+import React, { useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import DarkButton from "../../../../../../components/shared/Buttons/DarkButton"
@@ -23,18 +23,22 @@ import { setSuccessMessage } from "../../../../../../store/utils/utilsActions"
 import { GlobalHotKeys } from "react-hotkeys"
 
 const FinishedContentDialog = (props: Props) => {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
   const getScore = () => {
     return ((props.halves * 0.5 + props.corrects) * 100) / props.results.length
   }
 
   const saveResults = () => {
+    setIsSubmitting(true)
+
     MY_AXIOS.post<NoteDto[]>(API.define.postManyNotes, props.results).then(
       (res) => {
         props.setNotes(res.data)
         props.setSuccessMessage("Saved!")
         props.onFinish()
       }
-    )
+    ).finally(() => setIsSubmitting(false))
   }
 
   const keyMap = {
@@ -85,7 +89,7 @@ const FinishedContentDialog = (props: Props) => {
       </DialogContent>
 
       <DialogTitle>
-        <DarkButton fullWidth onClick={saveResults}>
+        <DarkButton  disabled={isSubmitting} fullWidth onClick={saveResults}>
           Save and Apply Changes (Space)
         </DarkButton>
       </DialogTitle>

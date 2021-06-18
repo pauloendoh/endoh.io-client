@@ -1,6 +1,5 @@
-import { faPlus } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Button, Tooltip } from "@material-ui/core"
+import AddIcon from "@material-ui/icons/Add"
 import React from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
@@ -24,7 +23,9 @@ const AddSkillButton = (props: Props) => {
         id="add-skill-btn"
         onClick={handleClick}
         size="small"
-        startIcon={<FontAwesomeIcon icon={faPlus} size="xs" />}
+        variant="contained"
+        color="primary"
+        startIcon={<AddIcon fontSize="small" />}
       >
         Add Skill
       </Button>

@@ -1,3 +1,4 @@
+import { clearDefineReducer } from '../define/defineActions';
 import { Dispatch } from "redux"
 import { action } from "typesafe-actions"
 import { getQueryParam } from "utils/url/getQueryParam"
@@ -78,6 +79,7 @@ export const logoutActionCreator = (dispatch: Dispatch) => {
   dispatch(action(relearnActionTypes.CLEAR_RELEARN_REDUCER))
   dispatch(action(monerateActionTypes.CLEAR_MONERATE_REDUCER))
   dispatch(action(skillbaseActionTypes.CLEAR_SKILLBASE_REDUCER))
+  dispatch(clearDefineReducer())
   dispatch(clearProfile())
   return logout()
 }

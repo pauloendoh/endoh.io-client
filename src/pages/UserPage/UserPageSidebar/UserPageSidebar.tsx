@@ -3,17 +3,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Box, List, ListItem, makeStyles, Typography } from "@material-ui/core"
 import ListItemText from "@material-ui/core/ListItemText"
 import LabelIcon from "@material-ui/icons/Label"
-import React from "react"
+import React, { useRef } from "react"
 import { connect } from "react-redux"
 import { Link, useParams } from "react-router-dom"
 import { Dispatch } from "redux"
 import Flex from "../../../components/shared/Flexboxes/Flex"
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
+import FlexHCenter from "../../../components/shared/Flexboxes/FlexHCenter"
 import PATHS from "../../../consts/PATHS"
 import { ApplicationState } from "../../../store/store"
+import useElementSize from "../../../utils/hooks/useElementSize"
 
 // PE 3/3
 const UserPageSidebar = (props: Props) => {
+  const rootRef = useRef<any>(null)
+
+  const { width, height } = useElementSize(rootRef)
+
   const classes = useStyles()
   const { username, tagId } = useParams<{ username: string; tagId: string }>()
 
@@ -22,7 +28,7 @@ const UserPageSidebar = (props: Props) => {
   }
 
   return (
-    <Box maxWidth={300} ml="auto">
+    <Box maxWidth={300} ml="auto" {...({ ref: rootRef } as any)}>
       <List component="nav" aria-label="User resource lists">
         <ListItem
           button
@@ -31,11 +37,20 @@ const UserPageSidebar = (props: Props) => {
           selected={tagId === undefined}
         >
           <ListItemText>
-            All resources
-            <Typography variant="inherit" className={classes.resourcesCount}>
+            <Flex>
+              <Box width={width - 90}>
+                <Typography noWrap style={{ maxWidth: "inherit" }}>
+                  All resources
+                </Typography>
+              </Box>
+            </Flex>
+          </ListItemText>
+
+          <FlexHCenter mt={0.5} width={24}>
+            <Typography className={classes.resourcesCount}>
               {props.resources.length}
             </Typography>
-          </ListItemText>
+          </FlexHCenter>
         </ListItem>
 
         {props.publicLists.map((list) => (
@@ -49,17 +64,19 @@ const UserPageSidebar = (props: Props) => {
             <ListItemText>
               <Flex>
                 <LabelIcon style={{ color: list.color }} />
-                <Box ml={1}>
-                  {list.name}
-                  <Typography
-                    variant="inherit"
-                    className={classes.resourcesCount}
-                  >
-                    {getResourcesFromListId(list.id).length}
+                <Box ml={1} width={width - 90}>
+                  <Typography noWrap style={{ maxWidth: "inherit" }}>
+                    {list.name}
                   </Typography>
                 </Box>
               </Flex>
             </ListItemText>
+
+            <FlexHCenter mt={0.5} width={24}>
+              <Typography className={classes.resourcesCount}>
+                {getResourcesFromListId(list.id).length}
+              </Typography>
+            </FlexHCenter>
           </ListItem>
         ))}
       </List>
@@ -86,17 +103,19 @@ const UserPageSidebar = (props: Props) => {
                 <ListItemText>
                   <Flex>
                     <LabelIcon style={{ color: list.color }} />
-                    <Box ml={1}>
-                      {list.name}
-                      <Typography
-                        variant="inherit"
-                        className={classes.resourcesCount}
-                      >
-                        {getResourcesFromListId(list.id).length}
+                    <Box ml={1} width={width - 90}>
+                      <Typography noWrap style={{ maxWidth: "inherit" }}>
+                        {list.name}
                       </Typography>
                     </Box>
                   </Flex>
                 </ListItemText>
+
+                <FlexHCenter mt={0.5} width={24}>
+                  <Typography className={classes.resourcesCount}>
+                    {getResourcesFromListId(list.id).length}
+                  </Typography>
+                </FlexHCenter>
               </ListItem>
             ))}
           </List>
@@ -108,7 +127,6 @@ const UserPageSidebar = (props: Props) => {
 
 const useStyles = makeStyles((theme) => ({
   resourcesCount: {
-    marginLeft: 8,
     fontSize: 12,
     color: theme.palette.grey[400],
   },

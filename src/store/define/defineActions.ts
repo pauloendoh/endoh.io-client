@@ -3,6 +3,10 @@ import { DocDto } from "../../dtos/define/DocDto"
 import { NoteDto } from "../../dtos/define/NoteDto"
 import { defineActionTypes } from "./defineTypes"
 
+
+export const clearDefineReducer = () =>
+  action(defineActionTypes.CLEAR_DEFINE_REDUCER)
+
 export const setDocs = (docs: DocDto[]) =>
   action(defineActionTypes.SET_DOCS, docs)
 
@@ -17,6 +21,7 @@ export const addOrReplaceNote = (note: NoteDto) =>
 
 // PE 2/3 - Perigo da pessoa esquecer de colocar aqui....
 export type DefineActionReturns =
+  | ReturnType<typeof clearDefineReducer>
   | ReturnType<typeof setDocs>
   | ReturnType<typeof addOrReplaceDoc>
   | ReturnType<typeof setNotes>

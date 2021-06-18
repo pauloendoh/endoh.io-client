@@ -1,13 +1,9 @@
 import { Box, Grid, Hidden, Typography } from "@material-ui/core"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
-import { useParams } from "react-router-dom"
+import { useHistory, useParams } from "react-router-dom"
 import { Dispatch } from "redux"
 import UserSuggestions from "../../components/feed/UserSuggestions/UserSuggestions"
-import {
-  IWithRedirectProps,
-  withRedirect,
-} from "../../components/hocs/withRedirect"
 import MinRatingButton from "../../components/resources/MinRatingButton/MinRatingButton"
 import Flex from "../../components/shared/Flexboxes/Flex"
 import API from "../../consts/API"
@@ -19,7 +15,7 @@ import { TagDto } from "../../interfaces/dtos/relearn/TagDto"
 import {
   clearProfile,
   setProfileResources,
-  setUserInfo,
+  setUserInfo
 } from "../../store/profile/profileActions"
 import { ApplicationState } from "../../store/store"
 import LoadingPage from "../index/LoadingPage"
@@ -30,6 +26,7 @@ import UserPageSidebar from "./UserPageSidebar/UserPageSidebar"
 
 // PE 3/3
 const UserPage = (props: Props) => {
+  const history = useHistory()
   const { username, tagId } = useParams<{
     username: string
     tagId: string
@@ -73,7 +70,7 @@ const UserPage = (props: Props) => {
         })
         .catch((err) => {
           if (err.response && err.response.status === 404) {
-            props.redirectTo(PATHS.notFound)
+            history.push(PATHS.notFound)
           }
         })
     },
@@ -126,8 +123,7 @@ const UserPage = (props: Props) => {
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  IWithRedirectProps
+  ReturnType<typeof mapDispatchToProps>
 
 const mapStateToProps = (state: ApplicationState) => ({
   userSuggestions: state.feed.userSuggestions,
@@ -148,6 +144,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   setUserInfo: (userInfo: UserInfoDto) => dispatch(setUserInfo(userInfo)),
 })
 
-export default withRedirect(
-  connect(mapStateToProps, mapDispatchToProps)(UserPage)
-)
+export default connect(mapStateToProps, mapDispatchToProps)(UserPage)
