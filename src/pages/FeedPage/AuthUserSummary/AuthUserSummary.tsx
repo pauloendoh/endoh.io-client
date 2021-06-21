@@ -1,19 +1,17 @@
-import { Avatar, Box, Button, Link, makeStyles } from "@material-ui/core"
+import { Box, Button, Link } from "@material-ui/core"
 import React, { useState } from "react"
 import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import Flex from "../../../components/shared/Flexboxes/Flex"
-import { ApplicationState } from "../../../store/store"
 import { Link as RouterLink } from "react-router-dom"
-import PATHS from "../../../consts/PATHS"
-import FollowingUsersDialog from "../../../components/feed/FollowingUsersDialog/FollowingUsersDialog"
+import { Dispatch } from "redux"
 import FollowersDialog from "../../../components/feed/FollowersDialog/FollowersDialog"
+import FollowingUsersDialog from "../../../components/feed/FollowingUsersDialog/FollowingUsersDialog"
+import Flex from "../../../components/shared/Flexboxes/Flex"
 import ProfilePicture from "../../../components/shared/ProfilePicture/ProfilePicture"
+import PATHS from "../../../consts/PATHS"
+import { ApplicationState } from "../../../store/store"
 
 // PE 3/3
 const AuthUserSummary = (props: Props) => {
-  const classes = useStyles()
-
   const [openFollowingUsersDialog, setOpenFollowingUsersDialog] = useState(
     false
   )
@@ -70,8 +68,6 @@ const AuthUserSummary = (props: Props) => {
     </Flex>
   )
 }
-
-const useStyles = makeStyles((theme) => ({}))
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>

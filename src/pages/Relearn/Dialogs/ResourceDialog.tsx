@@ -37,7 +37,7 @@ import * as relearnActions from "../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../store/store"
 import * as utilsActions from "../../../store/utils/utilsActions"
 import { urlIsValid } from "../../../utils/url/isValidUrl"
-import ResourceThumbnail from "../Content/ResourceList/DraggableResourceItem/ResourceThumbnail/ResourceThumbnail"
+import ResourceThumbnail from "../../../components/resources/ResourceThumbnail/ResourceThumbnail"
 
 // PE 1/3 - tá muito grande
 const ResourceDialog = (props: Props) => {

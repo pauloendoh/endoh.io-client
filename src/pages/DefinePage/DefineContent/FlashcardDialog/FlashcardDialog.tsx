@@ -1,4 +1,3 @@
-import ClearIcon from "@material-ui/icons/Clear"
 import {
   Box,
   Dialog,
@@ -6,11 +5,12 @@ import {
   DialogTitle,
   IconButton,
   makeStyles,
-  Typography,
+  Typography
 } from "@material-ui/core"
+import ClearIcon from "@material-ui/icons/Clear"
 import _ from "lodash"
 import React, { useEffect, useState } from "react"
-import { GlobalHotKeys, HotKeys } from "react-hotkeys"
+import { GlobalHotKeys } from "react-hotkeys"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import DarkButton from "../../../../components/shared/Buttons/DarkButton"
@@ -32,15 +32,12 @@ const FlashcardDialog = (props: Props) => {
 
   const [playNotes, setPlayNotes] = useState<NoteDto[]>([])
 
-  const [results, setResults] = useState<NoteDto[]>([])
-
   // reset
   useEffect(() => {
     setMinWeight(1)
     setAvailableNotes([])
     setPlayNotesLength(0)
     setPlayNotes([])
-    setResults([])
   }, [props.open])
 
   useEffect(
@@ -71,7 +68,6 @@ const FlashcardDialog = (props: Props) => {
     if (availableNotes.length === playNotesLength) {
       const playNotes = shuffleArray(availableNotes)
       setPlayNotes(playNotes)
-      console.log(playNotes)
       return
     }
 
@@ -92,8 +88,6 @@ const FlashcardDialog = (props: Props) => {
     }
 
     setPlayNotes(playNotes)
-
-    console.log(playNotes)
   }
 
   const onSpacePress = () => {

@@ -44,6 +44,7 @@ function RelearnContent(props: Props) {
       )
 
     setCompleted(completed)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.resources])
 
   return (

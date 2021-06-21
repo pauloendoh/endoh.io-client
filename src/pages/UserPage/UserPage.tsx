@@ -110,7 +110,7 @@ const UserPage = (props: Props) => {
                 {props.userSuggestions.length > 0 && (
                   <UserSuggestions
                     userSuggestions={props.userSuggestions}
-                    followingUsers={props.followingUsers}
+                    followingTags={props.followingUsers}
                   />
                 )}
               </Box>

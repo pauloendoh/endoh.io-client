@@ -10,8 +10,8 @@ import { Link, useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
 import { logoutActionCreator } from "../../../store/auth/authActions"
 import { ApplicationState } from "../../../store/store"
-import FlexVCenter from "../../shared/Flexboxes/FlexVCenter"
 import ProfilePicture from "../../shared/ProfilePicture/ProfilePicture"
+
 // PE 2/3
 const UserMenu = (props: Props) => {
   const location = useLocation()

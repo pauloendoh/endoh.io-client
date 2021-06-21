@@ -39,6 +39,7 @@ const PersonalInformationPaper = (props: Props) => {
             <FlexVCenter>
               <Box mr={2}>{props.user.username}</Box>
               <Button
+              id="edit-username-btn"
                 color="primary"
                 onClick={() => setEditUsernameDialog(true)}
               >

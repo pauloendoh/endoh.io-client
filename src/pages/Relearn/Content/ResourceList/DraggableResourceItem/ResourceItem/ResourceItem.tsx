@@ -22,7 +22,7 @@ import { ApplicationState } from "../../../../../../store/store"
 import * as utilsActions from "../../../../../../store/utils/utilsActions"
 import { validateEstimatedTime } from "../../../../../../utils/relearn/validateEstimatedTime"
 import ResourceMoreIcon from "../ResourceMoreIcon/ResourceMoreIcon"
-import ResourceThumbnail from "../ResourceThumbnail/ResourceThumbnail"
+import ResourceThumbnail from "../../../../../../components/resources/ResourceThumbnail/ResourceThumbnail"
 
 // PE 1/3
 function ResourceItem(props: Props) {
@@ -51,7 +51,11 @@ function ResourceItem(props: Props) {
 
   return (
     <Flex onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <ResourceThumbnail resource={props.resource} linkable={true} />
+      <ResourceThumbnail
+        resourceUrl={props.resource.url}
+        thumbnailSrc={props.resource.thumbnail}
+        linkable={true}
+      />
 
       <Box flexGrow={1}>
         <Flex className={classes.firstRow}>

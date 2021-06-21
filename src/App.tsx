@@ -1,4 +1,5 @@
 import { Box, CssBaseline, MuiThemeProvider } from "@material-ui/core"
+import { isUndefined } from 'lodash'
 import React, { lazy, Suspense, useEffect, useState } from "react"
 import { connect } from "react-redux"
 import {
@@ -40,6 +41,7 @@ import {
 import { setUserSuggestions } from "./store/feed/feedActions"
 import { setTags } from "./store/relearn/relearnActions"
 import { ApplicationState } from "./store/store"
+import {isValidApplicationPath} from "./utils/app/isValidApplicationPath"
 
 const MoneratePage = lazy(
   () => import("./pages/Monerate/MoneratePage/MoneratePage")
@@ -113,14 +115,11 @@ const App = (props: Props) => {
 
   // PE 2/3 - Not very scalable...
   let redirectAfterLogout = "/"
-  if (location.pathname.startsWith(PATHS.monerate.index)) {
-    redirectAfterLogout = "/?next=/monerate"
-  } else if (location.pathname.startsWith(PATHS.relearn.index)) {
-    redirectAfterLogout = "/?next=/relearn"
-  } else if (location.pathname.startsWith(PATHS.skillbase.index)) {
-    redirectAfterLogout = "/?next=/skillbase"
-  }
 
+  if(isValidApplicationPath(location.pathname)){
+    redirectAfterLogout = `/?next=${location.pathname}`
+  }
+ 
   // PE 2/3 - routes = nome ruim?
   let routes = (
     <Switch>

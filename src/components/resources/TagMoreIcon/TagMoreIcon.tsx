@@ -1,5 +1,4 @@
 import {
-  Box,
   createStyles,
   IconButton,
   ListItemIcon,

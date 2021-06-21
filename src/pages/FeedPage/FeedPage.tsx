@@ -6,11 +6,8 @@ import UserSuggestions from "../../components/feed/UserSuggestions/UserSuggestio
 import API from "../../consts/API"
 import MY_AXIOS from "../../consts/MY_AXIOS"
 import { FeedResourceDto } from "../../dtos/feed/FeedResourceDto"
-import { UserInfoDto } from "../../dtos/UserInfoDto"
-import { setAuthProfile } from "../../store/auth/authActions"
 import { setFeedResources } from "../../store/feed/feedActions"
 import { ApplicationState } from "../../store/store"
-import ResourceDialog from "../Relearn/Dialogs/ResourceDialog"
 import AuthUserSummary from "./AuthUserSummary/AuthUserSummary"
 import FeedResources from "./FeedResources/FeedResources"
 
@@ -42,7 +39,7 @@ const FeedPage = (props: Props) => {
           {props.userSuggestions.length > 0 && (
             <UserSuggestions
               userSuggestions={props.userSuggestions}
-              followingUsers={props.followingUsers}
+              followingTags={props.followingUsers}
             />
           )}
         </Grid>

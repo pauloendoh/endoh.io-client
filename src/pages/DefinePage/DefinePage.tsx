@@ -35,11 +35,15 @@ const DefinePage = (props: Props) => {
   )
 
   useEffect(() => {
-    if (docId) {
+    if (docId  && props.hasFirstLoaded) {
       setSelectedDocId(Number(docId))
+
+      const doc = props.allDocs.find(doc => doc.id === Number(docId))
+      document.title = doc.title
     } else {
       setSelectedDocId(null)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [docId])
 
   return (
@@ -65,6 +69,7 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 const mapStateToProps = (state: ApplicationState) => ({
   hasFirstLoaded: state.define.hasFirstLoaded,
+  allDocs: state.define.docs,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

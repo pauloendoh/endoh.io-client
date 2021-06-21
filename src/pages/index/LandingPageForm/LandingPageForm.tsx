@@ -88,7 +88,6 @@ const LandingPageForm = (props: Props) => {
                   const authUser = res.data
                   props.setAuthUser(authUser)
 
-                  // props.UPDATE_AUTH_USER(res.data);
                 })
                 .catch((err: MyAxiosError) => {
                   setResponseErrors(err.response.data.errors)
@@ -245,6 +244,7 @@ const LandingPageForm = (props: Props) => {
                 onClick={handleTempSignIn}
                 fullWidth
                 className={classes.testUserButton}
+                id="temp-user-btn"
               >
                 <FlexVCenter>
                   <AccessAlarmIcon fontSize="large" />

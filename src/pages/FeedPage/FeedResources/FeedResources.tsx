@@ -24,6 +24,8 @@ import { getColorByRating } from "../../../utils/relearn/getColorByRating"
 import MinRatingButton from "../../../components/resources/MinRatingButton/MinRatingButton"
 import SaveFeedResourceButton from "./SaveFeedResourceButton/SaveFeedResourceButton"
 import ProfilePicture from "../../../components/shared/ProfilePicture/ProfilePicture"
+import ResourceThumbnail from "../../../components/resources/ResourceThumbnail/ResourceThumbnail"
+
 // PE 3/3
 const FeedResources = (props: Props) => {
   const classes = useStyles()
@@ -77,15 +79,12 @@ const FeedResources = (props: Props) => {
           </FlexVCenter>
           <Box mt={1}>
             <Flex>
-              <Box minWidth={75} width={75}>
-                <Link href={resource.url} target="_blank">
-                  <img
-                    style={{ width: "100%" }}
-                    alt={resource.thumbnail}
-                    src={getThumbnailSrc(resource)}
-                  />
-                </Link>
-              </Box>
+              <ResourceThumbnail
+                linkable={true}
+                resourceUrl={resource.url}
+                thumbnailSrc={resource.thumbnail}
+                width={75}
+              />
 
               <Box ml={1} width="100%">
                 <Typography>{resource.title}</Typography>

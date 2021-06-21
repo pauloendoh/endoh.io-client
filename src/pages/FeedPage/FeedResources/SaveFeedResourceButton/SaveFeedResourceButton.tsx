@@ -1,4 +1,4 @@
-import { Box, Button, makeStyles } from "@material-ui/core"
+import { Box, Button } from "@material-ui/core"
 import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd"
 import React from "react"
 import { connect } from "react-redux"
@@ -13,8 +13,6 @@ import { editResource } from "../../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../../store/store"
 
 const SaveFeedResourceButton = (props: Props) => {
-  const classes = useStyles()
-
   const handleClick = () => {
     const resource = newResourceDto()
     const { feedResource } = props
@@ -36,8 +34,6 @@ const SaveFeedResourceButton = (props: Props) => {
     </Button>
   )
 }
-
-const useStyles = makeStyles((theme) => ({}))
 
 const mapStateToProps = (state: ApplicationState) => ({})
 

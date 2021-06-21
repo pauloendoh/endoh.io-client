@@ -43,6 +43,7 @@ const MySnackBar = (props: Props) => {
   return (
     <div className={classes.root}>
       <Snackbar
+      id="success-message"
         open={props.successMessage.length > 0}
         autoHideDuration={3000}
         onClose={handleCloseSuccess}
@@ -53,6 +54,7 @@ const MySnackBar = (props: Props) => {
       </Snackbar>
 
       <Snackbar
+      id="error-message"
         open={props.errorMessage.length > 0}
         autoHideDuration={3000}
         onClose={handleCloseError}

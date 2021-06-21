@@ -1,30 +1,16 @@
-import { faCircle } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import {
-  Badge,
-  Box,
-  Button,
-  makeStyles,
-  Menu,
-  MenuItem,
-  Typography,
-} from "@material-ui/core"
+import { Badge, Button, makeStyles, Menu } from "@material-ui/core"
 import NotificationsIcon from "@material-ui/icons/Notifications"
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { connect } from "react-redux"
-import ReactTimeago from "react-timeago"
 import { Dispatch } from "redux"
 import API from "../../../consts/API"
 import MY_AXIOS from "../../../consts/MY_AXIOS"
-import PATHS from "../../../consts/PATHS"
 import { NotificationDto } from "../../../dtos/utils/NotificationDto"
 import { setNotifications } from "../../../store/auth/authActions"
 import { ApplicationState } from "../../../store/store"
-import Flex from "../../shared/Flexboxes/Flex"
-import FlexHCenter from "../../shared/Flexboxes/FlexHCenter"
-import FlexVCenter from "../../shared/Flexboxes/FlexVCenter"
-import ProfilePicture from "../../shared/ProfilePicture/ProfilePicture"
+import NotificationItem from "./NotificationItem/NotificationItem"
 
+// PE 2/3 - Change to "NotificationButtonMenu"
 const Notification = (props: Props) => {
   const classes = useStyles()
 
@@ -45,6 +31,14 @@ const Notification = (props: Props) => {
     setAnchorEl(null)
   }
 
+  const getUnseenNotificationsLength = () =>
+    props.allNotifications.filter((n) => !n.seen).length
+
+  const getBadgeVariant = () =>
+    props.allNotifications.filter((n) => !n.seen).length > 0
+      ? "dot"
+      : "standard"
+
   return (
     <React.Fragment>
       <Button
@@ -54,18 +48,13 @@ const Notification = (props: Props) => {
       >
         <Badge
           color="primary"
-          badgeContent={props.notifications.filter((n) => !n.seen).length}
-          // if there's unseen notifications
-          variant={
-            props.notifications.filter((n) => !n.seen).length > 0
-              ? "dot"
-              : "standard"
-          }
+          badgeContent={getUnseenNotificationsLength()}
+          variant={getBadgeVariant()}
         >
           <NotificationsIcon />
         </Badge>
       </Button>
-      {props.notifications.length > 0 && (
+      {props.allNotifications.length > 0 && (
         <Menu
           className={classes.menu}
           id="simple-menu"
@@ -78,38 +67,11 @@ const Notification = (props: Props) => {
           onClick={handleClose}
           onClose={handleClose}
         >
-          {props.notifications.map((not) => (
-            <MenuItem key={not.id} className={classes.menuItem}>
-              <Flex>
-                <FlexVCenter mt={1} height="fit-content">
-                  <FlexHCenter width={20}>
-                    {!not.seen && (
-                      <FontAwesomeIcon
-                        icon={faCircle}
-                        className={classes.dot}
-                      />
-                    )}
-                  </FlexHCenter>
-
-                  <ProfilePicture
-                    pictureUrl={not.pictureUrl}
-                    isLink
-                    username={not.username}
-                  />
-                </FlexVCenter>
-
-                <Box ml={2}>
-                  <Box>
-                    <Typography>{not.message}</Typography>
-                  </Box>
-                  <Box>
-                    <Typography variant="body2" color="primary">
-                      <ReactTimeago date={not.createdAt} live={false} />
-                    </Typography>
-                  </Box>
-                </Box>
-              </Flex>
-            </MenuItem>
+          {props.allNotifications.map((notification) => (
+            <NotificationItem
+              key={notification.id}
+              notification={notification}
+            />
           ))}
         </Menu>
       )}
@@ -131,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const mapStateToProps = (state: ApplicationState) => ({
-  notifications: state.auth.notifications,
+  allNotifications: state.auth.notifications,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

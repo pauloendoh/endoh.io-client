@@ -1,5 +1,4 @@
 import {
-  Box,
   makeStyles,
   Paper,
   Table,
@@ -10,7 +9,7 @@ import {
   TableRow,
   Toolbar,
 } from "@material-ui/core"
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import DarkButton from "../../../../components/shared/Buttons/DarkButton"

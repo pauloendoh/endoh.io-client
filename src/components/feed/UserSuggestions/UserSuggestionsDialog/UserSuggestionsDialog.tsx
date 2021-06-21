@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Dialog,
   DialogContent,
@@ -7,12 +6,11 @@ import {
   Link,
 } from "@material-ui/core"
 import React from "react"
-import { UserSuggestionDto } from "../../../../dtos/feed/UserSuggestionDto"
-import Flex from "../../../shared/Flexboxes/Flex"
 import { Link as RouterLink } from "react-router-dom"
 import PATHS from "../../../../consts/PATHS"
-import ProfilePicture from "../../../shared/ProfilePicture/ProfilePicture"
+import { UserSuggestionDto } from "../../../../dtos/feed/UserSuggestionDto"
 import FlexVCenter from "../../../shared/Flexboxes/FlexVCenter"
+import ProfilePicture from "../../../shared/ProfilePicture/ProfilePicture"
 // PE 2/3
 const UserSuggestionsDialog = (props: Props) => {
   return (
@@ -28,7 +26,10 @@ const UserSuggestionsDialog = (props: Props) => {
 
         <DialogContent>
           {props.userSuggestions.map((userSuggestion) => (
-            <FlexVCenter key={userSuggestion.id} mb={2}>
+            <FlexVCenter
+              key={userSuggestion.id}
+              mb={2}
+            >
               <ProfilePicture
                 isLink
                 pictureUrl={userSuggestion.pictureUrl}

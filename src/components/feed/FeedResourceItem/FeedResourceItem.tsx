@@ -7,7 +7,7 @@ import API from "../../../consts/API"
 import MY_AXIOS from "../../../consts/MY_AXIOS"
 import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto"
 import ResourceMoreIcon from "../../../pages/Relearn/Content/ResourceList/DraggableResourceItem/ResourceMoreIcon/ResourceMoreIcon"
-import ResourceThumbnail from "../../../pages/Relearn/Content/ResourceList/DraggableResourceItem/ResourceThumbnail/ResourceThumbnail"
+import ResourceThumbnail from "../../resources/ResourceThumbnail/ResourceThumbnail"
 import * as relearnActions from "../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../store/store"
 import * as utilsActions from "../../../store/utils/utilsActions"
@@ -51,12 +51,14 @@ function FeedResourceItem(props: Props) {
       p={1}
       borderBottom="1px solid rgb(255 255 255 / 0.1)" // Could be a const?
     >
-      {/* PE 1/3 - DRY */}
-      <ResourceThumbnail resource={props.resource} linkable={true} />
+      <ResourceThumbnail
+        resourceUrl={props.resource.url}
+        thumbnailSrc={props.resource.thumbnail}
+        linkable={true}
+      />
 
       <Box flexGrow={1}>
         <Flex className={classes.firstRow}>
-          {/* 'More' icon - PE 1/3 - can be a specific component */}
           <Box>
             {urlIsValid(props.resource.url) ? (
               <>

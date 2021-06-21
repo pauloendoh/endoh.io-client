@@ -1,15 +1,12 @@
 import {
-  Box,
-  createStyles,
   IconButton,
   ListItemIcon,
   makeStyles,
   Menu,
   MenuItem,
   Theme,
-  Typography,
+  Typography
 } from "@material-ui/core"
-import DeleteIcon from "@material-ui/icons/Delete"
 import EditIcon from "@material-ui/icons/Edit"
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
 import React, { useState } from "react"
@@ -18,8 +15,6 @@ import { Dispatch } from "redux"
 import API from "../../../../consts/API"
 import MY_AXIOS from "../../../../consts/MY_AXIOS"
 import { DocDto } from "../../../../dtos/define/DocDto"
-import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto"
-import * as relearnActions from "../../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../../store/store"
 import * as utilsActions from "../../../../store/utils/utilsActions"
 import DocTitleDialog from "../../DocTitleDialog/DocTitleDialog"

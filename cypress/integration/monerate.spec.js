@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-context('Relearn', () => {
+context('Monerate', () => {
   beforeEach(() => {
     cy.visit('http://localhost:8000/monerate')
 

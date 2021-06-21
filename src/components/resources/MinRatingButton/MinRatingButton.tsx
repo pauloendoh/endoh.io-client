@@ -6,13 +6,11 @@ import {
   Tooltip,
   Typography,
 } from "@material-ui/core"
-import StarBorderOutlined from "@material-ui/icons/StarBorderOutlined"
 import { Rating } from "@material-ui/lab"
 import clsx from "clsx"
 import React from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
-import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto"
 import { ApplicationState } from "../../../store/store"
 import * as utilsActions from "../../../store/utils/utilsActions"
 import FlexHCenter from "../../shared/Flexboxes/FlexHCenter"
