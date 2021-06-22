@@ -8,6 +8,9 @@ context('Endoh.io - Landing Page', () => {
   it('should render endoh.io at landing page', () => {
     cy.contains('endoh.io')
     cy.contains(/Google/i)
+    /* ==== Generated with Cypress Studio ==== */
+    cy.get('.MuiBox-root-39 > .MuiBox-root').click();
+    /* ==== End Cypress Studio ==== */
   })
 
   it('should login with test credentials', () => {

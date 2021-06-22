@@ -2,6 +2,8 @@ import { Box, Link } from "@material-ui/core"
 import React from "react"
 import descriptionPng from "../../../static/images/description.png"
 import linkPng from "../../../static/images/link.png"
+import { LazyLoadImage } from "react-lazy-load-image-component"
+import "react-lazy-load-image-component/src/effects/blur.css"
 
 // PE 2/3
 function ResourceThumbnail(props: Props) {
@@ -29,7 +31,7 @@ function ResourceThumbnail(props: Props) {
       <Box minWidth={getWidth()} width={getWidth()} position="relative">
         {isLink() ? (
           <Link href={props.resourceUrl} target="_blank">
-            <img
+            <LazyLoadImage
               style={{ width: "100%" }}
               alt={props.thumbnailSrc}
               src={getThumbnailSrc()}
@@ -41,9 +43,8 @@ function ResourceThumbnail(props: Props) {
             />
           </Link>
         ) : (
-          <img
+          <LazyLoadImage
             style={{ width: "100%" }}
-            alt={props.thumbnailSrc}
             src={getThumbnailSrc()}
           />
         )}
