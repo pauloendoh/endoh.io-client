@@ -1,5 +1,5 @@
 import { Box, CssBaseline, MuiThemeProvider } from "@material-ui/core"
-import { isUndefined } from 'lodash'
+import { isUndefined } from "lodash"
 import React, { lazy, Suspense, useEffect, useState } from "react"
 import { connect } from "react-redux"
 import {
@@ -41,7 +41,7 @@ import {
 import { setUserSuggestions } from "./store/feed/feedActions"
 import { setTags } from "./store/relearn/relearnActions"
 import { ApplicationState } from "./store/store"
-import {isValidApplicationPath} from "./utils/app/isValidApplicationPath"
+import { isValidApplicationPath } from "./utils/app/isValidApplicationPath"
 
 const MoneratePage = lazy(
   () => import("./pages/Monerate/MoneratePage/MoneratePage")
@@ -116,10 +116,16 @@ const App = (props: Props) => {
   // PE 2/3 - Not very scalable...
   let redirectAfterLogout = "/"
 
-  if(isValidApplicationPath(location.pathname)){
+  // Redirecting to HTTPS
+  if (window.location.href.includes("http://endoh.io")) {
+    window.location.href = window.location.href.replace("http", "https")
+  }
+
+
+  if (isValidApplicationPath(location.pathname)) {
     redirectAfterLogout = `/?next=${location.pathname}`
   }
- 
+
   // PE 2/3 - routes = nome ruim?
   let routes = (
     <Switch>
