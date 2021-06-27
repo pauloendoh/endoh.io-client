@@ -118,8 +118,9 @@ const App = (props: Props) => {
 
   // Redirecting to HTTPS
   if (window.location.href.includes("http://endoh.io")) {
-    window.location.href = window.location.href.replace("http", "https")
+    window.location.replace(window.location.href.replace("http", "https")) 
   }
+  
 
 
   if (isValidApplicationPath(location.pathname)) {
