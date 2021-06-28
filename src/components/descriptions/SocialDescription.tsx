@@ -16,7 +16,7 @@ const SocialDescription = () => {
             height="315"
             src="https://www.youtube.com/embed/8ShJf0W7m_M"
             title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
             style={{ border: "none" }}
           ></iframe>
         </Box>

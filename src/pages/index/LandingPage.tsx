@@ -17,6 +17,7 @@ import SkillbaseDescription from "../../components/descriptions/SkillbaseDescrip
 import LandingPageForm from "./LandingPageForm/LandingPageForm"
 import NotesDescription from "../../components/descriptions/NotesDescription"
 
+
 const LandingPage = () => {
   const classes = useStyles()
 
@@ -54,9 +55,12 @@ const LandingPage = () => {
         </ScrollLink>
       </Box>
 
-      <Box mt={10}>
+      <Box mt={10}> 
         <RelearnDescription />
       </Box>
+
+      
+    
 
       <Box mt={10}>
         <SocialDescription />

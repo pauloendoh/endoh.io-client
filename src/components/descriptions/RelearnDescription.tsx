@@ -37,7 +37,7 @@ const RelearnDescription = () => {
             height="315"
             src="https://www.youtube.com/embed/GEbfYVS21CU"
             title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
             style={{ border: "none" }}
           ></iframe>
         </Box>
