@@ -28,6 +28,10 @@ const PATHS = {
     index: "/define/",
     doc: (docId: number) => `/define/doc/${docId}`,
   },
+  BigDecisions: {
+    index: "/BigDecisions",
+    decision: (id: number) => `/BigDecisions/${id}`
+  },
   user: {
     index: (username: string) => `/user/${username}`,
     tag: (username: string, listId: number) =>

@@ -1,19 +1,16 @@
-import CameraAltIcon from "@material-ui/icons/CameraAlt"
 import {
   Box,
   Button,
   Dialog,
   DialogContent,
   DialogTitle,
-  Input,
-  InputLabel,
   makeStyles,
   Typography,
 } from "@material-ui/core"
+import CameraAltIcon from "@material-ui/icons/CameraAlt"
 import { Form, Formik, FormikErrors } from "formik"
-import React, { ChangeEvent, createRef, useState } from "react"
+import React, { ChangeEvent, createRef } from "react"
 import { connect } from "react-redux"
-import { Label } from "recharts"
 import { Dispatch } from "redux"
 import Flex from "../../../../components/shared/Flexboxes/Flex"
 import MyTextField from "../../../../components/shared/MyInputs/MyTextField"
@@ -33,7 +30,7 @@ import { urlIsValid } from "../../../../utils/url/isValidUrl"
 // PE 2/3
 const EditProfileDialog = (props: Props) => {
   const classes = useStyles()
-  const [file, setFile] = useState<File>(null)
+  // const [file, setFile] = useState<File>(null)
 
   const fileInput = createRef<HTMLInputElement>()
 
@@ -50,7 +47,7 @@ const EditProfileDialog = (props: Props) => {
         props.setErrorMessage(err.response.data.errors[0].message)
       })
       .finally(() => {
-        setFile(null)
+        // setFile(null)
         props.onClose()
       })
   }
@@ -58,7 +55,7 @@ const EditProfileDialog = (props: Props) => {
   const handleFileSelection = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files[0]
     if (file) {
-      setFile(file)
+      // setFile(file)
 
       handleFileUpload(file)
     }

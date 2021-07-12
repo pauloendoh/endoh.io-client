@@ -15,7 +15,7 @@ import { TagDto } from "../../interfaces/dtos/relearn/TagDto"
 import {
   setEditingSkill,
   setProgresses,
-  setSkills,
+  setSkills
 } from "../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../store/store"
 import { sleep } from "../../utils/sleep"
@@ -56,7 +56,7 @@ const SkillbasePage = (props: Props) => {
         setSelectedTag(tag)
       }
     } else setSelectedTag(null)
-  }, [pathname])
+  }, [pathname, props.allTags])
 
   const keyMap = { openModal: "q" }
   const handlers = {

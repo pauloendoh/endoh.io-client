@@ -1,30 +1,20 @@
+import { Box, Link, makeStyles, Paper, Typography } from "@material-ui/core"
 import StarRateIcon from "@material-ui/icons/StarRate"
-
-import {
-  Avatar,
-  Box,
-  Link,
-  makeStyles,
-  Paper,
-  Typography,
-} from "@material-ui/core"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Link as RouterLink } from "react-router-dom"
 import TimeAgo from "react-timeago"
 import { Dispatch } from "redux"
+import MinRatingButton from "../../../components/resources/MinRatingButton/MinRatingButton"
+import ResourceThumbnail from "../../../components/resources/ResourceThumbnail/ResourceThumbnail"
 import Flex from "../../../components/shared/Flexboxes/Flex"
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
+import ProfilePicture from "../../../components/shared/ProfilePicture/ProfilePicture"
 import PATHS from "../../../consts/PATHS"
 import { FeedResourceDto } from "../../../dtos/feed/FeedResourceDto"
-import descriptionPng from "../../../static/images/description.png"
-import linkPng from "../../../static/images/link.png"
 import { ApplicationState } from "../../../store/store"
 import { getColorByRating } from "../../../utils/relearn/getColorByRating"
-import MinRatingButton from "../../../components/resources/MinRatingButton/MinRatingButton"
 import SaveFeedResourceButton from "./SaveFeedResourceButton/SaveFeedResourceButton"
-import ProfilePicture from "../../../components/shared/ProfilePicture/ProfilePicture"
-import ResourceThumbnail from "../../../components/resources/ResourceThumbnail/ResourceThumbnail"
 
 // PE 3/3
 const FeedResources = (props: Props) => {
@@ -39,17 +29,6 @@ const FeedResources = (props: Props) => {
     const minResources = props.resources.filter((r) => r.rating >= minRating)
     setFilteredResources(minResources)
   }, [props.resources, minRating])
-
-  const getThumbnailSrc = (resource: FeedResourceDto): string => {
-    if (resource.thumbnail.length) {
-      return resource.thumbnail
-    }
-
-    if (resource.url.length) {
-      return linkPng
-    }
-    return descriptionPng
-  }
 
   return (
     <Box pr={4}>

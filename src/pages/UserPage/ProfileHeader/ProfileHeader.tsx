@@ -4,24 +4,20 @@ import { connect } from "react-redux"
 import { useParams } from "react-router-dom"
 import { Dispatch } from "redux"
 import Flex from "../../../components/shared/Flexboxes/Flex"
+import ProfilePicture from "../../../components/shared/ProfilePicture/ProfilePicture"
 import { ApplicationState } from "../../../store/store"
+import { isFollowing } from "../../../utils/feed/isFollowing"
 import EditProfileDialog from "./EditProfileDialog/EditProfileDialog"
 import FollowDialog from "./FollowDialog/FollowDialog"
-import FollowingUsersDialog from "../../../components/feed/FollowingUsersDialog/FollowingUsersDialog"
-import FollowersDialog from "../../../components/feed/FollowersDialog/FollowersDialog"
-import { isFollowing } from "../../../utils/feed/isFollowing"
-import ProfilePicture from "../../../components/shared/ProfilePicture/ProfilePicture"
-// PE 3/3
+import FollowersButtonDialog from "./FollowersButtonDialog/FollowersButtonDialog"
+import FollowingButtonDialog from "./FollowingButtonDialog/FollowingButtonDialog"
+
+// PE 2/3
 const ProfileHeader = (props: Props) => {
   const { username } = useParams<{ username: string }>()
 
   const [openProfileDialog, setOpenProfileDialog] = useState(false)
   const [openFollowDialog, setOpenFollowDialog] = useState(false)
-
-  const [openFollowingUsersDialog, setOpenFollowingUsersDialog] = useState(
-    false
-  )
-  const [openFollowersDialog, setOpenFollowersDialog] = useState(false)
 
   return (
     <Flex>
@@ -102,35 +98,12 @@ const ProfileHeader = (props: Props) => {
           )}
         </Box>
 
-        {/* PE 1/3 - separar em subcomponente */}
         <Flex mt={3}>
-          {/* Following */}
+          <FollowingButtonDialog />
 
-          <Box>
-            <Button
-              size="small"
-              onClick={() => setOpenFollowingUsersDialog(true)}
-            >
-              {props.followingUsers.length} Following
-            </Button>
-            <FollowingUsersDialog
-              followingUsers={props.followingUsers}
-              open={openFollowingUsersDialog}
-              onClose={() => setOpenFollowingUsersDialog(false)}
-            />
-          </Box>
-
-          {/* Followers */}
-          <Box ml={2}>
-            <Button size="small" onClick={() => setOpenFollowersDialog(true)}>
-              {props.followers.length} Followers
-            </Button>
-            <FollowersDialog
-              followers={props.followers}
-              open={openFollowersDialog}
-              onClose={() => setOpenFollowersDialog(false)}
-            />
-          </Box>
+          {/* FollowersButtonDialog */}
+          <Box ml={2} />
+          <FollowersButtonDialog />
         </Flex>
       </Box>
     </Flex>

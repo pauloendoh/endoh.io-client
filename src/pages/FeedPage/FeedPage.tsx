@@ -33,6 +33,7 @@ const FeedPage = (props: Props) => {
         <Grid item xs={7} md={6} lg={5}>
           <FeedResources />
         </Grid>
+        
         <Grid item xs={4}>
           <AuthUserSummary />
           <Box mt={2} />

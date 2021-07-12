@@ -8,7 +8,7 @@ import {
   ListItemIcon,
   ListItemText,
   makeStyles,
-  Theme,
+  Theme
 } from "@material-ui/core"
 import { ExpandLess, ExpandMore } from "@material-ui/icons"
 import React, { useState } from "react"

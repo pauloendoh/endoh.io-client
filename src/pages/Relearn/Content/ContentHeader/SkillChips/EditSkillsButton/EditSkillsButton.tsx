@@ -1,12 +1,8 @@
 import { Button, makeStyles } from "@material-ui/core"
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { connect } from "react-redux"
 import { useHistory, useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
-import {
-  withRedirect,
-  IWithRedirectProps,
-} from "../../../../../../components/hocs/withRedirect"
 import FlexVCenter from "../../../../../../components/shared/Flexboxes/FlexVCenter"
 import PATHS from "../../../../../../consts/PATHS"
 import { TagDto } from "../../../../../../interfaces/dtos/relearn/TagDto"
@@ -20,28 +16,6 @@ function EditSkillsButton(props: Props) {
   const history = useHistory()
 
   const [tagForDialog, setTagForDialog] = useState<TagDto>(null)
-  const [skills, setSkills] = useState(props.allSkills)
-
-  useEffect(() => {
-    // /relearn
-    if (pathname === PATHS.relearn.index) {
-      const unlistedSkills = props.allSkills.filter(
-        (s) => s.tagId === null && s.isPriority === true
-      )
-      setSkills(unlistedSkills)
-    }
-    // /relearn/tag/:id
-    else if (pathname.startsWith(PATHS.relearn.tag)) {
-      const listId = Number(pathname.split("/").pop())
-
-      if (listId) {
-        const listedSkills = props.allSkills.filter(
-          (s) => s.tagId === listId && s.isPriority === true
-        )
-        setSkills(listedSkills)
-      }
-    }
-  }, [props.allSkills, pathname])
 
   const getSkillsFromCurrentTag = () => {
     const tagId = Number(pathname.split("/").pop())

@@ -12,8 +12,6 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
 import React, { useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
-import API from "../../../../consts/API"
-import MY_AXIOS from "../../../../consts/MY_AXIOS"
 import { DocDto } from "../../../../dtos/define/DocDto"
 import { ApplicationState } from "../../../../store/store"
 import * as utilsActions from "../../../../store/utils/utilsActions"
@@ -31,19 +29,6 @@ function TitleMoreIcon(props: Props) {
   }
   const handleCloseMore = () => {
     setAnchorEl(null) // avoids error "The `anchorEl` prop provided to the component is invalid"
-  }
-
-  // handleDelete would be better?
-  const handleDeleteDoc = (id: number) => {
-    if (window.confirm("Confirm delete?")) {
-      MY_AXIOS.delete(`${API.relearn.tag}/${id}`).then((res) => {
-        props.setSuccessMessage("Tag deleted!")
-
-        props.afterDelete()
-
-        // props.removeTag(id)
-      })
-    }
   }
 
   return (

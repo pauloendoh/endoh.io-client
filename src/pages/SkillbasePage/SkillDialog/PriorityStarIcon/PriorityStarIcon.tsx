@@ -2,7 +2,6 @@ import { IconButton, makeStyles, Tooltip } from "@material-ui/core"
 import StarIcon from "@material-ui/icons/Star"
 import clsx from "clsx"
 import React from "react"
-import { connect } from "react-redux"
 
 // PE 2/3
 const PriorityStarIcon = (props: Props) => {

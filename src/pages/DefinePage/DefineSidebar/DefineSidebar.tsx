@@ -9,11 +9,11 @@ import {
   makeStyles,
   Theme,
   Toolbar,
-  Typography,
+  Typography
 } from "@material-ui/core"
 import AddIcon from "@material-ui/icons/Add"
 import DescriptionIcon from "@material-ui/icons/Description"
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { connect } from "react-redux"
 import { Link, useHistory } from "react-router-dom"
 import { Dispatch } from "redux"
@@ -25,6 +25,7 @@ import PATHS from "../../../consts/PATHS"
 import { DocDto } from "../../../dtos/define/DocDto"
 import { ApplicationState } from "../../../store/store"
 import DocTitleDialog from "../DocTitleDialog/DocTitleDialog"
+import stringIncludes from '../../../utils/text/stringIncludes'
 
 function DefineSidebar(props: Props) {
   const history = useHistory()
@@ -46,7 +47,7 @@ function DefineSidebar(props: Props) {
 
   const filterAndSortDocs = () => {
     let filtered = props.allDocs.filter((d) =>
-      d.title.toUpperCase().includes(textFilter.toUpperCase().trim())
+      stringIncludes(d.title, textFilter)
     )
 
     return filtered.sort((a, b) => a.title.localeCompare(b.title))

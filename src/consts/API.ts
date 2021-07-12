@@ -38,6 +38,11 @@ const API = {
     note: "/define/note",
     postManyNotes: "/define/note/many",
   },
+  BigDecisions: {
+    decision: '/BigDecisions/decision',
+    decisionTableItem: '/BigDecisions/decisionTableItem',
+  }
+  ,
   user: {
     index: "/user",
     ratedResources: (username: string) =>

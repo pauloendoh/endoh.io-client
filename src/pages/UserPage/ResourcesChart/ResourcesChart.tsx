@@ -43,10 +43,7 @@ const ResourcesChart = (props: Props) => {
     }
   }, [props.resources, chartRange])
 
-  // @ts-ignore
-  const valueAccessor = (attribute: string) => ({ payload }): number => {
-    return payload[attribute]
-  }
+
 
   return (
     <Box>

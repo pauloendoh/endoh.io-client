@@ -1,13 +1,12 @@
-import ClearIcon from "@material-ui/icons/Clear"
-
 import {
-  Box,
   DialogContent,
   DialogTitle,
   IconButton,
   Typography,
 } from "@material-ui/core"
+import ClearIcon from "@material-ui/icons/Clear"
 import React, { useState } from "react"
+import { GlobalHotKeys } from "react-hotkeys"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import DarkButton from "../../../../../../components/shared/Buttons/DarkButton"
@@ -20,7 +19,6 @@ import { NoteDto } from "../../../../../../dtos/define/NoteDto"
 import { setNotes } from "../../../../../../store/define/defineActions"
 import { ApplicationState } from "../../../../../../store/store"
 import { setSuccessMessage } from "../../../../../../store/utils/utilsActions"
-import { GlobalHotKeys } from "react-hotkeys"
 
 const FinishedContentDialog = (props: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -32,13 +30,13 @@ const FinishedContentDialog = (props: Props) => {
   const saveResults = () => {
     setIsSubmitting(true)
 
-    MY_AXIOS.post<NoteDto[]>(API.define.postManyNotes, props.results).then(
-      (res) => {
+    MY_AXIOS.post<NoteDto[]>(API.define.postManyNotes, props.results)
+      .then((res) => {
         props.setNotes(res.data)
         props.setSuccessMessage("Saved!")
         props.onFinish()
-      }
-    ).finally(() => setIsSubmitting(false))
+      })
+      .finally(() => setIsSubmitting(false))
   }
 
   const keyMap = {
@@ -89,7 +87,7 @@ const FinishedContentDialog = (props: Props) => {
       </DialogContent>
 
       <DialogTitle>
-        <DarkButton  disabled={isSubmitting} fullWidth onClick={saveResults}>
+        <DarkButton disabled={isSubmitting} fullWidth onClick={saveResults}>
           Save and Apply Changes (Space)
         </DarkButton>
       </DialogTitle>

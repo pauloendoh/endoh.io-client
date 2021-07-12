@@ -3,14 +3,14 @@ import React from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import store from "../../../store/store";
-import AuthForm from "./AuthForm";
+import LandingPageForm from "./LandingPageForm";
 
 describe("<AuthForm/>", () => {
   it("should render a 'SIGN IN' button", async () => {
     const dom = render(
       <Provider store={store}>
         <BrowserRouter>
-          <AuthForm />
+          <LandingPageForm />
         </BrowserRouter>
       </Provider>
     );
@@ -21,7 +21,7 @@ describe("<AuthForm/>", () => {
     const dom = render(
       <Provider store={store}>
         <BrowserRouter>
-          <AuthForm />
+          <LandingPageForm />
         </BrowserRouter>
       </Provider>
     );

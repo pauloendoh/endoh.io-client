@@ -1,23 +1,10 @@
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  makeStyles,
-} from "@material-ui/core"
-import React, { useEffect, useState } from "react"
+import { Box, Dialog, DialogContent } from "@material-ui/core"
+import React from "react"
 import { connect } from "react-redux"
-import { useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
-import FlexVCenter from "../../../../../../../components/shared/Flexboxes/FlexVCenter"
-import PATHS from "../../../../../../../consts/PATHS"
-import { SkillDto } from "../../../../../../../dtos/skillbase/SkillDto"
 import { TagDto } from "../../../../../../../interfaces/dtos/relearn/TagDto"
 import { ApplicationState } from "../../../../../../../store/store"
 import SkillbaseTable from "../../../../../../SkillbasePage/SkillTable/SkillbaseTable"
-import SkillbaseTableRow from "../../../../../../SkillbasePage/SkillTable/SkillbaseTableRow/SkillbaseTableRow"
-import SkillTableToolbar from "../../../../../../SkillbasePage/SkillTable/SkillTableToolbar/SkillTableToolbar"
 
 // PE 2/3
 function EditSkillsDialog(props: Props) {

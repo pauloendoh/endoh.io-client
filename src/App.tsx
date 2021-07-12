@@ -1,6 +1,6 @@
 import { Box, CssBaseline, MuiThemeProvider } from "@material-ui/core"
-import { isUndefined } from "lodash"
 import React, { lazy, Suspense, useEffect, useState } from "react"
+import { QueryClientProvider } from "react-query"
 import { connect } from "react-redux"
 import {
   Redirect,
@@ -14,9 +14,9 @@ import { Dispatch } from "redux"
 import Navbar from "./components/navbar/Navbar"
 import MySnackBar from "./components/shared/SnackBars/MySnackBar"
 import API from "./consts/API"
+import { myQueryClient } from "./consts/myQueryClient"
 import MY_AXIOS from "./consts/MY_AXIOS"
 import MY_THEME from "./consts/MY_THEME"
-import PATHS from "./consts/PATHS"
 import { FollowingTagDto } from "./dtos/feed/FollowingTagDto"
 import { UserSuggestionDto } from "./dtos/feed/UserSuggestionDto"
 import { UserInfoDto } from "./dtos/UserInfoDto"
@@ -51,6 +51,9 @@ const RelearnPage = lazy(() => import("./pages/Relearn/RelearnPage"))
 const UserPage = lazy(() => import("./pages/UserPage/UserPage"))
 const FeedPage = lazy(() => import("./pages/FeedPage/FeedPage"))
 const DefinePage = lazy(() => import("./pages/DefinePage/DefinePage"))
+const BigDecisionsPage = lazy(
+  () => import("./pages/BigDecisionsPage/BigDecisionsPage")
+)
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage/NotFoundPage"))
 const SearchPage = lazy(() => import("./pages/SearchPage/SearchPage"))
 
@@ -118,10 +121,8 @@ const App = (props: Props) => {
 
   // Redirecting to HTTPS
   if (window.location.href.includes("http://endoh.io")) {
-    window.location.replace(window.location.href.replace("http", "https")) 
+    window.location.replace(window.location.href.replace("http", "https"))
   }
-  
-
 
   if (isValidApplicationPath(location.pathname)) {
     redirectAfterLogout = `/?next=${location.pathname}`
@@ -158,6 +159,9 @@ const App = (props: Props) => {
               <Route path="/define" exact component={DefinePage} />
               <Route path="/define/doc/:docId" component={DefinePage} />
 
+              <Route path="/BigDecisions" exact component={BigDecisionsPage} />
+              <Route path="/BigDecisions/:id" component={BigDecisionsPage} />
+
               <Route path="/user/:username/tag/:tagId" component={UserPage} />
               <Route path="/user/:username" component={UserPage} />
 
@@ -177,11 +181,13 @@ const App = (props: Props) => {
 
   return (
     <MuiThemeProvider theme={MY_THEME}>
-      {/* What does this do? */}
-      <CssBaseline />
-      {isLoading ? <LoadingPage /> : routes}
+      <QueryClientProvider client={myQueryClient}>
+        {/* What does this do? */}
+        <CssBaseline />
+        {isLoading ? <LoadingPage /> : routes}
 
-      <MySnackBar />
+        <MySnackBar />
+      </QueryClientProvider>
     </MuiThemeProvider>
   )
 }

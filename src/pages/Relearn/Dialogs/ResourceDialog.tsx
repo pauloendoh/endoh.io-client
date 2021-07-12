@@ -1,4 +1,3 @@
-import HighlightOffIcon from "@material-ui/icons/HighlightOff"
 import { faGlobeAmericas, faLock } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
@@ -9,10 +8,10 @@ import {
   DialogTitle,
   Grid,
   IconButton,
-  Link,
   Typography,
 } from "@material-ui/core"
 import Chip from "@material-ui/core/Chip"
+import HighlightOffIcon from "@material-ui/icons/HighlightOff"
 import { Autocomplete } from "@material-ui/lab"
 import { Form, Formik, FormikErrors } from "formik"
 import React, { useState } from "react"
@@ -37,7 +36,6 @@ import * as relearnActions from "../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../store/store"
 import * as utilsActions from "../../../store/utils/utilsActions"
 import { urlIsValid } from "../../../utils/url/isValidUrl"
-import ResourceThumbnail from "../../../components/resources/ResourceThumbnail/ResourceThumbnail"
 
 // PE 1/3 - tá muito grande
 const ResourceDialog = (props: Props) => {
@@ -63,11 +61,12 @@ const ResourceDialog = (props: Props) => {
       })
   }
 
-  const [urlAutofillChecked, setUrlAutofillChecked] = useState(true)
+  // PE 1/3 - remove?
+  // const [urlAutofillChecked, setUrlAutofillChecked] = useState(true)
 
-  const handleCheckAutofill = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUrlAutofillChecked(event.target.checked)
-  }
+  // const handleCheckAutofill = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setUrlAutofillChecked(event.target.checked)
+  // }
 
   // Adding throttle to avoid LinkPreview over
   const [throttle, setThrottle] = useState<NodeJS.Timeout>(null)
@@ -173,7 +172,7 @@ const ResourceDialog = (props: Props) => {
                         }}
                       />
                       <IconButton
-                      onClick={()=> setFieldValue("thumbnail", "")}
+                        onClick={() => setFieldValue("thumbnail", "")}
                         size="small"
                         style={{ position: "absolute", right: 0 }}
                       >
@@ -203,10 +202,10 @@ const ResourceDialog = (props: Props) => {
                         value={values.url}
                         onChange={(e) => {
                           handleChange(e)
-
-                          if (urlAutofillChecked) {
-                            fetchLinkPreview(e.target.value, setFieldValue)
-                          }
+                          fetchLinkPreview(e.target.value, setFieldValue)
+                          // if (urlAutofillChecked) {
+                          //   fetchLinkPreview(e.target.value, setFieldValue)
+                          // }
                         }}
                         fullWidth
                         label="URL"

@@ -9,7 +9,6 @@ import {
 } from "@material-ui/core"
 import React from "react"
 import GeneralSubmenu from "./GeneralSubmenu/GeneralSubmenu"
-import MonerateSubmenu from "./MonerateSubmenu/MonerateSubmenu"
 
 // PE 3/3
 function SettingsSidebar() {

@@ -2,23 +2,21 @@ import { faCircle } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Box, makeStyles, MenuItem, Typography } from "@material-ui/core"
 import React from "react"
-import { connect } from "react-redux"
 import ReactTimeago from "react-timeago"
-import { Dispatch } from "redux"
 import { NotificationDto } from "../../../../dtos/utils/NotificationDto"
-import { setNotifications } from "../../../../store/auth/authActions"
-import { ApplicationState } from "../../../../store/store"
 import Flex from "../../../shared/Flexboxes/Flex"
 import FlexHCenter from "../../../shared/Flexboxes/FlexHCenter"
 import FlexVCenter from "../../../shared/Flexboxes/FlexVCenter"
 import ProfilePicture from "../../../shared/ProfilePicture/ProfilePicture"
 
-// PE 2/3 - Change to "NotificationButtonMenu"
-const NotificationItem = (props: Props) => {
+// PE 2/3 
+
+// https://stackoverflow.com/questions/62645556/react-warning-function-components-cannot-be-given-refs
+const NotificationItem = React.forwardRef((props: Props, ref) => {
   const classes = useStyles()
 
   return (
-    <MenuItem key={props.notification.id} className={classes.menuItem}>
+    <MenuItem className={classes.menuItem}>
       <Flex>
         <FlexVCenter mt={1} height="fit-content">
           <FlexHCenter width={20}>
@@ -47,7 +45,7 @@ const NotificationItem = (props: Props) => {
       </Flex>
     </MenuItem>
   )
-}
+})
 
 const useStyles = makeStyles((theme) => ({
   menuItem: {
@@ -61,18 +59,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const mapStateToProps = (state: ApplicationState) => ({})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setNotifications: (not: NotificationDto[]) => dispatch(setNotifications(not)),
-})
-
 interface OwnProps {
   notification: NotificationDto
 }
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+type Props = OwnProps
 
-export default connect(mapStateToProps, mapDispatchToProps)(NotificationItem)
+export default NotificationItem

@@ -9,7 +9,6 @@ import {
   Typography,
 } from "@material-ui/core"
 import DeleteIcon from "@material-ui/icons/Delete"
-import EditIcon from "@material-ui/icons/Edit"
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
 import React from "react"
 import { connect } from "react-redux"

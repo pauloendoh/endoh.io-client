@@ -23,6 +23,7 @@ import * as utilsActions from "../../../../../../store/utils/utilsActions"
 import { validateEstimatedTime } from "../../../../../../utils/relearn/validateEstimatedTime"
 import ResourceMoreIcon from "../ResourceMoreIcon/ResourceMoreIcon"
 import ResourceThumbnail from "../../../../../../components/resources/ResourceThumbnail/ResourceThumbnail"
+import Txt from '../../../../../../components/shared/Text/Txt'
 
 // PE 1/3
 function ResourceItem(props: Props) {
@@ -60,16 +61,16 @@ function ResourceItem(props: Props) {
       <Box flexGrow={1}>
         <Flex className={classes.firstRow}>
           <Box>
-            <Typography>{props.resource.title}</Typography>
+            <Txt>{props.resource.title}</Txt>
             {props.resource.url.length > 0 && (
               <Link
                 className={classes.link}
                 href={props.resource.url}
                 target="_blank"
               >
-                <Typography noWrap style={{ maxWidth: "inherit" }}>
+                <Txt noWrap style={{ maxWidth: "inherit" }}>
                   {props.resource.url}
-                </Typography>
+                </Txt>
               </Link>
             )}
           </Box>

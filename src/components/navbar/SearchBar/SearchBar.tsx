@@ -27,7 +27,7 @@ const SearchBar = (props: Props) => {
             <MyTextField
               id="query"
               name="query"
-              label="Search Endoh.io"
+              label="Search endoh.io"
               onChange={handleChange}
             />
           </Form>

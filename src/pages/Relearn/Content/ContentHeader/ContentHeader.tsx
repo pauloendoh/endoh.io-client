@@ -1,5 +1,5 @@
 import { Box, makeStyles, Tab, Tabs, Typography } from "@material-ui/core"
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
@@ -17,13 +17,13 @@ function ContentHeader(props: Props) {
   const classes = useStyles()
   const location = useLocation()
 
-  const [tagName, setTagName] = useState("")
   const [tag, setTag] = useState<TagDto>(null)
   const [height, setHeight] = useState(0)
 
   const ref = useRef<HTMLDivElement>()
 
-  useLayoutEffect(() => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
     const newHeight = ref.current.clientHeight
     if (height !== newHeight) {
       setHeight(newHeight)
@@ -37,7 +37,6 @@ function ContentHeader(props: Props) {
 
     // /relearn
     if (pathname === PATHS.relearn.index) {
-      setTagName("Untagged")
       setTag(null)
     }
     // /relearn/tag/:id
@@ -47,7 +46,6 @@ function ContentHeader(props: Props) {
       if (tagId) {
         const currentTag = props.allTags.find((t) => t.id === tagId)
         if (currentTag) {
-          setTagName(currentTag.name)
           setTag(currentTag)
           document.title = currentTag.name + " - Endoh.io"
         }

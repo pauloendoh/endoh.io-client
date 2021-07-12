@@ -1,4 +1,4 @@
-import { Badge, Button, makeStyles, Menu } from "@material-ui/core"
+import { Badge, Button, Menu } from "@material-ui/core"
 import NotificationsIcon from "@material-ui/icons/Notifications"
 import React from "react"
 import { connect } from "react-redux"
@@ -12,8 +12,6 @@ import NotificationItem from "./NotificationItem/NotificationItem"
 
 // PE 2/3 - Change to "NotificationButtonMenu"
 const Notification = (props: Props) => {
-  const classes = useStyles()
-
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -56,7 +54,6 @@ const Notification = (props: Props) => {
       </Button>
       {props.allNotifications.length > 0 && (
         <Menu
-          className={classes.menu}
           id="simple-menu"
           anchorEl={anchorEl}
           getContentAnchorEl={null}
@@ -78,19 +75,6 @@ const Notification = (props: Props) => {
     </React.Fragment>
   )
 }
-
-const useStyles = makeStyles((theme) => ({
-  menu: {},
-  menuItem: {
-    whiteSpace: "normal",
-    width: 450,
-    paddingLeft: 8,
-  },
-  dot: {
-    fontSize: 8,
-    color: theme.palette.primary.main,
-  },
-}))
 
 const mapStateToProps = (state: ApplicationState) => ({
   allNotifications: state.auth.notifications,

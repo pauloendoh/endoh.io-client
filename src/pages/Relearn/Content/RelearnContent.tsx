@@ -18,6 +18,7 @@ function RelearnContent(props: Props) {
 
   const [headerHeight, setHeaderHeight] = useState(0)
 
+
   const previousPathnameRef = useRef("")
   const location = useLocation()
 
@@ -60,6 +61,7 @@ function RelearnContent(props: Props) {
         }}
       />
       <Box mt={headerHeight + 16 + "px"} />
+      
       <ResourceList resources={tabIndex === 0 ? todo : completed} />
     </Box>
   )

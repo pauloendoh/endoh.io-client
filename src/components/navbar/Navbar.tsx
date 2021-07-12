@@ -24,6 +24,7 @@ import LeftToggleButton from "./LeftToggleButton/LeftToggleButton"
 import SearchBar from "./SearchBar/SearchBar"
 import UserMenu from "./UserMenu/UserMenu"
 import Notification from "./Notification/Notification"
+import Txt from "../shared/Text/Txt"
 
 // PE 2/3
 const Navbar = (props: Props) => {
@@ -53,7 +54,7 @@ const Navbar = (props: Props) => {
           <LeftToggleButton />
 
           <Button className={classes.logoButton}>
-            <Typography variant="h5">
+            <Txt variant="h5">
               <FlexVCenter>
                 <Button component={Link} to={PATHS.index}>
                   <FontAwesomeIcon icon={faFire} className={classes.fireIcon} />
@@ -61,7 +62,7 @@ const Navbar = (props: Props) => {
 
                 {/* <Box ml={1}>endoh.io</Box> */}
               </FlexVCenter>
-            </Typography>
+            </Txt>
           </Button>
           {/* 
           <Box ml={2}>

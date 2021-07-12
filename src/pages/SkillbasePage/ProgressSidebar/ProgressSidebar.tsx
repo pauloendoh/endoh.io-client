@@ -1,12 +1,8 @@
-import DeleteIcon from "@material-ui/icons/Delete"
 import {
   Box,
-  Button,
   createStyles,
   Drawer,
-  IconButton,
   makeStyles,
-  Paper,
   Theme,
   Toolbar,
   Typography,
@@ -19,18 +15,14 @@ import {
   TimelineItem,
   TimelineSeparator,
 } from "@material-ui/lab"
+import { DateTime } from "luxon"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
-import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
-import API from "../../../consts/API"
-import MY_AXIOS from "../../../consts/MY_AXIOS"
 import { ProgressDto } from "../../../dtos/skillbase/ProgressDto"
 import { setProgresses } from "../../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../../store/store"
-import Flex from "../../../components/shared/Flexboxes/Flex"
 import ProgressItem from "./ProgressItem/ProgressItem"
-import { DateTime } from "luxon"
 
 interface IProgressPerDay {
   day: string
@@ -77,15 +69,15 @@ function ProgressSidebar(props: Props) {
     return resultDays
   }
 
-  const handleDelete = (progressId: number) => {
-    if (window.confirm("Confirm delete?")) {
-      MY_AXIOS.delete<ProgressDto[]>(
-        API.skillbase.progress + "/" + progressId
-      ).then((res) => {
-        props.setProgresses(res.data)
-      })
-    }
-  }
+  // const handleDelete = (progressId: number) => {
+  //   if (window.confirm("Confirm delete?")) {
+  //     MY_AXIOS.delete<ProgressDto[]>(
+  //       API.skillbase.progress + "/" + progressId
+  //     ).then((res) => {
+  //       props.setProgresses(res.data)
+  //     })
+  //   }
+  // }
 
   return (
     <Drawer
@@ -109,7 +101,7 @@ function ProgressSidebar(props: Props) {
                 <TimelineDot />
                 {progressesPerDay.length > index + 1 && <TimelineConnector />}
               </TimelineSeparator>
-              <TimelineContent style={{padding: 5}}>
+              <TimelineContent style={{ padding: 5 }}>
                 <Box className={classes.day}>{day.day}</Box>
                 <Box py={1}>
                   {day.progresses.map((progress, i) => (
@@ -158,8 +150,8 @@ const useStyles = makeStyles((theme: Theme) =>
       minWidth: 32,
     },
     day: {
-      color: theme.palette.grey[400]
-    }
+      color: theme.palette.grey[400],
+    },
   })
 )
 
