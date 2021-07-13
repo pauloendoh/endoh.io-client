@@ -88,7 +88,7 @@ const SkillDialog = (props: Props) => {
   const getInitialValues = (): SkillDto => {
     return {
       ...props.skill,
-      tagId: props.skill?.tagId
+      tagId: props.skill?.tagId  // why not use simply props.skill.tagId ? 
         ? props.skill.tagId
         : getCurrentTagId(location.pathname),
     }
@@ -129,7 +129,7 @@ const SkillDialog = (props: Props) => {
                   </Box>
 
                   <TitleTextField
-                    initialValue={values.name}
+                    value={values.name}
                     onChange={(newValue) => setFieldValue("name", newValue)}
                   />
 

@@ -1,24 +1,14 @@
 import { makeStyles, TextField } from "@material-ui/core"
-import React, { useState } from "react"
+import React from "react"
 
 // PE 2/3
 const SkillDialogTitleTextField = (props: Props) => {
   const classes = useStyles()
 
-  const [localValue, setLocalValue] = useState(props.initialValue)
-  const [throttle, setThrottle] = useState<NodeJS.Timeout>(null)
-
   const handleChange = async (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    setLocalValue(e.target.value)
-
-    clearTimeout(throttle)
-    setThrottle(
-      setTimeout(() => {
-        props.onChange(e.target.value)
-      }, 250)
-    )
+    props.onChange(e.target.value)
   }
 
   return (
@@ -32,7 +22,7 @@ const SkillDialogTitleTextField = (props: Props) => {
       }}
       id={"name"}
       name={"name"}
-      value={localValue}
+      value={props.value}
       onChange={handleChange}
       autoFocus
       required
@@ -50,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 type Props = {
-  initialValue: string
+  value: string
   onChange: (newValue: string) => void
 }
 
