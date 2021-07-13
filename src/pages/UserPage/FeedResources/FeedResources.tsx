@@ -1,6 +1,7 @@
 import { Box } from "@material-ui/core"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
+import { Virtuoso } from "react-virtuoso"
 import { Dispatch } from "redux"
 import FeedResourceItem from "../../../components/feed/FeedResourceItem/FeedResourceItem"
 import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto"
@@ -31,9 +32,19 @@ const FeedResources = (props: Props) => {
     setResourcesPerDay(resourcesPerDay)
   }, [props.resources])
 
+
+
   return (
     <Box mt={3}>
-      {resourcesPerDay.map((rpd) => (
+      <Virtuoso
+        style={{ height: 600 }}
+        totalCount={props.resources.length}
+        itemContent={(index) => (
+          <FeedResourceItem resource={props.resources[index]} />
+        )}
+      />
+
+      {/* {resourcesPerDay.map((rpd) => (
         // <Box mb={2} key={rpd.day}>
         //   {new Date(new Date(rpd.day).setHours(12)).toISOString()}
         //   <ReactTimeago date={rpd.day} live={false} />
@@ -45,7 +56,7 @@ const FeedResources = (props: Props) => {
         </Box>
 
         // </Box>
-      ))}
+      ))} */}
     </Box>
   )
 }

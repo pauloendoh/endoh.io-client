@@ -50,6 +50,7 @@ function FeedResourceItem(props: Props) {
       onMouseLeave={handleMouseLeave}
       p={1}
       borderBottom="1px solid rgb(255 255 255 / 0.1)" // Could be a const?
+      style={props.style ? props.style : null}
     >
       <ResourceThumbnail
         resourceUrl={props.resource.url}
@@ -178,6 +179,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 interface OwnProps {
   resource: ResourceDto
+  style?: React.CSSProperties
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
