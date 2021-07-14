@@ -33,6 +33,7 @@
     "@types/styled-components": "^5.1.9",
     "axios": "^0.21.1",
     "class-transformer": "^0.3.1",
+    "classnames": "^2.3.1",
     "date-fns": "^2.21.3",
     "dotenv": "^8.6.0",
     "font-awesome": "^4.7.0",

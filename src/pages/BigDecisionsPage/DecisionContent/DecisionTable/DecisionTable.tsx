@@ -15,25 +15,35 @@ import AddIcon from "@material-ui/icons/Add"
 import React from "react"
 import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter"
 import { DecisionTableDto } from "../../../../dtos/BigDecisions/DecisionTableDto"
-import { newDecisionTableItemDto } from "../../../../dtos/BigDecisions/DecisionTableItemDto"
-import usePostItemMutation from "../../../../utils/hooks/queryHooks/BigDecisions/usePostItemMutation"
+import {
+  DecisionTableItemDto,
+  newDecisionTableItemDto,
+} from "../../../../dtos/BigDecisions/DecisionTableItemDto"
+import usePPutItemMutation from "../../../../utils/hooks/queryHooks/BigDecisions/usePPutItemMutation"
+import DecisionTableRow from "./DecisionTableRow/DecisionTableRow"
+import getFinalWeight from "../../../../utils/domain/BigDecision/getFinalWeight"
 
 type Props = { table: DecisionTableDto }
 
 const DecisionTable = (props: Props) => {
   const classes = useStyles()
 
-  const postItemMutation = usePostItemMutation(props.table.decisionId)
+  const { mutate } = usePPutItemMutation(props.table.decisionId)
 
   const addItem = () => {
-    postItemMutation.mutate(newDecisionTableItemDto(props.table.id), {
-      onSuccess: () => {},
-    })
+    mutate(newDecisionTableItemDto(props.table.id))
   }
 
+  const saveItemChange = (newItem: DecisionTableItemDto) => {
+    mutate(newItem)
+  }
+
+
+
+      
+
   return (
-    <Box mr={2}>
-      <Typography variant="h6">{props.table.title}</Typography>
+    
       <Paper>
         <TableContainer className={classes.container}>
           <Table stickyHeader size="small" className={classes.table}>
@@ -41,16 +51,19 @@ const DecisionTable = (props: Props) => {
               <TableRow>
                 <TableCell>Problem / Risk</TableCell>
                 <TableCell>Solution / Counter argument</TableCell>
-                <TableCell>weight</TableCell>
+                <TableCell>
+                  <Box>Weight</Box>
+                  <Box>{getFinalWeight(props.table.items)}</Box>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {props.table.items.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell>problem</TableCell>
-                  <TableCell>{item.solution}</TableCell>
-                  <TableCell>{item.weight}</TableCell>
-                </TableRow>
+                <DecisionTableRow
+                  key={`${item.id}-${item.updatedAt}`}
+                  initialItem={item}
+                  onChange={saveItemChange}
+                />
               ))}
             </TableBody>
 
@@ -66,7 +79,6 @@ const DecisionTable = (props: Props) => {
           </Table>
         </TableContainer>
       </Paper>
-    </Box>
   )
 }
 

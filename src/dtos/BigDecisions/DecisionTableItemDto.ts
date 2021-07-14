@@ -19,7 +19,7 @@ export const newDecisionTableItemDto = (
   index: null, 
   problem: '',
   solution: '',
-  weight: null,
+  weight: 1,
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
 })

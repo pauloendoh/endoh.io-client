@@ -9,7 +9,6 @@ import {
   Tabs,
   Theme,
   Toolbar,
-  Typography,
 } from "@material-ui/core"
 import PATHS from "consts/PATHS"
 import React, { useEffect, useState } from "react"
@@ -20,11 +19,11 @@ import RelearnNavbarContent from "../../pages/Relearn/RelearnNavbarContent"
 import { ApplicationState } from "../../store/store"
 import Flex from "../shared/Flexboxes/Flex"
 import FlexVCenter from "../shared/Flexboxes/FlexVCenter"
+import Txt from "../shared/Text/Txt"
 import LeftToggleButton from "./LeftToggleButton/LeftToggleButton"
+import Notification from "./Notification/Notification"
 import SearchBar from "./SearchBar/SearchBar"
 import UserMenu from "./UserMenu/UserMenu"
-import Notification from "./Notification/Notification"
-import Txt from "../shared/Text/Txt"
 
 // PE 2/3
 const Navbar = (props: Props) => {
