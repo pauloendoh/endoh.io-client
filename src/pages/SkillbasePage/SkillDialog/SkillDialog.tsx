@@ -122,6 +122,7 @@ const SkillDialog = (props: Props) => {
                   <Box mr={2}>
                     <PriorityStarIcon
                       isPriority={values.isPriority}
+                      tooltipText="This skill is a priority in your life right now"
                       onClick={() => {
                         setFieldValue("isPriority", !values.isPriority)
                       }}

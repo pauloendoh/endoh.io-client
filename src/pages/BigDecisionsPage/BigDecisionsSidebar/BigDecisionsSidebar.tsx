@@ -9,17 +9,25 @@ import {
   makeStyles,
   Theme,
   Toolbar,
-  Typography,
+  Typography
 } from "@material-ui/core"
 import AddIcon from "@material-ui/icons/Add"
+import produce from "immer"
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import Flex from "../../../components/shared/Flexboxes/Flex"
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
+import Txt from "../../../components/shared/Text/Txt"
 import PATHS from "../../../consts/PATHS"
-import { newDecisionDto } from "../../../dtos/BigDecisions/DecisionDto"
+import {
+  DecisionDto,
+  newDecisionDto
+} from "../../../dtos/BigDecisions/DecisionDto"
+import getWinnerTable from "../../../utils/domain/BigDecision/getWinnerTable"
 import useDecisionsQuery from "../../../utils/hooks/queryHooks/BigDecisions/useDecisionsQuery"
+import usePostDecisionMutation from "../../../utils/hooks/queryHooks/BigDecisions/usePostDecisionMutation"
 import LoadingPage from "../../index/LoadingPage"
+import PriorityStarIcon from "../../SkillbasePage/SkillDialog/PriorityStarIcon/PriorityStarIcon"
 import DecisionDialog from "../DecisionDialog/DecisionDialog"
 
 type Props = { selectedDecisionId: number }
@@ -30,6 +38,16 @@ const BigDecisionsSidebar = (props: Props) => {
   const [openDecisionDialog, setOpenDecisionDialog] = useState(false)
 
   const { data: decisions, isLoading } = useDecisionsQuery()
+
+  const postDecisionMutation = usePostDecisionMutation()
+
+  const changePriority = (decision: DecisionDto) => {
+    const newDecision = produce(decision, (newDecision) => {
+      newDecision.isPriority = !decision.isPriority
+    })
+
+    postDecisionMutation.mutate(newDecision)
+  }
 
   return (
     <Drawer
@@ -64,10 +82,6 @@ const BigDecisionsSidebar = (props: Props) => {
                       open={openDecisionDialog}
                       initialValue={newDecisionDto()}
                       onClose={() => setOpenDecisionDialog(false)}
-                      // afterSave={(doc) => {
-                      //   history.push(PATHS.define.doc(doc.id))
-                      //   setOpenTitleDialog(false)
-                      // }}
                     />
                   </FlexVCenter>
                 </ListItemText>
@@ -79,10 +93,30 @@ const BigDecisionsSidebar = (props: Props) => {
                   component={Link}
                   to={PATHS.BigDecisions.decision(decision.id)}
                   selected={props.selectedDecisionId === decision.id}
+                  disableGutters
                 >
                   <ListItemText>
-                    <Flex ml={2}>
-                      <Typography>{decision.title}</Typography>
+                    <Flex pl={2}>
+                      <FlexVCenter>
+                        <PriorityStarIcon
+                          isPriority={decision.isPriority}
+                          tooltipText="Priority decision"
+                          onClick={() => {
+                            changePriority(decision)
+                          }}
+                        />
+                      </FlexVCenter>
+
+                      <Box ml={2} mt={0.5}>
+                        <Typography>{decision.title}</Typography>
+                        {getWinnerTable(decision.tables) && (
+                          <Box mt={1}>
+                            <Txt variant="body2">
+                              <b>{getWinnerTable(decision.tables).title}</b>
+                            </Txt>
+                          </Box>
+                        )}
+                      </Box>
                     </Flex>
                   </ListItemText>
                 </ListItem>

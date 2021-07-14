@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 24,
   },
   isNotPriority: {
-    color: theme.palette.grey[800],
+    color: theme.palette.grey[400],
   },
   isPriority: {
     color: "#ffb400",
@@ -41,7 +41,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 type Props = {
-  isPriority: boolean
+  isPriority: boolean,
+  tooltipText: string,
   onClick: () => void
 }
 
