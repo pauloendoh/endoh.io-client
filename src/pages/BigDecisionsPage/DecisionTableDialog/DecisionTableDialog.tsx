@@ -4,7 +4,7 @@ import React from "react"
 import SaveCancelButtons from "../../../components/shared/Buttons/SaveCancelButtons"
 import MyTextField from "../../../components/shared/MyInputs/MyTextField"
 import { DecisionTableDto } from "../../../dtos/BigDecisions/DecisionTableDto"
-import useChangeTableMutation from "../../../hooks/BigDecisions/DecisionTable/useChangeTableMutation"
+import useSaveTableMutation from "../../../hooks/BigDecisions/DecisionTable/useSaveTableMutation"
 
 interface Props {
   open: boolean
@@ -18,7 +18,7 @@ const DecisionTableDialog = (props: Props) => {
     props.onClose()
   }
 
-  const { mutate: changeTable } = useChangeTableMutation()
+  const { mutate: changeTable } = useSaveTableMutation()
   const handleSubmit = (values: DecisionTableDto) => {
     changeTable(values, {
       onSuccess: (_) => {

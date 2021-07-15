@@ -6,10 +6,10 @@ import MY_AXIOS from "../../../consts/MY_AXIOS"
 import { DecisionDto } from "../../../dtos/BigDecisions/DecisionDto"
 import { DecisionTableDto } from "../../../dtos/BigDecisions/DecisionTableDto"
 
-export default function useChangeTableMutation() {
+export default function useSaveTableMutation() {
   return useMutation(
     (table: DecisionTableDto) =>
-      MY_AXIOS.put<DecisionDto>(API.BigDecisions.decisionTable, table).then(
+      MY_AXIOS.post<DecisionDto>(API.BigDecisions.decisionTable, table).then(
         (res) => res.data
       ),
     {

@@ -1,4 +1,4 @@
-import { DecisionTableItemDto } from './DecisionTableItemDto';
+import { DecisionTableItemDto } from "./DecisionTableItemDto"
 
 export interface DecisionTableDto {
   id: number
@@ -16,3 +16,13 @@ export interface DecisionTableDto {
 
   updatedAt: string
 }
+
+export const newDecisionTableDto = (decisionId: number): DecisionTableDto => ({
+  id: null,
+  userId: null,
+  decisionId,
+  title: "",
+  index: null,
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+})

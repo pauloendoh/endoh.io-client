@@ -9,10 +9,13 @@ import {
   makeStyles,
   Theme,
   Toolbar,
-  Typography
+  Tooltip,
+  Typography,
 } from "@material-ui/core"
 import AddIcon from "@material-ui/icons/Add"
 import DescriptionIcon from "@material-ui/icons/Description"
+import ShuffleIcon from "@material-ui/icons/Shuffle"
+import _ from "lodash"
 import React, { useState } from "react"
 import { connect } from "react-redux"
 import { Link, useHistory } from "react-router-dom"
@@ -24,8 +27,8 @@ import MyTextField from "../../../components/shared/MyInputs/MyTextField"
 import PATHS from "../../../consts/PATHS"
 import { DocDto } from "../../../dtos/define/DocDto"
 import { ApplicationState } from "../../../store/store"
+import stringIncludes from "../../../utils/text/stringIncludes"
 import DocTitleDialog from "../DocTitleDialog/DocTitleDialog"
-import stringIncludes from '../../../utils/text/stringIncludes'
 
 function DefineSidebar(props: Props) {
   const history = useHistory()
@@ -53,6 +56,13 @@ function DefineSidebar(props: Props) {
     return filtered.sort((a, b) => a.title.localeCompare(b.title))
   }
 
+  const openRandomDoc = () => {
+    if (props.allDocs.length > 0) {
+      const randomDoc = _.sample(props.allDocs)
+      history.push(PATHS.define.doc(randomDoc.id))
+    }
+  }
+
   return (
     <Drawer
       className={classes.root}
@@ -77,12 +87,24 @@ function DefineSidebar(props: Props) {
             <ListItemText>
               <FlexVCenter justifyContent="space-between">
                 <Box>{filterAndSortDocs().length} Docs</Box>
-                <IconButton
-                  size="small"
-                  onClick={() => setOpenTitleDialog(true)}
-                >
-                  <AddIcon />
-                </IconButton>
+                <FlexVCenter>
+                  <Tooltip title="Open random doc">
+                    <IconButton size="small" onClick={openRandomDoc}>
+                      <ShuffleIcon />
+                    </IconButton>
+                  </Tooltip>
+
+                  <Box ml={1} />
+                  <Tooltip title="Add doc">
+                    <IconButton
+                      size="small"
+                      onClick={() => setOpenTitleDialog(true)}
+                    >
+                      <AddIcon />
+                    </IconButton>
+                  </Tooltip>
+                </FlexVCenter>
+
                 <DocTitleDialog
                   open={openTitleDialog}
                   initialValue=""

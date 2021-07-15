@@ -5,7 +5,10 @@ import AddIcon from "@material-ui/icons/Add"
 import React from "react"
 import Flex from "../../../components/shared/Flexboxes/Flex"
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
+import { newDecisionTableDto } from "../../../dtos/BigDecisions/DecisionTableDto"
 import useDecisionsQuery from "../../../hooks/BigDecisions/Decision/useDecisionsQuery"
+import useDialogsStore from "../../../store/zustand/useDialogsStore"
+
 import getWinnerTable from "../../../utils/domain/BigDecision/getWinnerTable"
 import DecisionTable from "./DecisionTable/DecisionTable"
 import TableMoreIcon from "./DecisionTable/TableMoreIcon/TableMoreIcon"
@@ -21,12 +24,21 @@ const DecisionContent = (props: Props) => {
 
   const winnerTable = decision ? getWinnerTable(getTables()) : null
 
+  const { openDecisionTableDialog } = useDialogsStore()
+
   if (!decision) return null
   return (
     <Box>
       <Typography variant="h4">{decision.title}</Typography>
       <Box mt={4}>
-        <Button startIcon={<AddIcon />} variant="contained" color="primary">
+        <Button
+          onClick={() =>
+            openDecisionTableDialog(newDecisionTableDto(props.decisionId))
+          }
+          startIcon={<AddIcon />}
+          variant="contained"
+          color="primary"
+        >
           Add table
         </Button>
       </Box>
@@ -39,7 +51,10 @@ const DecisionContent = (props: Props) => {
 
                 {winnerTable?.id === table.id && (
                   <Box ml={1}>
-                    <FontAwesomeIcon icon={faCrown} style={{color: 'orange'}} />
+                    <FontAwesomeIcon
+                      icon={faCrown}
+                      style={{ color: "orange" }}
+                    />
                   </Box>
                 )}
               </FlexVCenter>

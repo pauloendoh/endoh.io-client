@@ -1,9 +1,11 @@
+import NoteDialog from "./NoteDialog/NoteDialog"
 import {
   Box,
   Button,
   DialogContent,
   DialogTitle,
   IconButton,
+  Link,
   makeStyles,
   Typography,
 } from "@material-ui/core"
@@ -14,12 +16,16 @@ import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import DarkButton from "../../../../../components/shared/Buttons/DarkButton"
 import FlexVCenter from "../../../../../components/shared/Flexboxes/FlexVCenter"
+import Txt from "../../../../../components/shared/Text/Txt"
 import { DocDto } from "../../../../../dtos/define/DocDto"
 import { NoteDto } from "../../../../../dtos/define/NoteDto"
 import { ApplicationState } from "../../../../../store/store"
 import FinishedContentDialog from "./FinishedContentDialog/FinishedContentDialog"
+import produce from "immer"
 
 const QuestionDialogContent = (props: Props) => {
+  const [localNotes, setLocalNotes] = useState(props.notes)
+
   const classes = useStyles()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [showingAnswer, setShowingAnswer] = useState(false)
@@ -34,7 +40,7 @@ const QuestionDialogContent = (props: Props) => {
     setWrongs(wrongs + 1)
     nextQuestion()
 
-    const currentNote = props.notes[currentIndex]
+    const currentNote = localNotes[currentIndex]
     setResults([...results, { ...currentNote, weight: currentNote.weight * 4 }])
   }
 
@@ -42,7 +48,7 @@ const QuestionDialogContent = (props: Props) => {
     setHalves(halves + 1)
     nextQuestion()
 
-    const currentNote = props.notes[currentIndex]
+    const currentNote = localNotes[currentIndex]
     setResults([...results, { ...currentNote, weight: currentNote.weight * 2 }])
   }
 
@@ -50,7 +56,7 @@ const QuestionDialogContent = (props: Props) => {
     setCorrects(corrects + 1)
     nextQuestion()
 
-    const currentNote = props.notes[currentIndex]
+    const currentNote = localNotes[currentIndex]
     if (currentNote.weight === 1) {
       setResults([...results, currentNote])
       return
@@ -60,12 +66,12 @@ const QuestionDialogContent = (props: Props) => {
 
   const nextQuestion = () => {
     setShowingAnswer(false)
-    if (currentIndex === props.notes.length - 1) {
+    if (currentIndex === localNotes.length - 1) {
       return
     } else setCurrentIndex(currentIndex + 1)
   }
 
-  const finished = () => results.length === props.notes.length
+  const finished = () => results.length === localNotes.length
 
   const keyMap = {
     onSpacePress: "space",
@@ -91,6 +97,18 @@ const QuestionDialogContent = (props: Props) => {
     },
   }
 
+  const [openNoteDialog, setOpenNoteDialog] = useState(false)
+
+  const changeNote = (newNote: NoteDto) => {
+    setLocalNotes(
+      produce(localNotes, (draftNotes) => {
+        const index = draftNotes.findIndex((n) => n.id === newNote.id)
+        draftNotes[index] = newNote
+        return draftNotes
+      })
+    )
+  }
+
   return (
     <React.Fragment>
       {finished() ? (
@@ -107,7 +125,7 @@ const QuestionDialogContent = (props: Props) => {
           <DialogTitle>
             <FlexVCenter justifyContent="space-between">
               <Typography>
-                ({currentIndex + 1}/{props.notes.length}) {props.doc.title}
+                ({currentIndex + 1}/{localNotes.length}) {props.doc.title}
               </Typography>
               <IconButton onClick={props.onFinish} size="small">
                 <ClearIcon />
@@ -116,17 +134,42 @@ const QuestionDialogContent = (props: Props) => {
           </DialogTitle>
           <DialogContent style={{ height: 300 }}>
             <Typography variant="h4">
-              {props.notes[currentIndex].question}
+              {localNotes[currentIndex].question}
             </Typography>
             <Box mt={4} />
 
             {showingAnswer && (
-              <Typography
-                variant="body1"
-                style={{ fontStyle: "italic", whiteSpace: "pre-line" }}
-              >
-                {props.notes[currentIndex].description}
-              </Typography>
+              <Box>
+                <Typography
+                  variant="body1"
+                  style={{ fontStyle: "italic", whiteSpace: "pre-line" }}
+                >
+                  {localNotes[currentIndex].description}
+                </Typography>
+                <Box mt={2}>
+                  <Link
+                    href="#"
+                    onClick={(e: any) => {
+                      e.preventDefault()
+                      setOpenNoteDialog(true)
+                    }}
+                    variant="body2"
+                  >
+                    edit
+                  </Link>
+                  <NoteDialog
+                    initialValue={localNotes[currentIndex]}
+                    onClose={() => {
+                      setOpenNoteDialog(false)
+                    }}
+                    onSubmit={(changed) => {
+                      changeNote(changed)
+                      setOpenNoteDialog(false)
+                    }}
+                    open={openNoteDialog}
+                  />
+                </Box>
+              </Box>
             )}
 
             <Box mt={4} />
