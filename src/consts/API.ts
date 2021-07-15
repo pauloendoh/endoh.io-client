@@ -40,6 +40,7 @@ const API = {
   },
   BigDecisions: {
     decision: '/BigDecisions/decision',
+    decisionTable: '/BigDecisions/decisionTable',
     decisionTableItem: '/BigDecisions/decisionTableItem',
   }
   ,

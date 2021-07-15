@@ -5,9 +5,10 @@ import AddIcon from "@material-ui/icons/Add"
 import React from "react"
 import Flex from "../../../components/shared/Flexboxes/Flex"
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
+import useDecisionsQuery from "../../../hooks/BigDecisions/Decision/useDecisionsQuery"
 import getWinnerTable from "../../../utils/domain/BigDecision/getWinnerTable"
-import useDecisionsQuery from "../../../utils/hooks/queryHooks/BigDecisions/useDecisionsQuery"
 import DecisionTable from "./DecisionTable/DecisionTable"
+import TableMoreIcon from "./DecisionTable/TableMoreIcon/TableMoreIcon"
 
 type Props = { decisionId: number }
 
@@ -32,15 +33,21 @@ const DecisionContent = (props: Props) => {
       <Flex mt={4}>
         {getTables().map((table) => (
           <Box mr={2} key={table.id}>
-            <FlexVCenter>
-              <Typography variant="h6">{table.title}</Typography>
+            <FlexVCenter justifyContent="space-between">
+              <FlexVCenter>
+                <Typography variant="h6">{table.title}</Typography>
 
-              {winnerTable?.id === table.id && (
-                <Box ml={1}>
-                  <FontAwesomeIcon icon={faCrown} />
-                </Box>
-              )}
+                {winnerTable?.id === table.id && (
+                  <Box ml={1}>
+                    <FontAwesomeIcon icon={faCrown} />
+                  </Box>
+                )}
+              </FlexVCenter>
+              <Box>
+                <TableMoreIcon table={table} />
+              </Box>
             </FlexVCenter>
+            <Box mt={1} />
             <DecisionTable table={table} />
           </Box>
         ))}

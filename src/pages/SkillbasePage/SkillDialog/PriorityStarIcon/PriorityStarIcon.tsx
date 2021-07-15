@@ -8,11 +8,7 @@ const PriorityStarIcon = (props: Props) => {
   const classes = useStyles()
 
   return (
-    <Tooltip
-      title="This skill is a priority in your life right now"
-      enterDelay={500}
-      enterNextDelay={500}
-    >
+    <Tooltip title={props.tooltipText} enterDelay={500} enterNextDelay={500}>
       <IconButton size="small" onClick={props.onClick}>
         <StarIcon
           className={clsx({
@@ -41,8 +37,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 type Props = {
-  isPriority: boolean,
-  tooltipText: string,
+  isPriority: boolean
+  tooltipText: string
   onClick: () => void
 }
 

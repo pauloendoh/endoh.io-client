@@ -1,18 +1,16 @@
 import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core"
+import SaveCancelButtons from "components/shared/Buttons/SaveCancelButtons"
+import MyTextField from "components/shared/MyInputs/MyTextField"
+import PATHS from "consts/PATHS"
+import { DecisionDto } from "dtos/BigDecisions/DecisionDto"
 import { Form, Formik } from "formik"
 import React from "react"
 import { connect } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { Dispatch } from "redux"
-import * as utilsActions from "store/utils/utilsActions"
-import usePostDecisionMutation from "utils/hooks/queryHooks/BigDecisions/usePostDecisionMutation"
-import SaveCancelButtons from "components/shared/Buttons/SaveCancelButtons"
-import MyTextField from "components/shared/MyInputs/MyTextField"
-import PATHS from "consts/PATHS"
-import { DecisionDto } from "dtos/BigDecisions/DecisionDto"
-import { DocDto } from "dtos/define/DocDto"
-import { addOrReplaceDoc } from "store/define/defineActions"
 import { ApplicationState } from "store/store"
+import * as utilsActions from "store/utils/utilsActions"
+import usePostDecisionMutation from "../../../hooks/BigDecisions/Decision/usePostDecisionMutation"
 
 const DecisionDialog = (props: Props) => {
   const history = useHistory()
@@ -89,8 +87,6 @@ const mapStateToProps = (state: ApplicationState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  addOrReplaceDoc: (doc: DocDto) => dispatch(addOrReplaceDoc(doc)),
-
   setSuccessMessage: (message: string) =>
     dispatch(utilsActions.setSuccessMessage(message)),
   setErrorMessage: (message: string) =>

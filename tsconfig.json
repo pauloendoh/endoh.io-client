@@ -20,5 +20,5 @@
 
     "jsx": "react"
   },
-  "include": ["src/*"]
+  "include": ["src/*", "src/utils/hooks", "src/hooks/useHover.ts", "src/hooks/useEventListener.ts", "src/hooks/useElementSize.ts"]
 }

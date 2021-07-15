@@ -11,7 +11,7 @@ import FlexHCenter from "../../../components/shared/Flexboxes/FlexHCenter"
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
 import PATHS from "../../../consts/PATHS"
 import { ApplicationState } from "../../../store/store"
-import useElementSize from "../../../utils/hooks/useElementSize"
+import useElementSize from "../../../hooks/useElementSize"
 import TagListItem from "./TagListItem/TagListItem"
 
 // PE 3/3

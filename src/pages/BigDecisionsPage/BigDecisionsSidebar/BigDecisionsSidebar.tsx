@@ -12,42 +12,22 @@ import {
   Typography
 } from "@material-ui/core"
 import AddIcon from "@material-ui/icons/Add"
-import produce from "immer"
-import React, { useState } from "react"
-import { Link } from "react-router-dom"
-import Flex from "../../../components/shared/Flexboxes/Flex"
+import React from "react"
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
-import Txt from "../../../components/shared/Text/Txt"
-import PATHS from "../../../consts/PATHS"
-import {
-  DecisionDto,
-  newDecisionDto
-} from "../../../dtos/BigDecisions/DecisionDto"
-import getWinnerTable from "../../../utils/domain/BigDecision/getWinnerTable"
-import useDecisionsQuery from "../../../utils/hooks/queryHooks/BigDecisions/useDecisionsQuery"
-import usePostDecisionMutation from "../../../utils/hooks/queryHooks/BigDecisions/usePostDecisionMutation"
+import { newDecisionDto } from "../../../dtos/BigDecisions/DecisionDto"
+import useDialogsStore from "../../../store/zustand/useDialogsStore"
+import useDecisionsQuery from "../../../hooks/BigDecisions/Decision/useDecisionsQuery"
 import LoadingPage from "../../index/LoadingPage"
-import PriorityStarIcon from "../../SkillbasePage/SkillDialog/PriorityStarIcon/PriorityStarIcon"
-import DecisionDialog from "../DecisionDialog/DecisionDialog"
+import DecisionSidebarItem from "./DecisionSidebarItem/DecisionSidebarItem"
 
 type Props = { selectedDecisionId: number }
 
 const BigDecisionsSidebar = (props: Props) => {
   const classes = useStyles()
 
-  const [openDecisionDialog, setOpenDecisionDialog] = useState(false)
-
   const { data: decisions, isLoading } = useDecisionsQuery()
 
-  const postDecisionMutation = usePostDecisionMutation()
-
-  const changePriority = (decision: DecisionDto) => {
-    const newDecision = produce(decision, (newDecision) => {
-      newDecision.isPriority = !decision.isPriority
-    })
-
-    postDecisionMutation.mutate(newDecision)
-  }
+  const { openDecisionDialog } = useDialogsStore()
 
   return (
     <Drawer
@@ -74,52 +54,19 @@ const BigDecisionsSidebar = (props: Props) => {
                     </Box>
                     <IconButton
                       size="small"
-                      onClick={() => setOpenDecisionDialog(true)}
+                      onClick={() => openDecisionDialog(newDecisionDto())}
                     >
                       <AddIcon />
                     </IconButton>
-                    <DecisionDialog
-                      open={openDecisionDialog}
-                      initialValue={newDecisionDto()}
-                      onClose={() => setOpenDecisionDialog(false)}
-                    />
                   </FlexVCenter>
                 </ListItemText>
               </ListItem>
               {decisions.map((decision) => (
-                <ListItem
-                  button
+                <DecisionSidebarItem
                   key={decision.id}
-                  component={Link}
-                  to={PATHS.BigDecisions.decision(decision.id)}
-                  selected={props.selectedDecisionId === decision.id}
-                  disableGutters
-                >
-                  <ListItemText>
-                    <Flex pl={2}>
-                      <FlexVCenter>
-                        <PriorityStarIcon
-                          isPriority={decision.isPriority}
-                          tooltipText="Priority decision"
-                          onClick={() => {
-                            changePriority(decision)
-                          }}
-                        />
-                      </FlexVCenter>
-
-                      <Box ml={2} mt={0.5}>
-                        <Typography>{decision.title}</Typography>
-                        {getWinnerTable(decision.tables) && (
-                          <Box mt={1}>
-                            <Txt variant="body2">
-                              <b>{getWinnerTable(decision.tables).title}</b>
-                            </Txt>
-                          </Box>
-                        )}
-                      </Box>
-                    </Flex>
-                  </ListItemText>
-                </ListItem>
+                  decision={decision}
+                  isSelected={props.selectedDecisionId === decision.id}
+                />
               ))}
             </React.Fragment>
           )}
@@ -143,10 +90,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     drawerContainer: {
       // overflow: "auto",
-    },
-    resourcesCount: {
-      fontSize: 12,
-      color: theme.palette.grey[400],
     },
   })
 )

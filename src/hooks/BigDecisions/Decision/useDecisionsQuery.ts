@@ -1,7 +1,7 @@
 import { useQuery } from "react-query"
-import API from "../../../../consts/API"
-import MY_AXIOS from "../../../../consts/MY_AXIOS"
-import { DecisionDto } from "../../../../dtos/BigDecisions/DecisionDto"
+import API from "../../../consts/API"
+import MY_AXIOS from "../../../consts/MY_AXIOS"
+import { DecisionDto } from "../../../dtos/BigDecisions/DecisionDto"
 
 const decisionsQK = API.BigDecisions.decision
 

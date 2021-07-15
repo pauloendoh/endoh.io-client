@@ -1,10 +1,10 @@
 import produce from "immer"
 import { useMutation } from "react-query"
-import API from "../../../../consts/API"
-import { myQueryClient } from "../../../../consts/myQueryClient"
-import MY_AXIOS from "../../../../consts/MY_AXIOS"
-import { DecisionDto } from "../../../../dtos/BigDecisions/DecisionDto"
-import { DecisionTableItemDto } from "../../../../dtos/BigDecisions/DecisionTableItemDto"
+import API from "../../../consts/API"
+import { myQueryClient } from "../../../consts/myQueryClient"
+import MY_AXIOS from "../../../consts/MY_AXIOS"
+import { DecisionDto } from "../../../dtos/BigDecisions/DecisionDto"
+import { DecisionTableItemDto } from "../../../dtos/BigDecisions/DecisionTableItemDto"
 
 export default function usePPutItemMutation(decisionId: number) {
   return useMutation(
