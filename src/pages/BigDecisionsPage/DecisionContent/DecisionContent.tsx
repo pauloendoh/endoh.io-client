@@ -34,12 +34,12 @@ const DecisionContent = (props: Props) => {
         {getTables().map((table) => (
           <Box mr={2} key={table.id}>
             <FlexVCenter justifyContent="space-between">
-              <FlexVCenter>
+              <FlexVCenter maxWidth={470}>
                 <Typography variant="h6">{table.title}</Typography>
 
                 {winnerTable?.id === table.id && (
                   <Box ml={1}>
-                    <FontAwesomeIcon icon={faCrown} />
+                    <FontAwesomeIcon icon={faCrown} style={{color: 'orange'}} />
                   </Box>
                 )}
               </FlexVCenter>
