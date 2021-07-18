@@ -35,7 +35,7 @@ function DecisionMoreIcon(props: Props) {
 
   const deleteDecisionMutation = useDeleteDecisionMutation()
 
-  const { openDecisionDialog } = useDialogsStore()
+  const { openDecisionDialog, openConfirmDialog } = useDialogsStore()
 
   return (
     <Box>
@@ -60,7 +60,7 @@ function DecisionMoreIcon(props: Props) {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={(e) => {
-          const event = e as any
+          // const event = e as any
           handleCloseMore()
         }}
       >
@@ -82,8 +82,13 @@ function DecisionMoreIcon(props: Props) {
         <MenuItem
           onClick={(e) => {
             e.preventDefault()
-            deleteDecisionMutation.mutate(props.decision.id, {
-              onSuccess: () => {},
+            openConfirmDialog({
+              title: "Delete decision?",
+              onConfirm: () => {
+                deleteDecisionMutation.mutate(props.decision.id, {
+                  onSuccess: () => {},
+                })
+              },
             })
           }}
           id="delete-decision-button"

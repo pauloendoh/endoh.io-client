@@ -5,7 +5,10 @@ import TableHead from "@material-ui/core/TableHead"
 import TableRow from "@material-ui/core/TableRow"
 import TableSortLabel from "@material-ui/core/TableSortLabel"
 import React from "react"
+import { connect } from "react-redux"
+import { Dispatch } from "redux"
 import { SkillDto } from "../../../../dtos/skillbase/SkillDto"
+import { ApplicationState } from "../../../../store/store"
 
 interface IHeadCell {
   id: keyof SkillDto
@@ -68,12 +71,18 @@ interface OwnProps {
     property: keyof SkillDto
   ) => void
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void
-  order: "asc" | "desc"
-  orderBy: string
+  // order: "asc" | "desc"
+  // orderBy: string
   rowCount: number
 }
 
-const SkillbaseTableHead = (props: OwnProps) => {
+const mapStateToProps = (state: ApplicationState) => ({
+  sortBy: state.skillbase.sortBy,
+})
+
+type Props = ReturnType<typeof mapStateToProps> & OwnProps
+
+const SkillbaseTableHead = (props: Props) => {
   const classes = useStyles()
 
   const createSortHandler = (property: keyof SkillDto) => (
@@ -102,17 +111,23 @@ const SkillbaseTableHead = (props: OwnProps) => {
             key={headCell.id}
             align={headCell.align}
             padding={headCell.disablePadding ? "none" : "default"}
-            sortDirection={props.orderBy === headCell.id ? props.order : false}
+            sortDirection={
+              props.sortBy.property === headCell.id ? props.sortBy.order : false
+            }
           >
             <TableSortLabel
-              active={props.orderBy === headCell.id}
-              direction={props.orderBy === headCell.id ? props.order : "desc"}
+              active={props.sortBy.property === headCell.id}
+              direction={
+                props.sortBy.property === headCell.id
+                  ? props.sortBy.order
+                  : "desc"
+              }
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
-              {props.orderBy === headCell.id ? (
+              {props.sortBy.property === headCell.id ? (
                 <span className={classes.visuallyHidden}>
-                  {props.order === "desc"
+                  {props.sortBy.order === "desc"
                     ? "sorted descending"
                     : "sorted ascending"}
                 </span>
@@ -143,4 +158,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default SkillbaseTableHead
+export default connect(mapStateToProps)(SkillbaseTableHead)

@@ -9,36 +9,50 @@ import {
   makeStyles,
   Theme,
   Toolbar,
-  Typography
 } from "@material-ui/core"
 import AddIcon from "@material-ui/icons/Add"
-import React from "react"
+import React, { useState } from "react"
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
+import MyTextField from "../../../components/shared/MyInputs/MyTextField"
 import { newDecisionDto } from "../../../dtos/BigDecisions/DecisionDto"
-import useDialogsStore from "../../../store/zustand/useDialogsStore"
 import useDecisionsQuery from "../../../hooks/BigDecisions/Decision/useDecisionsQuery"
+import useDialogsStore from "../../../store/zustand/useDialogsStore"
+import useSidebarStore from "../../../store/zustand/useSidebarStore"
 import LoadingPage from "../../index/LoadingPage"
 import DecisionSidebarItem from "./DecisionSidebarItem/DecisionSidebarItem"
 
 type Props = { selectedDecisionId: number }
 
-const BigDecisionsSidebar = (props: Props) => {
+const DecisionSidebar = (props: Props) => {
   const classes = useStyles()
+
+  const [textFilter, setTextFilter] = useState("")
+  const { openDecisionDialog } = useDialogsStore()
+  const { sidebarIsOpen } = useSidebarStore()
 
   const { data: decisions, isLoading } = useDecisionsQuery()
 
-  const { openDecisionDialog } = useDialogsStore()
-
   return (
     <Drawer
+      anchor="left"
       className={classes.root}
-      variant="permanent"
+      variant="persistent"
+      open={sidebarIsOpen}
       classes={{
         paper: classes.drawerPaper,
       }}
     >
       <Toolbar />
-      <Box className={classes.drawerContainer}>
+      <Box>
+        <Box pt={4} px={2}>
+          <MyTextField
+            fullWidth
+            style={{ marginLeft: "auto", marginRight: "auto" }}
+            label="Filter decisions"
+            value={textFilter}
+            onChange={(e) => setTextFilter(e.target.value)}
+          />
+        </Box>
         <List disablePadding>
           {isLoading ? (
             <LoadingPage />
@@ -47,11 +61,7 @@ const BigDecisionsSidebar = (props: Props) => {
               <ListItem>
                 <ListItemText>
                   <FlexVCenter justifyContent="space-between">
-                    <Box ml={2}>
-                      <Typography variant="h6">
-                        {decisions?.length} decisions
-                      </Typography>
-                    </Box>
+                    <Box>{decisions?.length} decisions</Box>
                     <IconButton
                       size="small"
                       onClick={() => openDecisionDialog(newDecisionDto())}
@@ -79,7 +89,6 @@ const BigDecisionsSidebar = (props: Props) => {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: 300,
       flexShrink: 0,
     },
 
@@ -88,10 +97,7 @@ const useStyles = makeStyles((theme: Theme) =>
       background: "#202020",
       borderRight: "1px solid rgba(255, 255, 255, 0.05)",
     },
-    drawerContainer: {
-      // overflow: "auto",
-    },
   })
 )
 
-export default BigDecisionsSidebar
+export default DecisionSidebar

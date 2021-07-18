@@ -1,11 +1,6 @@
 import {
-  Box,
-  createStyles,
-  ListItem,
-  ListItemText,
-  makeStyles,
-  Theme,
-  Typography
+  Box, ListItem,
+  ListItemText, Typography
 } from "@material-ui/core"
 import produce from "immer"
 import React, { useRef, useState } from "react"
@@ -15,8 +10,8 @@ import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter"
 import Txt from "../../../../components/shared/Text/Txt"
 import PATHS from "../../../../consts/PATHS"
 import { DecisionDto } from "../../../../dtos/BigDecisions/DecisionDto"
-import getWinnerTable from "../../../../utils/domain/BigDecision/getWinnerTable"
 import usePostDecisionMutation from "../../../../hooks/BigDecisions/Decision/usePostDecisionMutation"
+import getWinnerTable from "../../../../utils/domain/BigDecision/getWinnerTable"
 import PriorityStarIcon from "../../../SkillbasePage/SkillDialog/PriorityStarIcon/PriorityStarIcon"
 import DecisionMoreIcon from "./DecisionMoreIcon/DecisionMoreIcon"
 
@@ -25,8 +20,6 @@ type Props = { decision: DecisionDto; isSelected: boolean }
 const DecisionSidebarItem = ({ decision, isSelected }: Props) => {
   const hoverRef = useRef(null)
   // const isHover = useHover(hoverRef)
-
-  const classes = useStyles()
 
   const postDecisionMutation = usePostDecisionMutation()
 
@@ -78,12 +71,8 @@ const DecisionSidebarItem = ({ decision, isSelected }: Props) => {
         </Flex>
       </ListItemText>
       {isHovered && <DecisionMoreIcon decision={decision} />}
-
-      
     </ListItem>
   )
 }
-
-const useStyles = makeStyles((theme: Theme) => createStyles({}))
 
 export default DecisionSidebarItem

@@ -1,11 +1,12 @@
-import classNames from "classnames"
 import {
   makeStyles,
   TableCell,
   TableRow,
   TextareaAutosize,
 } from "@material-ui/core"
+import classNames from "classnames"
 import React, { useRef, useState } from "react"
+import { TD, TR } from '../../../../../components/shared/Table/MyTableWrappers'
 import { DecisionTableItemDto } from "../../../../../dtos/BigDecisions/DecisionTableItemDto"
 
 type Props = {
@@ -40,8 +41,11 @@ const DecisionTableRow = (props: Props) => {
   }
 
   return (
-    <TableRow key={props.initialItem.id}>
-      <TableCell className={classes.textareaCell} onClick={focusProblem}>
+    <TR key={props.initialItem.id}>
+      <TD
+        className={classNames(classes.textareaCell, classes.col1)}
+        onClick={focusProblem}
+      >
         <TextareaAutosize
           ref={problemRef}
           onChange={(e) =>
@@ -50,8 +54,11 @@ const DecisionTableRow = (props: Props) => {
           value={localItem.problem}
           className={classes.textarea}
         />
-      </TableCell>
-      <TableCell className={classes.textareaCell} onClick={focusSolution}>
+      </TD>
+      <TD
+        className={classNames(classes.textareaCell, classes.col2)}
+        onClick={focusSolution}
+      >
         <TextareaAutosize
           onChange={(e) =>
             changeLocalItem({ ...localItem, solution: e.target.value })
@@ -60,10 +67,9 @@ const DecisionTableRow = (props: Props) => {
           className={classes.textarea}
           ref={solutionRef}
         />
-      </TableCell>
-      <TableCell
-        align="center"
-        className={classes.textareaCell}
+      </TD>
+      <TD
+        className={classNames(classes.textareaCell, classes.col3)}
         onClick={selectWeight}
       >
         <input
@@ -71,6 +77,7 @@ const DecisionTableRow = (props: Props) => {
           className={classNames(classes.textarea, {
             [classes.bold]: localItem.weight >= 3,
           })}
+          style={{ textAlign: "center" }}
           type="number"
           min="1"
           max="5"
@@ -83,8 +90,8 @@ const DecisionTableRow = (props: Props) => {
               changeLocalItem({ ...localItem, weight: newValue })
           }}
         />
-      </TableCell>
-    </TableRow>
+      </TD>
+    </TR>
   )
 }
 
@@ -98,7 +105,6 @@ const useStyles = makeStyles((theme) => ({
   textarea: {
     resize: "none",
     border: "none",
-    minWidth: 125,
     width: "-webkit-fill-available",
     background: "none",
     fontSize: 13,
@@ -106,7 +112,10 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     cursor: "pointer",
   },
-  bold: { fontWeight: "bold" },
+  bold: { fontWeight: "bold", color: "orange" },
+  col1: { width: 240 },
+  col2: { width: 240 },
+  col3: { width: 75, textAlign: "center" },
 }))
 
 export default DecisionTableRow

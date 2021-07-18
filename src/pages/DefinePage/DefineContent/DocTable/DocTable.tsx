@@ -2,17 +2,19 @@ import {
   makeStyles,
   Paper,
   Table,
-  TableBody,
-  TableCell,
   TableContainer,
-  TableHead,
-  TableRow,
   Toolbar,
 } from "@material-ui/core"
 import React, { useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import DarkButton from "../../../../components/shared/Buttons/DarkButton"
+import {
+  TBody,
+  TD,
+  THead,
+  TR,
+} from "../../../../components/shared/Table/MyTableWrappers"
 import API from "../../../../consts/API"
 import MY_AXIOS from "../../../../consts/MY_AXIOS"
 import { newNoteDto, NoteDto } from "../../../../dtos/define/NoteDto"
@@ -71,20 +73,20 @@ const DocTable = (props: Props) => {
           size="small"
           aria-label="enhanced table"
         >
-          <TableHead>
-            <TableRow>
-              <TableCell className={classes.th} align="center">
+          <THead>
+            <TR>
+              <TD className={classes.th} align="center">
                 #
-              </TableCell>
-              <TableCell className={classes.th}>Notes</TableCell>
-              <TableCell className={classes.th}>Flashcard Question</TableCell>
-              <TableCell align="center" className={classes.th}>
+              </TD>
+              <TD className={classes.th}>Notes</TD>
+              <TD className={classes.th}>Flashcard Question</TD>
+              <TD align="center" className={classes.th}>
                 Weight
-              </TableCell>
-            </TableRow>
-          </TableHead>
+              </TD>
+            </TR>
+          </THead>
 
-          <TableBody>
+          <TBody>
             {sortedNotes().map((note, index) => (
               <DocTableRow
                 index={index}
@@ -93,7 +95,7 @@ const DocTable = (props: Props) => {
                 onChange={handleNoteChange}
               />
             ))}
-          </TableBody>
+          </TBody>
         </Table>
       </TableContainer>
 

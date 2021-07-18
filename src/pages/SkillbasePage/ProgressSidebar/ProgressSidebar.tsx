@@ -22,8 +22,8 @@ import { Dispatch } from "redux"
 import { ProgressDto } from "../../../dtos/skillbase/ProgressDto"
 import { setProgresses } from "../../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../../store/store"
+import useSidebarStore from "../../../store/zustand/useSidebarStore"
 import ProgressItem from "./ProgressItem/ProgressItem"
-
 interface IProgressPerDay {
   day: string
   progresses: ProgressDto[]
@@ -35,6 +35,8 @@ function ProgressSidebar(props: Props) {
   const [progressesPerDay, setProgressesPerDay] = useState<IProgressPerDay[]>(
     []
   )
+
+  const { sidebarIsOpen } = useSidebarStore()
 
   useEffect(
     () => {
@@ -84,13 +86,13 @@ function ProgressSidebar(props: Props) {
       anchor="left"
       className={classes.root}
       variant="persistent"
-      open={props.sidebarIsOpen}
+      open={sidebarIsOpen}
       classes={{
         paper: classes.drawerPaper,
       }}
     >
       <Toolbar />
-      <Box p={3} className={classes.drawerContainer}>
+      <Box p={3}>
         <Typography variant="h5">Your Progress</Typography>
         <Box mt={2} />
 
@@ -136,19 +138,7 @@ const useStyles = makeStyles((theme: Theme) =>
       background: "#202020",
       borderRight: "1px solid rgba(255, 255, 255, 0.05)",
     },
-    drawerContainer: {
-      // overflow: "auto",
-    },
-    content: {
-      flexGrow: 1,
-      padding: theme.spacing(3),
-    },
-    nested: {
-      paddingLeft: theme.spacing(4),
-    },
-    listItemIcon: {
-      minWidth: 32,
-    },
+
     day: {
       color: theme.palette.grey[400],
     },

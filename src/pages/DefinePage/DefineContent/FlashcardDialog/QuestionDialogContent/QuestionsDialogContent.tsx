@@ -1,4 +1,3 @@
-import NoteDialog from "./NoteDialog/NoteDialog"
 import {
   Box,
   Button,
@@ -10,21 +9,21 @@ import {
   Typography,
 } from "@material-ui/core"
 import ClearIcon from "@material-ui/icons/Clear"
+import produce from "immer"
 import React, { useState } from "react"
 import { GlobalHotKeys } from "react-hotkeys"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import DarkButton from "../../../../../components/shared/Buttons/DarkButton"
 import FlexVCenter from "../../../../../components/shared/Flexboxes/FlexVCenter"
-import Txt from "../../../../../components/shared/Text/Txt"
 import { DocDto } from "../../../../../dtos/define/DocDto"
 import { NoteDto } from "../../../../../dtos/define/NoteDto"
 import { ApplicationState } from "../../../../../store/store"
 import FinishedContentDialog from "./FinishedContentDialog/FinishedContentDialog"
-import produce from "immer"
+import NoteDialog from "./NoteDialog/NoteDialog"
 
-const QuestionDialogContent = (props: Props) => {
-  const [localNotes, setLocalNotes] = useState(props.notes)
+const QuestionsDialogContent = (props: Props) => {
+  const [localNotes, setLocalNotes] = useState(props.questions)
 
   const classes = useStyles()
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -226,7 +225,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({})
 
 interface OwnProps {
   doc: DocDto
-  notes: NoteDto[]
+  questions: NoteDto[]
   onFinish: () => void
 }
 
@@ -237,4 +236,4 @@ type Props = ReturnType<typeof mapStateToProps> &
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(QuestionDialogContent)
+)(QuestionsDialogContent)

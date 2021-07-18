@@ -1,6 +1,6 @@
 import create, { GetState, SetState } from "zustand"
 import { DecisionDto } from "../../dtos/BigDecisions/DecisionDto"
-import { DecisionTableDto } from '../../dtos/BigDecisions/DecisionTableDto'
+import { DecisionTableDto } from "../../dtos/BigDecisions/DecisionTableDto"
 
 interface IDialogHandlers {
   decisionDialogValue: DecisionDto
@@ -12,6 +12,11 @@ interface IDialogHandlers {
   decisionTableDialogOpen: boolean
   openDecisionTableDialog: (decision: DecisionTableDto) => void
   closeDecisionTableDialog: () => void
+
+  confirmDialogValue: IConfirmDialog
+  confirmDialogIsOpen: boolean
+  openConfirmDialog: (confirmDialog: IConfirmDialog) => void
+  closeConfirmDialog: () => void
 }
 
 const useDialogsStore = create<IDialogHandlers>(
@@ -29,9 +34,21 @@ const useDialogsStore = create<IDialogHandlers>(
       set({ decisionTableDialogValue: table, decisionTableDialogOpen: true })
     },
     closeDecisionTableDialog: () => set({ decisionTableDialogOpen: false }),
+
+    confirmDialogValue: { title: "", onConfirm: null },
+    confirmDialogIsOpen: false,
+    openConfirmDialog: (val) => {
+      set({ confirmDialogValue: val, confirmDialogIsOpen: true })
+    },
+    closeConfirmDialog: () => set({ confirmDialogIsOpen: false }),
   })
 )
 
-export default useDialogsStore
+interface IConfirmDialog {
+  title: string
+  description?: string
+  confirmText?: string
+  onConfirm: () => void
+}
 
-//const {count} = useElementSizeStore()
+export default useDialogsStore

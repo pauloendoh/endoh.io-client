@@ -5,7 +5,7 @@ import {
   DialogTitle,
   IconButton,
   makeStyles,
-  Typography
+  Typography,
 } from "@material-ui/core"
 import ClearIcon from "@material-ui/icons/Clear"
 import _ from "lodash"
@@ -16,28 +16,30 @@ import { Dispatch } from "redux"
 import DarkButton from "../../../../components/shared/Buttons/DarkButton"
 import FlexHCenter from "../../../../components/shared/Flexboxes/FlexHCenter"
 import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter"
+import Txt from "../../../../components/shared/Text/Txt"
 import { NoteDto } from "../../../../dtos/define/NoteDto"
 import { ApplicationState } from "../../../../store/store"
 import * as utilsActions from "../../../../store/utils/utilsActions"
 import { shuffleArray } from "../../../../utils/shuffleArray"
-import QuestionDialogContent from "./QuestionDialogContent/QuestionDialogContent"
+import QuestionsDialogContent from "./QuestionDialogContent/QuestionsDialogContent"
 
+//  FlashcardTestDialog  ?
 const FlashcardDialog = (props: Props) => {
   const classes = useStyles()
+
+  const [minimumQuestionWeight, setMinWeight] = useState(1)
+  const [allQuestions, setAllQuestions] = useState<NoteDto[]>([])
+  const [questionsLength, setQuestionsLength] = useState(0)
+  const [testQuestions, setTestQuestions] = useState<NoteDto[]>([])
+
   const getDoc = () => props.allDocs.find((doc) => doc.id === props.docId)
-
-  const [minWeight, setMinWeight] = useState(1)
-  const [availableNotes, setAvailableNotes] = useState<NoteDto[]>([])
-  const [playNotesLength, setPlayNotesLength] = useState(0)
-
-  const [playNotes, setPlayNotes] = useState<NoteDto[]>([])
 
   // reset
   useEffect(() => {
     setMinWeight(1)
-    setAvailableNotes([])
-    setPlayNotesLength(0)
-    setPlayNotes([])
+    setAllQuestions([])
+    setQuestionsLength(0)
+    setTestQuestions([])
   }, [props.open])
 
   useEffect(
@@ -45,59 +47,54 @@ const FlashcardDialog = (props: Props) => {
       const max = props.allNotes.filter(
         (note) =>
           note.docId === props.docId &&
-          note.weight >= minWeight &&
+          note.weight >= minimumQuestionWeight &&
           note.question.length > 0
       )
-      setAvailableNotes(max)
+      setAllQuestions(max)
 
-      setPlayNotesLength(max.length)
+      setQuestionsLength(max.length)
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [minWeight, props.allNotes]
+    [minimumQuestionWeight, props.allNotes]
   )
 
+  // PE 1/3 unnecessary?... since it resets on open
   const handleClose = () => {
-    setPlayNotes([])
+    setTestQuestions([])
     props.onClose()
   }
 
-  const shuffleAndStart = () => {
-    if (playNotesLength === 0)
+  const shuffleQuestionsAndStart = () => {
+    if (questionsLength === 0)
       return alert("Please, select a number of flashcards")
 
-    if (availableNotes.length === playNotesLength) {
-      const playNotes = shuffleArray(availableNotes)
-      setPlayNotes(playNotes)
+    if (allQuestions.length === questionsLength) {
+      const playNotes = shuffleArray(allQuestions)
+      setTestQuestions(playNotes)
       return
     }
 
     // para cada availableNotes, fazer um peso
     let ids = []
-    for (const note of availableNotes) {
+    for (const note of allQuestions) {
       for (let i = 0; i < note.weight; i++) {
         ids.push(note.id)
       }
     }
 
     const playNotes: NoteDto[] = []
-    for (let i = 0; i < playNotesLength; i++) {
+    for (let i = 0; i < questionsLength; i++) {
       const randomId = _.sample(ids) as number
       ids = ids.filter((id) => id !== randomId)
 
       playNotes.push(props.allNotes.find((note) => note.id === randomId))
     }
 
-    setPlayNotes(playNotes)
+    setTestQuestions(playNotes)
   }
 
   const onSpacePress = () => {
-    shuffleAndStart()
-  }
-
-  const keyMap = { onSpacePress: "space" }
-
-  const handlers = {
-    onSpacePress: onSpacePress,
+    shuffleQuestionsAndStart()
   }
 
   return (
@@ -108,44 +105,59 @@ const FlashcardDialog = (props: Props) => {
       maxWidth="xs"
       aria-labelledby="flashcard-title-dialog"
     >
-      {playNotes.length === 0 ? (
-        <GlobalHotKeys keyMap={keyMap} handlers={handlers}>
+      {testQuestions.length > 0 ? (
+        <QuestionsDialogContent
+          questions={testQuestions}
+          doc={getDoc()}
+          onFinish={handleClose}
+        />
+      ) : (
+        <GlobalHotKeys
+          keyMap={{ onSpacePress: "space" }}
+          handlers={{ onSpacePress: onSpacePress }}
+        >
+          {/* PE 1/3 - I feel this title is too big... but I don't know a good name for it */}
           <DialogTitle>
             <FlexVCenter justifyContent="space-between">
-              <Typography variant="h6">{getDoc().title} </Typography>
+              <Txt variant="h6">{getDoc().title} </Txt>
               <IconButton onClick={handleClose} size="small">
                 <ClearIcon />
               </IconButton>
             </FlexVCenter>
           </DialogTitle>
+
           <DialogContent style={{ height: 300 }}>
             <FlexHCenter>
-              <Typography variant="h5">
-                {" "}
+              {/* PE 1/3 - Divide into <MinQuestionWeightInput/> ? */}
+              <Txt variant="h5">
+                {/* MyNumberInput ? */}
                 <input
                   type="number"
-                  value={minWeight}
+                  value={minimumQuestionWeight}
                   onChange={(e) => setMinWeight(Number(e.target.value))}
                   min={1}
                   className={classes.input}
                 />
                 <span style={{ marginLeft: 8 }}>min. weight</span>
-              </Typography>
+              </Txt>
 
               <Box mt={2} />
-              <Typography variant="h5">
+
+              {/* PE 1/3 - Divide into <QuestionsLengthInput/> */}
+              <Txt variant="h5">
                 <input
                   type="number"
-                  value={playNotesLength}
-                  onChange={(e) => setPlayNotesLength(Number(e.target.value))}
+                  value={questionsLength}
+                  onChange={(e) => setQuestionsLength(Number(e.target.value))}
                   min={1}
-                  max={availableNotes.length}
+                  max={allQuestions.length}
                   className={classes.input}
                 />
-                <span>/ {availableNotes.length} flashcards</span>
-              </Typography>
+                <span>/ {allQuestions.length} flashcards</span>
+              </Txt>
             </FlexHCenter>
 
+            {/* PE 2/3 */}
             <Box mt={4} />
             <Typography>
               <b>Rules:</b>
@@ -163,23 +175,17 @@ const FlashcardDialog = (props: Props) => {
             </Typography>
           </DialogContent>
           <DialogTitle>
-            <DarkButton onClick={shuffleAndStart} fullWidth>
+            <DarkButton onClick={shuffleQuestionsAndStart} fullWidth>
               Start! (Space)
             </DarkButton>
           </DialogTitle>
         </GlobalHotKeys>
-      ) : (
-        <QuestionDialogContent
-          notes={playNotes}
-          doc={getDoc()}
-          onFinish={handleClose}
-        />
       )}
     </Dialog>
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   input: {
     width: 50,
     textAlign: "center",

@@ -12,7 +12,9 @@ import {
 } from "react-router-dom"
 import { Dispatch } from "redux"
 import Navbar from "./components/navbar/Navbar"
+import ConfirmDialog from "./components/shared/Dialogs/ConfirmationDialog"
 import MySnackBar from "./components/shared/SnackBars/MySnackBar"
+import MySnackBar2 from "./components/shared/SnackBars/MySnackbar2"
 import API from "./consts/API"
 import { myQueryClient } from "./consts/myQueryClient"
 import MY_AXIOS from "./consts/MY_AXIOS"
@@ -173,6 +175,8 @@ const App = (props: Props) => {
             </Switch>
           </Suspense>
         </Box>
+
+        <ConfirmDialog />
         <ResourceDialog />
         <SkillDialog />
       </Box>
@@ -187,6 +191,7 @@ const App = (props: Props) => {
         {isLoading ? <LoadingPage /> : routes}
 
         <MySnackBar />
+        <MySnackBar2 />
       </QueryClientProvider>
     </MuiThemeProvider>
   )

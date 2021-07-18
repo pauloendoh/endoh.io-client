@@ -1,6 +1,6 @@
 import { faGlobeAmericas, faLock } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Box, Link, makeStyles, Typography } from "@material-ui/core"
+import { Box, Link, makeStyles } from "@material-ui/core"
 import DoneIcon from "@material-ui/icons/Done"
 import EventIcon from "@material-ui/icons/Event"
 import ScheduleIcon from "@material-ui/icons/Schedule"
@@ -10,9 +10,11 @@ import { connect } from "react-redux"
 import TimeAgo from "react-timeago"
 import { Dispatch } from "redux"
 import RateButton from "../../../../../../components/resources/RateButton/RateButton"
+import ResourceThumbnail from "../../../../../../components/resources/ResourceThumbnail/ResourceThumbnail"
 import Flex from "../../../../../../components/shared/Flexboxes/Flex"
 import FlexVCenter from "../../../../../../components/shared/Flexboxes/FlexVCenter"
 import MyTextField from "../../../../../../components/shared/MyInputs/MyTextField"
+import Txt from "../../../../../../components/shared/Text/Txt"
 import API from "../../../../../../consts/API"
 import MY_AXIOS from "../../../../../../consts/MY_AXIOS"
 import { ResourceDto } from "../../../../../../interfaces/dtos/relearn/ResourceDto"
@@ -22,8 +24,6 @@ import { ApplicationState } from "../../../../../../store/store"
 import * as utilsActions from "../../../../../../store/utils/utilsActions"
 import { validateEstimatedTime } from "../../../../../../utils/relearn/validateEstimatedTime"
 import ResourceMoreIcon from "../ResourceMoreIcon/ResourceMoreIcon"
-import ResourceThumbnail from "../../../../../../components/resources/ResourceThumbnail/ResourceThumbnail"
-import Txt from '../../../../../../components/shared/Text/Txt'
 
 // PE 1/3
 function ResourceItem(props: Props) {

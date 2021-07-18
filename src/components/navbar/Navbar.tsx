@@ -2,8 +2,9 @@ import { faFire } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   AppBar,
-  Button,
+  Box,
   createStyles,
+  IconButton,
   makeStyles,
   Tab,
   Tabs,
@@ -19,7 +20,6 @@ import RelearnNavbarContent from "../../pages/Relearn/RelearnNavbarContent"
 import { ApplicationState } from "../../store/store"
 import Flex from "../shared/Flexboxes/Flex"
 import FlexVCenter from "../shared/Flexboxes/FlexVCenter"
-import Txt from "../shared/Text/Txt"
 import LeftToggleButton from "./LeftToggleButton/LeftToggleButton"
 import Notification from "./Notification/Notification"
 import SearchBar from "./SearchBar/SearchBar"
@@ -51,22 +51,14 @@ const Navbar = (props: Props) => {
       <Toolbar className={classes.toolbar}>
         <FlexVCenter>
           <LeftToggleButton />
+          <Box ml={1} />
+          <IconButton component={Link} to={PATHS.index} size="small">
+            <FlexVCenter width={24} height={24} justifyContent="center">
+              <FontAwesomeIcon icon={faFire} className={classes.fireIcon} />
+            </FlexVCenter>
+          </IconButton>
 
-          <Button className={classes.logoButton}>
-            <Txt variant="h5">
-              <FlexVCenter>
-                <Button component={Link} to={PATHS.index}>
-                  <FontAwesomeIcon icon={faFire} className={classes.fireIcon} />
-                </Button>
-
-                {/* <Box ml={1}>endoh.io</Box> */}
-              </FlexVCenter>
-            </Txt>
-          </Button>
-          {/* 
-          <Box ml={2}>
-            <ApplicationMenu />
-          </Box> */}
+          <Box ml={2} />
           <SearchBar />
         </FlexVCenter>
 
@@ -138,15 +130,11 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "space-between",
       alignItems: "center",
     },
-    logoButton: {
-      "&:hover": {
-        background: "transparent",
-      },
-    },
+
     fireIcon: {
       color: theme.palette.secondary.main,
-      width: "24px !important",
       height: "24px !important",
+      width: "18px !important",
     },
 
     tabs: {

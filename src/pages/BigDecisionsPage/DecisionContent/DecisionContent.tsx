@@ -1,17 +1,13 @@
-import { faCrown } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Box, Button, Typography } from "@material-ui/core"
 import AddIcon from "@material-ui/icons/Add"
 import React from "react"
 import Flex from "../../../components/shared/Flexboxes/Flex"
-import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
 import { newDecisionTableDto } from "../../../dtos/BigDecisions/DecisionTableDto"
 import useDecisionsQuery from "../../../hooks/BigDecisions/Decision/useDecisionsQuery"
 import useDialogsStore from "../../../store/zustand/useDialogsStore"
-
 import getWinnerTable from "../../../utils/domain/BigDecision/getWinnerTable"
 import DecisionTable from "./DecisionTable/DecisionTable"
-import TableMoreIcon from "./DecisionTable/TableMoreIcon/TableMoreIcon"
+
 
 type Props = { decisionId: number }
 
@@ -44,27 +40,11 @@ const DecisionContent = (props: Props) => {
       </Box>
       <Flex mt={4}>
         {getTables().map((table) => (
-          <Box mr={2} key={table.id}>
-            <FlexVCenter justifyContent="space-between">
-              <FlexVCenter maxWidth={470}>
-                <Typography variant="h6">{table.title}</Typography>
-
-                {winnerTable?.id === table.id && (
-                  <Box ml={1}>
-                    <FontAwesomeIcon
-                      icon={faCrown}
-                      style={{ color: "orange" }}
-                    />
-                  </Box>
-                )}
-              </FlexVCenter>
-              <Box>
-                <TableMoreIcon table={table} />
-              </Box>
-            </FlexVCenter>
-            <Box mt={1} />
-            <DecisionTable table={table} />
-          </Box>
+          <DecisionTable
+            key={table.id}
+            table={table}
+            isWinner={winnerTable?.id === table.id}
+          />
         ))}
       </Flex>
     </Box>

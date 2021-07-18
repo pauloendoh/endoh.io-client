@@ -18,6 +18,7 @@ import {
   setSkills
 } from "../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../store/store"
+import useSidebarStore from "../../store/zustand/useSidebarStore"
 import { sleep } from "../../utils/sleep"
 import LoadingPage from "../index/LoadingPage"
 import ProgressSidebar from "./ProgressSidebar/ProgressSidebar"
@@ -29,6 +30,8 @@ const SkillbasePage = (props: Props) => {
   const { pathname } = useLocation()
 
   const [selectedTag, setSelectedTag] = useState<TagDto | "Untagged">()
+
+  const { sidebarIsOpen } = useSidebarStore()
 
   useEffect(
     () => {
@@ -73,7 +76,7 @@ const SkillbasePage = (props: Props) => {
 
         <Box
           className={clsx(classes.content, {
-            [classes.contentShift]: props.sidebarIsOpen,
+            [classes.contentShift]: sidebarIsOpen,
           })}
         >
           <Box width="100%">
@@ -118,7 +121,6 @@ type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>
 
 const mapStateToProps = (state: ApplicationState) => ({
-  sidebarIsOpen: state.skillbase.sidebarIsOpen,
   hasFirstLoaded: state.skillbase.hasFirstLoaded,
   allTags: state.relearn.tags,
 })

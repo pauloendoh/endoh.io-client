@@ -7,7 +7,7 @@ import {
   Menu,
   MenuItem,
   Theme,
-  Typography,
+  Typography
 } from "@material-ui/core"
 import DeleteIcon from "@material-ui/icons/Delete"
 import EditIcon from "@material-ui/icons/Edit"
@@ -59,7 +59,7 @@ function TableMoreIcon(props: Props) {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={(e) => {
-          const event = e as any
+          // const event = e as any
           handleCloseMore()
         }}
       >
