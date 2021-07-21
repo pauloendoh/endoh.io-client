@@ -1,5 +1,5 @@
 import PlayArrowIcon from "@material-ui/icons/PlayArrow"
-import { Box, Button, Typography } from "@material-ui/core"
+import { Box, Button, Container, Typography } from "@material-ui/core"
 import React, { useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
@@ -18,7 +18,7 @@ const DefineContent = (props: Props) => {
   }
 
   return (
-    <Box>
+    <Container>
       {/* Header */}
       <Flex justifyContent="space-between">
         <Typography variant="h4">{getDoc().title}</Typography>
@@ -51,7 +51,7 @@ const DefineContent = (props: Props) => {
       <Box mt={3}>
         <DocTable docId={props.docId} />
       </Box>
-    </Box>
+    </Container>
   )
 }
 

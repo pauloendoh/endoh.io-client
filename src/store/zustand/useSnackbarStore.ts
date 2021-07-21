@@ -17,7 +17,7 @@ const useDialogsStore = create<ISnackBarStore>(
 
     errorMessage: "",
     setErrorMessage: (message) => {
-      set({ successMessage: message })
+      set({ errorMessage: message })
     },
   })
 )

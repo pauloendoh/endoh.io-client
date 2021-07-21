@@ -19,6 +19,7 @@ import { getTodoResources } from "../../../utils/relearn/getTodoResources"
 import { TagDto } from "../../../interfaces/dtos/relearn/TagDto"
 import { ApplicationState } from "../../../store/store"
 import RelearnSidebarTagList from "./RelearnSidebarTagList/RelearnSidebarTagList"
+import useSidebarStore from '../../../store/zustand/useSidebarStore'
 
 function RelearnSidebar(props: Props) {
   const [publicLists, setPublicLists] = useState<TagDto[]>([])
@@ -34,11 +35,14 @@ function RelearnSidebar(props: Props) {
   }
 
   const classes = useStyles()
+  const { sidebarIsOpen } = useSidebarStore()
+
 
   return (
     <Drawer
       className={classes.root}
-      variant="permanent"
+      variant="persistent"
+      open={sidebarIsOpen}
       classes={{
         paper: classes.drawerPaper,
       }}
@@ -79,7 +83,6 @@ function RelearnSidebar(props: Props) {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: 300,
       flexShrink: 0,
     },
 

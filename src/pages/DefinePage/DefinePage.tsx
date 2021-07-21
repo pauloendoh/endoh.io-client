@@ -1,4 +1,5 @@
-import { Box } from "@material-ui/core"
+import { Box, makeStyles } from "@material-ui/core"
+import classNames from 'classnames'
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { useParams } from "react-router"
@@ -10,6 +11,7 @@ import { DocDto } from "../../dtos/define/DocDto"
 import { NoteDto } from "../../dtos/define/NoteDto"
 import { setDocs, setNotes } from "../../store/define/defineActions"
 import { ApplicationState } from "../../store/store"
+import useSidebarStore from "../../store/zustand/useSidebarStore"
 import LoadingPage from "../index/LoadingPage"
 import DefineContent from "./DefineContent/DefineContent"
 import DefineSidebar from "./DefineSidebar/DefineSidebar"
@@ -19,6 +21,9 @@ const DefinePage = (props: Props) => {
   const { docId } = useParams<{ docId: string }>()
 
   const [selectedDocId, setSelectedDocId] = useState<number>(null)
+
+  const { sidebarIsOpen } = useSidebarStore()
+  const classes = useStyles()
 
   useEffect(
     () => {
@@ -35,22 +40,27 @@ const DefinePage = (props: Props) => {
   )
 
   useEffect(() => {
-    if (docId  && props.hasFirstLoaded) {
+    if (docId && props.hasFirstLoaded) {
       setSelectedDocId(Number(docId))
 
-      const doc = props.allDocs.find(doc => doc.id === Number(docId))
+      const doc = props.allDocs.find((doc) => doc.id === Number(docId))
       document.title = doc.title
     } else {
       setSelectedDocId(null)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [docId])
 
   return (
     <Box p={3}>
       <Flex height="100%">
         <DefineSidebar selectedDocId={selectedDocId} />
-        <Box pt={1} px={4} flexGrow={1}>
+        <Box
+          className={classNames(classes.content, {
+            [classes.contentShift]: sidebarIsOpen,
+          })}
+          flexGrow={1}
+        >
           {props.hasFirstLoaded ? (
             <React.Fragment>
               {selectedDocId && <DefineContent docId={selectedDocId} />}
@@ -64,6 +74,23 @@ const DefinePage = (props: Props) => {
   )
 }
 
+const useStyles = makeStyles((theme) => ({
+  content: {
+    flexGrow: 1,
+
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  contentShift: {
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 300,
+  },
+}))
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>
 

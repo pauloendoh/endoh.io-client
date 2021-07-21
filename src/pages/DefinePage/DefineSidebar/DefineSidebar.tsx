@@ -27,6 +27,7 @@ import MyTextField from "../../../components/shared/MyInputs/MyTextField"
 import PATHS from "../../../consts/PATHS"
 import { DocDto } from "../../../dtos/define/DocDto"
 import { ApplicationState } from "../../../store/store"
+import useSidebarStore from "../../../store/zustand/useSidebarStore"
 import stringIncludes from "../../../utils/text/stringIncludes"
 import DocTitleDialog from "../DocTitleDialog/DocTitleDialog"
 
@@ -63,10 +64,13 @@ function DefineSidebar(props: Props) {
     }
   }
 
+  const { sidebarIsOpen } = useSidebarStore()
+
   return (
     <Drawer
       className={classes.root}
-      variant="permanent"
+      variant="persistent"
+      open={sidebarIsOpen}
       classes={{
         paper: classes.drawerPaper,
       }}
@@ -153,7 +157,6 @@ function DefineSidebar(props: Props) {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: 300,
       flexShrink: 0,
     },
 

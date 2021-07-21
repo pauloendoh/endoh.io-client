@@ -6,21 +6,17 @@ import {
   makeStyles,
   Paper,
   Table,
-  TableBody,
-  TableCell,
   TableContainer,
-  TableHead,
-  TableRow,
 } from "@material-ui/core"
+import AddIcon from "@material-ui/icons/Add"
+import React from "react"
+import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter"
 import {
   TBody,
   TD,
   THead,
   TR,
 } from "../../../../components/shared/Table/MyTableWrappers"
-import AddIcon from "@material-ui/icons/Add"
-import React from "react"
-import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter"
 import Txt from "../../../../components/shared/Text/Txt"
 import { DecisionTableDto } from "../../../../dtos/BigDecisions/DecisionTableDto"
 import {
@@ -31,6 +27,9 @@ import usePPutItemMutation from "../../../../hooks/BigDecisions/DecisionTableIte
 import getFinalWeight from "../../../../utils/domain/BigDecision/getFinalWeight"
 import DecisionTableRow from "./DecisionTableRow/DecisionTableRow"
 import TableMoreIcon from "./TableMoreIcon/TableMoreIcon"
+import SortWeightIcon from "./SortWeightMenuIcon/SortWeightMenuIcon"
+import useSidebarStore from "../../../../store/zustand/useSidebarStore"
+import MyColors from "../../../../consts/MyColors"
 
 type Props = { table: DecisionTableDto; isWinner: boolean }
 
@@ -38,6 +37,8 @@ const DecisionTable = ({ table, isWinner }: Props) => {
   const classes = useStyles()
 
   const { mutate } = usePPutItemMutation(table.decisionId)
+
+  const { sidebarIsOpen } = useSidebarStore()
 
   const addItem = () => {
     mutate(newDecisionTableItemDto(table.id))
@@ -47,8 +48,13 @@ const DecisionTable = ({ table, isWinner }: Props) => {
     mutate(newItem)
   }
 
+  const getBiggerColsWidth = () => {
+    if (sidebarIsOpen) return 240
+    return 180
+  }
+
   return (
-    <Box mr={2} key={table.id}>
+    <Box mr={2} mt={4} key={table.id}>
       <FlexVCenter justifyContent="space-between">
         <FlexVCenter maxWidth={470}>
           <Txt variant="h5">
@@ -73,11 +79,22 @@ const DecisionTable = ({ table, isWinner }: Props) => {
           <Table stickyHeader size="small" className={classes.table}>
             <THead className={classes.tableHead}>
               <TR>
-                <TD className={classes.col1}>Problem / Risk</TD>
-                <TD className={classes.col2}>Solution / Counter argument</TD>
+                <TD width={getBiggerColsWidth()}>Problem / Risk</TD>
+                <TD width={getBiggerColsWidth()}>
+                  Solution / Counter argument
+                </TD>
                 <TD className={classes.col3}>
                   <Box>Weight</Box>
-                  <Box>{getFinalWeight(table.items)}</Box>
+                  <FlexVCenter justifyContent="center">
+                    {getFinalWeight(table.items) > 0 ? (
+                      <b style={{ color: MyColors.ratingYellow[5] }}>
+                        {getFinalWeight(table.items)}
+                      </b>
+                    ) : (
+                      getFinalWeight(table.items)
+                    )}
+                    <SortWeightIcon table={table} />
+                  </FlexVCenter>
                 </TD>
               </TR>
             </THead>
@@ -87,6 +104,7 @@ const DecisionTable = ({ table, isWinner }: Props) => {
                   key={`${item.id}-${item.updatedAt}`}
                   initialItem={item}
                   onChange={saveItemChange}
+                  biggerColsWidth={getBiggerColsWidth()}
                 />
               ))}
             </TBody>
@@ -124,9 +142,7 @@ const useStyles = makeStyles(() => ({
       backgroundColor: "#2B2B2B",
     },
   },
-  col1: { width: 240 },
-  col2: { width: 240 },
-  col3: { width: 75, textAlign: "center" },
+  col3: { width: 60, textAlign: "center" },
 }))
 
 export default DecisionTable

@@ -1,4 +1,4 @@
-import { Box } from "@material-ui/core"
+import { Box, Container } from "@material-ui/core"
 import React, { useEffect, useRef, useState } from "react"
 import { useLocation } from "react-router"
 import { SkillDto } from "../../../dtos/skillbase/SkillDto"
@@ -48,7 +48,7 @@ function RelearnContent(props: {
   }, [props.resources])
 
   return (
-    <Box m={2} maxWidth={600}>
+    <Container maxWidth="md">
       <ContentHeader
         onTabChange={(newTabIndex) => setTabIndex(newTabIndex)}
         tabIndex={tabIndex}
@@ -65,7 +65,7 @@ function RelearnContent(props: {
         resources={tabIndex === 0 ? todo : completed}
         isDraggable={tabIndex === 0}
       />
-    </Box>
+    </Container>
   )
 }
 

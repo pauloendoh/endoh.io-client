@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@material-ui/core"
+import { Box, Button, Container, Typography } from "@material-ui/core"
 import AddIcon from "@material-ui/icons/Add"
 import React from "react"
 import Flex from "../../../components/shared/Flexboxes/Flex"
@@ -6,8 +6,8 @@ import { newDecisionTableDto } from "../../../dtos/BigDecisions/DecisionTableDto
 import useDecisionsQuery from "../../../hooks/BigDecisions/Decision/useDecisionsQuery"
 import useDialogsStore from "../../../store/zustand/useDialogsStore"
 import getWinnerTable from "../../../utils/domain/BigDecision/getWinnerTable"
+import DecisionMoreIcon from "../DecisionSidebar/DecisionSidebarItem/DecisionMoreIcon/DecisionMoreIcon"
 import DecisionTable from "./DecisionTable/DecisionTable"
-
 
 type Props = { decisionId: number }
 
@@ -24,9 +24,13 @@ const DecisionContent = (props: Props) => {
 
   if (!decision) return null
   return (
-    <Box>
-      <Typography variant="h4">{decision.title}</Typography>
-      <Box mt={4}>
+    <Container>
+      <Flex justifyContent="space-between">
+        <Typography variant="h4">{decision.title}</Typography>
+        <DecisionMoreIcon decision={decision} />
+      </Flex>
+
+      <Flex mt={4}>
         <Button
           onClick={() =>
             openDecisionTableDialog(newDecisionTableDto(props.decisionId))
@@ -37,8 +41,8 @@ const DecisionContent = (props: Props) => {
         >
           Add table
         </Button>
-      </Box>
-      <Flex mt={4}>
+      </Flex>
+      <Flex flexWrap="wrap">
         {getTables().map((table) => (
           <DecisionTable
             key={table.id}
@@ -47,7 +51,7 @@ const DecisionContent = (props: Props) => {
           />
         ))}
       </Flex>
-    </Box>
+    </Container>
   )
 }
 

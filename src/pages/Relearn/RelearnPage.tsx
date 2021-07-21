@@ -1,4 +1,4 @@
-import { Box } from "@material-ui/core"
+import { Box, makeStyles } from "@material-ui/core"
 import React, { useEffect, useState } from "react"
 import { GlobalHotKeys } from "react-hotkeys"
 import { connect } from "react-redux"
@@ -18,8 +18,17 @@ import LoadingPage from "../index/LoadingPage"
 import RelearnContent from "./Content/RelearnContent"
 import TagDialog from "./Dialogs/TagDialog"
 import RelearnSidebar from "./RelearnSidebar/RelearnSidebar"
+import useSidebarStore from "../../store/zustand/useSidebarStore"
+import classNames from "classnames"
+
 // PE 3/3
 const RelearnPage = (props: Props) => {
+  const classes = useStyles()
+
+  const [skills, setSkills] = useState<SkillDto[]>([])
+
+  const { sidebarIsOpen } = useSidebarStore()
+
   useEffect(
     () => {
       MY_AXIOS.get<ResourceDto[]>(API.relearn.resource).then((res) => {
@@ -33,8 +42,6 @@ const RelearnPage = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
-
-  const [skills, setSkills] = useState<SkillDto[]>([])
 
   const location = useLocation()
   // filter resources by tag (from path name)
@@ -78,18 +85,41 @@ const RelearnPage = (props: Props) => {
     <GlobalHotKeys keyMap={keyMap} handlers={handlers}>
       <Flex height="100%">
         <RelearnSidebar />
-        <Box pt={1} px={4} flexGrow={1}>
+        <Box
+          className={classNames(classes.content, {
+            [classes.contentShift]: sidebarIsOpen,
+          })}
+          flexGrow={1}
+        >
           {props.hasFirstLoaded ? (
             <RelearnContent resources={filteredResources} skills={skills} />
           ) : (
             <LoadingPage />
           )}
         </Box>
+
         <TagDialog />
       </Flex>
     </GlobalHotKeys>
   )
 }
+const useStyles = makeStyles((theme) => ({
+  content: {
+    flexGrow: 1,
+
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  contentShift: {
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 300,
+  },
+}))
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>

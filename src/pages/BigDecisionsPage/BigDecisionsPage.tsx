@@ -1,8 +1,8 @@
 import { Box, makeStyles } from "@material-ui/core"
 import classNames from "classnames"
 import Flex from "components/shared/Flexboxes/Flex"
-import React, { useEffect } from "react"
-import { useParams } from "react-router-dom"
+import React, { useEffect, useState } from "react"
+import { useHistory, useParams } from "react-router-dom"
 import { stringIsValidNumber } from "utils/math/stringIsValidNumber"
 import useDialogsStore from "../../store/zustand/useDialogsStore"
 import useSidebarStore from "../../store/zustand/useSidebarStore"
@@ -10,6 +10,8 @@ import DecisionSidebar from "./DecisionSidebar/DecisionSidebar"
 import DecisionContent from "./DecisionContent/DecisionContent"
 import DecisionDialog from "./DecisionDialog/DecisionDialog"
 import DecisionTableDialog from "./DecisionTableDialog/DecisionTableDialog"
+import useDecisionsQuery from "../../hooks/BigDecisions/Decision/useDecisionsQuery"
+import PATHS from "../../consts/PATHS"
 
 // PE 3/3
 const BigDecisionsPage = () => {
@@ -23,8 +25,19 @@ const BigDecisionsPage = () => {
   useEffect(() => {
     document.title = "BigDecisions - endoh.io"
     openSidebar()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const { data: allDecisions } = useDecisionsQuery()
+  const history = useHistory()
+  useEffect(
+    () => {
+      if (decisionId === null && allDecisions?.length)
+        history.push(PATHS.BigDecisions.decision(allDecisions[0].id))
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [allDecisions]
+  )
 
   const {
     decisionDialogOpen,
@@ -39,15 +52,13 @@ const BigDecisionsPage = () => {
   const { sidebarIsOpen } = useSidebarStore()
 
   return (
-    <Box p={3}>
+    <Box p={2}>
       <Flex height="100%">
         <DecisionSidebar selectedDecisionId={decisionId} />
         <Box
           className={classNames(classes.content, {
             [classes.contentShift]: sidebarIsOpen,
           })}
-          pt={1}
-          px={4}
           flexGrow={1}
         >
           {queryId && <DecisionContent decisionId={decisionId} />}
@@ -72,8 +83,7 @@ const BigDecisionsPage = () => {
 const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
-    maxWidth: 1200,
+
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,

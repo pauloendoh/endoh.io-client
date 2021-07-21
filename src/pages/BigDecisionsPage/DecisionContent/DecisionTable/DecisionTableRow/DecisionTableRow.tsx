@@ -6,12 +6,13 @@ import {
 } from "@material-ui/core"
 import classNames from "classnames"
 import React, { useRef, useState } from "react"
-import { TD, TR } from '../../../../../components/shared/Table/MyTableWrappers'
+import { TD, TR } from "../../../../../components/shared/Table/MyTableWrappers"
 import { DecisionTableItemDto } from "../../../../../dtos/BigDecisions/DecisionTableItemDto"
-import MyColors from '../../../../../consts/MyColors'
+import MyColors from "../../../../../consts/MyColors"
 
 type Props = {
   initialItem: DecisionTableItemDto
+  biggerColsWidth: number
   onChange: (newValue: DecisionTableItemDto) => void
 }
 
@@ -44,7 +45,8 @@ const DecisionTableRow = (props: Props) => {
   return (
     <TR key={props.initialItem.id}>
       <TD
-        className={classNames(classes.textareaCell, classes.col1)}
+        className={classes.textareaCell}
+        width={props.biggerColsWidth}
         onClick={focusProblem}
       >
         <TextareaAutosize
@@ -57,7 +59,8 @@ const DecisionTableRow = (props: Props) => {
         />
       </TD>
       <TD
-        className={classNames(classes.textareaCell, classes.col2)}
+        className={classes.textareaCell}
+        width={props.biggerColsWidth}
         onClick={focusSolution}
       >
         <TextareaAutosize
@@ -114,9 +117,7 @@ const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
   },
   bold: { fontWeight: "bold", color: MyColors.ratingYellow[5] },
-  col1: { width: 240 },
-  col2: { width: 240 },
-  col3: { width: 75, textAlign: "center" },
+  col3: { width: 60, textAlign: "center" },
 }))
 
 export default DecisionTableRow

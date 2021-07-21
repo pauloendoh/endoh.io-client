@@ -1,3 +1,4 @@
+import SearchIcon from "@material-ui/icons/Search"
 import {
   Box,
   createStyles,
@@ -20,6 +21,7 @@ import useDialogsStore from "../../../store/zustand/useDialogsStore"
 import useSidebarStore from "../../../store/zustand/useSidebarStore"
 import LoadingPage from "../../index/LoadingPage"
 import DecisionSidebarItem from "./DecisionSidebarItem/DecisionSidebarItem"
+import stringsAreVerySimilar from "../../../utils/text/stringsAreVerySimilar"
 
 type Props = { selectedDecisionId: number }
 
@@ -31,6 +33,13 @@ const DecisionSidebar = (props: Props) => {
   const { sidebarIsOpen } = useSidebarStore()
 
   const { data: decisions, isLoading } = useDecisionsQuery()
+
+  const getFilteredDecisions = () => {
+    if (textFilter.length) {
+      return decisions.filter((d) => stringsAreVerySimilar(d.title, textFilter))
+    }
+    return decisions
+  }
 
   return (
     <Drawer
@@ -48,7 +57,12 @@ const DecisionSidebar = (props: Props) => {
           <MyTextField
             fullWidth
             style={{ marginLeft: "auto", marginRight: "auto" }}
-            label="Filter decisions"
+            label={
+              <FlexVCenter>
+                <SearchIcon style={{fontSize: "0.95rem"}}/>
+                <Box ml={.5}>Filter Decisions</Box>
+              </FlexVCenter>
+            }
             value={textFilter}
             onChange={(e) => setTextFilter(e.target.value)}
           />
@@ -61,7 +75,7 @@ const DecisionSidebar = (props: Props) => {
               <ListItem>
                 <ListItemText>
                   <FlexVCenter justifyContent="space-between">
-                    <Box>{decisions?.length} decisions</Box>
+                    <Box>{getFilteredDecisions()?.length} decisions</Box>
                     <IconButton
                       size="small"
                       onClick={() => openDecisionDialog(newDecisionDto())}
@@ -71,7 +85,7 @@ const DecisionSidebar = (props: Props) => {
                   </FlexVCenter>
                 </ListItemText>
               </ListItem>
-              {decisions.map((decision) => (
+              {getFilteredDecisions().map((decision) => (
                 <DecisionSidebarItem
                   key={decision.id}
                   decision={decision}

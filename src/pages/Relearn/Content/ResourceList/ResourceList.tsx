@@ -32,7 +32,7 @@ function ResourceList({
 
   return (
     <Virtuoso
-      style={{ height: 600 }}
+      style={{ height: 520 }}
       totalCount={resources.length}
       itemContent={(index) => (
         <Box p={1} borderBottom="1px solid rgb(255 255 255 / 0.1)">

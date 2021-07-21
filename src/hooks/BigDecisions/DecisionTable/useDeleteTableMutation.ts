@@ -4,9 +4,12 @@ import API from "../../../consts/API"
 import { myQueryClient } from "../../../consts/myQueryClient"
 import MY_AXIOS from "../../../consts/MY_AXIOS"
 import { DecisionDto } from "../../../dtos/BigDecisions/DecisionDto"
+import useSnackbarStore from '../../../store/zustand/useSnackbarStore'
 import { DecisionTableDto } from "../../../dtos/BigDecisions/DecisionTableDto"
 
 export default function useDeleteTableMutation() {
+
+  const {setSuccessMessage} = useSnackbarStore()
   return useMutation(
     (table: DecisionTableDto) =>
       MY_AXIOS.delete(API.BigDecisions.decisionTable + "/" + table.id).then(
@@ -32,6 +35,8 @@ export default function useDeleteTableMutation() {
         })
 
         myQueryClient.setQueryData(API.BigDecisions.decision, newDecisions)
+        
+        setSuccessMessage("Option deleted!")
       },
     }
   )
