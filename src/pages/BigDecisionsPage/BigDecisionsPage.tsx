@@ -1,7 +1,7 @@
 import { Box, makeStyles } from "@material-ui/core"
-import classNames from 'classnames'
+import classNames from "classnames"
 import Flex from "components/shared/Flexboxes/Flex"
-import React from "react"
+import React, { useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { stringIsValidNumber } from "utils/math/stringIsValidNumber"
 import useDialogsStore from "../../store/zustand/useDialogsStore"
@@ -14,10 +14,17 @@ import DecisionTableDialog from "./DecisionTableDialog/DecisionTableDialog"
 // PE 3/3
 const BigDecisionsPage = () => {
   const classes = useStyles()
-  const { id } = useParams<{ id: string }>()
-  const decisionId = stringIsValidNumber(id) ? Number(id) : null
 
-  document.title = "BigDecisions - endoh.io"
+  const { id: queryId } = useParams<{ id: string }>()
+  const { openSidebar } = useSidebarStore()
+
+  const decisionId = stringIsValidNumber(queryId) ? Number(queryId) : null
+
+  useEffect(() => {
+    document.title = "BigDecisions - endoh.io"
+    openSidebar()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const {
     decisionDialogOpen,
@@ -29,18 +36,21 @@ const BigDecisionsPage = () => {
     closeDecisionTableDialog,
   } = useDialogsStore()
 
-  const {sidebarIsOpen} = useSidebarStore()
+  const { sidebarIsOpen } = useSidebarStore()
 
   return (
     <Box p={3}>
       <Flex height="100%">
         <DecisionSidebar selectedDecisionId={decisionId} />
-        <Box 
-         className={classNames(classes.content, {
-          [classes.contentShift]: sidebarIsOpen,
-        })}
-        pt={1} px={4} flexGrow={1}>
-          {decisionId && <DecisionContent decisionId={decisionId} />}
+        <Box
+          className={classNames(classes.content, {
+            [classes.contentShift]: sidebarIsOpen,
+          })}
+          pt={1}
+          px={4}
+          flexGrow={1}
+        >
+          {queryId && <DecisionContent decisionId={decisionId} />}
         </Box>
       </Flex>
 
@@ -76,7 +86,6 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: 300,
   },
-
 }))
 
 export default BigDecisionsPage

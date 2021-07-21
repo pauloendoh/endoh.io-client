@@ -33,6 +33,7 @@ const Navbar = (props: Props) => {
   const [tabIndex, setTabIndex] = useState<number | boolean>(false)
 
   useEffect(() => {
+    // DRY?
     if (location.pathname.startsWith(PATHS.relearn.index)) {
       setTabIndex(0)
     } else if (location.pathname.startsWith(PATHS.feed.index)) {
@@ -41,6 +42,8 @@ const Navbar = (props: Props) => {
       setTabIndex(2)
     } else if (location.pathname.startsWith(PATHS.define.index)) {
       setTabIndex(3)
+    } else if (location.pathname.startsWith(PATHS.BigDecisions.index)) {
+      setTabIndex(4)
     } else {
       setTabIndex(false)
     }
@@ -97,6 +100,14 @@ const Navbar = (props: Props) => {
               label={`Notes`}
               component={Link}
               to={PATHS.define.index}
+            />
+
+            <Tab
+              id="decisions-tab"
+              className={classes.tab}
+              label={`Decisions`}
+              component={Link}
+              to={PATHS.BigDecisions.index}
             />
           </Tabs>
         </Flex>
