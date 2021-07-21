@@ -8,6 +8,7 @@ import classNames from "classnames"
 import React, { useRef, useState } from "react"
 import { TD, TR } from '../../../../../components/shared/Table/MyTableWrappers'
 import { DecisionTableItemDto } from "../../../../../dtos/BigDecisions/DecisionTableItemDto"
+import MyColors from '../../../../../consts/MyColors'
 
 type Props = {
   initialItem: DecisionTableItemDto
@@ -112,7 +113,7 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     cursor: "pointer",
   },
-  bold: { fontWeight: "bold", color: "orange" },
+  bold: { fontWeight: "bold", color: MyColors.ratingYellow[5] },
   col1: { width: 240 },
   col2: { width: 240 },
   col3: { width: 75, textAlign: "center" },

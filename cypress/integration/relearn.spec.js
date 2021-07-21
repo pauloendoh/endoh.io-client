@@ -35,7 +35,7 @@ context('Relearn', () => {
 
   })
 
-  it("rate and remove a resource's rating", () => {
+  it.only("rate and remove a resource's rating", () => {
     const resourceName = new Date().toISOString()
     createResource(resourceName)
 

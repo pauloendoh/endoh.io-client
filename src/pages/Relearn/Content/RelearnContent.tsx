@@ -1,23 +1,22 @@
 import { Box } from "@material-ui/core"
 import React, { useEffect, useRef, useState } from "react"
-import { connect } from "react-redux"
 import { useLocation } from "react-router"
-import { Dispatch } from "redux"
 import { SkillDto } from "../../../dtos/skillbase/SkillDto"
 import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto"
-import { ApplicationState } from "../../../store/store"
 import { getTodoResources as filterTodo } from "../../../utils/relearn/getTodoResources"
 import ContentHeader from "./ContentHeader/ContentHeader"
 import ResourceList from "./ResourceList/ResourceList"
 
-function RelearnContent(props: Props) {
+function RelearnContent(props: {
+  resources: ResourceDto[]
+  skills: SkillDto[]
+}) {
   const [tabIndex, setTabIndex] = useState(0)
 
   const [todo, setTodo] = useState<ResourceDto[]>([])
   const [completed, setCompleted] = useState<ResourceDto[]>([])
 
   const [headerHeight, setHeaderHeight] = useState(0)
-
 
   const previousPathnameRef = useRef("")
   const location = useLocation()
@@ -45,7 +44,7 @@ function RelearnContent(props: Props) {
       )
 
     setCompleted(completed)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.resources])
 
   return (
@@ -61,23 +60,13 @@ function RelearnContent(props: Props) {
         }}
       />
       <Box mt={headerHeight + 16 + "px"} />
-      
-      <ResourceList resources={tabIndex === 0 ? todo : completed} />
+
+      <ResourceList
+        resources={tabIndex === 0 ? todo : completed}
+        isDraggable={tabIndex === 0}
+      />
     </Box>
   )
 }
 
-const mapStateToProps = (state: ApplicationState) => ({})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
-
-interface OwnProps {
-  resources: ResourceDto[]
-  skills: SkillDto[]
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps
-
-export default connect(mapStateToProps, mapDispatchToProps)(RelearnContent)
+export default RelearnContent

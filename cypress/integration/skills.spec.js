@@ -27,7 +27,7 @@ context('Skills', () => {
     cy.on('window:confirm', () => true);
   })
 
-  it("Should open correct tag if used 'q' hotkey", () => {
+  it.only("Should open correct tag if used 'q' hotkey", () => {
     cy.get('#resources-tab').click()
 
     const tagName = "Test tag " + new Date().toISOString()

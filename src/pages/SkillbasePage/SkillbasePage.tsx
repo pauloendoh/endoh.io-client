@@ -15,7 +15,7 @@ import { TagDto } from "../../interfaces/dtos/relearn/TagDto"
 import {
   setEditingSkill,
   setProgresses,
-  setSkills
+  setSkills,
 } from "../../store/skillbase/skillbaseActions"
 import { ApplicationState } from "../../store/store"
 import useSidebarStore from "../../store/zustand/useSidebarStore"
@@ -31,11 +31,12 @@ const SkillbasePage = (props: Props) => {
 
   const [selectedTag, setSelectedTag] = useState<TagDto | "Untagged">()
 
-  const { sidebarIsOpen } = useSidebarStore()
+  const { sidebarIsOpen, closeSidebar } = useSidebarStore()
 
   useEffect(
     () => {
       document.title = "Skills - Endoh.io"
+      closeSidebar()
 
       MY_AXIOS.get<SkillDto[]>(API.skillbase.skill).then((res) => {
         props.setSkills(res.data)
