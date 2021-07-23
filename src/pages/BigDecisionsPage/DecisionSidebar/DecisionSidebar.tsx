@@ -1,36 +1,28 @@
-import SearchIcon from "@material-ui/icons/Search"
 import {
   Box,
-  createStyles,
-  Drawer,
   IconButton,
   List,
   ListItem,
-  ListItemText,
-  makeStyles,
-  Theme,
-  Toolbar,
+  ListItemText
 } from "@material-ui/core"
 import AddIcon from "@material-ui/icons/Add"
+import SearchIcon from "@material-ui/icons/Search"
 import React, { useState } from "react"
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
 import MyTextField from "../../../components/shared/MyInputs/MyTextField"
+import MySidebar from "../../../components/shared/MySidebar"
 import { newDecisionDto } from "../../../dtos/BigDecisions/DecisionDto"
 import useDecisionsQuery from "../../../hooks/BigDecisions/Decision/useDecisionsQuery"
 import useDialogsStore from "../../../store/zustand/useDialogsStore"
-import useSidebarStore from "../../../store/zustand/useSidebarStore"
+import stringsAreVerySimilar from "../../../utils/text/stringsAreVerySimilar"
 import LoadingPage from "../../index/LoadingPage"
 import DecisionSidebarItem from "./DecisionSidebarItem/DecisionSidebarItem"
-import stringsAreVerySimilar from "../../../utils/text/stringsAreVerySimilar"
 
 type Props = { selectedDecisionId: number }
 
 const DecisionSidebar = (props: Props) => {
-  const classes = useStyles()
-
   const [textFilter, setTextFilter] = useState("")
   const { openDecisionDialog } = useDialogsStore()
-  const { sidebarIsOpen } = useSidebarStore()
 
   const { data: decisions, isLoading } = useDecisionsQuery()
 
@@ -42,16 +34,7 @@ const DecisionSidebar = (props: Props) => {
   }
 
   return (
-    <Drawer
-      anchor="left"
-      className={classes.root}
-      variant="persistent"
-      open={sidebarIsOpen}
-      classes={{
-        paper: classes.drawerPaper,
-      }}
-    >
-      <Toolbar />
+    <MySidebar>
       <Box>
         <Box pt={4} px={2}>
           <MyTextField
@@ -59,8 +42,8 @@ const DecisionSidebar = (props: Props) => {
             style={{ marginLeft: "auto", marginRight: "auto" }}
             label={
               <FlexVCenter>
-                <SearchIcon style={{fontSize: "0.95rem"}}/>
-                <Box ml={.5}>Filter Decisions</Box>
+                <SearchIcon style={{ fontSize: "0.95rem" }} />
+                <Box ml={0.5}>Filter Decisions</Box>
               </FlexVCenter>
             }
             value={textFilter}
@@ -96,22 +79,8 @@ const DecisionSidebar = (props: Props) => {
           )}
         </List>
       </Box>
-    </Drawer>
+    </MySidebar>
   )
 }
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexShrink: 0,
-    },
-
-    drawerPaper: {
-      width: 300,
-      background: "#202020",
-      borderRight: "1px solid rgba(255, 255, 255, 0.05)",
-    },
-  })
-)
 
 export default DecisionSidebar

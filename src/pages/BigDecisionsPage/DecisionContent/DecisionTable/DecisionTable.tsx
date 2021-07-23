@@ -2,11 +2,11 @@ import { faCrown } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   Box,
-  Button,
   makeStyles,
   Paper,
   Table,
   TableContainer,
+  Toolbar,
 } from "@material-ui/core"
 import AddIcon from "@material-ui/icons/Add"
 import React from "react"
@@ -18,34 +18,38 @@ import {
   TR,
 } from "../../../../components/shared/Table/MyTableWrappers"
 import Txt from "../../../../components/shared/Text/Txt"
+import MyColors from "../../../../consts/MyColors"
 import { DecisionTableDto } from "../../../../dtos/BigDecisions/DecisionTableDto"
 import {
   DecisionTableItemDto,
   newDecisionTableItemDto,
 } from "../../../../dtos/BigDecisions/DecisionTableItemDto"
-import usePPutItemMutation from "../../../../hooks/BigDecisions/DecisionTableItem/usePPutItemMutation"
+import useSaveItemMutation from "../../../../hooks/BigDecisions/DecisionTableItem/usePPutItemMutation"
+import useSidebarStore from "../../../../store/zustand/useSidebarStore"
 import getFinalWeight from "../../../../utils/domain/BigDecision/getFinalWeight"
 import DecisionTableRow from "./DecisionTableRow/DecisionTableRow"
-import TableMoreIcon from "./TableMoreIcon/TableMoreIcon"
 import SortWeightIcon from "./SortWeightMenuIcon/SortWeightMenuIcon"
-import useSidebarStore from "../../../../store/zustand/useSidebarStore"
-import MyColors from "../../../../consts/MyColors"
+import TableMoreIcon from "./TableMoreIcon/TableMoreIcon"
 
-type Props = { table: DecisionTableDto; isWinner: boolean }
-
-const DecisionTable = ({ table, isWinner }: Props) => {
+// PE 2/3
+const DecisionTable = ({
+  table,
+  isWinner,
+}: {
+  table: DecisionTableDto
+  isWinner: boolean
+}) => {
   const classes = useStyles()
 
-  const { mutate } = usePPutItemMutation(table.decisionId)
-
+  const saveItemMutation = useSaveItemMutation(table.decisionId)
   const { sidebarIsOpen } = useSidebarStore()
 
   const addItem = () => {
-    mutate(newDecisionTableItemDto(table.id))
+    saveItemMutation.mutate(newDecisionTableItemDto(table.id))
   }
 
   const saveItemChange = (newItem: DecisionTableItemDto) => {
-    mutate(newItem)
+    saveItemMutation.mutate(newItem)
   }
 
   const getBiggerColsWidth = () => {
@@ -55,8 +59,9 @@ const DecisionTable = ({ table, isWinner }: Props) => {
 
   return (
     <Box mr={2} mt={4} key={table.id}>
+      {/* PE 2/3 - Could be separated? */}
       <FlexVCenter justifyContent="space-between">
-        <FlexVCenter maxWidth={470}>
+        <FlexVCenter maxWidth={sidebarIsOpen ? 470 : 392}>
           <Txt variant="h5">
             {table.title} · {getFinalWeight(table.items)}
             {isWinner && (
@@ -72,8 +77,8 @@ const DecisionTable = ({ table, isWinner }: Props) => {
           <TableMoreIcon table={table} />
         </Box>
       </FlexVCenter>
-      <Box mt={1} />
 
+      <Box mt={1} />
       <Paper>
         <TableContainer className={classes.container}>
           <Table stickyHeader size="small" className={classes.table}>
@@ -83,6 +88,8 @@ const DecisionTable = ({ table, isWinner }: Props) => {
                 <TD width={getBiggerColsWidth()}>
                   Solution / Counter argument
                 </TD>
+
+                {/* PE 2/3 - <FinalWeightTableCell/> ?  */}
                 <TD className={classes.col3}>
                   <Box>Weight</Box>
                   <FlexVCenter justifyContent="center">
@@ -103,22 +110,31 @@ const DecisionTable = ({ table, isWinner }: Props) => {
                 <DecisionTableRow
                   key={`${item.id}-${item.updatedAt}`}
                   initialItem={item}
-                  onChange={saveItemChange}
+                  onThrottledChange={saveItemChange}
                   biggerColsWidth={getBiggerColsWidth()}
                 />
               ))}
             </TBody>
           </Table>
         </TableContainer>
+
+        <Toolbar
+          disableGutters
+          variant="dense"
+          onClick={addItem}
+          className={classes.footer}
+        >
+          <FlexVCenter ml={2}>
+            <AddIcon />
+            <Box ml={1}>Add problem</Box>
+          </FlexVCenter>
+        </Toolbar>
       </Paper>
-      <Button startIcon={<AddIcon />} onClick={addItem}>
-        Add problem
-      </Button>
     </Box>
   )
 }
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     maxHeight: 440,
   },
@@ -126,9 +142,6 @@ const useStyles = makeStyles(() => ({
     "& .MuiTableCell-root": {
       padding: 8,
       borderBottom: "1px solid rgb(255 255 255 / 0.1)",
-    },
-    "& .MuiTableBody-root .MuiTableRow-root:last-child .MuiTableCell-root": {
-      borderBottom: "none",
     },
   },
   lastRow: {
@@ -143,6 +156,13 @@ const useStyles = makeStyles(() => ({
     },
   },
   col3: { width: 60, textAlign: "center" },
+  footer: {
+    "&:hover": {
+      background: theme.palette.grey[800],
+      cursor: "pointer",
+      borderRadius: "inherit",
+    },
+  },
 }))
 
 export default DecisionTable

@@ -27,10 +27,12 @@ const RelearnPage = (props: Props) => {
 
   const [skills, setSkills] = useState<SkillDto[]>([])
 
-  const { sidebarIsOpen } = useSidebarStore()
+  const { sidebarIsOpen, openSidebar } = useSidebarStore()
 
   useEffect(
     () => {
+      openSidebar()
+      
       MY_AXIOS.get<ResourceDto[]>(API.relearn.resource).then((res) => {
         props.setResources(res.data)
       })

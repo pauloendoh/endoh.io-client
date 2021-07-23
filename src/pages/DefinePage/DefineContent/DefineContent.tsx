@@ -17,6 +17,12 @@ const DefineContent = (props: Props) => {
     return props.allDocs.find((doc) => doc.id === props.docId)
   }
 
+  const getQuestionsCount = () => {
+    return props.allNotes.filter(
+      (note) => note.docId === props.docId && note.question.trim().length > 0
+    ).length
+  }
+
   return (
     <Container>
       {/* Header */}
@@ -35,7 +41,10 @@ const DefineContent = (props: Props) => {
         >
           <FlexVCenter>
             <PlayArrowIcon fontSize="small" />
-            <Box ml={1}>Test Yourself</Box>
+            <Box ml={1}>
+              Test Yourself{" "}
+              {getQuestionsCount() > 0 && `(${getQuestionsCount()})`}
+            </Box>
           </FlexVCenter>
         </Button>
 

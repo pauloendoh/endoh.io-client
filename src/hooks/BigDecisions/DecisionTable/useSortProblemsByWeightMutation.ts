@@ -7,7 +7,7 @@ import { DecisionDto } from "../../../dtos/BigDecisions/DecisionDto"
 import useSnackbarStore from "../../../store/zustand/useSnackbarStore"
 
 export default function useSortProblemsByWeightMutation() {
-  const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
+  const { setErrorMessage } = useSnackbarStore()
 
   return useMutation(
     (data: { tableId: number; order: "asc" | "desc" }) =>
@@ -29,7 +29,6 @@ export default function useSortProblemsByWeightMutation() {
         })
 
         myQueryClient.setQueryData(API.BigDecisions.decision, newDecisions)
-
       },
       onError: (err) => {
         setErrorMessage("Error while ordering table: " + JSON.stringify(err))

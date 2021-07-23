@@ -1,4 +1,4 @@
-import { faFire } from "@fortawesome/free-solid-svg-icons"
+import { faFire, faFireAlt} from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   AppBar,
@@ -14,9 +14,8 @@ import {
 import PATHS from "consts/PATHS"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
-import { Link, Route, Switch, useLocation } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
-import RelearnNavbarContent from "../../pages/Relearn/RelearnNavbarContent"
 import { ApplicationState } from "../../store/store"
 import Flex from "../shared/Flexboxes/Flex"
 import FlexVCenter from "../shared/Flexboxes/FlexVCenter"
@@ -57,7 +56,7 @@ const Navbar = (props: Props) => {
           <Box ml={1} />
           <IconButton component={Link} to={PATHS.index} size="small">
             <FlexVCenter width={24} height={24} justifyContent="center">
-              <FontAwesomeIcon icon={faFire} className={classes.fireIcon} />
+              <FontAwesomeIcon icon={faFireAlt} className={classes.fireIcon} />
             </FlexVCenter>
           </IconButton>
 
@@ -113,13 +112,13 @@ const Navbar = (props: Props) => {
         </Flex>
 
         <FlexVCenter>
-          <Switch>
+          {/* <Switch>
             <Route
               path={PATHS.relearn.index}
               component={RelearnNavbarContent}
             />
           </Switch>
-          <Flex mr={4} />
+          <Flex mr={4} /> */}
 
           <Notification />
           <UserMenu />

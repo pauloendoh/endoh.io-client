@@ -6,7 +6,6 @@ import TableRow from "@material-ui/core/TableRow"
 import TableSortLabel from "@material-ui/core/TableSortLabel"
 import React from "react"
 import { connect } from "react-redux"
-import { Dispatch } from "redux"
 import { SkillDto } from "../../../../dtos/skillbase/SkillDto"
 import { ApplicationState } from "../../../../store/store"
 

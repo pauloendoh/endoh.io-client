@@ -20,7 +20,7 @@ import { setNotes } from "../../../../../../store/define/defineActions"
 import { ApplicationState } from "../../../../../../store/store"
 import { setSuccessMessage } from "../../../../../../store/utils/utilsActions"
 
-const FinishedContentDialog = (props: Props) => {
+const FinishedFlashcardDialogChild = (props: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const getScore = () => {
@@ -118,4 +118,4 @@ type Props = ReturnType<typeof mapStateToProps> &
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(FinishedContentDialog)
+)(FinishedFlashcardDialogChild)

@@ -1,19 +1,14 @@
-import {
-  makeStyles,
-  TableCell,
-  TableRow,
-  TextareaAutosize,
-} from "@material-ui/core"
+import { makeStyles, TextareaAutosize } from "@material-ui/core"
 import classNames from "classnames"
 import React, { useRef, useState } from "react"
 import { TD, TR } from "../../../../../components/shared/Table/MyTableWrappers"
-import { DecisionTableItemDto } from "../../../../../dtos/BigDecisions/DecisionTableItemDto"
 import MyColors from "../../../../../consts/MyColors"
+import { DecisionTableItemDto } from "../../../../../dtos/BigDecisions/DecisionTableItemDto"
 
 type Props = {
   initialItem: DecisionTableItemDto
   biggerColsWidth: number
-  onChange: (newValue: DecisionTableItemDto) => void
+  onThrottledChange: (newValue: DecisionTableItemDto) => void
 }
 
 const DecisionTableRow = (props: Props) => {
@@ -37,7 +32,7 @@ const DecisionTableRow = (props: Props) => {
     clearTimeout(throttle)
     setThrottle(
       setTimeout(() => {
-        props.onChange(newValue)
+        props.onThrottledChange(newValue)
       }, 250)
     )
   }

@@ -1,17 +1,17 @@
 import { Box, makeStyles } from "@material-ui/core"
 import classNames from "classnames"
 import Flex from "components/shared/Flexboxes/Flex"
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { useHistory, useParams } from "react-router-dom"
 import { stringIsValidNumber } from "utils/math/stringIsValidNumber"
+import PATHS from "../../consts/PATHS"
+import useDecisionsQuery from "../../hooks/BigDecisions/Decision/useDecisionsQuery"
 import useDialogsStore from "../../store/zustand/useDialogsStore"
 import useSidebarStore from "../../store/zustand/useSidebarStore"
-import DecisionSidebar from "./DecisionSidebar/DecisionSidebar"
 import DecisionContent from "./DecisionContent/DecisionContent"
 import DecisionDialog from "./DecisionDialog/DecisionDialog"
+import DecisionSidebar from "./DecisionSidebar/DecisionSidebar"
 import DecisionTableDialog from "./DecisionTableDialog/DecisionTableDialog"
-import useDecisionsQuery from "../../hooks/BigDecisions/Decision/useDecisionsQuery"
-import PATHS from "../../consts/PATHS"
 
 // PE 3/3
 const BigDecisionsPage = () => {

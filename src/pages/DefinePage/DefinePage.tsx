@@ -1,5 +1,5 @@
 import { Box, makeStyles } from "@material-ui/core"
-import classNames from 'classnames'
+import classNames from "classnames"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { useParams } from "react-router"
@@ -22,11 +22,12 @@ const DefinePage = (props: Props) => {
 
   const [selectedDocId, setSelectedDocId] = useState<number>(null)
 
-  const { sidebarIsOpen } = useSidebarStore()
-  const classes = useStyles()
+  const { sidebarIsOpen, openSidebar } = useSidebarStore()
 
   useEffect(
     () => {
+      openSidebar()
+
       MY_AXIOS.get<DocDto[]>(API.define.doc).then((res) => {
         props.setDocs(res.data)
       })
@@ -51,6 +52,8 @@ const DefinePage = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [docId])
 
+  const classes = useStyles()
+  
   return (
     <Box p={3}>
       <Flex height="100%">

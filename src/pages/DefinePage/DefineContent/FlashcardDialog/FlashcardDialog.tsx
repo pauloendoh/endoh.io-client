@@ -21,7 +21,7 @@ import { NoteDto } from "../../../../dtos/define/NoteDto"
 import { ApplicationState } from "../../../../store/store"
 import * as utilsActions from "../../../../store/utils/utilsActions"
 import { shuffleArray } from "../../../../utils/shuffleArray"
-import QuestionsDialogContent from "./QuestionDialogContent/QuestionsDialogContent"
+import StartedFlashcardDialogChild from "./StartedFlashcardDialogChild/StartedFlashcardDialogChild"
 
 //  FlashcardTestDialog  ?
 const FlashcardDialog = (props: Props) => {
@@ -106,7 +106,7 @@ const FlashcardDialog = (props: Props) => {
       aria-labelledby="flashcard-title-dialog"
     >
       {testQuestions.length > 0 ? (
-        <QuestionsDialogContent
+        <StartedFlashcardDialogChild
           questions={testQuestions}
           doc={getDoc()}
           onFinish={handleClose}

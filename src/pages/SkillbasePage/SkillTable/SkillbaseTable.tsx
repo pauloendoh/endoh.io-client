@@ -3,7 +3,6 @@ import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"
 import TableContainer from "@material-ui/core/TableContainer"
 import Toolbar from "@material-ui/core/Toolbar"
-import produce from "immer"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
@@ -14,7 +13,7 @@ import { SkillDto } from "../../../dtos/skillbase/SkillDto"
 import { TagDto } from "../../../interfaces/dtos/relearn/TagDto"
 import {
   removeSkills,
-  sortSkill,
+  sortSkill
 } from "../../../store/skillbase/skillbaseActions"
 import { SortSkill } from "../../../store/skillbase/skillbaseTypes"
 import { ApplicationState } from "../../../store/store"

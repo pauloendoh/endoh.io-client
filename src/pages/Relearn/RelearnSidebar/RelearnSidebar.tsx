@@ -1,25 +1,21 @@
 import {
   Box,
-  createStyles,
-  Drawer,
-  List,
+  createStyles, List,
   ListItem,
   ListItemText,
   makeStyles,
-  Theme,
-  Toolbar,
-  Typography,
+  Theme, Typography
 } from "@material-ui/core"
 import PATHS from "consts/PATHS"
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Link, useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
-import { getTodoResources } from "../../../utils/relearn/getTodoResources"
+import MySidebar from "../../../components/shared/MySidebar"
 import { TagDto } from "../../../interfaces/dtos/relearn/TagDto"
 import { ApplicationState } from "../../../store/store"
+import { getTodoResources } from "../../../utils/relearn/getTodoResources"
 import RelearnSidebarTagList from "./RelearnSidebarTagList/RelearnSidebarTagList"
-import useSidebarStore from '../../../store/zustand/useSidebarStore'
 
 function RelearnSidebar(props: Props) {
   const [publicLists, setPublicLists] = useState<TagDto[]>([])
@@ -35,20 +31,10 @@ function RelearnSidebar(props: Props) {
   }
 
   const classes = useStyles()
-  const { sidebarIsOpen } = useSidebarStore()
-
 
   return (
-    <Drawer
-      className={classes.root}
-      variant="persistent"
-      open={sidebarIsOpen}
-      classes={{
-        paper: classes.drawerPaper,
-      }}
-    >
-      <Toolbar />
-      <Box className={classes.drawerContainer}>
+    <MySidebar>
+      <Box>
         <List disablePadding>
           {/* PE 2/3 - Muito grande para mostrar apenas "Untagged - 16" */}
           {/* criar um <UntaggedLi/> ? */}
@@ -76,32 +62,12 @@ function RelearnSidebar(props: Props) {
           <RelearnSidebarTagList lists={privateLists} type="private" />
         </List>
       </Box>
-    </Drawer>
+    </MySidebar>
   )
 }
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      flexShrink: 0,
-    },
-
-    drawerPaper: {
-      width: 300,
-      background: "#202020",
-      borderRight: "1px solid rgba(255, 255, 255, 0.05)",
-    },
-    drawerContainer: {
-      // overflow: "auto",
-    },
-    content: {
-      flexGrow: 1,
-      padding: theme.spacing(3),
-    },
-
-    listItemIcon: {
-      minWidth: 32,
-    },
     resourcesCount: {
       marginLeft: 8,
       fontSize: 12,
