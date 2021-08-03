@@ -42,7 +42,7 @@ const DefineContent = (props: Props) => {
           <FlexVCenter>
             <PlayArrowIcon fontSize="small" />
             <Box ml={1}>
-              Test Yourself{" "}
+              Test Yourself
               {getQuestionsCount() > 0 && `(${getQuestionsCount()})`}
             </Box>
           </FlexVCenter>

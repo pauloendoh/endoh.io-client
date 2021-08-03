@@ -1,4 +1,4 @@
-import { faFire, faFireAlt} from "@fortawesome/free-solid-svg-icons"
+import { faFire } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   AppBar,
@@ -56,7 +56,7 @@ const Navbar = (props: Props) => {
           <Box ml={1} />
           <IconButton component={Link} to={PATHS.index} size="small">
             <FlexVCenter width={24} height={24} justifyContent="center">
-              <FontAwesomeIcon icon={faFireAlt} className={classes.fireIcon} />
+              <FontAwesomeIcon icon={faFire} className={classes.fireIcon} />
             </FlexVCenter>
           </IconButton>
 
