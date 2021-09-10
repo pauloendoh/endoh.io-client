@@ -8,8 +8,8 @@ interface ISnackBarStore {
   setErrorMessage: (message: string) => void
 }
 
-const useDialogsStore = create<ISnackBarStore>(
-  (set: SetState<ISnackBarStore>, get: GetState<ISnackBarStore>) => ({
+const useSnackbarStore = create<ISnackBarStore>(
+  (set: SetState<ISnackBarStore>) => ({
     successMessage: "",
     setSuccessMessage: (message) => {
       set({ successMessage: message })
@@ -22,4 +22,4 @@ const useDialogsStore = create<ISnackBarStore>(
   })
 )
 
-export default useDialogsStore
+export default useSnackbarStore

@@ -51,6 +51,7 @@ export function checkAuthOrLogoutActionCreator(dispatch: Dispatch) {
   // const googleSession = getCookie('endoh_google_session')
 
   if (!userLocalStorage) {
+    // Login with google?
     const oauthToken = getQueryParam("oauthToken")
     const userId = getQueryParam("userId")
 
@@ -68,6 +69,7 @@ export function checkAuthOrLogoutActionCreator(dispatch: Dispatch) {
 
     return usingGoogleSession()
   } else {
+    // Regular login
     const user: AuthUserGetDto = JSON.parse(userLocalStorage)
     if (new Date(user.expiresAt) <= new Date()) return logout()
 

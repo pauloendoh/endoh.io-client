@@ -1,4 +1,4 @@
-import { createMuiTheme } from "@material-ui/core"
+import { createMuiTheme } from "@material-ui/core";
 
 const MY_THEME = createMuiTheme({
   palette: {
@@ -11,8 +11,10 @@ const MY_THEME = createMuiTheme({
     secondary: { main: "#C862AC" },
   },
   typography: {
-    fontFamily: `'Open Sans', sans-serif;`, // imported at index.css
+    // fontFamily: `'Open Sans', sans-serif;`, // imported at index.css
     // fontFamily: `'Saira', sans-serif;`, // imported at index.css
+    fontFamily: `'Noto Sans', sans-serif;`, // imported at index.css
+
     fontSize: 12,
     button: {
       textTransform: "none",
@@ -40,6 +42,6 @@ const MY_THEME = createMuiTheme({
   zIndex: {
     appBar: 1201, // zIndex.drawer + 1
   },
-})
+});
 
-export default MY_THEME
+export default MY_THEME;

@@ -1,47 +1,45 @@
-import Checkbox from "@material-ui/core/Checkbox"
-import { makeStyles } from "@material-ui/core/styles"
-import TableCell from "@material-ui/core/TableCell"
-import TableHead from "@material-ui/core/TableHead"
-import TableRow from "@material-ui/core/TableRow"
-import TableSortLabel from "@material-ui/core/TableSortLabel"
-import React from "react"
-import { connect } from "react-redux"
-import { SkillDto } from "../../../../dtos/skillbase/SkillDto"
-import { ApplicationState } from "../../../../store/store"
+import Checkbox from "@material-ui/core/Checkbox";
+import { makeStyles } from "@material-ui/core/styles";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import React from "react";
+import { connect } from "react-redux";
+import { SkillDto } from "../../../../dtos/skillbase/SkillDto";
+import { ApplicationState } from "../../../../store/store";
 
-interface IHeadCell {
-  id: keyof SkillDto
-  label: string
-  numeric: boolean
-  align: "center" | "left" | "right"
-  disablePadding: boolean
+interface IHeaderCell {
+  id: keyof SkillDto;
+  label: string;
+  align: "center" | "left" | "right";
+
+  // What is this? Wouldn't it be easier to be "none" | "default" ?
+  disablePadding: boolean;
 }
 
-const headCells: IHeadCell[] = [
+// PE 2/3 - Better separate in a utils file?
+const headCells: IHeaderCell[] = [
   {
     id: "isPriority",
     label: "Priority",
-    numeric: false,
     align: "center",
     disablePadding: true,
   },
   {
     id: "name",
     label: "Skill Name",
-    numeric: false,
     disablePadding: false,
     align: "left",
   },
   {
     id: "currentLevel",
-    numeric: true,
     disablePadding: false,
     label: "Now",
     align: "center",
   },
   {
     id: "goalLevel",
-    numeric: true,
     disablePadding: false,
     label: "Goal",
     align: "center",
@@ -49,46 +47,20 @@ const headCells: IHeadCell[] = [
 
   {
     id: "tagId",
-    numeric: false,
     disablePadding: false,
     label: "Tag",
     align: "left",
   },
   {
     id: "expectations",
-    numeric: false,
     disablePadding: false,
     label: "Expectations",
     align: "center",
   },
-]
-
-interface OwnProps {
-  numSelected: number
-  onRequestSort: (
-    event: React.MouseEvent<unknown>,
-    property: keyof SkillDto
-  ) => void
-  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void
-  // order: "asc" | "desc"
-  // orderBy: string
-  rowCount: number
-}
-
-const mapStateToProps = (state: ApplicationState) => ({
-  sortBy: state.skillbase.sortBy,
-})
-
-type Props = ReturnType<typeof mapStateToProps> & OwnProps
+];
 
 const SkillbaseTableHead = (props: Props) => {
-  const classes = useStyles()
-
-  const createSortHandler = (property: keyof SkillDto) => (
-    event: React.MouseEvent<unknown>
-  ) => {
-    props.onRequestSort(event, property)
-  }
+  const classes = useStyles();
 
   return (
     <TableHead>
@@ -96,11 +68,14 @@ const SkillbaseTableHead = (props: Props) => {
         <TableCell padding="checkbox" className={classes.th}>
           <Checkbox
             className={classes.th}
+            // PE 1/3 - remove?
             indeterminate={
-              props.numSelected > 0 && props.numSelected < props.rowCount
+              props.selectedCount > 0 && props.selectedCount < props.rowCount
             }
-            checked={props.rowCount > 0 && props.numSelected === props.rowCount}
-            onChange={props.onSelectAllClick}
+            checked={
+              props.rowCount > 0 && props.selectedCount === props.rowCount
+            }
+            onChange={props.onClickSelectAll}
             inputProps={{ "aria-label": "Select all skills" }}
           />
         </TableCell>
@@ -111,19 +86,23 @@ const SkillbaseTableHead = (props: Props) => {
             align={headCell.align}
             padding={headCell.disablePadding ? "none" : "default"}
             sortDirection={
+              // PE 1/3 - Create a function for this?
               props.sortBy.property === headCell.id ? props.sortBy.order : false
             }
           >
             <TableSortLabel
               active={props.sortBy.property === headCell.id}
+              // PE 1/3 - getDirection ?
               direction={
                 props.sortBy.property === headCell.id
                   ? props.sortBy.order
                   : "desc"
               }
-              onClick={createSortHandler(headCell.id)}
+              onClick={() => props.onSort(headCell.id)}
             >
               {headCell.label}
+
+              {/* PE 1/3 - ?? */}
               {props.sortBy.property === headCell.id ? (
                 <span className={classes.visuallyHidden}>
                   {props.sortBy.order === "desc"
@@ -136,8 +115,8 @@ const SkillbaseTableHead = (props: Props) => {
         ))}
       </TableRow>
     </TableHead>
-  )
-}
+  );
+};
 
 const useStyles = makeStyles((theme) => ({
   th: {
@@ -155,6 +134,20 @@ const useStyles = makeStyles((theme) => ({
     top: 20,
     width: 1,
   },
-}))
+}));
 
-export default connect(mapStateToProps)(SkillbaseTableHead)
+const mapStateToProps = (state: ApplicationState) => ({
+  sortBy: state.skillbase.sortBy,
+});
+
+interface OwnProps {
+  selectedCount: number;
+  onSort: (property: keyof SkillDto) => void;
+  onClickSelectAll: (event: React.ChangeEvent<HTMLInputElement>) => void;
+
+  rowCount: number;
+}
+
+type Props = ReturnType<typeof mapStateToProps> & OwnProps;
+
+export default connect(mapStateToProps)(SkillbaseTableHead);

@@ -101,12 +101,12 @@ const SkillbaseTable = (props: Props) => {
           aria-label="enhanced table"
         >
           <SkillbaseTableHead
-            numSelected={selectedIds.length}
-            onSelectAllClick={(e) => {
+            selectedCount={selectedIds.length}
+            onClickSelectAll={(e) => {
               checkSelectAll(e.target.checked)
             }}
-            onRequestSort={(_, property) => {
-              sortByProperty(property)
+            onSort={(headerCellId) => {
+              sortByProperty(headerCellId)
             }}
             rowCount={visibleSkills.length}
           />

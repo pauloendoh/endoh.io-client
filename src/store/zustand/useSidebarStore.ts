@@ -7,7 +7,7 @@ interface ISidebarStore {
   toggleSidebar: () => void
 }
 
-const useDialogsStore = create<ISidebarStore>(
+const useSidebarStore = create<ISidebarStore>(
   (set: SetState<ISidebarStore>, get: GetState<ISidebarStore>) => ({
     sidebarIsOpen: true,
     openSidebar: () => {
@@ -22,4 +22,4 @@ const useDialogsStore = create<ISidebarStore>(
   })
 )
 
-export default useDialogsStore
+export default useSidebarStore
