@@ -3,50 +3,51 @@ import {
   DialogTitle,
   IconButton,
   Typography,
-} from "@material-ui/core"
-import ClearIcon from "@material-ui/icons/Clear"
-import React, { useState } from "react"
-import { GlobalHotKeys } from "react-hotkeys"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import DarkButton from "../../../../../../components/shared/Buttons/DarkButton"
-import FlexHCenter from "../../../../../../components/shared/Flexboxes/FlexHCenter"
-import FlexVCenter from "../../../../../../components/shared/Flexboxes/FlexVCenter"
-import API from "../../../../../../consts/API"
-import MY_AXIOS from "../../../../../../consts/MY_AXIOS"
-import { DocDto } from "../../../../../../dtos/define/DocDto"
-import { NoteDto } from "../../../../../../dtos/define/NoteDto"
-import { setNotes } from "../../../../../../store/define/defineActions"
-import { ApplicationState } from "../../../../../../store/store"
-import { setSuccessMessage } from "../../../../../../store/utils/utilsActions"
+} from "@material-ui/core";
+import ClearIcon from "@material-ui/icons/Clear";
+import React, { useState } from "react";
+import { GlobalHotKeys } from "react-hotkeys";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import DarkButton from "../../../../../../components/shared/Buttons/DarkButton";
+import FlexHCenter from "../../../../../../components/shared/Flexboxes/FlexHCenter";
+import FlexVCenter from "../../../../../../components/shared/Flexboxes/FlexVCenter";
+import API from "../../../../../../consts/API";
+import myAxios from "../../../../../../consts/myAxios";
+import { DocDto } from "../../../../../../dtos/define/DocDto";
+import { NoteDto } from "../../../../../../dtos/define/NoteDto";
+import { setNotes } from "../../../../../../store/define/defineActions";
+import { ApplicationState } from "../../../../../../store/store";
+import { setSuccessMessage } from "../../../../../../store/utils/utilsActions";
 
 const FinishedFlashcardDialogChild = (props: Props) => {
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const getScore = () => {
-    return ((props.halves * 0.5 + props.corrects) * 100) / props.results.length
-  }
+    return ((props.halves * 0.5 + props.corrects) * 100) / props.results.length;
+  };
 
   const saveResults = () => {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
 
-    MY_AXIOS.post<NoteDto[]>(API.define.postManyNotes, props.results)
+    myAxios
+      .post<NoteDto[]>(API.define.postManyNotes, props.results)
       .then((res) => {
-        props.setNotes(res.data)
-        props.setSuccessMessage("Saved!")
-        props.onFinish()
+        props.setNotes(res.data);
+        props.setSuccessMessage("Saved!");
+        props.onFinish();
       })
-      .finally(() => setIsSubmitting(false))
-  }
+      .finally(() => setIsSubmitting(false));
+  };
 
   const keyMap = {
     onSpacePress: "space",
-  }
+  };
   const handlers = {
     onSpacePress: async () => {
-      saveResults()
+      saveResults();
     },
-  }
+  };
 
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={handlers} allowChanges>
@@ -92,30 +93,30 @@ const FinishedFlashcardDialogChild = (props: Props) => {
         </DarkButton>
       </DialogTitle>
     </GlobalHotKeys>
-  )
-}
+  );
+};
 
-const mapStateToProps = (state: ApplicationState) => ({})
+const mapStateToProps = (state: ApplicationState) => ({});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setNotes: (notes: NoteDto[]) => dispatch(setNotes(notes)),
   setSuccessMessage: (message: string) => dispatch(setSuccessMessage(message)),
-})
+});
 
 interface OwnProps {
-  doc: DocDto
-  wrongs: number
-  halves: number
-  corrects: number
-  results: NoteDto[]
-  onFinish: () => void
+  doc: DocDto;
+  wrongs: number;
+  halves: number;
+  corrects: number;
+  results: NoteDto[];
+  onFinish: () => void;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(FinishedFlashcardDialogChild)
+)(FinishedFlashcardDialogChild);

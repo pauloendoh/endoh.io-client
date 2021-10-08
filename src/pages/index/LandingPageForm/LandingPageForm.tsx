@@ -6,48 +6,48 @@ import {
   makeStyles,
   Paper,
   Typography,
-} from "@material-ui/core"
-import AccessAlarmIcon from "@material-ui/icons/AccessAlarm"
-import MyTextField from "../../../components/shared/MyInputs/MyTextField"
-import { Form, Formik } from "formik"
-import { AuthUserGetDto } from "interfaces/dtos/AuthUserGetDto"
-import React, { MouseEvent, useState } from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import * as AuthActions from "store/auth/authActions"
-import { ApplicationState } from "store/store"
-import Flex from "../../../components/shared/Flexboxes/Flex"
-import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
-import { MyDivider } from "../../../components/utils/MyDivider/MyDivider"
-import API from "../../../consts/API"
-import MY_AXIOS from "../../../consts/MY_AXIOS"
-import MyAxiosError, { MyFieldError } from "../../../interfaces/MyAxiosError"
-import GoogleButton from "./GoogleButton/GoogleButton"
-import PasswordResetForm from "./ResetPasswordByEmailForm"
+} from "@material-ui/core";
+import AccessAlarmIcon from "@material-ui/icons/AccessAlarm";
+import { Form, Formik } from "formik";
+import { AuthUserGetDto } from "interfaces/dtos/AuthUserGetDto";
+import React, { MouseEvent, useState } from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import * as AuthActions from "store/auth/authActions";
+import { ApplicationState } from "store/store";
+import Flex from "../../../components/shared/Flexboxes/Flex";
+import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter";
+import MyTextField from "../../../components/shared/MyInputs/MyTextField";
+import { MyDivider } from "../../../components/utils/MyDivider/MyDivider";
+import API from "../../../consts/API";
+import myAxios from "../../../consts/myAxios";
+import MyAxiosError, { MyFieldError } from "../../../interfaces/MyAxiosError";
+import GoogleButton from "./GoogleButton/GoogleButton";
+import PasswordResetForm from "./ResetPasswordByEmailForm";
 
-type FormType = "login" | "register" | "passwordReset"
+type FormType = "login" | "register" | "passwordReset";
 
 // PE 1/3 20210109 - Dividir em 3 possíveis forms: login, register, passwordReset
 const LandingPageForm = (props: Props) => {
-  const classes = useStyles()
+  const classes = useStyles();
 
   // TODO 20210105: substitute signUpIsSelected for this formType
-  const [formType, setFormType] = useState<FormType>("login")
+  const [formType, setFormType] = useState<FormType>("login");
 
-  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[])
+  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[]);
 
   const handleTempSignIn = () => {
-    MY_AXIOS.get<AuthUserGetDto>(API.auth.tempUser).then((res) => {
-      props.setAuthUser(res.data)
-    })
-  }
+    myAxios.get<AuthUserGetDto>(API.auth.tempUser).then((res) => {
+      props.setAuthUser(res.data);
+    });
+  };
 
   return (
     <Paper className={classes.paper}>
       {formType === "passwordReset" ? (
         <PasswordResetForm
           onExit={() => {
-            setFormType("login")
+            setFormType("login");
           }}
         />
       ) : (
@@ -67,32 +67,32 @@ const LandingPageForm = (props: Props) => {
               ) {
                 setResponseErrors([
                   { field: "password", message: "Passwords don't match" },
-                ])
-                setSubmitting(false)
-                return
+                ]);
+                setSubmitting(false);
+                return;
               }
 
               const authData = {
                 username: values.username,
                 email: values.email,
                 password: values.password,
-              }
+              };
 
               const endpoint =
-                formType === "register" ? "/auth/register" : "/auth/login"
+                formType === "register" ? "/auth/register" : "/auth/login";
 
-              setResponseErrors([])
+              setResponseErrors([]);
 
-              MY_AXIOS.post<AuthUserGetDto>(endpoint, authData)
+              myAxios
+                .post<AuthUserGetDto>(endpoint, authData)
                 .then((res) => {
-                  const authUser = res.data
-                  props.setAuthUser(authUser)
-
+                  const authUser = res.data;
+                  props.setAuthUser(authUser);
                 })
                 .catch((err: MyAxiosError) => {
-                  setResponseErrors(err.response.data.errors)
-                  setSubmitting(false)
-                })
+                  setResponseErrors(err.response.data.errors);
+                  setSubmitting(false);
+                });
             }}
           >
             {({ isSubmitting, handleChange, errors }) => (
@@ -146,7 +146,7 @@ const LandingPageForm = (props: Props) => {
                       <Button
                         color="primary"
                         onClick={() => {
-                          setFormType("passwordReset")
+                          setFormType("passwordReset");
                         }}
                       >
                         Forgot your password?
@@ -205,9 +205,9 @@ const LandingPageForm = (props: Props) => {
                 <Link
                   href="#"
                   onClick={(e: MouseEvent) => {
-                    e.preventDefault()
-                    setResponseErrors([])
-                    setFormType("login")
+                    e.preventDefault();
+                    setResponseErrors([]);
+                    setFormType("login");
                   }}
                 >
                   Sign in
@@ -219,9 +219,9 @@ const LandingPageForm = (props: Props) => {
                 <Link
                   href="#"
                   onClick={(e: MouseEvent) => {
-                    e.preventDefault()
-                    setResponseErrors([])
-                    setFormType("register")
+                    e.preventDefault();
+                    setResponseErrors([]);
+                    setFormType("register");
                   }}
                 >
                   Sign up
@@ -258,10 +258,10 @@ const LandingPageForm = (props: Props) => {
         </Box>
       )}
     </Paper>
-  )
-}
+  );
+};
 
-type Props = ReturnType<typeof mapDispatchToProps>
+type Props = ReturnType<typeof mapDispatchToProps>;
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -295,15 +295,15 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 7,
     background: theme.palette.grey[800],
   },
-}))
+}));
 
 const mapStateToProps = (state: ApplicationState) => ({
   user: state.auth.user,
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setAuthUser: (authUser: AuthUserGetDto) =>
     dispatch(AuthActions.setAuthUser(authUser)),
-})
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(LandingPageForm)
+export default connect(mapStateToProps, mapDispatchToProps)(LandingPageForm);

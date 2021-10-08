@@ -6,53 +6,54 @@ import {
   DialogContent,
   DialogTitle,
   FormControlLabel,
-} from "@material-ui/core"
-import PATHS from "consts/PATHS"
-import { Form, Formik } from "formik"
-import MyAxiosError from "interfaces/MyAxiosError"
-import React from "react"
-import { connect } from "react-redux"
-import { useHistory } from "react-router-dom"
-import { Dispatch } from "redux"
-import Flex from "../../../components/shared/Flexboxes/Flex"
-import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
-import MyTextField from "../../../components/shared/MyInputs/MyTextField"
-import API from "../../../consts/API"
-import MY_AXIOS from "../../../consts/MY_AXIOS"
-import { TagDto } from "../../../interfaces/dtos/relearn/TagDto"
-import * as relearnActions from "../../../store/relearn/relearnActions"
-import { ApplicationState } from "../../../store/store"
-import * as utilsActions from "../../../store/utils/utilsActions"
-import SelectColor from "./SelectColor/SelectColor"
+} from "@material-ui/core";
+import PATHS from "consts/PATHS";
+import { Form, Formik } from "formik";
+import MyAxiosError from "interfaces/MyAxiosError";
+import React from "react";
+import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { Dispatch } from "redux";
+import Flex from "../../../components/shared/Flexboxes/Flex";
+import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter";
+import MyTextField from "../../../components/shared/MyInputs/MyTextField";
+import API from "../../../consts/API";
+import myAxios from "../../../consts/myAxios";
+import { TagDto } from "../../../interfaces/dtos/relearn/TagDto";
+import * as relearnActions from "../../../store/relearn/relearnActions";
+import { ApplicationState } from "../../../store/store";
+import * as utilsActions from "../../../store/utils/utilsActions";
+import SelectColor from "./SelectColor/SelectColor";
 
 // PE 2/3
 const TagDialog = (props: Props) => {
-  const history = useHistory()
+  const history = useHistory();
 
   const handleSubmit = (sentTag: TagDto) => {
-    MY_AXIOS.post<TagDto[]>(API.relearn.tag, sentTag)
+    myAxios
+      .post<TagDto[]>(API.relearn.tag, sentTag)
       .then((res) => {
-        props.setSuccessMessage("Tag saved!")
+        props.setSuccessMessage("Tag saved!");
 
-        const returnedTags = res.data
-        props.setTags(returnedTags)
+        const returnedTags = res.data;
+        props.setTags(returnedTags);
 
-        const savedTagId = returnedTags.find((t) => t.name === sentTag.name).id
+        const savedTagId = returnedTags.find((t) => t.name === sentTag.name).id;
 
-        history.push(PATHS.relearn.tag + "/" + savedTagId)
+        history.push(PATHS.relearn.tag + "/" + savedTagId);
       })
       .catch((err: MyAxiosError) => {
-        props.setErrorMessage(err.response.data.errors[0].message)
+        props.setErrorMessage(err.response.data.errors[0].message);
       })
       .finally(() => {
-        props.closeTagDialog()
-      })
-  }
+        props.closeTagDialog();
+      });
+  };
 
   return (
     <Dialog
       onClose={() => {
-        props.closeTagDialog()
+        props.closeTagDialog();
       }}
       open={!!props.editingTag}
       fullWidth
@@ -63,7 +64,7 @@ const TagDialog = (props: Props) => {
         <Formik
           initialValues={props.editingTag}
           onSubmit={(formikValues, { setSubmitting }) => {
-            handleSubmit(formikValues)
+            handleSubmit(formikValues);
           }}
         >
           {({ values, isSubmitting, setFieldValue, handleChange }) => (
@@ -92,7 +93,7 @@ const TagDialog = (props: Props) => {
                   <SelectColor
                     value={values.color}
                     onChange={(newValue) => {
-                      setFieldValue("color", newValue)
+                      setFieldValue("color", newValue);
                     }}
                   />
                 </Box>
@@ -103,7 +104,7 @@ const TagDialog = (props: Props) => {
                       <Checkbox
                         checked={values.isPrivate}
                         onChange={() => {
-                          setFieldValue("isPrivate", !values.isPrivate)
+                          setFieldValue("isPrivate", !values.isPrivate);
                         }}
                         color="primary"
                       />
@@ -138,12 +139,12 @@ const TagDialog = (props: Props) => {
         </Formik>
       </Box>
     </Dialog>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state: ApplicationState) => ({
   editingTag: state.relearn.editingTag,
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   closeTagDialog: () => dispatch(relearnActions.closeTagDialog()),
@@ -153,9 +154,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch(utilsActions.setSuccessMessage(message)),
   setErrorMessage: (message: string) =>
     dispatch(utilsActions.setErrorMessage(message)),
-})
+});
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+  ReturnType<typeof mapDispatchToProps>;
 
-export default connect(mapStateToProps, mapDispatchToProps)(TagDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(TagDialog);

@@ -5,59 +5,62 @@ import {
   DialogContent,
   DialogTitle,
   Typography,
-} from "@material-ui/core"
-import { Form, Formik } from "formik"
-import React, { useState } from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import Flex from "../../../../../components/shared/Flexboxes/Flex"
-import FlexHCenter from "../../../../../components/shared/Flexboxes/FlexHCenter"
-import MyTextField from "../../../../../components/shared/MyInputs/MyTextField"
-import API from "../../../../../consts/API"
-import MY_AXIOS from "../../../../../consts/MY_AXIOS"
-import { UserDeleteDto } from "../../../../../interfaces/dtos/auth/UserDeleteDto"
+} from "@material-ui/core";
+import { Form, Formik } from "formik";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import Flex from "../../../../../components/shared/Flexboxes/Flex";
+import FlexHCenter from "../../../../../components/shared/Flexboxes/FlexHCenter";
+import MyTextField from "../../../../../components/shared/MyInputs/MyTextField";
+import API from "../../../../../consts/API";
+import myAxios from "../../../../../consts/myAxios";
+import { UserDeleteDto } from "../../../../../interfaces/dtos/auth/UserDeleteDto";
 import MyAxiosError, {
   MyFieldError,
-} from "../../../../../interfaces/MyAxiosError"
-import { logoutActionCreator } from "../../../../../store/auth/authActions"
-import { ApplicationState } from "../../../../../store/store"
-import * as utilsActions from "../../../../../store/utils/utilsActions"
+} from "../../../../../interfaces/MyAxiosError";
+import { logoutActionCreator } from "../../../../../store/auth/authActions";
+import { ApplicationState } from "../../../../../store/store";
+import * as utilsActions from "../../../../../store/utils/utilsActions";
 
 const DeleteAccountDialog = (props: Props) => {
-  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[])
+  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[]);
 
   const handleClose = () => {
-    setResponseErrors([])
-    props.onClose()
-  }
+    setResponseErrors([]);
+    props.onClose();
+  };
 
   const handleSubmit = (
     values: UserDeleteDto,
     setSubmitting: (isSubmitting: boolean) => void
   ) => {
     if (window.confirm("Do you really want to delete your account?")) {
-      setSubmitting(true)
+      setSubmitting(true);
 
-      setResponseErrors([])
+      setResponseErrors([]);
 
-      MY_AXIOS.delete(API.auth.index, {
-        headers: {},
-        data: values,
-      })
+      myAxios
+        .delete(API.auth.index, {
+          headers: {},
+          data: values,
+        })
         .then((res) => {
-          props.setSuccessMessage("Account delete successfully! Logging out...")
-          props.logout()
+          props.setSuccessMessage(
+            "Account delete successfully! Logging out..."
+          );
+          props.logout();
 
           // handleClose()
         })
         .catch((err: MyAxiosError) => {
-          setResponseErrors(err.response.data.errors)
+          setResponseErrors(err.response.data.errors);
         })
         .finally(() => {
-          setSubmitting(false)
-        })
+          setSubmitting(false);
+        });
     }
-  }
+  };
 
   return (
     <Dialog
@@ -73,7 +76,7 @@ const DeleteAccountDialog = (props: Props) => {
             password: "",
           }}
           onSubmit={(formikValues, { setSubmitting }) => {
-            handleSubmit(formikValues, setSubmitting)
+            handleSubmit(formikValues, setSubmitting);
           }}
         >
           {({ values, isSubmitting, handleChange }) => (
@@ -125,12 +128,12 @@ const DeleteAccountDialog = (props: Props) => {
         </Formik>
       </Box>
     </Dialog>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state: ApplicationState) => ({
   // editingTag: state.relearn.editingTag,
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   logout: () => dispatch(logoutActionCreator(dispatch)),
@@ -139,15 +142,18 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch(utilsActions.setSuccessMessage(message)),
   setErrorMessage: (message: string) =>
     dispatch(utilsActions.setErrorMessage(message)),
-})
+});
 
 interface OwnProps {
-  open: boolean
-  onClose: () => void
+  open: boolean;
+  onClose: () => void;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(DeleteAccountDialog)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DeleteAccountDialog);

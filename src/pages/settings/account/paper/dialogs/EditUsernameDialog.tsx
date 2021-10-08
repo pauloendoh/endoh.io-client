@@ -5,55 +5,56 @@ import {
   DialogContent,
   DialogTitle,
   Typography,
-} from "@material-ui/core"
-import { Form, Formik } from "formik"
-import React, { useState } from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import Flex from "../../../../../components/shared/Flexboxes/Flex"
-import FlexHCenter from "../../../../../components/shared/Flexboxes/FlexHCenter"
-import MyTextField from "../../../../../components/shared/MyInputs/MyTextField"
-import API from "../../../../../consts/API"
-import MY_AXIOS from "../../../../../consts/MY_AXIOS"
-import { UsernamePutDto } from "../../../../../interfaces/dtos/auth/UsernamePutDto"
+} from "@material-ui/core";
+import { Form, Formik } from "formik";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import Flex from "../../../../../components/shared/Flexboxes/Flex";
+import FlexHCenter from "../../../../../components/shared/Flexboxes/FlexHCenter";
+import MyTextField from "../../../../../components/shared/MyInputs/MyTextField";
+import API from "../../../../../consts/API";
+import myAxios from "../../../../../consts/myAxios";
+import { UsernamePutDto } from "../../../../../interfaces/dtos/auth/UsernamePutDto";
 import MyAxiosError, {
   MyFieldError,
-} from "../../../../../interfaces/MyAxiosError"
-import { setUsername } from "../../../../../store/auth/authActions"
-import { ApplicationState } from "../../../../../store/store"
-import * as utilsActions from "../../../../../store/utils/utilsActions"
+} from "../../../../../interfaces/MyAxiosError";
+import { setUsername } from "../../../../../store/auth/authActions";
+import { ApplicationState } from "../../../../../store/store";
+import * as utilsActions from "../../../../../store/utils/utilsActions";
 
 const EditUsernameDialog = (props: Props) => {
-  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[])
+  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[]);
 
   const handleClose = () => {
-    setResponseErrors([])
-    props.onClose()
-  }
+    setResponseErrors([]);
+    props.onClose();
+  };
 
   const handleSubmit = (
     values: UsernamePutDto,
     setSubmitting: (isSubmitting: boolean) => void
   ) => {
-    setSubmitting(true)
+    setSubmitting(true);
 
-    setResponseErrors([])
+    setResponseErrors([]);
 
-    MY_AXIOS.put(API.auth.username, values)
+    myAxios
+      .put(API.auth.username, values)
       .then((res) => {
-        props.setSuccessMessage("Username changed!")
+        props.setSuccessMessage("Username changed!");
 
-        props.setUsername(values.newUsername)
+        props.setUsername(values.newUsername);
 
-        handleClose()
+        handleClose();
       })
       .catch((err: MyAxiosError) => {
-        props.setErrorMessage(err.response.data.errors[0].message)
+        props.setErrorMessage(err.response.data.errors[0].message);
       })
       .finally(() => {
-        setSubmitting(false)
-      })
-  }
+        setSubmitting(false);
+      });
+  };
 
   return (
     <Dialog
@@ -71,7 +72,7 @@ const EditUsernameDialog = (props: Props) => {
             } as UsernamePutDto
           }
           onSubmit={(formikValues, { setSubmitting }) => {
-            handleSubmit(formikValues, setSubmitting)
+            handleSubmit(formikValues, setSubmitting);
           }}
         >
           {({ values, isSubmitting, handleChange }) => (
@@ -122,12 +123,12 @@ const EditUsernameDialog = (props: Props) => {
         </Formik>
       </Box>
     </Dialog>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state: ApplicationState) => ({
   // editingTag: state.relearn.editingTag,
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setUsername: (newUsername: string) => dispatch(setUsername(newUsername)),
@@ -136,15 +137,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch(utilsActions.setSuccessMessage(message)),
   setErrorMessage: (message: string) =>
     dispatch(utilsActions.setErrorMessage(message)),
-})
+});
 
 interface OwnProps {
-  open: boolean
-  onClose: () => void
+  open: boolean;
+  onClose: () => void;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditUsernameDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(EditUsernameDialog);

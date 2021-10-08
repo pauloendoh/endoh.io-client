@@ -1,82 +1,83 @@
-import { Box, Grid, Hidden, Typography } from "@material-ui/core"
-import React, { useEffect, useState } from "react"
-import { connect } from "react-redux"
-import { useHistory, useParams } from "react-router-dom"
-import { Dispatch } from "redux"
-import UserSuggestions from "../../components/feed/UserSuggestions/UserSuggestions"
-import MinRatingButton from "../../components/resources/MinRatingButton/MinRatingButton"
-import Flex from "../../components/shared/Flexboxes/Flex"
-import API from "../../consts/API"
-import MY_AXIOS from "../../consts/MY_AXIOS"
-import PATHS from "../../consts/PATHS"
-import { UserInfoDto } from "../../dtos/UserInfoDto"
-import { ResourceDto } from "../../interfaces/dtos/relearn/ResourceDto"
-import { TagDto } from "../../interfaces/dtos/relearn/TagDto"
+import { Box, Grid, Hidden, Typography } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
+import { Dispatch } from "redux";
+import UserSuggestions from "../../components/feed/UserSuggestions/UserSuggestions";
+import MinRatingButton from "../../components/resources/MinRatingButton/MinRatingButton";
+import Flex from "../../components/shared/Flexboxes/Flex";
+import API from "../../consts/API";
+import myAxios from "../../consts/myAxios";
+import PATHS from "../../consts/PATHS";
+import { UserInfoDto } from "../../dtos/UserInfoDto";
+import { ResourceDto } from "../../interfaces/dtos/relearn/ResourceDto";
+import { TagDto } from "../../interfaces/dtos/relearn/TagDto";
 import {
   clearProfile,
   setProfileResources,
-  setUserInfo
-} from "../../store/profile/profileActions"
-import { ApplicationState } from "../../store/store"
-import LoadingPage from "../index/LoadingPage"
-import FeedResources from "./FeedResources/FeedResources"
-import ProfileHeader from "./ProfileHeader/ProfileHeader"
-import ResourcesChart from "./ResourcesChart/ResourcesChart"
-import UserPageSidebar from "./UserPageSidebar/UserPageSidebar"
+  setUserInfo,
+} from "../../store/profile/profileActions";
+import { ApplicationState } from "../../store/store";
+import LoadingPage from "../index/LoadingPage";
+import FeedResources from "./FeedResources/FeedResources";
+import ProfileHeader from "./ProfileHeader/ProfileHeader";
+import ResourcesChart from "./ResourcesChart/ResourcesChart";
+import UserPageSidebar from "./UserPageSidebar/UserPageSidebar";
 
 // PE 3/3
 const UserPage = (props: Props) => {
-  const history = useHistory()
+  const history = useHistory();
   const { username, tagId } = useParams<{
-    username: string
-    tagId: string
-  }>()
+    username: string;
+    tagId: string;
+  }>();
 
-  const [filteredResources, setFilteredResources] = useState<ResourceDto[]>([])
-  const [minRating, setMinRating] = useState(0)
+  const [filteredResources, setFilteredResources] = useState<ResourceDto[]>([]);
+  const [minRating, setMinRating] = useState(0);
 
-  const [filterByTag, setFilterByTag] = useState<TagDto>(null)
+  const [filterByTag, setFilterByTag] = useState<TagDto>(null);
 
   // filtering resources by min rating
   useEffect(() => {
     const minResources = [...props.resources].filter(
       (r) => r.rating >= minRating
-    )
+    );
 
     const filtered = minResources.filter((r) => {
       if (tagId !== undefined) {
-        const allTags = props.publicTags.concat(props.privateTags)
-        setFilterByTag(allTags.find((t) => t.id === Number(tagId)))
-        return r.tag?.id === Number(tagId)
+        const allTags = props.publicTags.concat(props.privateTags);
+        setFilterByTag(allTags.find((t) => t.id === Number(tagId)));
+        return r.tag?.id === Number(tagId);
       } else {
-        setFilterByTag(null)
-        return true
+        setFilterByTag(null);
+        return true;
       }
-    })
+    });
 
-    setFilteredResources(filtered)
+    setFilteredResources(filtered);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.resources, minRating, tagId])
+  }, [props.resources, minRating, tagId]);
 
   useEffect(
     () => {
-      document.title = username + " - Endoh.io"
+      document.title = username + " - Endoh.io";
 
-      props.clearProfile()
+      props.clearProfile();
 
-      MY_AXIOS.get<UserInfoDto>(API.user.userInfo(username))
+      myAxios
+        .get<UserInfoDto>(API.user.userInfo(username))
         .then((res) => {
-          props.setUserInfo(res.data)
+          props.setUserInfo(res.data);
         })
         .catch((err) => {
           if (err.response && err.response.status === 404) {
-            history.push(PATHS.notFound)
+            history.push(PATHS.notFound);
           }
-        })
+        });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [username]
-  )
+  );
 
   return (
     <Box p={3}>
@@ -119,11 +120,11 @@ const UserPage = (props: Props) => {
         </Grid>
       )}
     </Box>
-  )
-}
+  );
+};
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+  ReturnType<typeof mapDispatchToProps>;
 
 const mapStateToProps = (state: ApplicationState) => ({
   userSuggestions: state.feed.userSuggestions,
@@ -133,7 +134,7 @@ const mapStateToProps = (state: ApplicationState) => ({
   profile: state.profile.profile,
   publicTags: state.profile.publicTags,
   privateTags: state.profile.privateTags,
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   clearProfile: () => dispatch(clearProfile()),
@@ -142,6 +143,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch(setProfileResources(resources)),
 
   setUserInfo: (userInfo: UserInfoDto) => dispatch(setUserInfo(userInfo)),
-})
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserPage)
+export default connect(mapStateToProps, mapDispatchToProps)(UserPage);

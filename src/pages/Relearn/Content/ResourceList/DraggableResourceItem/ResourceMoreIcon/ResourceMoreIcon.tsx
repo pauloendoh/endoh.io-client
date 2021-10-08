@@ -7,64 +7,63 @@ import {
   Menu,
   MenuItem,
   Typography,
-} from "@material-ui/core"
-import DeleteIcon from "@material-ui/icons/Delete"
-import EditIcon from "@material-ui/icons/Edit"
-import FileCopyIcon from "@material-ui/icons/FileCopy"
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
-import React, { useState } from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import API from "../../../../../../consts/API"
-import MY_AXIOS from "../../../../../../consts/MY_AXIOS"
-import { ResourceDto } from "../../../../../../interfaces/dtos/relearn/ResourceDto"
+} from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import FileCopyIcon from "@material-ui/icons/FileCopy";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import API from "../../../../../../consts/API";
+import myAxios from "../../../../../../consts/myAxios";
+import { ResourceDto } from "../../../../../../interfaces/dtos/relearn/ResourceDto";
 import {
   editResource,
   removeResource,
   setResources,
-} from "../../../../../../store/relearn/relearnActions"
-import { ApplicationState } from "../../../../../../store/store"
+} from "../../../../../../store/relearn/relearnActions";
+import { ApplicationState } from "../../../../../../store/store";
 import {
   setErrorMessage,
   setSuccessMessage,
-} from "../../../../../../store/utils/utilsActions"
+} from "../../../../../../store/utils/utilsActions";
 
 // PE 1/3
 function ResourceMoreIcon(props: Props) {
-  const classes = useStyles()
+  const classes = useStyles();
 
   // Anchor when you click 'More' icon
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState(null);
   const handleOpenMore = (event: any) => {
-    setAnchorEl(event.currentTarget)
-  }
+    setAnchorEl(event.currentTarget);
+  };
   const handleCloseMore = () => {
-    setAnchorEl(null)
-  }
+    setAnchorEl(null);
+  };
 
   const handleDeleteResource = (id: number) => {
     if (window.confirm("Confirm delete?")) {
-      MY_AXIOS.delete(`${API.relearn.resource}/${id}`).then((res) => {
-        props.setSuccessMessage("Resource deleted!")
+      myAxios.delete(`${API.relearn.resource}/${id}`).then((res) => {
+        props.setSuccessMessage("Resource deleted!");
 
-        props.removeResource(id)
-      })
+        props.removeResource(id);
+      });
     }
-  }
+  };
 
   const duplicateResource = (resource: ResourceDto) => {
-    MY_AXIOS.post<ResourceDto[]>(
-      `${API.relearn.resourceDuplicate}/${resource.id}`
-    )
+    myAxios
+      .post<ResourceDto[]>(`${API.relearn.resourceDuplicate}/${resource.id}`)
       .then((res) => {
-        props.setSuccessMessage("Resource duplicated!")
+        props.setSuccessMessage("Resource duplicated!");
 
-        props.setResources(res.data)
+        props.setResources(res.data);
       })
       .catch((err) => {
-        props.setErrorMessage(err.response.data.errors[0].message)
-      })
-  }
+        props.setErrorMessage(err.response.data.errors[0].message);
+      });
+  };
 
   return (
     <React.Fragment>
@@ -77,8 +76,8 @@ function ResourceMoreIcon(props: Props) {
             id="resource-more-icon"
             aria-label="resource-more-icon"
             onClick={(e) => {
-              e.preventDefault()
-              handleOpenMore(e)
+              e.preventDefault();
+              handleOpenMore(e);
             }}
           >
             <MoreHorizIcon />
@@ -94,16 +93,16 @@ function ResourceMoreIcon(props: Props) {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={(e) => {
-          const event = e as any
-          event.preventDefault()
-          handleCloseMore()
+          const event = e as any;
+          event.preventDefault();
+          handleCloseMore();
         }}
       >
         <MenuItem
           onClick={(e) => {
-            e.preventDefault()
-            handleCloseMore()
-            props.editResource(props.resource)
+            e.preventDefault();
+            handleCloseMore();
+            props.editResource(props.resource);
           }}
         >
           <ListItemIcon className={classes.listItemIcon}>
@@ -116,9 +115,9 @@ function ResourceMoreIcon(props: Props) {
 
         <MenuItem
           onClick={(e) => {
-            e.preventDefault()
-            handleCloseMore()
-            duplicateResource(props.resource)
+            e.preventDefault();
+            handleCloseMore();
+            duplicateResource(props.resource);
           }}
         >
           <ListItemIcon className={classes.listItemIcon}>
@@ -133,8 +132,8 @@ function ResourceMoreIcon(props: Props) {
 
         <MenuItem
           onClick={() => {
-            handleCloseMore()
-            handleDeleteResource(props.resource.id)
+            handleCloseMore();
+            handleDeleteResource(props.resource.id);
           }}
           id="delete-resource-button"
         >
@@ -147,7 +146,7 @@ function ResourceMoreIcon(props: Props) {
         </MenuItem>
       </Menu>
     </React.Fragment>
-  )
+  );
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -158,9 +157,9 @@ const useStyles = makeStyles((theme) => ({
     width: 32,
     minWidth: 32,
   },
-}))
+}));
 
-const mapStateToProps = (state: ApplicationState) => ({})
+const mapStateToProps = (state: ApplicationState) => ({});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   editResource: (resource: ResourceDto) => dispatch(editResource(resource)),
@@ -170,15 +169,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
   setSuccessMessage: (message: string) => dispatch(setSuccessMessage(message)),
   setErrorMessage: (message: string) => dispatch(setErrorMessage(message)),
-})
+});
 
 interface OwnProps {
-  resource: ResourceDto
-  isHovered: boolean
+  resource: ResourceDto;
+  isHovered: boolean;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResourceMoreIcon)
+export default connect(mapStateToProps, mapDispatchToProps)(ResourceMoreIcon);

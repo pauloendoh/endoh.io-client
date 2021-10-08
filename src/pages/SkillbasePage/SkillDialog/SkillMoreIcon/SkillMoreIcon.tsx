@@ -7,47 +7,49 @@ import {
   MenuItem,
   Theme,
   Typography,
-} from "@material-ui/core"
-import DeleteIcon from "@material-ui/icons/Delete"
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
-import React from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import API from "../../../../consts/API"
-import MY_AXIOS from "../../../../consts/MY_AXIOS"
-import { IdsDto } from "../../../../dtos/IdsDto"
-import { SkillDto } from "../../../../dtos/skillbase/SkillDto"
-import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto"
-import * as relearnActions from "../../../../store/relearn/relearnActions"
-import { removeSkills } from "../../../../store/skillbase/skillbaseActions"
-import { ApplicationState } from "../../../../store/store"
-import * as utilsActions from "../../../../store/utils/utilsActions"
+} from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import React from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import API from "../../../../consts/API";
+import myAxios from "../../../../consts/myAxios";
+import { IdsDto } from "../../../../dtos/IdsDto";
+import { SkillDto } from "../../../../dtos/skillbase/SkillDto";
+import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto";
+import * as relearnActions from "../../../../store/relearn/relearnActions";
+import { removeSkills } from "../../../../store/skillbase/skillbaseActions";
+import { ApplicationState } from "../../../../store/store";
+import * as utilsActions from "../../../../store/utils/utilsActions";
 
 // PE 2/3 - MenuItem could be shorter?
 function SkillMoreIcon(props: Props) {
-  const classes = useStyles()
+  const classes = useStyles();
 
-  const [anchorEl, setAnchorEl] = React.useState(null)
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const handleOpenMore = (event: any) => {
-    setAnchorEl(event.currentTarget)
-  }
+    setAnchorEl(event.currentTarget);
+  };
   const handleCloseMore = () => {
-    setAnchorEl(null) // avoids error "The `anchorEl` prop provided to the component is invalid"
-  }
+    setAnchorEl(null); // avoids error "The `anchorEl` prop provided to the component is invalid"
+  };
 
   // handleDelete would be better?
   const handleDelete = (id: number) => {
     if (window.confirm("Confirm delete?")) {
-      MY_AXIOS.delete<SkillDto[]>(API.skillbase.skill, {
-        headers: {}, // why is this?
-        data: { ids: [id] } as IdsDto,
-      }).then((res) => {
-        props.removeSkills([id])
-        props.setSuccessMessage("Skill deleted successfully!")
-        props.afterDelete()
-      })
+      myAxios
+        .delete<SkillDto[]>(API.skillbase.skill, {
+          headers: {}, // why is this?
+          data: { ids: [id] } as IdsDto,
+        })
+        .then((res) => {
+          props.removeSkills([id]);
+          props.setSuccessMessage("Skill deleted successfully!");
+          props.afterDelete();
+        });
     }
-  }
+  };
 
   return (
     <React.Fragment>
@@ -56,8 +58,8 @@ function SkillMoreIcon(props: Props) {
         size="small"
         aria-label="tag-more"
         onClick={(e) => {
-          e.preventDefault()
-          handleOpenMore(e)
+          e.preventDefault();
+          handleOpenMore(e);
         }}
       >
         <MoreHorizIcon />
@@ -72,15 +74,15 @@ function SkillMoreIcon(props: Props) {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={(e) => {
-          const event = e as any
-          event.preventDefault()
-          handleCloseMore()
+          const event = e as any;
+          event.preventDefault();
+          handleCloseMore();
         }}
       >
         <MenuItem
           onClick={(e) => {
-            e.preventDefault()
-            handleDelete(props.skillId)
+            e.preventDefault();
+            handleDelete(props.skillId);
           }}
           id="delete-tag-button"
         >
@@ -93,7 +95,7 @@ function SkillMoreIcon(props: Props) {
         </MenuItem>
       </Menu>
     </React.Fragment>
-  )
+  );
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -113,11 +115,11 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 16,
     },
   })
-)
+);
 
 const mapStateToProps = (state: ApplicationState) => ({
   // user: state.auth.user,
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   editTag: (tag: TagDto) => dispatch(relearnActions.editTag(tag)),
@@ -126,15 +128,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
   setSuccessMessage: (message: string) =>
     dispatch(utilsActions.setSuccessMessage(message)),
-})
+});
 
 interface OwnProps {
-  skillId: number
-  afterDelete: () => void
+  skillId: number;
+  afterDelete: () => void;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(SkillMoreIcon)
+export default connect(mapStateToProps, mapDispatchToProps)(SkillMoreIcon);

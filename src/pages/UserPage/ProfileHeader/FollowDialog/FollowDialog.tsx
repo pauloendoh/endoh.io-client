@@ -7,65 +7,66 @@ import {
   List,
   ListItem,
   ListItemText,
-} from "@material-ui/core"
-import LabelIcon from "@material-ui/icons/Label"
-import { Form, Formik } from "formik"
-import React, { useEffect, useState } from "react"
-import { connect } from "react-redux"
-import { useParams } from "react-router-dom"
-import { Dispatch } from "redux"
-import Flex from "../../../../components/shared/Flexboxes/Flex"
-import API from "../../../../consts/API"
-import MY_AXIOS from "../../../../consts/MY_AXIOS"
-import { FollowingTagDto } from "../../../../dtos/feed/FollowingTagDto"
-import MyAxiosError from "../../../../interfaces/MyAxiosError"
-import { setFollowingTags } from "../../../../store/auth/authActions"
-import { ApplicationState } from "../../../../store/store"
-import * as utilsActions from "../../../../store/utils/utilsActions"
+} from "@material-ui/core";
+import LabelIcon from "@material-ui/icons/Label";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { useParams } from "react-router-dom";
+import { Dispatch } from "redux";
+import Flex from "../../../../components/shared/Flexboxes/Flex";
+import API from "../../../../consts/API";
+import myAxios from "../../../../consts/myAxios";
+import { FollowingTagDto } from "../../../../dtos/feed/FollowingTagDto";
+import MyAxiosError from "../../../../interfaces/MyAxiosError";
+import { setFollowingTags } from "../../../../store/auth/authActions";
+import { ApplicationState } from "../../../../store/store";
+import * as utilsActions from "../../../../store/utils/utilsActions";
 
 // PE 2/3
 const FollowDialog = (props: Props) => {
-  const { username } = useParams<{ username: string }>()
+  const { username } = useParams<{ username: string }>();
 
-  const [selectedTagIds, setSelectedTagIds] = useState<number[]>([])
+  const [selectedTagIds, setSelectedTagIds] = useState<number[]>([]);
 
   useEffect(() => {
     if (props.open) {
-      setSelectedTagIds(props.followingTags.map((t) => t.tagId))
+      setSelectedTagIds(props.followingTags.map((t) => t.tagId));
     }
-  }, [props.open, props.followingTags])
+  }, [props.open, props.followingTags]);
 
   const toggleTagId = (tagId: number) => {
     if (selectedTagIds.includes(tagId)) {
-      setSelectedTagIds(selectedTagIds.filter((id) => id !== tagId))
+      setSelectedTagIds(selectedTagIds.filter((id) => id !== tagId));
     } else {
-      setSelectedTagIds([...selectedTagIds, tagId])
+      setSelectedTagIds([...selectedTagIds, tagId]);
     }
-  }
+  };
 
   const onClose = () => {
-    setSelectedTagIds([])
-    props.onClose()
-  }
+    setSelectedTagIds([]);
+    props.onClose();
+  };
 
   const handleSubmit = () => {
     const data = props.publicTags.map((publicTag) => ({
       tagId: publicTag.id,
       isFollowing: selectedTagIds.includes(publicTag.id),
-    }))
+    }));
 
-    MY_AXIOS.post<FollowingTagDto[]>(API.user.followingTags(username), data)
+    myAxios
+      .post<FollowingTagDto[]>(API.user.followingTags(username), data)
       .then((res) => {
-        props.setFollowingTags(res.data)
-        props.setSuccessMessage("Saved!")
+        props.setFollowingTags(res.data);
+        props.setSuccessMessage("Saved!");
       })
       .catch((err: MyAxiosError) => {
-        props.setErrorMessage(err.response.data.errors[0].message)
+        props.setErrorMessage(err.response.data.errors[0].message);
       })
       .finally(() => {
-        onClose()
-      })
-  }
+        onClose();
+      });
+  };
 
   return (
     <Dialog
@@ -79,7 +80,7 @@ const FollowDialog = (props: Props) => {
         <Formik
           initialValues={props.profile}
           onSubmit={(formikValues, { setSubmitting }) => {
-            handleSubmit()
+            handleSubmit();
           }}
         >
           {({ errors, values, isSubmitting, setFieldValue, handleChange }) => (
@@ -142,14 +143,14 @@ const FollowDialog = (props: Props) => {
         </Formik>
       </Box>
     </Dialog>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state: ApplicationState) => ({
   profile: state.profile.profile,
   publicTags: state.profile.publicTags,
   followingTags: state.auth.followingTags,
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setSuccessMessage: (message: string) =>
@@ -158,15 +159,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch(setFollowingTags(followingTags)),
   setErrorMessage: (message: string) =>
     dispatch(utilsActions.setErrorMessage(message)),
-})
+});
 
 interface OwnProps {
-  open: boolean
-  onClose: () => void
+  open: boolean;
+  onClose: () => void;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(FollowDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(FollowDialog);

@@ -5,57 +5,58 @@ import {
   DialogContent,
   DialogTitle,
   Typography,
-} from "@material-ui/core"
-import { Form, Formik } from "formik"
-import React, { useState } from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import Flex from "../../../../../components/shared/Flexboxes/Flex"
-import FlexHCenter from "../../../../../components/shared/Flexboxes/FlexHCenter"
-import MyTextField from "../../../../../components/shared/MyInputs/MyTextField"
-import API from "../../../../../consts/API"
-import MY_AXIOS from "../../../../../consts/MY_AXIOS"
-import { AuthChangePasswordPostDto } from "../../../../../interfaces/dtos/auth/AuthChangePasswordPostDto"
+} from "@material-ui/core";
+import { Form, Formik } from "formik";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import Flex from "../../../../../components/shared/Flexboxes/Flex";
+import FlexHCenter from "../../../../../components/shared/Flexboxes/FlexHCenter";
+import MyTextField from "../../../../../components/shared/MyInputs/MyTextField";
+import API from "../../../../../consts/API";
+import myAxios from "../../../../../consts/myAxios";
+import { AuthChangePasswordPostDto } from "../../../../../interfaces/dtos/auth/AuthChangePasswordPostDto";
 import MyAxiosError, {
   MyFieldError,
-} from "../../../../../interfaces/MyAxiosError"
-import { ApplicationState } from "../../../../../store/store"
-import * as utilsActions from "../../../../../store/utils/utilsActions"
+} from "../../../../../interfaces/MyAxiosError";
+import { ApplicationState } from "../../../../../store/store";
+import * as utilsActions from "../../../../../store/utils/utilsActions";
 
 const ChangePasswordDialog = (props: Props) => {
-  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[])
+  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[]);
 
   const handleClose = () => {
-    setResponseErrors([])
-    props.onClose()
-  }
+    setResponseErrors([]);
+    props.onClose();
+  };
 
   const handleSubmit = (
     values: AuthChangePasswordPostDto,
     setSubmitting: (isSubmitting: boolean) => void
   ) => {
-    setSubmitting(true)
+    setSubmitting(true);
 
     if (values.newPassword !== values.newPassword2) {
       setResponseErrors([
         { field: "password", message: "Passwords don't match" },
-      ])
-      setSubmitting(false)
-      return
+      ]);
+      setSubmitting(false);
+      return;
     }
 
-    MY_AXIOS.post(API.auth.authPasswordChange, values)
+    myAxios
+      .post(API.auth.authPasswordChange, values)
       .then((res) => {
-        props.setSuccessMessage("Password changed successfully!")
-        handleClose()
+        props.setSuccessMessage("Password changed successfully!");
+        handleClose();
       })
       .catch((err: MyAxiosError) => {
-        setResponseErrors(err.response.data.errors)
+        setResponseErrors(err.response.data.errors);
       })
       .finally(() => {
-        setSubmitting(false)
-      })
-  }
+        setSubmitting(false);
+      });
+  };
 
   return (
     <Dialog
@@ -75,7 +76,7 @@ const ChangePasswordDialog = (props: Props) => {
             } as AuthChangePasswordPostDto
           }
           onSubmit={(formikValues, { setSubmitting }) => {
-            handleSubmit(formikValues, setSubmitting)
+            handleSubmit(formikValues, setSubmitting);
           }}
         >
           {({ values, isSubmitting, handleChange }) => (
@@ -156,30 +157,30 @@ const ChangePasswordDialog = (props: Props) => {
         </Formik>
       </Box>
     </Dialog>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state: ApplicationState) => ({
   // editingTag: state.relearn.editingTag,
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setSuccessMessage: (message: string) =>
     dispatch(utilsActions.setSuccessMessage(message)),
   setErrorMessage: (message: string) =>
     dispatch(utilsActions.setErrorMessage(message)),
-})
+});
 
 interface OwnProps {
-  open: boolean
-  onClose: () => void
+  open: boolean;
+  onClose: () => void;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ChangePasswordDialog)
+)(ChangePasswordDialog);

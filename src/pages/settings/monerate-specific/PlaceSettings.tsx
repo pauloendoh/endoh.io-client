@@ -1,5 +1,5 @@
-import { faPlus } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
   Button,
@@ -7,38 +7,38 @@ import {
   IconButton,
   Paper,
   Typography,
-} from "@material-ui/core"
-import DeleteIcon from "@material-ui/icons/Delete"
-import EditIcon from "@material-ui/icons/Edit"
-import React, { useEffect } from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import MY_AXIOS from "consts/MY_AXIOS"
-import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
-import PlaceIcon from "../../../components/shared/PlaceIcon"
-import API from "../../../consts/API"
-import PlaceGetDto from "../../../interfaces/dtos/monerate/PlaceGetDto"
-import * as monerateActions from "../../../store/monerate/monerateActions"
-import { ApplicationState } from "../../../store/store"
+} from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import MY_AXIOS from "consts/myAxios";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter";
+import PlaceIcon from "../../../components/shared/PlaceIcon";
+import API from "../../../consts/API";
+import PlaceGetDto from "../../../interfaces/dtos/monerate/PlaceGetDto";
+import * as monerateActions from "../../../store/monerate/monerateActions";
+import { ApplicationState } from "../../../store/store";
 
 const PlaceSettings = (props: Props) => {
   useEffect(() => {
     MY_AXIOS.get<PlaceGetDto[]>(API.monerate.place).then((res) => {
-      props.setPlaces(res.data)
-    })
+      props.setPlaces(res.data);
+    });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   const handleDelete = (id: number) => {
     if (window.confirm("Confirm delete?")) {
       MY_AXIOS.delete<PlaceGetDto[]>(`${API.monerate.place}/${id}`).then(
         (res) => {
-          props.setPlaces(res.data)
+          props.setPlaces(res.data);
         }
-      )
+      );
     }
-  }
+  };
 
   return (
     <Box>
@@ -46,7 +46,7 @@ const PlaceSettings = (props: Props) => {
         variant="contained"
         color="primary"
         onClick={() => {
-          props.startNewPlace()
+          props.startNewPlace();
         }}
       >
         <Box display="flex" alignItems="center">
@@ -74,7 +74,7 @@ const PlaceSettings = (props: Props) => {
                     <FlexVCenter>
                       <IconButton
                         onClick={() => {
-                          props.editPlace(place)
+                          props.editPlace(place);
                         }}
                         aria-label="edit-place"
                       >
@@ -82,7 +82,7 @@ const PlaceSettings = (props: Props) => {
                       </IconButton>
                       <IconButton
                         onClick={() => {
-                          handleDelete(place.id)
+                          handleDelete(place.id);
                         }}
                         aria-label="delete-place"
                       >
@@ -97,12 +97,12 @@ const PlaceSettings = (props: Props) => {
         </Paper>
       ) : null}
     </Box>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state: ApplicationState) => ({
   places: state.monerate.places,
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setPlaces: (places: PlaceGetDto[]) =>
@@ -110,9 +110,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
   editPlace: (place: PlaceGetDto) => dispatch(monerateActions.editPlace(place)),
   startNewPlace: () => dispatch(monerateActions.startNewPlace()),
-})
+});
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+  ReturnType<typeof mapDispatchToProps>;
 
-export default connect(mapStateToProps, mapDispatchToProps)(PlaceSettings)
+export default connect(mapStateToProps, mapDispatchToProps)(PlaceSettings);

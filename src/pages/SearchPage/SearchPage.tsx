@@ -1,65 +1,66 @@
-import { Box, Grid, Paper, Typography } from "@material-ui/core"
-import React, { useEffect, useState } from "react"
-import { connect } from "react-redux"
-import { useLocation } from "react-router"
-import { Dispatch } from "redux"
-import DarkButton from "../../components/shared/Buttons/DarkButton"
-import Flex from "../../components/shared/Flexboxes/Flex"
-import FlexVCenter from "../../components/shared/Flexboxes/FlexVCenter"
-import SkillChip from "../../components/skillbase/SkillChip/SkillChip"
-import API from "../../consts/API"
-import MY_AXIOS from "../../consts/MY_AXIOS"
-import { SearchResultsDto } from "../../dtos/utils/SearchResultsDto"
-import { ApplicationState } from "../../store/store"
-import LoadingPage from "../index/LoadingPage"
-import ResourceItem from "../Relearn/Content/ResourceList/DraggableResourceItem/ResourceItem/ResourceItem"
-import SearchPageSidebar from "./SearchPageSidebar/SearchPageSidebar"
-import UserResults from "./UserResults/UserResults"
+import { Box, Grid, Paper, Typography } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { useLocation } from "react-router";
+import { Dispatch } from "redux";
+import DarkButton from "../../components/shared/Buttons/DarkButton";
+import Flex from "../../components/shared/Flexboxes/Flex";
+import FlexVCenter from "../../components/shared/Flexboxes/FlexVCenter";
+import SkillChip from "../../components/skillbase/SkillChip/SkillChip";
+import API from "../../consts/API";
+import myAxios from "../../consts/myAxios";
+import { SearchResultsDto } from "../../dtos/utils/SearchResultsDto";
+import { ApplicationState } from "../../store/store";
+import LoadingPage from "../index/LoadingPage";
+import ResourceItem from "../Relearn/Content/ResourceList/DraggableResourceItem/ResourceItem/ResourceItem";
+import SearchPageSidebar from "./SearchPageSidebar/SearchPageSidebar";
+import UserResults from "./UserResults/UserResults";
 
-export type FilterByType = "all" | "resources" | "users" | "skills"
+export type FilterByType = "all" | "resources" | "users" | "skills";
 
 // PE 3/3
 const SearchPage = (props: Props) => {
-  const location = useLocation()
+  const location = useLocation();
 
-  const [q, setQ] = useState("")
+  const [q, setQ] = useState("");
 
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [results, setResults] = useState<SearchResultsDto>(null)
+  const [results, setResults] = useState<SearchResultsDto>(null);
 
-  const [filterBy, setFilterBy] = useState<FilterByType>("all")
+  const [filterBy, setFilterBy] = useState<FilterByType>("all");
 
   const countAllResults = () => {
-    let count = 0
+    let count = 0;
     if (results) {
-      count += results.resources.length
-      count += results.users.length
-      count += results.skills.length
+      count += results.resources.length;
+      count += results.users.length;
+      count += results.skills.length;
     }
-    return count
-  }
+    return count;
+  };
 
   const filterResources = () => {
     return filterBy === "resources"
       ? results.resources
-      : results.resources.slice(0, 3)
-  }
+      : results.resources.slice(0, 3);
+  };
 
   useEffect(() => {
-    setIsLoading(true)
-    const searchParams = new URLSearchParams(location.search)
-    const q = searchParams.get("q")
-    setQ(q)
+    setIsLoading(true);
+    const searchParams = new URLSearchParams(location.search);
+    const q = searchParams.get("q");
+    setQ(q);
 
-    MY_AXIOS.get<SearchResultsDto>(API.utils.search(q))
+    myAxios
+      .get<SearchResultsDto>(API.utils.search(q))
       .then((res) => {
-        setResults(res.data)
+        setResults(res.data);
       })
       .finally(() => {
-        setIsLoading(false)
-      })
-  }, [location, props.resources])
+        setIsLoading(false);
+      });
+  }, [location, props.resources]);
 
   return (
     <Box p={3}>
@@ -114,7 +115,7 @@ const SearchPage = (props: Props) => {
                                   <DarkButton
                                     fullWidth
                                     onClick={() => {
-                                      setFilterBy("resources")
+                                      setFilterBy("resources");
                                     }}
                                   >
                                     Show More
@@ -150,7 +151,7 @@ const SearchPage = (props: Props) => {
                                 <DarkButton
                                   fullWidth
                                   onClick={() => {
-                                    setFilterBy("users")
+                                    setFilterBy("users");
                                   }}
                                 >
                                   Show More
@@ -190,16 +191,16 @@ const SearchPage = (props: Props) => {
         </Box>
       )}
     </Box>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state: ApplicationState) => ({
   resources: state.relearn.resources,
-})
+});
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
+const mapDispatchToProps = (dispatch: Dispatch) => ({});
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+  ReturnType<typeof mapDispatchToProps>;
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchPage)
+export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);

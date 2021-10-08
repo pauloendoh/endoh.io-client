@@ -1,99 +1,101 @@
-import { faPlus } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Box, Tooltip } from "@material-ui/core"
-import Button from "@material-ui/core/Button"
-import Dialog from "@material-ui/core/Dialog"
-import MuiDialogContent from "@material-ui/core/DialogContent"
-import MuiDialogTitle from "@material-ui/core/DialogTitle"
-import IconButton from "@material-ui/core/IconButton"
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Box, Tooltip } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import MuiDialogContent from "@material-ui/core/DialogContent";
+import MuiDialogTitle from "@material-ui/core/DialogTitle";
+import IconButton from "@material-ui/core/IconButton";
 import {
   createStyles,
   Theme,
   WithStyles,
   withStyles,
-} from "@material-ui/core/styles"
-import Typography from "@material-ui/core/Typography"
-import CloseIcon from "@material-ui/icons/Close"
-import Rating from "@material-ui/lab/Rating"
-import { Form, Formik } from "formik"
-import React from "react"
-import { GlobalHotKeys } from "react-hotkeys"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import Flex from "../../../components/shared/Flexboxes/Flex"
-import MyCurrencyInput from "../../../components/shared/MyInputs/MyCurrencyInput"
-import MyTextField from "../../../components/shared/MyInputs/MyTextField"
-import API from "../../../consts/API"
-import MY_AXIOS from "../../../consts/MY_AXIOS"
-import CategoryGetDto from "../../../interfaces/dtos/monerate/CategoryDtos/CategoryGetDto"
-import ExpenseGetDto from "../../../interfaces/dtos/monerate/ExpenseGetDto"
-import ExpensePostDto from "../../../interfaces/dtos/monerate/ExpensePostDto"
-import PlaceGetDto from "../../../interfaces/dtos/monerate/PlaceGetDto"
-import * as monerateActions from "../../../store/monerate/monerateActions"
-import { ApplicationState } from "../../../store/store"
-import SelectCategoryInput from "../Inputs/SelectCategoryInput/SelectCategoryInput"
-import SelectPlaceInput from "../Inputs/SelectPlaceInput/SelectPlaceInput"
+} from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import CloseIcon from "@material-ui/icons/Close";
+import Rating from "@material-ui/lab/Rating";
+import { Form, Formik } from "formik";
+import React from "react";
+import { GlobalHotKeys } from "react-hotkeys";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import Flex from "../../../components/shared/Flexboxes/Flex";
+import MyCurrencyInput from "../../../components/shared/MyInputs/MyCurrencyInput";
+import MyTextField from "../../../components/shared/MyInputs/MyTextField";
+import API from "../../../consts/API";
+import myAxios from "../../../consts/myAxios";
+import CategoryGetDto from "../../../interfaces/dtos/monerate/CategoryDtos/CategoryGetDto";
+import ExpenseGetDto from "../../../interfaces/dtos/monerate/ExpenseGetDto";
+import ExpensePostDto from "../../../interfaces/dtos/monerate/ExpensePostDto";
+import PlaceGetDto from "../../../interfaces/dtos/monerate/PlaceGetDto";
+import * as monerateActions from "../../../store/monerate/monerateActions";
+import { ApplicationState } from "../../../store/store";
+import SelectCategoryInput from "../Inputs/SelectCategoryInput/SelectCategoryInput";
+import SelectPlaceInput from "../Inputs/SelectPlaceInput/SelectPlaceInput";
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+  ReturnType<typeof mapDispatchToProps>;
 
 // PE 1/3
 const ExpenseDialog = (props: Props) => {
   // 20201215 - Actually, I can change rating inside formik values, using setFieldValue
-  const [rating, setRating] = React.useState(0)
+  const [rating, setRating] = React.useState(0);
 
   const handleSetRating = (val: number) => {
     if (val === rating) {
-      setRating(0)
+      setRating(0);
     } else {
-      setRating(val)
+      setRating(val);
     }
-  }
+  };
 
   const handleClickOpen = () => {
-    props.startNewExpense()
-    setRating(null)
-  }
+    props.startNewExpense();
+    setRating(null);
+  };
   const handleClose = () => {
-    props.closeExpenseModal()
-  }
+    props.closeExpenseModal();
+  };
 
   const handleSubmit = (
     values: ExpensePostDto,
     setSubmitting: (isSubmitting: boolean) => void
   ) => {
     // I gotta fix this... MyCurrencyInput is returning event.target.value as string
-    values.value = parseFloat(values.value as any)
-    values.rating = rating
+    values.value = parseFloat(values.value as any);
+    values.rating = rating;
 
-    MY_AXIOS.post<ExpenseGetDto>("/monerate/expense", values)
+    myAxios
+      .post<ExpenseGetDto>("/monerate/expense", values)
       .then((res) => {
-        props.addOrUpdateExpense(res.data)
+        props.addOrUpdateExpense(res.data);
       })
       .finally(() => {
-        setSubmitting(false)
-        props.closeExpenseModal()
-      })
-  }
+        setSubmitting(false);
+        props.closeExpenseModal();
+      });
+  };
 
   const handleConfirmDelete = (id: number) => {
     if (window.confirm("Delete this expense?")) {
-      MY_AXIOS.delete(`${API.monerate.expense}/${id}`)
+      myAxios
+        .delete(`${API.monerate.expense}/${id}`)
         .then((res) => {
-          props.removeExpense(id)
+          props.removeExpense(id);
         })
         .finally(() => {
-          props.closeExpenseModal()
-        })
+          props.closeExpenseModal();
+        });
     }
-  }
+  };
 
-  const keyMap = { openModal: "q" }
+  const keyMap = { openModal: "q" };
   const handlers = {
     openModal: () => {
-      handleClickOpen()
+      handleClickOpen();
     },
-  }
+  };
 
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={handlers}>
@@ -125,7 +127,7 @@ const ExpenseDialog = (props: Props) => {
             <Formik
               initialValues={props.editingExpense}
               onSubmit={(formikValues, { setSubmitting }) => {
-                handleSubmit(formikValues, setSubmitting)
+                handleSubmit(formikValues, setSubmitting);
               }}
             >
               {({ setFieldValue, values, isSubmitting, handleChange }) => (
@@ -143,8 +145,8 @@ const ExpenseDialog = (props: Props) => {
                         <SelectPlaceInput
                           value={values.place?.id ? values.place.id : null}
                           onChange={(e, value) => {
-                            const place = value as PlaceGetDto
-                            setFieldValue("place", place)
+                            const place = value as PlaceGetDto;
+                            setFieldValue("place", place);
                           }}
                         />
                       </Box>
@@ -172,7 +174,7 @@ const ExpenseDialog = (props: Props) => {
                           variant="outlined"
                           autoComplete="off"
                           onChange={(e) => {
-                            handleChange(e)
+                            handleChange(e);
                           }}
                           size="small"
                         />
@@ -185,13 +187,13 @@ const ExpenseDialog = (props: Props) => {
                             name="simple-controlled"
                             value={rating}
                             onChange={(event, newValue) => {
-                              handleSetRating(newValue)
+                              handleSetRating(newValue);
                             }}
                             onKeyPress={(e) => {
                               if (
                                 ["0", "1", "2", "3", "4", "5"].includes(e.key)
                               ) {
-                                handleSetRating(parseFloat(e.key))
+                                handleSetRating(parseFloat(e.key));
                               }
                             }}
                           />
@@ -205,8 +207,8 @@ const ExpenseDialog = (props: Props) => {
                           <SelectCategoryInput
                             value={values.category ? values.category.id : null}
                             onChange={(e, value) => {
-                              const category = value as CategoryGetDto
-                              setFieldValue("category", category)
+                              const category = value as CategoryGetDto;
+                              setFieldValue("category", category);
                             }}
                           />
                         </Box>
@@ -262,8 +264,8 @@ const ExpenseDialog = (props: Props) => {
         </Dialog>
       </Box>
     </GlobalHotKeys>
-  )
-}
+  );
+};
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -277,16 +279,16 @@ const styles = (theme: Theme) =>
       top: theme.spacing(1),
       color: theme.palette.grey[500],
     },
-  })
+  });
 
 interface DialogTitleProps extends WithStyles<typeof styles> {
-  id: string
-  children: React.ReactNode
-  onClose: () => void
+  id: string;
+  children: React.ReactNode;
+  onClose: () => void;
 }
 
 const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
-  const { children, classes, onClose, ...other } = props
+  const { children, classes, onClose, ...other } = props;
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
       <Typography variant="h6">{children}</Typography>
@@ -300,8 +302,8 @@ const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
         </IconButton>
       ) : null}
     </MuiDialogTitle>
-  )
-})
+  );
+});
 
 // PE 1/3 ? do I use this? Do I need this?
 const DialogContent = withStyles((theme: Theme) => ({
@@ -310,11 +312,11 @@ const DialogContent = withStyles((theme: Theme) => ({
     paddingRight: theme.spacing(2),
     paddingBottom: theme.spacing(2),
   },
-}))(MuiDialogContent)
+}))(MuiDialogContent);
 
 const mapStateToProps = (state: ApplicationState) => ({
   editingExpense: state.monerate.editingExpense,
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   addOrUpdateExpense: (expense: ExpenseGetDto) =>
@@ -323,6 +325,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
   startNewExpense: () => dispatch(monerateActions.startNewExpense()),
   closeExpenseModal: () => dispatch(monerateActions.closeExpenseModal()),
-})
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExpenseDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(ExpenseDialog);

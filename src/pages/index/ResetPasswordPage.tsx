@@ -7,73 +7,74 @@ import {
   makeStyles,
   Paper,
   Typography,
-} from "@material-ui/core"
-import FlexVCenter from "../../components/shared/Flexboxes/FlexVCenter"
-import MY_AXIOS from "../../consts/MY_AXIOS"
-import API from "../../consts/API"
-import { Form, Formik } from "formik"
-import React, { useEffect, useState } from "react"
-import { connect } from "react-redux"
-import { Link as RouterLink, Redirect } from "react-router-dom"
-import { Dispatch } from "redux"
-import Flex from "../../components/shared/Flexboxes/Flex"
-import FlexHCenter from "../../components/shared/Flexboxes/FlexHCenter"
-import MyTextField from "../../components/shared/MyInputs/MyTextField"
-import TextPrimary from "../../components/shared/Text/TextPrimary"
-import PATHS from "../../consts/PATHS"
-import { PasswordResetPostDto } from "../../interfaces/dtos/auth/PasswordResetPostDto"
-import MyAxiosError, { MyFieldError } from "../../interfaces/MyAxiosError"
-import { logoutActionCreator } from "../../store/auth/authActions"
-import { ApplicationState } from "../../store/store"
-import { getQueryParam } from "../../utils/url/getQueryParam"
+} from "@material-ui/core";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { Link as RouterLink, Redirect } from "react-router-dom";
+import { Dispatch } from "redux";
+import Flex from "../../components/shared/Flexboxes/Flex";
+import FlexHCenter from "../../components/shared/Flexboxes/FlexHCenter";
+import FlexVCenter from "../../components/shared/Flexboxes/FlexVCenter";
+import MyTextField from "../../components/shared/MyInputs/MyTextField";
+import TextPrimary from "../../components/shared/Text/TextPrimary";
+import API from "../../consts/API";
+import myAxios from "../../consts/myAxios";
+import PATHS from "../../consts/PATHS";
+import { PasswordResetPostDto } from "../../interfaces/dtos/auth/PasswordResetPostDto";
+import MyAxiosError, { MyFieldError } from "../../interfaces/MyAxiosError";
+import { logoutActionCreator } from "../../store/auth/authActions";
+import { ApplicationState } from "../../store/store";
+import { getQueryParam } from "../../utils/url/getQueryParam";
 
 function ResetPasswordPage(props: Props) {
-  const classes = useStyles()
-  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[])
-  const [success, setSuccess] = useState(false)
+  const classes = useStyles();
+  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[]);
+  const [success, setSuccess] = useState(false);
 
-  const token = getQueryParam("token")
-  const userId = Number(getQueryParam("userId"))
+  const token = getQueryParam("token");
+  const userId = Number(getQueryParam("userId"));
 
-  const [redirectTo, setRedirectTo] = useState("")
+  const [redirectTo, setRedirectTo] = useState("");
 
   useEffect(
     () => {
       if (token.length === 0 || !userId) {
-        setRedirectTo(PATHS.index)
+        setRedirectTo(PATHS.index);
       }
-      document.title = "Reset Password - Endoh.io"
+      document.title = "Reset Password - Endoh.io";
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
-  )
+  );
 
   const handleSubmit = (
     values: PasswordResetPostDto,
     setSubmitting: (isSubmitting: boolean) => void
   ) => {
-    setSubmitting(true)
+    setSubmitting(true);
 
     if (values.password !== values.password2) {
       setResponseErrors([
         { field: "password", message: "Passwords don't match" },
-      ])
-      setSubmitting(false)
-      return
+      ]);
+      setSubmitting(false);
+      return;
     }
 
-    setResponseErrors([])
-    MY_AXIOS.post(API.auth.resetPassword, values)
+    setResponseErrors([]);
+    myAxios
+      .post(API.auth.resetPassword, values)
       .then((res) => {
-        setSuccess(true)
+        setSuccess(true);
       })
       .catch((err: MyAxiosError) => {
-        setResponseErrors(err.response.data.errors)
+        setResponseErrors(err.response.data.errors);
       })
       .finally(() => {
-        setSubmitting(false)
-      })
-  }
+        setSubmitting(false);
+      });
+  };
   return (
     <Container maxWidth="sm">
       {redirectTo.length > 0 ? (
@@ -107,7 +108,7 @@ function ResetPasswordPage(props: Props) {
                 }
                 // PE 2/3 jogar pra fora
                 onSubmit={(values, { setSubmitting }) => {
-                  handleSubmit(values, setSubmitting)
+                  handleSubmit(values, setSubmitting);
                 }}
               >
                 {({ isSubmitting, handleChange, errors }) => (
@@ -180,7 +181,7 @@ function ResetPasswordPage(props: Props) {
         </Paper>
       </Box>
     </Container>
-  )
+  );
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -193,17 +194,17 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 10,
     paddingBottom: 10,
   },
-}))
+}));
 
 const mapStateToProps = (state: ApplicationState) => ({
   user: state.auth.user,
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   logout: () => dispatch(logoutActionCreator(dispatch)),
-})
+});
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+  ReturnType<typeof mapDispatchToProps>;
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResetPasswordPage)
+export default connect(mapStateToProps, mapDispatchToProps)(ResetPasswordPage);

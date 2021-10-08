@@ -1,43 +1,44 @@
-import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core"
-import { Form, Formik } from "formik"
-import React from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import SaveCancelButtons from "../../../components/shared/Buttons/SaveCancelButtons"
-import MyTextField from "../../../components/shared/MyInputs/MyTextField"
-import API from "../../../consts/API"
-import MY_AXIOS from "../../../consts/MY_AXIOS"
-import { DocDto } from "../../../dtos/define/DocDto"
-import { addOrReplaceDoc } from "../../../store/define/defineActions"
-import { ApplicationState } from "../../../store/store"
-import * as utilsActions from "../../../store/utils/utilsActions"
+import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
+import { Form, Formik } from "formik";
+import React from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import SaveCancelButtons from "../../../components/shared/Buttons/SaveCancelButtons";
+import MyTextField from "../../../components/shared/MyInputs/MyTextField";
+import API from "../../../consts/API";
+import myAxios from "../../../consts/myAxios";
+import { DocDto } from "../../../dtos/define/DocDto";
+import { addOrReplaceDoc } from "../../../store/define/defineActions";
+import { ApplicationState } from "../../../store/store";
+import * as utilsActions from "../../../store/utils/utilsActions";
 
 const DocTitleDialog = (props: Props) => {
   const handleClose = () => {
-    props.onClose()
-  }
+    props.onClose();
+  };
 
   const handleSubmit = (
     values: { title: string },
     setSubmitting: (isSubmitting: boolean) => void
   ) => {
-    setSubmitting(true)
+    setSubmitting(true);
 
     const obj = {
       title: values.title,
       id: props.docId,
-    }
-    MY_AXIOS.post<DocDto>(API.define.doc, obj)
+    };
+    myAxios
+      .post<DocDto>(API.define.doc, obj)
       .then((res) => {
-        props.addOrReplaceDoc(res.data)
-        props.setSuccessMessage("Doc saved!")
+        props.addOrReplaceDoc(res.data);
+        props.setSuccessMessage("Doc saved!");
 
-        props.afterSave(res.data)
+        props.afterSave(res.data);
       })
       .finally(() => {
-        setSubmitting(false)
-      })
-  }
+        setSubmitting(false);
+      });
+  };
 
   return (
     <Dialog
@@ -54,7 +55,7 @@ const DocTitleDialog = (props: Props) => {
             title: props.initialValue,
           }}
           onSubmit={(formikValues, { setSubmitting }) => {
-            handleSubmit(formikValues, setSubmitting)
+            handleSubmit(formikValues, setSubmitting);
           }}
         >
           {({ values, isSubmitting, handleChange }) => (
@@ -87,12 +88,12 @@ const DocTitleDialog = (props: Props) => {
         </Formik>
       </Box>
     </Dialog>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state: ApplicationState) => ({
   // editingTag: state.relearn.editingTag,
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   addOrReplaceDoc: (doc: DocDto) => dispatch(addOrReplaceDoc(doc)),
@@ -101,18 +102,18 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch(utilsActions.setSuccessMessage(message)),
   setErrorMessage: (message: string) =>
     dispatch(utilsActions.setErrorMessage(message)),
-})
+});
 
 interface OwnProps {
-  open: boolean
-  docId?: number
-  initialValue: string
-  onClose: () => void
-  afterSave?: (doc: DocDto) => void
+  open: boolean;
+  docId?: number;
+  initialValue: string;
+  onClose: () => void;
+  afterSave?: (doc: DocDto) => void;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(DocTitleDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(DocTitleDialog);

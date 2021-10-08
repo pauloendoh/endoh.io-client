@@ -5,45 +5,46 @@ import {
   Link,
   makeStyles,
   Typography,
-} from "@material-ui/core"
-import { Form, Formik } from "formik"
-import React, { useState } from "react"
-import { connect } from "react-redux"
-import { Link as RouterLink } from "react-router-dom"
-import { Dispatch } from "redux"
-import Flex from "../../../components/shared/Flexboxes/Flex"
-import MyTextField from "../../../components/shared/MyInputs/MyTextField"
-import H5 from "../../../components/shared/Text/H5"
-import API from "../../../consts/API"
-import MY_AXIOS from "../../../consts/MY_AXIOS"
-import { EmailPostDto } from "../../../interfaces/dtos/auth/EmailPostDto"
-import MyAxiosError, { MyFieldError } from "../../../interfaces/MyAxiosError"
-import { ApplicationState } from "../../../store/store"
+} from "@material-ui/core";
+import { Form, Formik } from "formik";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { Link as RouterLink } from "react-router-dom";
+import { Dispatch } from "redux";
+import Flex from "../../../components/shared/Flexboxes/Flex";
+import MyTextField from "../../../components/shared/MyInputs/MyTextField";
+import H5 from "../../../components/shared/Text/H5";
+import API from "../../../consts/API";
+import myAxios from "../../../consts/myAxios";
+import { EmailPostDto } from "../../../interfaces/dtos/auth/EmailPostDto";
+import MyAxiosError, { MyFieldError } from "../../../interfaces/MyAxiosError";
+import { ApplicationState } from "../../../store/store";
 
 // PE 2/3
 const ResetPasswordByEmailForm = (props: Props) => {
-  const classes = useStyles()
-  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[])
+  const classes = useStyles();
+  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[]);
 
-  const [isOk, setIsOk] = useState(false)
+  const [isOk, setIsOk] = useState(false);
 
   const handleSubmit = (
     values: EmailPostDto,
     setSubmitting: (isSubmitting: boolean) => void
   ) => {
-    setSubmitting(true)
+    setSubmitting(true);
 
-    MY_AXIOS.post(API.utils.passwordResetEmail, values)
+    myAxios
+      .post(API.utils.passwordResetEmail, values)
       .then((res) => {
-        setIsOk(true)
+        setIsOk(true);
       })
       .catch((err: MyAxiosError) => {
-        setResponseErrors(err.response.data.errors)
+        setResponseErrors(err.response.data.errors);
       })
       .finally(() => {
-        setSubmitting(false)
-      })
-  }
+        setSubmitting(false);
+      });
+  };
 
   return (
     <Box>
@@ -71,7 +72,7 @@ const ResetPasswordByEmailForm = (props: Props) => {
             }
             // PE 2/3 jogar pra fora
             onSubmit={(values, { setSubmitting }) => {
-              handleSubmit(values, setSubmitting)
+              handleSubmit(values, setSubmitting);
             }}
           >
             {({ isSubmitting, handleChange, errors }) => (
@@ -127,37 +128,37 @@ const ResetPasswordByEmailForm = (props: Props) => {
           component={RouterLink}
           to="#"
           onClick={(e: React.MouseEvent) => {
-            e.preventDefault()
-            props.onExit()
+            e.preventDefault();
+            props.onExit();
           }}
         >
           sign in
         </Link>
       </Flex>
     </Box>
-  )
-}
+  );
+};
 
 const useStyles = makeStyles((theme) => ({
   button: {
     paddingTop: 10,
     paddingBottom: 10,
   },
-}))
+}));
 
-const mapStateToProps = (state: ApplicationState) => ({})
+const mapStateToProps = (state: ApplicationState) => ({});
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
+const mapDispatchToProps = (dispatch: Dispatch) => ({});
 
 interface OwnProps {
-  onExit: () => void
+  onExit: () => void;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ResetPasswordByEmailForm)
+)(ResetPasswordByEmailForm);

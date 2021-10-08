@@ -1,44 +1,44 @@
-import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core"
-import { Form, Formik } from "formik"
-import _ from "lodash"
-import React, { useEffect, useState } from "react"
-import { connect } from "react-redux"
-import { useLocation } from "react-router"
-import { scroller } from "react-scroll"
-import { Dispatch } from "redux"
-import SaveCancelButtons from "../../../components/shared/Buttons/SaveCancelButtons"
-import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
-import API from "../../../consts/API"
-import MY_AXIOS from "../../../consts/MY_AXIOS"
-import { SkillDto } from "../../../dtos/skillbase/SkillDto"
-import MyAxiosError from "../../../interfaces/MyAxiosError"
+import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
+import { Form, Formik } from "formik";
+import _ from "lodash";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { useLocation } from "react-router";
+import { scroller } from "react-scroll";
+import { Dispatch } from "redux";
+import SaveCancelButtons from "../../../components/shared/Buttons/SaveCancelButtons";
+import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter";
+import API from "../../../consts/API";
+import myAxios from "../../../consts/myAxios";
+import { SkillDto } from "../../../dtos/skillbase/SkillDto";
+import MyAxiosError from "../../../interfaces/MyAxiosError";
 import {
   setEditingSkill,
   setSkills,
-} from "../../../store/skillbase/skillbaseActions"
-import { ApplicationState } from "../../../store/store"
-import * as utilsActions from "../../../store/utils/utilsActions"
-import { getCurrentTagId } from "../../../utils/skillbase/getCurrentTagId"
-import PriorityStarIcon from "./PriorityStarIcon/PriorityStarIcon"
-import SelectSkillLevel from "./SelectSkillLevel/SelectSkillLevel"
-import TagSelector from "./SkillDialogTagSelector/SkillDialogTagSelector"
-import TitleTextField from "./SkillDialogTitleTextField/SkillDialogTitleTextField"
-import SkillExpectations from "./SkillExpectations/SkillExpectations"
-import SkillMoreIcon from "./SkillMoreIcon/SkillMoreIcon"
+} from "../../../store/skillbase/skillbaseActions";
+import { ApplicationState } from "../../../store/store";
+import * as utilsActions from "../../../store/utils/utilsActions";
+import { getCurrentTagId } from "../../../utils/skillbase/getCurrentTagId";
+import PriorityStarIcon from "./PriorityStarIcon/PriorityStarIcon";
+import SelectSkillLevel from "./SelectSkillLevel/SelectSkillLevel";
+import TagSelector from "./SkillDialogTagSelector/SkillDialogTagSelector";
+import TitleTextField from "./SkillDialogTitleTextField/SkillDialogTitleTextField";
+import SkillExpectations from "./SkillExpectations/SkillExpectations";
+import SkillMoreIcon from "./SkillMoreIcon/SkillMoreIcon";
 
 // PE 2/3
 const SkillDialog = (props: Props) => {
-  const location = useLocation()
+  const location = useLocation();
 
-  const [hasChanged, setHasChanged] = useState(false)
+  const [hasChanged, setHasChanged] = useState(false);
 
   useEffect(() => {
-    setHasChanged(false)
+    setHasChanged(false);
     if (props.skill?.currentLevel > 0) {
-      scrollToExpectation()
+      scrollToExpectation();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.skill])
+  }, [props.skill]);
 
   const scrollToExpectation = () => {
     setTimeout(() => {
@@ -46,53 +46,54 @@ const SkillDialog = (props: Props) => {
         containerId: "skill-dialog-content",
         duration: 500,
         smooth: true,
-      })
-    }, 0)
-  }
+      });
+    }, 0);
+  };
 
   const confirmClose = () => {
     if (hasChanged) {
       if (window.confirm("Discard changes?")) {
-        props.setEditingSkill(null)
+        props.setEditingSkill(null);
       }
     } else {
-      props.setEditingSkill(null)
+      props.setEditingSkill(null);
     }
-  }
+  };
 
   // PE 2/3
   const handleSubmit = (
     skill: SkillDto,
     setSubmitting: (isSubmitting: boolean) => void
   ) => {
-    setSubmitting(true)
+    setSubmitting(true);
 
     // E.g;: if you change from 5 to ""
-    if ((skill.currentLevel as unknown) === "") skill.currentLevel = null
-    if ((skill.goalLevel as unknown) === "") skill.goalLevel = null
+    if ((skill.currentLevel as unknown) === "") skill.currentLevel = null;
+    if ((skill.goalLevel as unknown) === "") skill.goalLevel = null;
 
-    MY_AXIOS.post(API.skillbase.skill, skill)
+    myAxios
+      .post(API.skillbase.skill, skill)
       .then((res) => {
-        props.setSkills(res.data)
-        props.setEditingSkill(null)
-        props.setSuccessMessage("Skill saved successfully!")
+        props.setSkills(res.data);
+        props.setEditingSkill(null);
+        props.setSuccessMessage("Skill saved successfully!");
       })
       .catch((err: MyAxiosError) => {
-        props.setErrorMessage(err.response.data.errors[0].message)
+        props.setErrorMessage(err.response.data.errors[0].message);
       })
       .finally(() => {
-        setSubmitting(false)
-      })
-  }
+        setSubmitting(false);
+      });
+  };
 
   const getInitialValues = (): SkillDto => {
     return {
       ...props.skill,
-      tagId: props.skill?.tagId  // why not use simply props.skill.tagId ? 
+      tagId: props.skill?.tagId // why not use simply props.skill.tagId ?
         ? props.skill.tagId
         : getCurrentTagId(location.pathname),
-    }
-  }
+    };
+  };
 
   return (
     <Dialog // PE 2/3
@@ -107,11 +108,11 @@ const SkillDialog = (props: Props) => {
         <Formik
           initialValues={getInitialValues()}
           onSubmit={(formikValues, { setSubmitting }) => {
-            handleSubmit(formikValues, setSubmitting)
+            handleSubmit(formikValues, setSubmitting);
           }}
           validateOnChange
           validate={(newValues) => {
-            setHasChanged(!_.isEqual(props.skill, newValues))
+            setHasChanged(!_.isEqual(props.skill, newValues));
           }}
         >
           {({ values, setFieldValue, isSubmitting, handleChange }) => (
@@ -124,7 +125,7 @@ const SkillDialog = (props: Props) => {
                       isPriority={values.isPriority}
                       tooltipText="This skill is a priority in your life right now"
                       onClick={() => {
-                        setFieldValue("isPriority", !values.isPriority)
+                        setFieldValue("isPriority", !values.isPriority);
                       }}
                     />
                   </Box>
@@ -151,7 +152,7 @@ const SkillDialog = (props: Props) => {
                     type="currentLevel"
                     value={values.currentLevel}
                     onChange={(newValue: number) => {
-                      setFieldValue("currentLevel", newValue)
+                      setFieldValue("currentLevel", newValue);
                     }}
                   />
                   <Box ml={4} />
@@ -159,7 +160,7 @@ const SkillDialog = (props: Props) => {
                     type="goalLevel"
                     value={values.goalLevel}
                     onChange={(newValue: number) => {
-                      setFieldValue("goalLevel", newValue)
+                      setFieldValue("goalLevel", newValue);
                     }}
                   />
                 </FlexVCenter>
@@ -169,7 +170,7 @@ const SkillDialog = (props: Props) => {
                 <TagSelector
                   valueTagId={values.tagId}
                   onChange={(e, value) => {
-                    setFieldValue("tagId", value)
+                    setFieldValue("tagId", value);
                   }}
                 />
 
@@ -193,12 +194,12 @@ const SkillDialog = (props: Props) => {
         </Formik>
       </Box>
     </Dialog>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state: ApplicationState) => ({
   skill: state.skillbase.editingSkill,
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setSkills: (skills: SkillDto[]) => dispatch(setSkills(skills)),
@@ -207,9 +208,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch(utilsActions.setSuccessMessage(message)),
   setErrorMessage: (message: string) =>
     dispatch(utilsActions.setErrorMessage(message)),
-})
+});
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+  ReturnType<typeof mapDispatchToProps>;
 
-export default connect(mapStateToProps, mapDispatchToProps)(SkillDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(SkillDialog);

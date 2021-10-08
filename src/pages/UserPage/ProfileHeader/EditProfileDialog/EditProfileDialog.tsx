@@ -6,84 +6,86 @@ import {
   DialogTitle,
   makeStyles,
   Typography,
-} from "@material-ui/core"
-import CameraAltIcon from "@material-ui/icons/CameraAlt"
-import { Form, Formik, FormikErrors } from "formik"
-import React, { ChangeEvent, createRef } from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import Flex from "../../../../components/shared/Flexboxes/Flex"
-import MyTextField from "../../../../components/shared/MyInputs/MyTextField"
-import ProfilePicture from "../../../../components/shared/ProfilePicture/ProfilePicture"
-import API from "../../../../consts/API"
-import MY_AXIOS from "../../../../consts/MY_AXIOS"
-import { ProfileDto } from "../../../../dtos/ProfileDto"
-import MyAxiosError from "../../../../interfaces/MyAxiosError"
+} from "@material-ui/core";
+import CameraAltIcon from "@material-ui/icons/CameraAlt";
+import { Form, Formik, FormikErrors } from "formik";
+import React, { ChangeEvent, createRef } from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import Flex from "../../../../components/shared/Flexboxes/Flex";
+import MyTextField from "../../../../components/shared/MyInputs/MyTextField";
+import ProfilePicture from "../../../../components/shared/ProfilePicture/ProfilePicture";
+import API from "../../../../consts/API";
+import myAxios from "../../../../consts/myAxios";
+import { ProfileDto } from "../../../../dtos/ProfileDto";
+import MyAxiosError from "../../../../interfaces/MyAxiosError";
 import {
   editProfilePicture,
   setProfile,
-} from "../../../../store/profile/profileActions"
-import { ApplicationState } from "../../../../store/store"
-import * as utilsActions from "../../../../store/utils/utilsActions"
-import { urlIsValid } from "../../../../utils/url/isValidUrl"
+} from "../../../../store/profile/profileActions";
+import { ApplicationState } from "../../../../store/store";
+import * as utilsActions from "../../../../store/utils/utilsActions";
+import { urlIsValid } from "../../../../utils/url/isValidUrl";
 
 // PE 2/3
 const EditProfileDialog = (props: Props) => {
-  const classes = useStyles()
+  const classes = useStyles();
   // const [file, setFile] = useState<File>(null)
 
-  const fileInput = createRef<HTMLInputElement>()
+  const fileInput = createRef<HTMLInputElement>();
 
   const handleSubmit = (sentProfile: ProfileDto) => {
-    MY_AXIOS.put<ProfileDto>(API.user.profile, sentProfile)
+    myAxios
+      .put<ProfileDto>(API.user.profile, sentProfile)
       .then((res) => {
-        props.setProfile(res.data)
-        props.setSuccessMessage("Profile saved!")
+        props.setProfile(res.data);
+        props.setSuccessMessage("Profile saved!");
 
         // if (file) {
         // }
       })
       .catch((err: MyAxiosError) => {
-        props.setErrorMessage(err.response.data.errors[0].message)
+        props.setErrorMessage(err.response.data.errors[0].message);
       })
       .finally(() => {
         // setFile(null)
-        props.onClose()
-      })
-  }
+        props.onClose();
+      });
+  };
 
   const handleFileSelection = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files[0]
+    const file = event.target.files[0];
     if (file) {
       // setFile(file)
 
-      handleFileUpload(file)
+      handleFileUpload(file);
     }
-  }
+  };
 
   const handleFileUpload = (file: File) => {
-    const formData = new FormData()
-    formData.append("file", file, file.name)
+    const formData = new FormData();
+    formData.append("file", file, file.name);
 
-    MY_AXIOS.post<string>(API.user.picture, formData)
+    myAxios
+      .post<string>(API.user.picture, formData)
       .then((res) => {
-        props.setSuccessMessage("Image uploaded!")
-        props.editProfilePicture(res.data)
+        props.setSuccessMessage("Image uploaded!");
+        props.editProfilePicture(res.data);
       })
       .catch((err) => {
         props.setErrorMessage(
           "Profile picture error: invalid type or image is too heavy (2MB max)"
-        )
+        );
       })
       .finally(() => {
         // setFile(null)
-      })
-  }
+      });
+  };
 
   return (
     <Dialog
       onClose={() => {
-        props.onClose()
+        props.onClose();
       }}
       open={props.open}
       fullWidth
@@ -94,15 +96,15 @@ const EditProfileDialog = (props: Props) => {
         <Formik
           initialValues={props.profile}
           onSubmit={(formikValues, { setSubmitting }) => {
-            handleSubmit(formikValues)
+            handleSubmit(formikValues);
           }}
           validate={(values: ProfileDto) => {
-            let errors: FormikErrors<ProfileDto> = {}
+            let errors: FormikErrors<ProfileDto> = {};
 
             if (values.website.length > 0 && !urlIsValid(values.website)) {
-              errors.website = "Invalid URL"
+              errors.website = "Invalid URL";
             }
-            return errors
+            return errors;
           }}
         >
           {({ errors, values, isSubmitting, setFieldValue, handleChange }) => (
@@ -117,7 +119,7 @@ const EditProfileDialog = (props: Props) => {
                       position="relative"
                       onClick={() => {
                         if (fileInput?.current) {
-                          fileInput.current.click()
+                          fileInput.current.click();
                         }
                       }}
                     >
@@ -208,8 +210,8 @@ const EditProfileDialog = (props: Props) => {
         </Formik>
       </Box>
     </Dialog>
-  )
-}
+  );
+};
 
 const useStyles = makeStyles(() => ({
   cameraIcon: {
@@ -218,11 +220,11 @@ const useStyles = makeStyles(() => ({
     bottom: 48,
     cursor: "pointer",
   },
-}))
+}));
 
 const mapStateToProps = (state: ApplicationState) => ({
   profile: state.profile.profile,
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setProfile: (profile: ProfileDto) => dispatch(setProfile(profile)),
@@ -231,15 +233,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch(utilsActions.setSuccessMessage(message)),
   setErrorMessage: (message: string) =>
     dispatch(utilsActions.setErrorMessage(message)),
-})
+});
 
 interface OwnProps {
-  open: boolean
-  onClose: () => void
+  open: boolean;
+  onClose: () => void;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditProfileDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(EditProfileDialog);

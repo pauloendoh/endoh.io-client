@@ -5,35 +5,35 @@ import {
   makeStyles,
   Tooltip,
   Typography,
-} from "@material-ui/core"
-import StarBorderOutlined from "@material-ui/icons/StarBorderOutlined"
-import StarRateIcon from "@material-ui/icons/StarRate"
-import { Rating } from "@material-ui/lab"
-import clsx from "clsx"
-import React from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto"
-import { ApplicationState } from "../../../store/store"
-import * as utilsActions from "../../../store/utils/utilsActions"
-import { getColorByRating } from "../../../utils/relearn/getColorByRating"
-import FlexHCenter from "../../shared/Flexboxes/FlexHCenter"
-import FlexVCenter from "../../shared/Flexboxes/FlexVCenter"
+} from "@material-ui/core";
+import StarBorderOutlined from "@material-ui/icons/StarBorderOutlined";
+import StarRateIcon from "@material-ui/icons/StarRate";
+import { Rating } from "@material-ui/lab";
+import clsx from "clsx";
+import React from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto";
+import { ApplicationState } from "../../../store/store";
+import * as utilsActions from "../../../store/utils/utilsActions";
+import { getColorByRating } from "../../../utils/relearn/getColorByRating";
+import FlexHCenter from "../../shared/Flexboxes/FlexHCenter";
+import FlexVCenter from "../../shared/Flexboxes/FlexVCenter";
 
 function RateButton(props: Props) {
-  const classes = useStyles()
-  const [open, setOpen] = React.useState(false)
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
   const handleTooltipClose = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
   const handleTooltipOpen = () => {
-    setOpen(true)
-  }
+    setOpen(true);
+  };
 
   const [rating, setRating] = React.useState<number | null>(
     props.resource.rating
-  )
-  const [hover, setHover] = React.useState(-1)
+  );
+  const [hover, setHover] = React.useState(-1);
 
   return (
     <ClickAwayListener onClickAway={handleTooltipClose}>
@@ -54,17 +54,17 @@ function RateButton(props: Props) {
               name="rating-input"
               value={rating}
               onChange={(event, newValue) => {
-                setRating(rating)
-                setOpen(false)
-                props.onChange(newValue)
+                setRating(rating);
+                setOpen(false);
+                props.onChange(newValue);
                 // handleSaveRating(newValue)
                 // setValue(newValue)
               }}
               onChangeActive={(event, newHover) => {
                 if (newHover === rating) {
-                  setHover(0)
+                  setHover(0);
                 } else {
-                  setHover(newHover)
+                  setHover(newHover);
                 }
               }}
             />
@@ -100,7 +100,7 @@ function RateButton(props: Props) {
         </Button>
       </Tooltip>
     </ClickAwayListener>
-  )
+  );
 }
 
 const labels: { [index: string]: string } = {
@@ -111,29 +111,29 @@ const labels: { [index: string]: string } = {
   3: "Ok",
   4: "Good",
   5: "Excellent",
-}
+};
 
 const useStyles = makeStyles((theme) => ({
   rateButton: {
     position: "relative",
     right: 8,
   },
-}))
+}));
 
-const mapStateToProps = (state: ApplicationState) => ({})
+const mapStateToProps = (state: ApplicationState) => ({});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setSuccessMessage: (message: string) =>
     dispatch(utilsActions.setSuccessMessage(message)),
-})
+});
 
 interface OwnProps {
-  resource: ResourceDto
-  onChange: (newRating: number) => void
+  resource: ResourceDto;
+  onChange: (newRating: number) => void;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(RateButton)
+export default connect(mapStateToProps, mapDispatchToProps)(RateButton);

@@ -1,41 +1,41 @@
-import { Badge, Button, Menu } from "@material-ui/core"
-import NotificationsIcon from "@material-ui/icons/Notifications"
-import React from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import API from "../../../consts/API"
-import MY_AXIOS from "../../../consts/MY_AXIOS"
-import { NotificationDto } from "../../../dtos/utils/NotificationDto"
-import { setNotifications } from "../../../store/auth/authActions"
-import { ApplicationState } from "../../../store/store"
-import NotificationItem from "./NotificationItem/NotificationItem"
+import { Badge, Button, Menu } from "@material-ui/core";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import React from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import API from "../../../consts/API";
+import myAxios from "../../../consts/myAxios";
+import { NotificationDto } from "../../../dtos/utils/NotificationDto";
+import { setNotifications } from "../../../store/auth/authActions";
+import { ApplicationState } from "../../../store/store";
+import NotificationItem from "./NotificationItem/NotificationItem";
 
 // PE 2/3 - Change to "NotificationButtonMenu"
 const Notification = (props: Props) => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget)
-  }
+    setAnchorEl(event.currentTarget);
+  };
 
   const handleClose = () => {
     // set notifications.seen = true
-    MY_AXIOS.post<NotificationDto[]>(API.utils.notificationsSeeAll).then(
-      (res) => {
-        props.setNotifications(res.data)
-      }
-    )
+    myAxios
+      .post<NotificationDto[]>(API.utils.notificationsSeeAll)
+      .then((res) => {
+        props.setNotifications(res.data);
+      });
 
-    setAnchorEl(null)
-  }
+    setAnchorEl(null);
+  };
 
   const getUnseenNotificationsLength = () =>
-    props.allNotifications.filter((n) => !n.seen).length
+    props.allNotifications.filter((n) => !n.seen).length;
 
   const getBadgeVariant = () =>
     props.allNotifications.filter((n) => !n.seen).length > 0
       ? "dot"
-      : "standard"
+      : "standard";
 
   return (
     <React.Fragment>
@@ -73,18 +73,18 @@ const Notification = (props: Props) => {
         </Menu>
       )}
     </React.Fragment>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state: ApplicationState) => ({
   allNotifications: state.auth.notifications,
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setNotifications: (not: NotificationDto[]) => dispatch(setNotifications(not)),
-})
+});
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+  ReturnType<typeof mapDispatchToProps>;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Notification)
+export default connect(mapStateToProps, mapDispatchToProps)(Notification);

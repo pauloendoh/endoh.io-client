@@ -1,74 +1,74 @@
-import { Box, makeStyles, Paper } from "@material-ui/core"
-import clsx from "clsx"
-import React, { useEffect, useState } from "react"
-import { GlobalHotKeys } from "react-hotkeys"
-import { connect } from "react-redux"
-import { useLocation } from "react-router"
-import { Dispatch } from "redux"
-import Flex from "../../components/shared/Flexboxes/Flex"
-import API from "../../consts/API"
-import MY_AXIOS from "../../consts/MY_AXIOS"
-import PATHS from "../../consts/PATHS"
-import { ProgressDto } from "../../dtos/skillbase/ProgressDto"
-import { newSkillDto, SkillDto } from "../../dtos/skillbase/SkillDto"
-import { TagDto } from "../../interfaces/dtos/relearn/TagDto"
+import { Box, makeStyles, Paper } from "@material-ui/core";
+import clsx from "clsx";
+import React, { useEffect, useState } from "react";
+import { GlobalHotKeys } from "react-hotkeys";
+import { connect } from "react-redux";
+import { useLocation } from "react-router";
+import { Dispatch } from "redux";
+import Flex from "../../components/shared/Flexboxes/Flex";
+import API from "../../consts/API";
+import myAxios from "../../consts/myAxios";
+import PATHS from "../../consts/PATHS";
+import { ProgressDto } from "../../dtos/skillbase/ProgressDto";
+import { newSkillDto, SkillDto } from "../../dtos/skillbase/SkillDto";
+import { TagDto } from "../../interfaces/dtos/relearn/TagDto";
 import {
   setEditingSkill,
   setProgresses,
   setSkills,
-} from "../../store/skillbase/skillbaseActions"
-import { ApplicationState } from "../../store/store"
-import useSidebarStore from "../../store/zustand/useSidebarStore"
-import { sleep } from "../../utils/sleep"
-import LoadingPage from "../index/LoadingPage"
-import ProgressSidebar from "./ProgressSidebar/ProgressSidebar"
-import SkillbaseTable from "./SkillTable/SkillbaseTable"
+} from "../../store/skillbase/skillbaseActions";
+import { ApplicationState } from "../../store/store";
+import useSidebarStore from "../../store/zustand/useSidebarStore";
+import { sleep } from "../../utils/sleep";
+import LoadingPage from "../index/LoadingPage";
+import ProgressSidebar from "./ProgressSidebar/ProgressSidebar";
+import SkillbaseTable from "./SkillTable/SkillbaseTable";
 
 // PE 3/3
 const SkillbasePage = (props: Props) => {
-  const classes = useStyles()
-  const { pathname } = useLocation()
+  const classes = useStyles();
+  const { pathname } = useLocation();
 
-  const [selectedTag, setSelectedTag] = useState<TagDto | "Untagged">()
+  const [selectedTag, setSelectedTag] = useState<TagDto | "Untagged">();
 
-  const { sidebarIsOpen, closeSidebar } = useSidebarStore()
+  const { sidebarIsOpen, closeSidebar } = useSidebarStore();
 
   useEffect(
     () => {
-      document.title = "Skills - Endoh.io"
-      closeSidebar()
+      document.title = "Skills - Endoh.io";
+      closeSidebar();
 
-      MY_AXIOS.get<SkillDto[]>(API.skillbase.skill).then((res) => {
-        props.setSkills(res.data)
-      })
+      myAxios.get<SkillDto[]>(API.skillbase.skill).then((res) => {
+        props.setSkills(res.data);
+      });
 
-      MY_AXIOS.get<ProgressDto[]>(API.skillbase.progress).then((res) => {
-        props.setProgresses(res.data)
-      })
+      myAxios.get<ProgressDto[]>(API.skillbase.progress).then((res) => {
+        props.setProgresses(res.data);
+      });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
-  )
+  );
 
   useEffect(() => {
     if (pathname.startsWith(PATHS.skillbase.untagged)) {
-      setSelectedTag("Untagged")
+      setSelectedTag("Untagged");
     } else if (pathname.startsWith(PATHS.skillbase.tag + "/")) {
-      const tagId = Number(pathname.split("/").pop())
+      const tagId = Number(pathname.split("/").pop());
       if (tagId) {
-        const tag = props.allTags.find((tag) => tag.id === tagId)
-        setSelectedTag(tag)
+        const tag = props.allTags.find((tag) => tag.id === tagId);
+        setSelectedTag(tag);
       }
-    } else setSelectedTag(null)
-  }, [pathname, props.allTags])
+    } else setSelectedTag(null);
+  }, [pathname, props.allTags]);
 
-  const keyMap = { openModal: "q" }
+  const keyMap = { openModal: "q" };
   const handlers = {
     openModal: async () => {
-      await sleep(100) // required so it doesn't add 'q' at the title field
-      props.setEditingSkill(newSkillDto())
+      await sleep(100); // required so it doesn't add 'q' at the title field
+      props.setEditingSkill(newSkillDto());
     },
-  }
+  };
 
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={handlers}>
@@ -92,8 +92,8 @@ const SkillbasePage = (props: Props) => {
         </Box>
       </Flex>
     </GlobalHotKeys>
-  )
-}
+  );
+};
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -116,21 +116,21 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     marginBottom: theme.spacing(2),
   },
-}))
+}));
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+  ReturnType<typeof mapDispatchToProps>;
 
 const mapStateToProps = (state: ApplicationState) => ({
   hasFirstLoaded: state.skillbase.hasFirstLoaded,
   allTags: state.relearn.tags,
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setSkills: (skills: SkillDto[]) => dispatch(setSkills(skills)),
   setProgresses: (progresses: ProgressDto[]) =>
     dispatch(setProgresses(progresses)),
   setEditingSkill: (skill: SkillDto) => dispatch(setEditingSkill(skill)),
-})
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(SkillbasePage)
+export default connect(mapStateToProps, mapDispatchToProps)(SkillbasePage);

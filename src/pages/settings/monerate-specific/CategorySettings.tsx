@@ -1,5 +1,5 @@
-import { faPlus } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
   Button,
@@ -7,48 +7,46 @@ import {
   IconButton,
   Paper,
   Typography,
-} from "@material-ui/core"
-import CategoryIcon from "../../../components/shared/CategoryIcon"
-import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
-import React, { useEffect } from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import API from "../../../consts/API"
-import CategoryGetDto from "../../../interfaces/dtos/monerate/CategoryDtos/CategoryGetDto"
-import * as monerateActions from "../../../store/monerate/monerateActions"
-import { ApplicationState } from "../../../store/store"
-import MY_AXIOS from "../../../consts/MY_AXIOS"
-import DeleteIcon from "@material-ui/icons/Delete"
-import EditIcon from "@material-ui/icons/Edit"
+} from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import CategoryIcon from "../../../components/shared/CategoryIcon";
+import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter";
+import API from "../../../consts/API";
+import MY_AXIOS from "../../../consts/myAxios";
+import CategoryGetDto from "../../../interfaces/dtos/monerate/CategoryDtos/CategoryGetDto";
+import * as monerateActions from "../../../store/monerate/monerateActions";
+import { ApplicationState } from "../../../store/store";
 
 const CategorySettings = (props: Props) => {
   useEffect(() => {
     MY_AXIOS.get<CategoryGetDto[]>(API.monerate.category).then((res) => {
-      props.setCategories(res.data)
-    })
-
+      props.setCategories(res.data);
+    });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   const handleDelete = (id: number) => {
     if (window.confirm("Confirm delete?")) {
       MY_AXIOS.delete<CategoryGetDto[]>(`${API.monerate.category}/${id}`).then(
         (res) => {
-          props.setCategories(res.data)
+          props.setCategories(res.data);
         }
-      )
+      );
     }
-  }
+  };
 
   return (
     <Box>
-      
       <Button
         variant="outlined"
         color="secondary"
         onClick={() => {
-          props.startNewCategory()
+          props.startNewCategory();
         }}
       >
         <Box display="flex" alignItems="center">
@@ -76,7 +74,7 @@ const CategorySettings = (props: Props) => {
                     <FlexVCenter>
                       <IconButton
                         onClick={() => {
-                          props.editCategory(category)
+                          props.editCategory(category);
                         }}
                         aria-label="edit-category"
                       >
@@ -84,7 +82,7 @@ const CategorySettings = (props: Props) => {
                       </IconButton>
                       <IconButton
                         onClick={() => {
-                          handleDelete(category.id)
+                          handleDelete(category.id);
                         }}
                         aria-label="delete-category"
                       >
@@ -99,12 +97,12 @@ const CategorySettings = (props: Props) => {
         </Paper>
       ) : null}
     </Box>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state: ApplicationState) => ({
   categories: state.monerate.categories,
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setCategories: (categories: CategoryGetDto[]) =>
@@ -113,9 +111,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   editCategory: (category: CategoryGetDto) =>
     dispatch(monerateActions.editCategory(category)),
   startNewCategory: () => dispatch(monerateActions.startNewCategory()),
-})
+});
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+  ReturnType<typeof mapDispatchToProps>;
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategorySettings)
+export default connect(mapStateToProps, mapDispatchToProps)(CategorySettings);

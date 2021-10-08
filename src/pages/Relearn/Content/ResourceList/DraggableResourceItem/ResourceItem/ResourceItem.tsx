@@ -1,54 +1,54 @@
-import { faGlobeAmericas, faLock } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Box, Link, makeStyles } from "@material-ui/core"
-import DoneIcon from "@material-ui/icons/Done"
-import EventIcon from "@material-ui/icons/Event"
-import ScheduleIcon from "@material-ui/icons/Schedule"
-import { DateTime } from "luxon"
-import React, { useState } from "react"
-import { connect } from "react-redux"
-import TimeAgo from "react-timeago"
-import { Dispatch } from "redux"
-import RateButton from "../../../../../../components/resources/RateButton/RateButton"
-import ResourceThumbnail from "../../../../../../components/resources/ResourceThumbnail/ResourceThumbnail"
-import Flex from "../../../../../../components/shared/Flexboxes/Flex"
-import FlexVCenter from "../../../../../../components/shared/Flexboxes/FlexVCenter"
-import MyTextField from "../../../../../../components/shared/MyInputs/MyTextField"
-import Txt from "../../../../../../components/shared/Text/Txt"
-import API from "../../../../../../consts/API"
-import MY_AXIOS from "../../../../../../consts/MY_AXIOS"
-import { ResourceDto } from "../../../../../../interfaces/dtos/relearn/ResourceDto"
-import { IMoveResource } from "../../../../../../interfaces/relearn/IMoveResource"
-import * as relearnActions from "../../../../../../store/relearn/relearnActions"
-import { ApplicationState } from "../../../../../../store/store"
-import * as utilsActions from "../../../../../../store/utils/utilsActions"
-import { validateEstimatedTime } from "../../../../../../utils/relearn/validateEstimatedTime"
-import ResourceMoreIcon from "../ResourceMoreIcon/ResourceMoreIcon"
+import { faGlobeAmericas, faLock } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Box, Link, makeStyles } from "@material-ui/core";
+import DoneIcon from "@material-ui/icons/Done";
+import EventIcon from "@material-ui/icons/Event";
+import ScheduleIcon from "@material-ui/icons/Schedule";
+import { DateTime } from "luxon";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import TimeAgo from "react-timeago";
+import { Dispatch } from "redux";
+import RateButton from "../../../../../../components/resources/RateButton/RateButton";
+import ResourceThumbnail from "../../../../../../components/resources/ResourceThumbnail/ResourceThumbnail";
+import Flex from "../../../../../../components/shared/Flexboxes/Flex";
+import FlexVCenter from "../../../../../../components/shared/Flexboxes/FlexVCenter";
+import MyTextField from "../../../../../../components/shared/MyInputs/MyTextField";
+import Txt from "../../../../../../components/shared/Text/Txt";
+import API from "../../../../../../consts/API";
+import myAxios from "../../../../../../consts/myAxios";
+import { ResourceDto } from "../../../../../../interfaces/dtos/relearn/ResourceDto";
+import { IMoveResource } from "../../../../../../interfaces/relearn/IMoveResource";
+import * as relearnActions from "../../../../../../store/relearn/relearnActions";
+import { ApplicationState } from "../../../../../../store/store";
+import * as utilsActions from "../../../../../../store/utils/utilsActions";
+import { validateEstimatedTime } from "../../../../../../utils/relearn/validateEstimatedTime";
+import ResourceMoreIcon from "../ResourceMoreIcon/ResourceMoreIcon";
 
 // PE 1/3
 function ResourceItem(props: Props) {
-  const classes = useStyles()
+  const classes = useStyles();
 
-  const [isHovered, setIsHovered] = useState(false)
+  const [isHovered, setIsHovered] = useState(false);
   const handleMouseEnter = () => {
-    setIsHovered(true)
-  }
+    setIsHovered(true);
+  };
   const handleMouseLeave = () => {
-    setIsHovered(false)
-  }
+    setIsHovered(false);
+  };
 
   const handleSaveRating = (rating: number) => {
-    const resource = { ...props.resource, rating } as ResourceDto
-    MY_AXIOS.post<ResourceDto[]>(API.relearn.resource, resource).then((res) => {
-      props.setResources(res.data)
+    const resource = { ...props.resource, rating } as ResourceDto;
+    myAxios.post<ResourceDto[]>(API.relearn.resource, resource).then((res) => {
+      props.setResources(res.data);
 
       if (resource.rating) {
-        props.setSuccessMessage("Resource rated!")
+        props.setSuccessMessage("Resource rated!");
       } else {
-        props.setSuccessMessage("Rating removed!")
+        props.setSuccessMessage("Rating removed!");
       }
-    })
-  }
+    });
+  };
 
   return (
     <Flex onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
@@ -57,7 +57,6 @@ function ResourceItem(props: Props) {
         thumbnailSrc={props.resource.thumbnail}
         linkable={true}
       />
-
       <Box flexGrow={1}>
         <Flex className={classes.firstRow}>
           <Box>
@@ -147,7 +146,7 @@ function ResourceItem(props: Props) {
         )}
       </Box>
     </Flex>
-  )
+  );
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -171,9 +170,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     minHeight: 32,
   },
-}))
+}));
 
-const mapStateToProps = (state: ApplicationState) => ({})
+const mapStateToProps = (state: ApplicationState) => ({});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   editResource: (resource: ResourceDto) =>
@@ -189,14 +188,14 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch(utilsActions.setSuccessMessage(message)),
   setErrorMessage: (message: string) =>
     dispatch(utilsActions.setErrorMessage(message)),
-})
+});
 
 interface OwnProps {
-  resource: ResourceDto
+  resource: ResourceDto;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResourceItem)
+export default connect(mapStateToProps, mapDispatchToProps)(ResourceItem);
