@@ -6,60 +6,60 @@ import {
   IconButton,
   Link,
   makeStyles,
-  Typography
-} from "@material-ui/core"
-import ClearIcon from "@material-ui/icons/Clear"
-import React, { useEffect, useState } from "react"
-import { GlobalHotKeys } from "react-hotkeys"
-import DarkButton from "../../../../../../components/shared/Buttons/DarkButton"
-import FlexVCenter from "../../../../../../components/shared/Flexboxes/FlexVCenter"
-import { NoteDto } from "../../../../../../dtos/define/NoteDto"
-import NoteDialog from "../NoteDialog/NoteDialog"
+  Typography,
+} from "@material-ui/core";
+import { Clear } from "@material-ui/icons";
+import React, { useEffect, useState } from "react";
+import { GlobalHotKeys } from "react-hotkeys";
+import DarkButton from "../../../../../../components/shared/Buttons/DarkButton";
+import FlexVCenter from "../../../../../../components/shared/Flexboxes/FlexVCenter";
+import { NoteDto } from "../../../../../../dtos/define/NoteDto";
+import NoteDialog from "../NoteDialog/NoteDialog";
 
 // PE 2/3
 const QuestionFlashcardDialogChild = (p: {
-  question: NoteDto
-  questionNumber: number
-  totalQuestions: number
-  docTitle: string
-  closeDialog: () => void
-  onEditQuestion: (newQuestion: NoteDto) => void
-  onWrongAnswer: () => void
-  onHalfAnswer: () => void
-  onCorrectAnswer: () => void
+  question: NoteDto;
+  questionNumber: number;
+  totalQuestions: number;
+  docTitle: string;
+  closeDialog: () => void;
+  onEditQuestion: (newQuestion: NoteDto) => void;
+  onWrongAnswer: () => void;
+  onHalfAnswer: () => void;
+  onCorrectAnswer: () => void;
 }) => {
-  const [showingAnswer, setShowingAnswer] = useState(false)
-  const [openNoteDialog, setOpenNoteDialog] = useState(false)
+  const [showingAnswer, setShowingAnswer] = useState(false);
+  const [openNoteDialog, setOpenNoteDialog] = useState(false);
 
   useEffect(() => {
-    setShowingAnswer(false)
-  }, [p.questionNumber])
+    setShowingAnswer(false);
+  }, [p.questionNumber]);
 
   const keyMap = {
     onSpacePress: "space",
     onJPress: "j",
     onKPress: "k",
     onLPress: "l",
-  }
+  };
   const handlers = {
     onSpacePress: async () => {
-      if (!showingAnswer) setShowingAnswer(true)
+      if (!showingAnswer) setShowingAnswer(true);
     },
     onJPress: async () => {
-      if (!showingAnswer) setShowingAnswer(true)
-      if (showingAnswer) p.onWrongAnswer()
+      if (!showingAnswer) setShowingAnswer(true);
+      if (showingAnswer) p.onWrongAnswer();
     },
     onKPress: async () => {
-      if (!showingAnswer) setShowingAnswer(true)
-      if (showingAnswer) p.onHalfAnswer()
+      if (!showingAnswer) setShowingAnswer(true);
+      if (showingAnswer) p.onHalfAnswer();
     },
     onLPress: async () => {
-      if (!showingAnswer) setShowingAnswer(true)
-      if (showingAnswer) p.onCorrectAnswer()
+      if (!showingAnswer) setShowingAnswer(true);
+      if (showingAnswer) p.onCorrectAnswer();
     },
-  }
+  };
 
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={handlers} allowChanges>
@@ -69,7 +69,7 @@ const QuestionFlashcardDialogChild = (p: {
             ({p.questionNumber}/{p.totalQuestions}) {p.docTitle}
           </Typography>
           <IconButton onClick={p.closeDialog} size="small">
-            <ClearIcon />
+            <Clear />
           </IconButton>
         </FlexVCenter>
       </DialogTitle>
@@ -89,8 +89,8 @@ const QuestionFlashcardDialogChild = (p: {
               <Link
                 href="#"
                 onClick={(e: any) => {
-                  e.preventDefault()
-                  setOpenNoteDialog(true)
+                  e.preventDefault();
+                  setOpenNoteDialog(true);
                 }}
                 variant="body2"
               >
@@ -99,11 +99,11 @@ const QuestionFlashcardDialogChild = (p: {
               <NoteDialog
                 initialValue={p.question}
                 onClose={() => {
-                  setOpenNoteDialog(false)
+                  setOpenNoteDialog(false);
                 }}
                 onSubmit={(changed) => {
-                  p.onEditQuestion(changed)
-                  setOpenNoteDialog(false)
+                  p.onEditQuestion(changed);
+                  setOpenNoteDialog(false);
                 }}
                 open={openNoteDialog}
               />
@@ -143,8 +143,8 @@ const QuestionFlashcardDialogChild = (p: {
         )}
       </DialogTitle>
     </GlobalHotKeys>
-  )
-}
+  );
+};
 
 const useStyles = makeStyles((theme) => ({
   wrongButton: {
@@ -155,6 +155,6 @@ const useStyles = makeStyles((theme) => ({
   button: {
     width: 125,
   },
-}))
+}));
 
-export default QuestionFlashcardDialogChild
+export default QuestionFlashcardDialogChild;

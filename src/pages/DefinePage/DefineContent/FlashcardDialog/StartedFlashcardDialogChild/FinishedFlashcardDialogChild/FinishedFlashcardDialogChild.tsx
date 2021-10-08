@@ -4,7 +4,7 @@ import {
   IconButton,
   Typography,
 } from "@material-ui/core";
-import ClearIcon from "@material-ui/icons/Clear";
+import { Clear } from "@material-ui/icons";
 import React, { useState } from "react";
 import { GlobalHotKeys } from "react-hotkeys";
 import { connect } from "react-redux";
@@ -55,7 +55,7 @@ const FinishedFlashcardDialogChild = (props: Props) => {
         <FlexVCenter justifyContent="space-between">
           <Typography variant="h6">{props.doc.title} </Typography>
           <IconButton onClick={props.onFinish} size="small">
-            <ClearIcon />
+            <Clear />
           </IconButton>
         </FlexVCenter>
       </DialogTitle>

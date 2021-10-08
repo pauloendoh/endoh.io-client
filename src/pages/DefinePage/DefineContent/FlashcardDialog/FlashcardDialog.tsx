@@ -6,41 +6,41 @@ import {
   IconButton,
   makeStyles,
   Typography,
-} from "@material-ui/core"
-import ClearIcon from "@material-ui/icons/Clear"
-import _ from "lodash"
-import React, { useEffect, useState } from "react"
-import { GlobalHotKeys } from "react-hotkeys"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import DarkButton from "../../../../components/shared/Buttons/DarkButton"
-import FlexHCenter from "../../../../components/shared/Flexboxes/FlexHCenter"
-import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter"
-import Txt from "../../../../components/shared/Text/Txt"
-import { NoteDto } from "../../../../dtos/define/NoteDto"
-import { ApplicationState } from "../../../../store/store"
-import * as utilsActions from "../../../../store/utils/utilsActions"
-import { shuffleArray } from "../../../../utils/shuffleArray"
-import StartedFlashcardDialogChild from "./StartedFlashcardDialogChild/StartedFlashcardDialogChild"
+} from "@material-ui/core";
+import { Clear } from "@material-ui/icons";
+import _ from "lodash";
+import React, { useEffect, useState } from "react";
+import { GlobalHotKeys } from "react-hotkeys";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import DarkButton from "../../../../components/shared/Buttons/DarkButton";
+import FlexHCenter from "../../../../components/shared/Flexboxes/FlexHCenter";
+import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter";
+import Txt from "../../../../components/shared/Text/Txt";
+import { NoteDto } from "../../../../dtos/define/NoteDto";
+import { ApplicationState } from "../../../../store/store";
+import * as utilsActions from "../../../../store/utils/utilsActions";
+import { shuffleArray } from "../../../../utils/shuffleArray";
+import StartedFlashcardDialogChild from "./StartedFlashcardDialogChild/StartedFlashcardDialogChild";
 
 //  FlashcardTestDialog  ?
 const FlashcardDialog = (props: Props) => {
-  const classes = useStyles()
+  const classes = useStyles();
 
-  const [minimumQuestionWeight, setMinWeight] = useState(1)
-  const [allQuestions, setAllQuestions] = useState<NoteDto[]>([])
-  const [questionsLength, setQuestionsLength] = useState(0)
-  const [testQuestions, setTestQuestions] = useState<NoteDto[]>([])
+  const [minimumQuestionWeight, setMinWeight] = useState(1);
+  const [allQuestions, setAllQuestions] = useState<NoteDto[]>([]);
+  const [questionsLength, setQuestionsLength] = useState(0);
+  const [testQuestions, setTestQuestions] = useState<NoteDto[]>([]);
 
-  const getDoc = () => props.allDocs.find((doc) => doc.id === props.docId)
+  const getDoc = () => props.allDocs.find((doc) => doc.id === props.docId);
 
   // reset
   useEffect(() => {
-    setMinWeight(1)
-    setAllQuestions([])
-    setQuestionsLength(0)
-    setTestQuestions([])
-  }, [props.open])
+    setMinWeight(1);
+    setAllQuestions([]);
+    setQuestionsLength(0);
+    setTestQuestions([]);
+  }, [props.open]);
 
   useEffect(
     () => {
@@ -49,53 +49,53 @@ const FlashcardDialog = (props: Props) => {
           note.docId === props.docId &&
           note.weight >= minimumQuestionWeight &&
           note.question.length > 0
-      )
-      setAllQuestions(max)
+      );
+      setAllQuestions(max);
 
-      setQuestionsLength(max.length)
+      setQuestionsLength(max.length);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [minimumQuestionWeight, props.allNotes]
-  )
+  );
 
   // PE 1/3 unnecessary?... since it resets on open
   const handleClose = () => {
-    setTestQuestions([])
-    props.onClose()
-  }
+    setTestQuestions([]);
+    props.onClose();
+  };
 
   const shuffleQuestionsAndStart = () => {
     if (questionsLength === 0)
-      return alert("Please, select a number of flashcards")
+      return alert("Please, select a number of flashcards");
 
     if (allQuestions.length === questionsLength) {
-      const playNotes = shuffleArray(allQuestions)
-      setTestQuestions(playNotes)
-      return
+      const playNotes = shuffleArray(allQuestions);
+      setTestQuestions(playNotes);
+      return;
     }
 
     // para cada availableNotes, fazer um peso
-    let ids = []
+    let ids = [];
     for (const note of allQuestions) {
       for (let i = 0; i < note.weight; i++) {
-        ids.push(note.id)
+        ids.push(note.id);
       }
     }
 
-    const playNotes: NoteDto[] = []
+    const playNotes: NoteDto[] = [];
     for (let i = 0; i < questionsLength; i++) {
-      const randomId = _.sample(ids) as number
-      ids = ids.filter((id) => id !== randomId)
+      const randomId = _.sample(ids) as number;
+      ids = ids.filter((id) => id !== randomId);
 
-      playNotes.push(props.allNotes.find((note) => note.id === randomId))
+      playNotes.push(props.allNotes.find((note) => note.id === randomId));
     }
 
-    setTestQuestions(playNotes)
-  }
+    setTestQuestions(playNotes);
+  };
 
   const onSpacePress = () => {
-    shuffleQuestionsAndStart()
-  }
+    shuffleQuestionsAndStart();
+  };
 
   return (
     <Dialog
@@ -121,7 +121,7 @@ const FlashcardDialog = (props: Props) => {
             <FlexVCenter justifyContent="space-between">
               <Txt variant="h6">{getDoc().title} </Txt>
               <IconButton onClick={handleClose} size="small">
-                <ClearIcon />
+                <Clear />
               </IconButton>
             </FlexVCenter>
           </DialogTitle>
@@ -182,8 +182,8 @@ const FlashcardDialog = (props: Props) => {
         </GlobalHotKeys>
       )}
     </Dialog>
-  )
-}
+  );
+};
 
 const useStyles = makeStyles(() => ({
   input: {
@@ -196,28 +196,28 @@ const useStyles = makeStyles(() => ({
     borderBottom: "1px solid white",
     color: "inherit",
   },
-}))
+}));
 
 const mapStateToProps = (state: ApplicationState) => ({
   allDocs: state.define.docs,
   allNotes: state.define.notes,
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setSuccessMessage: (message: string) =>
     dispatch(utilsActions.setSuccessMessage(message)),
   setErrorMessage: (message: string) =>
     dispatch(utilsActions.setErrorMessage(message)),
-})
+});
 
 interface OwnProps {
-  open: boolean
-  docId?: number
-  onClose: () => void
+  open: boolean;
+  docId?: number;
+  onClose: () => void;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(FlashcardDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(FlashcardDialog);

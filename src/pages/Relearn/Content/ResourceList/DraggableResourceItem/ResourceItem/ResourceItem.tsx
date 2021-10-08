@@ -24,6 +24,7 @@ import { ApplicationState } from "../../../../../../store/store";
 import * as utilsActions from "../../../../../../store/utils/utilsActions";
 import { validateEstimatedTime } from "../../../../../../utils/relearn/validateEstimatedTime";
 import ResourceMoreIcon from "../ResourceMoreIcon/ResourceMoreIcon";
+import S from "./ResourceItem.styles";
 
 // PE 1/3
 function ResourceItem(props: Props) {
@@ -51,7 +52,16 @@ function ResourceItem(props: Props) {
   };
 
   return (
-    <Flex onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <S.ResourceItemRoot
+      onClick={(e) => {
+        e.stopPropagation();
+        if (e.altKey) {
+          props.editResource(props.resource);
+        }
+      }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <ResourceThumbnail
         resourceUrl={props.resource.url}
         thumbnailSrc={props.resource.thumbnail}
@@ -145,7 +155,7 @@ function ResourceItem(props: Props) {
           </Box>
         )}
       </Box>
-    </Flex>
+    </S.ResourceItemRoot>
   );
 }
 
