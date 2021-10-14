@@ -107,7 +107,7 @@ const labels: { [index: string]: string } = {
   null: "Give a rating",
   0: "Remove rating",
   1: "Useless",
-  2: "Poor",
+  2: "Not relevant",
   3: "Ok",
   4: "Good",
   5: "Excellent",

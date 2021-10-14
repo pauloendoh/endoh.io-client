@@ -5,29 +5,29 @@ import {
   makeStyles,
   Tooltip,
   Typography,
-} from "@material-ui/core"
-import { Rating } from "@material-ui/lab"
-import clsx from "clsx"
-import React from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import { ApplicationState } from "../../../store/store"
-import * as utilsActions from "../../../store/utils/utilsActions"
-import FlexHCenter from "../../shared/Flexboxes/FlexHCenter"
-import FlexVCenter from "../../shared/Flexboxes/FlexVCenter"
+} from "@material-ui/core";
+import { Rating } from "@material-ui/lab";
+import clsx from "clsx";
+import React from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { ApplicationState } from "../../../store/store";
+import * as utilsActions from "../../../store/utils/utilsActions";
+import FlexHCenter from "../../shared/Flexboxes/FlexHCenter";
+import FlexVCenter from "../../shared/Flexboxes/FlexVCenter";
 
 function MinRatingButton(props: Props) {
-  const classes = useStyles()
-  const [open, setOpen] = React.useState(false)
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
   const handleTooltipClose = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
   const handleTooltipOpen = () => {
-    setOpen(true)
-  }
+    setOpen(true);
+  };
 
   // const [rating, setRating] = React.useState<number | null>(props.value)
-  const [hover, setHover] = React.useState(-1)
+  const [hover, setHover] = React.useState(-1);
 
   return (
     <ClickAwayListener onClickAway={handleTooltipClose}>
@@ -49,14 +49,14 @@ function MinRatingButton(props: Props) {
               value={props.value}
               onChange={(event, newValue) => {
                 // setRating(rating)
-                setOpen(false)
-                props.onChange(newValue)
+                setOpen(false);
+                props.onChange(newValue);
               }}
               onChangeActive={(event, newHover) => {
                 if (newHover === props.value) {
-                  setHover(0)
+                  setHover(0);
                 } else {
-                  setHover(newHover)
+                  setHover(newHover);
                 }
               }}
             />
@@ -87,40 +87,41 @@ function MinRatingButton(props: Props) {
         </Button>
       </Tooltip>
     </ClickAwayListener>
-  )
+  );
 }
 
+// PE 1/3 - DRY
 const labels: { [index: string]: string } = {
   null: "All ratings",
   0: "All ratings",
   1: "Useless",
-  2: "Poor",
+  2: "Not relevant",
   3: "Ok",
   4: "Good",
   5: "Excellent",
-}
+};
 
 const useStyles = makeStyles((theme) => ({
   rateButton: {
     position: "relative",
     right: 8,
   },
-}))
+}));
 
-const mapStateToProps = (state: ApplicationState) => ({})
+const mapStateToProps = (state: ApplicationState) => ({});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setSuccessMessage: (message: string) =>
     dispatch(utilsActions.setSuccessMessage(message)),
-})
+});
 
 interface OwnProps {
-  value: number
-  onChange: (newRating: number) => void
+  value: number;
+  onChange: (newRating: number) => void;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(MinRatingButton)
+export default connect(mapStateToProps, mapDispatchToProps)(MinRatingButton);
