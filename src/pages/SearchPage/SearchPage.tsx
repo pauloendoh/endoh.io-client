@@ -3,11 +3,11 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useLocation } from "react-router";
 import { Dispatch } from "redux";
+import { urls } from "utils/urls";
 import DarkButton from "../../components/shared/Buttons/DarkButton";
 import Flex from "../../components/shared/Flexboxes/Flex";
 import FlexVCenter from "../../components/shared/Flexboxes/FlexVCenter";
 import SkillChip from "../../components/skillbase/SkillChip/SkillChip";
-import API from "../../consts/API";
 import myAxios from "../../consts/myAxios";
 import { SearchResultsDto } from "../../dtos/utils/SearchResultsDto";
 import { ApplicationState } from "../../store/store";
@@ -53,7 +53,7 @@ const SearchPage = (props: Props) => {
     setQ(q);
 
     myAxios
-      .get<SearchResultsDto>(API.utils.search(q))
+      .get<SearchResultsDto>(urls.api.search(q))
       .then((res) => {
         setResults(res.data);
       })

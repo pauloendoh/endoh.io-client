@@ -1,10 +1,14 @@
 import { Box, makeStyles } from "@material-ui/core";
 import classNames from "classnames";
+import useSaveTagLastOpenedAt from "hooks/react-query/relearn/useSaveTagLastOpenedAt";
+import { TagDto } from "interfaces/dtos/relearn/TagDto";
 import React, { useEffect, useState } from "react";
 import { GlobalHotKeys } from "react-hotkeys";
 import { connect } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
+import { pushOrReplace } from "utils/pushOrReplace";
+import { urls } from "utils/urls";
 import Flex from "../../components/shared/Flexboxes/Flex";
 import API from "../../consts/API";
 import myAxios from "../../consts/myAxios";
@@ -24,6 +28,7 @@ import RelearnSidebar from "./RelearnSidebar/RelearnSidebar";
 // PE 3/3
 const RelearnPage = (props: Props) => {
   const classes = useStyles();
+  const history = useHistory();
 
   const [skills, setSkills] = useState<SkillDto[]>([]);
 
@@ -46,6 +51,16 @@ const RelearnPage = (props: Props) => {
   );
 
   const location = useLocation();
+
+  const { mutate: saveTagLastOpenedAt } = useSaveTagLastOpenedAt();
+  const handleSaveTagLastOpenedAt = (tagId: number) =>
+    saveTagLastOpenedAt(tagId, {
+      onSuccess: (savedTag) => {
+        const tags = pushOrReplace([...props.allTags], savedTag, "id");
+        props.setTags(tags);
+      },
+    });
+
   // filter resources by tag (from path name)
   const [filteredResources, setFilteredResources] = useState<ResourceDto[]>([]);
   useEffect(
@@ -61,6 +76,8 @@ const RelearnPage = (props: Props) => {
       } else if (pathname.startsWith(PATHS.relearn.tag)) {
         const tagId = Number(pathname.split("/").pop());
         if (tagId) {
+          handleSaveTagLastOpenedAt(tagId);
+
           setFilteredResources(
             props.resources.filter((resource) => {
               return resource.tag?.id === tagId;
@@ -73,6 +90,21 @@ const RelearnPage = (props: Props) => {
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.resources, location]
+  );
+
+  useEffect(
+    () => {
+      const tagId = Number(location.pathname.split("/").pop());
+      if (!tagId && props.allTags?.length > 0) {
+        const sortedByLastOpened = props.allTags.sort((a, b) =>
+          b.lastOpenedAt.localeCompare(a.lastOpenedAt)
+        );
+        const tagId = sortedByLastOpened[0].id;
+        history.push(urls.pages.relearnTag(tagId));
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [props.allTags, location]
   );
 
   const keyMap = { openModal: "q" };
@@ -130,12 +162,14 @@ const mapStateToProps = (state: ApplicationState) => ({
   resources: state.relearn.resources,
   hasFirstLoaded: state.relearn.hasFirstLoaded,
   allSkills: state.skillbase.skills,
+  allTags: state.relearn.tags,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setResources: (resources: ResourceDto[]) =>
     dispatch(relearnActions.setResources(resources)),
   setSkills: (skills: SkillDto[]) => dispatch(setSkills(skills)),
+  setTags: (tags: TagDto[]) => dispatch(relearnActions.setTags(tags)),
 
   startNewResource: () => dispatch(relearnActions.startNewResource()),
 });

@@ -3,35 +3,38 @@ import {
   IconButton,
   List,
   ListItem,
-  ListItemText
-} from "@material-ui/core"
-import AddIcon from "@material-ui/icons/Add"
-import SearchIcon from "@material-ui/icons/Search"
-import React, { useState } from "react"
-import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
-import MyTextField from "../../../components/shared/MyInputs/MyTextField"
-import MySidebar from "../../../components/shared/MySidebar"
-import { newDecisionDto } from "../../../dtos/BigDecisions/DecisionDto"
-import useDecisionsQuery from "../../../hooks/BigDecisions/Decision/useDecisionsQuery"
-import useDialogsStore from "../../../store/zustand/useDialogsStore"
-import stringsAreVerySimilar from "../../../utils/text/stringsAreVerySimilar"
-import LoadingPage from "../../index/LoadingPage"
-import DecisionSidebarItem from "./DecisionSidebarItem/DecisionSidebarItem"
+  ListItemText,
+} from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
+import SearchIcon from "@material-ui/icons/Search";
+import FlexCenter from "components/shared/Flexboxes/FlexCenter";
+import React, { useState } from "react";
+import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter";
+import MyTextField from "../../../components/shared/MyInputs/MyTextField";
+import MySidebar from "../../../components/shared/MySidebar";
+import { newDecisionDto } from "../../../dtos/BigDecisions/DecisionDto";
+import useDecisionsQuery from "../../../hooks/BigDecisions/Decision/useDecisionsQuery";
+import useDialogsStore from "../../../store/zustand/useDialogsStore";
+import stringsAreVerySimilar from "../../../utils/text/stringsAreVerySimilar";
+import LoadingPage from "../../index/LoadingPage";
+import DecisionSidebarItem from "./DecisionSidebarItem/DecisionSidebarItem";
 
-type Props = { selectedDecisionId: number }
+type Props = { selectedDecisionId: number };
 
 const DecisionSidebar = (props: Props) => {
-  const [textFilter, setTextFilter] = useState("")
-  const { openDecisionDialog } = useDialogsStore()
+  const [textFilter, setTextFilter] = useState("");
+  const { openDecisionDialog } = useDialogsStore();
 
-  const { data: decisions, isLoading } = useDecisionsQuery()
+  const { data: decisions, isLoading } = useDecisionsQuery();
 
   const getFilteredDecisions = () => {
     if (textFilter.length) {
-      return decisions.filter((d) => stringsAreVerySimilar(d.title, textFilter))
+      return decisions.filter((d) =>
+        stringsAreVerySimilar(d.title, textFilter)
+      );
     }
-    return decisions
-  }
+    return decisions;
+  };
 
   return (
     <MySidebar>
@@ -52,7 +55,9 @@ const DecisionSidebar = (props: Props) => {
         </Box>
         <List disablePadding>
           {isLoading ? (
-            <LoadingPage />
+            <FlexCenter mt={2}>
+              <LoadingPage />
+            </FlexCenter>
           ) : (
             <React.Fragment>
               <ListItem>
@@ -80,7 +85,7 @@ const DecisionSidebar = (props: Props) => {
         </List>
       </Box>
     </MySidebar>
-  )
-}
+  );
+};
 
-export default DecisionSidebar
+export default DecisionSidebar;
