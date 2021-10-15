@@ -1,67 +1,67 @@
-import { Box, makeStyles, Tab, Tabs, Typography } from "@material-ui/core"
-import React, { useEffect, useRef, useState } from "react"
-import { connect } from "react-redux"
-import { useLocation } from "react-router-dom"
-import { Dispatch } from "redux"
-import Flex from "../../../../components/shared/Flexboxes/Flex"
-import PATHS from "../../../../consts/PATHS"
-import { SkillDto } from "../../../../dtos/skillbase/SkillDto"
-import { ResourceDto } from "../../../../interfaces/dtos/relearn/ResourceDto"
-import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto"
-import { removeTag } from "../../../../store/relearn/relearnActions"
-import { ApplicationState } from "../../../../store/store"
-import SkillChips from "./SkillChips/SkillChips"
+import { Box, makeStyles, Tab, Tabs, Typography } from "@material-ui/core";
+import React, { useEffect, useRef, useState } from "react";
+import { connect } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { Dispatch } from "redux";
+import Flex from "../../../../components/shared/Flexboxes/Flex";
+import PATHS from "../../../../consts/PATHS";
+import { SkillDto } from "../../../../dtos/skillbase/SkillDto";
+import { ResourceDto } from "../../../../interfaces/dtos/relearn/ResourceDto";
+import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto";
+import { removeTag } from "../../../../store/relearn/relearnActions";
+import { ApplicationState } from "../../../../store/store";
+import SkillChips from "./SkillChips/SkillChips";
 
 // PE 2/3
 function ContentHeader(props: Props) {
-  const classes = useStyles()
-  const location = useLocation()
+  const classes = useStyles();
+  const location = useLocation();
 
-  const [tag, setTag] = useState<TagDto>(null)
-  const [height, setHeight] = useState(0)
+  const [tag, setTag] = useState<TagDto>(null);
+  const [height, setHeight] = useState(0);
 
-  const ref = useRef<HTMLDivElement>()
+  const ref = useRef<HTMLDivElement>();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    const newHeight = ref.current.clientHeight
+    const newHeight = ref.current.clientHeight;
     if (height !== newHeight) {
-      setHeight(newHeight)
-      props.onHeightChange(newHeight)
+      setHeight(newHeight);
+      props.onHeightChange(newHeight);
     }
-  })
+  });
 
   // PE 2/3
   useEffect(() => {
-    const { pathname } = location
+    const { pathname } = location;
 
     // /relearn
     if (pathname === PATHS.relearn.index) {
-      setTag(null)
+      setTag(null);
     }
     // /relearn/tag/:id
     else if (pathname.startsWith(PATHS.relearn.tag)) {
-      const tagId = Number(pathname.split("/").pop())
+      const tagId = Number(pathname.split("/").pop());
 
       if (tagId) {
-        const currentTag = props.allTags.find((t) => t.id === tagId)
+        const currentTag = props.allTags.find((t) => t.id === tagId);
         if (currentTag) {
-          setTag(currentTag)
-          document.title = currentTag.name + " - Endoh.io"
+          setTag(currentTag);
+          document.title = currentTag.name + " - Endoh.io";
         }
       }
     }
 
     // if you click in a tag or if you add/edit a tag
-  }, [location, props.allTags])
+  }, [location, props.allTags]);
 
   // PE 2/3
   const handleChangeTab = (
     event: React.ChangeEvent<{}>,
     newTabIndex: number
   ) => {
-    props.onTabChange(newTabIndex)
-  }
+    props.onTabChange(newTabIndex);
+  };
 
   return (
     <Box className={classes.root} {...{ ref: ref }}>
@@ -91,7 +91,7 @@ function ContentHeader(props: Props) {
         />
       </Tabs>
     </Box>
-  )
+  );
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -101,6 +101,7 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.background.default,
     zIndex: theme.zIndex.appBar,
     top: 65,
+    marginTop: 8,
     paddingTop: 24,
   },
   tabs: {
@@ -120,27 +121,27 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 2,
     marginRight: 4,
   },
-}))
+}));
 
 const mapStateToProps = (state: ApplicationState) => ({
   allTags: state.relearn.tags,
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   removeTag: (id: number) => dispatch(removeTag(id)),
-})
+});
 
 interface OwnProps {
-  onTabChange: (newTabIndex: number) => void
-  tabIndex: number
-  todoResources: ResourceDto[]
-  completedResources: ResourceDto[]
-  skills: SkillDto[]
-  onHeightChange: (height: number) => void
+  onTabChange: (newTabIndex: number) => void;
+  tabIndex: number;
+  todoResources: ResourceDto[];
+  completedResources: ResourceDto[];
+  skills: SkillDto[];
+  onHeightChange: (height: number) => void;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContentHeader)
+export default connect(mapStateToProps, mapDispatchToProps)(ContentHeader);

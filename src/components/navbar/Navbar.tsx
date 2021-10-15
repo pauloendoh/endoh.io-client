@@ -1,5 +1,5 @@
-import { faFire } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faFire } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   AppBar,
   Box,
@@ -10,43 +10,44 @@ import {
   Tabs,
   Theme,
   Toolbar,
-} from "@material-ui/core"
-import PATHS from "consts/PATHS"
-import React, { useEffect, useState } from "react"
-import { connect } from "react-redux"
-import { Link, useLocation } from "react-router-dom"
-import { Dispatch } from "redux"
-import { ApplicationState } from "../../store/store"
-import Flex from "../shared/Flexboxes/Flex"
-import FlexVCenter from "../shared/Flexboxes/FlexVCenter"
-import LeftToggleButton from "./LeftToggleButton/LeftToggleButton"
-import Notification from "./Notification/Notification"
-import SearchBar from "./SearchBar/SearchBar"
-import UserMenu from "./UserMenu/UserMenu"
+} from "@material-ui/core";
+import PATHS from "consts/PATHS";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import { Dispatch } from "redux";
+import { ApplicationState } from "../../store/store";
+import Flex from "../shared/Flexboxes/Flex";
+import FlexVCenter from "../shared/Flexboxes/FlexVCenter";
+import LeftToggleButton from "./LeftToggleButton/LeftToggleButton";
+import Notification from "./Notification/Notification";
+import SearchBar from "./SearchBar/SearchBar";
+import UserMenu from "./UserMenu/UserMenu";
+import { tabs } from "./utils";
 
 // PE 2/3
 const Navbar = (props: Props) => {
-  const classes = useStyles()
-  const location = useLocation()
+  const classes = useStyles();
+  const location = useLocation();
 
-  const [tabIndex, setTabIndex] = useState<number | boolean>(false)
+  const [tabIndex, setTabIndex] = useState<number | boolean>(false);
 
   useEffect(() => {
     // DRY?
     if (location.pathname.startsWith(PATHS.relearn.index)) {
-      setTabIndex(0)
+      setTabIndex(0);
     } else if (location.pathname.startsWith(PATHS.feed.index)) {
-      setTabIndex(1)
+      setTabIndex(1);
     } else if (location.pathname.startsWith(PATHS.skillbase.index)) {
-      setTabIndex(2)
+      setTabIndex(2);
     } else if (location.pathname.startsWith(PATHS.define.index)) {
-      setTabIndex(3)
+      setTabIndex(3);
     } else if (location.pathname.startsWith(PATHS.BigDecisions.index)) {
-      setTabIndex(4)
+      setTabIndex(4);
     } else {
-      setTabIndex(false)
+      setTabIndex(false);
     }
-  }, [location])
+  }, [location]);
 
   return (
     <AppBar className={classes.root} position="fixed" elevation={0}>
@@ -72,42 +73,17 @@ const Navbar = (props: Props) => {
             textColor="primary"
             aria-label="disabled tabs example"
           >
-            <Tab
-              id="resources-tab"
-              className={classes.tab}
-              label={`Resources`}
-              component={Link}
-              to={PATHS.relearn.index}
-            />
-            <Tab
-              id="feed-tab"
-              className={classes.tab}
-              label={`Feed`}
-              component={Link}
-              to={PATHS.feed.index}
-            />
-            <Tab
-              id="skill-tab"
-              className={classes.tab}
-              label={`Skills`}
-              component={Link}
-              to={PATHS.skillbase.index}
-            />
-            <Tab
-              id="notes-tab"
-              className={classes.tab}
-              label={`Notes`}
-              component={Link}
-              to={PATHS.define.index}
-            />
-
-            <Tab
-              id="decisions-tab"
-              className={classes.tab}
-              label={`Decisions`}
-              component={Link}
-              to={PATHS.BigDecisions.index}
-            />
+            {tabs.map((tab) => (
+              <Tab
+                key={tab.id}
+                id={tab.id}
+                className={classes.tab}
+                label={tab.label}
+                component={Link}
+                icon={tab.icon}
+                to={tab.to}
+              />
+            ))}
           </Tabs>
         </Flex>
 
@@ -125,8 +101,8 @@ const Navbar = (props: Props) => {
         </FlexVCenter>
       </Toolbar>
     </AppBar>
-  )
-}
+  );
+};
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -150,24 +126,26 @@ const useStyles = makeStyles((theme: Theme) =>
     tabs: {
       // minHeight: 32,
       position: "relative",
-      top: 5,
       zIndex: 1202,
     },
     tab: {
-      fontSize: 16,
-      paddingBottom: 16,
-      minWidth: "inherit",
+      minWidth: 100,
       width: "inherit",
       color: "white",
+
+      "& svg": {
+        height: 16,
+        fontSize: 16,
+      },
     },
   })
-)
+);
 
-const mapStateToProps = (state: ApplicationState) => ({})
+const mapStateToProps = (state: ApplicationState) => ({});
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
+const mapDispatchToProps = (dispatch: Dispatch) => ({});
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+  ReturnType<typeof mapDispatchToProps>;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Navbar)
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
