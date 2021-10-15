@@ -20,10 +20,10 @@ import { ApplicationState } from "../../store/store";
 import Flex from "../shared/Flexboxes/Flex";
 import FlexVCenter from "../shared/Flexboxes/FlexVCenter";
 import LeftToggleButton from "./LeftToggleButton/LeftToggleButton";
+import utils from "./Navbar.utils";
 import Notification from "./Notification/Notification";
 import SearchBar from "./SearchBar/SearchBar";
 import UserMenu from "./UserMenu/UserMenu";
-import { tabs } from "./utils";
 
 // PE 2/3
 const Navbar = (props: Props) => {
@@ -73,7 +73,7 @@ const Navbar = (props: Props) => {
             textColor="primary"
             aria-label="disabled tabs example"
           >
-            {tabs.map((tab) => (
+            {utils.navbarTabs.map((tab) => (
               <Tab
                 key={tab.id}
                 id={tab.id}
@@ -112,6 +112,7 @@ const useStyles = makeStyles((theme: Theme) =>
       borderBottom: "1px solid rgba(255, 255, 255, 0.05)",
     },
     toolbar: {
+      minHeight: 72,
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",

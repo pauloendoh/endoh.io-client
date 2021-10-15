@@ -5,25 +5,24 @@ import {
   Grid,
   makeStyles,
   Typography,
-} from "@material-ui/core"
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
-import React, { useEffect } from "react"
-import { Link as ScrollLink } from "react-scroll"
-import FooterDescription from "../../components/descriptions/FooterDescription"
-import LandingPageDescription from "../../components/descriptions/LandingPageDescription"
-import RelearnDescription from "../../components/descriptions/RelearnDescription"
-import SocialDescription from "../../components/descriptions/SocialDescription"
-import SkillbaseDescription from "../../components/descriptions/SkillbaseDescription"
-import LandingPageForm from "./LandingPageForm/LandingPageForm"
-import NotesDescription from "../../components/descriptions/NotesDescription"
-
+} from "@material-ui/core";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import React, { useEffect } from "react";
+import { Link as ScrollLink } from "react-scroll";
+import FooterDescription from "../../components/descriptions/FooterDescription";
+import LandingPageDescription from "../../components/descriptions/LandingPageDescription";
+import NotesDescription from "../../components/descriptions/NotesDescription";
+import RelearnDescription from "../../components/descriptions/RelearnDescription";
+import SkillbaseDescription from "../../components/descriptions/SkillbaseDescription";
+import SocialDescription from "../../components/descriptions/SocialDescription";
+import LandingPageForm from "./LandingPageForm/LandingPageForm";
 
 const LandingPage = () => {
-  const classes = useStyles()
+  const classes = useStyles();
 
   useEffect(() => {
-    document.title = "Endoh.io"
-  }, [])
+    document.title = "Endoh.io";
+  }, []);
   return (
     <Container maxWidth="md">
       <Box pt={5} />
@@ -55,12 +54,9 @@ const LandingPage = () => {
         </ScrollLink>
       </Box>
 
-      <Box mt={10}> 
+      <Box mt={10}>
         <RelearnDescription />
       </Box>
-
-      
-    
 
       <Box mt={10}>
         <SocialDescription />
@@ -78,8 +74,8 @@ const LandingPage = () => {
         <FooterDescription />
       </Box>
     </Container>
-  )
-}
+  );
+};
 
 const useStyles = makeStyles((theme) => ({
   flexGrow: {
@@ -93,6 +89,6 @@ const useStyles = makeStyles((theme) => ({
       marginTop: 160,
     },
   },
-}))
+}));
 
-export default LandingPage
+export default LandingPage;

@@ -1,8 +1,14 @@
 {
   "compilerOptions": {
-    "types": ["cypress"],
+    "types": [
+      "cypress"
+    ],
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -20,10 +26,6 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src/*",
-    "src/utils/hooks",
-    "src/hooks/useHover.ts",
-    "src/hooks/useEventListener.ts",
-    "src/hooks/useElementSize.ts"
+    "src"
   ]
 }

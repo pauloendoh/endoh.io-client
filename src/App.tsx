@@ -18,7 +18,7 @@ import MySnackBar2 from "./components/shared/SnackBars/MySnackbar2";
 import API from "./consts/API";
 import myAxios from "./consts/myAxios";
 import { myQueryClient } from "./consts/myQueryClient";
-import MY_THEME from "./consts/MY_THEME";
+import theme from "./consts/theme";
 import { FollowingTagDto } from "./dtos/feed/FollowingTagDto";
 import { UserSuggestionDto } from "./dtos/feed/UserSuggestionDto";
 import { UserInfoDto } from "./dtos/UserInfoDto";
@@ -184,7 +184,7 @@ const App = (props: Props) => {
   }
 
   return (
-    <MuiThemeProvider theme={MY_THEME}>
+    <MuiThemeProvider theme={theme}>
       <QueryClientProvider client={myQueryClient}>
         {/* What does this do? */}
         <CssBaseline />

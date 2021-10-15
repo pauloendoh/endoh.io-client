@@ -23,6 +23,7 @@ import API from "../../../consts/API";
 import myAxios from "../../../consts/myAxios";
 import MyAxiosError, { MyFieldError } from "../../../interfaces/MyAxiosError";
 import GoogleButton from "./GoogleButton/GoogleButton";
+import S from "./LandingPageForm.styles";
 import PasswordResetForm from "./ResetPasswordByEmailForm";
 
 type FormType = "login" | "register" | "passwordReset";
@@ -248,9 +249,9 @@ const LandingPageForm = (props: Props) => {
               >
                 <FlexVCenter>
                   <AccessAlarmIcon fontSize="large" />
-                  <Box ml={2} width={180}>
+                  <S.TemporaryUserText>
                     Test with Temporary User
-                  </Box>
+                  </S.TemporaryUserText>
                 </FlexVCenter>
               </Button>
             </Box>
@@ -285,11 +286,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 10,
     paddingBottom: 10,
   },
-  googleButton: {
-    paddingTop: 10,
-    paddingBottom: 10,
-    background: theme.palette.grey[800],
-  },
+
   testUserButton: {
     paddingTop: 7,
     paddingBottom: 7,
