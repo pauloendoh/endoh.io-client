@@ -94,11 +94,16 @@ const RelearnPage = (props: Props) => {
 
   useEffect(
     () => {
+      // open last opened tag
       const tagId = Number(location.pathname.split("/").pop());
       if (!tagId && props.allTags?.length > 0) {
-        const sortedByLastOpened = props.allTags.sort((a, b) =>
-          b.lastOpenedAt.localeCompare(a.lastOpenedAt)
-        );
+        const sortedByLastOpened = props.allTags.sort((a, b) => {
+          if (a.lastOpenedAt === undefined) return -1;
+          if (b.lastOpenedAt === undefined) return 1;
+
+          return a.lastOpenedAt > b.lastOpenedAt ? -1 : 1;
+        });
+
         const tagId = sortedByLastOpened[0].id;
         history.push(urls.pages.relearnTag(tagId));
       }
