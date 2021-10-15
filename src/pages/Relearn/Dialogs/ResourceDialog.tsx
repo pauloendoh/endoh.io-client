@@ -19,6 +19,8 @@ import { connect } from "react-redux";
 import { useLocation } from "react-router-dom";
 import MaskedInput from "react-text-mask";
 import { Dispatch } from "redux";
+import useDialogsStore from "store/zustand/useDialogsStore";
+import { urls } from "utils/urls";
 import RateButton from "../../../components/resources/RateButton/RateButton";
 import SaveCancelButtons from "../../../components/shared/Buttons/SaveCancelButtons";
 import Flex from "../../../components/shared/Flexboxes/Flex";
@@ -40,6 +42,8 @@ import { urlIsValid } from "../../../utils/url/isValidUrl";
 // PE 1/3 - tá muito grande
 const ResourceDialog = (props: Props) => {
   const [isFetchingLinkPreview, setIsFetchingLinkPreview] = useState(false);
+
+  const { openConfirmDialog } = useDialogsStore();
 
   const handleSubmit = (resource: ResourceDto) => {
     myAxios
@@ -74,7 +78,15 @@ const ResourceDialog = (props: Props) => {
 
   const fetchLinkPreview = (
     url: string,
-    setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void
+    setFieldValue: (
+      field: string,
+      value: any,
+      shouldValidate?: boolean
+    ) => void,
+    setValues: (
+      values: React.SetStateAction<ResourceDto>,
+      shouldValidate?: boolean
+    ) => void
   ) => {
     clearTimeout(throttle);
     setThrottle(
@@ -83,13 +95,23 @@ const ResourceDialog = (props: Props) => {
           setIsFetchingLinkPreview(true);
           setFieldValue("title", "Loading...");
           myAxios
-            .get<LinkPreviewDto>(API.utils.linkPreview + "?url=" + url)
+            .get<LinkPreviewDto>(urls.api.linkPreview(url))
             .then((res) => {
               const preview = res.data;
               if (preview.duration !== "00:00h")
                 setFieldValue("estimatedTime", preview.duration);
               setFieldValue("title", preview.title);
               setFieldValue("thumbnail", preview.image);
+
+              if (preview.alreadySavedResource) {
+                openConfirmDialog({
+                  title: "You already saved this URL. Open it?",
+                  description: preview.alreadySavedResource.title,
+                  onConfirm: () => {
+                    setValues(preview.alreadySavedResource);
+                  },
+                });
+              }
             })
             .catch(() => {
               setFieldValue("title", "");
@@ -153,6 +175,7 @@ const ResourceDialog = (props: Props) => {
             isSubmitting,
             handleChange,
             setFieldValue,
+            setValues,
           }) => (
             <Form>
               <DialogTitle id="edit-resource-dialog-title">
@@ -204,7 +227,11 @@ const ResourceDialog = (props: Props) => {
                         value={values.url}
                         onChange={(e) => {
                           handleChange(e);
-                          fetchLinkPreview(e.target.value, setFieldValue);
+                          fetchLinkPreview(
+                            e.target.value,
+                            setFieldValue,
+                            setValues
+                          );
                           // if (urlAutofillChecked) {
                           //   fetchLinkPreview(e.target.value, setFieldValue)
                           // }
@@ -277,11 +304,7 @@ const ResourceDialog = (props: Props) => {
                       <Autocomplete
                         id="tags-autocomplete-input"
                         options={props.tags}
-                        defaultValue={
-                          props.editingResource?.tag
-                            ? props.editingResource.tag
-                            : getCurrentTag()
-                        }
+                        value={values.tag}
                         getOptionLabel={(option) => option.name}
                         filterSelectedOptions
                         onChange={(e, val) => {
