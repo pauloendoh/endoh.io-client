@@ -1,25 +1,25 @@
-import { makeStyles, TextField } from "@material-ui/core"
-import React from "react"
+import { makeStyles, TextField } from "@material-ui/core";
+import React from "react";
 
 // PE 2/3
 const SkillDialogTitleTextField = (props: Props) => {
-  const classes = useStyles()
+  const classes = useStyles();
 
   const handleChange = async (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    props.onChange(e.target.value)
-  }
+    props.onChange(e.target.value);
+  };
 
   return (
     <TextField
       className={classes.nameTextField}
-      fullWidth
       placeholder="Untitled skill"
+      fullWidth
       InputProps={{
-        disableUnderline: true,
         className: classes.nameInput,
       }}
+      autoComplete="off"
       id={"name"}
       name={"name"}
       value={props.value}
@@ -27,8 +27,8 @@ const SkillDialogTitleTextField = (props: Props) => {
       autoFocus
       required
     />
-  )
-}
+  );
+};
 
 const useStyles = makeStyles((theme) => ({
   nameTextField: {
@@ -37,11 +37,11 @@ const useStyles = makeStyles((theme) => ({
   nameInput: {
     fontSize: 24,
   },
-}))
+}));
 
 type Props = {
-  value: string
-  onChange: (newValue: string) => void
-}
+  value: string;
+  onChange: (newValue: string) => void;
+};
 
-export default SkillDialogTitleTextField
+export default SkillDialogTitleTextField;

@@ -119,21 +119,23 @@ const SkillDialog = (props: Props) => {
             <Form>
               {/* Separate into <SkillDialogTitle skill={skill}/> */}
               <DialogTitle id="skill-dialog-title">
-                <FlexVCenter>
-                  <Box mr={2}>
-                    <PriorityStarIcon
-                      isPriority={values.isPriority}
-                      tooltipText="This skill is a priority in your life right now"
-                      onClick={() => {
-                        setFieldValue("isPriority", !values.isPriority);
-                      }}
-                    />
-                  </Box>
+                <FlexVCenter justifyContent="space-between">
+                  <FlexVCenter width="80%">
+                    <Box mr={2}>
+                      <PriorityStarIcon
+                        isPriority={values.isPriority}
+                        tooltipText="This skill is a priority in your life right now"
+                        onClick={() => {
+                          setFieldValue("isPriority", !values.isPriority);
+                        }}
+                      />
+                    </Box>
 
-                  <TitleTextField
-                    value={values.name}
-                    onChange={(newValue) => setFieldValue("name", newValue)}
-                  />
+                    <TitleTextField
+                      value={values.name}
+                      onChange={(newValue) => setFieldValue("name", newValue)}
+                    />
+                  </FlexVCenter>
 
                   {values.id > 0 && (
                     <SkillMoreIcon
@@ -145,7 +147,7 @@ const SkillDialog = (props: Props) => {
 
                 {/* Separate into <SkillLevelSelectors/> */}
                 <FlexVCenter
-                  mt={1}
+                  mt={3}
                   style={{ fontSize: 14, fontWeight: "normal" }}
                 >
                   <SelectSkillLevel
