@@ -86,9 +86,7 @@ const UserPage = (props: Props) => {
       ) : (
         <Grid container spacing={3}>
           <Grid item xs={3} style={{ width: "22%" }}>
-            <Box position="fixed" width="inherit">
-              <UserPageSidebar />
-            </Box>
+            <UserPageSidebar />
           </Grid>
           <Grid item xs={9} md={6} lg={5}>
             <ProfileHeader />

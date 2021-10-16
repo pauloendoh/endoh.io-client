@@ -1,34 +1,35 @@
-import { faCog, faSignOutAlt, faUser } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Box, Divider } from "@material-ui/core"
-import Button from "@material-ui/core/Button"
-import Menu from "@material-ui/core/Menu"
-import MenuItem from "@material-ui/core/MenuItem"
-import React from "react"
-import { connect } from "react-redux"
-import { Link, useLocation } from "react-router-dom"
-import { Dispatch } from "redux"
-import { logoutActionCreator } from "../../../store/auth/authActions"
-import { ApplicationState } from "../../../store/store"
-import ProfilePicture from "../../shared/ProfilePicture/ProfilePicture"
+import { faCog, faSignOutAlt, faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Box, Typography } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import theme from "consts/theme";
+import React from "react";
+import { connect } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import { Dispatch } from "redux";
+import { logoutActionCreator } from "../../../store/auth/authActions";
+import { ApplicationState } from "../../../store/store";
+import ProfilePicture from "../../shared/ProfilePicture/ProfilePicture";
 
 // PE 2/3
 const UserMenu = (props: Props) => {
-  const location = useLocation()
+  const location = useLocation();
 
-  const [anchorEl, setAnchorEl] = React.useState(null)
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event: any) => {
-    setAnchorEl(event.currentTarget)
-  }
+    setAnchorEl(event.currentTarget);
+  };
 
   const handleClose = () => {
-    setAnchorEl(null)
-  }
+    setAnchorEl(null);
+  };
 
-  let settingsHref = "/settings"
+  let settingsHref = "/settings";
   if (location.pathname.startsWith("/monerate")) {
-    settingsHref = "/settings/monerate/places"
+    settingsHref = "/settings/monerate/places";
   }
 
   return (
@@ -71,7 +72,6 @@ const UserMenu = (props: Props) => {
           </Box>
           Profile
         </MenuItem>
-        <Divider />
 
         <MenuItem component={Link} to={settingsHref} id="settings-user-menu">
           <Box mr={2}>
@@ -80,28 +80,32 @@ const UserMenu = (props: Props) => {
           Settings
         </MenuItem>
 
-        <Divider />
         <MenuItem className="logout-option" onClick={() => props.logout()}>
           <Box mr={2}>
-            <FontAwesomeIcon icon={faSignOutAlt} />
+            <FontAwesomeIcon
+              icon={faSignOutAlt}
+              color={theme.palette.error.main}
+            />
           </Box>
-          Logout
+          <Typography variant="inherit" noWrap color="error">
+            Logout
+          </Typography>
         </MenuItem>
       </Menu>
     </div>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state: ApplicationState) => ({
   authUser: state.auth.user,
   profile: state.auth.profile,
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   logout: () => dispatch(logoutActionCreator(dispatch)),
-})
+});
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+  ReturnType<typeof mapDispatchToProps>;
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserMenu)
+export default connect(mapStateToProps, mapDispatchToProps)(UserMenu);

@@ -87,9 +87,9 @@ function SkillMoreIcon(props: Props) {
           id="delete-tag-button"
         >
           <ListItemIcon className={classes.listItemIcon}>
-            <DeleteIcon fontSize="small" />
+            <DeleteIcon fontSize="small" color="error" />
           </ListItemIcon>
-          <Typography variant="inherit" noWrap>
+          <Typography variant="inherit" noWrap color="error">
             Delete
           </Typography>
         </MenuItem>
