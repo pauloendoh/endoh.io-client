@@ -1,6 +1,5 @@
 import {
   Box,
-  Divider,
   IconButton,
   ListItemIcon,
   makeStyles,
@@ -12,7 +11,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import API from "../../../../../../consts/API";
@@ -33,9 +32,14 @@ import {
 function ResourceMoreIcon(props: Props) {
   const classes = useStyles();
 
+  useEffect(() => {
+    if (!props.isHovered) setAnchorEl(null);
+  }, [props.isHovered]);
+
   // Anchor when you click 'More' icon
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const handleOpenMore = (event: any) => {
+    console.log(event);
     setAnchorEl(event.currentTarget);
   };
   const handleCloseMore = () => {
@@ -68,83 +72,77 @@ function ResourceMoreIcon(props: Props) {
   return (
     <React.Fragment>
       {/* 'More' icon - PE 1/3 - can be a specific component */}
-
-      <Box className={classes.moreButtonBox}>
-        {props.isHovered && (
-          <IconButton
-            size="small"
-            id="resource-more-icon"
-            aria-label="resource-more-icon"
+      <div>
+        <Box className={classes.moreButtonBox}>
+          {props.isHovered && (
+            <IconButton
+              size="small"
+              id="resource-more-icon"
+              aria-label="resource-more-icon"
+              onClick={(e) => {
+                handleOpenMore(e);
+              }}
+            >
+              <MoreHorizIcon />
+            </IconButton>
+          )}
+        </Box>
+        <Menu
+          id="tag-more"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={(e) => {
+            const event = e as any;
+            event.preventDefault();
+            handleCloseMore();
+          }}
+        >
+          <MenuItem
             onClick={(e) => {
-              e.preventDefault();
-              handleOpenMore(e);
+              handleCloseMore();
+              props.editResource(props.resource);
             }}
           >
-            <MoreHorizIcon />
-          </IconButton>
-        )}
-      </Box>
-      <Menu
-        id="tag-more"
-        anchorEl={anchorEl}
-        getContentAnchorEl={null}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        transformOrigin={{ vertical: "top", horizontal: "right" }}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={(e) => {
-          const event = e as any;
-          event.preventDefault();
-          handleCloseMore();
-        }}
-      >
-        <MenuItem
-          onClick={(e) => {
-            e.preventDefault();
-            handleCloseMore();
-            props.editResource(props.resource);
-          }}
-        >
-          <ListItemIcon className={classes.listItemIcon}>
-            <EditIcon fontSize="small" />
-          </ListItemIcon>
-          <Typography variant="inherit" noWrap>
-            Edit
-          </Typography>
-        </MenuItem>
+            <ListItemIcon className={classes.listItemIcon}>
+              <EditIcon fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="inherit" noWrap>
+              Edit
+            </Typography>
+          </MenuItem>
 
-        <MenuItem
-          onClick={(e) => {
-            e.preventDefault();
-            handleCloseMore();
-            duplicateResource(props.resource);
-          }}
-        >
-          <ListItemIcon className={classes.listItemIcon}>
-            <FileCopyIcon fontSize="small" />
-          </ListItemIcon>
-          <Typography variant="inherit" noWrap>
-            Duplicate
-          </Typography>
-        </MenuItem>
+          <MenuItem
+            onClick={(e) => {
+              e.preventDefault();
+              handleCloseMore();
+              duplicateResource(props.resource);
+            }}
+          >
+            <ListItemIcon className={classes.listItemIcon}>
+              <FileCopyIcon fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="inherit" noWrap>
+              Duplicate
+            </Typography>
+          </MenuItem>
 
-        <Divider light />
-
-        <MenuItem
-          onClick={() => {
-            handleCloseMore();
-            handleDeleteResource(props.resource.id);
-          }}
-          id="delete-resource-button"
-        >
-          <ListItemIcon className={classes.listItemIcon}>
-            <DeleteIcon fontSize="small" />
-          </ListItemIcon>
-          <Typography variant="inherit" noWrap>
-            Delete
-          </Typography>
-        </MenuItem>
-      </Menu>
+          <MenuItem
+            onClick={() => {
+              handleCloseMore();
+              handleDeleteResource(props.resource.id);
+            }}
+            id="delete-resource-button"
+          >
+            <ListItemIcon className={classes.listItemIcon}>
+              <DeleteIcon fontSize="small" color="error" />
+            </ListItemIcon>
+            <Typography variant="inherit" noWrap color="error">
+              Delete
+            </Typography>
+          </MenuItem>
+        </Menu>
+      </div>
     </React.Fragment>
   );
 }
