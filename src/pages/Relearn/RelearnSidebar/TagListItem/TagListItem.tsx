@@ -6,43 +6,55 @@ import {
   makeStyles,
   Theme,
   Typography,
-} from "@material-ui/core"
-import LabelIcon from "@material-ui/icons/Label"
-import React, { useEffect, useState } from "react"
-import { connect } from "react-redux"
-import { Link, Redirect, useLocation } from "react-router-dom"
-import { Dispatch } from "redux"
-import TagMoreIcon from "../../../../components/resources/TagMoreIcon/TagMoreIcon"
-import Flex from "../../../../components/shared/Flexboxes/Flex"
-import FlexHCenter from "../../../../components/shared/Flexboxes/FlexHCenter"
-import PATHS from "../../../../consts/PATHS"
-import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto"
-import * as relearnActions from "../../../../store/relearn/relearnActions"
-import { ApplicationState } from "../../../../store/store"
-import * as utilsActions from "../../../../store/utils/utilsActions"
-import { getTodoResources } from "../../../../utils/relearn/getTodoResources"
+} from "@material-ui/core";
+import LabelIcon from "@material-ui/icons/Label";
+import useSaveTagLastOpenedAt from "hooks/react-query/relearn/useSaveTagLastOpenedAt";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { Link, Redirect, useLocation } from "react-router-dom";
+import { Dispatch } from "redux";
+import { pushOrReplace } from "utils/pushOrReplace";
+import TagMoreIcon from "../../../../components/resources/TagMoreIcon/TagMoreIcon";
+import Flex from "../../../../components/shared/Flexboxes/Flex";
+import FlexHCenter from "../../../../components/shared/Flexboxes/FlexHCenter";
+import PATHS from "../../../../consts/PATHS";
+import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto";
+import * as relearnActions from "../../../../store/relearn/relearnActions";
+import { ApplicationState } from "../../../../store/store";
+import * as utilsActions from "../../../../store/utils/utilsActions";
+import { getTodoResources } from "../../../../utils/relearn/getTodoResources";
 
 // PE 2/3 - MenuItem could be shorter?
 function TagListItem(props: Props) {
-  const classes = useStyles()
-  const location = useLocation()
+  const classes = useStyles();
+  const location = useLocation();
 
   // PE 2/3 -  desnecessário?
-  const [pathName, setPathName] = useState(location.pathname)
+  const [pathName, setPathName] = useState(location.pathname);
   useEffect(() => {
-    setPathName(location.pathname)
-  }, [location])
+    setPathName(location.pathname);
+  }, [location]);
 
-  const [isHovered, setIsHovered] = useState(false)
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
-    setIsHovered(true)
-  }
+    setIsHovered(true);
+  };
   const handleMouseLeave = () => {
-    setIsHovered(false)
-  }
+    setIsHovered(false);
+  };
 
-  const [redirectTo, setRedirectTo] = useState("")
+  const { mutate: saveTagLastOpenedAt } = useSaveTagLastOpenedAt();
+  const handleSaveTagLastOpenedAt = (tagId: number) => {
+    saveTagLastOpenedAt(tagId, {
+      onSuccess: (savedTag) => {
+        const tags = pushOrReplace([...props.allTags], savedTag, "id");
+        props.setTags(tags);
+      },
+    });
+  };
+
+  const [redirectTo, setRedirectTo] = useState("");
 
   return (
     <ListItem
@@ -50,6 +62,7 @@ function TagListItem(props: Props) {
       className={classes.tagListItem + " tag-item"}
       button
       component={Link}
+      onClick={() => handleSaveTagLastOpenedAt(props.tag.id)}
       to={PATHS.relearn.tag + "/" + props.tag.id}
       selected={pathName === PATHS.relearn.tag + "/" + props.tag.id}
       onMouseEnter={handleMouseEnter}
@@ -70,7 +83,7 @@ function TagListItem(props: Props) {
         <TagMoreIcon
           afterDelete={() => {
             if (pathName.endsWith(props.tag.id.toString())) {
-              setRedirectTo(PATHS.relearn.index)
+              setRedirectTo(PATHS.relearn.index);
             }
           }}
           tag={props.tag}
@@ -89,7 +102,7 @@ function TagListItem(props: Props) {
 
       {redirectTo.length > 0 && <Redirect to={redirectTo} />}
     </ListItem>
-  )
+  );
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -112,29 +125,31 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.palette.grey[400],
     },
   })
-)
+);
 
 const mapStateToProps = (state: ApplicationState) => ({
   // user: state.auth.user,
   allResources: state.relearn.resources,
-})
+  allTags: state.relearn.tags,
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   editTag: (tag: TagDto) => dispatch(relearnActions.editTag(tag)),
+  setTags: (tags: TagDto[]) => dispatch(relearnActions.setTags(tags)),
   removeTag: (id: number) => dispatch(relearnActions.removeTag(id)),
 
   setSuccessMessage: (message: string) =>
     dispatch(utilsActions.setSuccessMessage(message)),
   // logout: () => dispatch(logoutActionCreator(dispatch)),
-})
+});
 
 interface OwnProps {
-  tag: TagDto
+  tag: TagDto;
   // onCloseForm: () => void;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(TagListItem)
+export default connect(mapStateToProps, mapDispatchToProps)(TagListItem);

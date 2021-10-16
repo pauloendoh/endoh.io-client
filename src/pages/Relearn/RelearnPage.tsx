@@ -1,13 +1,11 @@
 import { Box, makeStyles } from "@material-ui/core";
 import classNames from "classnames";
-import useSaveTagLastOpenedAt from "hooks/react-query/relearn/useSaveTagLastOpenedAt";
-import { TagDto } from "interfaces/dtos/relearn/TagDto";
 import React, { useEffect, useState } from "react";
 import { GlobalHotKeys } from "react-hotkeys";
 import { connect } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
-import { pushOrReplace } from "utils/pushOrReplace";
+import { setSkills } from "store/skillbase/skillbaseActions";
 import { urls } from "utils/urls";
 import Flex from "../../components/shared/Flexboxes/Flex";
 import API from "../../consts/API";
@@ -16,7 +14,6 @@ import PATHS from "../../consts/PATHS";
 import { SkillDto } from "../../dtos/skillbase/SkillDto";
 import { ResourceDto } from "../../interfaces/dtos/relearn/ResourceDto";
 import * as relearnActions from "../../store/relearn/relearnActions";
-import { setSkills } from "../../store/skillbase/skillbaseActions";
 import { ApplicationState } from "../../store/store";
 import useSidebarStore from "../../store/zustand/useSidebarStore";
 import { sleep } from "../../utils/sleep";
@@ -52,15 +49,6 @@ const RelearnPage = (props: Props) => {
 
   const location = useLocation();
 
-  const { mutate: saveTagLastOpenedAt } = useSaveTagLastOpenedAt();
-  const handleSaveTagLastOpenedAt = (tagId: number) =>
-    saveTagLastOpenedAt(tagId, {
-      onSuccess: (savedTag) => {
-        const tags = pushOrReplace([...props.allTags], savedTag, "id");
-        props.setTags(tags);
-      },
-    });
-
   // filter resources by tag (from path name)
   const [filteredResources, setFilteredResources] = useState<ResourceDto[]>([]);
   useEffect(
@@ -76,8 +64,6 @@ const RelearnPage = (props: Props) => {
       } else if (pathname.startsWith(PATHS.relearn.tag)) {
         const tagId = Number(pathname.split("/").pop());
         if (tagId) {
-          handleSaveTagLastOpenedAt(tagId);
-
           setFilteredResources(
             props.resources.filter((resource) => {
               return resource.tag?.id === tagId;
@@ -174,7 +160,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   setResources: (resources: ResourceDto[]) =>
     dispatch(relearnActions.setResources(resources)),
   setSkills: (skills: SkillDto[]) => dispatch(setSkills(skills)),
-  setTags: (tags: TagDto[]) => dispatch(relearnActions.setTags(tags)),
 
   startNewResource: () => dispatch(relearnActions.startNewResource()),
 });

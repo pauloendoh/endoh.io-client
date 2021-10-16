@@ -22,6 +22,11 @@ const theme = createMuiTheme({
     },
   },
   overrides: {
+    MuiToolbar: {
+      root: {
+        height: 72,
+      },
+    },
     MuiTextField: {
       root: {
         background: "#1E1E1E",
