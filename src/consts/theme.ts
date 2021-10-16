@@ -24,7 +24,7 @@ const theme = createMuiTheme({
   overrides: {
     MuiToolbar: {
       root: {
-        height: 72,
+        minHeight: "72px !important",
       },
     },
     MuiTextField: {
