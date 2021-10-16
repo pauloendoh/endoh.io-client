@@ -11,60 +11,75 @@ import {
   Toolbar,
   Tooltip,
   Typography,
-} from "@material-ui/core"
-import AddIcon from "@material-ui/icons/Add"
-import DescriptionIcon from "@material-ui/icons/Description"
-import ShuffleIcon from "@material-ui/icons/Shuffle"
-import _ from "lodash"
-import React, { useState } from "react"
-import { connect } from "react-redux"
-import { Link, useHistory } from "react-router-dom"
-import { Dispatch } from "redux"
-import Flex from "../../../components/shared/Flexboxes/Flex"
-import FlexHCenter from "../../../components/shared/Flexboxes/FlexHCenter"
-import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
-import MyTextField from "../../../components/shared/MyInputs/MyTextField"
-import PATHS from "../../../consts/PATHS"
-import { DocDto } from "../../../dtos/define/DocDto"
-import { ApplicationState } from "../../../store/store"
-import useSidebarStore from "../../../store/zustand/useSidebarStore"
-import stringIncludes from "../../../utils/text/stringIncludes"
-import DocTitleDialog from "../DocTitleDialog/DocTitleDialog"
+} from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
+import DescriptionIcon from "@material-ui/icons/Description";
+import ShuffleIcon from "@material-ui/icons/Shuffle";
+import useSaveDocLastOpenedAt from "hooks/react-query/define/useSaveDocLastOpenedAt";
+import _ from "lodash";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { Dispatch } from "redux";
+import { setDocs } from "store/define/defineActions";
+import { pushOrReplace } from "utils/pushOrReplace";
+import Flex from "../../../components/shared/Flexboxes/Flex";
+import FlexHCenter from "../../../components/shared/Flexboxes/FlexHCenter";
+import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter";
+import MyTextField from "../../../components/shared/MyInputs/MyTextField";
+import PATHS from "../../../consts/PATHS";
+import { DocDto } from "../../../dtos/define/DocDto";
+import { ApplicationState } from "../../../store/store";
+import useSidebarStore from "../../../store/zustand/useSidebarStore";
+import stringIncludes from "../../../utils/text/stringIncludes";
+import DocTitleDialog from "../DocTitleDialog/DocTitleDialog";
 
 function DefineSidebar(props: Props) {
-  const history = useHistory()
-  const classes = useStyles()
+  const history = useHistory();
+  const classes = useStyles();
 
-  const [openTitleDialog, setOpenTitleDialog] = useState(false)
+  const [openTitleDialog, setOpenTitleDialog] = useState(false);
 
   const getNotesCount = (doc: DocDto) => {
-    return props.allNotes.filter((note) => note.docId === doc.id).length
-  }
+    return props.allNotes.filter((note) => note.docId === doc.id).length;
+  };
 
   const getQuestionsCount = (doc: DocDto) => {
     return props.allNotes.filter(
       (note) => note.docId === doc.id && note.question.trim().length > 0
-    ).length
-  }
+    ).length;
+  };
 
-  const [textFilter, setTextFilter] = useState("")
+  const [textFilter, setTextFilter] = useState("");
 
   const filterAndSortDocs = () => {
     let filtered = props.allDocs.filter((d) =>
       stringIncludes(d.title, textFilter)
-    )
+    );
 
-    return filtered.sort((a, b) => a.title.localeCompare(b.title))
-  }
+    return filtered.sort((a, b) => a.title.localeCompare(b.title));
+  };
+
+  const { mutate: saveDocLastOpenedAt } = useSaveDocLastOpenedAt();
+  const handleSaveDocLastOpenedAt = (docId: number) => {
+    saveDocLastOpenedAt(docId, {
+      onSuccess: (savedDoc) => {
+        const docs = pushOrReplace([...props.allDocs], savedDoc, "id");
+        props.setDocs(docs);
+      },
+    });
+  };
 
   const openRandomDoc = () => {
     if (props.allDocs.length > 0) {
-      const randomDoc = _.sample(props.allDocs)
-      history.push(PATHS.define.doc(randomDoc.id))
-    }
-  }
+      const randomDoc = _.sample(props.allDocs);
+      history.push(PATHS.define.doc(randomDoc.id));
 
-  const { sidebarIsOpen } = useSidebarStore()
+      handleSaveDocLastOpenedAt(randomDoc.id);
+    }
+  };
+
+  const { sidebarIsOpen } = useSidebarStore();
 
   return (
     <Drawer
@@ -114,8 +129,8 @@ function DefineSidebar(props: Props) {
                   initialValue=""
                   onClose={() => setOpenTitleDialog(false)}
                   afterSave={(doc) => {
-                    history.push(PATHS.define.doc(doc.id))
-                    setOpenTitleDialog(false)
+                    history.push(PATHS.define.doc(doc.id));
+                    setOpenTitleDialog(false);
                   }}
                 />
               </FlexVCenter>
@@ -126,6 +141,7 @@ function DefineSidebar(props: Props) {
               key={doc.id}
               button
               component={Link}
+              onClick={() => console.log(doc.id)}
               to={PATHS.define.doc(doc.id)}
               selected={props.selectedDocId === doc.id}
             >
@@ -151,7 +167,7 @@ function DefineSidebar(props: Props) {
         </List>
       </Box>
     </Drawer>
-  )
+  );
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -173,21 +189,23 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.palette.grey[400],
     },
   })
-)
+);
 
 const mapStateToProps = (state: ApplicationState) => ({
   allDocs: state.define.docs,
   allNotes: state.define.notes,
-})
+});
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  setDocs: (docs: DocDto[]) => dispatch(setDocs(docs)),
+});
 
 interface OwnProps {
-  selectedDocId: number
+  selectedDocId: number;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(DefineSidebar)
+export default connect(mapStateToProps, mapDispatchToProps)(DefineSidebar);

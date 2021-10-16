@@ -2,8 +2,9 @@ import { Box, makeStyles } from "@material-ui/core";
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { Dispatch } from "redux";
+import { urls } from "utils/urls";
 import Flex from "../../components/shared/Flexboxes/Flex";
 import API from "../../consts/API";
 import myAxios from "../../consts/myAxios";
@@ -51,6 +52,26 @@ const DefinePage = (props: Props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [docId]);
+
+  const history = useHistory();
+  useEffect(
+    () => {
+      // open last opened tag
+      if (!docId && props.allDocs?.length > 0) {
+        const sortedByLastOpened = props.allDocs.sort((a, b) => {
+          if (a.lastOpenedAt === undefined) return -1;
+          if (b.lastOpenedAt === undefined) return 1;
+
+          return a.lastOpenedAt > b.lastOpenedAt ? -1 : 1;
+        });
+
+        const docId = sortedByLastOpened[0].id;
+        history.push(urls.pages.define.docId(docId));
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [props.allDocs, docId]
+  );
 
   const classes = useStyles();
 
