@@ -1,9 +1,11 @@
 import { Box, Container } from "@material-ui/core";
+import Flex from "components/shared/Flexboxes/Flex";
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router";
 import { SkillDto } from "../../../dtos/skillbase/SkillDto";
 import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto";
 import { getTodoResources as filterTodo } from "../../../utils/relearn/getTodoResources";
+import AddResourceButton from "../AddResourceButton";
 import ContentHeader from "./ContentHeader/ContentHeader";
 import ResourceList from "./ResourceList/ResourceList";
 
@@ -65,6 +67,10 @@ function RelearnContent(props: {
         resources={tabIndex === 0 ? todo : completed}
         isDraggable={tabIndex === 0}
       />
+
+      <Flex mt={2}>
+        <AddResourceButton />
+      </Flex>
     </Container>
   );
 }

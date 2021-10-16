@@ -88,14 +88,6 @@ const Navbar = (props: Props) => {
         </Flex>
 
         <FlexVCenter>
-          {/* <Switch>
-            <Route
-              path={PATHS.relearn.index}
-              component={RelearnNavbarContent}
-            />
-          </Switch>
-          <Flex mr={4} /> */}
-
           <Notification />
           <UserMenu />
         </FlexVCenter>
