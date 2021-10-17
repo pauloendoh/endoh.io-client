@@ -1,4 +1,4 @@
-import { Badge, Button, Menu } from "@material-ui/core";
+import { Badge, IconButton, Menu } from "@material-ui/core";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import React from "react";
 import { connect } from "react-redux";
@@ -39,10 +39,11 @@ const Notification = (props: Props) => {
 
   return (
     <React.Fragment>
-      <Button
+      <IconButton
         aria-controls="simple-menu"
         aria-haspopup="true"
         onClick={handleClick}
+        size="small"
       >
         <Badge
           color="primary"
@@ -51,7 +52,7 @@ const Notification = (props: Props) => {
         >
           <NotificationsIcon fontSize="large" />
         </Badge>
-      </Button>
+      </IconButton>
       {props.allNotifications.length > 0 && (
         <Menu
           id="simple-menu"

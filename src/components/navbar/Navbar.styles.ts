@@ -1,4 +1,6 @@
 import { ExtendButtonBase, Tab, TabTypeMap } from "@material-ui/core";
+import FlexVCenter from "components/shared/Flexboxes/FlexVCenter";
+import theme from "consts/theme";
 import styled from "styled-components";
 
 const S = {
@@ -12,6 +14,10 @@ const S = {
       font-size: 16px;
     }
   `,
+
+  ActionButtonsWrapper: styled(FlexVCenter)({
+    gap: theme.spacing(2),
+  }),
 };
 
 export default S;

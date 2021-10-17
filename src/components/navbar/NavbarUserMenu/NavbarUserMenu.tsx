@@ -1,7 +1,6 @@
 import { faCog, faSignOutAlt, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Typography } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
+import { Box, IconButton, Typography } from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import theme from "consts/theme";
@@ -14,7 +13,7 @@ import { ApplicationState } from "../../../store/store";
 import ProfilePicture from "../../shared/ProfilePicture/ProfilePicture";
 
 // PE 2/3
-const UserMenu = (props: Props) => {
+const NavbarUserMenu = (props: Props) => {
   const location = useLocation();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -34,10 +33,10 @@ const UserMenu = (props: Props) => {
 
   return (
     <div>
-      <Button
+      <IconButton
+        size="small"
         id="user-menu-btn"
         onClick={handleClick}
-        fullWidth
         aria-controls="simple-menu"
         aria-haspopup="true"
       >
@@ -49,7 +48,7 @@ const UserMenu = (props: Props) => {
             size="1.875rem"
           />
         )}
-      </Button>
+      </IconButton>
 
       <Menu
         id="simple-menu"
@@ -108,4 +107,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserMenu);
+export default connect(mapStateToProps, mapDispatchToProps)(NavbarUserMenu);

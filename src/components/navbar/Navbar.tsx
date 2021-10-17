@@ -21,10 +21,12 @@ import { ApplicationState } from "../../store/store";
 import Flex from "../shared/Flexboxes/Flex";
 import FlexVCenter from "../shared/Flexboxes/FlexVCenter";
 import LeftToggleButton from "./LeftToggleButton/LeftToggleButton";
+import S from "./Navbar.styles";
 import utils from "./Navbar.utils";
+import NavbarAddButton from "./NavbarAddButton/NavbarAddButton";
+import NavbarUserMenu from "./NavbarUserMenu/NavbarUserMenu";
 import Notification from "./Notification/Notification";
 import SearchBar from "./SearchBar/SearchBar";
-import UserMenu from "./UserMenu/UserMenu";
 
 // PE 2/3
 const Navbar = (props: Props) => {
@@ -88,10 +90,11 @@ const Navbar = (props: Props) => {
           </Tabs>
         </Flex>
 
-        <FlexVCenter>
+        <S.ActionButtonsWrapper>
+          <NavbarAddButton />
           <Notification />
-          <UserMenu />
-        </FlexVCenter>
+          <NavbarUserMenu />
+        </S.ActionButtonsWrapper>
       </Toolbar>
     </AppBar>
   );
