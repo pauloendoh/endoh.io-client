@@ -173,6 +173,7 @@ const ResourceDialog = (props: Props) => {
             errors,
             values,
             isSubmitting,
+            submitForm,
             handleChange,
             setFieldValue,
             setValues,
@@ -351,6 +352,9 @@ const ResourceDialog = (props: Props) => {
                     multiline
                     onChange={handleChange}
                     fullWidth
+                    onCtrlEnter={() => {
+                      submitForm();
+                    }}
                     label={
                       <FlexVCenter>
                         <FontAwesomeIcon
@@ -369,6 +373,9 @@ const ResourceDialog = (props: Props) => {
                     name="privateNote"
                     value={values.privateNote}
                     multiline
+                    onCtrlEnter={() => {
+                      submitForm();
+                    }}
                     onChange={handleChange}
                     fullWidth
                     label={
