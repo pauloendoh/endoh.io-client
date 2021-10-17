@@ -90,6 +90,9 @@ function ResourceMoreIcon(props: Props) {
         <Menu
           id="tag-more"
           anchorEl={anchorEl}
+          getContentAnchorEl={null}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          transformOrigin={{ vertical: "top", horizontal: "right" }}
           keepMounted
           open={Boolean(anchorEl)}
           onClose={(e) => {
