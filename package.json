@@ -75,8 +75,8 @@
     "start": "react-scripts  start",
     "dev": "set PORT=8000 & npm start",
     "build": "react-scripts  build",
-    "test": "react-scripts  test",
-    "build:test": "react-scripts build && react-scripts  test",
+    "test": "react-scripts  test && cypress run",
+    "build:test": "react-scripts build && react-scripts  test && cypress run",
     "eject": "react-scripts  eject"
   },
   "eslintConfig": {
@@ -104,7 +104,7 @@
     "@types/react-redux": "^7.1.16",
     "@types/react-text-mask": "^5.4.7",
     "craco-alias": "^3.0.1",
-    "cypress": "^7.3.0",
+    "cypress": "^8.6.0",
     "eslint-import-resolver-typescript": "^2.4.0"
   }
 }

@@ -10,9 +10,10 @@ import {
   IconButton,
   Typography,
 } from "@material-ui/core";
-import Chip from "@material-ui/core/Chip";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import { Autocomplete } from "@material-ui/lab";
+import FlexHCenter from "components/shared/Flexboxes/FlexHCenter";
+import TagIcon from "components/shared/Icon/TagIcon";
 import { Form, Formik, FormikErrors } from "formik";
 import React, { useState } from "react";
 import { connect } from "react-redux";
@@ -302,6 +303,7 @@ const ResourceDialog = (props: Props) => {
                       />
                     </Grid>
                     <Grid item xs={12} sm={6}>
+                      {/* PE 1/3 - dry into <TagSelector/> also used at skill dialog */}
                       <Autocomplete
                         id="tags-autocomplete-input"
                         options={props.tags}
@@ -315,15 +317,22 @@ const ResourceDialog = (props: Props) => {
                         renderInput={(params) => (
                           <MyTextField {...params} size="small" label="Tag" />
                         )}
-                        renderTags={(tagValue, getTagProps) =>
-                          tagValue.map((option, index) => (
-                            <Chip
-                              size="small"
-                              label={option.name}
-                              {...getTagProps({ index })}
-                            />
-                          ))
-                        }
+                        renderOption={(option) => (
+                          <FlexVCenter>
+                            {option.id ? (
+                              <FlexVCenter>
+                                <TagIcon tag={option} />
+                                <Box ml={1}>
+                                  <Typography variant="body2">
+                                    {option.name}
+                                  </Typography>
+                                </Box>
+                              </FlexVCenter>
+                            ) : (
+                              <FlexHCenter>{option.name}</FlexHCenter>
+                            )}
+                          </FlexVCenter>
+                        )}
                       />
                     </Grid>
                   </Grid>
