@@ -46,7 +46,7 @@ const UserMenu = (props: Props) => {
             isLink={false}
             pictureUrl={props.profile.pictureUrl}
             username={props.authUser.username}
-            size={25}
+            size="1.875rem"
           />
         )}
       </Button>

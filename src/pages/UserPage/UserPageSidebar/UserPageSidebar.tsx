@@ -1,27 +1,27 @@
-import { faLock } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Box, List, ListItem, makeStyles, Typography } from "@material-ui/core"
-import ListItemText from "@material-ui/core/ListItemText"
-import React, { useRef } from "react"
-import { connect } from "react-redux"
-import { Link, useParams } from "react-router-dom"
-import { Dispatch } from "redux"
-import Flex from "../../../components/shared/Flexboxes/Flex"
-import FlexHCenter from "../../../components/shared/Flexboxes/FlexHCenter"
-import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter"
-import PATHS from "../../../consts/PATHS"
-import { ApplicationState } from "../../../store/store"
-import useElementSize from "../../../hooks/useElementSize"
-import TagListItem from "./TagListItem/TagListItem"
+import { faLock } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Box, List, ListItem, makeStyles, Typography } from "@material-ui/core";
+import ListItemText from "@material-ui/core/ListItemText";
+import React, { useRef } from "react";
+import { connect } from "react-redux";
+import { Link, useParams } from "react-router-dom";
+import { Dispatch } from "redux";
+import Flex from "../../../components/shared/Flexboxes/Flex";
+import FlexHCenter from "../../../components/shared/Flexboxes/FlexHCenter";
+import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter";
+import PATHS from "../../../consts/PATHS";
+import useElementSize from "../../../hooks/useElementSize";
+import { ApplicationState } from "../../../store/store";
+import TagListItem from "./TagListItem/TagListItem";
 
 // PE 3/3
 const UserPageSidebar = (props: Props) => {
-  const rootRef = useRef<any>(null)
+  const rootRef = useRef<any>(null);
 
-  const { width } = useElementSize(rootRef)
+  const { width } = useElementSize(rootRef);
 
-  const classes = useStyles()
-  const { username, tagId } = useParams<{ username: string; tagId: string }>()
+  const classes = useStyles();
+  const { username, tagId } = useParams<{ username: string; tagId: string }>();
 
   return (
     <Box maxWidth={300} ml="auto" {...({ ref: rootRef } as any)}>
@@ -83,25 +83,25 @@ const UserPageSidebar = (props: Props) => {
         </Box>
       )}
     </Box>
-  )
-}
+  );
+};
 
 const useStyles = makeStyles((theme) => ({
   resourcesCount: {
     fontSize: 12,
     color: theme.palette.grey[400],
   },
-}))
+}));
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+  ReturnType<typeof mapDispatchToProps>;
 
 const mapStateToProps = (state: ApplicationState) => ({
   resources: state.profile.resources,
   publicTags: state.profile.publicTags,
   privateTags: state.profile.privateTags,
-})
+});
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
+const mapDispatchToProps = (dispatch: Dispatch) => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserPageSidebar)
+export default connect(mapStateToProps, mapDispatchToProps)(UserPageSidebar);

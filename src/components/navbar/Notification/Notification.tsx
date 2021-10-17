@@ -49,7 +49,7 @@ const Notification = (props: Props) => {
           badgeContent={getUnseenNotificationsLength()}
           variant={getBadgeVariant()}
         >
-          <NotificationsIcon />
+          <NotificationsIcon fontSize="large" />
         </Badge>
       </Button>
       {props.allNotifications.length > 0 && (

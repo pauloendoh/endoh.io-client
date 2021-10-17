@@ -16,6 +16,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
+import { mediaQueries } from "utils/styles/mediaQueries";
 import { ApplicationState } from "../../store/store";
 import Flex from "../shared/Flexboxes/Flex";
 import FlexVCenter from "../shared/Flexboxes/FlexVCenter";
@@ -122,13 +123,20 @@ const useStyles = makeStyles((theme: Theme) =>
       zIndex: 1202,
     },
     tab: {
-      minWidth: 100,
       width: "inherit",
       color: "white",
 
       "& svg": {
         height: 16,
         fontSize: 16,
+      },
+
+      [mediaQueries.isBiggerThan(950)]: {
+        minWidth: 100,
+      },
+
+      [mediaQueries.isSmallerThan(950)]: {
+        minWidth: "auto",
       },
     },
   })

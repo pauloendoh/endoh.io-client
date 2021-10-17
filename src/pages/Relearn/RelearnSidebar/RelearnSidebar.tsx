@@ -1,36 +1,38 @@
 import {
   Box,
-  createStyles, List,
+  createStyles,
+  List,
   ListItem,
   ListItemText,
   makeStyles,
-  Theme, Typography
-} from "@material-ui/core"
-import PATHS from "consts/PATHS"
-import React, { useEffect, useState } from "react"
-import { connect } from "react-redux"
-import { Link, useLocation } from "react-router-dom"
-import { Dispatch } from "redux"
-import MySidebar from "../../../components/shared/MySidebar"
-import { TagDto } from "../../../interfaces/dtos/relearn/TagDto"
-import { ApplicationState } from "../../../store/store"
-import { getTodoResources } from "../../../utils/relearn/getTodoResources"
-import RelearnSidebarTagList from "./RelearnSidebarTagList/RelearnSidebarTagList"
+  Theme,
+  Typography,
+} from "@material-ui/core";
+import PATHS from "consts/PATHS";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import { Dispatch } from "redux";
+import MySidebar from "../../../components/shared/MySidebar";
+import { TagDto } from "../../../interfaces/dtos/relearn/TagDto";
+import { ApplicationState } from "../../../store/store";
+import { getTodoResources } from "../../../utils/relearn/getTodoResources";
+import RelearnSidebarTagList from "./RelearnSidebarTagList/RelearnSidebarTagList";
 
 function RelearnSidebar(props: Props) {
-  const [publicLists, setPublicLists] = useState<TagDto[]>([])
-  const [privateLists, setPrivateLists] = useState<TagDto[]>([])
+  const [publicLists, setPublicLists] = useState<TagDto[]>([]);
+  const [privateLists, setPrivateLists] = useState<TagDto[]>([]);
   useEffect(() => {
-    setPublicLists(props.tags.filter((t) => t.isPrivate === false))
-    setPrivateLists(props.tags.filter((t) => t.isPrivate === true))
-  }, [props.tags])
+    setPublicLists(props.tags.filter((t) => t.isPrivate === false));
+    setPrivateLists(props.tags.filter((t) => t.isPrivate === true));
+  }, [props.tags]);
 
-  const location = useLocation()
+  const location = useLocation();
   const isIndex = () => {
-    return location.pathname === PATHS.relearn.index
-  }
+    return location.pathname === PATHS.relearn.index;
+  };
 
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <MySidebar>
@@ -58,12 +60,11 @@ function RelearnSidebar(props: Props) {
 
           <RelearnSidebarTagList lists={publicLists} type="public" />
 
-          <Box mt={2} />
           <RelearnSidebarTagList lists={privateLists} type="private" />
         </List>
       </Box>
     </MySidebar>
-  )
+  );
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -74,16 +75,16 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.palette.grey[400],
     },
   })
-)
+);
 
 const mapStateToProps = (state: ApplicationState) => ({
   tags: state.relearn.tags,
   resources: state.relearn.resources,
-})
+});
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
+const mapDispatchToProps = (dispatch: Dispatch) => ({});
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+  ReturnType<typeof mapDispatchToProps>;
 
-export default connect(mapStateToProps, mapDispatchToProps)(RelearnSidebar)
+export default connect(mapStateToProps, mapDispatchToProps)(RelearnSidebar);
