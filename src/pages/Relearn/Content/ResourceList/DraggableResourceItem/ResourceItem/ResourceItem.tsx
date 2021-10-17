@@ -54,7 +54,6 @@ function ResourceItem(props: Props) {
   return (
     <S.ResourceItemRoot
       onClick={(e) => {
-        e.stopPropagation();
         if (e.altKey) {
           props.editResource(props.resource);
         }
