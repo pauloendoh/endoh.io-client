@@ -86,7 +86,7 @@ const FollowDialog = (props: Props) => {
           {({ errors, values, isSubmitting, setFieldValue, handleChange }) => (
             <Form>
               <DialogTitle id="follow-dialog-title">
-                Follow {username}
+                Select tags to follow
               </DialogTitle>
               <DialogContent>
                 <Box>

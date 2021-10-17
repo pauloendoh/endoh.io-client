@@ -3,7 +3,7 @@ import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { GlobalHotKeys } from "react-hotkeys";
 import { connect } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
+import { Redirect, useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
 import { setSkills } from "store/skillbase/skillbaseActions";
 import { urls } from "utils/urls";
@@ -25,14 +25,15 @@ import RelearnSidebar from "./RelearnSidebar/RelearnSidebar";
 // PE 3/3
 const RelearnPage = (props: Props) => {
   const classes = useStyles();
-  const history = useHistory();
 
   const [skills, setSkills] = useState<SkillDto[]>([]);
+  const [redirectTo, setRedirectTo] = useState("");
 
   const { sidebarIsOpen, openSidebar } = useSidebarStore();
 
   useEffect(
     () => {
+      setRedirectTo("");
       openSidebar();
 
       myAxios.get<ResourceDto[]>(API.relearn.resource).then((res) => {
@@ -53,6 +54,7 @@ const RelearnPage = (props: Props) => {
   const [filteredResources, setFilteredResources] = useState<ResourceDto[]>([]);
   useEffect(
     () => {
+      setRedirectTo("");
       const { pathname } = location;
 
       // Filtrando resource por tags. Melhor colocar em outro arquivo?
@@ -91,7 +93,7 @@ const RelearnPage = (props: Props) => {
         });
 
         const tagId = sortedByLastOpened[0].id;
-        history.push(urls.pages.relearnTag(tagId));
+        setRedirectTo(urls.pages.relearnTag(tagId));
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -105,6 +107,10 @@ const RelearnPage = (props: Props) => {
       props.startNewResource();
     },
   };
+
+  if (redirectTo.length > 0) {
+    return <Redirect to={redirectTo} />;
+  }
 
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={handlers}>
