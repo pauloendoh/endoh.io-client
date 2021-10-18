@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
 import FlexVCenter from "../../../../../../components/shared/Flexboxes/FlexVCenter";
-import { TagDto } from "../../../../../../interfaces/dtos/relearn/TagDto";
 import { ApplicationState } from "../../../../../../store/store";
+import { TagDto } from "../../../../../../types/domain/relearn/TagDto";
 import PATHS from "../../../../../../utils/consts/PATHS";
 import EditSkillsDialog from "./EditSkillsDialog/EditSkillsDialog";
 

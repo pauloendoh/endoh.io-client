@@ -5,9 +5,9 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import Flex from "../../../components/shared/Flexboxes/Flex";
 import MyTextField from "../../../components/shared/MyInputs/MyTextField";
-import CategoryGetDto from "../../../interfaces/dtos/monerate/CategoryDtos/CategoryGetDto";
 import * as monerateActions from "../../../store/monerate/monerateActions";
 import { ApplicationState } from "../../../store/store";
+import CategoryGetDto from "../../../types/domain/monerate/CategoryGetDto";
 import API from "../../../utils/consts/API";
 import myAxios from "../../../utils/consts/myAxios";
 

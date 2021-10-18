@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 import { action } from "typesafe-actions";
-import { ResourceDto } from "../../interfaces/dtos/relearn/ResourceDto";
+import { ResourceDto } from "../../types/domain/relearn/ResourceDto";
 import { ProfileDto } from "../../types/domain/_common/ProfileDto";
 import { UserInfoDto } from "../../types/domain/_common/UserInfoDto";
 import { setProfilePicture as authSetProfilePicture } from "../auth/authActions";

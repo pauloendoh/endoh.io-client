@@ -1,4 +1,4 @@
-import { ResourceDto } from "./ResourceDto";
+import { ResourceDto } from "../../../../../types/domain/relearn/ResourceDto";
 
 export interface LinkPreviewDto {
   title: string;

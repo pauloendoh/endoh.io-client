@@ -2,7 +2,7 @@ import { Box, Container } from "@material-ui/core";
 import Flex from "components/shared/Flexboxes/Flex";
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router";
-import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto";
+import { ResourceDto } from "../../../types/domain/relearn/ResourceDto";
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto";
 import { getTodoResources as filterTodo } from "../../../utils/relearn/getTodoResources";
 import AddResourceButton from "../AddResourceButton";

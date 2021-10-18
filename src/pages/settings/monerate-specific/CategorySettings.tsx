@@ -15,9 +15,9 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import CategoryIcon from "../../../components/shared/CategoryIcon";
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter";
-import CategoryGetDto from "../../../interfaces/dtos/monerate/CategoryDtos/CategoryGetDto";
 import * as monerateActions from "../../../store/monerate/monerateActions";
 import { ApplicationState } from "../../../store/store";
+import CategoryGetDto from "../../../types/domain/monerate/CategoryGetDto";
 import API from "../../../utils/consts/API";
 import MY_AXIOS from "../../../utils/consts/myAxios";
 

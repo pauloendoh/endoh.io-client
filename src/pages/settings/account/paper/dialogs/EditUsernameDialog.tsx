@@ -13,13 +13,11 @@ import { Dispatch } from "redux";
 import Flex from "../../../../../components/shared/Flexboxes/Flex";
 import FlexHCenter from "../../../../../components/shared/Flexboxes/FlexHCenter";
 import MyTextField from "../../../../../components/shared/MyInputs/MyTextField";
-import { UsernamePutDto } from "../../../../../interfaces/dtos/auth/UsernamePutDto";
-import MyAxiosError, {
-  MyFieldError,
-} from "../../../../../interfaces/MyAxiosError";
 import { setUsername } from "../../../../../store/auth/authActions";
 import { ApplicationState } from "../../../../../store/store";
 import * as utilsActions from "../../../../../store/utils/utilsActions";
+import { UsernamePutDto } from "../../../../../types/domain/auth/UsernamePutDto";
+import MyAxiosError, { MyFieldError } from "../../../../../types/MyAxiosError";
 import API from "../../../../../utils/consts/API";
 import myAxios from "../../../../../utils/consts/myAxios";
 

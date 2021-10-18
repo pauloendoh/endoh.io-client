@@ -1,34 +1,34 @@
-import { Box, makeStyles } from "@material-ui/core"
-import React from "react"
-import { DndProvider } from "react-dnd"
-import { HTML5Backend } from "react-dnd-html5-backend"
-import { Virtuoso } from "react-virtuoso"
-import { ResourceDto } from "../../../../interfaces/dtos/relearn/ResourceDto"
-import DraggableResourceItem from "./DraggableResourceItem/DraggableResourceItem"
-import ResourceItem from "./DraggableResourceItem/ResourceItem/ResourceItem"
+import { Box, makeStyles } from "@material-ui/core";
+import React from "react";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { Virtuoso } from "react-virtuoso";
+import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto";
+import DraggableResourceItem from "./DraggableResourceItem/DraggableResourceItem";
+import ResourceItem from "./DraggableResourceItem/ResourceItem/ResourceItem";
 
 function ResourceList({
   resources,
   isDraggable,
 }: {
-  resources: ResourceDto[]
-  isDraggable: boolean
+  resources: ResourceDto[];
+  isDraggable: boolean;
 }) {
-  const classes = useStyles()
+  const classes = useStyles();
 
   if (isDraggable)
-  return (
-    <DndProvider backend={HTML5Backend}>
-      {resources.map((resource, index) => (
-        <DraggableResourceItem
-          key={resource.id}
-          resource={resource}
-          index={index}
-          className={classes.resourceItem}
-        />
-      ))}
-    </DndProvider>
-  )
+    return (
+      <DndProvider backend={HTML5Backend}>
+        {resources.map((resource, index) => (
+          <DraggableResourceItem
+            key={resource.id}
+            resource={resource}
+            index={index}
+            className={classes.resourceItem}
+          />
+        ))}
+      </DndProvider>
+    );
 
   return (
     <Virtuoso
@@ -40,13 +40,13 @@ function ResourceList({
         </Box>
       )}
     />
-  )
+  );
 }
 
 const useStyles = makeStyles((theme) => ({
   resourceItem: {
     cursor: "grab",
   },
-}))
+}));
 
-export default ResourceList
+export default ResourceList;

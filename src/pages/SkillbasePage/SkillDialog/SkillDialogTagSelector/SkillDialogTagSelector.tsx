@@ -11,8 +11,8 @@ import { Dispatch } from "redux";
 import FlexHCenter from "../../../../components/shared/Flexboxes/FlexHCenter";
 import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter";
 import MyTextField from "../../../../components/shared/MyInputs/MyTextField";
-import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto";
 import { ApplicationState } from "../../../../store/store";
+import { TagDto } from "../../../../types/domain/relearn/TagDto";
 
 const SkillDialogTagSelector = (props: Props) => {
   const [tag, setTag] = useState<TagDto>(null);

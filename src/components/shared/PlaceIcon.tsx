@@ -1,16 +1,16 @@
-import { makeStyles, Theme } from "@material-ui/core"
-import React from "react"
-import PlaceGetDto from "../../interfaces/dtos/monerate/PlaceGetDto"
-import FlexVCenter from "./Flexboxes/FlexVCenter"
+import { makeStyles, Theme } from "@material-ui/core";
+import React from "react";
+import PlaceGetDto from "../../types/domain/monerate/PlaceGetDto";
+import FlexVCenter from "./Flexboxes/FlexVCenter";
 
 const PlaceIcon = (props: Props) => {
-  const classes = useStyles()
+  const classes = useStyles();
   return (
     <FlexVCenter className={classes.root}>
       {props.place.name[0].toUpperCase()}
     </FlexVCenter>
-  )
-}
+  );
+};
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -21,10 +21,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderRadius: 30,
     fontWeight: 600,
   },
-}))
+}));
 
 interface Props {
-  place: PlaceGetDto
+  place: PlaceGetDto;
 }
 
-export default PlaceIcon
+export default PlaceIcon;

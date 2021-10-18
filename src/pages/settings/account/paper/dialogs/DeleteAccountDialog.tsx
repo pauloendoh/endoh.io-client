@@ -13,13 +13,11 @@ import { Dispatch } from "redux";
 import Flex from "../../../../../components/shared/Flexboxes/Flex";
 import FlexHCenter from "../../../../../components/shared/Flexboxes/FlexHCenter";
 import MyTextField from "../../../../../components/shared/MyInputs/MyTextField";
-import { UserDeleteDto } from "../../../../../interfaces/dtos/auth/UserDeleteDto";
-import MyAxiosError, {
-  MyFieldError,
-} from "../../../../../interfaces/MyAxiosError";
 import { logoutActionCreator } from "../../../../../store/auth/authActions";
 import { ApplicationState } from "../../../../../store/store";
 import * as utilsActions from "../../../../../store/utils/utilsActions";
+import { UserDeleteDto } from "../../../../../types/domain/auth/UserDeleteDto";
+import MyAxiosError, { MyFieldError } from "../../../../../types/MyAxiosError";
 import API from "../../../../../utils/consts/API";
 import myAxios from "../../../../../utils/consts/myAxios";
 

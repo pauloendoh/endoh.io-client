@@ -1,7 +1,7 @@
 import {
   AuthUserGetDto,
   UserPreferenceDto,
-} from "interfaces/dtos/AuthUserGetDto";
+} from "types/domain/auth/AuthUserGetDto";
 import { FollowerDto } from "types/domain/feed/FollowerDto";
 import { FollowingUserDto } from "types/domain/feed/FollowingUserDto";
 import { FollowingTagDto } from "../../types/domain/feed/FollowingTagDto";

@@ -1,6 +1,6 @@
-import { Box, FormControl, MenuItem, Select } from "@material-ui/core"
-import React, { useEffect, useState } from "react"
-import { connect } from "react-redux"
+import { Box, FormControl, MenuItem, Select } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 import {
   Bar,
   BarChart,
@@ -9,41 +9,39 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from "recharts"
-import { Dispatch } from "redux"
-import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto"
-import { TagDto } from "../../../interfaces/dtos/relearn/TagDto"
+} from "recharts";
+import { Dispatch } from "redux";
 import {
   clearProfile,
   setProfileResources,
-} from "../../../store/profile/profileActions"
-import { ApplicationState } from "../../../store/store"
-import { getLastWeekResourcesForChart } from "../../../utils/feed/getLastWeekResourcesForChart"
-import { getLastYearResourcesForChart } from "../../../utils/feed/getLastYearResourcesForChart"
+} from "../../../store/profile/profileActions";
+import { ApplicationState } from "../../../store/store";
+import { ResourceDto } from "../../../types/domain/relearn/ResourceDto";
+import { TagDto } from "../../../types/domain/relearn/TagDto";
+import { getLastWeekResourcesForChart } from "../../../utils/feed/getLastWeekResourcesForChart";
+import { getLastYearResourcesForChart } from "../../../utils/feed/getLastYearResourcesForChart";
 
-type ChartRange = "Last week" | "Last year"
+type ChartRange = "Last week" | "Last year";
 
 // PE 3/3
 const ResourcesChart = (props: Props) => {
-  const [lists, setLists] = useState<TagDto[]>([])
-  const [data, setData] = useState([])
+  const [lists, setLists] = useState<TagDto[]>([]);
+  const [data, setData] = useState([]);
 
-  const [chartRange, setChartRange] = useState<ChartRange>("Last year")
+  const [chartRange, setChartRange] = useState<ChartRange>("Last year");
 
   // prepare the graphic
   useEffect(() => {
     if (chartRange === "Last week") {
-      const { lists, data } = getLastWeekResourcesForChart(props.resources)
-      setLists(lists)
-      setData(data)
+      const { lists, data } = getLastWeekResourcesForChart(props.resources);
+      setLists(lists);
+      setData(data);
     } else if (chartRange === "Last year") {
-      const { lists, data } = getLastYearResourcesForChart(props.resources)
-      setLists(lists)
-      setData(data)
+      const { lists, data } = getLastYearResourcesForChart(props.resources);
+      setLists(lists);
+      setData(data);
     }
-  }, [props.resources, chartRange])
-
-
+  }, [props.resources, chartRange]);
 
   return (
     <Box>
@@ -92,24 +90,24 @@ const ResourcesChart = (props: Props) => {
         ))}
       </BarChart>
     </Box>
-  )
-}
+  );
+};
 
 interface OwnProps {
-  resources: ResourceDto[]
+  resources: ResourceDto[];
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
-const mapStateToProps = (state: ApplicationState) => ({})
+const mapStateToProps = (state: ApplicationState) => ({});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   clearProfile: () => dispatch(clearProfile()),
 
   setProfileResources: (resources: ResourceDto[]) =>
     dispatch(setProfileResources(resources)),
-})
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResourcesChart)
+export default connect(mapStateToProps, mapDispatchToProps)(ResourcesChart);

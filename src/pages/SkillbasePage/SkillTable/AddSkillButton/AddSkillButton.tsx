@@ -3,8 +3,8 @@ import AddIcon from "@material-ui/icons/Add";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto";
 import { setEditingSkill } from "../../../../store/skillbase/skillbaseActions";
+import { TagDto } from "../../../../types/domain/relearn/TagDto";
 import {
   newSkillDto,
   SkillDto,

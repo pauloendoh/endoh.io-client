@@ -6,14 +6,14 @@ import { Dispatch } from "redux";
 import UserSuggestions from "../../components/feed/UserSuggestions/UserSuggestions";
 import MinRatingButton from "../../components/resources/MinRatingButton/MinRatingButton";
 import Flex from "../../components/shared/Flexboxes/Flex";
-import { ResourceDto } from "../../interfaces/dtos/relearn/ResourceDto";
-import { TagDto } from "../../interfaces/dtos/relearn/TagDto";
 import {
   clearProfile,
   setProfileResources,
   setUserInfo,
 } from "../../store/profile/profileActions";
 import { ApplicationState } from "../../store/store";
+import { ResourceDto } from "../../types/domain/relearn/ResourceDto";
+import { TagDto } from "../../types/domain/relearn/TagDto";
 import { UserInfoDto } from "../../types/domain/_common/UserInfoDto";
 import API from "../../utils/consts/API";
 import myAxios from "../../utils/consts/myAxios";

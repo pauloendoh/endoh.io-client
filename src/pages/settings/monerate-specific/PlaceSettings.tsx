@@ -16,9 +16,9 @@ import { Dispatch } from "redux";
 import MY_AXIOS from "utils/consts/myAxios";
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter";
 import PlaceIcon from "../../../components/shared/PlaceIcon";
-import PlaceGetDto from "../../../interfaces/dtos/monerate/PlaceGetDto";
 import * as monerateActions from "../../../store/monerate/monerateActions";
 import { ApplicationState } from "../../../store/store";
+import PlaceGetDto from "../../../types/domain/monerate/PlaceGetDto";
 import API from "../../../utils/consts/API";
 
 const PlaceSettings = (props: Props) => {

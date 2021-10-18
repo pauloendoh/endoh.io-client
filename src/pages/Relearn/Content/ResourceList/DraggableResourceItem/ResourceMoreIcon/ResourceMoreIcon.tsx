@@ -14,7 +14,6 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { ResourceDto } from "../../../../../../interfaces/dtos/relearn/ResourceDto";
 import {
   editResource,
   removeResource,
@@ -25,6 +24,7 @@ import {
   setErrorMessage,
   setSuccessMessage,
 } from "../../../../../../store/utils/utilsActions";
+import { ResourceDto } from "../../../../../../types/domain/relearn/ResourceDto";
 import API from "../../../../../../utils/consts/API";
 import myAxios from "../../../../../../utils/consts/myAxios";
 

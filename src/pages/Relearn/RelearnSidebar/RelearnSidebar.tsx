@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import MySidebar from "../../../components/shared/MySidebar";
-import { TagDto } from "../../../interfaces/dtos/relearn/TagDto";
 import { ApplicationState } from "../../../store/store";
+import { TagDto } from "../../../types/domain/relearn/TagDto";
 import RelearnSidebarTagList from "./RelearnSidebarTagList/RelearnSidebarTagList";
 
 function RelearnSidebar(props: Props) {

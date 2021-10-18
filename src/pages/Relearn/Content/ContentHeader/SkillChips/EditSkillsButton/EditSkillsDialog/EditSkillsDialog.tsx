@@ -1,10 +1,10 @@
-import { Box, Dialog, DialogContent } from "@material-ui/core"
-import React from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import { TagDto } from "../../../../../../../interfaces/dtos/relearn/TagDto"
-import { ApplicationState } from "../../../../../../../store/store"
-import SkillbaseTable from "../../../../../../SkillbasePage/SkillTable/SkillbaseTable"
+import { Box, Dialog, DialogContent } from "@material-ui/core";
+import React from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { ApplicationState } from "../../../../../../../store/store";
+import { TagDto } from "../../../../../../../types/domain/relearn/TagDto";
+import SkillbaseTable from "../../../../../../SkillbasePage/SkillTable/SkillbaseTable";
 
 // PE 2/3
 function EditSkillsDialog(props: Props) {
@@ -26,23 +26,23 @@ function EditSkillsDialog(props: Props) {
         </React.Fragment>
       )}
     </Dialog>
-  )
+  );
 }
 
 const mapStateToProps = (state: ApplicationState) => ({
   allSkills: state.skillbase.skills,
   allTags: state.relearn.tags,
-})
+});
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
+const mapDispatchToProps = (dispatch: Dispatch) => ({});
 
 interface OwnProps {
-  tag: TagDto
-  onClose: () => void
+  tag: TagDto;
+  onClose: () => void;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditSkillsDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(EditSkillsDialog);

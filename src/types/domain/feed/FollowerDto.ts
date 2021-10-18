@@ -1,4 +1,4 @@
-import { TagDto } from "interfaces/dtos/relearn/TagDto";
+import { TagDto } from "../relearn/TagDto";
 
 export interface FollowerDto {
   follower: {

@@ -1,7 +1,7 @@
-import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto";
-import { TagDto } from "../../../interfaces/dtos/relearn/TagDto";
 import { FollowerDto } from "../feed/FollowerDto";
 import { FollowingUserDto } from "../feed/FollowingUserDto";
+import { ResourceDto } from "../relearn/ResourceDto";
+import { TagDto } from "../relearn/TagDto";
 import { ProfileDto } from "./ProfileDto";
 
 export interface UserInfoDto {

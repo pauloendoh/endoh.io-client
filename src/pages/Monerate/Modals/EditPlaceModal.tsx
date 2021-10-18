@@ -7,9 +7,9 @@ import API from "utils/consts/API";
 import myAxios from "utils/consts/myAxios";
 import Flex from "../../../components/shared/Flexboxes/Flex";
 import MyTextField from "../../../components/shared/MyInputs/MyTextField";
-import PlaceGetDto from "../../../interfaces/dtos/monerate/PlaceGetDto";
 import * as monerateActions from "../../../store/monerate/monerateActions";
 import { ApplicationState } from "../../../store/store";
+import PlaceGetDto from "../../../types/domain/monerate/PlaceGetDto";
 
 const EditPlaceModal = (props: Props) => {
   const handleSubmit = (place: PlaceGetDto) => {

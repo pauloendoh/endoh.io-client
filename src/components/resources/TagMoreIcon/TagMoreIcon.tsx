@@ -14,10 +14,10 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { TagDto } from "../../../interfaces/dtos/relearn/TagDto";
 import * as relearnActions from "../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../store/store";
 import * as utilsActions from "../../../store/utils/utilsActions";
+import { TagDto } from "../../../types/domain/relearn/TagDto";
 import API from "../../../utils/consts/API";
 import myAxios from "../../../utils/consts/myAxios";
 

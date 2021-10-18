@@ -1,46 +1,46 @@
+import { action } from "typesafe-actions";
+import { IMoveResource } from "../../types/domain/relearn/IMoveResource";
 import {
-  ResourceDto,
   newResourceDto,
-} from "../../interfaces/dtos/relearn/ResourceDto"
-import { relearnActionTypes } from "./relearnTypes"
-import { action } from "typesafe-actions"
-import { TagDto, newTagDto } from "../../interfaces/dtos/relearn/TagDto"
-import { IMoveResource } from "../../interfaces/relearn/IMoveResource"
+  ResourceDto,
+} from "../../types/domain/relearn/ResourceDto";
+import { newTagDto, TagDto } from "../../types/domain/relearn/TagDto";
+import { relearnActionTypes } from "./relearnTypes";
 
 export const setResources = (resources: ResourceDto[]) =>
-  action(relearnActionTypes.SET_RESOURCES, resources)
+  action(relearnActionTypes.SET_RESOURCES, resources);
 export const setTags = (tags: TagDto[]) =>
-  action(relearnActionTypes.SET_TAGS, tags)
+  action(relearnActionTypes.SET_TAGS, tags);
 
 export const removeResource = (id: number) =>
-  action(relearnActionTypes.REMOVE_RESOURCE, id)
+  action(relearnActionTypes.REMOVE_RESOURCE, id);
 export const removeTag = (id: number) =>
-  action(relearnActionTypes.REMOVE_TAG, id)
+  action(relearnActionTypes.REMOVE_TAG, id);
 
 export const startNewResource = () =>
-  action(relearnActionTypes.SET_EDITING_RESOURCE, newResourceDto())
+  action(relearnActionTypes.SET_EDITING_RESOURCE, newResourceDto());
 
 export const editResource = (resource: ResourceDto) =>
-  action(relearnActionTypes.SET_EDITING_RESOURCE, resource)
+  action(relearnActionTypes.SET_EDITING_RESOURCE, resource);
 export const closeResourceDialog = () =>
-  action(relearnActionTypes.SET_EDITING_RESOURCE, null)
+  action(relearnActionTypes.SET_EDITING_RESOURCE, null);
 
 export const startNewTag = (isPrivate: boolean) => {
-  const newTag = newTagDto()
-  newTag.isPrivate = isPrivate
-  return action(relearnActionTypes.SET_EDITING_TAG, newTag)
-}
+  const newTag = newTagDto();
+  newTag.isPrivate = isPrivate;
+  return action(relearnActionTypes.SET_EDITING_TAG, newTag);
+};
 
 export const editTag = (tag: TagDto) =>
-  action(relearnActionTypes.SET_EDITING_TAG, tag)
+  action(relearnActionTypes.SET_EDITING_TAG, tag);
 export const closeTagDialog = () =>
-  action(relearnActionTypes.SET_EDITING_TAG, null)
+  action(relearnActionTypes.SET_EDITING_TAG, null);
 
 export const moveResource = (moveResourceObj: IMoveResource) =>
-  action(relearnActionTypes.MOVE_RESOURCE, moveResourceObj)
+  action(relearnActionTypes.MOVE_RESOURCE, moveResourceObj);
 
 export const clearRelearnReducer = () =>
-  action(relearnActionTypes.CLEAR_RELEARN_REDUCER)
+  action(relearnActionTypes.CLEAR_RELEARN_REDUCER);
 
 // PE 2/3 - Perigo da pessoa esquecer de colocar aqui....
 export type RelearnActionReturns =
@@ -55,4 +55,4 @@ export type RelearnActionReturns =
   | ReturnType<typeof editTag>
   | ReturnType<typeof closeTagDialog>
   | ReturnType<typeof moveResource>
-  | ReturnType<typeof clearRelearnReducer>
+  | ReturnType<typeof clearRelearnReducer>;

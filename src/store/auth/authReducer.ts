@@ -1,5 +1,5 @@
-import { AuthUserGetDto } from "interfaces/dtos/AuthUserGetDto";
 import { Reducer } from "redux";
+import { AuthUserGetDto } from "types/domain/auth/AuthUserGetDto";
 import { UserInfoDto } from "../../types/domain/_common/UserInfoDto";
 import { AuthActionReturns } from "./authActions";
 import { AuthActionTypes, AuthState } from "./authTypes";

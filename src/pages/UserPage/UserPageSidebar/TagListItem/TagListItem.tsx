@@ -7,8 +7,8 @@ import { Link } from "react-router-dom";
 import { Dispatch } from "redux";
 import Flex from "../../../../components/shared/Flexboxes/Flex";
 import FlexHCenter from "../../../../components/shared/Flexboxes/FlexHCenter";
-import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto";
 import { ApplicationState } from "../../../../store/store";
+import { TagDto } from "../../../../types/domain/relearn/TagDto";
 import PATHS from "../../../../utils/consts/PATHS";
 
 // PE 3/3

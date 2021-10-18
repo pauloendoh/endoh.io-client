@@ -15,7 +15,6 @@ import { Dispatch } from "redux";
 import Flex from "../../../../components/shared/Flexboxes/Flex";
 import MyTextField from "../../../../components/shared/MyInputs/MyTextField";
 import ProfilePicture from "../../../../components/shared/ProfilePicture/ProfilePicture";
-import MyAxiosError from "../../../../interfaces/MyAxiosError";
 import {
   editProfilePicture,
   setProfile,
@@ -23,6 +22,7 @@ import {
 import { ApplicationState } from "../../../../store/store";
 import * as utilsActions from "../../../../store/utils/utilsActions";
 import { ProfileDto } from "../../../../types/domain/_common/ProfileDto";
+import MyAxiosError from "../../../../types/MyAxiosError";
 import API from "../../../../utils/consts/API";
 import myAxios from "../../../../utils/consts/myAxios";
 import { urlIsValid } from "../../../../utils/url/isValidUrl";

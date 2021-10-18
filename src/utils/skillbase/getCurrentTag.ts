@@ -1,4 +1,4 @@
-import { TagDto } from "../../interfaces/dtos/relearn/TagDto";
+import { TagDto } from "../../types/domain/relearn/TagDto";
 import PATHS from "../consts/PATHS";
 
 export const getCurrentTag = (pathname: string, allTags: TagDto[]): TagDto => {

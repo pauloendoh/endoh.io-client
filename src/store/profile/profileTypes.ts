@@ -1,7 +1,7 @@
 import { FollowerDto } from "types/domain/feed/FollowerDto";
 import { FollowingUserDto } from "types/domain/feed/FollowingUserDto";
-import { ResourceDto } from "../../interfaces/dtos/relearn/ResourceDto";
-import { TagDto } from "../../interfaces/dtos/relearn/TagDto";
+import { ResourceDto } from "../../types/domain/relearn/ResourceDto";
+import { TagDto } from "../../types/domain/relearn/TagDto";
 import { ProfileDto } from "../../types/domain/_common/ProfileDto";
 
 export enum ProfileActionTypes {

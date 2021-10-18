@@ -1,5 +1,5 @@
-import { TagDto } from "../../interfaces/dtos/relearn/TagDto"
-import { ResourceDto } from "../../interfaces/dtos/relearn/ResourceDto"
+import { ResourceDto } from "../../types/domain/relearn/ResourceDto";
+import { TagDto } from "../../types/domain/relearn/TagDto";
 
 export enum relearnActionTypes {
   SET_RESOURCES = "@relearn/SET_RESOURCES",
@@ -17,10 +17,10 @@ export enum relearnActionTypes {
 }
 
 export interface RelearnState {
-  resources: ResourceDto[]
-  hasFirstLoaded: boolean
-  tags: TagDto[]
+  resources: ResourceDto[];
+  hasFirstLoaded: boolean;
+  tags: TagDto[];
 
-  editingResource: ResourceDto
-  editingTag: TagDto
+  editingResource: ResourceDto;
+  editingTag: TagDto;
 }

@@ -1,11 +1,11 @@
-import { Box } from "@material-ui/core"
-import React from "react"
-import { connect } from "react-redux"
-import { Virtuoso } from "react-virtuoso"
-import { Dispatch } from "redux"
-import FeedResourceItem from "../../../components/feed/FeedResourceItem/FeedResourceItem"
-import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto"
-import { ApplicationState } from "../../../store/store"
+import { Box } from "@material-ui/core";
+import React from "react";
+import { connect } from "react-redux";
+import { Virtuoso } from "react-virtuoso";
+import { Dispatch } from "redux";
+import FeedResourceItem from "../../../components/feed/FeedResourceItem/FeedResourceItem";
+import { ApplicationState } from "../../../store/store";
+import { ResourceDto } from "../../../types/domain/relearn/ResourceDto";
 
 // PE 3/3
 const FeedResources = (props: Props) => {
@@ -19,19 +19,19 @@ const FeedResources = (props: Props) => {
         )}
       />
     </Box>
-  )
-}
+  );
+};
 
 interface OwnProps {
-  resources: ResourceDto[]
+  resources: ResourceDto[];
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
-const mapStateToProps = (state: ApplicationState) => ({})
+const mapStateToProps = (state: ApplicationState) => ({});
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
+const mapDispatchToProps = (dispatch: Dispatch) => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(FeedResources)
+export default connect(mapStateToProps, mapDispatchToProps)(FeedResources);

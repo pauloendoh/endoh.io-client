@@ -1,7 +1,5 @@
 
 PE 1/3:
-- create a types/domain folder and put your dtos there 
-- put your interfaces/dtos inside types/domain
 - put ProfileDto inside domain/profile
 - put UserInfoDto inside types/domain/auth
 - put isValidApplicationPath in a App.utils.ts 

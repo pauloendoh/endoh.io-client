@@ -4,7 +4,7 @@ import { getQueryParam } from "utils/url/getQueryParam";
 import {
   AuthUserGetDto,
   UserPreferenceDto,
-} from "../../interfaces/dtos/AuthUserGetDto";
+} from "../../types/domain/auth/AuthUserGetDto";
 import { FollowingTagDto } from "../../types/domain/feed/FollowingTagDto";
 import { NotificationDto } from "../../types/domain/utils/NotificationDto";
 import { UserInfoDto } from "../../types/domain/_common/UserInfoDto";

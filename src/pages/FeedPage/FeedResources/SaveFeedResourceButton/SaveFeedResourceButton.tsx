@@ -4,13 +4,13 @@ import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter";
-import {
-  newResourceDto,
-  ResourceDto,
-} from "../../../../interfaces/dtos/relearn/ResourceDto";
 import { editResource } from "../../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../../store/store";
 import { FeedResourceDto } from "../../../../types/domain/feed/FeedResourceDto";
+import {
+  newResourceDto,
+  ResourceDto,
+} from "../../../../types/domain/relearn/ResourceDto";
 
 const SaveFeedResourceButton = (props: Props) => {
   const handleClick = () => {

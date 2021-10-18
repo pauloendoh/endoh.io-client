@@ -1,5 +1,5 @@
+import { TagDto } from "../../../types/domain/relearn/TagDto";
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto";
-import { TagDto } from "./../../../interfaces/dtos/relearn/TagDto";
 import { SortSkill } from "./../../../store/skillbase/skillbaseTypes";
 
 export default function filterAndSortSkills(
