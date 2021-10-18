@@ -13,9 +13,9 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import React, { useState } from "react";
-import { DecisionDto } from "../../../../../dtos/BigDecisions/DecisionDto";
 import useDeleteDecisionMutation from "../../../../../hooks/BigDecisions/Decision/useDeleteDecisionMutation";
 import useDialogsStore from "../../../../../store/zustand/useDialogsStore";
+import { DecisionDto } from "../../../../../types/domain/big-decisions/DecisionDto";
 
 interface Props {
   decision: DecisionDto;

@@ -2,8 +2,8 @@ import { makeStyles, TextareaAutosize } from "@material-ui/core";
 import classNames from "classnames";
 import React, { useRef, useState } from "react";
 import { TD, TR } from "../../../../../components/shared/Table/MyTableWrappers";
-import { DecisionTableItemDto } from "../../../../../dtos/BigDecisions/DecisionTableItemDto";
-import MyColors from "../../../../../utils/consts/MyColors";
+import { DecisionTableItemDto } from "../../../../../types/domain/big-decisions/DecisionTableItemDto";
+import colors from "../../../../../utils/consts/colors";
 
 type Props = {
   initialItem: DecisionTableItemDto;
@@ -111,7 +111,7 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     cursor: "pointer",
   },
-  bold: { fontWeight: "bold", color: MyColors.ratingYellow[5] },
+  bold: { fontWeight: "bold", color: colors.ratingYellow[5] },
   col3: { width: 60, textAlign: "center" },
 }));
 

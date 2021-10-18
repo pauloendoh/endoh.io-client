@@ -1,20 +1,20 @@
-import { DecisionTableItemDto } from "./DecisionTableItemDto"
+import { DecisionTableItemDto } from "./DecisionTableItemDto";
 
 export interface DecisionTableDto {
-  id: number
-  userId: number
-  decisionId: number
+  id: number;
+  userId: number;
+  decisionId: number;
 
   // items: DecisionTableItem[]
-  title: string
+  title: string;
 
-  index: number
+  index: number;
 
-  items?: DecisionTableItemDto[]
+  items?: DecisionTableItemDto[];
 
-  createdAt: string
+  createdAt: string;
 
-  updatedAt: string
+  updatedAt: string;
 }
 
 export const newDecisionTableDto = (decisionId: number): DecisionTableDto => ({
@@ -25,4 +25,4 @@ export const newDecisionTableDto = (decisionId: number): DecisionTableDto => ({
   index: null,
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
-})
+});

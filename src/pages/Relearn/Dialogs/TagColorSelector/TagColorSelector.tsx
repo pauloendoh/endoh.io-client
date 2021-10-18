@@ -7,10 +7,10 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter";
-import { MY_LIST_COLORS } from "../../../../utils/consts/MY_LIST_COLORS";
+import { tagColors } from "./_utils/tagColors";
 
 // PE 2/3
-const SelectColor = (props: OwnProps) => {
+const TagColorSelector = (props: OwnProps) => {
   return (
     <FormControl variant="outlined" size="small" fullWidth>
       <InputLabel id="demo-simple-select-outlined-label">Color</InputLabel>
@@ -21,7 +21,7 @@ const SelectColor = (props: OwnProps) => {
         onChange={(e) => props.onChange(e.target.value as string)}
         label="Color"
       >
-        {MY_LIST_COLORS.map((color) => (
+        {tagColors.map((color) => (
           <MenuItem value={color.color} key={color.color}>
             <FlexVCenter>
               <Box
@@ -47,4 +47,4 @@ interface OwnProps {
   onChange?: (newValue: string) => void;
 }
 
-export default SelectColor;
+export default TagColorSelector;

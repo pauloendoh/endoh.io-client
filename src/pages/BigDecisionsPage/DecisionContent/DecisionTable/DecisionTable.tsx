@@ -18,14 +18,14 @@ import {
   TR,
 } from "../../../../components/shared/Table/MyTableWrappers";
 import Txt from "../../../../components/shared/Text/Txt";
-import { DecisionTableDto } from "../../../../dtos/BigDecisions/DecisionTableDto";
+import useSaveItemMutation from "../../../../hooks/BigDecisions/DecisionTableItem/usePPutItemMutation";
+import useSidebarStore from "../../../../store/zustand/useSidebarStore";
+import { DecisionTableDto } from "../../../../types/domain/big-decisions/DecisionTableDto";
 import {
   DecisionTableItemDto,
   newDecisionTableItemDto,
-} from "../../../../dtos/BigDecisions/DecisionTableItemDto";
-import useSaveItemMutation from "../../../../hooks/BigDecisions/DecisionTableItem/usePPutItemMutation";
-import useSidebarStore from "../../../../store/zustand/useSidebarStore";
-import MyColors from "../../../../utils/consts/MyColors";
+} from "../../../../types/domain/big-decisions/DecisionTableItemDto";
+import colors from "../../../../utils/consts/colors";
 import getFinalWeight from "../../../../utils/domain/BigDecision/getFinalWeight";
 import DecisionTableRow from "./DecisionTableRow/DecisionTableRow";
 import SortWeightIcon from "./SortWeightMenuIcon/SortWeightMenuIcon";
@@ -94,7 +94,7 @@ const DecisionTable = ({
                   <Box>Weight</Box>
                   <FlexVCenter justifyContent="center">
                     {getFinalWeight(table.items) > 0 ? (
-                      <b style={{ color: MyColors.ratingYellow[5] }}>
+                      <b style={{ color: colors.ratingYellow[5] }}>
                         {getFinalWeight(table.items)}
                       </b>
                     ) : (

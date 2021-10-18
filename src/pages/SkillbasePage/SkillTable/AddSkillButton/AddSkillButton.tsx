@@ -3,9 +3,12 @@ import AddIcon from "@material-ui/icons/Add";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { newSkillDto, SkillDto } from "../../../../dtos/skillbase/SkillDto";
 import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto";
 import { setEditingSkill } from "../../../../store/skillbase/skillbaseActions";
+import {
+  newSkillDto,
+  SkillDto,
+} from "../../../../types/domain/skillbase/SkillDto";
 
 // PE 2/3
 interface OwnProps {

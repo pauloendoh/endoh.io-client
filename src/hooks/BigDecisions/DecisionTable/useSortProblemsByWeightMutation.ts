@@ -1,7 +1,7 @@
 import { produce } from "immer";
 import { useMutation } from "react-query";
-import { DecisionDto } from "../../../dtos/BigDecisions/DecisionDto";
 import useSnackbarStore from "../../../store/zustand/useSnackbarStore";
+import { DecisionDto } from "../../../types/domain/big-decisions/DecisionDto";
 import API from "../../../utils/consts/API";
 import myAxios from "../../../utils/consts/myAxios";
 import { myQueryClient } from "../../../utils/consts/myQueryClient";

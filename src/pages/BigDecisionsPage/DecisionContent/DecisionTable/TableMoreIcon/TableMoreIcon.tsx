@@ -7,34 +7,34 @@ import {
   Menu,
   MenuItem,
   Theme,
-  Typography
-} from "@material-ui/core"
-import DeleteIcon from "@material-ui/icons/Delete"
-import EditIcon from "@material-ui/icons/Edit"
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
-import React, { useState } from "react"
-import { DecisionTableDto } from "../../../../../dtos/BigDecisions/DecisionTableDto"
-import useDeleteTableMutation from "../../../../../hooks/BigDecisions/DecisionTable/useDeleteTableMutation"
-import useDialogsStore from "../../../../../store/zustand/useDialogsStore"
+  Typography,
+} from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import React, { useState } from "react";
+import useDeleteTableMutation from "../../../../../hooks/BigDecisions/DecisionTable/useDeleteTableMutation";
+import useDialogsStore from "../../../../../store/zustand/useDialogsStore";
+import { DecisionTableDto } from "../../../../../types/domain/big-decisions/DecisionTableDto";
 
 interface Props {
-  table: DecisionTableDto
+  table: DecisionTableDto;
 }
 
 function TableMoreIcon(props: Props) {
-  const classes = useStyles()
+  const classes = useStyles();
 
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState(null);
   const handleOpenMore = (event: any) => {
-    setAnchorEl(event.currentTarget)
-  }
+    setAnchorEl(event.currentTarget);
+  };
   const handleCloseMore = () => {
-    setAnchorEl(null) // avoids error "The `anchorEl` prop provided to the component is invalid"
-  }
+    setAnchorEl(null); // avoids error "The `anchorEl` prop provided to the component is invalid"
+  };
 
-  const deleteTableMutation = useDeleteTableMutation()
+  const deleteTableMutation = useDeleteTableMutation();
 
-  const { openDecisionTableDialog } = useDialogsStore()
+  const { openDecisionTableDialog } = useDialogsStore();
 
   return (
     <Box>
@@ -43,8 +43,8 @@ function TableMoreIcon(props: Props) {
         size="small"
         aria-label="decision-table-more-icon"
         onClick={(e) => {
-          e.preventDefault()
-          handleOpenMore(e)
+          e.preventDefault();
+          handleOpenMore(e);
         }}
       >
         <MoreHorizIcon />
@@ -60,14 +60,14 @@ function TableMoreIcon(props: Props) {
         open={Boolean(anchorEl)}
         onClose={(e) => {
           // const event = e as any
-          handleCloseMore()
+          handleCloseMore();
         }}
       >
         <MenuItem
           onClick={(e) => {
-            e.preventDefault()
-            openDecisionTableDialog(props.table)
-            handleCloseMore()
+            e.preventDefault();
+            openDecisionTableDialog(props.table);
+            handleCloseMore();
           }}
         >
           <ListItemIcon className={classes.listItemIcon}>
@@ -80,8 +80,8 @@ function TableMoreIcon(props: Props) {
 
         <MenuItem
           onClick={(e) => {
-            e.preventDefault()
-            deleteTableMutation.mutate(props.table)
+            e.preventDefault();
+            deleteTableMutation.mutate(props.table);
           }}
           id="delete-decision-table-button"
         >
@@ -94,7 +94,7 @@ function TableMoreIcon(props: Props) {
         </MenuItem>
       </Menu>
     </Box>
-  )
+  );
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -103,6 +103,6 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 16,
     },
   })
-)
+);
 
-export default TableMoreIcon
+export default TableMoreIcon;

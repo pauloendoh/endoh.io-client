@@ -1,8 +1,8 @@
-import { ProfileDto } from "../../dtos/ProfileDto"
-import { ResourceDto } from "../../interfaces/dtos/relearn/ResourceDto"
-import { TagDto } from "../../interfaces/dtos/relearn/TagDto"
-import { FollowingUserDto } from "../../dtos/feed/FollowingUserDto"
-import { FollowerDto } from "../../dtos/feed/FollowerDto"
+import { FollowerDto } from "types/domain/feed/FollowerDto";
+import { FollowingUserDto } from "types/domain/feed/FollowingUserDto";
+import { ResourceDto } from "../../interfaces/dtos/relearn/ResourceDto";
+import { TagDto } from "../../interfaces/dtos/relearn/TagDto";
+import { ProfileDto } from "../../types/domain/_common/ProfileDto";
 
 export enum ProfileActionTypes {
   CLEAR_PROFILE = "@profile/CLEAR_PROFILE",
@@ -14,12 +14,12 @@ export enum ProfileActionTypes {
 }
 
 export interface ProfileState {
-  profile: ProfileDto
-  resources: ResourceDto[]
+  profile: ProfileDto;
+  resources: ResourceDto[];
 
-  publicTags: TagDto[]
-  privateTags: TagDto[]
+  publicTags: TagDto[];
+  privateTags: TagDto[];
 
-  followingUsers: FollowingUserDto[]
-  followers: FollowerDto[]
+  followingUsers: FollowingUserDto[];
+  followers: FollowerDto[];
 }

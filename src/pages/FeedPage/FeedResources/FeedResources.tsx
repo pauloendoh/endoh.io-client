@@ -10,8 +10,8 @@ import ResourceThumbnail from "../../../components/resources/ResourceThumbnail/R
 import Flex from "../../../components/shared/Flexboxes/Flex";
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter";
 import ProfilePicture from "../../../components/shared/ProfilePicture/ProfilePicture";
-import { FeedResourceDto } from "../../../dtos/feed/FeedResourceDto";
 import { ApplicationState } from "../../../store/store";
+import { FeedResourceDto } from "../../../types/domain/feed/FeedResourceDto";
 import PATHS from "../../../utils/consts/PATHS";
 import { getColorByRating } from "../../../utils/relearn/getColorByRating";
 import SaveFeedResourceButton from "./SaveFeedResourceButton/SaveFeedResourceButton";

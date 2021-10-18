@@ -1,19 +1,19 @@
-import { faCircle } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Box, makeStyles, MenuItem, Typography } from "@material-ui/core"
-import React from "react"
-import ReactTimeago from "react-timeago"
-import { NotificationDto } from "../../../../dtos/utils/NotificationDto"
-import Flex from "../../../shared/Flexboxes/Flex"
-import FlexHCenter from "../../../shared/Flexboxes/FlexHCenter"
-import FlexVCenter from "../../../shared/Flexboxes/FlexVCenter"
-import ProfilePicture from "../../../shared/ProfilePicture/ProfilePicture"
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Box, makeStyles, MenuItem, Typography } from "@material-ui/core";
+import React from "react";
+import ReactTimeago from "react-timeago";
+import { NotificationDto } from "../../../../types/domain/utils/NotificationDto";
+import Flex from "../../../shared/Flexboxes/Flex";
+import FlexHCenter from "../../../shared/Flexboxes/FlexHCenter";
+import FlexVCenter from "../../../shared/Flexboxes/FlexVCenter";
+import ProfilePicture from "../../../shared/ProfilePicture/ProfilePicture";
 
-// PE 2/3 
+// PE 2/3
 
 // https://stackoverflow.com/questions/62645556/react-warning-function-components-cannot-be-given-refs
 const NotificationItem = React.forwardRef((props: Props, ref) => {
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <MenuItem className={classes.menuItem}>
@@ -44,8 +44,8 @@ const NotificationItem = React.forwardRef((props: Props, ref) => {
         </Box>
       </Flex>
     </MenuItem>
-  )
-})
+  );
+});
 
 const useStyles = makeStyles((theme) => ({
   menuItem: {
@@ -57,12 +57,12 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 8,
     color: theme.palette.primary.main,
   },
-}))
+}));
 
 interface OwnProps {
-  notification: NotificationDto
+  notification: NotificationDto;
 }
 
-type Props = OwnProps
+type Props = OwnProps;
 
-export default NotificationItem
+export default NotificationItem;

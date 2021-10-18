@@ -1,5 +1,5 @@
 import { useMutation } from "react-query";
-import { DocDto } from "../../../dtos/define/DocDto";
+import { DocDto } from "../../../types/domain/define/DocDto";
 import myAxios from "../../../utils/consts/myAxios";
 import { urls } from "../../../utils/urls";
 

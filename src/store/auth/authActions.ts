@@ -1,13 +1,13 @@
 import { Dispatch } from "redux";
 import { action } from "typesafe-actions";
 import { getQueryParam } from "utils/url/getQueryParam";
-import { FollowingTagDto } from "../../dtos/feed/FollowingTagDto";
-import { UserInfoDto } from "../../dtos/UserInfoDto";
-import { NotificationDto } from "../../dtos/utils/NotificationDto";
 import {
   AuthUserGetDto,
   UserPreferenceDto,
 } from "../../interfaces/dtos/AuthUserGetDto";
+import { FollowingTagDto } from "../../types/domain/feed/FollowingTagDto";
+import { NotificationDto } from "../../types/domain/utils/NotificationDto";
+import { UserInfoDto } from "../../types/domain/_common/UserInfoDto";
 import API from "../../utils/consts/API";
 import myAxios from "../../utils/consts/myAxios";
 import { clearDefineReducer } from "../define/defineActions";

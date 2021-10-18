@@ -6,8 +6,8 @@ import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import React from "react";
 import { connect } from "react-redux";
-import { SkillDto } from "../../../../dtos/skillbase/SkillDto";
 import { ApplicationState } from "../../../../store/store";
+import { SkillDto } from "../../../../types/domain/skillbase/SkillDto";
 
 interface IHeaderCell {
   id: keyof SkillDto;

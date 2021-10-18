@@ -1,5 +1,5 @@
-import { DocDto } from "../../dtos/define/DocDto"
-import { NoteDto } from "../../dtos/define/NoteDto"
+import { DocDto } from "../../types/domain/define/DocDto";
+import { NoteDto } from "../../types/domain/define/NoteDto";
 
 export enum defineActionTypes {
   CLEAR_DEFINE_REDUCER = "@define/CLEAR_DEFINE_REDUCER",
@@ -10,7 +10,7 @@ export enum defineActionTypes {
 }
 
 export interface DefineState {
-  docs: DocDto[]
-  notes: NoteDto[]
-  hasFirstLoaded: boolean
+  docs: DocDto[];
+  notes: NoteDto[];
+  hasFirstLoaded: boolean;
 }

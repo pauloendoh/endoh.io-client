@@ -15,11 +15,11 @@ import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Dispatch } from "redux";
 import Flex from "../../../../components/shared/Flexboxes/Flex";
-import { FollowingTagDto } from "../../../../dtos/feed/FollowingTagDto";
 import MyAxiosError from "../../../../interfaces/MyAxiosError";
 import { setFollowingTags } from "../../../../store/auth/authActions";
 import { ApplicationState } from "../../../../store/store";
 import * as utilsActions from "../../../../store/utils/utilsActions";
+import { FollowingTagDto } from "../../../../types/domain/feed/FollowingTagDto";
 import API from "../../../../utils/consts/API";
 import myAxios from "../../../../utils/consts/myAxios";
 

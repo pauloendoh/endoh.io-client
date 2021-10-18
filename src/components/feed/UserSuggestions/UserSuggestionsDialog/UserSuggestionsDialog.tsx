@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { UserSuggestionDto } from "../../../../dtos/feed/UserSuggestionDto";
+import { UserSuggestionDto } from "../../../../types/domain/feed/UserSuggestionDto";
 import PATHS from "../../../../utils/consts/PATHS";
 import FlexVCenter from "../../../shared/Flexboxes/FlexVCenter";
 import ProfilePicture from "../../../shared/ProfilePicture/ProfilePicture";

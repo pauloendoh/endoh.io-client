@@ -4,11 +4,11 @@ import { connect } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
 import Flex from "../../../../components/shared/Flexboxes/Flex";
-import { SkillDto } from "../../../../dtos/skillbase/SkillDto";
 import { ResourceDto } from "../../../../interfaces/dtos/relearn/ResourceDto";
 import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto";
 import { removeTag } from "../../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../../store/store";
+import { SkillDto } from "../../../../types/domain/skillbase/SkillDto";
 import PATHS from "../../../../utils/consts/PATHS";
 import SkillChips from "./SkillChips/SkillChips";
 

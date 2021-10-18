@@ -3,35 +3,35 @@ import {
   TableCell,
   TableRow,
   TextareaAutosize,
-} from "@material-ui/core"
-import React, { createRef, useState } from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import { NoteDto } from "../../../../../dtos/define/NoteDto"
-import { ApplicationState } from "../../../../../store/store"
+} from "@material-ui/core";
+import React, { createRef, useState } from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { ApplicationState } from "../../../../../store/store";
+import { NoteDto } from "../../../../../types/domain/define/NoteDto";
 
 const DocTableRow = (props: Props) => {
-  const classes = useStyles()
+  const classes = useStyles();
 
-  const [note, setNote] = useState(props.initialValue)
+  const [note, setNote] = useState(props.initialValue);
 
   const changeDescription = (newValue: string) => {
-    const changed = { ...note, description: newValue }
-    setNote(changed)
-    props.onChange(changed)
-  }
+    const changed = { ...note, description: newValue };
+    setNote(changed);
+    props.onChange(changed);
+  };
 
   const changeQuestion = (newValue: string) => {
-    const changed = { ...note, question: newValue }
-    setNote(changed)
-    props.onChange(changed)
-  }
+    const changed = { ...note, question: newValue };
+    setNote(changed);
+    props.onChange(changed);
+  };
 
-  const descriptionRef = createRef<HTMLTextAreaElement>()
-  const questionRef = createRef<HTMLTextAreaElement>()
+  const descriptionRef = createRef<HTMLTextAreaElement>();
+  const questionRef = createRef<HTMLTextAreaElement>();
 
-  const focusDescription = () => descriptionRef.current.focus()
-  const focusQuestion = () => questionRef.current.focus()
+  const focusDescription = () => descriptionRef.current.focus();
+  const focusQuestion = () => questionRef.current.focus();
 
   return (
     <TableRow>
@@ -59,8 +59,8 @@ const DocTableRow = (props: Props) => {
         {note.weight}
       </TableCell>
     </TableRow>
-  )
-}
+  );
+};
 
 const useStyles = makeStyles((theme) => ({
   textareaCell: {
@@ -80,20 +80,20 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     cursor: "pointer",
   },
-}))
+}));
 
-const mapStateToProps = (state: ApplicationState) => ({})
+const mapStateToProps = (state: ApplicationState) => ({});
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
+const mapDispatchToProps = (dispatch: Dispatch) => ({});
 
 interface OwnProps {
-  index: number
-  initialValue: NoteDto
-  onChange: (newValue: NoteDto) => void
+  index: number;
+  initialValue: NoteDto;
+  onChange: (newValue: NoteDto) => void;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(DocTableRow)
+export default connect(mapStateToProps, mapDispatchToProps)(DocTableRow);

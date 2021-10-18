@@ -3,7 +3,7 @@ import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import Flex from "../../../components/shared/Flexboxes/Flex";
 import ProfilePicture from "../../../components/shared/ProfilePicture/ProfilePicture";
-import { UserProfileDto } from "../../../dtos/feed/UserProfileDto";
+import { UserProfileDto } from "../../../types/domain/feed/UserProfileDto";
 import PATHS from "../../../utils/consts/PATHS";
 
 // PE 3/3

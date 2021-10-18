@@ -1,35 +1,33 @@
-import { Box, Typography } from "@material-ui/core"
+import { Box, Typography } from "@material-ui/core";
 import {
   Autocomplete,
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
-} from "@material-ui/lab"
-import React, { useEffect, useState } from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import { SkillDto } from "../../../../dtos/skillbase/SkillDto"
-import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter"
-import FlexHCenter from "../../../../components/shared/Flexboxes/FlexHCenter"
-import MyTextField from "../../../../components/shared/MyInputs/MyTextField"
-import { ApplicationState } from "../../../../store/store"
+} from "@material-ui/lab";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import FlexHCenter from "../../../../components/shared/Flexboxes/FlexHCenter";
+import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter";
+import MyTextField from "../../../../components/shared/MyInputs/MyTextField";
+import { ApplicationState } from "../../../../store/store";
+import { SkillDto } from "../../../../types/domain/skillbase/SkillDto";
 
 const SelectDependencies = (props: Props) => {
-  const [options, setOptions] = useState<SkillDto[]>(props.allSkills)
+  const [options, setOptions] = useState<SkillDto[]>(props.allSkills);
 
   // filtering options
   useEffect(
     () => {
-      const dontShowTheseIds = [
-        props.parentSkillId,
-      ]
+      const dontShowTheseIds = [props.parentSkillId];
 
       setOptions(
         props.allSkills.filter((skill) => !dontShowTheseIds.includes(skill.id))
-      )
+      );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.allSkills, props.selected]
-  )
+  );
 
   return (
     <Box>
@@ -38,7 +36,7 @@ const SelectDependencies = (props: Props) => {
         value={props.selected}
         options={[...options]}
         getOptionSelected={(option, value) => {
-          return option.id === value.id
+          return option.id === value.id;
         }}
         renderOption={(option) => (
           <FlexVCenter>
@@ -63,35 +61,35 @@ const SelectDependencies = (props: Props) => {
           />
         )}
         onChange={(e, value) => {
-          const skills = value as SkillDto[]
+          const skills = value as SkillDto[];
 
           // setDependencies(skills)
-          props.onChange(e, skills, null)
+          props.onChange(e, skills, null);
         }}
       />
     </Box>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state: ApplicationState) => ({
   allSkills: state.skillbase.skills,
-})
+});
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
+const mapDispatchToProps = (dispatch: Dispatch) => ({});
 
 interface OwnProps {
-  parentSkillId: number
-  selected: SkillDto[]
+  parentSkillId: number;
+  selected: SkillDto[];
   onChange?: (
     event: React.ChangeEvent<{}>,
     value: unknown,
     reason: AutocompleteChangeReason,
     details?: AutocompleteChangeDetails<unknown>
-  ) => void
+  ) => void;
 }
 
 type Props = OwnProps &
   ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+  ReturnType<typeof mapDispatchToProps>;
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectDependencies)
+export default connect(mapStateToProps, mapDispatchToProps)(SelectDependencies);

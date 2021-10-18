@@ -5,31 +5,31 @@ import {
   Menu,
   MenuItem,
   Theme,
-  Typography
-} from "@material-ui/core"
-import EditIcon from "@material-ui/icons/Edit"
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
-import React, { useState } from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import { DocDto } from "../../../../dtos/define/DocDto"
-import { ApplicationState } from "../../../../store/store"
-import * as utilsActions from "../../../../store/utils/utilsActions"
-import DocTitleDialog from "../../DocTitleDialog/DocTitleDialog"
+  Typography,
+} from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { ApplicationState } from "../../../../store/store";
+import * as utilsActions from "../../../../store/utils/utilsActions";
+import { DocDto } from "../../../../types/domain/define/DocDto";
+import DocTitleDialog from "../../DocTitleDialog/DocTitleDialog";
 
 // PE 2/3 - MenuItem could be shorter?
 function TitleMoreIcon(props: Props) {
-  const classes = useStyles()
+  const classes = useStyles();
 
-  const [openTitleDialog, setOpenTitleDialog] = useState(false)
+  const [openTitleDialog, setOpenTitleDialog] = useState(false);
 
-  const [anchorEl, setAnchorEl] = React.useState(null)
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const handleOpenMore = (event: any) => {
-    setAnchorEl(event.currentTarget)
-  }
+    setAnchorEl(event.currentTarget);
+  };
   const handleCloseMore = () => {
-    setAnchorEl(null) // avoids error "The `anchorEl` prop provided to the component is invalid"
-  }
+    setAnchorEl(null); // avoids error "The `anchorEl` prop provided to the component is invalid"
+  };
 
   return (
     <React.Fragment>
@@ -37,8 +37,8 @@ function TitleMoreIcon(props: Props) {
         id="doc-title-more"
         size="small"
         onClick={(e) => {
-          e.preventDefault()
-          handleOpenMore(e)
+          e.preventDefault();
+          handleOpenMore(e);
         }}
       >
         <MoreHorizIcon />
@@ -53,16 +53,16 @@ function TitleMoreIcon(props: Props) {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={(e) => {
-          const event = e as any
-          event.preventDefault()
-          handleCloseMore()
+          const event = e as any;
+          event.preventDefault();
+          handleCloseMore();
         }}
       >
         <MenuItem
           onClick={(e) => {
-            e.preventDefault()
-            setOpenTitleDialog(true)
-            handleCloseMore()
+            e.preventDefault();
+            setOpenTitleDialog(true);
+            handleCloseMore();
           }}
         >
           <ListItemIcon className={classes.listItemIcon}>
@@ -78,23 +78,23 @@ function TitleMoreIcon(props: Props) {
         initialValue={props.doc.title}
         open={openTitleDialog}
         onClose={() => {
-          setOpenTitleDialog(false)
+          setOpenTitleDialog(false);
         }}
         docId={props.doc.id}
       />
     </React.Fragment>
-  )
+  );
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
   listItemIcon: {
     width: 16,
   },
-}))
+}));
 
 const mapStateToProps = (state: ApplicationState) => ({
   // user: state.auth.user,
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   // editTag: (tag: TagDto) => dispatch(relearnActions.editTag(tag)),
@@ -102,15 +102,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
   setSuccessMessage: (message: string) =>
     dispatch(utilsActions.setSuccessMessage(message)),
-})
+});
 
 interface OwnProps {
-  doc: DocDto
-  afterDelete?: () => void
+  doc: DocDto;
+  afterDelete?: () => void;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(TitleMoreIcon)
+export default connect(mapStateToProps, mapDispatchToProps)(TitleMoreIcon);

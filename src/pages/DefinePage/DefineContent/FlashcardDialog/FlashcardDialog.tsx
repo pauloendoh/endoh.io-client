@@ -17,9 +17,9 @@ import DarkButton from "../../../../components/shared/Buttons/DarkButton";
 import FlexHCenter from "../../../../components/shared/Flexboxes/FlexHCenter";
 import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter";
 import Txt from "../../../../components/shared/Text/Txt";
-import { NoteDto } from "../../../../dtos/define/NoteDto";
 import { ApplicationState } from "../../../../store/store";
 import * as utilsActions from "../../../../store/utils/utilsActions";
+import { NoteDto } from "../../../../types/domain/define/NoteDto";
 import { shuffleArray } from "../../../../utils/shuffleArray";
 import StartedFlashcardDialogChild from "./StartedFlashcardDialogChild/StartedFlashcardDialogChild";
 

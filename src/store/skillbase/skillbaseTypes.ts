@@ -1,5 +1,5 @@
-import { ProgressDto } from "./../../dtos/skillbase/ProgressDto"
-import { SkillDto } from "../../dtos/skillbase/SkillDto"
+import { ProgressDto } from "../../types/domain/skillbase/ProgressDto";
+import { SkillDto } from "../../types/domain/skillbase/SkillDto";
 
 export enum skillbaseActionTypes {
   CLEAR_SKILLBASE_REDUCER = "@skillbase/CLEAR_SKILLBASE_REDUCER",
@@ -17,18 +17,18 @@ export enum skillbaseActionTypes {
 }
 
 export interface SkillbaseState {
-  skills: SkillDto[]
-  hasFirstLoaded: boolean
+  skills: SkillDto[];
+  hasFirstLoaded: boolean;
 
-  sortBy: SortSkill
+  sortBy: SortSkill;
 
-  editingSkill: SkillDto
+  editingSkill: SkillDto;
 
-  progresses: ProgressDto[]
-  sidebarIsOpen: boolean
+  progresses: ProgressDto[];
+  sidebarIsOpen: boolean;
 }
 
 export interface SortSkill {
-  property: keyof SkillDto
-  order: "asc" | "desc"
+  property: keyof SkillDto;
+  order: "asc" | "desc";
 }

@@ -8,7 +8,6 @@ import { scroller } from "react-scroll";
 import { Dispatch } from "redux";
 import SaveCancelButtons from "../../../components/shared/Buttons/SaveCancelButtons";
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter";
-import { SkillDto } from "../../../dtos/skillbase/SkillDto";
 import MyAxiosError from "../../../interfaces/MyAxiosError";
 import {
   setEditingSkill,
@@ -16,6 +15,7 @@ import {
 } from "../../../store/skillbase/skillbaseActions";
 import { ApplicationState } from "../../../store/store";
 import * as utilsActions from "../../../store/utils/utilsActions";
+import { SkillDto } from "../../../types/domain/skillbase/SkillDto";
 import API from "../../../utils/consts/API";
 import myAxios from "../../../utils/consts/myAxios";
 import { getCurrentTagId } from "../../../utils/skillbase/getCurrentTagId";

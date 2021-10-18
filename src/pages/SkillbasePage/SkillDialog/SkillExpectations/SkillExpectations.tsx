@@ -1,15 +1,15 @@
-import { Box, Button, Collapse, useTheme } from "@material-ui/core"
-import React, { useState } from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import { SkillExpectationDto } from "../../../../dtos/skillbase/SkillExpectationDto"
-import { ApplicationState } from "../../../../store/store"
-import ExpectationsAtLevel from "./ExpectationsAtLevel/ExpectationsAtLevel"
+import { Box, Button, Collapse, useTheme } from "@material-ui/core";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { ApplicationState } from "../../../../store/store";
+import { SkillExpectationDto } from "../../../../types/domain/skillbase/SkillExpectationDto";
+import ExpectationsAtLevel from "./ExpectationsAtLevel/ExpectationsAtLevel";
 const SkillExpectations = (props: Props) => {
-  const [isExpanded, setIsExpanded] = useState(true)
-  const theme = useTheme()
+  const [isExpanded, setIsExpanded] = useState(true);
+  const theme = useTheme();
 
-  const levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  const levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   return (
     <Box mt={2} maxHeight={450}>
@@ -33,21 +33,21 @@ const SkillExpectations = (props: Props) => {
         ))}
       </Collapse>
     </Box>
-  )
-}
+  );
+};
 
-const mapStateToProps = (state: ApplicationState) => ({})
+const mapStateToProps = (state: ApplicationState) => ({});
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
+const mapDispatchToProps = (dispatch: Dispatch) => ({});
 
 interface OwnProps {
-  currentLevel: number
-  expectations: SkillExpectationDto[]
-  onChangeExpectations: (expectations: SkillExpectationDto[]) => void
+  currentLevel: number;
+  expectations: SkillExpectationDto[];
+  onChangeExpectations: (expectations: SkillExpectationDto[]) => void;
 }
 
 type Props = OwnProps &
   ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+  ReturnType<typeof mapDispatchToProps>;
 
-export default connect(mapStateToProps, mapDispatchToProps)(SkillExpectations)
+export default connect(mapStateToProps, mapDispatchToProps)(SkillExpectations);

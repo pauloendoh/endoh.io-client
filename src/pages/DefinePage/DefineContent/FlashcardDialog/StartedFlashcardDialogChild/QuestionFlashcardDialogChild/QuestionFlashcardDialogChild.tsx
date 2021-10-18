@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react";
 import { GlobalHotKeys } from "react-hotkeys";
 import DarkButton from "../../../../../../components/shared/Buttons/DarkButton";
 import FlexVCenter from "../../../../../../components/shared/Flexboxes/FlexVCenter";
-import { NoteDto } from "../../../../../../dtos/define/NoteDto";
+import { NoteDto } from "../../../../../../types/domain/define/NoteDto";
 import NoteDialog from "../NoteDialog/NoteDialog";
 
 // PE 2/3

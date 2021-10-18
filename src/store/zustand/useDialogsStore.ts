@@ -1,22 +1,22 @@
-import create, { GetState, SetState } from "zustand"
-import { DecisionDto } from "../../dtos/BigDecisions/DecisionDto"
-import { DecisionTableDto } from "../../dtos/BigDecisions/DecisionTableDto"
+import create, { GetState, SetState } from "zustand";
+import { DecisionDto } from "../../types/domain/big-decisions/DecisionDto";
+import { DecisionTableDto } from "../../types/domain/big-decisions/DecisionTableDto";
 
 interface IDialogHandlers {
-  decisionDialogValue: DecisionDto
-  decisionDialogOpen: boolean
-  openDecisionDialog: (decision: DecisionDto) => void
-  closeDecisionDialog: () => void
+  decisionDialogValue: DecisionDto;
+  decisionDialogOpen: boolean;
+  openDecisionDialog: (decision: DecisionDto) => void;
+  closeDecisionDialog: () => void;
 
-  decisionTableDialogValue: DecisionTableDto
-  decisionTableDialogOpen: boolean
-  openDecisionTableDialog: (decision: DecisionTableDto) => void
-  closeDecisionTableDialog: () => void
+  decisionTableDialogValue: DecisionTableDto;
+  decisionTableDialogOpen: boolean;
+  openDecisionTableDialog: (decision: DecisionTableDto) => void;
+  closeDecisionTableDialog: () => void;
 
-  confirmDialogValue: IConfirmDialog
-  confirmDialogIsOpen: boolean
-  openConfirmDialog: (confirmDialog: IConfirmDialog) => void
-  closeConfirmDialog: () => void
+  confirmDialogValue: IConfirmDialog;
+  confirmDialogIsOpen: boolean;
+  openConfirmDialog: (confirmDialog: IConfirmDialog) => void;
+  closeConfirmDialog: () => void;
 }
 
 const useDialogsStore = create<IDialogHandlers>(
@@ -24,31 +24,31 @@ const useDialogsStore = create<IDialogHandlers>(
     decisionDialogValue: null,
     decisionDialogOpen: false,
     openDecisionDialog: (decision) => {
-      set({ decisionDialogValue: decision, decisionDialogOpen: true })
+      set({ decisionDialogValue: decision, decisionDialogOpen: true });
     },
     closeDecisionDialog: () => set({ decisionDialogOpen: false }),
 
     decisionTableDialogValue: null,
     decisionTableDialogOpen: false,
     openDecisionTableDialog: (table) => {
-      set({ decisionTableDialogValue: table, decisionTableDialogOpen: true })
+      set({ decisionTableDialogValue: table, decisionTableDialogOpen: true });
     },
     closeDecisionTableDialog: () => set({ decisionTableDialogOpen: false }),
 
     confirmDialogValue: { title: "", onConfirm: null },
     confirmDialogIsOpen: false,
     openConfirmDialog: (val) => {
-      set({ confirmDialogValue: val, confirmDialogIsOpen: true })
+      set({ confirmDialogValue: val, confirmDialogIsOpen: true });
     },
     closeConfirmDialog: () => set({ confirmDialogIsOpen: false }),
   })
-)
+);
 
 interface IConfirmDialog {
-  title: string
-  description?: string
-  confirmText?: string
-  onConfirm: () => void
+  title: string;
+  description?: string;
+  confirmText?: string;
+  onConfirm: () => void;
 }
 
-export default useDialogsStore
+export default useDialogsStore;

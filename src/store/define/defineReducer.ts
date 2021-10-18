@@ -1,14 +1,14 @@
-import { Reducer } from "redux"
-import { DocDto } from "../../dtos/define/DocDto"
-import { NoteDto } from "../../dtos/define/NoteDto"
-import { DefineActionReturns } from "./defineActions"
-import { defineActionTypes, DefineState } from "./defineTypes"
+import { Reducer } from "redux";
+import { DocDto } from "../../types/domain/define/DocDto";
+import { NoteDto } from "../../types/domain/define/NoteDto";
+import { DefineActionReturns } from "./defineActions";
+import { defineActionTypes, DefineState } from "./defineTypes";
 
 const INITIAL_STATE: DefineState = {
   docs: [],
   notes: [],
   hasFirstLoaded: false,
-}
+};
 
 const defineReducer: Reducer<DefineState, DefineActionReturns> = (
   state = INITIAL_STATE,
@@ -16,44 +16,44 @@ const defineReducer: Reducer<DefineState, DefineActionReturns> = (
 ): DefineState => {
   switch (action.type) {
     case defineActionTypes.CLEAR_DEFINE_REDUCER:
-      return { ...INITIAL_STATE }
+      return { ...INITIAL_STATE };
     case defineActionTypes.SET_DOCS:
-      return { ...state, docs: action.payload, hasFirstLoaded: true }
+      return { ...state, docs: action.payload, hasFirstLoaded: true };
     case defineActionTypes.ADD_OR_REPLACE_DOC:
-      return addOrReplaceDoc(state, action.payload)
+      return addOrReplaceDoc(state, action.payload);
     case defineActionTypes.SET_NOTES:
-      return { ...state, notes: action.payload }
+      return { ...state, notes: action.payload };
     case defineActionTypes.ADD_OR_REPLACE_NOTE:
-      return addOrReplaceNote(state, action.payload)
+      return addOrReplaceNote(state, action.payload);
     default:
-      return { ...state }
+      return { ...state };
   }
-}
+};
 
 const addOrReplaceDoc = (state: DefineState, doc: DocDto): DefineState => {
-  const docs = [...state.docs]
+  const docs = [...state.docs];
 
-  const index = docs.findIndex((d) => d.id === doc.id)
+  const index = docs.findIndex((d) => d.id === doc.id);
   if (~index) {
-    docs[index] = doc
+    docs[index] = doc;
   } else {
-    docs.push(doc)
+    docs.push(doc);
   }
 
-  return { ...state, docs }
-}
+  return { ...state, docs };
+};
 
 const addOrReplaceNote = (state: DefineState, note: NoteDto): DefineState => {
-  const notes = [...state.notes]
+  const notes = [...state.notes];
 
-  const index = notes.findIndex((n) => n.id === note.id)
+  const index = notes.findIndex((n) => n.id === note.id);
   if (~index) {
-    notes[index] = note
+    notes[index] = note;
   } else {
-    notes.push(note)
+    notes.push(note);
   }
 
-  return { ...state, notes: notes }
-}
+  return { ...state, notes: notes };
+};
 
-export default defineReducer
+export default defineReducer;

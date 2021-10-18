@@ -1,31 +1,31 @@
-import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core"
-import { Form, Formik } from "formik"
-import React from "react"
-import SaveCancelButtons from "../../../components/shared/Buttons/SaveCancelButtons"
-import MyTextField from "../../../components/shared/MyInputs/MyTextField"
-import { DecisionTableDto } from "../../../dtos/BigDecisions/DecisionTableDto"
-import useSaveTableMutation from "../../../hooks/BigDecisions/DecisionTable/useSaveTableMutation"
+import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
+import { Form, Formik } from "formik";
+import React from "react";
+import SaveCancelButtons from "../../../components/shared/Buttons/SaveCancelButtons";
+import MyTextField from "../../../components/shared/MyInputs/MyTextField";
+import useSaveTableMutation from "../../../hooks/BigDecisions/DecisionTable/useSaveTableMutation";
+import { DecisionTableDto } from "../../../types/domain/big-decisions/DecisionTableDto";
 
 interface Props {
-  open: boolean
-  initialValue: DecisionTableDto
-  onClose: () => void
-  afterSave?: (returned: DecisionTableDto) => void
+  open: boolean;
+  initialValue: DecisionTableDto;
+  onClose: () => void;
+  afterSave?: (returned: DecisionTableDto) => void;
 }
 
 const DecisionTableDialog = (props: Props) => {
   const handleClose = () => {
-    props.onClose()
-  }
+    props.onClose();
+  };
 
-  const { mutate: changeTable } = useSaveTableMutation()
+  const { mutate: changeTable } = useSaveTableMutation();
   const handleSubmit = (values: DecisionTableDto) => {
     changeTable(values, {
       onSuccess: (_) => {
-        handleClose()
+        handleClose();
       },
-    })
-  }
+    });
+  };
 
   return (
     <Dialog
@@ -40,7 +40,7 @@ const DecisionTableDialog = (props: Props) => {
           enableReinitialize
           initialValues={props.initialValue}
           onSubmit={(formikValues) => {
-            handleSubmit(formikValues)
+            handleSubmit(formikValues);
           }}
         >
           {({ values, isSubmitting, handleChange }) => (
@@ -75,7 +75,7 @@ const DecisionTableDialog = (props: Props) => {
         </Formik>
       </Box>
     </Dialog>
-  )
-}
+  );
+};
 
-export default DecisionTableDialog
+export default DecisionTableDialog;

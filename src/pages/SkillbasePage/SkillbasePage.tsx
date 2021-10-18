@@ -6,8 +6,6 @@ import { connect } from "react-redux";
 import { useLocation } from "react-router";
 import { Dispatch } from "redux";
 import Flex from "../../components/shared/Flexboxes/Flex";
-import { ProgressDto } from "../../dtos/skillbase/ProgressDto";
-import { newSkillDto, SkillDto } from "../../dtos/skillbase/SkillDto";
 import { TagDto } from "../../interfaces/dtos/relearn/TagDto";
 import {
   setEditingSkill,
@@ -16,6 +14,8 @@ import {
 } from "../../store/skillbase/skillbaseActions";
 import { ApplicationState } from "../../store/store";
 import useSidebarStore from "../../store/zustand/useSidebarStore";
+import { ProgressDto } from "../../types/domain/skillbase/ProgressDto";
+import { newSkillDto, SkillDto } from "../../types/domain/skillbase/SkillDto";
 import API from "../../utils/consts/API";
 import myAxios from "../../utils/consts/myAxios";
 import PATHS from "../../utils/consts/PATHS";

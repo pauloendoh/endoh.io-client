@@ -75,7 +75,7 @@
     "start": "react-scripts  start",
     "dev": "set PORT=8000 & npm start",
     "build": "react-scripts  build",
-    "test": "react-scripts  test && cypress run",
+    "test": "cypress run && react-scripts test",
     "build:test": "react-scripts build && react-scripts  test && cypress run",
     "eject": "react-scripts  eject"
   },

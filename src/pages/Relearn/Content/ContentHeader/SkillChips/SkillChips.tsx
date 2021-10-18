@@ -5,9 +5,9 @@ import { useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
 import Flex from "../../../../../components/shared/Flexboxes/Flex";
 import SkillChip from "../../../../../components/skillbase/SkillChip/SkillChip";
-import { SkillDto } from "../../../../../dtos/skillbase/SkillDto";
 import { setEditingSkill } from "../../../../../store/skillbase/skillbaseActions";
 import { ApplicationState } from "../../../../../store/store";
+import { SkillDto } from "../../../../../types/domain/skillbase/SkillDto";
 import PATHS from "../../../../../utils/consts/PATHS";
 import EditSkillsButton from "./EditSkillsButton/EditSkillsButton";
 

@@ -23,7 +23,7 @@ import { ApplicationState } from "../../../store/store";
 import * as utilsActions from "../../../store/utils/utilsActions";
 import API from "../../../utils/consts/API";
 import myAxios from "../../../utils/consts/myAxios";
-import SelectColor from "./SelectColor/SelectColor";
+import TagColorSelector from "./TagColorSelector/TagColorSelector";
 
 // PE 2/3
 const TagDialog = (props: Props) => {
@@ -90,7 +90,7 @@ const TagDialog = (props: Props) => {
 
                 <Box mt={2}>
                   {/*  */}
-                  <SelectColor
+                  <TagColorSelector
                     value={values.color}
                     onChange={(newValue) => {
                       setFieldValue("color", newValue);

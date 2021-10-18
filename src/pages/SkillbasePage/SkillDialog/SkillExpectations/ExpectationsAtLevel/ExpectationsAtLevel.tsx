@@ -1,32 +1,32 @@
-import { Box, Button, Checkbox, Typography, useTheme } from "@material-ui/core"
-import React, { useState } from "react"
-import { connect } from "react-redux"
-import { Element } from "react-scroll"
-import { Dispatch } from "redux"
-import Flex from "../../../../../components/shared/Flexboxes/Flex"
+import { Box, Button, Checkbox, Typography, useTheme } from "@material-ui/core";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { Element } from "react-scroll";
+import { Dispatch } from "redux";
+import Flex from "../../../../../components/shared/Flexboxes/Flex";
+import { ApplicationState } from "../../../../../store/store";
 import {
   createSkillExpectation,
   SkillExpectationDto,
-} from "../../../../../dtos/skillbase/SkillExpectationDto"
-import { ApplicationState } from "../../../../../store/store"
-import ExpectationTextarea from "./ExpectationTextarea/ExpectationTextarea"
+} from "../../../../../types/domain/skillbase/SkillExpectationDto";
+import ExpectationTextarea from "./ExpectationTextarea/ExpectationTextarea";
 
 const ExpectationsAtLevel = (props: Props) => {
-  const theme = useTheme()
-  const [editingIndex, setEditingIndex] = useState<number>(null)
+  const theme = useTheme();
+  const [editingIndex, setEditingIndex] = useState<number>(null);
 
   const handleAddExpectation = () => {
     const newExpectation = createSkillExpectation(
       props.level,
       props.expectations.filter((e) => e.level === props.level).length
-    )
+    );
 
-    const expectations = [...props.expectations]
-    expectations.push(newExpectation)
+    const expectations = [...props.expectations];
+    expectations.push(newExpectation);
 
-    setEditingIndex(newExpectation.index)
-    changeExpectations(expectations)
-  }
+    setEditingIndex(newExpectation.index);
+    changeExpectations(expectations);
+  };
 
   const handleCheck = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -35,51 +35,51 @@ const ExpectationsAtLevel = (props: Props) => {
     changeExpectations(
       props.expectations.map((e) => {
         if (e.index === expectation.index && e.level === expectation.level) {
-          e.checked = event.target.checked
+          e.checked = event.target.checked;
         }
-        return e
+        return e;
       })
-    )
-  }
+    );
+  };
 
   const editDescription = (index: number, newDescription: string) => {
     // remove
     if (newDescription.trim().length === 0) {
       changeExpectations(
         props.expectations.filter((e) => {
-          if (e.index === index && e.level === props.level) return false
-          return true
+          if (e.index === index && e.level === props.level) return false;
+          return true;
         })
-      )
+      );
     } else {
       // update
       changeExpectations(
         props.expectations.map((e) => {
           if (e.index === index && e.level === props.level) {
-            e.description = newDescription
+            e.description = newDescription;
           }
-          return e
+          return e;
         })
-      )
+      );
     }
-  }
+  };
 
   const changeExpectations = (expectations: SkillExpectationDto[]) => {
     const otherLevelsExpectations = expectations.filter(
       (e) => e.level !== props.level
-    )
+    );
 
     // Fixing this level's indexes
     const thisLevelExpectation = filterAndSortExpectations(
       expectations,
       props.level
-    ).map((exp, index) => ({ ...exp, index }))
+    ).map((exp, index) => ({ ...exp, index }));
 
     props.onChangeExpectations([
       ...otherLevelsExpectations,
       ...thisLevelExpectation,
-    ])
-  }
+    ]);
+  };
 
   return (
     <Box mt={3}>
@@ -108,8 +108,8 @@ const ExpectationsAtLevel = (props: Props) => {
                 <ExpectationTextarea
                   initialValue={expectation.description}
                   onSave={(newDescription) => {
-                    editDescription(i, newDescription)
-                    setEditingIndex(null)
+                    editDescription(i, newDescription);
+                    setEditingIndex(null);
                   }}
                 />
               ) : (
@@ -147,8 +147,8 @@ const ExpectationsAtLevel = (props: Props) => {
         )}
       </Box>
     </Box>
-  )
-}
+  );
+};
 
 const filterAndSortExpectations = (
   expectations: SkillExpectationDto[],
@@ -157,50 +157,53 @@ const filterAndSortExpectations = (
   return expectations
     .filter((expectation) => expectation.level === level)
     .sort((a, b) => {
-      if (a.index > b.index) return 1
-      if (a.index < b.index) return -1
-      return 0
-    })
-}
+      if (a.index > b.index) return 1;
+      if (a.index < b.index) return -1;
+      return 0;
+    });
+};
 
 const getLevelDescription = (level: number) => {
   switch (level) {
     case 1:
-      return "Basic I"
+      return "Basic I";
     case 2:
-      return "Basic II"
+      return "Basic II";
     case 3:
-      return "Basic III"
+      return "Basic III";
     case 4:
-      return "Intermediary I"
+      return "Intermediary I";
     case 5:
-      return "Intermediary II"
+      return "Intermediary II";
     case 6:
-      return "Intermediary III"
+      return "Intermediary III";
     case 7:
-      return "Advanced I"
+      return "Advanced I";
     case 8:
-      return "Advanced II"
+      return "Advanced II";
     case 9:
-      return "Advanced III"
+      return "Advanced III";
     case 10:
-      return "Expert"
+      return "Expert";
   }
-}
+};
 
-const mapStateToProps = (state: ApplicationState) => ({})
+const mapStateToProps = (state: ApplicationState) => ({});
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
+const mapDispatchToProps = (dispatch: Dispatch) => ({});
 
 interface OwnProps {
-  expectations: SkillExpectationDto[]
-  level: number
-  isHighlighted: boolean
-  onChangeExpectations: (expectations: SkillExpectationDto[]) => void
+  expectations: SkillExpectationDto[];
+  level: number;
+  isHighlighted: boolean;
+  onChangeExpectations: (expectations: SkillExpectationDto[]) => void;
 }
 
 type Props = OwnProps &
   ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+  ReturnType<typeof mapDispatchToProps>;
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExpectationsAtLevel)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ExpectationsAtLevel);

@@ -6,10 +6,10 @@ import { useHistory } from "react-router-dom";
 import { Dispatch } from "redux";
 import SaveCancelButtons from "../../../components/shared/Buttons/SaveCancelButtons";
 import MyTextField from "../../../components/shared/MyInputs/MyTextField";
-import { DecisionDto } from "../../../dtos/BigDecisions/DecisionDto";
 import usePostDecisionMutation from "../../../hooks/BigDecisions/Decision/usePostDecisionMutation";
 import { ApplicationState } from "../../../store/store";
 import * as utilsActions from "../../../store/utils/utilsActions";
+import { DecisionDto } from "../../../types/domain/big-decisions/DecisionDto";
 import PATHS from "../../../utils/consts/PATHS";
 
 const DecisionDialog = (props: Props) => {

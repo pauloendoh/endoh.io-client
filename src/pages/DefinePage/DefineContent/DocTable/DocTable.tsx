@@ -15,12 +15,12 @@ import {
   THead,
   TR,
 } from "../../../../components/shared/Table/MyTableWrappers";
-import { newNoteDto, NoteDto } from "../../../../dtos/define/NoteDto";
 import {
   addOrReplaceNote,
   setNotes,
 } from "../../../../store/define/defineActions";
 import { ApplicationState } from "../../../../store/store";
+import { newNoteDto, NoteDto } from "../../../../types/domain/define/NoteDto";
 import API from "../../../../utils/consts/API";
 import myAxios from "../../../../utils/consts/myAxios";
 import DocTableRow from "./DocTableRow/DocTableRow";

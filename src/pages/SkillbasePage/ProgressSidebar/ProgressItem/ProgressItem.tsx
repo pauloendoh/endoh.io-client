@@ -7,9 +7,9 @@ import { Dispatch } from "redux";
 import Flex from "../../../../components/shared/Flexboxes/Flex";
 import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter";
 import SkillLevelChip from "../../../../components/skillbase/SkillLevelChip/SkillLevelChip";
-import { ProgressDto } from "../../../../dtos/skillbase/ProgressDto";
 import { setProgresses } from "../../../../store/skillbase/skillbaseActions";
 import { ApplicationState } from "../../../../store/store";
+import { ProgressDto } from "../../../../types/domain/skillbase/ProgressDto";
 import API from "../../../../utils/consts/API";
 import myAxios from "../../../../utils/consts/myAxios";
 

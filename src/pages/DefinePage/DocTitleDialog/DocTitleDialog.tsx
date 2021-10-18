@@ -5,10 +5,10 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import SaveCancelButtons from "../../../components/shared/Buttons/SaveCancelButtons";
 import MyTextField from "../../../components/shared/MyInputs/MyTextField";
-import { DocDto } from "../../../dtos/define/DocDto";
 import { addOrReplaceDoc } from "../../../store/define/defineActions";
 import { ApplicationState } from "../../../store/store";
 import * as utilsActions from "../../../store/utils/utilsActions";
+import { DocDto } from "../../../types/domain/define/DocDto";
 import API from "../../../utils/consts/API";
 import myAxios from "../../../utils/consts/myAxios";
 

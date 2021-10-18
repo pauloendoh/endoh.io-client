@@ -6,7 +6,7 @@ import {
   Theme,
   Toolbar,
   Typography,
-} from "@material-ui/core"
+} from "@material-ui/core";
 import {
   Timeline,
   TimelineConnector,
@@ -14,62 +14,62 @@ import {
   TimelineDot,
   TimelineItem,
   TimelineSeparator,
-} from "@material-ui/lab"
-import { DateTime } from "luxon"
-import React, { useEffect, useState } from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import { ProgressDto } from "../../../dtos/skillbase/ProgressDto"
-import { setProgresses } from "../../../store/skillbase/skillbaseActions"
-import { ApplicationState } from "../../../store/store"
-import useSidebarStore from "../../../store/zustand/useSidebarStore"
-import ProgressItem from "./ProgressItem/ProgressItem"
+} from "@material-ui/lab";
+import { DateTime } from "luxon";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { setProgresses } from "../../../store/skillbase/skillbaseActions";
+import { ApplicationState } from "../../../store/store";
+import useSidebarStore from "../../../store/zustand/useSidebarStore";
+import { ProgressDto } from "../../../types/domain/skillbase/ProgressDto";
+import ProgressItem from "./ProgressItem/ProgressItem";
 interface IProgressPerDay {
-  day: string
-  progresses: ProgressDto[]
+  day: string;
+  progresses: ProgressDto[];
 }
 
 function ProgressSidebar(props: Props) {
-  const classes = useStyles()
+  const classes = useStyles();
 
   const [progressesPerDay, setProgressesPerDay] = useState<IProgressPerDay[]>(
     []
-  )
+  );
 
-  const { sidebarIsOpen } = useSidebarStore()
+  const { sidebarIsOpen } = useSidebarStore();
 
   useEffect(
     () => {
-      setProgressesPerDay(splitProgressesPerDay(props.progresses))
+      setProgressesPerDay(splitProgressesPerDay(props.progresses));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.progresses]
-  )
+  );
 
   const splitProgressesPerDay = (
     progresses: ProgressDto[]
   ): IProgressPerDay[] => {
-    const resultDays: IProgressPerDay[] = []
+    const resultDays: IProgressPerDay[] = [];
     for (const progress of progresses) {
-      let progressDay = ""
+      let progressDay = "";
       if (
         new Date().toISOString().substring(0, 10) ===
         progress.createdAt.substring(0, 10)
       ) {
-        progressDay = "Today"
+        progressDay = "Today";
       } else {
-        progressDay = DateTime.fromISO(progress.createdAt).toFormat("LLL dd")
+        progressDay = DateTime.fromISO(progress.createdAt).toFormat("LLL dd");
       }
 
-      const index = resultDays.findIndex((r) => r.day === progressDay)
+      const index = resultDays.findIndex((r) => r.day === progressDay);
       if (~index) {
-        resultDays[index].progresses.push(progress)
+        resultDays[index].progresses.push(progress);
       } else {
-        resultDays.push({ day: progressDay, progresses: [progress] })
+        resultDays.push({ day: progressDay, progresses: [progress] });
       }
     }
-    return resultDays
-  }
+    return resultDays;
+  };
 
   // const handleDelete = (progressId: number) => {
   //   if (window.confirm("Confirm delete?")) {
@@ -120,7 +120,7 @@ function ProgressSidebar(props: Props) {
         </Timeline>
       </Box>
     </Drawer>
-  )
+  );
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -143,19 +143,19 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.palette.grey[400],
     },
   })
-)
+);
 
 const mapStateToProps = (state: ApplicationState) => ({
   progresses: state.skillbase.progresses,
   sidebarIsOpen: state.skillbase.sidebarIsOpen,
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setProgresses: (progresses: ProgressDto[]) =>
     dispatch(setProgresses(progresses)),
-})
+});
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+  ReturnType<typeof mapDispatchToProps>;
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProgressSidebar)
+export default connect(mapStateToProps, mapDispatchToProps)(ProgressSidebar);
