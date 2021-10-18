@@ -1,4 +1,4 @@
-import theme from "consts/theme";
+import theme from "utils/consts/theme";
 
 export const mediaQueries = {
   isSmallerThan: (width: number) => `@media (max-width:${width}px)`,

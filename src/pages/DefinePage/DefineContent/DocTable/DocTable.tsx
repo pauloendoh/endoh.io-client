@@ -15,14 +15,14 @@ import {
   THead,
   TR,
 } from "../../../../components/shared/Table/MyTableWrappers";
-import API from "../../../../consts/API";
-import myAxios from "../../../../consts/myAxios";
 import { newNoteDto, NoteDto } from "../../../../dtos/define/NoteDto";
 import {
   addOrReplaceNote,
   setNotes,
 } from "../../../../store/define/defineActions";
 import { ApplicationState } from "../../../../store/store";
+import API from "../../../../utils/consts/API";
+import myAxios from "../../../../utils/consts/myAxios";
 import DocTableRow from "./DocTableRow/DocTableRow";
 
 const DocTable = (props: Props) => {

@@ -1,9 +1,9 @@
 import { produce } from "immer";
 import { useMutation } from "react-query";
-import API from "../../../consts/API";
-import myAxios from "../../../consts/myAxios";
-import { myQueryClient } from "../../../consts/myQueryClient";
 import { DecisionDto } from "../../../dtos/BigDecisions/DecisionDto";
+import API from "../../../utils/consts/API";
+import myAxios from "../../../utils/consts/myAxios";
+import { myQueryClient } from "../../../utils/consts/myQueryClient";
 
 export default function usePostDecisionMutation() {
   return useMutation(

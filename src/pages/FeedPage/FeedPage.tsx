@@ -3,11 +3,11 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import UserSuggestions from "../../components/feed/UserSuggestions/UserSuggestions";
-import API from "../../consts/API";
-import myAxios from "../../consts/myAxios";
 import { FeedResourceDto } from "../../dtos/feed/FeedResourceDto";
 import { setFeedResources } from "../../store/feed/feedActions";
 import { ApplicationState } from "../../store/store";
+import API from "../../utils/consts/API";
+import myAxios from "../../utils/consts/myAxios";
 import AuthUserSummary from "./AuthUserSummary/AuthUserSummary";
 import FeedResources from "./FeedResources/FeedResources";
 

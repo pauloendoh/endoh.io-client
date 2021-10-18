@@ -1,21 +1,20 @@
-import { Box, Button, Link } from "@material-ui/core"
-import React, { useState } from "react"
-import { connect } from "react-redux"
-import { Link as RouterLink } from "react-router-dom"
-import { Dispatch } from "redux"
-import FollowersDialog from "../../../components/feed/FollowersDialog/FollowersDialog"
-import FollowingUsersDialog from "../../../components/feed/FollowingUsersDialog/FollowingUsersDialog"
-import Flex from "../../../components/shared/Flexboxes/Flex"
-import ProfilePicture from "../../../components/shared/ProfilePicture/ProfilePicture"
-import PATHS from "../../../consts/PATHS"
-import { ApplicationState } from "../../../store/store"
+import { Box, Button, Link } from "@material-ui/core";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { Link as RouterLink } from "react-router-dom";
+import { Dispatch } from "redux";
+import FollowersDialog from "../../../components/feed/FollowersDialog/FollowersDialog";
+import FollowingUsersDialog from "../../../components/feed/FollowingUsersDialog/FollowingUsersDialog";
+import Flex from "../../../components/shared/Flexboxes/Flex";
+import ProfilePicture from "../../../components/shared/ProfilePicture/ProfilePicture";
+import { ApplicationState } from "../../../store/store";
+import PATHS from "../../../utils/consts/PATHS";
 
 // PE 3/3
 const AuthUserSummary = (props: Props) => {
-  const [openFollowingUsersDialog, setOpenFollowingUsersDialog] = useState(
-    false
-  )
-  const [openFollowersDialog, setOpenFollowersDialog] = useState(false)
+  const [openFollowingUsersDialog, setOpenFollowingUsersDialog] =
+    useState(false);
+  const [openFollowersDialog, setOpenFollowersDialog] = useState(false);
 
   return (
     <Flex>
@@ -66,19 +65,19 @@ const AuthUserSummary = (props: Props) => {
         </Flex>
       </Box>
     </Flex>
-  )
-}
+  );
+};
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+  ReturnType<typeof mapDispatchToProps>;
 
 const mapStateToProps = (state: ApplicationState) => ({
   authUser: state.auth.user,
   profile: state.auth.profile,
   followingUsers: state.auth.followingUsers,
   followers: state.auth.followers,
-})
+});
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
+const mapDispatchToProps = (dispatch: Dispatch) => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthUserSummary)
+export default connect(mapStateToProps, mapDispatchToProps)(AuthUserSummary);

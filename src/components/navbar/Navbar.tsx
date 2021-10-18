@@ -11,11 +11,11 @@ import {
   Theme,
   Toolbar,
 } from "@material-ui/core";
-import PATHS from "consts/PATHS";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
+import PATHS from "utils/consts/PATHS";
 import { mediaQueries } from "utils/styles/mediaQueries";
 import { ApplicationState } from "../../store/store";
 import Flex from "../shared/Flexboxes/Flex";

@@ -1,10 +1,10 @@
-import { faGraduationCap } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Box, Button, Grid, Typography } from "@material-ui/core"
-import React from "react"
-import { Link } from "react-router-dom"
-import PATHS from "../../consts/PATHS"
-import FlexVCenter from "../shared/Flexboxes/FlexVCenter"
+import { faGraduationCap } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Box, Button, Grid, Typography } from "@material-ui/core";
+import React from "react";
+import { Link } from "react-router-dom";
+import PATHS from "../../utils/consts/PATHS";
+import FlexVCenter from "../shared/Flexboxes/FlexVCenter";
 
 const RelearnDescription = () => {
   return (
@@ -43,7 +43,7 @@ const RelearnDescription = () => {
         </Box>
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
-export default RelearnDescription
+export default RelearnDescription;

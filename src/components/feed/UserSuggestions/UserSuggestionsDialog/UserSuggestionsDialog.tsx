@@ -4,13 +4,13 @@ import {
   DialogContent,
   DialogTitle,
   Link,
-} from "@material-ui/core"
-import React from "react"
-import { Link as RouterLink } from "react-router-dom"
-import PATHS from "../../../../consts/PATHS"
-import { UserSuggestionDto } from "../../../../dtos/feed/UserSuggestionDto"
-import FlexVCenter from "../../../shared/Flexboxes/FlexVCenter"
-import ProfilePicture from "../../../shared/ProfilePicture/ProfilePicture"
+} from "@material-ui/core";
+import React from "react";
+import { Link as RouterLink } from "react-router-dom";
+import { UserSuggestionDto } from "../../../../dtos/feed/UserSuggestionDto";
+import PATHS from "../../../../utils/consts/PATHS";
+import FlexVCenter from "../../../shared/Flexboxes/FlexVCenter";
+import ProfilePicture from "../../../shared/ProfilePicture/ProfilePicture";
 // PE 2/3
 const UserSuggestionsDialog = (props: Props) => {
   return (
@@ -26,10 +26,7 @@ const UserSuggestionsDialog = (props: Props) => {
 
         <DialogContent>
           {props.userSuggestions.map((userSuggestion) => (
-            <FlexVCenter
-              key={userSuggestion.id}
-              mb={2}
-            >
+            <FlexVCenter key={userSuggestion.id} mb={2}>
               <ProfilePicture
                 isLink
                 pictureUrl={userSuggestion.pictureUrl}
@@ -53,13 +50,13 @@ const UserSuggestionsDialog = (props: Props) => {
         </DialogContent>
       </Box>
     </Dialog>
-  )
-}
+  );
+};
 
 type Props = {
-  userSuggestions: UserSuggestionDto[]
-  open: boolean
-  onClose: () => void
-}
+  userSuggestions: UserSuggestionDto[];
+  open: boolean;
+  onClose: () => void;
+};
 
-export default UserSuggestionsDialog
+export default UserSuggestionsDialog;

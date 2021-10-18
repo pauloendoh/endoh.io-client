@@ -6,9 +6,6 @@ import { Dispatch } from "redux";
 import UserSuggestions from "../../components/feed/UserSuggestions/UserSuggestions";
 import MinRatingButton from "../../components/resources/MinRatingButton/MinRatingButton";
 import Flex from "../../components/shared/Flexboxes/Flex";
-import API from "../../consts/API";
-import myAxios from "../../consts/myAxios";
-import PATHS from "../../consts/PATHS";
 import { UserInfoDto } from "../../dtos/UserInfoDto";
 import { ResourceDto } from "../../interfaces/dtos/relearn/ResourceDto";
 import { TagDto } from "../../interfaces/dtos/relearn/TagDto";
@@ -18,6 +15,9 @@ import {
   setUserInfo,
 } from "../../store/profile/profileActions";
 import { ApplicationState } from "../../store/store";
+import API from "../../utils/consts/API";
+import myAxios from "../../utils/consts/myAxios";
+import PATHS from "../../utils/consts/PATHS";
 import LoadingPage from "../index/LoadingPage";
 import FeedResources from "./FeedResources/FeedResources";
 import ProfileHeader from "./ProfileHeader/ProfileHeader";

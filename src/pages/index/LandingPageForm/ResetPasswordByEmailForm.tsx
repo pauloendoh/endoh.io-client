@@ -14,11 +14,11 @@ import { Dispatch } from "redux";
 import Flex from "../../../components/shared/Flexboxes/Flex";
 import MyTextField from "../../../components/shared/MyInputs/MyTextField";
 import H5 from "../../../components/shared/Text/H5";
-import API from "../../../consts/API";
-import myAxios from "../../../consts/myAxios";
 import { EmailPostDto } from "../../../interfaces/dtos/auth/EmailPostDto";
 import MyAxiosError, { MyFieldError } from "../../../interfaces/MyAxiosError";
 import { ApplicationState } from "../../../store/store";
+import API from "../../../utils/consts/API";
+import myAxios from "../../../utils/consts/myAxios";
 
 // PE 2/3
 const ResetPasswordByEmailForm = (props: Props) => {

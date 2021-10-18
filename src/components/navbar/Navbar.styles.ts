@@ -1,7 +1,7 @@
 import { ExtendButtonBase, Tab, TabTypeMap } from "@material-ui/core";
 import FlexVCenter from "components/shared/Flexboxes/FlexVCenter";
-import theme from "consts/theme";
 import styled from "styled-components";
+import theme from "utils/consts/theme";
 
 const S = {
   NavbarTab: styled(Tab)<ExtendButtonBase<TabTypeMap<{}, "div">>>`

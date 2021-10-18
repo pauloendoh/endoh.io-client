@@ -5,11 +5,11 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import Flex from "../../../components/shared/Flexboxes/Flex";
 import MyTextField from "../../../components/shared/MyInputs/MyTextField";
-import API from "../../../consts/API";
-import myAxios from "../../../consts/myAxios";
 import CategoryGetDto from "../../../interfaces/dtos/monerate/CategoryDtos/CategoryGetDto";
 import * as monerateActions from "../../../store/monerate/monerateActions";
 import { ApplicationState } from "../../../store/store";
+import API from "../../../utils/consts/API";
+import myAxios from "../../../utils/consts/myAxios";
 
 const EditCategoryModal = (props: Props) => {
   const handleSubmit = (category: CategoryGetDto) => {

@@ -13,8 +13,6 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import API from "../../../../consts/API";
-import myAxios from "../../../../consts/myAxios";
 import { IdsDto } from "../../../../dtos/IdsDto";
 import { SkillDto } from "../../../../dtos/skillbase/SkillDto";
 import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto";
@@ -22,6 +20,8 @@ import * as relearnActions from "../../../../store/relearn/relearnActions";
 import { removeSkills } from "../../../../store/skillbase/skillbaseActions";
 import { ApplicationState } from "../../../../store/store";
 import * as utilsActions from "../../../../store/utils/utilsActions";
+import API from "../../../../utils/consts/API";
+import myAxios from "../../../../utils/consts/myAxios";
 
 // PE 2/3 - MenuItem could be shorter?
 function SkillMoreIcon(props: Props) {

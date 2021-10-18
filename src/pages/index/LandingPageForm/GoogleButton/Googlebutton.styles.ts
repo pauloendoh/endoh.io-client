@@ -1,6 +1,6 @@
 import { Box, Button } from "@material-ui/core";
-import theme from "consts/theme";
 import styled from "styled-components";
+import theme from "utils/consts/theme";
 import { mediaQueries } from "utils/styles/mediaQueries";
 
 const S = {

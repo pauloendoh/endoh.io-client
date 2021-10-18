@@ -4,27 +4,27 @@ import {
   DialogContent,
   DialogTitle,
   Link,
-} from "@material-ui/core"
-import React from "react"
-import { connect } from "react-redux"
-import { Link as RouterLink, useParams } from "react-router-dom"
-import { Dispatch } from "redux"
-import PATHS from "../../../consts/PATHS"
-import { FollowingTagDto } from "../../../dtos/feed/FollowingTagDto"
-import { FollowingUserDto } from "../../../dtos/feed/FollowingUserDto"
-import { setFollowingTags } from "../../../store/auth/authActions"
-import { ApplicationState } from "../../../store/store"
-import * as utilsActions from "../../../store/utils/utilsActions"
-import Flex from "../../shared//Flexboxes/Flex"
-import ProfilePicture from "../../shared/ProfilePicture/ProfilePicture"
+} from "@material-ui/core";
+import React from "react";
+import { connect } from "react-redux";
+import { Link as RouterLink, useParams } from "react-router-dom";
+import { Dispatch } from "redux";
+import { FollowingTagDto } from "../../../dtos/feed/FollowingTagDto";
+import { FollowingUserDto } from "../../../dtos/feed/FollowingUserDto";
+import { setFollowingTags } from "../../../store/auth/authActions";
+import { ApplicationState } from "../../../store/store";
+import * as utilsActions from "../../../store/utils/utilsActions";
+import PATHS from "../../../utils/consts/PATHS";
+import Flex from "../../shared//Flexboxes/Flex";
+import ProfilePicture from "../../shared/ProfilePicture/ProfilePicture";
 
 // PE 2/3
 const FollowingUsersDialog = (props: Props) => {
-  const { username } = useParams<{ username: string }>()
+  const { username } = useParams<{ username: string }>();
 
   const onClose = () => {
-    props.onClose()
-  }
+    props.onClose();
+  };
 
   return (
     <Dialog
@@ -79,10 +79,10 @@ const FollowingUsersDialog = (props: Props) => {
         </DialogContent>
       </Box>
     </Dialog>
-  )
-}
+  );
+};
 
-const mapStateToProps = (state: ApplicationState) => ({})
+const mapStateToProps = (state: ApplicationState) => ({});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setSuccessMessage: (message: string) =>
@@ -91,19 +91,19 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch(setFollowingTags(followingTags)),
   setErrorMessage: (message: string) =>
     dispatch(utilsActions.setErrorMessage(message)),
-})
+});
 
 interface OwnProps {
-  followingUsers: FollowingUserDto[]
-  open: boolean
-  onClose: () => void
+  followingUsers: FollowingUserDto[];
+  open: boolean;
+  onClose: () => void;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(FollowingUsersDialog)
+)(FollowingUsersDialog);

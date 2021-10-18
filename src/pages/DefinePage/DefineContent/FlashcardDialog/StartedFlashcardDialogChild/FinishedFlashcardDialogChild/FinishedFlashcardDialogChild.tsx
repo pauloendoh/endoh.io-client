@@ -12,13 +12,13 @@ import { Dispatch } from "redux";
 import DarkButton from "../../../../../../components/shared/Buttons/DarkButton";
 import FlexHCenter from "../../../../../../components/shared/Flexboxes/FlexHCenter";
 import FlexVCenter from "../../../../../../components/shared/Flexboxes/FlexVCenter";
-import API from "../../../../../../consts/API";
-import myAxios from "../../../../../../consts/myAxios";
 import { DocDto } from "../../../../../../dtos/define/DocDto";
 import { NoteDto } from "../../../../../../dtos/define/NoteDto";
 import { setNotes } from "../../../../../../store/define/defineActions";
 import { ApplicationState } from "../../../../../../store/store";
 import { setSuccessMessage } from "../../../../../../store/utils/utilsActions";
+import API from "../../../../../../utils/consts/API";
+import myAxios from "../../../../../../utils/consts/myAxios";
 
 const FinishedFlashcardDialogChild = (props: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);

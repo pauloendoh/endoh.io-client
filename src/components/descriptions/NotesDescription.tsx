@@ -1,10 +1,10 @@
-import { faUsers } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Box, Button, Grid, Typography } from "@material-ui/core"
-import React from "react"
-import { Link } from "react-router-dom"
-import PATHS from "../../consts/PATHS"
-import FlexVCenter from "../shared/Flexboxes/FlexVCenter"
+import { faUsers } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Box, Button, Grid, Typography } from "@material-ui/core";
+import React from "react";
+import { Link } from "react-router-dom";
+import PATHS from "../../utils/consts/PATHS";
+import FlexVCenter from "../shared/Flexboxes/FlexVCenter";
 
 const NotesDescription = () => {
   return (
@@ -17,7 +17,6 @@ const NotesDescription = () => {
             src="https://www.youtube.com/embed/GIXsLVjuNYo"
             title="YouTube video player"
             allowFullScreen
-            
             style={{ border: "none" }}
           ></iframe>
         </Box>
@@ -40,8 +39,8 @@ const NotesDescription = () => {
           </Link>
         </Box>
       </Grid>
-    </Grid> 
-  )
-}
+    </Grid>
+  );
+};
 
-export default NotesDescription
+export default NotesDescription;

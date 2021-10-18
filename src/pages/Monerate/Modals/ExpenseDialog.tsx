@@ -23,14 +23,14 @@ import { Dispatch } from "redux";
 import Flex from "../../../components/shared/Flexboxes/Flex";
 import MyCurrencyInput from "../../../components/shared/MyInputs/MyCurrencyInput";
 import MyTextField from "../../../components/shared/MyInputs/MyTextField";
-import API from "../../../consts/API";
-import myAxios from "../../../consts/myAxios";
 import CategoryGetDto from "../../../interfaces/dtos/monerate/CategoryDtos/CategoryGetDto";
 import ExpenseGetDto from "../../../interfaces/dtos/monerate/ExpenseGetDto";
 import ExpensePostDto from "../../../interfaces/dtos/monerate/ExpensePostDto";
 import PlaceGetDto from "../../../interfaces/dtos/monerate/PlaceGetDto";
 import * as monerateActions from "../../../store/monerate/monerateActions";
 import { ApplicationState } from "../../../store/store";
+import API from "../../../utils/consts/API";
+import myAxios from "../../../utils/consts/myAxios";
 import SelectCategoryInput from "../Inputs/SelectCategoryInput/SelectCategoryInput";
 import SelectPlaceInput from "../Inputs/SelectPlaceInput/SelectPlaceInput";
 

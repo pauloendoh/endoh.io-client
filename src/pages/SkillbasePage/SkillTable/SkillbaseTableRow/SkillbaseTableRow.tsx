@@ -15,8 +15,6 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import Flex from "../../../../components/shared/Flexboxes/Flex";
 import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter";
-import API from "../../../../consts/API";
-import myAxios from "../../../../consts/myAxios";
 import { SkillDto } from "../../../../dtos/skillbase/SkillDto";
 import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto";
 import MyAxiosError from "../../../../interfaces/MyAxiosError";
@@ -29,6 +27,8 @@ import {
   setErrorMessage,
   setSuccessMessage,
 } from "../../../../store/utils/utilsActions";
+import API from "../../../../utils/consts/API";
+import myAxios from "../../../../utils/consts/myAxios";
 import SkillLevelTD from "./SkillLevelTd/SkillLevelTd";
 
 // PE 3/3

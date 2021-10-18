@@ -7,22 +7,22 @@ import {
   DialogTitle,
   FormControlLabel,
 } from "@material-ui/core";
-import PATHS from "consts/PATHS";
 import { Form, Formik } from "formik";
 import MyAxiosError from "interfaces/MyAxiosError";
 import React from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Dispatch } from "redux";
+import PATHS from "utils/consts/PATHS";
 import Flex from "../../../components/shared/Flexboxes/Flex";
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter";
 import MyTextField from "../../../components/shared/MyInputs/MyTextField";
-import API from "../../../consts/API";
-import myAxios from "../../../consts/myAxios";
 import { TagDto } from "../../../interfaces/dtos/relearn/TagDto";
 import * as relearnActions from "../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../store/store";
 import * as utilsActions from "../../../store/utils/utilsActions";
+import API from "../../../utils/consts/API";
+import myAxios from "../../../utils/consts/myAxios";
 import SelectColor from "./SelectColor/SelectColor";
 
 // PE 2/3

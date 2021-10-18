@@ -1,8 +1,8 @@
 import { Reducer } from "redux";
-import API from "../../consts/API";
-import myAxios from "../../consts/myAxios";
 import { ResourceDto } from "../../interfaces/dtos/relearn/ResourceDto";
 import { IMoveResource } from "../../interfaces/relearn/IMoveResource";
+import API from "../../utils/consts/API";
+import myAxios from "../../utils/consts/myAxios";
 import { RelearnActionReturns } from "./relearnActions";
 import { relearnActionTypes, RelearnState } from "./relearnTypes";
 

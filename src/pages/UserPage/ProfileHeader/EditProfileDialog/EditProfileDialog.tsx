@@ -15,8 +15,6 @@ import { Dispatch } from "redux";
 import Flex from "../../../../components/shared/Flexboxes/Flex";
 import MyTextField from "../../../../components/shared/MyInputs/MyTextField";
 import ProfilePicture from "../../../../components/shared/ProfilePicture/ProfilePicture";
-import API from "../../../../consts/API";
-import myAxios from "../../../../consts/myAxios";
 import { ProfileDto } from "../../../../dtos/ProfileDto";
 import MyAxiosError from "../../../../interfaces/MyAxiosError";
 import {
@@ -25,6 +23,8 @@ import {
 } from "../../../../store/profile/profileActions";
 import { ApplicationState } from "../../../../store/store";
 import * as utilsActions from "../../../../store/utils/utilsActions";
+import API from "../../../../utils/consts/API";
+import myAxios from "../../../../utils/consts/myAxios";
 import { urlIsValid } from "../../../../utils/url/isValidUrl";
 
 // PE 2/3

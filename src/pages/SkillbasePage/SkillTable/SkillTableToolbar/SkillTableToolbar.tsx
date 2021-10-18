@@ -1,46 +1,46 @@
-import { Box } from "@material-ui/core"
-import IconButton from "@material-ui/core/IconButton"
-import { lighten, makeStyles, Theme } from "@material-ui/core/styles"
-import Toolbar from "@material-ui/core/Toolbar"
-import Tooltip from "@material-ui/core/Tooltip"
-import Typography from "@material-ui/core/Typography"
-import DeleteIcon from "@material-ui/icons/Delete"
-import clsx from "clsx"
-import React, { useEffect, useState } from "react"
-import { connect } from "react-redux"
-import { useHistory, useLocation } from "react-router-dom"
-import { Dispatch } from "redux"
-import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter"
-import TagIcon from "../../../../components/shared/Icon/TagIcon"
-import PATHS from "../../../../consts/PATHS"
-import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto"
-import { ApplicationState } from "../../../../store/store"
-import { getCurrentTag } from "../../../../utils/skillbase/getCurrentTag"
+import { Box } from "@material-ui/core";
+import IconButton from "@material-ui/core/IconButton";
+import { lighten, makeStyles, Theme } from "@material-ui/core/styles";
+import Toolbar from "@material-ui/core/Toolbar";
+import Tooltip from "@material-ui/core/Tooltip";
+import Typography from "@material-ui/core/Typography";
+import DeleteIcon from "@material-ui/icons/Delete";
+import clsx from "clsx";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { useHistory, useLocation } from "react-router-dom";
+import { Dispatch } from "redux";
+import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter";
+import TagIcon from "../../../../components/shared/Icon/TagIcon";
+import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto";
+import { ApplicationState } from "../../../../store/store";
+import PATHS from "../../../../utils/consts/PATHS";
+import { getCurrentTag } from "../../../../utils/skillbase/getCurrentTag";
 import SkillbaseTagSelector, {
   optionTypes,
-} from "./SkillbaseTagSelector/SkillbaseTagSelector"
+} from "./SkillbaseTagSelector/SkillbaseTagSelector";
 
 const SkillTableToolbar = (props: Props) => {
-  const location = useLocation()
-  const classes = useStyles()
-  const history = useHistory()
+  const location = useLocation();
+  const classes = useStyles();
+  const history = useHistory();
 
-  const [tagSelectorValue, setTagSelectorValue] = useState<optionTypes>("All")
+  const [tagSelectorValue, setTagSelectorValue] = useState<optionTypes>("All");
   const handleTagChange = (value: optionTypes) => {
-    if (value === "All") history.push(PATHS.skillbase.index)
-    else if (value === "Untagged") history.push(PATHS.skillbase.untagged)
-    else history.push(PATHS.skillbase.tag + "/" + value.id)
-  }
+    if (value === "All") history.push(PATHS.skillbase.index);
+    else if (value === "Untagged") history.push(PATHS.skillbase.untagged);
+    else history.push(PATHS.skillbase.tag + "/" + value.id);
+  };
 
   useEffect(() => {
-    const { pathname } = location
+    const { pathname } = location;
     if (pathname.includes(PATHS.skillbase.untagged))
-      setTagSelectorValue("Untagged")
+      setTagSelectorValue("Untagged");
     else if (pathname.includes(PATHS.skillbase.tag))
-      setTagSelectorValue(getCurrentTag(pathname, props.allTags))
-    else setTagSelectorValue("All")
+      setTagSelectorValue(getCurrentTag(pathname, props.allTags));
+    else setTagSelectorValue("All");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location])
+  }, [location]);
 
   return (
     <Toolbar
@@ -87,8 +87,8 @@ const SkillTableToolbar = (props: Props) => {
         </Tooltip>
       )}
     </Toolbar>
-  )
-}
+  );
+};
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -108,19 +108,19 @@ const useStyles = makeStyles((theme: Theme) => ({
   title: {
     flex: "1 1 100%",
   },
-}))
+}));
 
 type Props = {
-  fixedTag: TagDto
-  numSelected: number
-  onClickDelete: () => void
+  fixedTag: TagDto;
+  numSelected: number;
+  onClickDelete: () => void;
 } & ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+  ReturnType<typeof mapDispatchToProps>;
 
 const mapStateToProps = (state: ApplicationState) => ({
   allTags: state.relearn.tags,
-})
+});
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
+const mapDispatchToProps = (dispatch: Dispatch) => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(SkillTableToolbar)
+export default connect(mapStateToProps, mapDispatchToProps)(SkillTableToolbar);

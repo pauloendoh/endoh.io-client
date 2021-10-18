@@ -1,10 +1,10 @@
-import { faUsers } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Box, Button, Grid, Typography } from "@material-ui/core"
-import React from "react"
-import { Link } from "react-router-dom"
-import PATHS from "../../consts/PATHS"
-import FlexVCenter from "../shared/Flexboxes/FlexVCenter"
+import { faUsers } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Box, Button, Grid, Typography } from "@material-ui/core";
+import React from "react";
+import { Link } from "react-router-dom";
+import PATHS from "../../utils/consts/PATHS";
+import FlexVCenter from "../shared/Flexboxes/FlexVCenter";
 
 const SkillbaseDescription = () => {
   return (
@@ -37,13 +37,12 @@ const SkillbaseDescription = () => {
             src="https://www.youtube.com/embed/ac9tKYnRNSE"
             title="YouTube video player"
             allowFullScreen
-            
             style={{ border: "none" }}
           ></iframe>
         </Box>
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
-export default SkillbaseDescription
+export default SkillbaseDescription;

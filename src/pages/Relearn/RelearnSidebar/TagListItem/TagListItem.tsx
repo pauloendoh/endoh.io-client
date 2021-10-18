@@ -17,11 +17,11 @@ import { pushOrReplace } from "utils/pushOrReplace";
 import TagMoreIcon from "../../../../components/resources/TagMoreIcon/TagMoreIcon";
 import Flex from "../../../../components/shared/Flexboxes/Flex";
 import FlexHCenter from "../../../../components/shared/Flexboxes/FlexHCenter";
-import PATHS from "../../../../consts/PATHS";
 import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto";
 import * as relearnActions from "../../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../../store/store";
 import * as utilsActions from "../../../../store/utils/utilsActions";
+import PATHS from "../../../../utils/consts/PATHS";
 import { getTodoResources } from "../../../../utils/relearn/getTodoResources";
 
 // PE 2/3 - MenuItem could be shorter?

@@ -1,8 +1,6 @@
 import { Dispatch } from "redux";
 import { action } from "typesafe-actions";
 import { getQueryParam } from "utils/url/getQueryParam";
-import API from "../../consts/API";
-import myAxios from "../../consts/myAxios";
 import { FollowingTagDto } from "../../dtos/feed/FollowingTagDto";
 import { UserInfoDto } from "../../dtos/UserInfoDto";
 import { NotificationDto } from "../../dtos/utils/NotificationDto";
@@ -10,6 +8,8 @@ import {
   AuthUserGetDto,
   UserPreferenceDto,
 } from "../../interfaces/dtos/AuthUserGetDto";
+import API from "../../utils/consts/API";
+import myAxios from "../../utils/consts/myAxios";
 import { clearDefineReducer } from "../define/defineActions";
 import { monerateActionTypes } from "../monerate/monerateTypes";
 import { clearProfile } from "../profile/profileActions";

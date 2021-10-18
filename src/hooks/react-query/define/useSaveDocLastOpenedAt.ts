@@ -1,6 +1,6 @@
 import { useMutation } from "react-query";
-import myAxios from "../../../consts/myAxios";
 import { DocDto } from "../../../dtos/define/DocDto";
+import myAxios from "../../../utils/consts/myAxios";
 import { urls } from "../../../utils/urls";
 
 export default function useSaveDocLastOpenedAt() {

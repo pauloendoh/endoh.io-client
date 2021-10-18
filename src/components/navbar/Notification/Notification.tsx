@@ -3,11 +3,11 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import API from "../../../consts/API";
-import myAxios from "../../../consts/myAxios";
 import { NotificationDto } from "../../../dtos/utils/NotificationDto";
 import { setNotifications } from "../../../store/auth/authActions";
 import { ApplicationState } from "../../../store/store";
+import API from "../../../utils/consts/API";
+import myAxios from "../../../utils/consts/myAxios";
 import NotificationItem from "./NotificationItem/NotificationItem";
 
 // PE 2/3 - Change to "NotificationButtonMenu"

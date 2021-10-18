@@ -1,37 +1,34 @@
-import {
-  Box, ListItem,
-  ListItemText, Typography
-} from "@material-ui/core"
-import produce from "immer"
-import React, { useRef, useState } from "react"
-import { Link } from "react-router-dom"
-import Flex from "../../../../components/shared/Flexboxes/Flex"
-import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter"
-import Txt from "../../../../components/shared/Text/Txt"
-import PATHS from "../../../../consts/PATHS"
-import { DecisionDto } from "../../../../dtos/BigDecisions/DecisionDto"
-import usePostDecisionMutation from "../../../../hooks/BigDecisions/Decision/usePostDecisionMutation"
-import getWinnerTable from "../../../../utils/domain/BigDecision/getWinnerTable"
-import PriorityStarIcon from "../../../SkillbasePage/SkillDialog/PriorityStarIcon/PriorityStarIcon"
-import DecisionMoreIcon from "./DecisionMoreIcon/DecisionMoreIcon"
+import { Box, ListItem, ListItemText, Typography } from "@material-ui/core";
+import produce from "immer";
+import React, { useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import Flex from "../../../../components/shared/Flexboxes/Flex";
+import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter";
+import Txt from "../../../../components/shared/Text/Txt";
+import { DecisionDto } from "../../../../dtos/BigDecisions/DecisionDto";
+import usePostDecisionMutation from "../../../../hooks/BigDecisions/Decision/usePostDecisionMutation";
+import PATHS from "../../../../utils/consts/PATHS";
+import getWinnerTable from "../../../../utils/domain/BigDecision/getWinnerTable";
+import PriorityStarIcon from "../../../SkillbasePage/SkillDialog/PriorityStarIcon/PriorityStarIcon";
+import DecisionMoreIcon from "./DecisionMoreIcon/DecisionMoreIcon";
 
-type Props = { decision: DecisionDto; isSelected: boolean }
+type Props = { decision: DecisionDto; isSelected: boolean };
 
 const DecisionSidebarItem = ({ decision, isSelected }: Props) => {
-  const hoverRef = useRef(null)
+  const hoverRef = useRef(null);
   // const isHover = useHover(hoverRef)
 
-  const postDecisionMutation = usePostDecisionMutation()
+  const postDecisionMutation = usePostDecisionMutation();
 
   const changePriority = (decision: DecisionDto) => {
     const newDecision = produce(decision, (newDecision) => {
-      newDecision.isPriority = !decision.isPriority
-    })
+      newDecision.isPriority = !decision.isPriority;
+    });
 
-    postDecisionMutation.mutate(newDecision)
-  }
+    postDecisionMutation.mutate(newDecision);
+  };
 
-  const [isHovered, setIsHovered] = useState(false)
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <ListItem
@@ -53,7 +50,7 @@ const DecisionSidebarItem = ({ decision, isSelected }: Props) => {
               isPriority={decision.isPriority}
               tooltipText="Priority decision"
               onClick={() => {
-                changePriority(decision)
+                changePriority(decision);
               }}
             />
           </FlexVCenter>
@@ -72,7 +69,7 @@ const DecisionSidebarItem = ({ decision, isSelected }: Props) => {
       </ListItemText>
       {isHovered && <DecisionMoreIcon decision={decision} />}
     </ListItem>
-  )
-}
+  );
+};
 
-export default DecisionSidebarItem
+export default DecisionSidebarItem;

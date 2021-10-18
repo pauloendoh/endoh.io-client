@@ -13,14 +13,14 @@ import { Dispatch } from "redux";
 import Flex from "../../../../../components/shared/Flexboxes/Flex";
 import FlexHCenter from "../../../../../components/shared/Flexboxes/FlexHCenter";
 import MyTextField from "../../../../../components/shared/MyInputs/MyTextField";
-import API from "../../../../../consts/API";
-import myAxios from "../../../../../consts/myAxios";
 import { AuthChangePasswordPostDto } from "../../../../../interfaces/dtos/auth/AuthChangePasswordPostDto";
 import MyAxiosError, {
   MyFieldError,
 } from "../../../../../interfaces/MyAxiosError";
 import { ApplicationState } from "../../../../../store/store";
 import * as utilsActions from "../../../../../store/utils/utilsActions";
+import API from "../../../../../utils/consts/API";
+import myAxios from "../../../../../utils/consts/myAxios";
 
 const ChangePasswordDialog = (props: Props) => {
   const [responseErrors, setResponseErrors] = useState([] as MyFieldError[]);

@@ -1,12 +1,12 @@
-import { faFunnelDollar } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Box, Button, Grid, Typography } from "@material-ui/core"
-import React from "react"
-import { Link } from "react-router-dom"
-import PATHS from "../../consts/PATHS"
-import monerateDemo from "../../static/videos/monerate-demo.mp4"
-import FlexVCenter from "../shared/Flexboxes/FlexVCenter"
-import TextSecondary from "../shared/Text/TextSecondary"
+import { faFunnelDollar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Box, Button, Grid, Typography } from "@material-ui/core";
+import React from "react";
+import { Link } from "react-router-dom";
+import monerateDemo from "../../static/videos/monerate-demo.mp4";
+import PATHS from "../../utils/consts/PATHS";
+import FlexVCenter from "../shared/Flexboxes/FlexVCenter";
+import TextSecondary from "../shared/Text/TextSecondary";
 // PE 2/3
 const MonerateDescription = () => {
   return (
@@ -40,7 +40,7 @@ const MonerateDescription = () => {
         </Box>
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
-export default MonerateDescription
+export default MonerateDescription;

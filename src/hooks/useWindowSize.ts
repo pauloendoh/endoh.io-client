@@ -1,5 +1,5 @@
-import theme from "consts/theme";
 import { useEffect, useState } from "react";
+import theme from "utils/consts/theme";
 
 export interface WindowSize {
   width: number | undefined;

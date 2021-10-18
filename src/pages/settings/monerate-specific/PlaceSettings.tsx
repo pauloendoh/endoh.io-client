@@ -10,16 +10,16 @@ import {
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
-import MY_AXIOS from "consts/myAxios";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import MY_AXIOS from "utils/consts/myAxios";
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter";
 import PlaceIcon from "../../../components/shared/PlaceIcon";
-import API from "../../../consts/API";
 import PlaceGetDto from "../../../interfaces/dtos/monerate/PlaceGetDto";
 import * as monerateActions from "../../../store/monerate/monerateActions";
 import { ApplicationState } from "../../../store/store";
+import API from "../../../utils/consts/API";
 
 const PlaceSettings = (props: Props) => {
   useEffect(() => {

@@ -1,17 +1,17 @@
-import { Box } from "@material-ui/core"
-import React, { useEffect } from "react"
-import { Redirect, Route, Switch } from "react-router-dom"
-import Flex from "../../components/shared/Flexboxes/Flex"
-import PATHS from "../../consts/PATHS"
-import EditCategoryModal from "../../pages/Monerate/Modals/EditCategoryModal"
-import EditPlaceModal from "../../pages/Monerate/Modals/EditPlaceModal"
-import PersonalInformationPaper from "./account/paper/PersonalInformationPaper"
-import SettingsSidebar from "./SettingsSidebar/SettingsSidebar"
+import { Box } from "@material-ui/core";
+import React, { useEffect } from "react";
+import { Redirect, Route, Switch } from "react-router-dom";
+import Flex from "../../components/shared/Flexboxes/Flex";
+import EditCategoryModal from "../../pages/Monerate/Modals/EditCategoryModal";
+import EditPlaceModal from "../../pages/Monerate/Modals/EditPlaceModal";
+import PATHS from "../../utils/consts/PATHS";
+import PersonalInformationPaper from "./account/paper/PersonalInformationPaper";
+import SettingsSidebar from "./SettingsSidebar/SettingsSidebar";
 
 function SettingsPage() {
   useEffect(() => {
-    document.title = "Settings - Endoh.io"
-  }, [])
+    document.title = "Settings - Endoh.io";
+  }, []);
 
   return (
     <Flex height="100%">
@@ -43,7 +43,7 @@ function SettingsPage() {
       <EditPlaceModal />
       <EditCategoryModal />
     </Flex>
-  )
+  );
 }
 
-export default SettingsPage
+export default SettingsPage;

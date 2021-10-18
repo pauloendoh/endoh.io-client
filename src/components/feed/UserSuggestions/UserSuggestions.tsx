@@ -1,38 +1,38 @@
-import { Box, Button, Link, Typography } from "@material-ui/core"
-import React, { useEffect, useState } from "react"
-import { connect } from "react-redux"
-import { Link as RouterLink } from "react-router-dom"
-import { Dispatch } from "redux"
-import PATHS from "../../../consts/PATHS"
-import { FollowingUserDto } from "../../../dtos/feed/FollowingUserDto"
-import { UserSuggestionDto } from "../../../dtos/feed/UserSuggestionDto"
-import { ApplicationState } from "../../../store/store"
-import FlexVCenter from "../../shared/Flexboxes/FlexVCenter"
-import ProfilePicture from "../../shared/ProfilePicture/ProfilePicture"
-import UserSuggestionsDialog from "./UserSuggestionsDialog/UserSuggestionsDialog"
+import { Box, Button, Link, Typography } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { Link as RouterLink } from "react-router-dom";
+import { Dispatch } from "redux";
+import { FollowingUserDto } from "../../../dtos/feed/FollowingUserDto";
+import { UserSuggestionDto } from "../../../dtos/feed/UserSuggestionDto";
+import { ApplicationState } from "../../../store/store";
+import PATHS from "../../../utils/consts/PATHS";
+import FlexVCenter from "../../shared/Flexboxes/FlexVCenter";
+import ProfilePicture from "../../shared/ProfilePicture/ProfilePicture";
+import UserSuggestionsDialog from "./UserSuggestionsDialog/UserSuggestionsDialog";
 
 // PE 2/3 - Change to UserSuggestionsSection ?
 function UserSuggestions(props: Props) {
-  const [dialogIsOpen, setDialogIsOpen] = useState(false)
+  const [dialogIsOpen, setDialogIsOpen] = useState(false);
 
-  const [suggestions, setSuggestions] = useState<UserSuggestionDto[]>([])
+  const [suggestions, setSuggestions] = useState<UserSuggestionDto[]>([]);
 
   // PE 2/3
   useEffect(() => {
     // guarantees that it won't suggest users you already follow and yourself
     // BUT, it shouldn't be this component responsibility. It should be its parent!
-    
+
     const dontShowIds = props.followingTags.map(
       (fol) => fol.followingUser.userId
-    )
-    dontShowIds.push(props.authUser.id)
+    );
+    dontShowIds.push(props.authUser.id);
 
     const filteredSuggestions = props.userSuggestions.filter(
       (suggestion) => dontShowIds.includes(suggestion.suggestedUserId) === false
-    )
-    setSuggestions(filteredSuggestions)
+    );
+    setSuggestions(filteredSuggestions);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.followingTags, props.userSuggestions])
+  }, [props.followingTags, props.userSuggestions]);
 
   return (
     <Box width={250}>
@@ -76,22 +76,22 @@ function UserSuggestions(props: Props) {
         </FlexVCenter>
       ))}
     </Box>
-  )
+  );
 }
 
 const mapStateToProps = (state: ApplicationState) => ({
   authUser: state.auth.user,
-})
+});
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
+const mapDispatchToProps = (dispatch: Dispatch) => ({});
 
 interface OwnProps {
-  userSuggestions: UserSuggestionDto[]
-  followingTags: FollowingUserDto[]
+  userSuggestions: UserSuggestionDto[];
+  followingTags: FollowingUserDto[];
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserSuggestions)
+export default connect(mapStateToProps, mapDispatchToProps)(UserSuggestions);

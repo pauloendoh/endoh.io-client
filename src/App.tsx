@@ -15,10 +15,6 @@ import Navbar from "./components/navbar/Navbar";
 import ConfirmDialog from "./components/shared/Dialogs/ConfirmationDialog";
 import MySnackBar from "./components/shared/SnackBars/MySnackBar";
 import MySnackBar2 from "./components/shared/SnackBars/MySnackbar2";
-import API from "./consts/API";
-import myAxios from "./consts/myAxios";
-import { myQueryClient } from "./consts/myQueryClient";
-import theme from "./consts/theme";
 import { FollowingTagDto } from "./dtos/feed/FollowingTagDto";
 import { UserSuggestionDto } from "./dtos/feed/UserSuggestionDto";
 import { UserInfoDto } from "./dtos/UserInfoDto";
@@ -44,6 +40,10 @@ import { setUserSuggestions } from "./store/feed/feedActions";
 import { setTags } from "./store/relearn/relearnActions";
 import { ApplicationState } from "./store/store";
 import { isValidApplicationPath } from "./utils/app/isValidApplicationPath";
+import API from "./utils/consts/API";
+import myAxios from "./utils/consts/myAxios";
+import { myQueryClient } from "./utils/consts/myQueryClient";
+import theme from "./utils/consts/theme";
 
 const MoneratePage = lazy(
   () => import("./pages/Monerate/MoneratePage/MoneratePage")

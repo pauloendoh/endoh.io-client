@@ -28,9 +28,6 @@ import SaveCancelButtons from "../../../components/shared/Buttons/SaveCancelButt
 import Flex from "../../../components/shared/Flexboxes/Flex";
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter";
 import MyTextField from "../../../components/shared/MyInputs/MyTextField";
-import API from "../../../consts/API";
-import myAxios from "../../../consts/myAxios";
-import PATHS from "../../../consts/PATHS";
 import { LinkPreviewDto } from "../../../interfaces/dtos/relearn/LinkPreviewDto";
 import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto";
 import { TagDto } from "../../../interfaces/dtos/relearn/TagDto";
@@ -38,6 +35,9 @@ import linkPng from "../../../static/images/link.png";
 import * as relearnActions from "../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../store/store";
 import * as utilsActions from "../../../store/utils/utilsActions";
+import API from "../../../utils/consts/API";
+import myAxios from "../../../utils/consts/myAxios";
+import PATHS from "../../../utils/consts/PATHS";
 import { urlIsValid } from "../../../utils/url/isValidUrl";
 
 // PE 1/3 - tá muito grande

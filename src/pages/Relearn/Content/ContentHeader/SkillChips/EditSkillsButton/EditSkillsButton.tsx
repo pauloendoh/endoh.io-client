@@ -1,41 +1,41 @@
-import { Button, makeStyles } from "@material-ui/core"
-import React, { useState } from "react"
-import { connect } from "react-redux"
-import { useHistory, useLocation } from "react-router-dom"
-import { Dispatch } from "redux"
-import FlexVCenter from "../../../../../../components/shared/Flexboxes/FlexVCenter"
-import PATHS from "../../../../../../consts/PATHS"
-import { TagDto } from "../../../../../../interfaces/dtos/relearn/TagDto"
-import { ApplicationState } from "../../../../../../store/store"
-import EditSkillsDialog from "./EditSkillsDialog/EditSkillsDialog"
+import { Button, makeStyles } from "@material-ui/core";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { useHistory, useLocation } from "react-router-dom";
+import { Dispatch } from "redux";
+import FlexVCenter from "../../../../../../components/shared/Flexboxes/FlexVCenter";
+import { TagDto } from "../../../../../../interfaces/dtos/relearn/TagDto";
+import { ApplicationState } from "../../../../../../store/store";
+import PATHS from "../../../../../../utils/consts/PATHS";
+import EditSkillsDialog from "./EditSkillsDialog/EditSkillsDialog";
 
 // PE 2/3
 function EditSkillsButton(props: Props) {
-  const classes = useStyles()
-  const { pathname } = useLocation()
-  const history = useHistory()
+  const classes = useStyles();
+  const { pathname } = useLocation();
+  const history = useHistory();
 
-  const [tagForDialog, setTagForDialog] = useState<TagDto>(null)
+  const [tagForDialog, setTagForDialog] = useState<TagDto>(null);
 
   const getSkillsFromCurrentTag = () => {
-    const tagId = Number(pathname.split("/").pop())
+    const tagId = Number(pathname.split("/").pop());
     if (tagId) {
-      return props.allSkills.filter((skill) => skill.tagId === tagId)
+      return props.allSkills.filter((skill) => skill.tagId === tagId);
     }
-    return []
-  }
+    return [];
+  };
 
   const handleEditSkillsClick = () => {
-    const tagId = Number(pathname.split("/").pop())
+    const tagId = Number(pathname.split("/").pop());
     if (tagId) {
-      const currentTag = props.allTags.find((t) => t.id === tagId)
-      setTagForDialog(currentTag)
-    } else history.push(PATHS.skillbase.index)
-  }
+      const currentTag = props.allTags.find((t) => t.id === tagId);
+      setTagForDialog(currentTag);
+    } else history.push(PATHS.skillbase.index);
+  };
 
   const handleCloseDialog = () => {
-    setTagForDialog(null)
-  }
+    setTagForDialog(null);
+  };
 
   return (
     <React.Fragment>
@@ -54,7 +54,7 @@ function EditSkillsButton(props: Props) {
 
       <EditSkillsDialog tag={tagForDialog} onClose={handleCloseDialog} />
     </React.Fragment>
-  )
+  );
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -68,16 +68,16 @@ const useStyles = makeStyles((theme) => ({
   editSkillsButton: {
     marginBottom: 8,
   },
-}))
+}));
 
 const mapStateToProps = (state: ApplicationState) => ({
   allSkills: state.skillbase.skills,
   allTags: state.relearn.tags,
-})
+});
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
+const mapDispatchToProps = (dispatch: Dispatch) => ({});
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+  ReturnType<typeof mapDispatchToProps>;
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditSkillsButton)
+export default connect(mapStateToProps, mapDispatchToProps)(EditSkillsButton);

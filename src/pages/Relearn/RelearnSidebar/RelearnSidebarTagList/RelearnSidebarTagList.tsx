@@ -14,11 +14,11 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter";
-import API from "../../../../consts/API";
-import myAxios from "../../../../consts/myAxios";
 import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto";
 import * as relearnActions from "../../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../../store/store";
+import API from "../../../../utils/consts/API";
+import myAxios from "../../../../utils/consts/myAxios";
 import TagListItem from "../TagListItem/TagListItem";
 
 function RelearnSidebarTagList(props: Props) {

@@ -4,10 +4,10 @@ import {
   InputLabel,
   MenuItem,
   Select,
-} from "@material-ui/core"
-import React from "react"
-import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter"
-import { MY_LIST_COLORS } from "../../../../consts/MY_LIST_COLORS"
+} from "@material-ui/core";
+import React from "react";
+import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter";
+import { MY_LIST_COLORS } from "../../../../utils/consts/MY_LIST_COLORS";
 
 // PE 2/3
 const SelectColor = (props: OwnProps) => {
@@ -39,12 +39,12 @@ const SelectColor = (props: OwnProps) => {
         ))}
       </Select>
     </FormControl>
-  )
-}
+  );
+};
 
 interface OwnProps {
-  value: string
-  onChange?: (newValue: string) => void
+  value: string;
+  onChange?: (newValue: string) => void;
 }
 
-export default SelectColor
+export default SelectColor;

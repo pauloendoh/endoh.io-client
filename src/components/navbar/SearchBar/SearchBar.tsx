@@ -2,7 +2,7 @@ import { Box } from "@material-ui/core";
 import { Form, Formik } from "formik";
 import React from "react";
 import { useHistory } from "react-router";
-import PATHS from "../../../consts/PATHS";
+import PATHS from "../../../utils/consts/PATHS";
 import MyTextField from "../../shared/MyInputs/MyTextField";
 
 // PE 3/3

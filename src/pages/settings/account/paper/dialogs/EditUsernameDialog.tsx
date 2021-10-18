@@ -13,8 +13,6 @@ import { Dispatch } from "redux";
 import Flex from "../../../../../components/shared/Flexboxes/Flex";
 import FlexHCenter from "../../../../../components/shared/Flexboxes/FlexHCenter";
 import MyTextField from "../../../../../components/shared/MyInputs/MyTextField";
-import API from "../../../../../consts/API";
-import myAxios from "../../../../../consts/myAxios";
 import { UsernamePutDto } from "../../../../../interfaces/dtos/auth/UsernamePutDto";
 import MyAxiosError, {
   MyFieldError,
@@ -22,6 +20,8 @@ import MyAxiosError, {
 import { setUsername } from "../../../../../store/auth/authActions";
 import { ApplicationState } from "../../../../../store/store";
 import * as utilsActions from "../../../../../store/utils/utilsActions";
+import API from "../../../../../utils/consts/API";
+import myAxios from "../../../../../utils/consts/myAxios";
 
 const EditUsernameDialog = (props: Props) => {
   const [responseErrors, setResponseErrors] = useState([] as MyFieldError[]);

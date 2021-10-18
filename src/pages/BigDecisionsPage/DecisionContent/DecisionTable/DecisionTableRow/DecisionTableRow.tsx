@@ -1,41 +1,41 @@
-import { makeStyles, TextareaAutosize } from "@material-ui/core"
-import classNames from "classnames"
-import React, { useRef, useState } from "react"
-import { TD, TR } from "../../../../../components/shared/Table/MyTableWrappers"
-import MyColors from "../../../../../consts/MyColors"
-import { DecisionTableItemDto } from "../../../../../dtos/BigDecisions/DecisionTableItemDto"
+import { makeStyles, TextareaAutosize } from "@material-ui/core";
+import classNames from "classnames";
+import React, { useRef, useState } from "react";
+import { TD, TR } from "../../../../../components/shared/Table/MyTableWrappers";
+import { DecisionTableItemDto } from "../../../../../dtos/BigDecisions/DecisionTableItemDto";
+import MyColors from "../../../../../utils/consts/MyColors";
 
 type Props = {
-  initialItem: DecisionTableItemDto
-  biggerColsWidth: number
-  onThrottledChange: (newValue: DecisionTableItemDto) => void
-}
+  initialItem: DecisionTableItemDto;
+  biggerColsWidth: number;
+  onThrottledChange: (newValue: DecisionTableItemDto) => void;
+};
 
 const DecisionTableRow = (props: Props) => {
-  const classes = useStyles()
+  const classes = useStyles();
 
-  const [localItem, setLocalItem] = useState(props.initialItem)
+  const [localItem, setLocalItem] = useState(props.initialItem);
 
-  const problemRef = useRef<HTMLTextAreaElement>()
-  const solutionRef = useRef<HTMLTextAreaElement>()
-  const weightRef = useRef<HTMLInputElement>()
+  const problemRef = useRef<HTMLTextAreaElement>();
+  const solutionRef = useRef<HTMLTextAreaElement>();
+  const weightRef = useRef<HTMLInputElement>();
 
-  const focusProblem = () => problemRef.current.focus()
-  const focusSolution = () => solutionRef.current.focus()
-  const selectWeight = () => weightRef.current.select()
+  const focusProblem = () => problemRef.current.focus();
+  const focusSolution = () => solutionRef.current.focus();
+  const selectWeight = () => weightRef.current.select();
 
   // handles timeout to props.on
-  const [throttle, setThrottle] = useState<NodeJS.Timeout>(null)
+  const [throttle, setThrottle] = useState<NodeJS.Timeout>(null);
 
   const changeLocalItem = (newValue: DecisionTableItemDto) => {
-    setLocalItem(newValue)
-    clearTimeout(throttle)
+    setLocalItem(newValue);
+    clearTimeout(throttle);
     setThrottle(
       setTimeout(() => {
-        props.onThrottledChange(newValue)
+        props.onThrottledChange(newValue);
       }, 250)
-    )
-  }
+    );
+  };
 
   return (
     <TR key={props.initialItem.id}>
@@ -82,17 +82,17 @@ const DecisionTableRow = (props: Props) => {
           max="5"
           value={localItem.weight ? localItem.weight : ""}
           onChange={(e) => {
-            const newValue = Number(e.target.value)
-            if (newValue < 1) changeLocalItem({ ...localItem, weight: 1 })
-            else if (newValue > 5) changeLocalItem({ ...localItem, weight: 5 })
+            const newValue = Number(e.target.value);
+            if (newValue < 1) changeLocalItem({ ...localItem, weight: 1 });
+            else if (newValue > 5) changeLocalItem({ ...localItem, weight: 5 });
             else if (newValue >= 1 && newValue <= 5)
-              changeLocalItem({ ...localItem, weight: newValue })
+              changeLocalItem({ ...localItem, weight: newValue });
           }}
         />
       </TD>
     </TR>
-  )
-}
+  );
+};
 
 const useStyles = makeStyles((theme) => ({
   textareaCell: {
@@ -113,6 +113,6 @@ const useStyles = makeStyles((theme) => ({
   },
   bold: { fontWeight: "bold", color: MyColors.ratingYellow[5] },
   col3: { width: 60, textAlign: "center" },
-}))
+}));
 
-export default DecisionTableRow
+export default DecisionTableRow;

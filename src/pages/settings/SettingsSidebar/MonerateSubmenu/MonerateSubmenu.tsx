@@ -1,5 +1,5 @@
-import { faFunnelDollar } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faFunnelDollar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Collapse,
   createStyles,
@@ -8,29 +8,29 @@ import {
   ListItemIcon,
   ListItemText,
   makeStyles,
-  Theme
-} from "@material-ui/core"
-import { ExpandLess, ExpandMore } from "@material-ui/icons"
-import React, { useState } from "react"
-import { Link, useLocation } from "react-router-dom"
-import PATHS from "../../../../consts/PATHS"
+  Theme,
+} from "@material-ui/core";
+import { ExpandLess, ExpandMore } from "@material-ui/icons";
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import PATHS from "../../../../utils/consts/PATHS";
 
 function MonerateSubmenu() {
-  const classes = useStyles()
+  const classes = useStyles();
 
-  const location = useLocation()
-  const pathName = location.pathname
+  const location = useLocation();
+  const pathName = location.pathname;
 
   const [openMonerate, setOpenMonerate] = useState<boolean>(
     pathName.startsWith(PATHS.settings.monerate.index)
-  )
+  );
 
   return (
     <React.Fragment>
       <ListItem
         button
         onClick={() => {
-          setOpenMonerate(!openMonerate)
+          setOpenMonerate(!openMonerate);
         }}
       >
         <ListItemIcon>
@@ -62,7 +62,7 @@ function MonerateSubmenu() {
         </List>
       </Collapse>
     </React.Fragment>
-  )
+  );
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -71,6 +71,6 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingLeft: theme.spacing(4),
     },
   })
-)
+);
 
-export default MonerateSubmenu
+export default MonerateSubmenu;

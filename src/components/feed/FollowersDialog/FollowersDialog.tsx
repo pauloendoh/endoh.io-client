@@ -4,24 +4,24 @@ import {
   DialogContent,
   DialogTitle,
   Link,
-} from "@material-ui/core"
-import React from "react"
-import { connect } from "react-redux"
-import { Link as RouterLink, useParams } from "react-router-dom"
-import { Dispatch } from "redux"
-import Flex from "../../../components/shared/Flexboxes/Flex"
-import PATHS from "../../../consts/PATHS"
-import { FollowerDto } from "../../../dtos/feed/FollowerDto"
-import { ApplicationState } from "../../../store/store"
-import ProfilePicture from "../../shared/ProfilePicture/ProfilePicture"
+} from "@material-ui/core";
+import React from "react";
+import { connect } from "react-redux";
+import { Link as RouterLink, useParams } from "react-router-dom";
+import { Dispatch } from "redux";
+import Flex from "../../../components/shared/Flexboxes/Flex";
+import { FollowerDto } from "../../../dtos/feed/FollowerDto";
+import { ApplicationState } from "../../../store/store";
+import PATHS from "../../../utils/consts/PATHS";
+import ProfilePicture from "../../shared/ProfilePicture/ProfilePicture";
 
 // PE 2/3
 const FollowersDialog = (props: Props) => {
-  const { username } = useParams<{ username: string }>()
+  const { username } = useParams<{ username: string }>();
 
   const onClose = () => {
-    props.onClose()
-  }
+    props.onClose();
+  };
 
   return (
     <Dialog
@@ -73,21 +73,21 @@ const FollowersDialog = (props: Props) => {
         </DialogContent>
       </Box>
     </Dialog>
-  )
-}
+  );
+};
 
-const mapStateToProps = (state: ApplicationState) => ({})
+const mapStateToProps = (state: ApplicationState) => ({});
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
+const mapDispatchToProps = (dispatch: Dispatch) => ({});
 
 interface OwnProps {
-  open: boolean
-  onClose: () => void
-  followers: FollowerDto[]
+  open: boolean;
+  onClose: () => void;
+  followers: FollowerDto[];
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(FollowersDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(FollowersDialog);

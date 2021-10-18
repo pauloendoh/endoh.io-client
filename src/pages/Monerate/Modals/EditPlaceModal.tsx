@@ -1,10 +1,10 @@
 import { Box, Button, Dialog } from "@material-ui/core";
-import API from "consts/API";
-import myAxios from "consts/myAxios";
 import { Form, Formik } from "formik";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import API from "utils/consts/API";
+import myAxios from "utils/consts/myAxios";
 import Flex from "../../../components/shared/Flexboxes/Flex";
 import MyTextField from "../../../components/shared/MyInputs/MyTextField";
 import PlaceGetDto from "../../../interfaces/dtos/monerate/PlaceGetDto";

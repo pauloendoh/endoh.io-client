@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import NotesIcon from "@material-ui/icons/Notes";
 import TimeLineIcon from "@material-ui/icons/Timeline";
 import { ReactElement, ReactNode } from "react";
-import PATHS from "../../consts/PATHS";
+import PATHS from "../../utils/consts/PATHS";
 
 interface ITab {
   id: string;

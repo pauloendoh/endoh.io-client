@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
-import API from "../../../consts/API";
-import myAxios from "../../../consts/myAxios";
 import { DecisionDto } from "../../../dtos/BigDecisions/DecisionDto";
+import API from "../../../utils/consts/API";
+import myAxios from "../../../utils/consts/myAxios";
 
 const decisionsQK = API.BigDecisions.decision;
 

@@ -1,9 +1,9 @@
 import { Box, Container } from "@material-ui/core";
-import myAxios from "consts/myAxios";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { ApplicationState } from "store/store";
+import myAxios from "utils/consts/myAxios";
 import CategoryGetDto from "../../../interfaces/dtos/monerate/CategoryDtos/CategoryGetDto";
 import ExpenseGetDto from "../../../interfaces/dtos/monerate/ExpenseGetDto";
 import PlaceGetDto from "../../../interfaces/dtos/monerate/PlaceGetDto";

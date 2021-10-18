@@ -6,8 +6,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import API from "../../../consts/API";
-import myAxios from "../../../consts/myAxios";
 import { IdsDto } from "../../../dtos/IdsDto";
 import { SkillDto } from "../../../dtos/skillbase/SkillDto";
 import { TagDto } from "../../../interfaces/dtos/relearn/TagDto";
@@ -18,6 +16,8 @@ import {
 import { SortSkill } from "../../../store/skillbase/skillbaseTypes";
 import { ApplicationState } from "../../../store/store";
 import { setSuccessMessage } from "../../../store/utils/utilsActions";
+import API from "../../../utils/consts/API";
+import myAxios from "../../../utils/consts/myAxios";
 import filterAndSortSkills from "../../../utils/domain/skills/filterAndSortSkills";
 import AddSkillButton from "./AddSkillButton/AddSkillButton";
 import SkillbaseTableHead from "./SkillbaseTableHead/SkillbaseTableHead";

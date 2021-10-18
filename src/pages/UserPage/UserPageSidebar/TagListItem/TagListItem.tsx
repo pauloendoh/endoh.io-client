@@ -1,23 +1,23 @@
-import { Box, ListItem, makeStyles, Typography } from "@material-ui/core"
-import ListItemText from "@material-ui/core/ListItemText"
-import LabelIcon from "@material-ui/icons/Label"
-import React from "react"
-import { connect } from "react-redux"
-import { Link } from "react-router-dom"
-import { Dispatch } from "redux"
-import Flex from "../../../../components/shared/Flexboxes/Flex"
-import FlexHCenter from "../../../../components/shared/Flexboxes/FlexHCenter"
-import PATHS from "../../../../consts/PATHS"
-import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto"
-import { ApplicationState } from "../../../../store/store"
+import { Box, ListItem, makeStyles, Typography } from "@material-ui/core";
+import ListItemText from "@material-ui/core/ListItemText";
+import LabelIcon from "@material-ui/icons/Label";
+import React from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { Dispatch } from "redux";
+import Flex from "../../../../components/shared/Flexboxes/Flex";
+import FlexHCenter from "../../../../components/shared/Flexboxes/FlexHCenter";
+import { TagDto } from "../../../../interfaces/dtos/relearn/TagDto";
+import { ApplicationState } from "../../../../store/store";
+import PATHS from "../../../../utils/consts/PATHS";
 
 // PE 3/3
 const TagListItem = (props: Props) => {
-  const classes = useStyles()
+  const classes = useStyles();
 
   const getResourcesFromListId = (listId: number) => {
-    return props.allResources.filter((r) => r.tag?.id === listId)
-  }
+    return props.allResources.filter((r) => r.tag?.id === listId);
+  };
 
   return (
     <ListItem
@@ -43,31 +43,31 @@ const TagListItem = (props: Props) => {
         </Typography>
       </FlexHCenter>
     </ListItem>
-  )
-}
+  );
+};
 
 const useStyles = makeStyles((theme) => ({
   resourcesCount: {
     fontSize: 12,
     color: theme.palette.grey[400],
   },
-}))
+}));
 
 interface OwnProps {
-  tag: TagDto
-  width: number
-  username: string
-  selectedTagId: string
+  tag: TagDto;
+  width: number;
+  username: string;
+  selectedTagId: string;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
 const mapStateToProps = (state: ApplicationState) => ({
   allResources: state.profile.resources,
-})
+});
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
+const mapDispatchToProps = (dispatch: Dispatch) => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(TagListItem)
+export default connect(mapStateToProps, mapDispatchToProps)(TagListItem);

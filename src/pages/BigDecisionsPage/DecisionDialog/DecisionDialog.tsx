@@ -1,35 +1,35 @@
-import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core"
-import SaveCancelButtons from "../../../components/shared/Buttons/SaveCancelButtons"
-import MyTextField from "../../../components/shared/MyInputs/MyTextField"
-import PATHS from "../../../consts/PATHS"
-import { DecisionDto } from "../../../dtos/BigDecisions/DecisionDto"
-import { Form, Formik } from "formik"
-import React from "react"
-import { connect } from "react-redux"
-import { useHistory } from "react-router-dom"
-import { Dispatch } from "redux"
-import { ApplicationState } from "../../../store/store"
-import * as utilsActions from "../../../store/utils/utilsActions"
-import usePostDecisionMutation from "../../../hooks/BigDecisions/Decision/usePostDecisionMutation"
+import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
+import { Form, Formik } from "formik";
+import React from "react";
+import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { Dispatch } from "redux";
+import SaveCancelButtons from "../../../components/shared/Buttons/SaveCancelButtons";
+import MyTextField from "../../../components/shared/MyInputs/MyTextField";
+import { DecisionDto } from "../../../dtos/BigDecisions/DecisionDto";
+import usePostDecisionMutation from "../../../hooks/BigDecisions/Decision/usePostDecisionMutation";
+import { ApplicationState } from "../../../store/store";
+import * as utilsActions from "../../../store/utils/utilsActions";
+import PATHS from "../../../utils/consts/PATHS";
 
 const DecisionDialog = (props: Props) => {
-  const history = useHistory()
+  const history = useHistory();
 
   const handleClose = () => {
-    props.onClose()
-  }
+    props.onClose();
+  };
 
-  const { mutate: postDecision } = usePostDecisionMutation()
+  const { mutate: postDecision } = usePostDecisionMutation();
 
   const handleSubmit = (values: DecisionDto) => {
     postDecision(values, {
       onSuccess: (data) => {
-        props.setSuccessMessage("Decision saved!")
-        handleClose()
-        history.push(PATHS.BigDecisions.decision(data.id))
+        props.setSuccessMessage("Decision saved!");
+        handleClose();
+        history.push(PATHS.BigDecisions.decision(data.id));
       },
-    })
-  }
+    });
+  };
 
   return (
     <Dialog
@@ -44,7 +44,7 @@ const DecisionDialog = (props: Props) => {
           enableReinitialize
           initialValues={props.initialValue}
           onSubmit={(formikValues) => {
-            handleSubmit(formikValues)
+            handleSubmit(formikValues);
           }}
         >
           {({ values, isSubmitting, handleChange }) => (
@@ -79,29 +79,29 @@ const DecisionDialog = (props: Props) => {
         </Formik>
       </Box>
     </Dialog>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state: ApplicationState) => ({
   // editingTag: state.relearn.editingTag,
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setSuccessMessage: (message: string) =>
     dispatch(utilsActions.setSuccessMessage(message)),
   setErrorMessage: (message: string) =>
     dispatch(utilsActions.setErrorMessage(message)),
-})
+});
 
 interface OwnProps {
-  open: boolean
-  initialValue: DecisionDto
-  onClose: () => void
-  afterSave?: (returned: DecisionDto) => void
+  open: boolean;
+  initialValue: DecisionDto;
+  onClose: () => void;
+  afterSave?: (returned: DecisionDto) => void;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps
+  OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(DecisionDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(DecisionDialog);

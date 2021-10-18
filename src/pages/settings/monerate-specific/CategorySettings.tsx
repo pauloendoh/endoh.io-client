@@ -15,11 +15,11 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import CategoryIcon from "../../../components/shared/CategoryIcon";
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter";
-import API from "../../../consts/API";
-import MY_AXIOS from "../../../consts/myAxios";
 import CategoryGetDto from "../../../interfaces/dtos/monerate/CategoryDtos/CategoryGetDto";
 import * as monerateActions from "../../../store/monerate/monerateActions";
 import { ApplicationState } from "../../../store/store";
+import API from "../../../utils/consts/API";
+import MY_AXIOS from "../../../utils/consts/myAxios";
 
 const CategorySettings = (props: Props) => {
   useEffect(() => {

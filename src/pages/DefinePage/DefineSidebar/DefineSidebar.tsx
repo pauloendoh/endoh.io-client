@@ -27,10 +27,10 @@ import Flex from "../../../components/shared/Flexboxes/Flex";
 import FlexHCenter from "../../../components/shared/Flexboxes/FlexHCenter";
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter";
 import MyTextField from "../../../components/shared/MyInputs/MyTextField";
-import PATHS from "../../../consts/PATHS";
 import { DocDto } from "../../../dtos/define/DocDto";
 import { ApplicationState } from "../../../store/store";
 import useSidebarStore from "../../../store/zustand/useSidebarStore";
+import PATHS from "../../../utils/consts/PATHS";
 import stringIncludes from "../../../utils/text/stringIncludes";
 import DocTitleDialog from "../DocTitleDialog/DocTitleDialog";
 

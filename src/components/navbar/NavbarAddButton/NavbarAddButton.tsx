@@ -3,11 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, IconButton } from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import theme from "consts/theme";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { startNewResource } from "store/relearn/relearnActions";
+import theme from "utils/consts/theme";
 import Icons from "utils/styles/Icons";
 import { ApplicationState } from "../../../store/store";
 

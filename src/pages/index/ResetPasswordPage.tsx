@@ -18,13 +18,13 @@ import FlexHCenter from "../../components/shared/Flexboxes/FlexHCenter";
 import FlexVCenter from "../../components/shared/Flexboxes/FlexVCenter";
 import MyTextField from "../../components/shared/MyInputs/MyTextField";
 import TextPrimary from "../../components/shared/Text/TextPrimary";
-import API from "../../consts/API";
-import myAxios from "../../consts/myAxios";
-import PATHS from "../../consts/PATHS";
 import { PasswordResetPostDto } from "../../interfaces/dtos/auth/PasswordResetPostDto";
 import MyAxiosError, { MyFieldError } from "../../interfaces/MyAxiosError";
 import { logoutActionCreator } from "../../store/auth/authActions";
 import { ApplicationState } from "../../store/store";
+import API from "../../utils/consts/API";
+import myAxios from "../../utils/consts/myAxios";
+import PATHS from "../../utils/consts/PATHS";
 import { getQueryParam } from "../../utils/url/getQueryParam";
 
 function ResetPasswordPage(props: Props) {

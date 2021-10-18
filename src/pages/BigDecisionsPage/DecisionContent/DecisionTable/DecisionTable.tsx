@@ -1,5 +1,5 @@
-import { faCrown } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCrown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
   makeStyles,
@@ -7,55 +7,55 @@ import {
   Table,
   TableContainer,
   Toolbar,
-} from "@material-ui/core"
-import AddIcon from "@material-ui/icons/Add"
-import React from "react"
-import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter"
+} from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
+import React from "react";
+import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter";
 import {
   TBody,
   TD,
   THead,
   TR,
-} from "../../../../components/shared/Table/MyTableWrappers"
-import Txt from "../../../../components/shared/Text/Txt"
-import MyColors from "../../../../consts/MyColors"
-import { DecisionTableDto } from "../../../../dtos/BigDecisions/DecisionTableDto"
+} from "../../../../components/shared/Table/MyTableWrappers";
+import Txt from "../../../../components/shared/Text/Txt";
+import { DecisionTableDto } from "../../../../dtos/BigDecisions/DecisionTableDto";
 import {
   DecisionTableItemDto,
   newDecisionTableItemDto,
-} from "../../../../dtos/BigDecisions/DecisionTableItemDto"
-import useSaveItemMutation from "../../../../hooks/BigDecisions/DecisionTableItem/usePPutItemMutation"
-import useSidebarStore from "../../../../store/zustand/useSidebarStore"
-import getFinalWeight from "../../../../utils/domain/BigDecision/getFinalWeight"
-import DecisionTableRow from "./DecisionTableRow/DecisionTableRow"
-import SortWeightIcon from "./SortWeightMenuIcon/SortWeightMenuIcon"
-import TableMoreIcon from "./TableMoreIcon/TableMoreIcon"
+} from "../../../../dtos/BigDecisions/DecisionTableItemDto";
+import useSaveItemMutation from "../../../../hooks/BigDecisions/DecisionTableItem/usePPutItemMutation";
+import useSidebarStore from "../../../../store/zustand/useSidebarStore";
+import MyColors from "../../../../utils/consts/MyColors";
+import getFinalWeight from "../../../../utils/domain/BigDecision/getFinalWeight";
+import DecisionTableRow from "./DecisionTableRow/DecisionTableRow";
+import SortWeightIcon from "./SortWeightMenuIcon/SortWeightMenuIcon";
+import TableMoreIcon from "./TableMoreIcon/TableMoreIcon";
 
 // PE 2/3
 const DecisionTable = ({
   table,
   isWinner,
 }: {
-  table: DecisionTableDto
-  isWinner: boolean
+  table: DecisionTableDto;
+  isWinner: boolean;
 }) => {
-  const classes = useStyles()
+  const classes = useStyles();
 
-  const saveItemMutation = useSaveItemMutation(table.decisionId)
-  const { sidebarIsOpen } = useSidebarStore()
+  const saveItemMutation = useSaveItemMutation(table.decisionId);
+  const { sidebarIsOpen } = useSidebarStore();
 
   const addItem = () => {
-    saveItemMutation.mutate(newDecisionTableItemDto(table.id))
-  }
+    saveItemMutation.mutate(newDecisionTableItemDto(table.id));
+  };
 
   const saveItemChange = (newItem: DecisionTableItemDto) => {
-    saveItemMutation.mutate(newItem)
-  }
+    saveItemMutation.mutate(newItem);
+  };
 
   const getBiggerColsWidth = () => {
-    if (sidebarIsOpen) return 240
-    return 180
-  }
+    if (sidebarIsOpen) return 240;
+    return 180;
+  };
 
   return (
     <Box mr={2} mt={4} key={table.id}>
@@ -131,8 +131,8 @@ const DecisionTable = ({
         </Toolbar>
       </Paper>
     </Box>
-  )
-}
+  );
+};
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -163,6 +163,6 @@ const useStyles = makeStyles((theme) => ({
       borderRadius: "inherit",
     },
   },
-}))
+}));
 
-export default DecisionTable
+export default DecisionTable;

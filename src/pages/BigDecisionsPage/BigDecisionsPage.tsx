@@ -1,43 +1,43 @@
-import { Box, makeStyles } from "@material-ui/core"
-import classNames from "classnames"
-import Flex from "components/shared/Flexboxes/Flex"
-import React, { useEffect } from "react"
-import { useHistory, useParams } from "react-router-dom"
-import { stringIsValidNumber } from "utils/math/stringIsValidNumber"
-import PATHS from "../../consts/PATHS"
-import useDecisionsQuery from "../../hooks/BigDecisions/Decision/useDecisionsQuery"
-import useDialogsStore from "../../store/zustand/useDialogsStore"
-import useSidebarStore from "../../store/zustand/useSidebarStore"
-import DecisionContent from "./DecisionContent/DecisionContent"
-import DecisionDialog from "./DecisionDialog/DecisionDialog"
-import DecisionSidebar from "./DecisionSidebar/DecisionSidebar"
-import DecisionTableDialog from "./DecisionTableDialog/DecisionTableDialog"
+import { Box, makeStyles } from "@material-ui/core";
+import classNames from "classnames";
+import Flex from "components/shared/Flexboxes/Flex";
+import React, { useEffect } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import { stringIsValidNumber } from "utils/math/stringIsValidNumber";
+import useDecisionsQuery from "../../hooks/BigDecisions/Decision/useDecisionsQuery";
+import useDialogsStore from "../../store/zustand/useDialogsStore";
+import useSidebarStore from "../../store/zustand/useSidebarStore";
+import PATHS from "../../utils/consts/PATHS";
+import DecisionContent from "./DecisionContent/DecisionContent";
+import DecisionDialog from "./DecisionDialog/DecisionDialog";
+import DecisionSidebar from "./DecisionSidebar/DecisionSidebar";
+import DecisionTableDialog from "./DecisionTableDialog/DecisionTableDialog";
 
 // PE 3/3
 const BigDecisionsPage = () => {
-  const classes = useStyles()
+  const classes = useStyles();
 
-  const { id: queryId } = useParams<{ id: string }>()
-  const { openSidebar } = useSidebarStore()
+  const { id: queryId } = useParams<{ id: string }>();
+  const { openSidebar } = useSidebarStore();
 
-  const decisionId = stringIsValidNumber(queryId) ? Number(queryId) : null
+  const decisionId = stringIsValidNumber(queryId) ? Number(queryId) : null;
 
   useEffect(() => {
-    document.title = "BigDecisions - endoh.io"
-    openSidebar()
+    document.title = "BigDecisions - endoh.io";
+    openSidebar();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
-  const { data: allDecisions } = useDecisionsQuery()
-  const history = useHistory()
+  const { data: allDecisions } = useDecisionsQuery();
+  const history = useHistory();
   useEffect(
     () => {
       if (decisionId === null && allDecisions?.length)
-        history.push(PATHS.BigDecisions.decision(allDecisions[0].id))
+        history.push(PATHS.BigDecisions.decision(allDecisions[0].id));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [allDecisions]
-  )
+  );
 
   const {
     decisionDialogOpen,
@@ -47,9 +47,9 @@ const BigDecisionsPage = () => {
     decisionTableDialogOpen,
     decisionTableDialogValue,
     closeDecisionTableDialog,
-  } = useDialogsStore()
+  } = useDialogsStore();
 
-  const { sidebarIsOpen } = useSidebarStore()
+  const { sidebarIsOpen } = useSidebarStore();
 
   return (
     <Box p={2}>
@@ -77,8 +77,8 @@ const BigDecisionsPage = () => {
         onClose={closeDecisionTableDialog}
       />
     </Box>
-  )
-}
+  );
+};
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -96,6 +96,6 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: 300,
   },
-}))
+}));
 
-export default BigDecisionsPage
+export default BigDecisionsPage;

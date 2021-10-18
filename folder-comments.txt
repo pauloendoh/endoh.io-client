@@ -1,6 +1,5 @@
 
 PE 1/3:
-- remove ApplicationMenu ? 
 - remove consts folder or add it to the utils/
 - change MY_LIST_COLORS.ts to _utils/tagColors.ts and put next to where it is used
 - change MyColors.ts to colors.ts
