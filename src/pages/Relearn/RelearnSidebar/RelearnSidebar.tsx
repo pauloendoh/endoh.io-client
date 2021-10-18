@@ -1,4 +1,4 @@
-import { Box, createStyles, List, makeStyles, Theme } from "@material-ui/core";
+import { Box, List } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -30,16 +30,6 @@ function RelearnSidebar(props: Props) {
     </MySidebar>
   );
 }
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    resourcesCount: {
-      marginLeft: 8,
-      fontSize: 12,
-      color: theme.palette.grey[400],
-    },
-  })
-);
 
 const mapStateToProps = (state: ApplicationState) => ({
   tags: state.relearn.tags,

@@ -22,6 +22,7 @@ export type FilterByType = "all" | "resources" | "users" | "skills";
 const SearchPage = (props: Props) => {
   const location = useLocation();
 
+  // PE 2/3 - melhor searchQuery?
   const [q, setQ] = useState("");
 
   const [isLoading, setIsLoading] = useState(true);

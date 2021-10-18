@@ -39,7 +39,6 @@ function ResourceMoreIcon(props: Props) {
   // Anchor when you click 'More' icon
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const handleOpenMore = (event: any) => {
-    console.log(event);
     setAnchorEl(event.currentTarget);
   };
   const handleCloseMore = () => {

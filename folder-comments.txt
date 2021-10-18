@@ -1,0 +1,23 @@
+
+PE 1/3:
+- remove ApplicationMenu ? 
+- remove consts folder or add it to the utils/
+- change MY_LIST_COLORS.ts to _utils/tagColors.ts and put next to where it is used
+- change MyColors.ts to colors.ts
+- create a types/domain folder and put your dtos there 
+- put your interfaces/dtos inside types/domain
+- put ProfileDto inside domain/profile
+- put UserInfoDto inside types/domain/auth
+- put isValidApplicationPath in a App.utils.ts 
+
+PE 2/3:
+- descriptions folder? is in a weird position. 
+- no components/domain folder? might be better to divide domain and _common or layout>navbar
+- change <Notification/> to <NavbarNotification/> ? 
+- add a  utils/react-query and put myQueryClient.ts there
+- create a utils/styles/theme.ts, MyColors.ts
+- put a types/_common to the IdsDto
+- put MyAxiosError.ts inside types/domain/_common
+
+
+20211018 - stopped on /utils/app

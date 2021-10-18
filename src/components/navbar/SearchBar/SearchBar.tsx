@@ -1,28 +1,25 @@
 import { Box } from "@material-ui/core";
 import { Form, Formik } from "formik";
 import React from "react";
-import { connect } from "react-redux";
 import { useHistory } from "react-router";
-import { Dispatch } from "redux";
 import PATHS from "../../../consts/PATHS";
-import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto";
-import { editResource } from "../../../store/relearn/relearnActions";
-import { ApplicationState } from "../../../store/store";
 import MyTextField from "../../shared/MyInputs/MyTextField";
 
-const SearchBar = (props: Props) => {
+// PE 3/3
+const SearchBar = () => {
   const history = useHistory();
+
   return (
+    // PE 1/3 remove this box?
     <Box>
       <Formik
         initialValues={{ query: "" }}
-        onSubmit={(values, { setSubmitting }) => {
-          if (values.query.length) {
-            history.push(PATHS.search(values.query));
-          }
+        // PE 2/3 - criar um goToSearchPage ?
+        onSubmit={(values) => {
+          if (values.query.length) history.push(PATHS.search(values.query));
         }}
       >
-        {({ errors, values, isSubmitting, setFieldValue, handleChange }) => (
+        {({ handleChange }) => (
           <Form>
             <MyTextField
               id="query"
@@ -38,15 +35,4 @@ const SearchBar = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: ApplicationState) => ({
-  allResources: state.relearn.resources,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  editResource: (resource: ResourceDto) => dispatch(editResource(resource)),
-});
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
-
-export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);
+export default SearchBar;

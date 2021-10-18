@@ -5,7 +5,7 @@ type Props = React.ComponentProps<typeof TextField> & {
   onCtrlEnter?: (e: React.KeyboardEvent<HTMLDivElement>) => void;
 };
 
-const MyTextField = (props: Props) => {
+const MyTextField = ({ onCtrlEnter = (e) => {}, ...props }: Props) => {
   return (
     <TextField
       size="small"
@@ -13,8 +13,9 @@ const MyTextField = (props: Props) => {
       variant="outlined"
       {...props}
       onKeyDown={(e) => {
-        if (e.key === "Enter" && e.ctrlKey) {
-          props.onCtrlEnter(e);
+        // I had to add a default function for onCtrlEnter to remove console.error
+        if (e.key === "Enter" && e.ctrlKey && onCtrlEnter) {
+          onCtrlEnter(e);
         } else if (props.onKeyDown) props.onKeyDown(e);
       }}
     />

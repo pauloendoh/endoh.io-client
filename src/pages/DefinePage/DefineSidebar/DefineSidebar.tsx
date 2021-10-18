@@ -141,7 +141,6 @@ function DefineSidebar(props: Props) {
               key={doc.id}
               button
               component={Link}
-              onClick={() => console.log(doc.id)}
               to={PATHS.define.doc(doc.id)}
               selected={props.selectedDocId === doc.id}
             >

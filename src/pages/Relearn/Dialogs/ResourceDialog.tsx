@@ -12,6 +12,7 @@ import {
 } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import { Autocomplete } from "@material-ui/lab";
+import axios from "axios";
 import FlexHCenter from "components/shared/Flexboxes/FlexHCenter";
 import TagIcon from "components/shared/Icon/TagIcon";
 import { Form, Formik, FormikErrors } from "formik";
@@ -33,7 +34,6 @@ import PATHS from "../../../consts/PATHS";
 import { LinkPreviewDto } from "../../../interfaces/dtos/relearn/LinkPreviewDto";
 import { ResourceDto } from "../../../interfaces/dtos/relearn/ResourceDto";
 import { TagDto } from "../../../interfaces/dtos/relearn/TagDto";
-import MyAxiosError from "../../../interfaces/MyAxiosError";
 import linkPng from "../../../static/images/link.png";
 import * as relearnActions from "../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../store/store";
@@ -57,10 +57,12 @@ const ResourceDialog = (props: Props) => {
           props.setTags(res.data);
         });
       })
-      .catch((err: MyAxiosError) => {
+      .catch((err) => {
         // PE 1/3 - This is common. Should I create a getFirstErrorMessage(err: MyAxiosErr)
         // or even props.showAxiosError(err: MyAxiosError)
-        props.setErrorMessage(err.response.data.errors[0].message);
+        if (axios.isAxiosError(err)) {
+          props.setErrorMessage(err.response.data.errors[0].message);
+        }
       })
       .finally(() => {
         props.closeResourceDialog();
@@ -315,7 +317,14 @@ const ResourceDialog = (props: Props) => {
                           setFieldValue("tag", selectedTag);
                         }}
                         renderInput={(params) => (
-                          <MyTextField {...params} size="small" label="Tag" />
+                          <MyTextField
+                            {...params}
+                            size="small"
+                            required
+                            label="Tag"
+                            error={!!errors.tag}
+                            helperText={errors.tag ? errors.tag.id : ""}
+                          />
                         )}
                         renderOption={(option) => (
                           <FlexVCenter>
@@ -323,9 +332,7 @@ const ResourceDialog = (props: Props) => {
                               <FlexVCenter>
                                 <TagIcon tag={option} />
                                 <Box ml={1}>
-                                  <Typography variant="body2">
-                                    {option.name}
-                                  </Typography>
+                                  <Typography>{option.name}</Typography>
                                 </Box>
                               </FlexVCenter>
                             ) : (

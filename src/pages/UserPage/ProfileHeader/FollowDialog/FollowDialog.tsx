@@ -76,6 +76,7 @@ const FollowDialog = (props: Props) => {
       maxWidth="sm"
       aria-labelledby="follow-dialog"
     >
+      {/*  PE 1/3 - styles */}
       <Box pb={1} px={1}>
         <Formik
           initialValues={props.profile}
