@@ -9,7 +9,7 @@ import {
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import React, { useEffect } from "react";
 import { Link as ScrollLink } from "react-scroll";
-import FooterDescription from "../../components/descriptions/FooterDescription";
+import FooterDescription from "../../components/descriptions/FooterDescription/FooterDescription";
 import LandingPageDescription from "../../components/descriptions/LandingPageDescription";
 import NotesDescription from "../../components/descriptions/NotesDescription";
 import RelearnDescription from "../../components/descriptions/RelearnDescription";

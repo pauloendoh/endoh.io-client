@@ -5,25 +5,25 @@ import {
   DialogContent,
   DialogTitle,
   makeStyles,
-} from "@material-ui/core"
-import React from "react"
-import useDialogsStore from "../../../store/zustand/useDialogsStore"
-import FlexVCenter from "../Flexboxes/FlexVCenter"
-import Txt from "../Text/Txt"
+} from "@material-ui/core";
+import React from "react";
+import useDialogsStore from "../../../store/zustand/useDialogsStore";
+import Txt from "../Text/Txt";
+import S from "./ConfirmationDialog.styles";
 
 const ConfirmationDialog = () => {
   const {
     confirmDialogIsOpen,
     closeConfirmDialog,
     confirmDialogValue: val,
-  } = useDialogsStore()
+  } = useDialogsStore();
 
   const confirmAndClose = () => {
-    closeConfirmDialog()
-    val.onConfirm()
-  }
+    closeConfirmDialog();
+    val.onConfirm();
+  };
 
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <Dialog
@@ -35,14 +35,14 @@ const ConfirmationDialog = () => {
       aria-labelledby="confirm-dialog"
       onKeyPress={(e) => {
         if (e.key === "Enter") {
-          confirmAndClose()
+          confirmAndClose();
         }
       }}
     >
       <Box pb={1} px={1}>
         <DialogTitle id="confirm-dialog-title">
           <Txt variant="h5">{val.title}</Txt>
-          </DialogTitle>
+        </DialogTitle>
         {val.description?.length > 0 && (
           <DialogContent>
             <Txt>{val.description}</Txt>
@@ -50,7 +50,7 @@ const ConfirmationDialog = () => {
         )}
 
         <DialogTitle>
-          <FlexVCenter justifyContent="flex-end">
+          <S.ButtonsWrapper>
             <Button
               variant="contained"
               color="primary"
@@ -59,22 +59,21 @@ const ConfirmationDialog = () => {
             >
               {val.confirmText?.length > 0 ? val.confirmText : "Yes"}
             </Button>
-            <Box ml={1} />
             <Button size="small" onClick={closeConfirmDialog}>
               Cancel
             </Button>
-          </FlexVCenter>
+          </S.ButtonsWrapper>
         </DialogTitle>
       </Box>
     </Dialog>
-  )
-}
+  );
+};
 
 const useStyles = makeStyles((theme) => ({
   dialog: {
     position: "absolute",
     top: 75,
   },
-}))
+}));
 
-export default ConfirmationDialog
+export default ConfirmationDialog;

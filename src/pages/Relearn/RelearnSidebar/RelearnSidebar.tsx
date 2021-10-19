@@ -1,4 +1,4 @@
-import { Box, List } from "@material-ui/core";
+import { List } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -17,16 +17,10 @@ function RelearnSidebar(props: Props) {
 
   return (
     <MySidebar>
-      <Box>
-        <List disablePadding>
-          {/* PE 2/3 - Muito grande para mostrar apenas "Untagged - 16" */}
-          {/* criar um <UntaggedLi/> ? */}
-
-          <RelearnSidebarTagList lists={publicLists} type="public" />
-
-          <RelearnSidebarTagList lists={privateLists} type="private" />
-        </List>
-      </Box>
+      <List disablePadding>
+        <RelearnSidebarTagList type="public" lists={publicLists} />
+        <RelearnSidebarTagList type="private" lists={privateLists} />
+      </List>
     </MySidebar>
   );
 }

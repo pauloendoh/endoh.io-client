@@ -29,7 +29,7 @@ const NavbarAddButton = (props: Props) => {
   };
 
   return (
-    <div>
+    <>
       <IconButton
         id="navbar-add-btn"
         onClick={handleClick}
@@ -58,7 +58,7 @@ const NavbarAddButton = (props: Props) => {
           Add resource
         </MenuItem>
       </Menu>
-    </div>
+    </>
   );
 };
 
