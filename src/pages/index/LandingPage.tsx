@@ -15,7 +15,7 @@ import NotesDescription from "../../components/descriptions/NotesDescription";
 import RelearnDescription from "../../components/descriptions/RelearnDescription";
 import SkillbaseDescription from "../../components/descriptions/SkillbaseDescription";
 import SocialDescription from "../../components/descriptions/SocialDescription";
-import LandingPageForm from "./LandingPageForm/LandingPageForm";
+import AuthFormWrapper from "./AuthFormWrapper/AuthFormWrapper";
 
 const LandingPage = () => {
   const classes = useStyles();
@@ -31,7 +31,7 @@ const LandingPage = () => {
           <LandingPageDescription />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <LandingPageForm />
+          <AuthFormWrapper />
         </Grid>
       </Grid>
 

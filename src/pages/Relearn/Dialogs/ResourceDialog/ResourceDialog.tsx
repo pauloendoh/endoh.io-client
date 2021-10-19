@@ -12,7 +12,6 @@ import {
 } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import { Autocomplete } from "@material-ui/lab";
-import axios from "axios";
 import FlexHCenter from "components/shared/Flexboxes/FlexHCenter";
 import TagIcon from "components/shared/Icon/TagIcon";
 import { Form, Formik, FormikErrors } from "formik";
@@ -22,6 +21,7 @@ import { useLocation } from "react-router-dom";
 import MaskedInput from "react-text-mask";
 import { Dispatch } from "redux";
 import useDialogsStore from "store/zustand/useDialogsStore";
+import MyAxiosError from "types/MyAxiosError";
 import { urls } from "utils/urls";
 import RateButton from "../../../../components/resources/RateButton/RateButton";
 import SaveCancelButtons from "../../../../components/shared/Buttons/SaveCancelButtons";
@@ -57,12 +57,10 @@ const ResourceDialog = (props: Props) => {
           props.setTags(res.data);
         });
       })
-      .catch((err) => {
+      .catch((err: MyAxiosError) => {
         // PE 1/3 - This is common. Should I create a getFirstErrorMessage(err: MyAxiosErr)
         // or even props.showAxiosError(err: MyAxiosError)
-        if (axios.isAxiosError(err)) {
-          props.setErrorMessage(err.response.data.errors[0].message);
-        }
+        props.setErrorMessage(err.response.data.errors[0].message);
       })
       .finally(() => {
         props.closeResourceDialog();

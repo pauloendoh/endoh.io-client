@@ -7,6 +7,10 @@ export const urls = {
     },
   },
   api: {
+    // AUTH
+    login: "/auth/login",
+    register: "/auth/register",
+
     //TAGS
     saveTagLastOpenedAt: (tagId: number) => `/v2/tag/${tagId}/last-opened-at`,
 

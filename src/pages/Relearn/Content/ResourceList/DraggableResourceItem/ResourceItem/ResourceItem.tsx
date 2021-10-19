@@ -4,8 +4,9 @@ import { Box, Link, makeStyles } from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
 import EventIcon from "@material-ui/icons/Event";
 import ScheduleIcon from "@material-ui/icons/Schedule";
+import useHover from "hooks/useHover";
 import { DateTime } from "luxon";
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import TimeAgo from "react-timeago";
 import { Dispatch } from "redux";
@@ -30,13 +31,7 @@ import S from "./ResourceItem.styles";
 function ResourceItem(props: Props) {
   const classes = useStyles();
 
-  const [isHovered, setIsHovered] = useState(false);
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
+  const { handleMouseEnter, handleMouseLeave, isHovering } = useHover();
 
   const handleSaveRating = (rating: number) => {
     const resource = { ...props.resource, rating } as ResourceDto;
@@ -82,7 +77,7 @@ function ResourceItem(props: Props) {
               </Link>
             )}
           </Box>
-          <ResourceMoreIcon resource={props.resource} isHovered={isHovered} />
+          <ResourceMoreIcon resource={props.resource} isHovered={isHovering} />
         </Flex>
 
         <FlexVCenter justifyContent="space-between">

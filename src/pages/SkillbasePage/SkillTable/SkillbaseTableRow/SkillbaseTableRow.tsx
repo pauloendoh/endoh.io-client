@@ -71,7 +71,7 @@ const SkillbaseTableRow = (props: Props) => {
       isPriority: !props.skill.isPriority,
     };
     myAxios
-      .post(API.skillbase.skill, changedSkill)
+      .post<SkillDto[]>(API.skillbase.skill, changedSkill)
       .then((res) => {
         props.setSkills(res.data);
         props.setSuccessMessage("Priority changed!");

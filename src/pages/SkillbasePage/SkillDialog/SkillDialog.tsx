@@ -72,7 +72,7 @@ const SkillDialog = (props: Props) => {
     if ((skill.goalLevel as unknown) === "") skill.goalLevel = null;
 
     myAxios
-      .post(API.skillbase.skill, skill)
+      .post<SkillDto[]>(API.skillbase.skill, skill)
       .then((res) => {
         props.setSkills(res.data);
         props.setEditingSkill(null);

@@ -11,14 +11,14 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 import { Dispatch } from "redux";
-import Flex from "../../../components/shared/Flexboxes/Flex";
-import MyTextField from "../../../components/shared/MyInputs/MyTextField";
-import H5 from "../../../components/shared/Text/H5";
-import { ApplicationState } from "../../../store/store";
-import { EmailPostDto } from "../../../types/domain/auth/EmailPostDto";
-import MyAxiosError, { MyFieldError } from "../../../types/MyAxiosError";
-import API from "../../../utils/consts/API";
-import myAxios from "../../../utils/consts/myAxios";
+import Flex from "../../../../components/shared/Flexboxes/Flex";
+import MyTextField from "../../../../components/shared/MyInputs/MyTextField";
+import H5 from "../../../../components/shared/Text/H5";
+import { ApplicationState } from "../../../../store/store";
+import { EmailPostDto } from "../../../../types/domain/auth/EmailPostDto";
+import MyAxiosError, { MyFieldError } from "../../../../types/MyAxiosError";
+import API from "../../../../utils/consts/API";
+import myAxios from "../../../../utils/consts/myAxios";
 
 // PE 2/3
 const ResetPasswordByEmailForm = (props: Props) => {
