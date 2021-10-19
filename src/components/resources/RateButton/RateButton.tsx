@@ -13,6 +13,7 @@ import clsx from "clsx";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import { ratingLabels } from "utils/domain/relearn/resources/ratingLabels";
 import { ApplicationState } from "../../../store/store";
 import * as utilsActions from "../../../store/utils/utilsActions";
 import { ResourceDto } from "../../../types/domain/relearn/ResourceDto";
@@ -69,7 +70,9 @@ function RateButton(props: Props) {
               }}
             />
             <FlexHCenter>
-              <Typography>{labels[hover !== -1 ? hover : rating]}</Typography>
+              <Typography>
+                {ratingLabels[hover !== -1 ? hover : rating]}
+              </Typography>
             </FlexHCenter>
           </Box>
         }
@@ -91,7 +94,7 @@ function RateButton(props: Props) {
 
             {props.resource.rating > 0 ? (
               <Box ml={1}>
-                {props.resource.rating} - {labels[props.resource.rating]}
+                {props.resource.rating} - {ratingLabels[props.resource.rating]}
               </Box>
             ) : (
               <Box ml={1}>Rate this resource</Box>
@@ -102,16 +105,6 @@ function RateButton(props: Props) {
     </ClickAwayListener>
   );
 }
-
-const labels: { [index: string]: string } = {
-  null: "Give a rating",
-  0: "Remove rating",
-  1: "Useless",
-  2: "Not relevant",
-  3: "Ok",
-  4: "Good",
-  5: "Excellent",
-};
 
 const useStyles = makeStyles((theme) => ({
   rateButton: {

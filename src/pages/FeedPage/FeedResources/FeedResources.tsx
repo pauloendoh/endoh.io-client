@@ -1,10 +1,11 @@
-import { Box, Link, makeStyles, Paper, Typography } from "@material-ui/core";
+import { Box, Link, Paper, Typography } from "@material-ui/core";
 import StarRateIcon from "@material-ui/icons/StarRate";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 import TimeAgo from "react-timeago";
 import { Dispatch } from "redux";
+import { ratingLabels } from "utils/domain/relearn/resources/ratingLabels";
 import MinRatingButton from "../../../components/resources/MinRatingButton/MinRatingButton";
 import ResourceThumbnail from "../../../components/resources/ResourceThumbnail/ResourceThumbnail";
 import Flex from "../../../components/shared/Flexboxes/Flex";
@@ -18,8 +19,6 @@ import SaveFeedResourceButton from "./SaveFeedResourceButton/SaveFeedResourceBut
 
 // PE 3/3
 const FeedResources = (props: Props) => {
-  const classes = useStyles();
-
   const [filteredResources, setFilteredResources] = useState<FeedResourceDto[]>(
     []
   );
@@ -68,11 +67,7 @@ const FeedResources = (props: Props) => {
               <Box ml={1} width="100%">
                 <Typography>{resource.title}</Typography>
                 <Box>
-                  <Link
-                    href={resource.url}
-                    target="_blank"
-                    className={classes.link}
-                  >
+                  <Link href={resource.url} target="_blank">
                     <Typography variant="inherit">{resource.url}</Typography>
                   </Link>
                 </Box>
@@ -88,7 +83,7 @@ const FeedResources = (props: Props) => {
                       <StarRateIcon />
 
                       <Box>
-                        {resource.rating} - {labels[resource.rating]}
+                        {resource.rating} - {ratingLabels[resource.rating]}
                       </Box>
                     </FlexVCenter>
                     <FlexVCenter>
@@ -104,27 +99,6 @@ const FeedResources = (props: Props) => {
     </Box>
   );
 };
-
-const labels: { [index: string]: string } = {
-  null: "Give a rating",
-  0: "Remove rating",
-  1: "Useless",
-  2: "Not relevant",
-  3: "Ok",
-  4: "Good",
-  5: "Excellent",
-};
-
-const useStyles = makeStyles((theme) => ({
-  link: {
-    // fontSize: 12
-    // display: "block",
-    // maxWidth: 400,
-    // overflow: "hidden",
-    // whiteSpace: "nowrap",
-    // textOverflow: "ellipsis",
-  },
-}));
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;

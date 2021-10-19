@@ -11,6 +11,7 @@ import clsx from "clsx";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import { ratingLabels } from "utils/domain/relearn/resources/ratingLabels";
 import { ApplicationState } from "../../../store/store";
 import * as utilsActions from "../../../store/utils/utilsActions";
 import FlexHCenter from "../../shared/Flexboxes/FlexHCenter";
@@ -62,7 +63,7 @@ function MinRatingButton(props: Props) {
             />
             <FlexHCenter>
               <Typography>
-                {labels[hover !== -1 ? hover : props.value]}
+                {ratingLabels[hover !== -1 ? hover : props.value]}
               </Typography>
             </FlexHCenter>
           </Box>
@@ -78,7 +79,7 @@ function MinRatingButton(props: Props) {
             <Box>Min. rating: </Box>
             {props.value > 0 ? (
               <Box ml={1}>
-                {props.value} - {labels[props.value]}
+                {props.value} - {ratingLabels[props.value]}
               </Box>
             ) : (
               <Box ml={1}>-</Box>
@@ -89,17 +90,6 @@ function MinRatingButton(props: Props) {
     </ClickAwayListener>
   );
 }
-
-// PE 1/3 - DRY
-const labels: { [index: string]: string } = {
-  null: "All ratings",
-  0: "All ratings",
-  1: "Useless",
-  2: "Not relevant",
-  3: "Ok",
-  4: "Good",
-  5: "Excellent",
-};
 
 const useStyles = makeStyles((theme) => ({
   rateButton: {
