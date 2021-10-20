@@ -16,19 +16,23 @@ import PasswordResetForm from "./PasswordResetForm/PasswordResetForm";
 import RegisterForm from "./RegisterForm/RegisterForm";
 import { AuthFormType } from "./_types/AuthFormType";
 
+// PE 2/3 - hard to read
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setAuthUser: (authUser: AuthUserGetDto) =>
     dispatch(AuthActions.setAuthUser(authUser)),
 });
 
+// PE 1/3 - not really necessary
 type Props = ReturnType<typeof mapDispatchToProps>;
 
 const AuthFormWrapper = (props: Props) => {
-  const [formType, setFormType] = useState<AuthFormType>("login");
+  const [currentForm, setCurrentForm] = useState<AuthFormType>("login");
 
+  // PE 2/3 - change to styled-components?
   const classes = useStyles();
 
   const handleTempSignIn = () => {
+    // PE 2/3
     myAxios.get<AuthUserGetDto>(API.auth.tempUser).then((res) => {
       props.setAuthUser(res.data);
     });
@@ -36,18 +40,20 @@ const AuthFormWrapper = (props: Props) => {
 
   return (
     <Paper className={classes.paper}>
-      {formType === "passwordReset" ? (
+      {currentForm === "passwordReset" ? (
         <PasswordResetForm
           onExit={() => {
-            setFormType("login");
+            setCurrentForm("login");
           }}
         />
       ) : (
         <Box>
-          {formType === "register" && (
-            <RegisterForm setFormType={setFormType} />
+          {currentForm === "register" && (
+            <RegisterForm setFormType={setCurrentForm} />
           )}
-          {formType === "login" && <LoginForm setFormType={setFormType} />}
+          {currentForm === "login" && (
+            <LoginForm setFormType={setCurrentForm} />
+          )}
 
           <Box mt={2}>
             <MyDivider>
@@ -59,6 +65,7 @@ const AuthFormWrapper = (props: Props) => {
             </Box>
 
             <Box mt={1}>
+              {/* PE 2/3 - create a common DarkButton ? */}
               <Button
                 onClick={handleTempSignIn}
                 fullWidth

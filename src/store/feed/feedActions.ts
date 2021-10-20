@@ -3,6 +3,7 @@ import { FeedResourceDto } from "../../types/domain/feed/FeedResourceDto";
 import { UserSuggestionDto } from "../../types/domain/feed/UserSuggestionDto";
 import { FeedActionTypes } from "./feedTypes";
 
+// PE 1/3 - too hard to read. Change to react-query/zustand in the future
 export const setUserSuggestions = (userSuggestions: UserSuggestionDto[]) =>
   action(FeedActionTypes.SET_USER_SUGGESTIONS, userSuggestions);
 

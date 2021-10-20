@@ -1,37 +1,53 @@
-import { Box } from "@material-ui/core";
-import { Form, Formik } from "formik";
 import React from "react";
+import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import PATHS from "../../../utils/consts/PATHS";
 import MyTextField from "../../shared/MyInputs/MyTextField";
 
+interface ISearchForm {
+  searchQuery?: string;
+}
+
 // PE 3/3
 const SearchBar = () => {
   const history = useHistory();
+  const { handleSubmit, control, getValues } = useForm<ISearchForm>({
+    defaultValues: {
+      searchQuery: "",
+    },
+  });
+
+  const submit = (values: ISearchForm) => {
+    if (values.searchQuery?.length)
+      history.push(PATHS.search(values.searchQuery));
+  };
+
+  const ctrlSubmit = (values: ISearchForm) => {
+    if (values.searchQuery?.length) {
+      window.open(PATHS.search(values.searchQuery));
+    }
+  };
 
   return (
-    // PE 1/3 remove this box?
-    <Box>
-      <Formik
-        initialValues={{ query: "" }}
-        // PE 2/3 - criar um goToSearchPage ?
-        onSubmit={(values) => {
-          if (values.query.length) history.push(PATHS.search(values.query));
-        }}
-      >
-        {({ handleChange }) => (
-          <Form>
-            <MyTextField
-              id="query"
-              name="query"
-              label="Search endoh.io"
-              style={{ width: 184 }}
-              onChange={handleChange}
-            />
-          </Form>
+    <form onSubmit={handleSubmit(submit)}>
+      <Controller
+        control={control}
+        name="searchQuery"
+        render={({ field: { onChange, onBlur, value, ref } }) => (
+          <MyTextField
+            label="Search endoh.io"
+            style={{ width: 184 }}
+            onChange={onChange}
+            onBlur={onBlur}
+            value={value}
+            onCtrlEnter={(e) => {
+              ctrlSubmit(getValues());
+            }}
+            inputRef={ref}
+          />
         )}
-      </Formik>
-    </Box>
+      />
+    </form>
   );
 };
 

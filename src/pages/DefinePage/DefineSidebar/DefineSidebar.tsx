@@ -10,21 +10,17 @@ import {
   Theme,
   Toolbar,
   Tooltip,
-  Typography,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import DescriptionIcon from "@material-ui/icons/Description";
 import ShuffleIcon from "@material-ui/icons/Shuffle";
 import useSaveDocLastOpenedAt from "hooks/react-query/define/useSaveDocLastOpenedAt";
 import _ from "lodash";
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Dispatch } from "redux";
 import { setDocs } from "store/define/defineActions";
 import { pushOrReplace } from "utils/pushOrReplace";
-import Flex from "../../../components/shared/Flexboxes/Flex";
-import FlexHCenter from "../../../components/shared/Flexboxes/FlexHCenter";
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter";
 import MyTextField from "../../../components/shared/MyInputs/MyTextField";
 import { ApplicationState } from "../../../store/store";
@@ -33,22 +29,16 @@ import { DocDto } from "../../../types/domain/define/DocDto";
 import PATHS from "../../../utils/consts/PATHS";
 import stringIncludes from "../../../utils/text/stringIncludes";
 import DocTitleDialog from "../DocTitleDialog/DocTitleDialog";
+import DocsSidebarItem from "./DocsSidebarItem/DocsSidebarItem";
 
 function DefineSidebar(props: Props) {
+  // PE 1/3 - put this next to where it's used
   const history = useHistory();
+
+  // PE 2/3 - change to styled-components ?
   const classes = useStyles();
 
   const [openTitleDialog, setOpenTitleDialog] = useState(false);
-
-  const getNotesCount = (doc: DocDto) => {
-    return props.allNotes.filter((note) => note.docId === doc.id).length;
-  };
-
-  const getQuestionsCount = (doc: DocDto) => {
-    return props.allNotes.filter(
-      (note) => note.docId === doc.id && note.question.trim().length > 0
-    ).length;
-  };
 
   const [textFilter, setTextFilter] = useState("");
 
@@ -61,8 +51,10 @@ function DefineSidebar(props: Props) {
   };
 
   const { mutate: saveDocLastOpenedAt } = useSaveDocLastOpenedAt();
+  // PE 2/3 - name too big?
   const handleSaveDocLastOpenedAt = (docId: number) => {
     saveDocLastOpenedAt(docId, {
+      // PE 2/3 - do you have to do this? I don't think so :thinking:
       onSuccess: (savedDoc) => {
         const docs = pushOrReplace([...props.allDocs], savedDoc, "id");
         props.setDocs(docs);
@@ -91,7 +83,7 @@ function DefineSidebar(props: Props) {
       }}
     >
       <Toolbar />
-      <Box className={classes.drawerContainer}>
+      <Box>
         <Box pt={4} px={2}>
           <MyTextField
             fullWidth
@@ -137,31 +129,11 @@ function DefineSidebar(props: Props) {
             </ListItemText>
           </ListItem>
           {filterAndSortDocs().map((doc) => (
-            <ListItem
+            <DocsSidebarItem
               key={doc.id}
-              button
-              component={Link}
-              to={PATHS.define.doc(doc.id)}
-              selected={props.selectedDocId === doc.id}
-            >
-              <ListItemText>
-                <Flex>
-                  <DescriptionIcon />
-                  <Box ml={1} width={210}>
-                    <Typography style={{ maxWidth: "inherit" }}>
-                      {doc.title}
-                    </Typography>
-                  </Box>
-                  <FlexHCenter width={24}>
-                    <Typography className={classes.resourcesCount}>
-                      {getNotesCount(doc)}
-                      {getQuestionsCount(doc) > 0 &&
-                        `/${getQuestionsCount(doc)}`}
-                    </Typography>
-                  </FlexHCenter>
-                </Flex>
-              </ListItemText>
-            </ListItem>
+              selected={doc.id === props.selectedDocId}
+              doc={doc}
+            />
           ))}
         </List>
       </Box>
@@ -179,13 +151,6 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 300,
       background: "#202020",
       borderRight: "1px solid rgba(255, 255, 255, 0.05)",
-    },
-    drawerContainer: {
-      // overflow: "auto",
-    },
-    resourcesCount: {
-      fontSize: 12,
-      color: theme.palette.grey[400],
     },
   })
 );

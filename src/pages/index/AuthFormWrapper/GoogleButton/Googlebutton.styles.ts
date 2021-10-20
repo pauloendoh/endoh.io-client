@@ -5,7 +5,7 @@ import { mediaQueries } from "utils/styles/mediaQueries";
 
 const S = {
   RootButton: styled(Button)`
-    padding-top: ${theme.spacing(1)}px;
+    padding-top: ${theme.spacing(1)}px; // PE 2/3 - use ThemeProps?
     padding-bottom: ${theme.spacing(1)}px;
     background: ${theme.palette.grey[800]};
   `,

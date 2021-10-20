@@ -8,6 +8,7 @@ export interface WindowSize {
   isSmMd: boolean;
 }
 
+// PE 3/3
 export default function useWindowSize(): WindowSize {
   const [windowSize, setWindowSize] = useState<WindowSize>({
     width: undefined,

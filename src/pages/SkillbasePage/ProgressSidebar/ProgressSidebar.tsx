@@ -24,11 +24,14 @@ import { ApplicationState } from "../../../store/store";
 import useSidebarStore from "../../../store/zustand/useSidebarStore";
 import { ProgressDto } from "../../../types/domain/skillbase/ProgressDto";
 import ProgressItem from "./ProgressItem/ProgressItem";
+
+// PE 1/3 - put into different module and change to ISkillProgressPerDay[] ?
 interface IProgressPerDay {
   day: string;
   progresses: ProgressDto[];
 }
 
+// PE 1/3 - remove?
 function ProgressSidebar(props: Props) {
   const classes = useStyles();
 
