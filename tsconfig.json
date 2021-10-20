@@ -19,5 +19,5 @@
     "baseUrl": "src",
     "jsx": "react-jsx"
   },
-  "include": ["src", "src/pages/DefinePage/DefineSidebar/DocsSidebarItem/.tsx"]
+  "include": ["src"]
 }

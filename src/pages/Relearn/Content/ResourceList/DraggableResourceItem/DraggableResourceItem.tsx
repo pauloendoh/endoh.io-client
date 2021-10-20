@@ -15,8 +15,9 @@ import ResourceItem from "./ResourceItem/ResourceItem";
 function DraggableResourceItem(props: Props) {
   const classes = useStyles();
 
-  const [{ isDragging }, dragRef] = useDrag({
-    item: { type: "CARD", index: props.index },
+  const [collected, dragRef] = useDrag({
+    type: "CARD",
+    item: { index: props.index },
     collect: (monitor) => ({ isDragging: monitor.isDragging() }),
   });
 
@@ -70,7 +71,7 @@ function DraggableResourceItem(props: Props) {
         className={
           props.className +
           " resource-item " +
-          (isDragging ? classes.isDragging : "")
+          (collected.isDragging ? classes.isDragging : "")
         }
       >
         <ResourceItem resource={props.resource} />
