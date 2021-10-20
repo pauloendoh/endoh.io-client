@@ -54,9 +54,9 @@ const API = {
     followingTags: (username: string) => "/user/" + username + "/followingTags",
   },
   feed: {
-    myUserSuggestions: "/feed/my-user-suggestions",
-    resources: "/feed/resources",
+    myUserSuggestions: "v2/feed/my-user-suggestions",
+    resources: "v2/feed/resources",
   },
-}
+};
 
-export default API
+export default API;
