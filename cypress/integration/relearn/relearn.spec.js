@@ -5,15 +5,11 @@ import {
   createDeleteAllTags,
   createResource,
   login,
-} from "../../utils/utils.spec";
+} from "../../_utils/utils.spec";
 
 context("Relearn", () => {
   beforeEach(() => {
     login();
-  });
-
-  it('should render "Untagged" at the sidebar', () => {
-    cy.contains("Untagged");
   });
 
   it("should create and delete all tags", () => {
@@ -33,7 +29,7 @@ context("Relearn", () => {
     cy.contains("Resource deleted!");
   });
 
-  it.only("rate and remove a resource's rating", () => {
+  it("rate and remove a resource's rating", () => {
     const resourceName = new Date().toISOString();
     createResource(resourceName);
 
@@ -77,14 +73,5 @@ context("Relearn", () => {
 
     cy.wait(2500);
     cy.get("#estimatedTime").should("have.value", "00:04h");
-  });
-
-  it("Should show default 'link' image for a broken thumbnail", () => {
-    clickAddResourceButton();
-    cy.get('[name="url"]').type(
-      `https://newsabc.net/tsm-president-leena-xu-explains-how-to-make-40-million-in-esports/`
-    );
-
-    cy.get('[alt="default-link-thumbnail"]');
   });
 });
