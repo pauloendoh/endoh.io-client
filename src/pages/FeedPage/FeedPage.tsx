@@ -1,4 +1,5 @@
 import { Box, Grid } from "@material-ui/core";
+import useUserSuggestionsQuery from "hooks/react-query/feed/useUserSuggestionsQuery";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -25,6 +26,8 @@ const FeedPage = (props: Props) => {
     []
   );
 
+  const { data: userSuggestions } = useUserSuggestionsQuery();
+
   return (
     <Box pt={3}>
       <Grid container>
@@ -37,9 +40,9 @@ const FeedPage = (props: Props) => {
         <Grid item xs={4}>
           <AuthUserSummary />
           <Box mt={2} />
-          {props.userSuggestions.length > 0 && (
+          {userSuggestions?.length > 0 && (
             <UserSuggestions
-              userSuggestions={props.userSuggestions}
+              userSuggestions={userSuggestions}
               followingTags={props.followingUsers}
             />
           )}
@@ -53,7 +56,6 @@ type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
 const mapStateToProps = (state: ApplicationState) => ({
-  userSuggestions: state.feed.userSuggestions,
   authUser: state.auth.user,
 
   followingUsers: state.auth.followingUsers,

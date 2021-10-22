@@ -1,5 +1,6 @@
 import { Box, Link, Paper, Typography } from "@material-ui/core";
 import StarRateIcon from "@material-ui/icons/StarRate";
+import useFeedResourcesQuery from "hooks/react-query/feed/useFeedResourcesQuery";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
@@ -17,17 +18,21 @@ import PATHS from "../../../utils/consts/PATHS";
 import { getColorByRating } from "../../../utils/relearn/getColorByRating";
 import SaveFeedResourceButton from "./SaveFeedResourceButton/SaveFeedResourceButton";
 
-// PE 3/3
+// PE 2/3
 const FeedResources = (props: Props) => {
   const [filteredResources, setFilteredResources] = useState<FeedResourceDto[]>(
     []
   );
   const [minRating, setMinRating] = useState(0);
 
+  const { data: resources, isLoading } = useFeedResourcesQuery();
+
   useEffect(() => {
-    const minResources = props.resources.filter((r) => r.rating >= minRating);
-    setFilteredResources(minResources);
-  }, [props.resources, minRating]);
+    if (resources?.length > 0) {
+      const minResources = resources.filter((r) => r.rating >= minRating);
+      setFilteredResources(minResources);
+    }
+  }, [resources, minRating]);
 
   return (
     <Box pr={4}>
@@ -103,9 +108,7 @@ const FeedResources = (props: Props) => {
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
-const mapStateToProps = (state: ApplicationState) => ({
-  resources: state.feed.resources,
-});
+const mapStateToProps = (state: ApplicationState) => ({});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({});
 

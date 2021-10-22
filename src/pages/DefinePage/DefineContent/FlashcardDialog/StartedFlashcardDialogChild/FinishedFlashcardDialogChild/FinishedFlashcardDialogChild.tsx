@@ -10,8 +10,6 @@ import { GlobalHotKeys } from "react-hotkeys";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import DarkButton from "../../../../../../components/shared/Buttons/DarkButton";
-import FlexHCenter from "../../../../../../components/shared/Flexboxes/FlexHCenter";
-import FlexVCenter from "../../../../../../components/shared/Flexboxes/FlexVCenter";
 import { setNotes } from "../../../../../../store/define/defineActions";
 import { ApplicationState } from "../../../../../../store/store";
 import { setSuccessMessage } from "../../../../../../store/utils/utilsActions";
@@ -19,6 +17,7 @@ import { DocDto } from "../../../../../../types/domain/define/DocDto";
 import { NoteDto } from "../../../../../../types/domain/define/NoteDto";
 import API from "../../../../../../utils/consts/API";
 import myAxios from "../../../../../../utils/consts/myAxios";
+import S from "./FinishedFlashcardDialogChild.styles";
 
 const FinishedFlashcardDialogChild = (props: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -52,39 +51,31 @@ const FinishedFlashcardDialogChild = (props: Props) => {
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={handlers} allowChanges>
       <DialogTitle>
-        <FlexVCenter justifyContent="space-between">
+        <S.DialogTitleContent justifyContent="space-between">
           <Typography variant="h6">{props.doc.title} </Typography>
           <IconButton onClick={props.onFinish} size="small">
             <Clear />
           </IconButton>
-        </FlexVCenter>
+        </S.DialogTitleContent>
       </DialogTitle>
-      <DialogContent style={{ height: 300 }}>
-        <FlexVCenter
-          mt={3}
-          justifyContent="space-between"
-          width={350}
-          mx="auto"
-        >
-          <FlexHCenter>
-            <Typography variant="h6" color="error">
-              {props.wrongs} Wrong
-            </Typography>
-          </FlexHCenter>
-          <FlexHCenter>
-            <Typography variant="h6">{props.halves} Half</Typography>
-          </FlexHCenter>
-          <FlexHCenter>
-            <Typography variant="h6" color="primary">
-              {props.corrects} Correct
-            </Typography>
-          </FlexHCenter>
-        </FlexVCenter>
 
-        <FlexHCenter mt={4}>
+      <DialogContent style={{ height: 300 }}>
+        <S.ResultsCountWrapper>
+          <Typography variant="h6" color="error" align="center">
+            {props.wrongs} Wrong
+          </Typography>
+          <Typography variant="h6" align="center">
+            {props.halves} Half
+          </Typography>
+          <Typography variant="h6" color="primary" align="center">
+            {props.corrects} Correct
+          </Typography>
+        </S.ResultsCountWrapper>
+
+        <S.ScorePercentageWrapper>
           <Typography variant="h3">Score</Typography>
           <Typography variant="h3">{Math.round(getScore())}%</Typography>
-        </FlexHCenter>
+        </S.ScorePercentageWrapper>
       </DialogContent>
 
       <DialogTitle>

@@ -2,7 +2,7 @@ import { Reducer } from "redux";
 import { FeedActionReturns } from "./feedActions";
 import { FeedActionTypes, FeedState } from "./feedTypes";
 
-// PE 2/3 - rename to initialState ?
+// PE 1/3 - USING REACT QUERY... DELETE THIS
 const INITIAL_STATE: FeedState = {
   userSuggestions: [],
   resources: [],

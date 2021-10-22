@@ -1,11 +1,11 @@
-import { Box, Grid, Hidden, Typography } from "@material-ui/core";
+import { Grid, Hidden, Typography } from "@material-ui/core";
+import useUserSuggestionsQuery from "hooks/react-query/feed/useUserSuggestionsQuery";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { Dispatch } from "redux";
 import UserSuggestions from "../../components/feed/UserSuggestions/UserSuggestions";
 import MinRatingButton from "../../components/resources/MinRatingButton/MinRatingButton";
-import Flex from "../../components/shared/Flexboxes/Flex";
 import {
   clearProfile,
   setProfileResources,
@@ -22,6 +22,7 @@ import LoadingPage from "../index/LoadingPage";
 import FeedResources from "./FeedResources/FeedResources";
 import ProfileHeader from "./ProfileHeader/ProfileHeader";
 import ResourcesChart from "./ResourcesChart/ResourcesChart";
+import S from "./UserPage.styles";
 import UserPageSidebar from "./UserPageSidebar/UserPageSidebar";
 
 // PE 3/3
@@ -34,6 +35,9 @@ const UserPage = (props: Props) => {
 
   const [filteredResources, setFilteredResources] = useState<ResourceDto[]>([]);
   const [minRating, setMinRating] = useState(0);
+
+  const { data: userSuggestions, isLoading: isLoadingUserSuggestion } =
+    useUserSuggestionsQuery();
 
   const [filterByTag, setFilterByTag] = useState<TagDto>(null);
 
@@ -80,7 +84,7 @@ const UserPage = (props: Props) => {
   );
 
   return (
-    <Box p={3}>
+    <S.UserPageRoot>
       {props.profile === null ? (
         <LoadingPage />
       ) : (
@@ -91,33 +95,34 @@ const UserPage = (props: Props) => {
           <Grid item xs={9} md={6} lg={5}>
             <ProfileHeader />
 
-            <Box mt={5} />
-            <ResourcesChart resources={filteredResources} />
+            <S.ChartWrapper>
+              <ResourcesChart resources={filteredResources} />
+            </S.ChartWrapper>
 
-            <Flex mt={3} justifyContent="space-between">
+            <S.ResourcesContentHeader>
               <Typography variant="h5">
                 {filterByTag === null ? "All resources" : filterByTag.name}
               </Typography>
               <MinRatingButton onChange={setMinRating} value={minRating} />
-            </Flex>
+            </S.ResourcesContentHeader>
             <FeedResources resources={filteredResources} />
           </Grid>
 
           <Grid item lg={4}>
             <Hidden mdDown>
-              <Box mt={10} position="fixed">
-                {props.userSuggestions.length > 0 && (
+              <S.UserSuggestionsWrapper>
+                {userSuggestions?.length > 0 && (
                   <UserSuggestions
-                    userSuggestions={props.userSuggestions}
+                    userSuggestions={userSuggestions}
                     followingTags={props.followingUsers}
                   />
                 )}
-              </Box>
+              </S.UserSuggestionsWrapper>
             </Hidden>
           </Grid>
         </Grid>
       )}
-    </Box>
+    </S.UserPageRoot>
   );
 };
 
@@ -125,7 +130,6 @@ type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
 const mapStateToProps = (state: ApplicationState) => ({
-  userSuggestions: state.feed.userSuggestions,
   authUser: state.auth.user,
   followingUsers: state.auth.followingUsers,
   resources: state.profile.resources,
