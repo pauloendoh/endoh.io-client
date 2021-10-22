@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, Grid, Typography } from "@material-ui/core";
 import React from "react";
 import { Link } from "react-router-dom";
-import PATHS from "../../utils/consts/PATHS";
+import pageUrls from "../../utils/consts/pageUrls";
 import FlexVCenter from "../shared/Flexboxes/FlexVCenter";
 
 const SkillbaseDescription = () => {
@@ -22,7 +22,10 @@ const SkillbaseDescription = () => {
         </Typography>
 
         <Box mt={2}>
-          <Link to={PATHS.skillbase.index} style={{ textDecoration: "none" }}>
+          <Link
+            to={pageUrls.skillbase.index}
+            style={{ textDecoration: "none" }}
+          >
             <Button variant="contained" color="primary">
               Check /skillbase
             </Button>

@@ -29,7 +29,7 @@ import CategoryGetDto from "../../../types/domain/monerate/CategoryGetDto";
 import ExpenseGetDto from "../../../types/domain/monerate/ExpenseGetDto";
 import ExpensePostDto from "../../../types/domain/monerate/ExpensePostDto";
 import PlaceGetDto from "../../../types/domain/monerate/PlaceGetDto";
-import API from "../../../utils/consts/API";
+import apiUrls from "../../../utils/consts/apiUrls";
 import myAxios from "../../../utils/consts/myAxios";
 import SelectCategoryInput from "../Inputs/SelectCategoryInput/SelectCategoryInput";
 import SelectPlaceInput from "../Inputs/SelectPlaceInput/SelectPlaceInput";
@@ -80,7 +80,7 @@ const ExpenseDialog = (props: Props) => {
   const handleConfirmDelete = (id: number) => {
     if (window.confirm("Delete this expense?")) {
       myAxios
-        .delete(`${API.monerate.expense}/${id}`)
+        .delete(`${apiUrls.monerate.expense}/${id}`)
         .then((res) => {
           props.removeExpense(id);
         })

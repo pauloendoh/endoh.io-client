@@ -17,7 +17,7 @@ import { ApplicationState } from "../../../../../store/store";
 import * as utilsActions from "../../../../../store/utils/utilsActions";
 import { AuthChangePasswordPostDto } from "../../../../../types/domain/auth/AuthChangePasswordPostDto";
 import MyAxiosError, { MyFieldError } from "../../../../../types/MyAxiosError";
-import API from "../../../../../utils/consts/API";
+import apiUrls from "../../../../../utils/consts/apiUrls";
 import myAxios from "../../../../../utils/consts/myAxios";
 
 const ChangePasswordDialog = (props: Props) => {
@@ -43,7 +43,7 @@ const ChangePasswordDialog = (props: Props) => {
     }
 
     myAxios
-      .post(API.auth.authPasswordChange, values)
+      .post(apiUrls.auth.authPasswordChange, values)
       .then((res) => {
         props.setSuccessMessage("Password changed successfully!");
         handleClose();

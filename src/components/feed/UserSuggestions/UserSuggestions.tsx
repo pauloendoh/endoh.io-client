@@ -6,7 +6,7 @@ import { Dispatch } from "redux";
 import { FollowingUserDto } from "types/domain/feed/FollowingUserDto";
 import { ApplicationState } from "../../../store/store";
 import { UserSuggestionDto } from "../../../types/domain/feed/UserSuggestionDto";
-import PATHS from "../../../utils/consts/PATHS";
+import pageUrls from "../../../utils/consts/pageUrls";
 import FlexVCenter from "../../shared/Flexboxes/FlexVCenter";
 import ProfilePicture from "../../shared/ProfilePicture/ProfilePicture";
 import UserSuggestionsDialog from "./UserSuggestionsDialog/UserSuggestionsDialog";
@@ -67,7 +67,7 @@ function UserSuggestions(props: Props) {
               variant="button"
               color="inherit"
               component={RouterLink}
-              to={PATHS.user.index(userSuggestion.username)}
+              to={pageUrls.user.index(userSuggestion.username)}
             >
               {userSuggestion.username}
             </Link>

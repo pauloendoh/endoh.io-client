@@ -23,7 +23,7 @@ import { ApplicationState } from "../../../../store/store";
 import * as utilsActions from "../../../../store/utils/utilsActions";
 import { ProfileDto } from "../../../../types/domain/_common/ProfileDto";
 import MyAxiosError from "../../../../types/MyAxiosError";
-import API from "../../../../utils/consts/API";
+import apiUrls from "../../../../utils/consts/apiUrls";
 import myAxios from "../../../../utils/consts/myAxios";
 import { urlIsValid } from "../../../../utils/url/isValidUrl";
 
@@ -36,7 +36,7 @@ const EditProfileDialog = (props: Props) => {
 
   const handleSubmit = (sentProfile: ProfileDto) => {
     myAxios
-      .put<ProfileDto>(API.user.profile, sentProfile)
+      .put<ProfileDto>(apiUrls.user.profile, sentProfile)
       .then((res) => {
         props.setProfile(res.data);
         props.setSuccessMessage("Profile saved!");
@@ -67,7 +67,7 @@ const EditProfileDialog = (props: Props) => {
     formData.append("file", file, file.name);
 
     myAxios
-      .post<string>(API.user.picture, formData)
+      .post<string>(apiUrls.user.picture, formData)
       .then((res) => {
         props.setSuccessMessage("Image uploaded!");
         props.editProfilePicture(res.data);

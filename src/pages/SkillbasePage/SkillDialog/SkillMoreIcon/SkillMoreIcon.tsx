@@ -20,7 +20,7 @@ import * as utilsActions from "../../../../store/utils/utilsActions";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto";
 import { IdsDto } from "../../../../types/domain/_common/IdsDto";
-import API from "../../../../utils/consts/API";
+import apiUrls from "../../../../utils/consts/apiUrls";
 import myAxios from "../../../../utils/consts/myAxios";
 
 // PE 2/3 - MenuItem could be shorter?
@@ -39,7 +39,7 @@ function SkillMoreIcon(props: Props) {
   const handleDelete = (id: number) => {
     if (window.confirm("Confirm delete?")) {
       myAxios
-        .delete<SkillDto[]>(API.skillbase.skill, {
+        .delete<SkillDto[]>(apiUrls.skillbase.skill, {
           headers: {}, // why is this?
           data: { ids: [id] } as IdsDto,
         })

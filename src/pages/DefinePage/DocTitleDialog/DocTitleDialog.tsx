@@ -9,7 +9,7 @@ import { addOrReplaceDoc } from "../../../store/define/defineActions";
 import { ApplicationState } from "../../../store/store";
 import * as utilsActions from "../../../store/utils/utilsActions";
 import { DocDto } from "../../../types/domain/define/DocDto";
-import API from "../../../utils/consts/API";
+import apiUrls from "../../../utils/consts/apiUrls";
 import myAxios from "../../../utils/consts/myAxios";
 
 const DocTitleDialog = (props: Props) => {
@@ -28,7 +28,7 @@ const DocTitleDialog = (props: Props) => {
       id: props.docId,
     };
     myAxios
-      .post<DocDto>(API.define.doc, obj)
+      .post<DocDto>(apiUrls.define.doc, obj)
       .then((res) => {
         props.addOrReplaceDoc(res.data);
         props.setSuccessMessage("Doc saved!");

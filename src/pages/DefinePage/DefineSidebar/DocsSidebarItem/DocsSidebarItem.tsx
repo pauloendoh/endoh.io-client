@@ -19,7 +19,7 @@ import Flex from "../../../../components/shared/Flexboxes/Flex";
 import FlexHCenter from "../../../../components/shared/Flexboxes/FlexHCenter";
 import { ApplicationState } from "../../../../store/store";
 import { DocDto } from "../../../../types/domain/define/DocDto";
-import PATHS from "../../../../utils/consts/PATHS";
+import pageUrls from "../../../../utils/consts/pageUrls";
 
 function DocsSidebarItem(props: Props) {
   // PE 2/3 - change to styled-components ?
@@ -53,7 +53,7 @@ function DocsSidebarItem(props: Props) {
     <ListItem
       button
       component={Link}
-      to={PATHS.define.doc(props.doc.id)}
+      to={pageUrls.define.doc(props.doc.id)}
       selected={props.selected}
       onClick={() => handleSaveDocLastOpenedAt(props.doc.id)}
     >

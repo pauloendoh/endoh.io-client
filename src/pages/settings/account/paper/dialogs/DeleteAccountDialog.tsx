@@ -18,7 +18,7 @@ import { ApplicationState } from "../../../../../store/store";
 import * as utilsActions from "../../../../../store/utils/utilsActions";
 import { UserDeleteDto } from "../../../../../types/domain/auth/UserDeleteDto";
 import MyAxiosError, { MyFieldError } from "../../../../../types/MyAxiosError";
-import API from "../../../../../utils/consts/API";
+import apiUrls from "../../../../../utils/consts/apiUrls";
 import myAxios from "../../../../../utils/consts/myAxios";
 
 const DeleteAccountDialog = (props: Props) => {
@@ -39,7 +39,7 @@ const DeleteAccountDialog = (props: Props) => {
       setResponseErrors([]);
 
       myAxios
-        .delete(API.auth.index, {
+        .delete(apiUrls.auth.index, {
           headers: {},
           data: values,
         })

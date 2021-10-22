@@ -1,7 +1,7 @@
 import { produce } from "immer";
 import { useMutation } from "react-query";
 import { DecisionDto } from "../../../types/domain/big-decisions/DecisionDto";
-import API from "../../../utils/consts/API";
+import apiUrls from "../../../utils/consts/apiUrls";
 import myAxios from "../../../utils/consts/myAxios";
 import { myQueryClient } from "../../../utils/consts/myQueryClient";
 
@@ -9,12 +9,12 @@ export default function usePostDecisionMutation() {
   return useMutation(
     (decision: DecisionDto) =>
       myAxios
-        .post<DecisionDto>(API.BigDecisions.decision, decision)
+        .post<DecisionDto>(apiUrls.BigDecisions.decision, decision)
         .then((res) => res.data),
     {
       onSuccess: (data) => {
         const decisions = myQueryClient.getQueryData<DecisionDto[]>(
-          API.BigDecisions.decision
+          apiUrls.BigDecisions.decision
         );
 
         const newDecisions = produce(decisions, (draft) => {
@@ -27,7 +27,7 @@ export default function usePostDecisionMutation() {
           return draft;
         });
 
-        myQueryClient.setQueryData(API.BigDecisions.decision, newDecisions);
+        myQueryClient.setQueryData(apiUrls.BigDecisions.decision, newDecisions);
         // props.setSuccessMessage("Decision saved!")
         // handleClose()
         // history.push(PATHS.BigDecisions.decision(res.data))

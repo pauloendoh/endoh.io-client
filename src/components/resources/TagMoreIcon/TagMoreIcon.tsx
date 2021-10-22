@@ -18,7 +18,7 @@ import * as relearnActions from "../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../store/store";
 import * as utilsActions from "../../../store/utils/utilsActions";
 import { TagDto } from "../../../types/domain/relearn/TagDto";
-import API from "../../../utils/consts/API";
+import apiUrls from "../../../utils/consts/apiUrls";
 import myAxios from "../../../utils/consts/myAxios";
 
 // PE 2/3 - MenuItem could be shorter?
@@ -36,7 +36,7 @@ function TagMoreIcon(props: Props) {
   // handleDelete would be better?
   const handleDeleteTag = (id: number) => {
     if (window.confirm("Confirm delete?")) {
-      myAxios.delete(`${API.relearn.tag}/${id}`).then((res) => {
+      myAxios.delete(`${apiUrls.relearn.tag}/${id}`).then((res) => {
         props.setSuccessMessage("Tag deleted!");
 
         props.afterDelete();

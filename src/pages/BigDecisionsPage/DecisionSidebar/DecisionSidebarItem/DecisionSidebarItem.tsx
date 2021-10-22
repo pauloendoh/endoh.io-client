@@ -7,7 +7,7 @@ import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter";
 import Txt from "../../../../components/shared/Text/Txt";
 import usePostDecisionMutation from "../../../../hooks/BigDecisions/Decision/usePostDecisionMutation";
 import { DecisionDto } from "../../../../types/domain/big-decisions/DecisionDto";
-import PATHS from "../../../../utils/consts/PATHS";
+import pageUrls from "../../../../utils/consts/pageUrls";
 import getWinnerTable from "../../../../utils/domain/BigDecision/getWinnerTable";
 import PriorityStarIcon from "../../../SkillbasePage/SkillDialog/PriorityStarIcon/PriorityStarIcon";
 import DecisionMoreIcon from "./DecisionMoreIcon/DecisionMoreIcon";
@@ -36,7 +36,7 @@ const DecisionSidebarItem = ({ decision, isSelected }: Props) => {
       button
       key={decision.id}
       component={Link}
-      to={PATHS.BigDecisions.decision(decision.id)}
+      to={pageUrls.BigDecisions.decision(decision.id)}
       selected={isSelected}
       disableGutters
       style={{ paddingLeft: 16, paddingRight: 16 }}

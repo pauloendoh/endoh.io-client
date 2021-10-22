@@ -17,7 +17,7 @@ import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter";
 import * as relearnActions from "../../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../../store/store";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
-import API from "../../../../utils/consts/API";
+import apiUrls from "../../../../utils/consts/apiUrls";
 import myAxios from "../../../../utils/consts/myAxios";
 import TagListItem from "../TagListItem/TagListItem";
 
@@ -31,7 +31,7 @@ function RelearnSidebarTagList(props: Props) {
   // PE 2/3 - melhor deixar o setTags no RelearnPage ? E chamar tudo de uma vez em uma request?
   useEffect(
     () => {
-      myAxios.get<TagDto[]>(API.relearn.tag).then((res) => {
+      myAxios.get<TagDto[]>(apiUrls.relearn.tag).then((res) => {
         props.setTags(res.data);
       });
     },

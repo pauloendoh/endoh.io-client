@@ -12,7 +12,7 @@ import { Dispatch } from "redux";
 import { FollowerDto } from "types/domain/feed/FollowerDto";
 import Flex from "../../../components/shared/Flexboxes/Flex";
 import { ApplicationState } from "../../../store/store";
-import PATHS from "../../../utils/consts/PATHS";
+import pageUrls from "../../../utils/consts/pageUrls";
 import ProfilePicture from "../../shared/ProfilePicture/ProfilePicture";
 
 // PE 2/3
@@ -56,7 +56,7 @@ const FollowersDialog = (props: Props) => {
                       component={RouterLink}
                       variant="body1"
                       color="inherit"
-                      to={PATHS.user.index(follower.follower.username)}
+                      to={pageUrls.user.index(follower.follower.username)}
                     >
                       <b>{follower.follower.username}</b>
                     </Link>

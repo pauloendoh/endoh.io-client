@@ -15,7 +15,7 @@ import { ApplicationState } from "../../../../../../store/store";
 import { setSuccessMessage } from "../../../../../../store/utils/utilsActions";
 import { DocDto } from "../../../../../../types/domain/define/DocDto";
 import { NoteDto } from "../../../../../../types/domain/define/NoteDto";
-import API from "../../../../../../utils/consts/API";
+import apiUrls from "../../../../../../utils/consts/apiUrls";
 import myAxios from "../../../../../../utils/consts/myAxios";
 import S from "./FinishedFlashcardDialogChild.styles";
 
@@ -30,7 +30,7 @@ const FinishedFlashcardDialogChild = (props: Props) => {
     setIsSubmitting(true);
 
     myAxios
-      .post<NoteDto[]>(API.define.postManyNotes, props.results)
+      .post<NoteDto[]>(apiUrls.define.postManyNotes, props.results)
       .then((res) => {
         props.setNotes(res.data);
         props.setSuccessMessage("Saved!");

@@ -34,9 +34,9 @@ import { ApplicationState } from "../../../../store/store";
 import * as utilsActions from "../../../../store/utils/utilsActions";
 import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
-import API from "../../../../utils/consts/API";
+import apiUrls from "../../../../utils/consts/apiUrls";
 import myAxios from "../../../../utils/consts/myAxios";
-import PATHS from "../../../../utils/consts/PATHS";
+import pageUrls from "../../../../utils/consts/pageUrls";
 import { urlIsValid } from "../../../../utils/url/isValidUrl";
 import { LinkPreviewDto } from "./_types/LinkPreviewDto";
 
@@ -48,12 +48,12 @@ const ResourceDialog = (props: Props) => {
 
   const handleSubmit = (resource: ResourceDto) => {
     myAxios
-      .post<ResourceDto[]>(API.relearn.resource, resource)
+      .post<ResourceDto[]>(apiUrls.relearn.resource, resource)
       .then((res) => {
         props.setResources(res.data);
         props.setSuccessMessage("Resource saved!");
 
-        myAxios.get<TagDto[]>(API.relearn.tag).then((res) => {
+        myAxios.get<TagDto[]>(apiUrls.relearn.tag).then((res) => {
           props.setTags(res.data);
         });
       })
@@ -127,7 +127,7 @@ const ResourceDialog = (props: Props) => {
 
   const location = useLocation();
   const getCurrentTag = (): TagDto => {
-    if (location.pathname.startsWith(PATHS.relearn.tag)) {
+    if (location.pathname.startsWith(pageUrls.relearn.tag)) {
       const tagId = Number(location.pathname.split("/").pop());
       if (tagId) {
         const currentTag = props.tags.find((t) => t.id === tagId);

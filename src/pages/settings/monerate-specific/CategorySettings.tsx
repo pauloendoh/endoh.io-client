@@ -18,12 +18,12 @@ import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter";
 import * as monerateActions from "../../../store/monerate/monerateActions";
 import { ApplicationState } from "../../../store/store";
 import CategoryGetDto from "../../../types/domain/monerate/CategoryGetDto";
-import API from "../../../utils/consts/API";
+import apiUrls from "../../../utils/consts/apiUrls";
 import MY_AXIOS from "../../../utils/consts/myAxios";
 
 const CategorySettings = (props: Props) => {
   useEffect(() => {
-    MY_AXIOS.get<CategoryGetDto[]>(API.monerate.category).then((res) => {
+    MY_AXIOS.get<CategoryGetDto[]>(apiUrls.monerate.category).then((res) => {
       props.setCategories(res.data);
     });
 
@@ -32,11 +32,11 @@ const CategorySettings = (props: Props) => {
 
   const handleDelete = (id: number) => {
     if (window.confirm("Confirm delete?")) {
-      MY_AXIOS.delete<CategoryGetDto[]>(`${API.monerate.category}/${id}`).then(
-        (res) => {
-          props.setCategories(res.data);
-        }
-      );
+      MY_AXIOS.delete<CategoryGetDto[]>(
+        `${apiUrls.monerate.category}/${id}`
+      ).then((res) => {
+        props.setCategories(res.data);
+      });
     }
   };
 

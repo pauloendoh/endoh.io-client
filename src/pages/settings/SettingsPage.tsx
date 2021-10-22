@@ -4,7 +4,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import Flex from "../../components/shared/Flexboxes/Flex";
 import EditCategoryModal from "../../pages/Monerate/Modals/EditCategoryModal";
 import EditPlaceModal from "../../pages/Monerate/Modals/EditPlaceModal";
-import PATHS from "../../utils/consts/PATHS";
+import pageUrls from "../../utils/consts/pageUrls";
 import PersonalInformationPaper from "./account/paper/PersonalInformationPaper";
 import SettingsSidebar from "./SettingsSidebar/SettingsSidebar";
 
@@ -19,7 +19,7 @@ function SettingsPage() {
       <Box pt={1} px={4} flexGrow={1}>
         <Switch>
           <Route
-            path={PATHS.settings.account}
+            path={pageUrls.settings.account}
             component={PersonalInformationPaper}
           />
 
@@ -35,7 +35,7 @@ function SettingsPage() {
           {/* por hora, redirecionar para o settings/monerate/places */}
           <Route
             path="/"
-            render={() => <Redirect to={PATHS.settings.account} />}
+            render={() => <Redirect to={pageUrls.settings.account} />}
           />
         </Switch>
       </Box>

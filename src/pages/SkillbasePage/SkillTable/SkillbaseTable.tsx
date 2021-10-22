@@ -16,7 +16,7 @@ import { setSuccessMessage } from "../../../store/utils/utilsActions";
 import { TagDto } from "../../../types/domain/relearn/TagDto";
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto";
 import { IdsDto } from "../../../types/domain/_common/IdsDto";
-import API from "../../../utils/consts/API";
+import apiUrls from "../../../utils/consts/apiUrls";
 import myAxios from "../../../utils/consts/myAxios";
 import filterAndSortSkills from "../../../utils/domain/skills/filterAndSortSkills";
 import AddSkillButton from "./AddSkillButton/AddSkillButton";
@@ -75,7 +75,7 @@ const SkillbaseTable = (props: Props) => {
   const handleDelete = () => {
     if (window.confirm(`Delete ${selectedIds.length} skill(s)?`)) {
       myAxios
-        .delete<SkillDto[]>(API.skillbase.skill, {
+        .delete<SkillDto[]>(apiUrls.skillbase.skill, {
           headers: {}, // why is this?
           data: { ids: selectedIds } as IdsDto,
         })

@@ -4,7 +4,7 @@ import { Link as RouterLink } from "react-router-dom";
 import Flex from "../../../components/shared/Flexboxes/Flex";
 import ProfilePicture from "../../../components/shared/ProfilePicture/ProfilePicture";
 import { UserProfileDto } from "../../../types/domain/feed/UserProfileDto";
-import PATHS from "../../../utils/consts/PATHS";
+import pageUrls from "../../../utils/consts/pageUrls";
 
 // PE 3/3
 const UserResults = (props: Props) => {
@@ -33,7 +33,7 @@ const UserResults = (props: Props) => {
               component={RouterLink}
               variant="body1"
               color="inherit"
-              to={PATHS.user.index(profile.username)}
+              to={pageUrls.user.index(profile.username)}
             >
               <b>{profile.username}</b>
             </Link>

@@ -13,9 +13,9 @@ import { ApplicationState } from "../../store/store";
 import useSidebarStore from "../../store/zustand/useSidebarStore";
 import { ResourceDto } from "../../types/domain/relearn/ResourceDto";
 import { SkillDto } from "../../types/domain/skillbase/SkillDto";
-import API from "../../utils/consts/API";
+import apiUrls from "../../utils/consts/apiUrls";
 import myAxios from "../../utils/consts/myAxios";
-import PATHS from "../../utils/consts/PATHS";
+import pageUrls from "../../utils/consts/pageUrls";
 import { sleep } from "../../utils/sleep";
 import LoadingPage from "../index/LoadingPage";
 import RelearnContent from "./Content/RelearnContent";
@@ -36,11 +36,11 @@ const RelearnPage = (props: Props) => {
       setRedirectTo("");
       openSidebar();
 
-      myAxios.get<ResourceDto[]>(API.relearn.resource).then((res) => {
+      myAxios.get<ResourceDto[]>(apiUrls.relearn.resource).then((res) => {
         props.setResources(res.data);
       });
 
-      myAxios.get<SkillDto[]>(API.skillbase.skill).then((res) => {
+      myAxios.get<SkillDto[]>(apiUrls.skillbase.skill).then((res) => {
         props.setSkills(res.data);
       });
     },
@@ -58,12 +58,12 @@ const RelearnPage = (props: Props) => {
       const { pathname } = location;
 
       // Filtrando resource por tags. Melhor colocar em outro arquivo?
-      if (pathname === PATHS.relearn.index) {
+      if (pathname === pageUrls.relearn.index) {
         setFilteredResources(
           props.resources.filter((resource) => resource.tag === null)
         );
         document.title = "Untagged - Endoh.io";
-      } else if (pathname.startsWith(PATHS.relearn.tag)) {
+      } else if (pathname.startsWith(pageUrls.relearn.tag)) {
         const tagId = Number(pathname.split("/").pop());
         if (tagId) {
           setFilteredResources(

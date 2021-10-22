@@ -14,7 +14,7 @@ import { setFollowingTags } from "../../../store/auth/authActions";
 import { ApplicationState } from "../../../store/store";
 import * as utilsActions from "../../../store/utils/utilsActions";
 import { FollowingTagDto } from "../../../types/domain/feed/FollowingTagDto";
-import PATHS from "../../../utils/consts/PATHS";
+import pageUrls from "../../../utils/consts/pageUrls";
 import Flex from "../../shared//Flexboxes/Flex";
 import ProfilePicture from "../../shared/ProfilePicture/ProfilePicture";
 
@@ -60,7 +60,7 @@ const FollowingUsersDialog = (props: Props) => {
                       component={RouterLink}
                       variant="body1"
                       color="inherit"
-                      to={PATHS.user.index(
+                      to={pageUrls.user.index(
                         followingUser.followingUser.username
                       )}
                     >

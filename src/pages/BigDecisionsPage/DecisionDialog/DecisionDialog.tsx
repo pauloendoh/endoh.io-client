@@ -10,7 +10,7 @@ import usePostDecisionMutation from "../../../hooks/BigDecisions/Decision/usePos
 import { ApplicationState } from "../../../store/store";
 import * as utilsActions from "../../../store/utils/utilsActions";
 import { DecisionDto } from "../../../types/domain/big-decisions/DecisionDto";
-import PATHS from "../../../utils/consts/PATHS";
+import pageUrls from "../../../utils/consts/pageUrls";
 
 const DecisionDialog = (props: Props) => {
   const history = useHistory();
@@ -26,7 +26,7 @@ const DecisionDialog = (props: Props) => {
       onSuccess: (data) => {
         props.setSuccessMessage("Decision saved!");
         handleClose();
-        history.push(PATHS.BigDecisions.decision(data.id));
+        history.push(pageUrls.BigDecisions.decision(data.id));
       },
     });
   };

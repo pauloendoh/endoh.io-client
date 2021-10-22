@@ -14,7 +14,7 @@ import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter";
 import TagIcon from "../../../../components/shared/Icon/TagIcon";
 import { ApplicationState } from "../../../../store/store";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
-import PATHS from "../../../../utils/consts/PATHS";
+import pageUrls from "../../../../utils/consts/pageUrls";
 import { getCurrentTag } from "../../../../utils/skillbase/getCurrentTag";
 import SkillbaseTagSelector, {
   optionTypes,
@@ -27,16 +27,16 @@ const SkillTableToolbar = (props: Props) => {
 
   const [tagSelectorValue, setTagSelectorValue] = useState<optionTypes>("All");
   const handleTagChange = (value: optionTypes) => {
-    if (value === "All") history.push(PATHS.skillbase.index);
-    else if (value === "Untagged") history.push(PATHS.skillbase.untagged);
-    else history.push(PATHS.skillbase.tag + "/" + value.id);
+    if (value === "All") history.push(pageUrls.skillbase.index);
+    else if (value === "Untagged") history.push(pageUrls.skillbase.untagged);
+    else history.push(pageUrls.skillbase.tag + "/" + value.id);
   };
 
   useEffect(() => {
     const { pathname } = location;
-    if (pathname.includes(PATHS.skillbase.untagged))
+    if (pathname.includes(pageUrls.skillbase.untagged))
       setTagSelectorValue("Untagged");
-    else if (pathname.includes(PATHS.skillbase.tag))
+    else if (pathname.includes(pageUrls.skillbase.tag))
       setTagSelectorValue(getCurrentTag(pathname, props.allTags));
     else setTagSelectorValue("All");
     // eslint-disable-next-line react-hooks/exhaustive-deps

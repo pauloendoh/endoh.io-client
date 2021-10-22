@@ -11,7 +11,7 @@ import { ApplicationState } from "../../store/store";
 import useSidebarStore from "../../store/zustand/useSidebarStore";
 import { DocDto } from "../../types/domain/define/DocDto";
 import { NoteDto } from "../../types/domain/define/NoteDto";
-import API from "../../utils/consts/API";
+import apiUrls from "../../utils/consts/apiUrls";
 import myAxios from "../../utils/consts/myAxios";
 import LoadingPage from "../index/LoadingPage";
 import DefineContent from "./DefineContent/DefineContent";
@@ -29,11 +29,11 @@ const DefinePage = (props: Props) => {
     () => {
       openSidebar();
 
-      myAxios.get<DocDto[]>(API.define.doc).then((res) => {
+      myAxios.get<DocDto[]>(apiUrls.define.doc).then((res) => {
         props.setDocs(res.data);
       });
 
-      myAxios.get<NoteDto[]>(API.define.note).then((res) => {
+      myAxios.get<NoteDto[]>(apiUrls.define.note).then((res) => {
         props.setNotes(res.data);
       });
     },

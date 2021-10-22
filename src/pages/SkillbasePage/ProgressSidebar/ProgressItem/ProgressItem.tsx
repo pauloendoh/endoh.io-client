@@ -10,7 +10,7 @@ import SkillLevelChip from "../../../../components/skillbase/SkillLevelChip/Skil
 import { setProgresses } from "../../../../store/skillbase/skillbaseActions";
 import { ApplicationState } from "../../../../store/store";
 import { ProgressDto } from "../../../../types/domain/skillbase/ProgressDto";
-import API from "../../../../utils/consts/API";
+import apiUrls from "../../../../utils/consts/apiUrls";
 import myAxios from "../../../../utils/consts/myAxios";
 
 function ProgressItem(props: Props) {
@@ -21,7 +21,7 @@ function ProgressItem(props: Props) {
   const handleDelete = (progressId: number) => {
     if (window.confirm("Confirm delete?")) {
       myAxios
-        .delete<ProgressDto[]>(API.skillbase.progress + "/" + progressId)
+        .delete<ProgressDto[]>(apiUrls.skillbase.progress + "/" + progressId)
         .then((res) => {
           props.setProgresses(res.data);
         });

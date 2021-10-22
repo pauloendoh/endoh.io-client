@@ -8,7 +8,7 @@ import {
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { UserSuggestionDto } from "../../../../types/domain/feed/UserSuggestionDto";
-import PATHS from "../../../../utils/consts/PATHS";
+import pageUrls from "../../../../utils/consts/pageUrls";
 import FlexVCenter from "../../../shared/Flexboxes/FlexVCenter";
 import ProfilePicture from "../../../shared/ProfilePicture/ProfilePicture";
 // PE 2/3
@@ -39,7 +39,7 @@ const UserSuggestionsDialog = (props: Props) => {
                   variant="button"
                   color="inherit"
                   component={RouterLink}
-                  to={PATHS.user.index(userSuggestion.username)}
+                  to={pageUrls.user.index(userSuggestion.username)}
                 >
                   {userSuggestion.username}
                 </Link>

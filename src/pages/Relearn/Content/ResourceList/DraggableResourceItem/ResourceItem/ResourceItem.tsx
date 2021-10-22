@@ -21,7 +21,7 @@ import { ApplicationState } from "../../../../../../store/store";
 import * as utilsActions from "../../../../../../store/utils/utilsActions";
 import { IMoveResource } from "../../../../../../types/domain/relearn/IMoveResource";
 import { ResourceDto } from "../../../../../../types/domain/relearn/ResourceDto";
-import API from "../../../../../../utils/consts/API";
+import apiUrls from "../../../../../../utils/consts/apiUrls";
 import myAxios from "../../../../../../utils/consts/myAxios";
 import { validateEstimatedTime } from "../../../../../../utils/relearn/validateEstimatedTime";
 import ResourceMoreIcon from "../ResourceMoreIcon/ResourceMoreIcon";
@@ -35,15 +35,17 @@ function ResourceItem(props: Props) {
 
   const handleSaveRating = (rating: number) => {
     const resource = { ...props.resource, rating } as ResourceDto;
-    myAxios.post<ResourceDto[]>(API.relearn.resource, resource).then((res) => {
-      props.setResources(res.data);
+    myAxios
+      .post<ResourceDto[]>(apiUrls.relearn.resource, resource)
+      .then((res) => {
+        props.setResources(res.data);
 
-      if (resource.rating) {
-        props.setSuccessMessage("Resource rated!");
-      } else {
-        props.setSuccessMessage("Rating removed!");
-      }
-    });
+        if (resource.rating) {
+          props.setSuccessMessage("Resource rated!");
+        } else {
+          props.setSuccessMessage("Rating removed!");
+        }
+      });
   };
 
   return (
@@ -55,6 +57,7 @@ function ResourceItem(props: Props) {
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      className="resource-item"
     >
       <ResourceThumbnail
         resourceUrl={props.resource.url}

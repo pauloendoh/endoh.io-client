@@ -3,7 +3,7 @@ import { useMutation } from "react-query";
 import { DecisionTableDto } from "types/domain/big-decisions/DecisionTableDto";
 import useSnackbarStore from "../../../store/zustand/useSnackbarStore";
 import { DecisionDto } from "../../../types/domain/big-decisions/DecisionDto";
-import API from "../../../utils/consts/API";
+import apiUrls from "../../../utils/consts/apiUrls";
 import myAxios from "../../../utils/consts/myAxios";
 import { myQueryClient } from "../../../utils/consts/myQueryClient";
 
@@ -12,12 +12,12 @@ export default function useDeleteTableMutation() {
   return useMutation(
     (table: DecisionTableDto) =>
       myAxios
-        .delete(API.BigDecisions.decisionTable + "/" + table.id)
+        .delete(apiUrls.BigDecisions.decisionTable + "/" + table.id)
         .then((res) => res.data),
     {
       onSuccess: (_, sentTable) => {
         const decisions = myQueryClient.getQueryData<DecisionDto[]>(
-          API.BigDecisions.decision
+          apiUrls.BigDecisions.decision
         );
 
         const newDecisions = produce(decisions, (draft) => {
@@ -33,7 +33,7 @@ export default function useDeleteTableMutation() {
           return draft;
         });
 
-        myQueryClient.setQueryData(API.BigDecisions.decision, newDecisions);
+        myQueryClient.setQueryData(apiUrls.BigDecisions.decision, newDecisions);
 
         setSuccessMessage("Option deleted!");
       },

@@ -3,7 +3,7 @@ import { Form, Formik } from "formik";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import API from "utils/consts/API";
+import apiUrls from "utils/consts/apiUrls";
 import myAxios from "utils/consts/myAxios";
 import Flex from "../../../components/shared/Flexboxes/Flex";
 import MyTextField from "../../../components/shared/MyInputs/MyTextField";
@@ -14,7 +14,7 @@ import PlaceGetDto from "../../../types/domain/monerate/PlaceGetDto";
 const EditPlaceModal = (props: Props) => {
   const handleSubmit = (place: PlaceGetDto) => {
     myAxios
-      .post<PlaceGetDto[]>(API.monerate.place, place)
+      .post<PlaceGetDto[]>(apiUrls.monerate.place, place)
       .then((res) => {
         props.setPlaces(res.data);
       })
@@ -26,7 +26,7 @@ const EditPlaceModal = (props: Props) => {
   const handleDelete = (id: number) => {
     if (window.confirm("Confirm delete?")) {
       myAxios
-        .delete<PlaceGetDto[]>(`${API.monerate.place}/${id}`)
+        .delete<PlaceGetDto[]>(`${apiUrls.monerate.place}/${id}`)
         .then((res) => {
           props.setPlaces(res.data);
         })

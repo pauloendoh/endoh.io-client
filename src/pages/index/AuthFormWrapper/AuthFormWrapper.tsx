@@ -7,7 +7,7 @@ import * as AuthActions from "store/auth/authActions";
 import { AuthUserGetDto } from "types/domain/auth/AuthUserGetDto";
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter";
 import { MyDivider } from "../../../components/utils/MyDivider/MyDivider";
-import API from "../../../utils/consts/API";
+import apiUrls from "../../../utils/consts/apiUrls";
 import myAxios from "../../../utils/consts/myAxios";
 import S from "./AuthFormWrapper.styles";
 import GoogleButton from "./GoogleButton/GoogleButton";
@@ -33,7 +33,7 @@ const AuthFormWrapper = (props: Props) => {
 
   const handleTempSignIn = () => {
     // PE 2/3
-    myAxios.get<AuthUserGetDto>(API.auth.tempUser).then((res) => {
+    myAxios.get<AuthUserGetDto>(apiUrls.auth.tempUser).then((res) => {
       props.setAuthUser(res.data);
     });
   };

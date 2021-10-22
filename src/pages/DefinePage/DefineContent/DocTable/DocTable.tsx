@@ -21,7 +21,7 @@ import {
 } from "../../../../store/define/defineActions";
 import { ApplicationState } from "../../../../store/store";
 import { newNoteDto, NoteDto } from "../../../../types/domain/define/NoteDto";
-import API from "../../../../utils/consts/API";
+import apiUrls from "../../../../utils/consts/apiUrls";
 import myAxios from "../../../../utils/consts/myAxios";
 import DocTableRow from "./DocTableRow/DocTableRow";
 
@@ -32,7 +32,7 @@ const DocTable = (props: Props) => {
     setSubmitting(true);
     const newNote = newNoteDto(sortedNotes().length, props.docId, props.userId);
     myAxios
-      .post<NoteDto>(API.define.note, newNote)
+      .post<NoteDto>(apiUrls.define.note, newNote)
       .then((res) => {
         props.addOrReplaceNote(res.data);
       })
@@ -53,7 +53,7 @@ const DocTable = (props: Props) => {
     clearTimeout(throttle);
     setThrottle(
       setTimeout(() => {
-        myAxios.post<NoteDto>(API.define.note, changed).then((res) => {
+        myAxios.post<NoteDto>(apiUrls.define.note, changed).then((res) => {
           props.addOrReplaceNote(res.data);
         });
       }, 500)

@@ -20,7 +20,7 @@ import { ApplicationState } from "../../../../store/store";
 import * as utilsActions from "../../../../store/utils/utilsActions";
 import { FollowingTagDto } from "../../../../types/domain/feed/FollowingTagDto";
 import MyAxiosError from "../../../../types/MyAxiosError";
-import API from "../../../../utils/consts/API";
+import apiUrls from "../../../../utils/consts/apiUrls";
 import myAxios from "../../../../utils/consts/myAxios";
 
 // PE 2/3
@@ -55,7 +55,7 @@ const FollowDialog = (props: Props) => {
     }));
 
     myAxios
-      .post<FollowingTagDto[]>(API.user.followingTags(username), data)
+      .post<FollowingTagDto[]>(apiUrls.user.followingTags(username), data)
       .then((res) => {
         props.setFollowingTags(res.data);
         props.setSuccessMessage("Saved!");

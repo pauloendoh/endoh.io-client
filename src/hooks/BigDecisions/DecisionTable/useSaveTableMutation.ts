@@ -3,7 +3,7 @@ import { useMutation } from "react-query";
 import useSnackbarStore from "../../../store/zustand/useSnackbarStore";
 import { DecisionDto } from "../../../types/domain/big-decisions/DecisionDto";
 import { DecisionTableDto } from "../../../types/domain/big-decisions/DecisionTableDto";
-import API from "../../../utils/consts/API";
+import apiUrls from "../../../utils/consts/apiUrls";
 import myAxios from "../../../utils/consts/myAxios";
 import { myQueryClient } from "../../../utils/consts/myQueryClient";
 
@@ -13,12 +13,12 @@ export default function useSaveTableMutation() {
   return useMutation(
     (table: DecisionTableDto) =>
       myAxios
-        .post<DecisionDto>(API.BigDecisions.decisionTable, table)
+        .post<DecisionDto>(apiUrls.BigDecisions.decisionTable, table)
         .then((res) => res.data),
     {
       onSuccess: (returned) => {
         const decisions = myQueryClient.getQueryData<DecisionDto[]>(
-          API.BigDecisions.decision
+          apiUrls.BigDecisions.decision
         );
 
         const newDecisions = produce(decisions, (draft) => {
@@ -27,7 +27,7 @@ export default function useSaveTableMutation() {
           return draft;
         });
 
-        myQueryClient.setQueryData(API.BigDecisions.decision, newDecisions);
+        myQueryClient.setQueryData(apiUrls.BigDecisions.decision, newDecisions);
 
         setSuccessMessage("Table saved!");
       },

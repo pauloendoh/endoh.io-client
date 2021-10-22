@@ -4,7 +4,7 @@ import { Box, Button, Grid, Typography } from "@material-ui/core";
 import React from "react";
 import { Link } from "react-router-dom";
 import monerateDemo from "../../static/videos/monerate-demo.mp4";
-import PATHS from "../../utils/consts/PATHS";
+import pageUrls from "../../utils/consts/pageUrls";
 import FlexVCenter from "../shared/Flexboxes/FlexVCenter";
 import TextSecondary from "../shared/Text/TextSecondary";
 // PE 2/3
@@ -24,7 +24,7 @@ const MonerateDescription = () => {
         </Typography>
 
         <Box mt={2}>
-          <Link to={PATHS.monerate.index} style={{ textDecoration: "none" }}>
+          <Link to={pageUrls.monerate.index} style={{ textDecoration: "none" }}>
             <Button variant="contained" color="primary">
               Check /monerate
             </Button>

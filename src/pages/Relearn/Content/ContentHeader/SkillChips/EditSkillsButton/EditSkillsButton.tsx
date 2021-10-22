@@ -6,7 +6,7 @@ import { Dispatch } from "redux";
 import FlexVCenter from "../../../../../../components/shared/Flexboxes/FlexVCenter";
 import { ApplicationState } from "../../../../../../store/store";
 import { TagDto } from "../../../../../../types/domain/relearn/TagDto";
-import PATHS from "../../../../../../utils/consts/PATHS";
+import pageUrls from "../../../../../../utils/consts/pageUrls";
 import EditSkillsDialog from "./EditSkillsDialog/EditSkillsDialog";
 
 // PE 2/3
@@ -30,7 +30,7 @@ function EditSkillsButton(props: Props) {
     if (tagId) {
       const currentTag = props.allTags.find((t) => t.id === tagId);
       setTagForDialog(currentTag);
-    } else history.push(PATHS.skillbase.index);
+    } else history.push(pageUrls.skillbase.index);
   };
 
   const handleCloseDialog = () => {

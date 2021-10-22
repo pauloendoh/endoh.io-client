@@ -8,13 +8,13 @@ import MyTextField from "../../../components/shared/MyInputs/MyTextField";
 import * as monerateActions from "../../../store/monerate/monerateActions";
 import { ApplicationState } from "../../../store/store";
 import CategoryGetDto from "../../../types/domain/monerate/CategoryGetDto";
-import API from "../../../utils/consts/API";
+import apiUrls from "../../../utils/consts/apiUrls";
 import myAxios from "../../../utils/consts/myAxios";
 
 const EditCategoryModal = (props: Props) => {
   const handleSubmit = (category: CategoryGetDto) => {
     myAxios
-      .post<CategoryGetDto[]>(API.monerate.category, category)
+      .post<CategoryGetDto[]>(apiUrls.monerate.category, category)
       .then((res) => {
         props.setCategories(res.data);
       })
@@ -26,7 +26,7 @@ const EditCategoryModal = (props: Props) => {
   const handleDelete = (id: number) => {
     if (window.confirm("Confirm delete?")) {
       myAxios
-        .delete<CategoryGetDto[]>(`${API.monerate.category}/${id}`)
+        .delete<CategoryGetDto[]>(`${apiUrls.monerate.category}/${id}`)
         .then((res) => {
           props.setCategories(res.data);
         })

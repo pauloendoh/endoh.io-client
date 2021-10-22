@@ -8,7 +8,7 @@ import {
 import { FollowingTagDto } from "../../types/domain/feed/FollowingTagDto";
 import { NotificationDto } from "../../types/domain/utils/NotificationDto";
 import { UserInfoDto } from "../../types/domain/_common/UserInfoDto";
-import API from "../../utils/consts/API";
+import apiUrls from "../../utils/consts/apiUrls";
 import myAxios from "../../utils/consts/myAxios";
 import { clearDefineReducer } from "../define/defineActions";
 import { monerateActionTypes } from "../monerate/monerateTypes";
@@ -41,7 +41,7 @@ export function savePreferenceActionCreator(
   preference: UserPreferenceDto
 ) {
   dispatch(setPreference(preference));
-  myAxios.post(API.auth.userPreference, preference);
+  myAxios.post(apiUrls.auth.userPreference, preference);
 }
 export const setProfilePicture = (pictureUrl: string) =>
   action(AuthActionTypes.SET_PROFILE_PICTURE, pictureUrl);
@@ -57,7 +57,7 @@ export function checkAuthOrLogoutActionCreator(dispatch: Dispatch) {
 
     if (oauthToken?.length && userId?.length) {
       myAxios
-        .post<AuthUserGetDto>(API.auth.googleLogin, {
+        .post<AuthUserGetDto>(apiUrls.auth.googleLogin, {
           // withCredentials: true
           userId: Number(userId),
           token: oauthToken,

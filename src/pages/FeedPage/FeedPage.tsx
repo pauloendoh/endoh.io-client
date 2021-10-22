@@ -7,7 +7,7 @@ import UserSuggestions from "../../components/feed/UserSuggestions/UserSuggestio
 import { setFeedResources } from "../../store/feed/feedActions";
 import { ApplicationState } from "../../store/store";
 import { FeedResourceDto } from "../../types/domain/feed/FeedResourceDto";
-import API from "../../utils/consts/API";
+import apiUrls from "../../utils/consts/apiUrls";
 import myAxios from "../../utils/consts/myAxios";
 import AuthUserSummary from "./AuthUserSummary/AuthUserSummary";
 import FeedResources from "./FeedResources/FeedResources";
@@ -18,7 +18,7 @@ const FeedPage = (props: Props) => {
     () => {
       document.title = "Feed - Endoh.io";
 
-      myAxios.get<FeedResourceDto[]>(API.feed.resources).then((res) => {
+      myAxios.get<FeedResourceDto[]>(apiUrls.feed.resources).then((res) => {
         props.setFeedResources(res.data);
       });
     },

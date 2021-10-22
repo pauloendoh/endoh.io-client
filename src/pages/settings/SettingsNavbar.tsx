@@ -13,7 +13,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import FlexVCenter from "../../components/shared/Flexboxes/FlexVCenter";
-import PATHS from "../../utils/consts/PATHS";
+import pageUrls from "../../utils/consts/pageUrls";
 
 const SettingsNavbar = () => {
   const classes = useStyles();
@@ -22,8 +22,8 @@ const SettingsNavbar = () => {
   const [closeHref, setCloseHref] = useState("/");
 
   useEffect(() => {
-    if (location.pathname.startsWith(PATHS.settings.monerate.index)) {
-      setCloseHref(PATHS.monerate.index);
+    if (location.pathname.startsWith(pageUrls.settings.monerate.index)) {
+      setCloseHref(pageUrls.monerate.index);
     } else {
       setCloseHref("/");
     }

@@ -1,6 +1,6 @@
-import API from "utils/consts/API";
+import apiUrls from "utils/consts/apiUrls";
 
 export const queryKeys = {
-  userSuggestions: API.feed.myUserSuggestions,
-  feedResources: API.feed.resources,
+  userSuggestions: apiUrls.feed.myUserSuggestions,
+  feedResources: apiUrls.feed.resources,
 };

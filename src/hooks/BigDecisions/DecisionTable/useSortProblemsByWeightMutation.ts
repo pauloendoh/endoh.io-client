@@ -2,7 +2,7 @@ import { produce } from "immer";
 import { useMutation } from "react-query";
 import useSnackbarStore from "../../../store/zustand/useSnackbarStore";
 import { DecisionDto } from "../../../types/domain/big-decisions/DecisionDto";
-import API from "../../../utils/consts/API";
+import apiUrls from "../../../utils/consts/apiUrls";
 import myAxios from "../../../utils/consts/myAxios";
 import { myQueryClient } from "../../../utils/consts/myQueryClient";
 
@@ -12,13 +12,13 @@ export default function useSortProblemsByWeightMutation() {
   return useMutation(
     (data: { tableId: number; order: "asc" | "desc" }) =>
       myAxios
-        .post<DecisionDto>(API.BigDecisions.sortProblemsByWeight, data)
+        .post<DecisionDto>(apiUrls.BigDecisions.sortProblemsByWeight, data)
         .then((res) => res.data),
 
     {
       onSuccess: (returned) => {
         const decisions = myQueryClient.getQueryData<DecisionDto[]>(
-          API.BigDecisions.decision
+          apiUrls.BigDecisions.decision
         );
 
         const newDecisions = produce(decisions, (draft) => {
@@ -27,7 +27,7 @@ export default function useSortProblemsByWeightMutation() {
           return draft;
         });
 
-        myQueryClient.setQueryData(API.BigDecisions.decision, newDecisions);
+        myQueryClient.setQueryData(apiUrls.BigDecisions.decision, newDecisions);
       },
       onError: (err) => {
         setErrorMessage("Error while ordering table: " + JSON.stringify(err));

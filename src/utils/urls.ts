@@ -1,7 +1,6 @@
 export const urls = {
   pages: {
     relearnTag: (tagId: number) => `/relearn/tag/${tagId}`,
-
     define: {
       docId: (docId: number) => `/define/doc/${docId}`,
     },

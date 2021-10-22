@@ -2,7 +2,7 @@ import produce from "immer";
 import { useMutation } from "react-query";
 import { DecisionDto } from "../../../types/domain/big-decisions/DecisionDto";
 import { DecisionTableItemDto } from "../../../types/domain/big-decisions/DecisionTableItemDto";
-import API from "../../../utils/consts/API";
+import apiUrls from "../../../utils/consts/apiUrls";
 import myAxios from "../../../utils/consts/myAxios";
 import { myQueryClient } from "../../../utils/consts/myQueryClient";
 
@@ -11,14 +11,14 @@ export default function usePPutItemMutation(decisionId: number) {
     (sentItem: DecisionTableItemDto) =>
       myAxios
         .post<DecisionTableItemDto>(
-          API.BigDecisions.decisionTableItem,
+          apiUrls.BigDecisions.decisionTableItem,
           sentItem
         )
         .then((res) => res.data),
     {
       onSuccess: (returned, sentItem) => {
         const decisions = myQueryClient.getQueryData<DecisionDto[]>(
-          API.BigDecisions.decision
+          apiUrls.BigDecisions.decision
         );
 
         const newDecisions = produce(decisions, (draft) => {
@@ -38,7 +38,7 @@ export default function usePPutItemMutation(decisionId: number) {
           else draft[decisionIndex].tables[tableIndex].items.push(returned);
         });
 
-        myQueryClient.setQueryData(API.BigDecisions.decision, newDecisions);
+        myQueryClient.setQueryData(apiUrls.BigDecisions.decision, newDecisions);
       },
     }
   );

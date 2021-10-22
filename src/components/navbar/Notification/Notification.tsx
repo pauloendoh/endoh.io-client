@@ -6,7 +6,7 @@ import { Dispatch } from "redux";
 import { setNotifications } from "../../../store/auth/authActions";
 import { ApplicationState } from "../../../store/store";
 import { NotificationDto } from "../../../types/domain/utils/NotificationDto";
-import API from "../../../utils/consts/API";
+import apiUrls from "../../../utils/consts/apiUrls";
 import myAxios from "../../../utils/consts/myAxios";
 import NotificationItem from "./NotificationItem/NotificationItem";
 
@@ -21,7 +21,7 @@ const Notification = (props: Props) => {
   const handleClose = () => {
     // set notifications.seen = true
     myAxios
-      .post<NotificationDto[]>(API.utils.notificationsSeeAll)
+      .post<NotificationDto[]>(apiUrls.utils.notificationsSeeAll)
       .then((res) => {
         props.setNotifications(res.data);
       });

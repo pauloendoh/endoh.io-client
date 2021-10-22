@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, Grid, Typography } from "@material-ui/core";
 import React from "react";
 import { Link } from "react-router-dom";
-import PATHS from "../../utils/consts/PATHS";
+import pageUrls from "../../utils/consts/pageUrls";
 import FlexVCenter from "../shared/Flexboxes/FlexVCenter";
 
 const RelearnDescription = () => {
@@ -22,7 +22,7 @@ const RelearnDescription = () => {
         </Typography>
 
         <Box mt={2}>
-          <Link to={PATHS.relearn.index} style={{ textDecoration: "none" }}>
+          <Link to={pageUrls.relearn.index} style={{ textDecoration: "none" }}>
             <Button variant="contained" color="primary">
               Check /relearn
             </Button>

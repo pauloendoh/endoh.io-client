@@ -22,9 +22,9 @@ import { logoutActionCreator } from "../../store/auth/authActions";
 import { ApplicationState } from "../../store/store";
 import { PasswordResetPostDto } from "../../types/domain/auth/PasswordResetPostDto";
 import MyAxiosError, { MyFieldError } from "../../types/MyAxiosError";
-import API from "../../utils/consts/API";
+import apiUrls from "../../utils/consts/apiUrls";
 import myAxios from "../../utils/consts/myAxios";
-import PATHS from "../../utils/consts/PATHS";
+import pageUrls from "../../utils/consts/pageUrls";
 import { getQueryParam } from "../../utils/url/getQueryParam";
 
 function ResetPasswordPage(props: Props) {
@@ -40,7 +40,7 @@ function ResetPasswordPage(props: Props) {
   useEffect(
     () => {
       if (token.length === 0 || !userId) {
-        setRedirectTo(PATHS.index);
+        setRedirectTo(pageUrls.index);
       }
       document.title = "Reset Password - Endoh.io";
     },
@@ -64,7 +64,7 @@ function ResetPasswordPage(props: Props) {
 
     setResponseErrors([]);
     myAxios
-      .post(API.auth.resetPassword, values)
+      .post(apiUrls.auth.resetPassword, values)
       .then((res) => {
         setSuccess(true);
       })

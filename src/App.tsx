@@ -40,7 +40,7 @@ import { TagDto } from "./types/domain/relearn/TagDto";
 import { NotificationDto } from "./types/domain/utils/NotificationDto";
 import { UserInfoDto } from "./types/domain/_common/UserInfoDto";
 import { isValidApplicationPath } from "./utils/app/isValidApplicationPath";
-import API from "./utils/consts/API";
+import apiUrls from "./utils/consts/apiUrls";
 import myAxios from "./utils/consts/myAxios";
 import { myQueryClient } from "./utils/consts/myQueryClient";
 import theme from "./utils/consts/theme";
@@ -84,34 +84,40 @@ const App = (props: Props) => {
         }
 
         myAxios
-          .get<FollowingTagDto[]>(API.user.followingTags(props.user.username))
+          .get<FollowingTagDto[]>(
+            apiUrls.user.followingTags(props.user.username)
+          )
           .then((res) => {
             props.setFollowingTags(res.data);
           });
 
-        myAxios.get<UserPreferenceDto>(API.auth.userPreference).then((res) => {
-          props.setPreference(res.data);
-        });
+        myAxios
+          .get<UserPreferenceDto>(apiUrls.auth.userPreference)
+          .then((res) => {
+            props.setPreference(res.data);
+          });
 
         myAxios
-          .get<UserSuggestionDto[]>(API.feed.myUserSuggestions)
+          .get<UserSuggestionDto[]>(apiUrls.feed.myUserSuggestions)
           .then((res) => {
             props.setUserSuggestions(res.data);
           });
 
-        myAxios.get<TagDto[]>(API.relearn.tag).then((res) => {
+        myAxios.get<TagDto[]>(apiUrls.relearn.tag).then((res) => {
           props.setTags(res.data);
         });
 
         myAxios
-          .get<UserInfoDto>(API.user.userInfo(props.user.username))
+          .get<UserInfoDto>(apiUrls.user.userInfo(props.user.username))
           .then((res) => {
             props.setAuthProfile(res.data);
           });
 
-        myAxios.get<NotificationDto[]>(API.utils.notifications).then((res) => {
-          props.setNotifications(res.data);
-        });
+        myAxios
+          .get<NotificationDto[]>(apiUrls.utils.notifications)
+          .then((res) => {
+            props.setNotifications(res.data);
+          });
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

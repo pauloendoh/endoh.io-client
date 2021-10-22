@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Dispatch } from "redux";
 import MyAxiosError from "types/MyAxiosError";
-import PATHS from "utils/consts/PATHS";
+import pageUrls from "utils/consts/pageUrls";
 import Flex from "../../../components/shared/Flexboxes/Flex";
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter";
 import MyTextField from "../../../components/shared/MyInputs/MyTextField";
@@ -21,7 +21,7 @@ import * as relearnActions from "../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../store/store";
 import * as utilsActions from "../../../store/utils/utilsActions";
 import { TagDto } from "../../../types/domain/relearn/TagDto";
-import API from "../../../utils/consts/API";
+import apiUrls from "../../../utils/consts/apiUrls";
 import myAxios from "../../../utils/consts/myAxios";
 import TagColorSelector from "./TagColorSelector/TagColorSelector";
 
@@ -31,7 +31,7 @@ const TagDialog = (props: Props) => {
 
   const handleSubmit = (sentTag: TagDto) => {
     myAxios
-      .post<TagDto[]>(API.relearn.tag, sentTag)
+      .post<TagDto[]>(apiUrls.relearn.tag, sentTag)
       .then((res) => {
         props.setSuccessMessage("Tag saved!");
 
@@ -40,7 +40,7 @@ const TagDialog = (props: Props) => {
 
         const savedTagId = returnedTags.find((t) => t.name === sentTag.name).id;
 
-        history.push(PATHS.relearn.tag + "/" + savedTagId);
+        history.push(pageUrls.relearn.tag + "/" + savedTagId);
       })
       .catch((err: MyAxiosError) => {
         props.setErrorMessage(err.response.data.errors[0].message);

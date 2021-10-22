@@ -1,7 +1,7 @@
-import PATHS from "../consts/PATHS";
+import pageUrls from "../consts/pageUrls";
 
 export const getCurrentTagId = (pathname: string): number => {
-  if (pathname.startsWith(PATHS.skillbase.tag)) {
+  if (pathname.startsWith(pageUrls.skillbase.tag)) {
     const tagId = Number(pathname.split("/").pop());
     return tagId;
   }

@@ -14,7 +14,7 @@ import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter";
 import ProfilePicture from "../../../components/shared/ProfilePicture/ProfilePicture";
 import { ApplicationState } from "../../../store/store";
 import { FeedResourceDto } from "../../../types/domain/feed/FeedResourceDto";
-import PATHS from "../../../utils/consts/PATHS";
+import pageUrls from "../../../utils/consts/pageUrls";
 import { getColorByRating } from "../../../utils/relearn/getColorByRating";
 import SaveFeedResourceButton from "./SaveFeedResourceButton/SaveFeedResourceButton";
 
@@ -54,7 +54,7 @@ const FeedResources = (props: Props) => {
                 variant="button"
                 color="inherit"
                 component={RouterLink}
-                to={PATHS.user.index(resource.user.username)}
+                to={pageUrls.user.index(resource.user.username)}
               >
                 {resource.user.username}
               </Link>

@@ -8,7 +8,7 @@ import SkillChip from "../../../../../components/skillbase/SkillChip/SkillChip";
 import { setEditingSkill } from "../../../../../store/skillbase/skillbaseActions";
 import { ApplicationState } from "../../../../../store/store";
 import { SkillDto } from "../../../../../types/domain/skillbase/SkillDto";
-import PATHS from "../../../../../utils/consts/PATHS";
+import pageUrls from "../../../../../utils/consts/pageUrls";
 import EditSkillsButton from "./EditSkillsButton/EditSkillsButton";
 
 // PE 2/3
@@ -22,14 +22,14 @@ function SkillChips(props: Props) {
     const { pathname } = location;
 
     // /relearn
-    if (pathname === PATHS.relearn.index) {
+    if (pathname === pageUrls.relearn.index) {
       const unlistedSkills = props.allSkills.filter(
         (s) => s.tagId === null && s.isPriority === true
       );
       setSkills(unlistedSkills);
     }
     // /relearn/tag/:id
-    else if (pathname.startsWith(PATHS.relearn.tag)) {
+    else if (pathname.startsWith(pageUrls.relearn.tag)) {
       const listId = Number(pathname.split("/").pop());
 
       if (listId) {

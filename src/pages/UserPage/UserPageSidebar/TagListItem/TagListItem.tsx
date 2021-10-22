@@ -9,7 +9,7 @@ import Flex from "../../../../components/shared/Flexboxes/Flex";
 import FlexHCenter from "../../../../components/shared/Flexboxes/FlexHCenter";
 import { ApplicationState } from "../../../../store/store";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
-import PATHS from "../../../../utils/consts/PATHS";
+import pageUrls from "../../../../utils/consts/pageUrls";
 
 // PE 3/3
 const TagListItem = (props: Props) => {
@@ -23,7 +23,7 @@ const TagListItem = (props: Props) => {
     <ListItem
       button
       component={Link}
-      to={PATHS.user.tag(props.username, props.tag.id)}
+      to={pageUrls.user.tag(props.username, props.tag.id)}
       selected={Number(props.selectedTagId) === props.tag.id}
     >
       <ListItemText>

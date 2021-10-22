@@ -9,7 +9,7 @@ import { ApplicationState } from "../../../../store/store";
 import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto";
-import PATHS from "../../../../utils/consts/PATHS";
+import pageUrls from "../../../../utils/consts/pageUrls";
 import SkillChips from "./SkillChips/SkillChips";
 
 // PE 2/3
@@ -36,11 +36,11 @@ function ContentHeader(props: Props) {
     const { pathname } = location;
 
     // /relearn
-    if (pathname === PATHS.relearn.index) {
+    if (pathname === pageUrls.relearn.index) {
       setTag(null);
     }
     // /relearn/tag/:id
-    else if (pathname.startsWith(PATHS.relearn.tag)) {
+    else if (pathname.startsWith(pageUrls.relearn.tag)) {
       const tagId = Number(pathname.split("/").pop());
 
       if (tagId) {

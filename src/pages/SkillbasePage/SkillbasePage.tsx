@@ -16,9 +16,9 @@ import useSidebarStore from "../../store/zustand/useSidebarStore";
 import { TagDto } from "../../types/domain/relearn/TagDto";
 import { ProgressDto } from "../../types/domain/skillbase/ProgressDto";
 import { newSkillDto, SkillDto } from "../../types/domain/skillbase/SkillDto";
-import API from "../../utils/consts/API";
+import apiUrls from "../../utils/consts/apiUrls";
 import myAxios from "../../utils/consts/myAxios";
-import PATHS from "../../utils/consts/PATHS";
+import pageUrls from "../../utils/consts/pageUrls";
 import { sleep } from "../../utils/sleep";
 import LoadingPage from "../index/LoadingPage";
 import ProgressSidebar from "./ProgressSidebar/ProgressSidebar";
@@ -38,11 +38,11 @@ const SkillbasePage = (props: Props) => {
       document.title = "Skills - Endoh.io";
       closeSidebar();
 
-      myAxios.get<SkillDto[]>(API.skillbase.skill).then((res) => {
+      myAxios.get<SkillDto[]>(apiUrls.skillbase.skill).then((res) => {
         props.setSkills(res.data);
       });
 
-      myAxios.get<ProgressDto[]>(API.skillbase.progress).then((res) => {
+      myAxios.get<ProgressDto[]>(apiUrls.skillbase.progress).then((res) => {
         props.setProgresses(res.data);
       });
     },
@@ -51,9 +51,9 @@ const SkillbasePage = (props: Props) => {
   );
 
   useEffect(() => {
-    if (pathname.startsWith(PATHS.skillbase.untagged)) {
+    if (pathname.startsWith(pageUrls.skillbase.untagged)) {
       setSelectedTag("Untagged");
-    } else if (pathname.startsWith(PATHS.skillbase.tag + "/")) {
+    } else if (pathname.startsWith(pageUrls.skillbase.tag + "/")) {
       const tagId = Number(pathname.split("/").pop());
       if (tagId) {
         const tag = props.allTags.find((tag) => tag.id === tagId);

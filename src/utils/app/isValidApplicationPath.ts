@@ -1,10 +1,10 @@
-import PATHS from "../consts/PATHS";
+import pageUrls from "../consts/pageUrls";
 export const isValidApplicationPath = (pathname: string) => {
   return (
-    pathname.startsWith(PATHS.monerate.index) ||
-    pathname.startsWith(PATHS.relearn.index) ||
-    pathname.startsWith(PATHS.skillbase.index) ||
-    pathname.startsWith(PATHS.feed.index) ||
-    pathname.startsWith(PATHS.define.index)
+    pathname.startsWith(pageUrls.monerate.index) ||
+    pathname.startsWith(pageUrls.relearn.index) ||
+    pathname.startsWith(pageUrls.skillbase.index) ||
+    pathname.startsWith(pageUrls.feed.index) ||
+    pathname.startsWith(pageUrls.define.index)
   );
 };

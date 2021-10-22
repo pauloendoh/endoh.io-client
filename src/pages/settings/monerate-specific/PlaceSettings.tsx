@@ -19,11 +19,11 @@ import PlaceIcon from "../../../components/shared/PlaceIcon";
 import * as monerateActions from "../../../store/monerate/monerateActions";
 import { ApplicationState } from "../../../store/store";
 import PlaceGetDto from "../../../types/domain/monerate/PlaceGetDto";
-import API from "../../../utils/consts/API";
+import apiUrls from "../../../utils/consts/apiUrls";
 
 const PlaceSettings = (props: Props) => {
   useEffect(() => {
-    MY_AXIOS.get<PlaceGetDto[]>(API.monerate.place).then((res) => {
+    MY_AXIOS.get<PlaceGetDto[]>(apiUrls.monerate.place).then((res) => {
       props.setPlaces(res.data);
     });
 
@@ -32,7 +32,7 @@ const PlaceSettings = (props: Props) => {
 
   const handleDelete = (id: number) => {
     if (window.confirm("Confirm delete?")) {
-      MY_AXIOS.delete<PlaceGetDto[]>(`${API.monerate.place}/${id}`).then(
+      MY_AXIOS.delete<PlaceGetDto[]>(`${apiUrls.monerate.place}/${id}`).then(
         (res) => {
           props.setPlaces(res.data);
         }

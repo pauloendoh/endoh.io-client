@@ -26,7 +26,7 @@ import MyTextField from "../../../components/shared/MyInputs/MyTextField";
 import { ApplicationState } from "../../../store/store";
 import useSidebarStore from "../../../store/zustand/useSidebarStore";
 import { DocDto } from "../../../types/domain/define/DocDto";
-import PATHS from "../../../utils/consts/PATHS";
+import pageUrls from "../../../utils/consts/pageUrls";
 import stringIncludes from "../../../utils/text/stringIncludes";
 import DocTitleDialog from "../DocTitleDialog/DocTitleDialog";
 import DocsSidebarItem from "./DocsSidebarItem/DocsSidebarItem";
@@ -65,7 +65,7 @@ function DefineSidebar(props: Props) {
   const openRandomDoc = () => {
     if (props.allDocs.length > 0) {
       const randomDoc = _.sample(props.allDocs);
-      history.push(PATHS.define.doc(randomDoc.id));
+      history.push(pageUrls.define.doc(randomDoc.id));
 
       handleSaveDocLastOpenedAt(randomDoc.id);
     }
@@ -121,7 +121,7 @@ function DefineSidebar(props: Props) {
                   initialValue=""
                   onClose={() => setOpenTitleDialog(false)}
                   afterSave={(doc) => {
-                    history.push(PATHS.define.doc(doc.id));
+                    history.push(pageUrls.define.doc(doc.id));
                     setOpenTitleDialog(false);
                   }}
                 />

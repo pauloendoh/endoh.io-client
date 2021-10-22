@@ -15,7 +15,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
-import PATHS from "utils/consts/PATHS";
+import pageUrls from "utils/consts/pageUrls";
 import { mediaQueries } from "utils/styles/mediaQueries";
 import { ApplicationState } from "../../store/store";
 import Flex from "../shared/Flexboxes/Flex";
@@ -37,15 +37,15 @@ const Navbar = (props: Props) => {
 
   useEffect(() => {
     // DRY?
-    if (location.pathname.startsWith(PATHS.relearn.index)) {
+    if (location.pathname.startsWith(pageUrls.relearn.index)) {
       setTabIndex(0);
-    } else if (location.pathname.startsWith(PATHS.feed.index)) {
+    } else if (location.pathname.startsWith(pageUrls.feed.index)) {
       setTabIndex(1);
-    } else if (location.pathname.startsWith(PATHS.skillbase.index)) {
+    } else if (location.pathname.startsWith(pageUrls.skillbase.index)) {
       setTabIndex(2);
-    } else if (location.pathname.startsWith(PATHS.define.index)) {
+    } else if (location.pathname.startsWith(pageUrls.define.index)) {
       setTabIndex(3);
-    } else if (location.pathname.startsWith(PATHS.BigDecisions.index)) {
+    } else if (location.pathname.startsWith(pageUrls.BigDecisions.index)) {
       setTabIndex(4);
     } else {
       setTabIndex(false);
@@ -58,7 +58,7 @@ const Navbar = (props: Props) => {
         <FlexVCenter>
           <LeftToggleButton />
           <Box ml={1} />
-          <IconButton component={Link} to={PATHS.index} size="small">
+          <IconButton component={Link} to={pageUrls.index} size="small">
             <FlexVCenter width={24} height={24} justifyContent="center">
               <FontAwesomeIcon icon={faFire} className={classes.fireIcon} />
             </FlexVCenter>

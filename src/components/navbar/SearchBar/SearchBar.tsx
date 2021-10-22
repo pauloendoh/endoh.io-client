@@ -1,7 +1,7 @@
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router";
-import PATHS from "../../../utils/consts/PATHS";
+import pageUrls from "../../../utils/consts/pageUrls";
 import MyTextField from "../../shared/MyInputs/MyTextField";
 
 interface ISearchForm {
@@ -19,12 +19,12 @@ const SearchBar = () => {
 
   const submit = (values: ISearchForm) => {
     if (values.searchQuery?.length)
-      history.push(PATHS.search(values.searchQuery));
+      history.push(pageUrls.search(values.searchQuery));
   };
 
   const ctrlSubmit = (values: ISearchForm) => {
     if (values.searchQuery?.length) {
-      window.open(PATHS.search(values.searchQuery));
+      window.open(pageUrls.search(values.searchQuery));
     }
   };
 

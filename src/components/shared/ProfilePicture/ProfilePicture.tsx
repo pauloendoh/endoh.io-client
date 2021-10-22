@@ -1,7 +1,7 @@
 import { Avatar, makeStyles, Theme } from "@material-ui/core";
 import React, { FunctionComponent } from "react";
 import { Link } from "react-router-dom";
-import PATHS from "../../../utils/consts/PATHS";
+import pageUrls from "../../../utils/consts/pageUrls";
 
 interface Props {
   pictureUrl: string;
@@ -18,7 +18,7 @@ const ProfilePicture: FunctionComponent<Props> = (props: Props) => {
   return (
     <React.Fragment>
       {props.isLink ? (
-        <Link to={PATHS.user.index(props.username)} className={classes.link}>
+        <Link to={pageUrls.user.index(props.username)} className={classes.link}>
           <Avatar
             src={props.pictureUrl}
             className={classes.avatar}

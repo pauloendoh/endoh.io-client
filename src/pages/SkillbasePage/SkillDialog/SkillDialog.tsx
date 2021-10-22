@@ -16,7 +16,7 @@ import { ApplicationState } from "../../../store/store";
 import * as utilsActions from "../../../store/utils/utilsActions";
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto";
 import MyAxiosError from "../../../types/MyAxiosError";
-import API from "../../../utils/consts/API";
+import apiUrls from "../../../utils/consts/apiUrls";
 import myAxios from "../../../utils/consts/myAxios";
 import { getCurrentTagId } from "../../../utils/skillbase/getCurrentTagId";
 import PriorityStarIcon from "./PriorityStarIcon/PriorityStarIcon";
@@ -72,7 +72,7 @@ const SkillDialog = (props: Props) => {
     if ((skill.goalLevel as unknown) === "") skill.goalLevel = null;
 
     myAxios
-      .post<SkillDto[]>(API.skillbase.skill, skill)
+      .post<SkillDto[]>(apiUrls.skillbase.skill, skill)
       .then((res) => {
         props.setSkills(res.data);
         props.setEditingSkill(null);

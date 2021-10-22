@@ -15,9 +15,9 @@ import { ApplicationState } from "../../store/store";
 import { ResourceDto } from "../../types/domain/relearn/ResourceDto";
 import { TagDto } from "../../types/domain/relearn/TagDto";
 import { UserInfoDto } from "../../types/domain/_common/UserInfoDto";
-import API from "../../utils/consts/API";
+import apiUrls from "../../utils/consts/apiUrls";
 import myAxios from "../../utils/consts/myAxios";
-import PATHS from "../../utils/consts/PATHS";
+import pageUrls from "../../utils/consts/pageUrls";
 import LoadingPage from "../index/LoadingPage";
 import FeedResources from "./FeedResources/FeedResources";
 import ProfileHeader from "./ProfileHeader/ProfileHeader";
@@ -69,13 +69,13 @@ const UserPage = (props: Props) => {
       props.clearProfile();
 
       myAxios
-        .get<UserInfoDto>(API.user.userInfo(username))
+        .get<UserInfoDto>(apiUrls.user.userInfo(username))
         .then((res) => {
           props.setUserInfo(res.data);
         })
         .catch((err) => {
           if (err.response && err.response.status === 404) {
-            history.push(PATHS.notFound);
+            history.push(pageUrls.notFound);
           }
         });
     },

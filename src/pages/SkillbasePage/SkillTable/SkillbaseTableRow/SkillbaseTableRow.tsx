@@ -27,7 +27,7 @@ import {
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto";
 import MyAxiosError from "../../../../types/MyAxiosError";
-import API from "../../../../utils/consts/API";
+import apiUrls from "../../../../utils/consts/apiUrls";
 import myAxios from "../../../../utils/consts/myAxios";
 import SkillLevelTD from "./SkillLevelTd/SkillLevelTd";
 
@@ -71,7 +71,7 @@ const SkillbaseTableRow = (props: Props) => {
       isPriority: !props.skill.isPriority,
     };
     myAxios
-      .post<SkillDto[]>(API.skillbase.skill, changedSkill)
+      .post<SkillDto[]>(apiUrls.skillbase.skill, changedSkill)
       .then((res) => {
         props.setSkills(res.data);
         props.setSuccessMessage("Priority changed!");

@@ -1,5 +1,5 @@
 // PE 3/3
-const PATHS = {
+const pageUrls = {
   index: "/",
   monerate: {
     index: "/monerate",
@@ -30,7 +30,7 @@ const PATHS = {
   },
   BigDecisions: {
     index: "/BigDecisions",
-    decision: (id: number) => `/BigDecisions/${id}`
+    decision: (id: number) => `/BigDecisions/${id}`,
   },
   user: {
     index: (username: string) => `/user/${username}`,
@@ -39,6 +39,6 @@ const PATHS = {
   },
   notFound: "/404",
   search: (query: string) => "/search?q=" + query,
-}
+};
 
-export default PATHS
+export default pageUrls;

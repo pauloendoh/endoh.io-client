@@ -25,7 +25,7 @@ import {
   setSuccessMessage,
 } from "../../../../../../store/utils/utilsActions";
 import { ResourceDto } from "../../../../../../types/domain/relearn/ResourceDto";
-import API from "../../../../../../utils/consts/API";
+import apiUrls from "../../../../../../utils/consts/apiUrls";
 import myAxios from "../../../../../../utils/consts/myAxios";
 
 // PE 1/3
@@ -47,7 +47,7 @@ function ResourceMoreIcon(props: Props) {
 
   const handleDeleteResource = (id: number) => {
     if (window.confirm("Confirm delete?")) {
-      myAxios.delete(`${API.relearn.resource}/${id}`).then((res) => {
+      myAxios.delete(`${apiUrls.relearn.resource}/${id}`).then((res) => {
         props.setSuccessMessage("Resource deleted!");
 
         props.removeResource(id);
@@ -57,7 +57,9 @@ function ResourceMoreIcon(props: Props) {
 
   const duplicateResource = (resource: ResourceDto) => {
     myAxios
-      .post<ResourceDto[]>(`${API.relearn.resourceDuplicate}/${resource.id}`)
+      .post<ResourceDto[]>(
+        `${apiUrls.relearn.resourceDuplicate}/${resource.id}`
+      )
       .then((res) => {
         props.setSuccessMessage("Resource duplicated!");
 

@@ -17,7 +17,7 @@ import H5 from "../../../../components/shared/Text/H5";
 import { ApplicationState } from "../../../../store/store";
 import { EmailPostDto } from "../../../../types/domain/auth/EmailPostDto";
 import MyAxiosError, { MyFieldError } from "../../../../types/MyAxiosError";
-import API from "../../../../utils/consts/API";
+import apiUrls from "../../../../utils/consts/apiUrls";
 import myAxios from "../../../../utils/consts/myAxios";
 
 // PE 2/3
@@ -34,7 +34,7 @@ const ResetPasswordByEmailForm = (props: Props) => {
     setSubmitting(true);
 
     myAxios
-      .post(API.utils.passwordResetEmail, values)
+      .post(apiUrls.utils.passwordResetEmail, values)
       .then((res) => {
         setIsOk(true);
       })

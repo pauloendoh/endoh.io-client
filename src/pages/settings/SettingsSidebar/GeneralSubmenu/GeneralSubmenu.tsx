@@ -13,7 +13,7 @@ import {
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import PATHS from "../../../../utils/consts/PATHS";
+import pageUrls from "../../../../utils/consts/pageUrls";
 
 function GeneralSubmenu() {
   const classes = useStyles();
@@ -45,9 +45,9 @@ function GeneralSubmenu() {
           <ListItem
             button
             className={classes.nested}
-            selected={pathName.startsWith(PATHS.settings.account)}
+            selected={pathName.startsWith(pageUrls.settings.account)}
             component={Link}
-            to={PATHS.settings.account}
+            to={pageUrls.settings.account}
             // onClick={() => handleClickSubmenu(PATHS.settings.account)}
           >
             <ListItemText primary="Account" />

@@ -11,7 +11,7 @@ import FlexHCenter from "../../../components/shared/Flexboxes/FlexHCenter";
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter";
 import useElementSize from "../../../hooks/useElementSize";
 import { ApplicationState } from "../../../store/store";
-import PATHS from "../../../utils/consts/PATHS";
+import pageUrls from "../../../utils/consts/pageUrls";
 import TagListItem from "./TagListItem/TagListItem";
 
 // PE 3/3
@@ -29,7 +29,7 @@ const UserPageSidebar = (props: Props) => {
         <ListItem
           button
           component={Link}
-          to={PATHS.user.index(username)}
+          to={pageUrls.user.index(username)}
           selected={tagId === undefined}
         >
           <ListItemText>

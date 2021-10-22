@@ -1,5 +1,5 @@
 // PE 3/3
-const API = {
+const apiUrls = {
   auth: {
     index: "/auth",
     google: "/auth/google",
@@ -59,4 +59,4 @@ const API = {
   },
 };
 
-export default API;
+export default apiUrls;

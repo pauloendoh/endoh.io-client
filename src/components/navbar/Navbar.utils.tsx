@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import NotesIcon from "@material-ui/icons/Notes";
 import TimeLineIcon from "@material-ui/icons/Timeline";
 import { ReactElement, ReactNode } from "react";
-import PATHS from "../../utils/consts/PATHS";
+import pageUrls from "../../utils/consts/pageUrls";
 
 interface ITab {
   id: string;
@@ -20,31 +20,31 @@ const utils = {
   navbarTabs: [
     {
       id: "resources-tab",
-      to: PATHS.relearn.index,
+      to: pageUrls.relearn.index,
       label: "Resources",
       icon: <FontAwesomeIcon icon={faLink} />,
     },
     {
       id: "feed-tab",
-      to: PATHS.feed.index,
+      to: pageUrls.feed.index,
       label: "Feed",
       icon: <TimeLineIcon />,
     },
     {
       id: "skill-tab",
-      to: PATHS.skillbase.index,
+      to: pageUrls.skillbase.index,
       label: "Skills",
       icon: <FontAwesomeIcon icon={faChessKnight} />,
     },
     {
       id: "notes-tab",
-      to: PATHS.define.index,
+      to: pageUrls.define.index,
       label: "Notes",
       icon: <NotesIcon />,
     },
     {
       id: "decisions-tab",
-      to: PATHS.BigDecisions.index,
+      to: pageUrls.BigDecisions.index,
       label: "Decisions",
       icon: <FontAwesomeIcon icon={faBalanceScaleRight} />,
     },

@@ -8,7 +8,7 @@ import FollowingUsersDialog from "../../../components/feed/FollowingUsersDialog/
 import Flex from "../../../components/shared/Flexboxes/Flex";
 import ProfilePicture from "../../../components/shared/ProfilePicture/ProfilePicture";
 import { ApplicationState } from "../../../store/store";
-import PATHS from "../../../utils/consts/PATHS";
+import pageUrls from "../../../utils/consts/pageUrls";
 
 // PE 3/3
 const AuthUserSummary = (props: Props) => {
@@ -32,7 +32,7 @@ const AuthUserSummary = (props: Props) => {
           variant="button"
           color="inherit"
           component={RouterLink}
-          to={PATHS.user.index(props.authUser.username)}
+          to={pageUrls.user.index(props.authUser.username)}
           style={{ marginLeft: 8 }}
         >
           {props.authUser.username}
