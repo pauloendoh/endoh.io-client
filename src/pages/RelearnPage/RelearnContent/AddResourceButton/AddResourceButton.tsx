@@ -4,9 +4,9 @@ import { Box, Button } from "@material-ui/core";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import FlexVCenter from "../../components/shared/Flexboxes/FlexVCenter";
-import * as relearnActions from "../../store/relearn/relearnActions";
-import { ApplicationState } from "../../store/store";
+import FlexVCenter from "../../../../components/shared/Flexboxes/FlexVCenter";
+import * as relearnActions from "../../../../store/relearn/relearnActions";
+import { ApplicationState } from "../../../../store/store";
 
 // PE 2/3 - I won't use this in the future, probably.
 function AddResourceButton(props: Props) {

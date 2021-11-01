@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import TimeAgo from "react-timeago";
 import { Dispatch } from "redux";
-import ResourceMoreIcon from "../../../pages/Relearn/Content/ResourceList/DraggableResourceItem/ResourceMoreIcon/ResourceMoreIcon";
+import ResourceMoreIcon from "../../../pages/RelearnPage/RelearnContent/ResourceList/DraggableResourceItem/ResourceMoreIcon/ResourceMoreIcon";
 import * as relearnActions from "../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../store/store";
 import * as utilsActions from "../../../store/utils/utilsActions";

@@ -18,7 +18,7 @@ import MySnackBar2 from "./components/shared/SnackBars/MySnackbar2";
 import LandingPage from "./pages/index/LandingPage";
 import LoadingPage from "./pages/index/LoadingPage";
 import ResetPasswordPage from "./pages/index/ResetPasswordPage";
-import ResourceDialog from "./pages/Relearn/Dialogs/ResourceDialog/ResourceDialog";
+import ResourceDialog from "./pages/RelearnPage/Dialogs/ResourceDialog/ResourceDialog";
 import SettingsNavbar from "./pages/settings/SettingsNavbar";
 import SettingsPage from "./pages/settings/SettingsPage";
 import SkillbasePage from "./pages/SkillbasePage/SkillbasePage";
@@ -39,17 +39,17 @@ import { UserSuggestionDto } from "./types/domain/feed/UserSuggestionDto";
 import { TagDto } from "./types/domain/relearn/TagDto";
 import { NotificationDto } from "./types/domain/utils/NotificationDto";
 import { UserInfoDto } from "./types/domain/_common/UserInfoDto";
-import { isValidApplicationPath } from "./utils/app/isValidApplicationPath";
 import apiUrls from "./utils/consts/apiUrls";
 import myAxios from "./utils/consts/myAxios";
 import { myQueryClient } from "./utils/consts/myQueryClient";
 import theme from "./utils/consts/theme";
+import { isValidApplicationPath } from "./utils/domain/app/isValidApplicationPath";
 
 const MoneratePage = lazy(
   () => import("./pages/Monerate/MoneratePage/MoneratePage")
 );
 
-const RelearnPage = lazy(() => import("./pages/Relearn/RelearnPage"));
+const RelearnPage = lazy(() => import("./pages/RelearnPage/RelearnPage"));
 const UserPage = lazy(() => import("./pages/UserPage/UserPage"));
 const FeedPage = lazy(() => import("./pages/FeedPage/FeedPage"));
 const DefinePage = lazy(() => import("./pages/DefinePage/DefinePage"));

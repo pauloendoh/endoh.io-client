@@ -1,4 +1,4 @@
-import pageUrls from "../consts/pageUrls";
+import pageUrls from "../../consts/pageUrls";
 export const isValidApplicationPath = (pathname: string) => {
   return (
     pathname.startsWith(pageUrls.monerate.index) ||

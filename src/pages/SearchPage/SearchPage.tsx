@@ -12,7 +12,7 @@ import { ApplicationState } from "../../store/store";
 import { SearchResultsDto } from "../../types/domain/utils/SearchResultsDto";
 import myAxios from "../../utils/consts/myAxios";
 import LoadingPage from "../index/LoadingPage";
-import ResourceItem from "../Relearn/Content/ResourceList/DraggableResourceItem/ResourceItem/ResourceItem";
+import ResourceItem from "../RelearnPage/RelearnContent/ResourceList/DraggableResourceItem/ResourceItem/ResourceItem";
 import SearchPageSidebar from "./SearchPageSidebar/SearchPageSidebar";
 import UserResults from "./UserResults/UserResults";
 

@@ -5,7 +5,7 @@ import { useLocation } from "react-router";
 import { ResourceDto } from "../../../types/domain/relearn/ResourceDto";
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto";
 import { getTodoResources as filterTodo } from "../../../utils/relearn/getTodoResources";
-import AddResourceButton from "../AddResourceButton";
+import AddResourceButton from "./AddResourceButton/AddResourceButton";
 import ContentHeader from "./ContentHeader/ContentHeader";
 import ResourceList from "./ResourceList/ResourceList";
 

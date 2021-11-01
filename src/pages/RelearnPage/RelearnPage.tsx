@@ -18,9 +18,9 @@ import myAxios from "../../utils/consts/myAxios";
 import pageUrls from "../../utils/consts/pageUrls";
 import { sleep } from "../../utils/sleep";
 import LoadingPage from "../index/LoadingPage";
-import RelearnContent from "./Content/RelearnContent";
-import TagDialog from "./Dialogs/TagDialog";
+import RelearnContent from "./RelearnContent/RelearnContent";
 import RelearnSidebar from "./RelearnSidebar/RelearnSidebar";
+import TagDialog from "./TagDialog/TagDialog";
 
 // PE 3/3
 const RelearnPage = (props: Props) => {
