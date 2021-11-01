@@ -31,21 +31,18 @@ const SearchBar = () => {
   return (
     <form onSubmit={handleSubmit(submit)}>
       <Controller
-        control={control}
-        name="searchQuery"
-        render={({ field: { onChange, onBlur, value, ref } }) => (
+        render={({ field }) => (
           <MyTextField
+            {...field}
             label="Search endoh.io"
             style={{ width: 184 }}
-            onChange={onChange}
-            onBlur={onBlur}
-            value={value}
             onCtrlEnter={(e) => {
               ctrlSubmit(getValues());
             }}
-            inputRef={ref}
           />
         )}
+        control={control}
+        name="searchQuery"
       />
     </form>
   );

@@ -67,14 +67,6 @@ const ResourceDialog = (props: Props) => {
       });
   };
 
-  // PE 1/3 - remove?
-  // const [urlAutofillChecked, setUrlAutofillChecked] = useState(true)
-
-  // const handleCheckAutofill = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setUrlAutofillChecked(event.target.checked)
-  // }
-
-  // Adding throttle to avoid LinkPreview over
   const [throttle, setThrottle] = useState<NodeJS.Timeout>(null);
 
   const fetchLinkPreview = (
@@ -170,7 +162,6 @@ const ResourceDialog = (props: Props) => {
           }}
         >
           {({
-            touched,
             errors,
             values,
             isSubmitting,

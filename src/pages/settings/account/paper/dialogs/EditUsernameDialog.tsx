@@ -4,121 +4,94 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  Typography,
 } from "@material-ui/core";
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React from "react";
+import { Controller, useForm } from "react-hook-form";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import useSnackbarStore from "store/zustand/useSnackbarStore";
+import MyAxiosError from "types/MyAxiosError";
+import apiUrls from "utils/consts/apiUrls";
+import myAxios from "utils/consts/myAxios";
 import Flex from "../../../../../components/shared/Flexboxes/Flex";
-import FlexHCenter from "../../../../../components/shared/Flexboxes/FlexHCenter";
 import MyTextField from "../../../../../components/shared/MyInputs/MyTextField";
 import { setUsername } from "../../../../../store/auth/authActions";
 import { ApplicationState } from "../../../../../store/store";
 import * as utilsActions from "../../../../../store/utils/utilsActions";
 import { UsernamePutDto } from "../../../../../types/domain/auth/UsernamePutDto";
-import MyAxiosError, { MyFieldError } from "../../../../../types/MyAxiosError";
-import apiUrls from "../../../../../utils/consts/apiUrls";
-import myAxios from "../../../../../utils/consts/myAxios";
 
 const EditUsernameDialog = (props: Props) => {
-  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[]);
+  const { handleSubmit, control, formState } = useForm<UsernamePutDto>({
+    defaultValues: {
+      newUsername: "",
+    },
+  });
 
-  const handleClose = () => {
-    setResponseErrors([]);
-    props.onClose();
-  };
+  const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
 
-  const handleSubmit = (
-    values: UsernamePutDto,
-    setSubmitting: (isSubmitting: boolean) => void
-  ) => {
-    setSubmitting(true);
-
-    setResponseErrors([]);
-
-    myAxios
-      .put(apiUrls.auth.username, values)
+  const submit = async (formData: UsernamePutDto) => {
+    return myAxios
+      .put(apiUrls.auth.username, formData)
       .then((res) => {
-        props.setSuccessMessage("Username changed!");
-
-        props.setUsername(values.newUsername);
-
-        handleClose();
+        setSuccessMessage("Username changed!");
+        props.setUsername(formData.newUsername);
+        props.onClose();
       })
       .catch((err: MyAxiosError) => {
-        props.setErrorMessage(err.response.data.errors[0].message);
-      })
-      .finally(() => {
-        setSubmitting(false);
+        setErrorMessage(err.response.data.errors[0].message);
       });
   };
 
   return (
     <Dialog
-      onClose={handleClose}
+      onClose={props.onClose}
       open={props.open}
       fullWidth
       maxWidth="xs"
       aria-labelledby="edit-username-dialog"
     >
       <Box pb={1} px={1}>
-        <Formik
-          initialValues={
-            {
-              newUsername: "",
-            } as UsernamePutDto
-          }
-          onSubmit={(formikValues, { setSubmitting }) => {
-            handleSubmit(formikValues, setSubmitting);
-          }}
-        >
-          {({ values, isSubmitting, handleChange }) => (
-            <Form>
-              <DialogTitle id="edit-username-dialog-title">
-                Edit Username
-              </DialogTitle>
-              <DialogContent>
-                <Box>
+        <form onSubmit={handleSubmit(submit)}>
+          <DialogTitle id="edit-username-dialog-title">
+            Edit Username
+          </DialogTitle>
+
+          <DialogContent>
+            <Box>
+              <Controller
+                render={({ field }) => (
                   <MyTextField
-                    id="newUsername"
-                    onChange={handleChange}
-                    size="small"
+                    {...field}
                     label="New username"
-                    className="mt-3"
-                    fullWidth
                     required
+                    fullWidth
                     InputLabelProps={{ required: false }}
                   />
-                </Box>
+                )}
+                control={control}
+                name="newUsername"
+              />
+            </Box>
 
-                <Flex mt={2}>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    id="save-username-button"
-                    disabled={isSubmitting}
-                  >
-                    Save
-                  </Button>
+            <Flex mt={2}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                id="save-username-button"
+                disabled={formState.isSubmitting}
+              >
+                Save
+              </Button>
 
-                  <Box ml={1}>
-                    <Button variant="text" onClick={handleClose}>
-                      Cancel
-                    </Button>
-                  </Box>
-                </Flex>
-
-                {responseErrors.map((err, i) => (
-                  <FlexHCenter key={i} mt={1}>
-                    <Typography color="error">{err.message}</Typography>
-                  </FlexHCenter>
-                ))}
-              </DialogContent>
-            </Form>
-          )}
-        </Formik>
+              <Box ml={1}>
+                <Button variant="text" onClick={props.onClose}>
+                  Cancel
+                </Button>
+              </Box>
+            </Flex>
+          </DialogContent>
+        </form>
       </Box>
     </Dialog>
   );
