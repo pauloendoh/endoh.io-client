@@ -2,30 +2,27 @@ import { Box, Link, Paper, Typography } from "@material-ui/core";
 import StarRateIcon from "@material-ui/icons/StarRate";
 import useFeedResourcesQuery from "hooks/react-query/feed/useFeedResourcesQuery";
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 import TimeAgo from "react-timeago";
-import { Dispatch } from "redux";
 import { ratingLabels } from "utils/domain/relearn/resources/ratingLabels";
 import MinRatingButton from "../../../components/resources/MinRatingButton/MinRatingButton";
 import ResourceThumbnail from "../../../components/resources/ResourceThumbnail/ResourceThumbnail";
 import Flex from "../../../components/shared/Flexboxes/Flex";
 import FlexVCenter from "../../../components/shared/Flexboxes/FlexVCenter";
 import ProfilePicture from "../../../components/shared/ProfilePicture/ProfilePicture";
-import { ApplicationState } from "../../../store/store";
 import { FeedResourceDto } from "../../../types/domain/feed/FeedResourceDto";
 import pageUrls from "../../../utils/consts/pageUrls";
 import { getColorByRating } from "../../../utils/relearn/getColorByRating";
 import SaveFeedResourceButton from "./SaveFeedResourceButton/SaveFeedResourceButton";
 
 // PE 2/3
-const FeedResources = (props: Props) => {
+const FeedResources = () => {
   const [filteredResources, setFilteredResources] = useState<FeedResourceDto[]>(
     []
   );
   const [minRating, setMinRating] = useState(0);
 
-  const { data: resources, isLoading } = useFeedResourcesQuery();
+  const { data: resources } = useFeedResourcesQuery();
 
   useEffect(() => {
     if (resources?.length > 0) {
@@ -105,11 +102,4 @@ const FeedResources = (props: Props) => {
   );
 };
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
-
-const mapStateToProps = (state: ApplicationState) => ({});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(FeedResources);
+export default FeedResources;

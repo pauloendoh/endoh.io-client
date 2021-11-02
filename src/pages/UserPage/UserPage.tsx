@@ -36,8 +36,7 @@ const UserPage = (props: Props) => {
   const [filteredResources, setFilteredResources] = useState<ResourceDto[]>([]);
   const [minRating, setMinRating] = useState(0);
 
-  const { data: userSuggestions, isLoading: isLoadingUserSuggestion } =
-    useUserSuggestionsQuery();
+  const { data: userSuggestions } = useUserSuggestionsQuery();
 
   const [filterByTag, setFilterByTag] = useState<TagDto>(null);
 

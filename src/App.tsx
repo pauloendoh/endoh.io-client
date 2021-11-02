@@ -30,12 +30,10 @@ import {
   setNotifications,
   setPreference,
 } from "./store/auth/authActions";
-import { setUserSuggestions } from "./store/feed/feedActions";
 import { setTags } from "./store/relearn/relearnActions";
 import { ApplicationState } from "./store/store";
 import { UserPreferenceDto } from "./types/domain/auth/AuthUserGetDto";
 import { FollowingTagDto } from "./types/domain/feed/FollowingTagDto";
-import { UserSuggestionDto } from "./types/domain/feed/UserSuggestionDto";
 import { TagDto } from "./types/domain/relearn/TagDto";
 import { NotificationDto } from "./types/domain/utils/NotificationDto";
 import { UserInfoDto } from "./types/domain/_common/UserInfoDto";
@@ -95,12 +93,6 @@ const App = (props: Props) => {
           .get<UserPreferenceDto>(apiUrls.auth.userPreference)
           .then((res) => {
             props.setPreference(res.data);
-          });
-
-        myAxios
-          .get<UserSuggestionDto[]>(apiUrls.feed.myUserSuggestions)
-          .then((res) => {
-            props.setUserSuggestions(res.data);
           });
 
         myAxios.get<TagDto[]>(apiUrls.relearn.tag).then((res) => {
@@ -212,8 +204,6 @@ const mapStateToProps = (state: ApplicationState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setUserSuggestions: (userSuggestions: UserSuggestionDto[]) =>
-    dispatch(setUserSuggestions(userSuggestions)),
   setPreference: (preference: UserPreferenceDto) =>
     dispatch(setPreference(preference)),
   setFollowingTags: (followingTags: FollowingTagDto[]) =>
