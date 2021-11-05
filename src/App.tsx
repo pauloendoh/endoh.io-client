@@ -211,9 +211,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   setTags: (tags: TagDto[]) => dispatch(setTags(tags)),
   setNotifications: (notifications: NotificationDto[]) =>
     dispatch(setNotifications(notifications)),
-
   setAuthProfile: (userInfo: UserInfoDto) => dispatch(setAuthProfile(userInfo)),
-
   checkAuthOrLogout: () => dispatch(checkAuthOrLogoutActionCreator(dispatch)),
 });
 

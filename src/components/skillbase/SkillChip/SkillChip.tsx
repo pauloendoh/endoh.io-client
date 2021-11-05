@@ -1,6 +1,5 @@
-import { Box, Button, makeStyles, Tooltip } from "@material-ui/core";
+import { Box, Button, makeStyles } from "@material-ui/core";
 import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
-import AssignmentIcon from "@material-ui/icons/Assignment";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -50,20 +49,6 @@ function SkillChip(props: Props) {
                 {props.skill.goalLevel}
               </>
             )}
-          </FlexVCenter>
-        )}
-
-        {/* skill expectations? */}
-        {props.skill.expectations?.length > 0 && (
-          <FlexVCenter ml={0.5}>
-            <Tooltip
-              title={`${
-                props.skill.expectations.filter((e) => e.checked === true)
-                  .length
-              }/${props.skill.expectations.length} expectations`}
-            >
-              <AssignmentIcon fontSize="small" />
-            </Tooltip>
           </FlexVCenter>
         )}
       </Flex>

@@ -1,6 +1,11 @@
-import { faGlobeAmericas, faLock } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Link, makeStyles } from "@material-ui/core";
+import {
+  Box,
+  Link,
+  makeStyles,
+  Tooltip,
+  Typography,
+  useTheme,
+} from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
 import EventIcon from "@material-ui/icons/Event";
 import ScheduleIcon from "@material-ui/icons/Schedule";
@@ -10,11 +15,11 @@ import React from "react";
 import { connect } from "react-redux";
 import TimeAgo from "react-timeago";
 import { Dispatch } from "redux";
+import Icons from "utils/styles/Icons";
 import RateButton from "../../../../../../components/resources/RateButton/RateButton";
 import ResourceThumbnail from "../../../../../../components/resources/ResourceThumbnail/ResourceThumbnail";
 import Flex from "../../../../../../components/shared/Flexboxes/Flex";
 import FlexVCenter from "../../../../../../components/shared/Flexboxes/FlexVCenter";
-import MyTextField from "../../../../../../components/shared/MyInputs/MyTextField";
 import Txt from "../../../../../../components/shared/Text/Txt";
 import * as relearnActions from "../../../../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../../../../store/store";
@@ -47,6 +52,8 @@ function ResourceItem(props: Props) {
         }
       });
   };
+
+  const theme = useTheme();
 
   return (
     <S.ResourceItemRoot
@@ -117,38 +124,43 @@ function ResourceItem(props: Props) {
 
         {props.resource.publicReview?.length > 0 && (
           <Box mt={2} mb={1}>
-            <MyTextField
-              value={props.resource.publicReview}
-              fullWidth
-              label={
-                <FlexVCenter>
-                  <FontAwesomeIcon
-                    icon={faGlobeAmericas}
-                    style={{ marginRight: 4 }}
-                  />
-                  Public Review
-                </FlexVCenter>
-              }
-              disabled
-              multiline
-            />
+            <Flex style={{ gap: theme.spacing(1) }}>
+              <Tooltip title="Public Review">
+                <Icons.Public
+                  style={{
+                    color: theme.palette.text.secondary,
+                  }}
+                />
+              </Tooltip>
+
+              <Typography
+                color="textSecondary"
+                style={{ whiteSpace: "pre-line", fontStyle: "italic" }}
+              >
+                {props.resource.publicReview}
+              </Typography>
+            </Flex>
           </Box>
         )}
 
         {props.resource.privateNote?.length > 0 && (
           <Box mt={2} mb={1}>
-            <MyTextField
-              value={props.resource.privateNote}
-              fullWidth
-              multiline
-              label={
-                <FlexVCenter>
-                  <FontAwesomeIcon icon={faLock} style={{ marginRight: 4 }} />
-                  Private Notes
-                </FlexVCenter>
-              }
-              disabled
-            />
+            <Flex style={{ gap: theme.spacing(1) }}>
+              <Tooltip title="Private Notes">
+                <Icons.Lock
+                  style={{
+                    color: theme.palette.text.secondary,
+                  }}
+                />
+              </Tooltip>
+
+              <Typography
+                color="textSecondary"
+                style={{ whiteSpace: "pre-line", fontStyle: "italic" }}
+              >
+                {props.resource.privateNote}
+              </Typography>
+            </Flex>
           </Box>
         )}
       </Box>
