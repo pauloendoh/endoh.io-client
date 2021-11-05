@@ -80,7 +80,7 @@ function RateButton(props: Props) {
         <Button
           size="small"
           onClick={handleTooltipOpen}
-          // variant="outlined"
+          variant="outlined"
           className={clsx([classes.rateButton, "rate-button"])}
         >
           <FlexVCenter
@@ -109,7 +109,6 @@ function RateButton(props: Props) {
 const useStyles = makeStyles((theme) => ({
   rateButton: {
     position: "relative",
-    right: 8,
   },
 }));
 

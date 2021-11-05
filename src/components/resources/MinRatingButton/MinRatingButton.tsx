@@ -72,7 +72,7 @@ function MinRatingButton(props: Props) {
         <Button
           size="small"
           onClick={handleTooltipOpen}
-          // variant="outlined"
+          variant="outlined"
           className={clsx([classes.rateButton, "rate-button"])}
         >
           <FlexVCenter>
