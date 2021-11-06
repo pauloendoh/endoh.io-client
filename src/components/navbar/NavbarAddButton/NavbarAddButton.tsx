@@ -1,13 +1,8 @@
-import { faLink } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, IconButton } from "@material-ui/core";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
+import { Fab, Tooltip } from "@material-ui/core";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { startNewResource } from "store/relearn/relearnActions";
-import theme from "utils/consts/theme";
 import Icons from "utils/styles/Icons";
 import { ApplicationState } from "../../../store/store";
 
@@ -30,18 +25,18 @@ const NavbarAddButton = (props: Props) => {
 
   return (
     <>
-      <IconButton
-        id="navbar-add-btn"
-        onClick={handleClick}
-        aria-controls="simple-menu"
-        aria-haspopup="true"
-        size="small"
-        style={{ background: theme.palette.primary.main }}
-      >
-        <Icons.Add fontSize="small" />
-      </IconButton>
+      <Tooltip title="(q) Add resource">
+        <Fab
+          id="navbar-add-btn"
+          onClick={handleAddResource}
+          color="primary"
+          size="small"
+        >
+          <Icons.Add />
+        </Fab>
+      </Tooltip>
 
-      <Menu
+      {/* <Menu
         id="navbar-add-menu"
         anchorEl={anchorEl}
         getContentAnchorEl={null}
@@ -57,7 +52,7 @@ const NavbarAddButton = (props: Props) => {
           </Box>
           Add resource
         </MenuItem>
-      </Menu>
+      </Menu> */}
     </>
   );
 };
