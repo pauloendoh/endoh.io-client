@@ -16,20 +16,12 @@ function SkillChips(props: Props) {
   const classes = useStyles();
   const location = useLocation();
 
-  const [skills, setSkills] = useState(props.allSkills);
+  const [skills, setSkills] = useState([]);
 
   useEffect(() => {
     const { pathname } = location;
 
-    // /relearn
-    if (pathname === pageUrls.relearn.index) {
-      const unlistedSkills = props.allSkills.filter(
-        (s) => s.tagId === null && s.isPriority === true
-      );
-      setSkills(unlistedSkills);
-    }
-    // /relearn/tag/:id
-    else if (pathname.startsWith(pageUrls.relearn.tag)) {
+    if (pathname.startsWith(pageUrls.relearn.tag)) {
       const listId = Number(pathname.split("/").pop());
 
       if (listId) {
