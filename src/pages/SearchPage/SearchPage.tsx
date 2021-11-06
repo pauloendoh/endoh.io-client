@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useLocation } from "react-router";
 import { Dispatch } from "redux";
+import { siteTitles } from "utils/consts/siteTitles";
 import { urls } from "utils/urls";
 import DarkButton from "../../components/shared/Buttons/DarkButton";
 import Flex from "../../components/shared/Flexboxes/Flex";
@@ -52,6 +53,8 @@ const SearchPage = (props: Props) => {
     const searchParams = new URLSearchParams(location.search);
     const q = searchParams.get("q");
     setQ(q);
+
+    document.title = siteTitles.search(q);
 
     myAxios
       .get<SearchResultsDto>(urls.api.search(q))

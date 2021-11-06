@@ -14,6 +14,7 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import useDialogsStore from "store/zustand/useDialogsStore";
 import {
   editResource,
   removeResource,
@@ -31,6 +32,7 @@ import myAxios from "../../../../../../utils/consts/myAxios";
 // PE 1/3
 function ResourceMoreIcon(props: Props) {
   const classes = useStyles();
+  const { openConfirmDialog } = useDialogsStore();
 
   useEffect(() => {
     if (!props.isHovered) setAnchorEl(null);
@@ -46,13 +48,16 @@ function ResourceMoreIcon(props: Props) {
   };
 
   const handleDeleteResource = (id: number) => {
-    if (window.confirm("Confirm delete?")) {
-      myAxios.delete(`${apiUrls.relearn.resource}/${id}`).then((res) => {
-        props.setSuccessMessage("Resource deleted!");
+    openConfirmDialog({
+      title: "Delete resource?",
+      onConfirm: () => {
+        myAxios.delete(`${apiUrls.relearn.resource}/${id}`).then((res) => {
+          props.setSuccessMessage("Resource deleted!");
 
-        props.removeResource(id);
-      });
-    }
+          props.removeResource(id);
+        });
+      },
+    });
   };
 
   const duplicateResource = (resource: ResourceDto) => {
