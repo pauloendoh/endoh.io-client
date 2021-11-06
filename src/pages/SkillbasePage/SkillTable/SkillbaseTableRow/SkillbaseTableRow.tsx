@@ -132,13 +132,7 @@ const SkillbaseTableRow = (props: Props) => {
       </TableCell>
 
       <TableCell width={180}>
-        <Flex>
-          {props.skill.isPriority ? (
-            <span style={{ fontWeight: 900 }}>{props.skill.name}</span>
-          ) : (
-            props.skill.name
-          )}
-        </Flex>
+        <Flex>{props.skill.name}</Flex>
       </TableCell>
 
       <SkillLevelTD

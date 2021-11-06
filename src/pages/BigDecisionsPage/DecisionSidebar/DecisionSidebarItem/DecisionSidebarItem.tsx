@@ -56,11 +56,13 @@ const DecisionSidebarItem = ({ decision, isSelected }: Props) => {
           </FlexVCenter>
 
           <Box ml={2} mt={0.5} width={180}>
-            <Typography>{decision.title}</Typography>
+            <Typography>
+              <strong>{decision.title}</strong>
+            </Typography>
             {getWinnerTable(decision.tables) && (
               <Box mt={1}>
                 <Txt variant="body2">
-                  <b>{getWinnerTable(decision.tables).title}</b>
+                  {getWinnerTable(decision.tables).title}
                 </Txt>
               </Box>
             )}

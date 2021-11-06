@@ -102,7 +102,7 @@ const UserPage = (props: Props) => {
               <Typography variant="h5">
                 {filterByTag === null ? "All resources" : filterByTag.name}{" "}
                 {filteredResources.length > 0 && (
-                  <> · {filteredResources.length}</>
+                  <>· {filteredResources.length}</>
                 )}
               </Typography>
               <MinRatingButton onChange={setMinRating} value={minRating} />
