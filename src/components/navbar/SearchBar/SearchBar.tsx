@@ -107,7 +107,6 @@ const SearchBar = ({ editResource }: Props) => {
         )}
         getOptionLabel={(resource) => resource.title}
         onChange={(e, resource) => {
-          console.log(resource);
           if (typeof resource === "string") setValue("searchQuery", resource);
           else {
             setValue("searchQuery", resource?.title || "");
@@ -116,6 +115,8 @@ const SearchBar = ({ editResource }: Props) => {
         }}
         renderInput={(params) => (
           <Controller
+            control={control}
+            name="searchQuery"
             render={({ field }) => (
               <MyTextField
                 {...params}
@@ -128,8 +129,6 @@ const SearchBar = ({ editResource }: Props) => {
                 }}
               />
             )}
-            control={control}
-            name="searchQuery"
           />
         )}
       />

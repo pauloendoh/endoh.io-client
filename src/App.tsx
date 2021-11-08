@@ -52,7 +52,7 @@ const UserPage = lazy(() => import("./pages/UserPage/UserPage"));
 const FeedPage = lazy(() => import("./pages/FeedPage/FeedPage"));
 const DefinePage = lazy(() => import("./pages/DefinePage/DefinePage"));
 const BigDecisionsPage = lazy(
-  () => import("./pages/BigDecisionsPage/BigDecisionsPage")
+  () => import("./pages/DecisionsPage/DecisionsPage")
 );
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage/NotFoundPage"));
 const SearchPage = lazy(() => import("./pages/SearchPage/SearchPage"));

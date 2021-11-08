@@ -54,7 +54,6 @@ const LoginForm = ({ setFormType, ...props }: Props) => {
             props.setAuthUser(authUser);
           })
           .catch((err: MyAxiosError) => {
-            console.log(err);
             setResponseErrors(err.response.data.errors);
             setSubmitting(false);
           });

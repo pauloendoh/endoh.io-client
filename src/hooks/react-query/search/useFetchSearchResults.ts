@@ -8,7 +8,6 @@ const useFetchSearchResults = (query: string) => {
   return useQuery(
     queryKeys.searchResults,
     () => {
-      console.log(query);
       if (query.length === 0) {
         return new Promise<SearchResultsDto>((resolve) => {
           resolve(null);

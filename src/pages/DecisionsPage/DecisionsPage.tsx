@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import { siteTitles } from "utils/consts/siteTitles";
 import { stringIsValidNumber } from "utils/math/stringIsValidNumber";
 import useDecisionsQuery from "../../hooks/BigDecisions/Decision/useDecisionsQuery";
 import useDialogsStore from "../../store/zustand/useDialogsStore";
@@ -12,14 +13,14 @@ import S from "./DecisionsPage.styles";
 import DecisionTableDialog from "./DecisionTableDialog/DecisionTableDialog";
 
 // PE 3/3
-const BigDecisionsPage = () => {
+const DecisionsPage = () => {
   const { id: queryId } = useParams<{ id: string }>();
   const { openSidebar } = useSidebarStore();
 
   const decisionId = stringIsValidNumber(queryId) ? Number(queryId) : null;
 
   useEffect(() => {
-    document.title = "BigDecisions - endoh.io";
+    document.title = siteTitles.decisions;
     openSidebar();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -50,7 +51,7 @@ const BigDecisionsPage = () => {
   return (
     <S.DecisionsPageRoot>
       <DecisionSidebar selectedDecisionId={decisionId} />
-      <S.ContentWrapper sidebarIsOpen={sidebarIsOpen}>
+      <S.ContentWrapper $sidebarIsOpen={sidebarIsOpen}>
         {queryId && <DecisionContent decisionId={decisionId} />}
       </S.ContentWrapper>
 
@@ -69,4 +70,4 @@ const BigDecisionsPage = () => {
   );
 };
 
-export default BigDecisionsPage;
+export default DecisionsPage;

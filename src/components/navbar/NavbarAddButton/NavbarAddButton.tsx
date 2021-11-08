@@ -8,19 +8,19 @@ import { ApplicationState } from "../../../store/store";
 
 // PE 2/3
 const NavbarAddButton = (props: Props) => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  // const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const handleClick = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
+  // const handleClick = (event: any) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  // };
 
   const handleAddResource = () => {
     props.startNewResource();
-    handleClose();
+    // handleClose();
   };
 
   return (
