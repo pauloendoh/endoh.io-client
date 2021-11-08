@@ -5,7 +5,7 @@
   "scripts": {
     "start": "react-scripts  start",
     "dev": "set PORT=8000 & npm start",
-    "build": "react-scripts build",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "build:test": "react-scripts build && react-scripts  test",
     "eject": "react-scripts  eject",

@@ -14,7 +14,7 @@ import {
 import AddIcon from "@material-ui/icons/Add";
 import ShuffleIcon from "@material-ui/icons/Shuffle";
 import useSaveDocLastOpenedAt from "hooks/react-query/define/useSaveDocLastOpenedAt";
-import _ from "lodash";
+import sample from "lodash/sample";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -64,7 +64,7 @@ function DefineSidebar(props: Props) {
 
   const openRandomDoc = () => {
     if (props.allDocs.length > 0) {
-      const randomDoc = _.sample(props.allDocs);
+      const randomDoc = sample(props.allDocs);
       history.push(pageUrls.define.doc(randomDoc.id));
 
       handleSaveDocLastOpenedAt(randomDoc.id);

@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
-import _ from "lodash";
+import sample from "lodash/sample";
 import React, { useEffect, useState } from "react";
 import { GlobalHotKeys } from "react-hotkeys";
 import { connect } from "react-redux";
@@ -84,7 +84,7 @@ const FlashcardDialog = (props: Props) => {
 
     const playNotes: NoteDto[] = [];
     for (let i = 0; i < questionsLength; i++) {
-      const randomId = _.sample(ids) as number;
+      const randomId = sample(ids) as number;
       ids = ids.filter((id) => id !== randomId);
 
       playNotes.push(props.allNotes.find((note) => note.id === randomId));

@@ -1,6 +1,6 @@
 import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
 import { Form, Formik } from "formik";
-import _ from "lodash";
+import isEqual from "lodash/isEqual";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useLocation } from "react-router";
@@ -112,7 +112,7 @@ const SkillDialog = (props: Props) => {
           }}
           validateOnChange
           validate={(newValues) => {
-            setHasChanged(!_.isEqual(props.skill, newValues));
+            setHasChanged(!isEqual(props.skill, newValues));
           }}
         >
           {({ values, setFieldValue, isSubmitting, handleChange }) => (
