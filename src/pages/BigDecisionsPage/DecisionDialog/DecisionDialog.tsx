@@ -82,9 +82,7 @@ const DecisionDialog = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: ApplicationState) => ({
-  // editingTag: state.relearn.editingTag,
-});
+const mapStateToProps = (state: ApplicationState) => ({});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setSuccessMessage: (message: string) =>

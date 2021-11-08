@@ -43,7 +43,7 @@ const DecisionTableDialog = (props: Props) => {
             handleSubmit(formikValues);
           }}
         >
-          {({ values, isSubmitting, handleChange }) => (
+          {({ values, isSubmitting, handleChange, submitForm }) => (
             <Form>
               <DialogTitle id="decision-table-dialog-title">
                 {values.id ? "Edit Table" : "New Table"}
@@ -61,6 +61,8 @@ const DecisionTableDialog = (props: Props) => {
                     fullWidth
                     required
                     autoFocus
+                    onCtrlEnter={submitForm}
+                    multiline
                   />
                 </Box>
               </DialogContent>
