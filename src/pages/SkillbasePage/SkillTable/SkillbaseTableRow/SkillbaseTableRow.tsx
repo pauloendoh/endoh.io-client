@@ -100,16 +100,10 @@ const SkillbaseTableRow = (props: Props) => {
       selected={props.isSelected}
       className={classes.root}
     >
-      <TableCell padding="checkbox">
-        <Checkbox
-          checked={props.isSelected}
-          onClick={(event) => {
-            event.stopPropagation();
-            props.onCheck(event, props.skill.id);
-          }}
-          inputProps={{ "aria-labelledby": labelId }}
-        />
+      <TableCell align="center" width={50}>
+        {props.index + 1}
       </TableCell>
+
       <TableCell align="center" width={100}>
         {isChangingPriority ? (
           <CircularProgress size={22} />
@@ -160,6 +154,16 @@ const SkillbaseTableRow = (props: Props) => {
             {props.skill.expectations.length} expectations
           </React.Fragment>
         )}
+      </TableCell>
+      <TableCell padding="checkbox">
+        <Checkbox
+          checked={props.isSelected}
+          onClick={(event) => {
+            event.stopPropagation();
+            props.onCheck(event, props.skill.id);
+          }}
+          inputProps={{ "aria-labelledby": labelId }}
+        />
       </TableCell>
     </TableRow>
   );

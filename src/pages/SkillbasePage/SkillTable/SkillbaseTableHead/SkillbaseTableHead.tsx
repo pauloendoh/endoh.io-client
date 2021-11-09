@@ -65,19 +65,8 @@ const SkillbaseTableHead = (props: Props) => {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox" className={classes.th}>
-          <Checkbox
-            className={classes.th}
-            // PE 1/3 - remove?
-            indeterminate={
-              props.selectedCount > 0 && props.selectedCount < props.rowCount
-            }
-            checked={
-              props.rowCount > 0 && props.selectedCount === props.rowCount
-            }
-            onChange={props.onClickSelectAll}
-            inputProps={{ "aria-label": "Select all skills" }}
-          />
+        <TableCell className={classes.th} align="center">
+          #
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
@@ -113,6 +102,21 @@ const SkillbaseTableHead = (props: Props) => {
             </TableSortLabel>
           </TableCell>
         ))}
+
+        <TableCell padding="checkbox" className={classes.th}>
+          <Checkbox
+            className={classes.th}
+            // PE 1/3 - remove?
+            indeterminate={
+              props.selectedCount > 0 && props.selectedCount < props.rowCount
+            }
+            checked={
+              props.rowCount > 0 && props.selectedCount === props.rowCount
+            }
+            onChange={props.onClickSelectAll}
+            inputProps={{ "aria-label": "Select all skills" }}
+          />
+        </TableCell>
       </TableRow>
     </TableHead>
   );

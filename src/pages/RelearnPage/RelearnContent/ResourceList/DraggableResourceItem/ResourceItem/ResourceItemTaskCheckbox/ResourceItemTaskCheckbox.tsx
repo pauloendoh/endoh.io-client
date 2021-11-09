@@ -9,7 +9,6 @@ interface Props {
 
 function ResourceItemTaskCheckbox({ resource, onChange }: Props) {
   const isCompleted = resource.completedAt?.length > 0;
-  const label = isCompleted ? "Uncomplete this task" : "Complete this task";
 
   return (
     <FormControlLabel
@@ -18,12 +17,11 @@ function ResourceItemTaskCheckbox({ resource, onChange }: Props) {
           checked={isCompleted}
           color="primary"
           onChange={(e) => {
-            console.log(e.target.checked);
             onChange(e.target.checked);
           }}
         />
       }
-      label={label}
+      label={isCompleted ? "Uncomplete this task" : "Complete this task"}
     />
   );
 }
