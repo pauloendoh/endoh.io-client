@@ -4,11 +4,11 @@ import myAxios from "utils/consts/myAxios";
 import { urls } from "utils/urls";
 import { queryKeys } from "../queryKeys";
 
-const useFetchSearchResults = (query: string) => {
+const useFetchSearchResults = (query: string, minLength = 1) => {
   return useQuery(
     queryKeys.searchResults,
     () => {
-      if (query.length === 0) {
+      if (query.length < minLength) {
         return new Promise<SearchResultsDto>((resolve) => {
           resolve(null);
         });

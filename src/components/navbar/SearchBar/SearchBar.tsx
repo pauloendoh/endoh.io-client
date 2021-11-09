@@ -25,6 +25,8 @@ const MyPopper = function (props: React.ComponentProps<typeof Popper>) {
 };
 
 const SearchBar = ({ editResource }: Props) => {
+  const MIN_LENGTH = 3;
+
   const history = useHistory();
   const [loading, setLoading] = useState(false);
 
@@ -38,7 +40,8 @@ const SearchBar = ({ editResource }: Props) => {
     });
 
   const { data: searchResults, refetch } = useFetchSearchResults(
-    watch("searchQuery")
+    watch("searchQuery"),
+    MIN_LENGTH
   );
 
   const submit = (values: ISearchForm) => {
@@ -54,7 +57,7 @@ const SearchBar = ({ editResource }: Props) => {
 
   useEffect(
     () => {
-      if (getValues("searchQuery").length > 0) setLoading(true);
+      if (getValues("searchQuery").length >= MIN_LENGTH) setLoading(true);
       clearTimeout(throttle);
       setThrottle(setTimeout(refetch, 500));
     },
@@ -73,7 +76,7 @@ const SearchBar = ({ editResource }: Props) => {
       <Autocomplete
         loading={loading}
         // if no text, it won't show "no resources :("
-        freeSolo={watch("searchQuery").length === 0}
+        freeSolo={watch("searchQuery").length < MIN_LENGTH}
         noOptionsText={"No resources :("}
         options={searchResults?.resources || []}
         PopperComponent={MyPopper}

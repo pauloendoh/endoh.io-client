@@ -6,16 +6,18 @@ import {
   Link,
 } from "@material-ui/core";
 import React from "react";
-import { connect } from "react-redux";
 import { Link as RouterLink, useParams } from "react-router-dom";
-import { Dispatch } from "redux";
 import { FollowerDto } from "types/domain/feed/FollowerDto";
 import Flex from "../../../components/shared/Flexboxes/Flex";
-import { ApplicationState } from "../../../store/store";
 import pageUrls from "../../../utils/consts/pageUrls";
 import ProfilePicture from "../../shared/ProfilePicture/ProfilePicture";
 
-// PE 2/3
+interface Props {
+  open: boolean;
+  onClose: () => void;
+  followers: FollowerDto[];
+}
+
 const FollowersDialog = (props: Props) => {
   const { username } = useParams<{ username: string }>();
 
@@ -76,18 +78,4 @@ const FollowersDialog = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: ApplicationState) => ({});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
-
-interface OwnProps {
-  open: boolean;
-  onClose: () => void;
-  followers: FollowerDto[];
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(FollowersDialog);
+export default FollowersDialog;

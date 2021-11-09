@@ -84,7 +84,7 @@ const SkillbaseTableHead = (props: Props) => {
             className={classes.th}
             key={headCell.id}
             align={headCell.align}
-            padding={headCell.disablePadding ? "none" : "default"}
+            padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={
               // PE 1/3 - Create a function for this?
               props.sortBy.property === headCell.id ? props.sortBy.order : false

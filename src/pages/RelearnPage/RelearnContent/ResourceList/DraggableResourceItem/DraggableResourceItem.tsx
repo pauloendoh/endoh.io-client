@@ -1,5 +1,4 @@
 import { Box, makeStyles } from "@material-ui/core";
-import RootRef from "@material-ui/core/RootRef";
 import React, { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { connect } from "react-redux";
@@ -64,7 +63,7 @@ function DraggableResourceItem(props: Props) {
   dragRef(dropRef(ref));
 
   return (
-    <RootRef rootRef={ref}>
+    <div ref={ref}>
       <Box
         p={1}
         borderBottom="1px solid rgb(255 255 255 / 0.1)" // Could be a const?
@@ -76,7 +75,7 @@ function DraggableResourceItem(props: Props) {
       >
         <ResourceItem resource={props.resource} />
       </Box>
-    </RootRef>
+    </div>
   );
 }
 

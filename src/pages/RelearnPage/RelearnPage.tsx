@@ -26,9 +26,10 @@ import TagDialog from "./TagDialog/TagDialog";
 const RelearnPage = (props: Props) => {
   const classes = useStyles();
 
-  const [skills, setSkills] = useState<SkillDto[]>([]);
   const [redirectTo, setRedirectTo] = useState("");
 
+  // PE 1/3 - why do we need this skills, if we have props.skills ?
+  const [skills, setSkills] = useState<SkillDto[]>([]);
   const { sidebarIsOpen, openSidebar } = useSidebarStore();
 
   useEffect(
