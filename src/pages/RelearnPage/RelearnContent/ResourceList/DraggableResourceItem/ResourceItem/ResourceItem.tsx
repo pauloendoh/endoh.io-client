@@ -31,6 +31,7 @@ import myAxios from "../../../../../../utils/consts/myAxios";
 import { validateEstimatedTime } from "../../../../../../utils/relearn/validateEstimatedTime";
 import ResourceMoreIcon from "../ResourceMoreIcon/ResourceMoreIcon";
 import S from "./ResourceItem.styles";
+import ResourceItemTaskCheckbox from "./ResourceItemTaskCheckbox/ResourceItemTaskCheckbox";
 
 // PE 1/3
 function ResourceItem(props: Props) {
@@ -49,6 +50,26 @@ function ResourceItem(props: Props) {
           props.setSuccessMessage("Resource rated!");
         } else {
           props.setSuccessMessage("Rating removed!");
+        }
+      });
+  };
+
+  const onChangeTaskChecked = (checked: boolean) => {
+    const resource = {
+      ...props.resource,
+      completedAt: checked ? new Date().toISOString() : "",
+      rating: null,
+    } as ResourceDto;
+
+    myAxios
+      .post<ResourceDto[]>(apiUrls.relearn.resource, resource)
+      .then((res) => {
+        props.setResources(res.data);
+
+        if (checked) {
+          props.setSuccessMessage("Task completed!");
+        } else {
+          props.setSuccessMessage("Task uncompleted!");
         }
       });
   };
@@ -119,7 +140,14 @@ function ResourceItem(props: Props) {
             )}
           </FlexVCenter>
 
-          <RateButton resource={props.resource} onChange={handleSaveRating} />
+          {props.resource.url?.length > 0 ? (
+            <RateButton resource={props.resource} onChange={handleSaveRating} />
+          ) : (
+            <ResourceItemTaskCheckbox
+              resource={props.resource}
+              onChange={onChangeTaskChecked}
+            />
+          )}
         </FlexVCenter>
 
         {props.resource.publicReview?.length > 0 && (
