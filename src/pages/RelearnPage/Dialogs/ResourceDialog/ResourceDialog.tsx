@@ -312,7 +312,7 @@ const ResourceDialog = (props: Props) => {
                             required
                             label="Tag"
                             error={!!errors.tag}
-                            helperText={errors.tag ? errors.tag.id : ""}
+                            helperText={errors?.tag?.id || ""}
                           />
                         )}
                         renderOption={(option) => (

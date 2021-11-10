@@ -28,47 +28,44 @@ const SkillDialogTagSelector = (props: Props) => {
   );
 
   return (
-    <Box>
-      {/*  PE 1/3 - dry into <TagSelector/> also used at resource dialog  */}
-      <Autocomplete
-        value={tag}
-        options={[...props.allTags]}
-        renderOption={(option) => (
-          <FlexVCenter>
-            {option.id ? (
-              <FlexVCenter>
-                <TagIcon tag={option} />
-                <Box ml={1}>
-                  <Typography variant="body2">{option.name}</Typography>
-                </Box>
-              </FlexVCenter>
-            ) : (
-              <FlexHCenter>{option.name}</FlexHCenter>
-            )}
-          </FlexVCenter>
-        )}
-        getOptionLabel={(option) => option.name}
-        renderInput={(params) => (
-          <MyTextField
-            InputProps={{ id: "skill-dialog-tag-selector" }}
-            fullWidth
-            label="# tag"
-            {...params}
-            size="small"
-          />
-        )}
-        onChange={(e, value) => {
-          const tag = value as TagDto;
+    <Autocomplete // PE 1/3 - dry into <TagSelector/> also used at skill dialog
+      value={tag}
+      options={[...props.allTags]}
+      renderOption={(option) => (
+        <FlexVCenter>
+          {option.id ? (
+            <FlexVCenter>
+              <TagIcon tag={option} />
+              <Box ml={1}>
+                <Typography variant="body2">{option.name}</Typography>
+              </Box>
+            </FlexVCenter>
+          ) : (
+            <FlexHCenter>{option.name}</FlexHCenter>
+          )}
+        </FlexVCenter>
+      )}
+      getOptionLabel={(option) => option.name}
+      renderInput={(params) => (
+        <MyTextField
+          InputProps={{ id: "skill-dialog-tag-selector" }}
+          fullWidth
+          label="# tag"
+          {...params}
+          size="small"
+        />
+      )}
+      onChange={(e, value) => {
+        const tag = value as TagDto;
 
-          if (tag) {
-            props.onChange(e, tag.id, null);
-          } else {
-            // tag is null
-            props.onChange(e, null, null);
-          }
-        }}
-      />
-    </Box>
+        if (tag) {
+          props.onChange(e, tag.id, null);
+        } else {
+          // tag is null
+          props.onChange(e, null, null);
+        }
+      }}
+    />
   );
 };
 
