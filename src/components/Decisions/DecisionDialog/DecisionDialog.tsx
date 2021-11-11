@@ -1,6 +1,6 @@
 import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
-import { Form, Formik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Dispatch } from "redux";
@@ -21,7 +21,7 @@ const DecisionDialog = (props: Props) => {
 
   const { mutate: postDecision } = usePostDecisionMutation();
 
-  const handleSubmit = (values: DecisionDto) => {
+  const onSubmit = (values: DecisionDto) => {
     postDecision(values, {
       onSuccess: (data) => {
         props.setSuccessMessage("Decision saved!");
@@ -30,6 +30,22 @@ const DecisionDialog = (props: Props) => {
       },
     });
   };
+
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+    control,
+    watch,
+    reset,
+  } = useForm<DecisionDto>({
+    defaultValues: props.initialValue,
+  });
+
+  useEffect(() => {
+    if (props.open) reset(props.initialValue);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.open]);
 
   return (
     <Dialog
@@ -40,43 +56,35 @@ const DecisionDialog = (props: Props) => {
       aria-labelledby="decision-dialog"
     >
       <Box pb={1} px={1}>
-        <Formik
-          enableReinitialize
-          initialValues={props.initialValue}
-          onSubmit={(formikValues) => {
-            handleSubmit(formikValues);
-          }}
-        >
-          {({ values, isSubmitting, handleChange }) => (
-            <Form>
-              <DialogTitle id="decision-dialog-title">
-                {values.id ? "Edit Decision" : "New Decision"}
-              </DialogTitle>
-              <DialogContent>
-                <Box>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <DialogTitle id="decision-dialog-title">
+            {watch("id") ? "Edit Decision" : "New Decision"}
+          </DialogTitle>
+          <DialogContent>
+            <Box>
+              <Controller
+                control={control}
+                name="title"
+                render={({ field }) => (
                   <MyTextField
                     id="title"
                     name="title"
-                    value={values.title}
-                    onChange={handleChange}
                     size="small"
                     label="Title"
                     className="mt-3"
                     fullWidth
                     required
                     autoFocus
+                    {...field}
                   />
-                </Box>
-              </DialogContent>
-              <DialogTitle>
-                <SaveCancelButtons
-                  disabled={isSubmitting}
-                  onCancel={handleClose}
-                />
-              </DialogTitle>
-            </Form>
-          )}
-        </Formik>
+                )}
+              />
+            </Box>
+          </DialogContent>
+          <DialogTitle>
+            <SaveCancelButtons disabled={isSubmitting} onCancel={handleClose} />
+          </DialogTitle>
+        </form>
       </Box>
     </Dialog>
   );

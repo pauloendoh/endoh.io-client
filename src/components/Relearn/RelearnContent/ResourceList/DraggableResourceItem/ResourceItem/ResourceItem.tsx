@@ -1,11 +1,4 @@
-import {
-  Box,
-  Link,
-  makeStyles,
-  Tooltip,
-  Typography,
-  useTheme,
-} from "@material-ui/core";
+import { Link, Tooltip, Typography, useTheme } from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
 import EventIcon from "@material-ui/icons/Event";
 import ScheduleIcon from "@material-ui/icons/Schedule";
@@ -26,8 +19,6 @@ import myAxios from "../../../../../../utils/consts/myAxios";
 import { validateEstimatedTime } from "../../../../../../utils/relearn/validateEstimatedTime";
 import RateButton from "../../../../../_common/RateButton/RateButton";
 import ResourceThumbnail from "../../../../../_common/ResourceThumbnail/ResourceThumbnail";
-import Flex from "../../../../../_UI/Flexboxes/Flex";
-import FlexVCenter from "../../../../../_UI/Flexboxes/FlexVCenter";
 import Txt from "../../../../../_UI/Text/Txt";
 import ResourceMoreIcon from "../ResourceMoreIcon/ResourceMoreIcon";
 import S from "./ResourceItem.styles";
@@ -35,8 +26,6 @@ import ResourceItemTaskCheckbox from "./ResourceItemTaskCheckbox/ResourceItemTas
 
 // PE 1/3
 function ResourceItem(props: Props) {
-  const classes = useStyles();
-
   const { handleMouseEnter, handleMouseLeave, isHovering } = useHover();
 
   const handleSaveRating = (rating: number) => {
@@ -74,6 +63,10 @@ function ResourceItem(props: Props) {
       });
   };
 
+  const hasDueDate =
+    props.resource.dueDate.length > 0 &&
+    props.resource.completedAt.length === 0;
+
   const theme = useTheme();
 
   return (
@@ -92,53 +85,48 @@ function ResourceItem(props: Props) {
         thumbnailSrc={props.resource.thumbnail}
         linkable={true}
       />
-      <Box flexGrow={1}>
-        <Flex className={classes.firstRow}>
-          <Box>
+      <S.Content>
+        <S.TitleLinkMoreWrapper>
+          <S.TitleLinkWrapper>
             <Txt>{props.resource.title}</Txt>
             {props.resource.url.length > 0 && (
               <Link
-                className={classes.link}
                 href={props.resource.url}
                 target="_blank"
+                style={{ maxWidth: 400, overflow: "hidden", marginRight: 16 }}
               >
                 <Txt noWrap style={{ maxWidth: "inherit" }}>
                   {props.resource.url}
                 </Txt>
               </Link>
             )}
-          </Box>
+          </S.TitleLinkWrapper>
           <ResourceMoreIcon resource={props.resource} isHovered={isHovering} />
-        </Flex>
+        </S.TitleLinkMoreWrapper>
 
-        <FlexVCenter justifyContent="space-between">
-          <FlexVCenter>
-            {/* Due date */}
-            {props.resource.dueDate.length > 0 &&
-              props.resource.completedAt.length === 0 && (
-                <FlexVCenter mr={2}>
-                  <EventIcon fontSize="inherit" style={{ marginRight: 4 }} />
-                  {DateTime.fromISO(props.resource.dueDate).toFormat("LLL dd")}
-                </FlexVCenter>
-              )}
-
-            {/* Completed timeago */}
-            {props.resource.completedAt.length > 0 && (
-              <FlexVCenter mr={2}>
-                <DoneIcon />
-                &nbsp;
-                <TimeAgo date={props.resource.completedAt} live={false} />
-              </FlexVCenter>
+        <S.IconsRow>
+          <S.IconsWrapper>
+            {hasDueDate && (
+              <S.DueDateWrapper>
+                <EventIcon fontSize="inherit" style={{ marginRight: 4 }} />
+                {DateTime.fromISO(props.resource.dueDate).toFormat("LLL dd")}
+              </S.DueDateWrapper>
             )}
 
-            {/* Duration */}
+            {props.resource.completedAt.length > 0 && (
+              <S.CompletedWrapper>
+                <DoneIcon />{" "}
+                <TimeAgo date={props.resource.completedAt} live={false} />
+              </S.CompletedWrapper>
+            )}
+
             {validateEstimatedTime(props.resource.estimatedTime) && (
-              <FlexVCenter mr={2}>
+              <S.DurationWrapper>
                 <ScheduleIcon style={{ marginRight: 4 }} />
                 {props.resource.estimatedTime}
-              </FlexVCenter>
+              </S.DurationWrapper>
             )}
-          </FlexVCenter>
+          </S.IconsWrapper>
 
           {props.resource.url?.length > 0 ? (
             <RateButton resource={props.resource} onChange={handleSaveRating} />
@@ -148,76 +136,49 @@ function ResourceItem(props: Props) {
               onChange={onChangeTaskChecked}
             />
           )}
-        </FlexVCenter>
+        </S.IconsRow>
 
         {props.resource.publicReview?.length > 0 && (
-          <Box mt={2} mb={1}>
-            <Flex style={{ gap: theme.spacing(1) }}>
-              <Tooltip title="Public Review">
-                <Icons.Public
-                  style={{
-                    color: theme.palette.text.secondary,
-                  }}
-                />
-              </Tooltip>
+          <S.PublicReviewWrapper>
+            <Tooltip title="Public Review">
+              <Icons.Public
+                style={{
+                  color: theme.palette.text.secondary,
+                }}
+              />
+            </Tooltip>
 
-              <Typography
-                color="textSecondary"
-                style={{ whiteSpace: "pre-line", fontStyle: "italic" }}
-              >
-                {props.resource.publicReview}
-              </Typography>
-            </Flex>
-          </Box>
+            <Typography
+              color="textSecondary"
+              style={{ whiteSpace: "pre-line", fontStyle: "italic" }}
+            >
+              {props.resource.publicReview}
+            </Typography>
+          </S.PublicReviewWrapper>
         )}
 
         {props.resource.privateNote?.length > 0 && (
-          <Box mt={2} mb={1}>
-            <Flex style={{ gap: theme.spacing(1) }}>
-              <Tooltip title="Private Notes">
-                <Icons.Lock
-                  style={{
-                    color: theme.palette.text.secondary,
-                  }}
-                />
-              </Tooltip>
+          <S.PrivateNoteWrapper>
+            <Tooltip title="Private Notes">
+              <Icons.Lock
+                style={{
+                  color: theme.palette.text.secondary,
+                }}
+              />
+            </Tooltip>
 
-              <Typography
-                color="textSecondary"
-                style={{ whiteSpace: "pre-line", fontStyle: "italic" }}
-              >
-                {props.resource.privateNote}
-              </Typography>
-            </Flex>
-          </Box>
+            <Typography
+              color="textSecondary"
+              style={{ whiteSpace: "pre-line", fontStyle: "italic" }}
+            >
+              {props.resource.privateNote}
+            </Typography>
+          </S.PrivateNoteWrapper>
         )}
-      </Box>
+      </S.Content>
     </S.ResourceItemRoot>
   );
 }
-
-const useStyles = makeStyles((theme) => ({
-  link: {
-    // fontSize: 12
-    maxWidth: 400,
-    overflow: "hidden",
-    marginRight: 16,
-  },
-  isDragging: {
-    border: "1px dashed rgba(255, 255, 255, 0.2)",
-  },
-  dueDateBox: {
-    paddingLeft: 16,
-    borderLeft: "1px solid rgb(255 255 255)",
-  },
-  listItemIcon: {
-    width: 16,
-  },
-  firstRow: {
-    justifyContent: "space-between",
-    minHeight: 32,
-  },
-}));
 
 const mapStateToProps = (state: ApplicationState) => ({});
 

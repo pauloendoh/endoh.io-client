@@ -1,6 +1,6 @@
 import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
-import { Form, Formik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
 import useSaveTableMutation from "../../../hooks/BigDecisions/DecisionTable/useSaveTableMutation";
 import { DecisionTableDto } from "../../../types/domain/big-decisions/DecisionTableDto";
 import SaveCancelButtons from "../../_UI/Buttons/SaveCancelButtons";
@@ -19,13 +19,28 @@ const DecisionTableDialog = (props: Props) => {
   };
 
   const { mutate: changeTable } = useSaveTableMutation();
-  const handleSubmit = (values: DecisionTableDto) => {
+  const onSubmit = (values: DecisionTableDto) => {
     changeTable(values, {
       onSuccess: (_) => {
         handleClose();
       },
     });
   };
+
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+    control,
+    watch,
+    reset,
+  } = useForm<DecisionTableDto>({
+    defaultValues: props.initialValue,
+  });
+
+  useEffect(() => {
+    if (props.open) reset(props.initialValue);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.open]);
 
   return (
     <Dialog
@@ -36,45 +51,35 @@ const DecisionTableDialog = (props: Props) => {
       aria-labelledby="decision-table-dialog"
     >
       <Box pb={1} px={1}>
-        <Formik
-          enableReinitialize
-          initialValues={props.initialValue}
-          onSubmit={(formikValues) => {
-            handleSubmit(formikValues);
-          }}
-        >
-          {({ values, isSubmitting, handleChange, submitForm }) => (
-            <Form>
-              <DialogTitle id="decision-table-dialog-title">
-                {values.id ? "Edit Table" : "New Table"}
-              </DialogTitle>
-              <DialogContent>
-                <Box>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <DialogTitle id="decision-table-dialog-title">
+            {watch("id") ? "Edit Table" : "New Table"}
+          </DialogTitle>
+          <DialogContent>
+            <Box>
+              <Controller
+                control={control}
+                name="title"
+                render={({ field }) => (
                   <MyTextField
                     id="title"
-                    name="title"
-                    value={values.title}
-                    onChange={handleChange}
                     size="small"
                     label="Title"
-                    className="mt-3"
                     fullWidth
                     required
                     autoFocus
-                    onCtrlEnter={submitForm}
+                    onCtrlEnter={handleSubmit(onSubmit)}
                     multiline
+                    {...field}
                   />
-                </Box>
-              </DialogContent>
-              <DialogTitle>
-                <SaveCancelButtons
-                  disabled={isSubmitting}
-                  onCancel={handleClose}
-                />
-              </DialogTitle>
-            </Form>
-          )}
-        </Formik>
+                )}
+              />
+            </Box>
+          </DialogContent>
+          <DialogTitle>
+            <SaveCancelButtons disabled={isSubmitting} onCancel={handleClose} />
+          </DialogTitle>
+        </form>
       </Box>
     </Dialog>
   );

@@ -15,7 +15,7 @@ export const urls = {
 
     // DEFINE
     saveDocLastOpenedAt: (docId: number) =>
-      `/v2/define/doc/${docId}/last-opened-at`,
+      `define/doc/${docId}/last-opened-at`,
 
     // UTILS
     search: (query: string) => `/search?q=${query}`,

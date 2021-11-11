@@ -34,8 +34,8 @@ const apiUrls = {
     notificationsSeeAll: "/utils/notifications/seeAll",
   },
   define: {
-    doc: "/define/doc",
-    note: "/define/note",
+    doc: "define/doc",
+    note: "define/note",
     postManyNotes: "/define/note/many",
   },
   BigDecisions: {
