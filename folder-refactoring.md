@@ -1,3 +1,5 @@
+- acabar com a pasta components -> renomear a "pages" por components
+
 - app 2/3 - must be inside domain ?
 - consts:
   - apiUrls and pageUrls 2/3 - must be inside utils/urls ?
@@ -12,9 +14,3 @@
   - pushOrReplace 2/3 - put inside an utils/array folder
   - shuffleArray 2/3 - put inside an utils/array folder
   - urls.ts 2/3 - put inside utils/url
-
-.
-
-- server.pass.key 1/3 -- remove?
-
----

@@ -1,4 +1,4 @@
-import { getHighestExpenseValue } from "pages/Monerate/ExpenseFilter/ExpenseFilter";
+import { getHighestExpenseValue } from "components/MoneratePage/ExpenseFilter/ExpenseFilter";
 import { Reducer } from "redux";
 import ExpenseGetDto from "types/domain/monerate/ExpenseGetDto";
 import { MonerateActionReturns } from "./monerateActions";

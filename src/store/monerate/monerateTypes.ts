@@ -1,4 +1,4 @@
-import { IExpenseFilter } from "pages/Monerate/ExpenseFilter/IExpenseFilter";
+import { IExpenseFilter } from "components/MoneratePage/ExpenseFilter/IExpenseFilter";
 import CategoryGetDto from "../../types/domain/monerate/CategoryGetDto";
 import ExpenseGetDto from "../../types/domain/monerate/ExpenseGetDto";
 import PlaceGetDto from "../../types/domain/monerate/PlaceGetDto";

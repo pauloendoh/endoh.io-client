@@ -11,18 +11,18 @@ import {
   withRouter,
 } from "react-router-dom";
 import { Dispatch } from "redux";
-import Navbar from "./components/navbar/Navbar";
-import ConfirmDialog from "./components/shared/Dialogs/ConfirmationDialog";
-import MySnackBar from "./components/shared/SnackBars/MySnackBar";
-import MySnackBar2 from "./components/shared/SnackBars/MySnackbar2";
-import LandingPage from "./pages/index/LandingPage";
-import LoadingPage from "./pages/index/LoadingPage";
-import ResetPasswordPage from "./pages/index/ResetPasswordPage";
-import ResourceDialog from "./pages/RelearnPage/Dialogs/ResourceDialog/ResourceDialog";
-import SettingsNavbar from "./pages/settings/SettingsNavbar";
-import SettingsPage from "./pages/settings/SettingsPage";
-import SkillbasePage from "./pages/SkillbasePage/SkillbasePage";
-import SkillDialog from "./pages/SkillbasePage/SkillDialog/SkillDialog";
+import LandingPage from "./components/LandingPage/LandingPage";
+import ResourceDialog from "./components/RelearnPage/Dialogs/ResourceDialog/ResourceDialog";
+import ResetPasswordPage from "./components/ResetPasswordPage/ResetPasswordPage";
+import SettingsNavbar from "./components/SettingsPage/SettingsNavbar";
+import SettingsPage from "./components/SettingsPage/SettingsPage";
+import SkillbasePage from "./components/SkillbasePage/SkillbasePage";
+import SkillDialog from "./components/SkillbasePage/SkillDialog/SkillDialog";
+import LoadingPage from "./components/_common/LoadingPage/LoadingPage";
+import Navbar from "./components/_common/_layout/Navbar/Navbar";
+import ConfirmDialog from "./components/_UI/Dialogs/ConfirmationDialog";
+import MySnackBar from "./components/_UI/SnackBars/MySnackBar";
+import MySnackBar2 from "./components/_UI/SnackBars/MySnackbar2";
 import {
   checkAuthOrLogoutActionCreator,
   setAuthProfile,
@@ -44,18 +44,20 @@ import theme from "./utils/consts/theme";
 import { isValidApplicationPath } from "./utils/domain/app/isValidApplicationPath";
 
 const MoneratePage = lazy(
-  () => import("./pages/Monerate/MoneratePage/MoneratePage")
+  () => import("./components/MoneratePage/MoneratePage")
 );
 
-const RelearnPage = lazy(() => import("./pages/RelearnPage/RelearnPage"));
-const UserPage = lazy(() => import("./pages/UserPage/UserPage"));
-const FeedPage = lazy(() => import("./pages/FeedPage/FeedPage"));
-const DefinePage = lazy(() => import("./pages/DefinePage/DefinePage"));
+const RelearnPage = lazy(() => import("./components/RelearnPage/RelearnPage"));
+const UserPage = lazy(() => import("./components/UserPage/UserPage"));
+const FeedPage = lazy(() => import("./components/FeedPage/FeedPage"));
+const DefinePage = lazy(() => import("./components/DefinePage/DefinePage"));
 const BigDecisionsPage = lazy(
-  () => import("./pages/DecisionsPage/DecisionsPage")
+  () => import("./components/DecisionsPage/DecisionsPage")
 );
-const NotFoundPage = lazy(() => import("./pages/NotFoundPage/NotFoundPage"));
-const SearchPage = lazy(() => import("./pages/SearchPage/SearchPage"));
+const NotFoundPage = lazy(
+  () => import("./components/NotFoundPage/NotFoundPage")
+);
+const SearchPage = lazy(() => import("./components/SearchPage/SearchPage"));
 
 // PE 2/3
 const App = (props: Props) => {

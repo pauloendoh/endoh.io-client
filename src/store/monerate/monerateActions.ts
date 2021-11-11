@@ -1,4 +1,4 @@
-import { IExpenseFilter } from "pages/Monerate/ExpenseFilter/IExpenseFilter";
+import { IExpenseFilter } from "components/MoneratePage/ExpenseFilter/IExpenseFilter";
 import { action } from "typesafe-actions";
 import CategoryGetDto, {
   newCategory,
