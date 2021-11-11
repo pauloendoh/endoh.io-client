@@ -6,7 +6,7 @@ import usePostDecisionMutation from "../../../../hooks/BigDecisions/Decision/use
 import { DecisionDto } from "../../../../types/domain/big-decisions/DecisionDto";
 import pageUrls from "../../../../utils/consts/pageUrls";
 import getWinnerTable from "../../../../utils/domain/BigDecision/getWinnerTable";
-import PriorityStarIcon from "../../../SkillbasePage/SkillDialog/PriorityStarIcon/PriorityStarIcon";
+import PriorityStarIcon from "../../../Skillbase/SkillDialog/PriorityStarIcon/PriorityStarIcon";
 import Flex from "../../../_UI/Flexboxes/Flex";
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
 import Txt from "../../../_UI/Text/Txt";

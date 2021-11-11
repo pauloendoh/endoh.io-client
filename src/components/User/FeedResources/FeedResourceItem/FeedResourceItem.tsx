@@ -12,7 +12,7 @@ import myAxios from "../../../../utils/consts/myAxios";
 import { validateEstimatedTime } from "../../../../utils/relearn/validateEstimatedTime";
 import { getDomainFromUrl } from "../../../../utils/url/getDomainFromUrl";
 import { urlIsValid } from "../../../../utils/url/isValidUrl";
-import ResourceMoreIcon from "../../../RelearnPage/RelearnContent/ResourceList/DraggableResourceItem/ResourceMoreIcon/ResourceMoreIcon";
+import ResourceMoreIcon from "../../../Relearn/RelearnContent/ResourceList/DraggableResourceItem/ResourceMoreIcon/ResourceMoreIcon";
 import RateButton from "../../../_common/RateButton/RateButton";
 import ResourceThumbnail from "../../../_common/ResourceThumbnail/ResourceThumbnail";
 import Flex from "../../../_UI/Flexboxes/Flex";

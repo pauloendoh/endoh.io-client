@@ -12,12 +12,12 @@ import {
 } from "react-router-dom";
 import { Dispatch } from "redux";
 import LandingPage from "./components/LandingPage/LandingPage";
-import ResourceDialog from "./components/RelearnPage/Dialogs/ResourceDialog/ResourceDialog";
-import ResetPasswordPage from "./components/ResetPasswordPage/ResetPasswordPage";
-import SettingsNavbar from "./components/SettingsPage/SettingsNavbar";
-import SettingsPage from "./components/SettingsPage/SettingsPage";
-import SkillbasePage from "./components/SkillbasePage/SkillbasePage";
-import SkillDialog from "./components/SkillbasePage/SkillDialog/SkillDialog";
+import ResourceDialog from "./components/Relearn/Dialogs/ResourceDialog/ResourceDialog";
+import ResetPasswordPage from "./components/ResetPassword/ResetPasswordPage";
+import SettingsNavbar from "./components/Settings/SettingsNavbar";
+import SettingsPage from "./components/Settings/SettingsPage";
+import SkillbasePage from "./components/Skillbase/SkillbasePage";
+import SkillDialog from "./components/Skillbase/SkillDialog/SkillDialog";
 import LoadingPage from "./components/_common/LoadingPage/LoadingPage";
 import Navbar from "./components/_common/_layout/Navbar/Navbar";
 import ConfirmDialog from "./components/_UI/Dialogs/ConfirmationDialog";
@@ -43,21 +43,17 @@ import { myQueryClient } from "./utils/consts/myQueryClient";
 import theme from "./utils/consts/theme";
 import { isValidApplicationPath } from "./utils/domain/app/isValidApplicationPath";
 
-const MoneratePage = lazy(
-  () => import("./components/MoneratePage/MoneratePage")
-);
+const MoneratePage = lazy(() => import("./components/Monerate/MoneratePage"));
 
-const RelearnPage = lazy(() => import("./components/RelearnPage/RelearnPage"));
-const UserPage = lazy(() => import("./components/UserPage/UserPage"));
-const FeedPage = lazy(() => import("./components/FeedPage/FeedPage"));
-const DefinePage = lazy(() => import("./components/DefinePage/DefinePage"));
+const RelearnPage = lazy(() => import("./components/Relearn/RelearnPage"));
+const UserPage = lazy(() => import("./components/User/UserPage"));
+const FeedPage = lazy(() => import("./components/Feed/FeedPage"));
+const DefinePage = lazy(() => import("./components/Define/DefinePage"));
 const BigDecisionsPage = lazy(
-  () => import("./components/DecisionsPage/DecisionsPage")
+  () => import("./components/Decisions/DecisionsPage")
 );
-const NotFoundPage = lazy(
-  () => import("./components/NotFoundPage/NotFoundPage")
-);
-const SearchPage = lazy(() => import("./components/SearchPage/SearchPage"));
+const NotFoundPage = lazy(() => import("./components/NotFound/NotFoundPage"));
+const SearchPage = lazy(() => import("./components/Search/SearchPage"));
 
 // PE 2/3
 const App = (props: Props) => {

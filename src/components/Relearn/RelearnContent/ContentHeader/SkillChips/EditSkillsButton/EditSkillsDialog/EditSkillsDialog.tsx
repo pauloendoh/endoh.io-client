@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { ApplicationState } from "../../../../../../../store/store";
 import { TagDto } from "../../../../../../../types/domain/relearn/TagDto";
-import SkillbaseTable from "../../../../../../SkillbasePage/SkillTable/SkillbaseTable";
+import SkillbaseTable from "../../../../../../Skillbase/SkillTable/SkillbaseTable";
 
 // PE 2/3
 function EditSkillsDialog(props: Props) {
