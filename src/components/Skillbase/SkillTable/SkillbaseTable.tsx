@@ -6,13 +6,13 @@ import Toolbar from "@material-ui/core/Toolbar";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import useSnackbarStore from "store/zustand/useSnackbarStore";
 import {
   removeSkills,
   sortSkill,
 } from "../../../store/skillbase/skillbaseActions";
 import { SortSkill } from "../../../store/skillbase/skillbaseTypes";
 import { ApplicationState } from "../../../store/store";
-import { setSuccessMessage } from "../../../store/utils/utilsActions";
 import { TagDto } from "../../../types/domain/relearn/TagDto";
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto";
 import { IdsDto } from "../../../types/domain/_common/IdsDto";
@@ -27,6 +27,8 @@ import SkillTableToolbar from "./SkillTableToolbar/SkillTableToolbar";
 // PE 2/3
 const SkillbaseTable = (props: Props) => {
   const classes = useStyles();
+
+  const { setSuccessMessage } = useSnackbarStore();
 
   const [selectedIds, setSelectedIds] = React.useState<number[]>([]);
   const [visibleSkills, setVisibleSkills] = useState<SkillDto[]>(
@@ -81,7 +83,7 @@ const SkillbaseTable = (props: Props) => {
         })
         .then((res) => {
           props.removeSkills(selectedIds);
-          props.setSuccessMessage("Skills deleted successfully!");
+          setSuccessMessage("Skills deleted successfully!");
           setSelectedIds([]);
         });
     }
@@ -156,7 +158,6 @@ const mapStateToProps = (state: ApplicationState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   sortSkill: (sortBy: SortSkill) => dispatch(sortSkill(sortBy)),
   removeSkills: (ids: number[]) => dispatch(removeSkills(ids)),
-  setSuccessMessage: (message: string) => dispatch(setSuccessMessage(message)),
 });
 
 interface OwnProps {

@@ -12,11 +12,11 @@ import React from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Dispatch } from "redux";
+import useSnackbarStore from "store/zustand/useSnackbarStore";
 import MyAxiosError from "types/MyAxiosError";
 import pageUrls from "utils/consts/pageUrls";
 import * as relearnActions from "../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../store/store";
-import * as utilsActions from "../../../store/utils/utilsActions";
 import { TagDto } from "../../../types/domain/relearn/TagDto";
 import apiUrls from "../../../utils/consts/apiUrls";
 import myAxios from "../../../utils/consts/myAxios";
@@ -29,11 +29,13 @@ import TagColorSelector from "./TagColorSelector/TagColorSelector";
 const TagDialog = (props: Props) => {
   const history = useHistory();
 
+  const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
+
   const handleSubmit = (sentTag: TagDto) => {
     myAxios
       .post<TagDto[]>(apiUrls.relearn.tag, sentTag)
       .then((res) => {
-        props.setSuccessMessage("Tag saved!");
+        setSuccessMessage("Tag saved!");
 
         const returnedTags = res.data;
         props.setTags(returnedTags);
@@ -43,7 +45,7 @@ const TagDialog = (props: Props) => {
         history.push(pageUrls.relearn.tag + "/" + savedTagId);
       })
       .catch((err: MyAxiosError) => {
-        props.setErrorMessage(err.response.data.errors[0].message);
+        setErrorMessage(err.response.data.errors[0].message);
       })
       .finally(() => {
         props.closeTagDialog();
@@ -149,11 +151,6 @@ const mapStateToProps = (state: ApplicationState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   closeTagDialog: () => dispatch(relearnActions.closeTagDialog()),
   setTags: (tags: TagDto[]) => dispatch(relearnActions.setTags(tags)),
-
-  setSuccessMessage: (message: string) =>
-    dispatch(utilsActions.setSuccessMessage(message)),
-  setErrorMessage: (message: string) =>
-    dispatch(utilsActions.setErrorMessage(message)),
 });
 
 type Props = ReturnType<typeof mapStateToProps> &

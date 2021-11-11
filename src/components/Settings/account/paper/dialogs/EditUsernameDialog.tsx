@@ -15,7 +15,6 @@ import apiUrls from "utils/consts/apiUrls";
 import myAxios from "utils/consts/myAxios";
 import { setUsername } from "../../../../../store/auth/authActions";
 import { ApplicationState } from "../../../../../store/store";
-import * as utilsActions from "../../../../../store/utils/utilsActions";
 import { UsernamePutDto } from "../../../../../types/domain/auth/UsernamePutDto";
 import Flex from "../../../../_UI/Flexboxes/Flex";
 import MyTextField from "../../../../_UI/MyInputs/MyTextField";
@@ -103,11 +102,6 @@ const mapStateToProps = (state: ApplicationState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setUsername: (newUsername: string) => dispatch(setUsername(newUsername)),
-
-  setSuccessMessage: (message: string) =>
-    dispatch(utilsActions.setSuccessMessage(message)),
-  setErrorMessage: (message: string) =>
-    dispatch(utilsActions.setErrorMessage(message)),
 });
 
 interface OwnProps {

@@ -6,12 +6,12 @@ import { connect } from "react-redux";
 import { useLocation } from "react-router";
 import { scroller } from "react-scroll";
 import { Dispatch } from "redux";
+import useSnackbarStore from "store/zustand/useSnackbarStore";
 import {
   setEditingSkill,
   setSkills,
 } from "../../../store/skillbase/skillbaseActions";
 import { ApplicationState } from "../../../store/store";
-import * as utilsActions from "../../../store/utils/utilsActions";
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto";
 import MyAxiosError from "../../../types/MyAxiosError";
 import apiUrls from "../../../utils/consts/apiUrls";
@@ -29,6 +29,8 @@ import SkillMoreIcon from "./SkillMoreIcon/SkillMoreIcon";
 // PE 2/3
 const SkillDialog = (props: Props) => {
   const location = useLocation();
+
+  const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
 
   const [hasChanged, setHasChanged] = useState(false);
 
@@ -76,10 +78,10 @@ const SkillDialog = (props: Props) => {
       .then((res) => {
         props.setSkills(res.data);
         props.setEditingSkill(null);
-        props.setSuccessMessage("Skill saved successfully!");
+        setSuccessMessage("Skill saved successfully!");
       })
       .catch((err: MyAxiosError) => {
-        props.setErrorMessage(err.response.data.errors[0].message);
+        setErrorMessage(err.response.data.errors[0].message);
       })
       .finally(() => {
         setSubmitting(false);
@@ -206,10 +208,6 @@ const mapStateToProps = (state: ApplicationState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setSkills: (skills: SkillDto[]) => dispatch(setSkills(skills)),
   setEditingSkill: (skill: SkillDto) => dispatch(setEditingSkill(skill)),
-  setSuccessMessage: (message: string) =>
-    dispatch(utilsActions.setSuccessMessage(message)),
-  setErrorMessage: (message: string) =>
-    dispatch(utilsActions.setErrorMessage(message)),
 });
 
 type Props = ReturnType<typeof mapStateToProps> &

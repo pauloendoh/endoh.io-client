@@ -1,19 +1,25 @@
 import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Dispatch } from "redux";
+import useSnackbarStore from "store/zustand/useSnackbarStore";
 import usePostDecisionMutation from "../../../hooks/BigDecisions/Decision/usePostDecisionMutation";
-import { ApplicationState } from "../../../store/store";
-import * as utilsActions from "../../../store/utils/utilsActions";
 import { DecisionDto } from "../../../types/domain/big-decisions/DecisionDto";
 import pageUrls from "../../../utils/consts/pageUrls";
 import SaveCancelButtons from "../../_UI/Buttons/SaveCancelButtons";
 import MyTextField from "../../_UI/MyInputs/MyTextField";
 
+interface Props {
+  open: boolean;
+  initialValue: DecisionDto;
+  onClose: () => void;
+  afterSave?: (returned: DecisionDto) => void;
+}
+
 const DecisionDialog = (props: Props) => {
   const history = useHistory();
+
+  const { setSuccessMessage } = useSnackbarStore();
 
   const handleClose = () => {
     props.onClose();
@@ -24,7 +30,7 @@ const DecisionDialog = (props: Props) => {
   const onSubmit = (values: DecisionDto) => {
     postDecision(values, {
       onSuccess: (data) => {
-        props.setSuccessMessage("Decision saved!");
+        setSuccessMessage("Decision saved!");
         handleClose();
         history.push(pageUrls.BigDecisions.decision(data.id));
       },
@@ -90,24 +96,4 @@ const DecisionDialog = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: ApplicationState) => ({});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setSuccessMessage: (message: string) =>
-    dispatch(utilsActions.setSuccessMessage(message)),
-  setErrorMessage: (message: string) =>
-    dispatch(utilsActions.setErrorMessage(message)),
-});
-
-interface OwnProps {
-  open: boolean;
-  initialValue: DecisionDto;
-  onClose: () => void;
-  afterSave?: (returned: DecisionDto) => void;
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(DecisionDialog);
+export default DecisionDialog;

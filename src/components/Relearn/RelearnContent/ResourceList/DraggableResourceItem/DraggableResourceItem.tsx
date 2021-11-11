@@ -3,9 +3,9 @@ import React, { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import useSnackbarStore from "store/zustand/useSnackbarStore";
 import * as relearnActions from "../../../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../../../store/store";
-import * as utilsActions from "../../../../../store/utils/utilsActions";
 import { IMoveResource } from "../../../../../types/domain/relearn/IMoveResource";
 import { ResourceDto } from "../../../../../types/domain/relearn/ResourceDto";
 import ResourceItem from "./ResourceItem/ResourceItem";
@@ -13,6 +13,8 @@ import ResourceItem from "./ResourceItem/ResourceItem";
 // PE 1/3
 function DraggableResourceItem(props: Props) {
   const classes = useStyles();
+
+  const { setErrorMessage } = useSnackbarStore();
 
   const [collected, dragRef] = useDrag({
     type: "CARD",
@@ -46,7 +48,7 @@ function DraggableResourceItem(props: Props) {
 
       // Disable dnd for completed items
       if (props.resource.completedAt.length > 0) {
-        props.setErrorMessage("Completed items can't be moved");
+        setErrorMessage("Completed items can't be moved");
         return;
       }
 
@@ -93,11 +95,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
   setResources: (resources: ResourceDto[]) =>
     dispatch(relearnActions.setResources(resources)),
-
-  setSuccessMessage: (message: string) =>
-    dispatch(utilsActions.setSuccessMessage(message)),
-  setErrorMessage: (message: string) =>
-    dispatch(utilsActions.setErrorMessage(message)),
 });
 
 interface OwnProps {

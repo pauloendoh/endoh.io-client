@@ -1,37 +1,32 @@
-import Snackbar from "@material-ui/core/Snackbar"
-import { makeStyles, Theme } from "@material-ui/core/styles"
-import MuiAlert, { AlertProps } from "@material-ui/lab/Alert"
-import React from "react"
-import useSnackbarStore from "../../../store/zustand/useSnackbarStore"
+import Snackbar from "@material-ui/core/Snackbar";
+import { makeStyles, Theme } from "@material-ui/core/styles";
+import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import React from "react";
+import useSnackbarStore from "../../../store/zustand/useSnackbarStore";
 
-// Zustand version! 
-const MySnackbar2 = () => {
-  const classes = useStyles()
+const Snackbars = () => {
+  const classes = useStyles();
 
-  const {
-    successMessage,
-    setSuccessMessage,
-    errorMessage,
-    setErrorMessage,
-  } = useSnackbarStore()
+  const { successMessage, setSuccessMessage, errorMessage, setErrorMessage } =
+    useSnackbarStore();
 
   const handleCloseSuccess = (
     event?: React.SyntheticEvent,
     reason?: string
   ) => {
     if (reason === "clickaway") {
-      return
+      return;
     }
 
-    setSuccessMessage("")
-  }
+    setSuccessMessage("");
+  };
 
   const handleCloseError = (event?: React.SyntheticEvent, reason?: string) => {
     if (reason === "clickaway") {
-      return
+      return;
     }
-    setErrorMessage("")
-  }
+    setErrorMessage("");
+  };
 
   return (
     <div className={classes.root}>
@@ -57,11 +52,11 @@ const MySnackbar2 = () => {
         </Alert>
       </Snackbar>
     </div>
-  )
-}
+  );
+};
 
 function Alert(props: AlertProps) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -71,6 +66,6 @@ const useStyles = makeStyles((theme: Theme) => ({
       marginTop: theme.spacing(2),
     },
   },
-}))
+}));
 
-export default MySnackbar2
+export default Snackbars;

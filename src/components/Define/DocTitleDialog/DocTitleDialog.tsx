@@ -3,9 +3,9 @@ import { Form, Formik } from "formik";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import useSnackbarStore from "store/zustand/useSnackbarStore";
 import { addOrReplaceDoc } from "../../../store/define/defineActions";
 import { ApplicationState } from "../../../store/store";
-import * as utilsActions from "../../../store/utils/utilsActions";
 import { DocDto } from "../../../types/domain/define/DocDto";
 import apiUrls from "../../../utils/consts/apiUrls";
 import myAxios from "../../../utils/consts/myAxios";
@@ -17,6 +17,7 @@ const DocTitleDialog = (props: Props) => {
     props.onClose();
   };
 
+  const { setSuccessMessage } = useSnackbarStore();
   const handleSubmit = (
     values: { title: string },
     setSubmitting: (isSubmitting: boolean) => void
@@ -31,7 +32,7 @@ const DocTitleDialog = (props: Props) => {
       .post<DocDto>(apiUrls.define.doc, obj)
       .then((res) => {
         props.addOrReplaceDoc(res.data);
-        props.setSuccessMessage("Doc saved!");
+        setSuccessMessage("Doc saved!");
 
         props.afterSave(res.data);
       })
@@ -97,11 +98,6 @@ const mapStateToProps = (state: ApplicationState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   addOrReplaceDoc: (doc: DocDto) => dispatch(addOrReplaceDoc(doc)),
-
-  setSuccessMessage: (message: string) =>
-    dispatch(utilsActions.setSuccessMessage(message)),
-  setErrorMessage: (message: string) =>
-    dispatch(utilsActions.setErrorMessage(message)),
 });
 
 interface OwnProps {

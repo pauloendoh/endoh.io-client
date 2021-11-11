@@ -13,10 +13,10 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import useSnackbarStore from "store/zustand/useSnackbarStore";
 import * as relearnActions from "../../../../store/relearn/relearnActions";
 import { removeSkills } from "../../../../store/skillbase/skillbaseActions";
 import { ApplicationState } from "../../../../store/store";
-import * as utilsActions from "../../../../store/utils/utilsActions";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto";
 import { IdsDto } from "../../../../types/domain/_common/IdsDto";
@@ -26,6 +26,8 @@ import myAxios from "../../../../utils/consts/myAxios";
 // PE 2/3 - MenuItem could be shorter?
 function SkillMoreIcon(props: Props) {
   const classes = useStyles();
+
+  const { setSuccessMessage } = useSnackbarStore();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleOpenMore = (event: any) => {
@@ -45,7 +47,7 @@ function SkillMoreIcon(props: Props) {
         })
         .then((res) => {
           props.removeSkills([id]);
-          props.setSuccessMessage("Skill deleted successfully!");
+          setSuccessMessage("Skill deleted successfully!");
           props.afterDelete();
         });
     }
@@ -125,9 +127,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   editTag: (tag: TagDto) => dispatch(relearnActions.editTag(tag)),
   removeTag: (id: number) => dispatch(relearnActions.removeTag(id)),
   removeSkills: (ids: number[]) => dispatch(removeSkills(ids)),
-
-  setSuccessMessage: (message: string) =>
-    dispatch(utilsActions.setSuccessMessage(message)),
 });
 
 interface OwnProps {

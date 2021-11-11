@@ -15,16 +15,13 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import useDialogsStore from "store/zustand/useDialogsStore";
+import useSnackbarStore from "store/zustand/useSnackbarStore";
 import {
   editResource,
   removeResource,
   setResources,
 } from "../../../../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../../../../store/store";
-import {
-  setErrorMessage,
-  setSuccessMessage,
-} from "../../../../../../store/utils/utilsActions";
 import { ResourceDto } from "../../../../../../types/domain/relearn/ResourceDto";
 import apiUrls from "../../../../../../utils/consts/apiUrls";
 import myAxios from "../../../../../../utils/consts/myAxios";
@@ -33,6 +30,8 @@ import myAxios from "../../../../../../utils/consts/myAxios";
 function ResourceMoreIcon(props: Props) {
   const classes = useStyles();
   const { openConfirmDialog } = useDialogsStore();
+
+  const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
 
   useEffect(() => {
     if (!props.isHovered) setAnchorEl(null);
@@ -52,7 +51,7 @@ function ResourceMoreIcon(props: Props) {
       title: "Delete resource?",
       onConfirm: () => {
         myAxios.delete(`${apiUrls.relearn.resource}/${id}`).then((res) => {
-          props.setSuccessMessage("Resource deleted!");
+          setSuccessMessage("Resource deleted!");
 
           props.removeResource(id);
         });
@@ -66,12 +65,12 @@ function ResourceMoreIcon(props: Props) {
         `${apiUrls.relearn.resourceDuplicate}/${resource.id}`
       )
       .then((res) => {
-        props.setSuccessMessage("Resource duplicated!");
+        setSuccessMessage("Resource duplicated!");
 
         props.setResources(res.data);
       })
       .catch((err) => {
-        props.setErrorMessage(err.response.data.errors[0].message);
+        setErrorMessage(err.response.data.errors[0].message);
       });
   };
 
@@ -173,9 +172,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   removeResource: (id: number) => dispatch(removeResource(id)),
 
   setResources: (resources: ResourceDto[]) => dispatch(setResources(resources)),
-
-  setSuccessMessage: (message: string) => dispatch(setSuccessMessage(message)),
-  setErrorMessage: (message: string) => dispatch(setErrorMessage(message)),
 });
 
 interface OwnProps {

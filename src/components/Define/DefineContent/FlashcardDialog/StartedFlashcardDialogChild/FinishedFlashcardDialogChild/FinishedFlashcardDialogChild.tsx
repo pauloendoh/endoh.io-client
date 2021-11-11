@@ -9,9 +9,9 @@ import React, { useState } from "react";
 import { GlobalHotKeys } from "react-hotkeys";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import useSnackbarStore from "store/zustand/useSnackbarStore";
 import { setNotes } from "../../../../../../store/define/defineActions";
 import { ApplicationState } from "../../../../../../store/store";
-import { setSuccessMessage } from "../../../../../../store/utils/utilsActions";
 import { DocDto } from "../../../../../../types/domain/define/DocDto";
 import { NoteDto } from "../../../../../../types/domain/define/NoteDto";
 import apiUrls from "../../../../../../utils/consts/apiUrls";
@@ -26,6 +26,8 @@ const FinishedFlashcardDialogChild = (props: Props) => {
     return ((props.halves * 0.5 + props.corrects) * 100) / props.results.length;
   };
 
+  const { setSuccessMessage } = useSnackbarStore();
+
   const saveResults = () => {
     setIsSubmitting(true);
 
@@ -33,7 +35,7 @@ const FinishedFlashcardDialogChild = (props: Props) => {
       .post<NoteDto[]>(apiUrls.define.postManyNotes, props.results)
       .then((res) => {
         props.setNotes(res.data);
-        props.setSuccessMessage("Saved!");
+        setSuccessMessage("Saved!");
         props.onFinish();
       })
       .finally(() => setIsSubmitting(false));
@@ -91,7 +93,6 @@ const mapStateToProps = (state: ApplicationState) => ({});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setNotes: (notes: NoteDto[]) => dispatch(setNotes(notes)),
-  setSuccessMessage: (message: string) => dispatch(setSuccessMessage(message)),
 });
 
 interface OwnProps {

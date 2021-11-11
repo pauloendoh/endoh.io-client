@@ -8,10 +8,7 @@ import {
 } from "@material-ui/core";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { ApplicationState } from "../../../../../store/store";
-import * as utilsActions from "../../../../../store/utils/utilsActions";
+import useSnackbarStore from "store/zustand/useSnackbarStore";
 import { AuthChangePasswordPostDto } from "../../../../../types/domain/auth/AuthChangePasswordPostDto";
 import MyAxiosError, { MyFieldError } from "../../../../../types/MyAxiosError";
 import apiUrls from "../../../../../utils/consts/apiUrls";
@@ -20,7 +17,14 @@ import Flex from "../../../../_UI/Flexboxes/Flex";
 import FlexHCenter from "../../../../_UI/Flexboxes/FlexHCenter";
 import MyTextField from "../../../../_UI/MyInputs/MyTextField";
 
+interface Props {
+  open: boolean;
+  onClose: () => void;
+}
+
 const ChangePasswordDialog = (props: Props) => {
+  const { setSuccessMessage } = useSnackbarStore();
+
   const [responseErrors, setResponseErrors] = useState([] as MyFieldError[]);
 
   const handleClose = () => {
@@ -45,7 +49,7 @@ const ChangePasswordDialog = (props: Props) => {
     myAxios
       .post(apiUrls.auth.authPasswordChange, values)
       .then((res) => {
-        props.setSuccessMessage("Password changed successfully!");
+        setSuccessMessage("Password changed successfully!");
         handleClose();
       })
       .catch((err: MyAxiosError) => {
@@ -158,27 +162,4 @@ const ChangePasswordDialog = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: ApplicationState) => ({
-  // editingTag: state.relearn.editingTag,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setSuccessMessage: (message: string) =>
-    dispatch(utilsActions.setSuccessMessage(message)),
-  setErrorMessage: (message: string) =>
-    dispatch(utilsActions.setErrorMessage(message)),
-});
-
-interface OwnProps {
-  open: boolean;
-  onClose: () => void;
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ChangePasswordDialog);
+export default ChangePasswordDialog;

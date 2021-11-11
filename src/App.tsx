@@ -21,8 +21,7 @@ import SkillDialog from "./components/Skillbase/SkillDialog/SkillDialog";
 import LoadingPage from "./components/_common/LoadingPage/LoadingPage";
 import Navbar from "./components/_common/_layout/Navbar/Navbar";
 import ConfirmDialog from "./components/_UI/Dialogs/ConfirmationDialog";
-import MySnackBar from "./components/_UI/SnackBars/MySnackBar";
-import MySnackBar2 from "./components/_UI/SnackBars/MySnackbar2";
+import MySnackBar2 from "./components/_UI/SnackBars/Snackbars";
 import {
   checkAuthOrLogoutActionCreator,
   setAuthProfile,
@@ -186,7 +185,6 @@ const App = (props: Props) => {
         <CssBaseline />
         {isLoading ? <LoadingPage /> : routes}
 
-        <MySnackBar />
         <MySnackBar2 />
       </QueryClientProvider>
     </MuiThemeProvider>

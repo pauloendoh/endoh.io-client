@@ -8,10 +8,10 @@ import React from "react";
 import { connect } from "react-redux";
 import TimeAgo from "react-timeago";
 import { Dispatch } from "redux";
+import useSnackbarStore from "store/zustand/useSnackbarStore";
 import Icons from "utils/styles/Icons";
 import * as relearnActions from "../../../../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../../../../store/store";
-import * as utilsActions from "../../../../../../store/utils/utilsActions";
 import { IMoveResource } from "../../../../../../types/domain/relearn/IMoveResource";
 import { ResourceDto } from "../../../../../../types/domain/relearn/ResourceDto";
 import apiUrls from "../../../../../../utils/consts/apiUrls";
@@ -28,6 +28,8 @@ import ResourceItemTaskCheckbox from "./ResourceItemTaskCheckbox/ResourceItemTas
 function ResourceItem(props: Props) {
   const { handleMouseEnter, handleMouseLeave, isHovering } = useHover();
 
+  const { setSuccessMessage } = useSnackbarStore();
+
   const handleSaveRating = (rating: number) => {
     const resource = { ...props.resource, rating } as ResourceDto;
     myAxios
@@ -36,9 +38,9 @@ function ResourceItem(props: Props) {
         props.setResources(res.data);
 
         if (resource.rating) {
-          props.setSuccessMessage("Resource rated!");
+          setSuccessMessage("Resource rated!");
         } else {
-          props.setSuccessMessage("Rating removed!");
+          setSuccessMessage("Rating removed!");
         }
       });
   };
@@ -56,9 +58,9 @@ function ResourceItem(props: Props) {
         props.setResources(res.data);
 
         if (checked) {
-          props.setSuccessMessage("Task completed!");
+          setSuccessMessage("Task completed!");
         } else {
-          props.setSuccessMessage("Task uncompleted!");
+          setSuccessMessage("Task uncompleted!");
         }
       });
   };
@@ -191,11 +193,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
   setResources: (resources: ResourceDto[]) =>
     dispatch(relearnActions.setResources(resources)),
-
-  setSuccessMessage: (message: string) =>
-    dispatch(utilsActions.setSuccessMessage(message)),
-  setErrorMessage: (message: string) =>
-    dispatch(utilsActions.setErrorMessage(message)),
 });
 
 interface OwnProps {

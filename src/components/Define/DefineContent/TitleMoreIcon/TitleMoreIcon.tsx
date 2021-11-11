@@ -10,12 +10,13 @@ import {
 import EditIcon from "@material-ui/icons/Edit";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import React, { useState } from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { ApplicationState } from "../../../../store/store";
-import * as utilsActions from "../../../../store/utils/utilsActions";
 import { DocDto } from "../../../../types/domain/define/DocDto";
 import DocTitleDialog from "../../DocTitleDialog/DocTitleDialog";
+
+interface Props {
+  doc: DocDto;
+  afterDelete?: () => void;
+}
 
 // PE 2/3 - MenuItem could be shorter?
 function TitleMoreIcon(props: Props) {
@@ -92,25 +93,4 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const mapStateToProps = (state: ApplicationState) => ({
-  // user: state.auth.user,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  // editTag: (tag: TagDto) => dispatch(relearnActions.editTag(tag)),
-  // removeTag: (id: number) => dispatch(relearnActions.removeTag(id)),
-
-  setSuccessMessage: (message: string) =>
-    dispatch(utilsActions.setSuccessMessage(message)),
-});
-
-interface OwnProps {
-  doc: DocDto;
-  afterDelete?: () => void;
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(TitleMoreIcon);
+export default TitleMoreIcon;

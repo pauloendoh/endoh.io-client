@@ -12,9 +12,7 @@ import sample from "lodash/sample";
 import React, { useEffect, useState } from "react";
 import { GlobalHotKeys } from "react-hotkeys";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
 import { ApplicationState } from "../../../../store/store";
-import * as utilsActions from "../../../../store/utils/utilsActions";
 import { NoteDto } from "../../../../types/domain/define/NoteDto";
 import { shuffleArray } from "../../../../utils/shuffleArray";
 import DarkButton from "../../../_UI/Buttons/DarkButton";
@@ -23,7 +21,14 @@ import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
 import Txt from "../../../_UI/Text/Txt";
 import StartedFlashcardDialogChild from "./StartedFlashcardDialogChild/StartedFlashcardDialogChild";
 
-//  FlashcardTestDialog  ?
+interface OwnProps {
+  open: boolean;
+  docId?: number;
+  onClose: () => void;
+}
+
+type Props = ReturnType<typeof mapStateToProps> & OwnProps;
+
 const FlashcardDialog = (props: Props) => {
   const classes = useStyles();
 
@@ -203,21 +208,4 @@ const mapStateToProps = (state: ApplicationState) => ({
   allNotes: state.define.notes,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setSuccessMessage: (message: string) =>
-    dispatch(utilsActions.setSuccessMessage(message)),
-  setErrorMessage: (message: string) =>
-    dispatch(utilsActions.setErrorMessage(message)),
-});
-
-interface OwnProps {
-  open: boolean;
-  docId?: number;
-  onClose: () => void;
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(FlashcardDialog);
+export default connect(mapStateToProps, undefined)(FlashcardDialog);

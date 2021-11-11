@@ -13,7 +13,6 @@ import { Dispatch } from "redux";
 import { pushOrReplace } from "utils/pushOrReplace";
 import * as relearnActions from "../../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../../store/store";
-import * as utilsActions from "../../../../store/utils/utilsActions";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
 import pageUrls from "../../../../utils/consts/pageUrls";
 import { getTodoResources as filterTodoResources } from "../../../../utils/relearn/getTodoResources";
@@ -108,9 +107,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   editTag: (tag: TagDto) => dispatch(relearnActions.editTag(tag)),
   setTags: (tags: TagDto[]) => dispatch(relearnActions.setTags(tags)),
   removeTag: (id: number) => dispatch(relearnActions.removeTag(id)),
-
-  setSuccessMessage: (message: string) =>
-    dispatch(utilsActions.setSuccessMessage(message)),
 });
 
 interface OwnProps {

@@ -14,9 +14,8 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import useSnackbarStore from "store/zustand/useSnackbarStore";
 import * as relearnActions from "../../../../../store/relearn/relearnActions";
-import { ApplicationState } from "../../../../../store/store";
-import * as utilsActions from "../../../../../store/utils/utilsActions";
 import { TagDto } from "../../../../../types/domain/relearn/TagDto";
 import apiUrls from "../../../../../utils/consts/apiUrls";
 import myAxios from "../../../../../utils/consts/myAxios";
@@ -24,6 +23,8 @@ import myAxios from "../../../../../utils/consts/myAxios";
 // PE 2/3 - MenuItem could be shorter?
 function TagMoreIcon(props: Props) {
   const classes = useStyles();
+
+  const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleOpenMore = (event: any) => {
@@ -37,7 +38,7 @@ function TagMoreIcon(props: Props) {
   const handleDeleteTag = (id: number) => {
     if (window.confirm("Confirm delete?")) {
       myAxios.delete(`${apiUrls.relearn.tag}/${id}`).then((res) => {
-        props.setSuccessMessage("Tag deleted!");
+        setSuccessMessage("Tag deleted!");
 
         props.afterDelete();
 
@@ -127,16 +128,9 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const mapStateToProps = (state: ApplicationState) => ({
-  // user: state.auth.user,
-});
-
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   editTag: (tag: TagDto) => dispatch(relearnActions.editTag(tag)),
   removeTag: (id: number) => dispatch(relearnActions.removeTag(id)),
-
-  setSuccessMessage: (message: string) =>
-    dispatch(utilsActions.setSuccessMessage(message)),
 });
 
 interface OwnProps {
@@ -144,8 +138,6 @@ interface OwnProps {
   afterDelete?: () => void;
 }
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
+type Props = ReturnType<typeof mapDispatchToProps> & OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(TagMoreIcon);
+export default connect(undefined, mapDispatchToProps)(TagMoreIcon);

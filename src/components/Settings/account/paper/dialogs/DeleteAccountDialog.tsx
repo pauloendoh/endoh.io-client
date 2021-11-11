@@ -10,9 +10,9 @@ import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import useSnackbarStore from "store/zustand/useSnackbarStore";
 import { logoutActionCreator } from "../../../../../store/auth/authActions";
 import { ApplicationState } from "../../../../../store/store";
-import * as utilsActions from "../../../../../store/utils/utilsActions";
 import { UserDeleteDto } from "../../../../../types/domain/auth/UserDeleteDto";
 import MyAxiosError, { MyFieldError } from "../../../../../types/MyAxiosError";
 import apiUrls from "../../../../../utils/consts/apiUrls";
@@ -23,6 +23,8 @@ import MyTextField from "../../../../_UI/MyInputs/MyTextField";
 
 const DeleteAccountDialog = (props: Props) => {
   const [responseErrors, setResponseErrors] = useState([] as MyFieldError[]);
+
+  const { setSuccessMessage } = useSnackbarStore();
 
   const handleClose = () => {
     setResponseErrors([]);
@@ -44,9 +46,7 @@ const DeleteAccountDialog = (props: Props) => {
           data: values,
         })
         .then((res) => {
-          props.setSuccessMessage(
-            "Account delete successfully! Logging out..."
-          );
+          setSuccessMessage("Account delete successfully! Logging out...");
           props.logout();
 
           // handleClose()
@@ -135,11 +135,6 @@ const mapStateToProps = (state: ApplicationState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   logout: () => dispatch(logoutActionCreator(dispatch)),
-
-  setSuccessMessage: (message: string) =>
-    dispatch(utilsActions.setSuccessMessage(message)),
-  setErrorMessage: (message: string) =>
-    dispatch(utilsActions.setErrorMessage(message)),
 });
 
 interface OwnProps {

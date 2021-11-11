@@ -13,15 +13,12 @@ import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import useSnackbarStore from "store/zustand/useSnackbarStore";
 import {
   setEditingSkill,
   setSkills,
 } from "../../../../store/skillbase/skillbaseActions";
 import { ApplicationState } from "../../../../store/store";
-import {
-  setErrorMessage,
-  setSuccessMessage,
-} from "../../../../store/utils/utilsActions";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto";
 import MyAxiosError from "../../../../types/MyAxiosError";
@@ -35,6 +32,8 @@ import SkillLevelTD from "./SkillLevelTd/SkillLevelTd";
 const SkillbaseTableRow = (props: Props) => {
   const classes = useStyles();
   const labelId = `enhanced-table-checkbox-${props.index}`;
+
+  const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
 
   const findTagById = (id: number) => {
     return props.allTags.find((tag) => tag.id === props.skill.tagId);
@@ -74,10 +73,10 @@ const SkillbaseTableRow = (props: Props) => {
       .post<SkillDto[]>(apiUrls.skillbase.skill, changedSkill)
       .then((res) => {
         props.setSkills(res.data);
-        props.setSuccessMessage("Priority changed!");
+        setSuccessMessage("Priority changed!");
       })
       .catch((err: MyAxiosError) => {
-        props.setErrorMessage(err.response.data.errors[0].message);
+        setErrorMessage(err.response.data.errors[0].message);
       })
       .finally(() => {
         setIsChangingPriority(false);
@@ -197,8 +196,6 @@ const mapStateToProps = (state: ApplicationState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setEditingSkill: (skill: SkillDto) => dispatch(setEditingSkill(skill)),
   setSkills: (skills: SkillDto[]) => dispatch(setSkills(skills)),
-  setSuccessMessage: (message: string) => dispatch(setSuccessMessage(message)),
-  setErrorMessage: (message: string) => dispatch(setErrorMessage(message)),
 });
 
 interface OwnProps {

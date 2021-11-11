@@ -21,12 +21,12 @@ import { useLocation } from "react-router-dom";
 import MaskedInput from "react-text-mask";
 import { Dispatch } from "redux";
 import useDialogsStore from "store/zustand/useDialogsStore";
+import useSnackbarStore from "store/zustand/useSnackbarStore";
 import MyAxiosError from "types/MyAxiosError";
 import { urls } from "utils/urls";
 import linkPng from "../../../../static/images/link.png";
 import * as relearnActions from "../../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../../store/store";
-import * as utilsActions from "../../../../store/utils/utilsActions";
 import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
 import apiUrls from "../../../../utils/consts/apiUrls";
@@ -43,6 +43,7 @@ import { LinkPreviewDto } from "./_types/LinkPreviewDto";
 // PE 1/3 - tá muito grande
 const ResourceDialog = (props: Props) => {
   const [isFetchingLinkPreview, setIsFetchingLinkPreview] = useState(false);
+  const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
 
   const { openConfirmDialog } = useDialogsStore();
 
@@ -51,7 +52,7 @@ const ResourceDialog = (props: Props) => {
       .post<ResourceDto[]>(apiUrls.relearn.resource, resource)
       .then((res) => {
         props.setResources(res.data);
-        props.setSuccessMessage("Resource saved!");
+        setSuccessMessage("Resource saved!");
 
         myAxios.get<TagDto[]>(apiUrls.relearn.tag).then((res) => {
           props.setTags(res.data);
@@ -60,7 +61,7 @@ const ResourceDialog = (props: Props) => {
       .catch((err: MyAxiosError) => {
         // PE 1/3 - This is common. Should I create a getFirstErrorMessage(err: MyAxiosErr)
         // or even props.showAxiosError(err: MyAxiosError)
-        props.setErrorMessage(err.response.data.errors[0].message);
+        setErrorMessage(err.response.data.errors[0].message);
       })
       .finally(() => {
         props.closeResourceDialog();
@@ -441,11 +442,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   setResources: (resources: ResourceDto[]) =>
     dispatch(relearnActions.setResources(resources)),
   setTags: (tags: TagDto[]) => dispatch(relearnActions.setTags(tags)),
-
-  setSuccessMessage: (message: string) =>
-    dispatch(utilsActions.setSuccessMessage(message)),
-  setErrorMessage: (message: string) =>
-    dispatch(utilsActions.setErrorMessage(message)),
 });
 
 type Props = ReturnType<typeof mapStateToProps> &
