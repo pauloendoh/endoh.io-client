@@ -2,27 +2,25 @@ import {
   Box,
   Button,
   ClickAwayListener,
-  makeStyles,
   Tooltip,
   Typography,
 } from "@material-ui/core";
 import StarBorderOutlined from "@material-ui/icons/StarBorderOutlined";
 import StarRateIcon from "@material-ui/icons/StarRate";
 import { Rating } from "@material-ui/lab";
-import clsx from "clsx";
 import React from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
 import { ratingLabels } from "utils/domain/relearn/resources/ratingLabels";
-import { ApplicationState } from "../../../store/store";
-import * as utilsActions from "../../../store/utils/utilsActions";
 import { ResourceDto } from "../../../types/domain/relearn/ResourceDto";
 import { getColorByRating } from "../../../utils/relearn/getColorByRating";
 import FlexHCenter from "../../_UI/Flexboxes/FlexHCenter";
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
 
-function RateButton(props: Props) {
-  const classes = useStyles();
+interface Props {
+  resource: ResourceDto;
+  onChange: (newRating: number) => void;
+}
+
+const RateButton = (props: Props) => {
   const [open, setOpen] = React.useState(false);
   const handleTooltipClose = () => {
     setOpen(false);
@@ -81,7 +79,10 @@ function RateButton(props: Props) {
           size="small"
           onClick={handleTooltipOpen}
           variant="outlined"
-          className={clsx([classes.rateButton, "rate-button"])}
+          style={{
+            position: "relative",
+          }}
+          className="rate-button"
         >
           <FlexVCenter
             style={{ color: getColorByRating(props.resource.rating) }}
@@ -104,28 +105,6 @@ function RateButton(props: Props) {
       </Tooltip>
     </ClickAwayListener>
   );
-}
+};
 
-const useStyles = makeStyles((theme) => ({
-  rateButton: {
-    position: "relative",
-  },
-}));
-
-const mapStateToProps = (state: ApplicationState) => ({});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setSuccessMessage: (message: string) =>
-    dispatch(utilsActions.setSuccessMessage(message)),
-});
-
-interface OwnProps {
-  resource: ResourceDto;
-  onChange: (newRating: number) => void;
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(RateButton);
+export default RateButton;

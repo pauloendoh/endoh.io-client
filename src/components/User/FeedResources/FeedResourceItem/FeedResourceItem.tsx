@@ -3,9 +3,8 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import TimeAgo from "react-timeago";
 import { Dispatch } from "redux";
+import useSnackbarStore from "store/zustand/useSnackbarStore";
 import * as relearnActions from "../../../../store/relearn/relearnActions";
-import { ApplicationState } from "../../../../store/store";
-import * as utilsActions from "../../../../store/utils/utilsActions";
 import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto";
 import apiUrls from "../../../../utils/consts/apiUrls";
 import myAxios from "../../../../utils/consts/myAxios";
@@ -31,6 +30,8 @@ function FeedResourceItem(props: Props) {
     setIsHovered(false);
   };
 
+  const { setSuccessMessage } = useSnackbarStore();
+
   const handleSaveRating = (rating: number) => {
     const resource = { ...props.resource, rating } as ResourceDto;
     myAxios
@@ -39,9 +40,9 @@ function FeedResourceItem(props: Props) {
         props.setResources(res.data);
 
         if (resource.rating) {
-          props.setSuccessMessage("Resource rated!");
+          setSuccessMessage("Resource rated!");
         } else {
-          props.setSuccessMessage("Rating removed!");
+          setSuccessMessage("Rating removed!");
         }
       });
   };
@@ -167,16 +168,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mapStateToProps = (state: ApplicationState) => ({});
-
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setResources: (resources: ResourceDto[]) =>
     dispatch(relearnActions.setResources(resources)),
-
-  setSuccessMessage: (message: string) =>
-    dispatch(utilsActions.setSuccessMessage(message)),
-  setErrorMessage: (message: string) =>
-    dispatch(utilsActions.setErrorMessage(message)),
 });
 
 interface OwnProps {
@@ -184,8 +178,6 @@ interface OwnProps {
   style?: React.CSSProperties;
 }
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
+type Props = ReturnType<typeof mapDispatchToProps> & OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(FeedResourceItem);
+export default connect(undefined, mapDispatchToProps)(FeedResourceItem);

@@ -12,12 +12,12 @@ import { Form, Formik, FormikErrors } from "formik";
 import React, { ChangeEvent, createRef } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import useSnackbarStore from "store/zustand/useSnackbarStore";
 import {
   editProfilePicture,
   setProfile,
 } from "../../../../store/profile/profileActions";
 import { ApplicationState } from "../../../../store/store";
-import * as utilsActions from "../../../../store/utils/utilsActions";
 import { ProfileDto } from "../../../../types/domain/_common/ProfileDto";
 import MyAxiosError from "../../../../types/MyAxiosError";
 import apiUrls from "../../../../utils/consts/apiUrls";
@@ -30,25 +30,22 @@ import ProfilePicture from "../../../_UI/ProfilePicture/ProfilePicture";
 // PE 2/3
 const EditProfileDialog = (props: Props) => {
   const classes = useStyles();
-  // const [file, setFile] = useState<File>(null)
 
   const fileInput = createRef<HTMLInputElement>();
+
+  const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
 
   const handleSubmit = (sentProfile: ProfileDto) => {
     myAxios
       .put<ProfileDto>(apiUrls.user.profile, sentProfile)
       .then((res) => {
         props.setProfile(res.data);
-        props.setSuccessMessage("Profile saved!");
-
-        // if (file) {
-        // }
+        setSuccessMessage("Profile saved!");
       })
       .catch((err: MyAxiosError) => {
-        props.setErrorMessage(err.response.data.errors[0].message);
+        setErrorMessage(err.response.data.errors[0].message);
       })
       .finally(() => {
-        // setFile(null)
         props.onClose();
       });
   };
@@ -56,8 +53,6 @@ const EditProfileDialog = (props: Props) => {
   const handleFileSelection = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files[0];
     if (file) {
-      // setFile(file)
-
       handleFileUpload(file);
     }
   };
@@ -69,16 +64,13 @@ const EditProfileDialog = (props: Props) => {
     myAxios
       .post<string>(apiUrls.user.picture, formData)
       .then((res) => {
-        props.setSuccessMessage("Image uploaded!");
+        setSuccessMessage("Image uploaded!");
         props.editProfilePicture(res.data);
       })
       .catch((err) => {
-        props.setErrorMessage(
+        setErrorMessage(
           "Profile picture error: invalid type or image is too heavy (2MB max)"
         );
-      })
-      .finally(() => {
-        // setFile(null)
       });
   };
 
@@ -229,10 +221,6 @@ const mapStateToProps = (state: ApplicationState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setProfile: (profile: ProfileDto) => dispatch(setProfile(profile)),
   editProfilePicture: (url: string) => editProfilePicture(dispatch, url),
-  setSuccessMessage: (message: string) =>
-    dispatch(utilsActions.setSuccessMessage(message)),
-  setErrorMessage: (message: string) =>
-    dispatch(utilsActions.setErrorMessage(message)),
 });
 
 interface OwnProps {

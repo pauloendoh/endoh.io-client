@@ -14,9 +14,9 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Dispatch } from "redux";
+import useSnackbarStore from "store/zustand/useSnackbarStore";
 import { setFollowingTags } from "../../../../store/auth/authActions";
 import { ApplicationState } from "../../../../store/store";
-import * as utilsActions from "../../../../store/utils/utilsActions";
 import { FollowingTagDto } from "../../../../types/domain/feed/FollowingTagDto";
 import MyAxiosError from "../../../../types/MyAxiosError";
 import apiUrls from "../../../../utils/consts/apiUrls";
@@ -28,6 +28,8 @@ const FollowDialog = (props: Props) => {
   const { username } = useParams<{ username: string }>();
 
   const [selectedTagIds, setSelectedTagIds] = useState<number[]>([]);
+
+  const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
 
   useEffect(() => {
     if (props.open) {
@@ -58,10 +60,10 @@ const FollowDialog = (props: Props) => {
       .post<FollowingTagDto[]>(apiUrls.user.followingTags(username), data)
       .then((res) => {
         props.setFollowingTags(res.data);
-        props.setSuccessMessage("Saved!");
+        setSuccessMessage("Saved!");
       })
       .catch((err: MyAxiosError) => {
-        props.setErrorMessage(err.response.data.errors[0].message);
+        setErrorMessage(err.response.data.errors[0].message);
       })
       .finally(() => {
         onClose();
@@ -153,12 +155,8 @@ const mapStateToProps = (state: ApplicationState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setSuccessMessage: (message: string) =>
-    dispatch(utilsActions.setSuccessMessage(message)),
   setFollowingTags: (followingTags: FollowingTagDto[]) =>
     dispatch(setFollowingTags(followingTags)),
-  setErrorMessage: (message: string) =>
-    dispatch(utilsActions.setErrorMessage(message)),
 });
 
 interface OwnProps {

@@ -11,8 +11,6 @@ import { Link as RouterLink, useParams } from "react-router-dom";
 import { Dispatch } from "redux";
 import { FollowingUserDto } from "types/domain/feed/FollowingUserDto";
 import { setFollowingTags } from "../../../store/auth/authActions";
-import { ApplicationState } from "../../../store/store";
-import * as utilsActions from "../../../store/utils/utilsActions";
 import { FollowingTagDto } from "../../../types/domain/feed/FollowingTagDto";
 import pageUrls from "../../../utils/consts/pageUrls";
 import Flex from "../../_UI/Flexboxes/Flex";
@@ -82,15 +80,9 @@ const FollowingUsersDialog = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: ApplicationState) => ({});
-
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setSuccessMessage: (message: string) =>
-    dispatch(utilsActions.setSuccessMessage(message)),
   setFollowingTags: (followingTags: FollowingTagDto[]) =>
     dispatch(setFollowingTags(followingTags)),
-  setErrorMessage: (message: string) =>
-    dispatch(utilsActions.setErrorMessage(message)),
 });
 
 interface OwnProps {
@@ -99,11 +91,6 @@ interface OwnProps {
   onClose: () => void;
 }
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
+type Props = ReturnType<typeof mapDispatchToProps> & OwnProps;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FollowingUsersDialog);
+export default connect(undefined, mapDispatchToProps)(FollowingUsersDialog);

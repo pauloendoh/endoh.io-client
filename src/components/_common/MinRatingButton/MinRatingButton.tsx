@@ -9,13 +9,14 @@ import {
 import { Rating } from "@material-ui/lab";
 import clsx from "clsx";
 import React from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
 import { ratingLabels } from "utils/domain/relearn/resources/ratingLabels";
-import { ApplicationState } from "../../../store/store";
-import * as utilsActions from "../../../store/utils/utilsActions";
 import FlexHCenter from "../../_UI/Flexboxes/FlexHCenter";
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
+
+interface Props {
+  value: number;
+  onChange: (newRating: number) => void;
+}
 
 function MinRatingButton(props: Props) {
   const classes = useStyles();
@@ -98,20 +99,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mapStateToProps = (state: ApplicationState) => ({});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setSuccessMessage: (message: string) =>
-    dispatch(utilsActions.setSuccessMessage(message)),
-});
-
-interface OwnProps {
-  value: number;
-  onChange: (newRating: number) => void;
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(MinRatingButton);
+export default MinRatingButton;
