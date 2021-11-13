@@ -7,11 +7,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Form, Formik } from "formik";
+import { useLogout } from "hooks/auth/useLogout";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
-import { logoutActionCreator } from "../../../../../store/auth/authActions";
 import { ApplicationState } from "../../../../../store/store";
 import { UserDeleteDto } from "../../../../../types/domain/auth/UserDeleteDto";
 import MyAxiosError, { MyFieldError } from "../../../../../types/MyAxiosError";
@@ -31,6 +31,8 @@ const DeleteAccountDialog = (props: Props) => {
     props.onClose();
   };
 
+  const logout = useLogout(props.dispatch);
+
   const handleSubmit = (
     values: UserDeleteDto,
     setSubmitting: (isSubmitting: boolean) => void
@@ -47,7 +49,7 @@ const DeleteAccountDialog = (props: Props) => {
         })
         .then((res) => {
           setSuccessMessage("Account delete successfully! Logging out...");
-          props.logout();
+          logout();
 
           // handleClose()
         })
@@ -134,7 +136,7 @@ const mapStateToProps = (state: ApplicationState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  logout: () => dispatch(logoutActionCreator(dispatch)),
+  dispatch,
 });
 
 interface OwnProps {

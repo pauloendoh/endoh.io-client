@@ -1,6 +1,5 @@
 import { Box, FormControl, MenuItem, Select } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
 import {
   Bar,
   BarChart,
@@ -10,18 +9,16 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { Dispatch } from "redux";
-import {
-  clearProfile,
-  setProfileResources,
-} from "../../../store/profile/profileActions";
-import { ApplicationState } from "../../../store/store";
 import { ResourceDto } from "../../../types/domain/relearn/ResourceDto";
 import { TagDto } from "../../../types/domain/relearn/TagDto";
 import { getLastWeekResourcesForChart } from "../../../utils/feed/getLastWeekResourcesForChart";
 import { getLastYearResourcesForChart } from "../../../utils/feed/getLastYearResourcesForChart";
 
 type ChartRange = "Last week" | "Last year";
+
+interface Props {
+  resources: ResourceDto[];
+}
 
 // PE 3/3
 const ResourcesChart = (props: Props) => {
@@ -93,21 +90,4 @@ const ResourcesChart = (props: Props) => {
   );
 };
 
-interface OwnProps {
-  resources: ResourceDto[];
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
-
-const mapStateToProps = (state: ApplicationState) => ({});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  clearProfile: () => dispatch(clearProfile()),
-
-  setProfileResources: (resources: ResourceDto[]) =>
-    dispatch(setProfileResources(resources)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ResourcesChart);
+export default ResourcesChart;

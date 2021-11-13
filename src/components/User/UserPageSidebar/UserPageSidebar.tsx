@@ -3,11 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, List, ListItem, makeStyles, Typography } from "@material-ui/core";
 import ListItemText from "@material-ui/core/ListItemText";
 import React, { useRef } from "react";
-import { connect } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { Dispatch } from "redux";
+import useProfileStore from "store/zustand/domain/useProfileStore";
 import useElementSize from "../../../hooks/useElementSize";
-import { ApplicationState } from "../../../store/store";
 import pageUrls from "../../../utils/consts/pageUrls";
 import Flex from "../../_UI/Flexboxes/Flex";
 import FlexHCenter from "../../_UI/Flexboxes/FlexHCenter";
@@ -15,8 +13,9 @@ import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
 import TagListItem from "./TagListItem/TagListItem";
 
 // PE 3/3
-const UserPageSidebar = (props: Props) => {
+const UserPageSidebar = () => {
   const rootRef = useRef<any>(null);
+  const profileStore = useProfileStore();
 
   const { width } = useElementSize(rootRef);
 
@@ -44,12 +43,12 @@ const UserPageSidebar = (props: Props) => {
 
           <FlexHCenter mt={0.5} width={24}>
             <Typography className={classes.resourcesCount}>
-              {props.resources.length}
+              {profileStore.resources.length}
             </Typography>
           </FlexHCenter>
         </ListItem>
 
-        {props.publicTags.map((tag) => (
+        {profileStore.publicTags.map((tag) => (
           <TagListItem
             key={tag.id}
             tag={tag}
@@ -60,7 +59,7 @@ const UserPageSidebar = (props: Props) => {
         ))}
       </List>
 
-      {props.privateTags.length > 0 && (
+      {profileStore.privateTags.length > 0 && (
         <Box mt={2}>
           <FlexVCenter pl={2}>
             <FontAwesomeIcon icon={faLock} />
@@ -70,7 +69,7 @@ const UserPageSidebar = (props: Props) => {
           </FlexVCenter>
 
           <List component="nav" aria-label="User resource lists">
-            {props.privateTags.map((tag) => (
+            {profileStore.privateTags.map((tag) => (
               <TagListItem
                 key={tag.id}
                 tag={tag}
@@ -93,15 +92,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
-
-const mapStateToProps = (state: ApplicationState) => ({
-  resources: state.profile.resources,
-  publicTags: state.profile.publicTags,
-  privateTags: state.profile.privateTags,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserPageSidebar);
+export default UserPageSidebar;

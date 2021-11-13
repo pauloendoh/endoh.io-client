@@ -10,17 +10,12 @@ import { NotificationDto } from "../../types/domain/utils/NotificationDto";
 import { UserInfoDto } from "../../types/domain/_common/UserInfoDto";
 import apiUrls from "../../utils/consts/apiUrls";
 import myAxios from "../../utils/consts/myAxios";
-import { clearDefineReducer } from "../define/defineActions";
-import { monerateActionTypes } from "../monerate/monerateTypes";
-import { clearProfile } from "../profile/profileActions";
-import { relearnActionTypes } from "../relearn/relearnTypes";
-import { skillbaseActionTypes } from "../skillbase/skillbaseTypes";
 import { AuthActionTypes } from "./authTypes";
 
 export const setAuthUser = (authUser: AuthUserGetDto) =>
   action(AuthActionTypes.SET_AUTH_USER, authUser);
 
-const logout = () => action(AuthActionTypes.LOGOUT);
+export const logoutAction = () => action(AuthActionTypes.LOGOUT);
 
 const usingGoogleSession = () => action(AuthActionTypes.USING_GOOGLE_SESSION);
 
@@ -73,20 +68,11 @@ export function checkAuthOrLogoutActionCreator(dispatch: Dispatch) {
   } else {
     // Regular login
     const user: AuthUserGetDto = JSON.parse(userLocalStorage);
-    if (new Date(user.expiresAt) <= new Date()) return logout();
+    if (new Date(user.expiresAt) <= new Date()) return logoutAction();
 
     return setAuthUser(user);
   }
 }
-
-export const logoutActionCreator = (dispatch: Dispatch) => {
-  dispatch(action(relearnActionTypes.CLEAR_RELEARN_REDUCER));
-  dispatch(action(monerateActionTypes.CLEAR_MONERATE_REDUCER));
-  dispatch(action(skillbaseActionTypes.CLEAR_SKILLBASE_REDUCER));
-  dispatch(clearDefineReducer());
-  dispatch(clearProfile());
-  return logout();
-};
 
 export const setAuthProfile = (userInfo: UserInfoDto) =>
   action(AuthActionTypes.SET_AUTH_PROFILE, userInfo);
@@ -94,7 +80,7 @@ export const setAuthProfile = (userInfo: UserInfoDto) =>
 export type AuthActionReturns =
   | ReturnType<typeof setAuthUser>
   | ReturnType<typeof setPreference>
-  | ReturnType<typeof logout>
+  | ReturnType<typeof logoutAction>
   | ReturnType<typeof usingGoogleSession>
   | ReturnType<typeof setUsername>
   | ReturnType<typeof setFollowingTags>

@@ -3,12 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, IconButton, Typography } from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import { useLogout } from "hooks/auth/useLogout";
 import React from "react";
 import { connect } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
 import theme from "utils/consts/theme";
-import { logoutActionCreator } from "../../../../../store/auth/authActions";
 import { ApplicationState } from "../../../../../store/store";
 import ProfilePicture from "../../../../_UI/ProfilePicture/ProfilePicture";
 
@@ -30,6 +30,8 @@ const NavbarUserMenu = (props: Props) => {
   if (location.pathname.startsWith("/monerate")) {
     settingsHref = "/settings/monerate/places";
   }
+
+  const logout = useLogout(props.dispatch);
 
   return (
     <div>
@@ -79,7 +81,7 @@ const NavbarUserMenu = (props: Props) => {
           Settings
         </MenuItem>
 
-        <MenuItem className="logout-option" onClick={() => props.logout()}>
+        <MenuItem className="logout-option" onClick={logout}>
           <Box mr={2}>
             <FontAwesomeIcon
               icon={faSignOutAlt}
@@ -101,7 +103,7 @@ const mapStateToProps = (state: ApplicationState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  logout: () => dispatch(logoutActionCreator(dispatch)),
+  dispatch,
 });
 
 type Props = ReturnType<typeof mapStateToProps> &

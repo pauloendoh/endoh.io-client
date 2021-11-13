@@ -1,20 +1,19 @@
 import { Box, Button } from "@material-ui/core";
 import React, { useState } from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { ApplicationState } from "../../../../store/store";
+import useProfileStore from "store/zustand/domain/useProfileStore";
 import FollowingUsersDialog from "../../../_common/FollowingUsersDialog/FollowingUsersDialog";
 // PE 2/3
-const FollowingButtonDialog = (props: Props) => {
+const FollowingButtonDialog = () => {
   const [openDialog, setOpenDialog] = useState(false);
+  const profileStore = useProfileStore();
 
   return (
     <Box>
       <Button size="small" onClick={() => setOpenDialog(true)}>
-        {props.followingUsers.length} Following
+        {profileStore.followingUsers.length} Following
       </Button>
       <FollowingUsersDialog
-        followingUsers={props.followingUsers}
+        followingUsers={profileStore.followingUsers}
         open={openDialog}
         onClose={() => setOpenDialog(false)}
       />
@@ -22,16 +21,4 @@ const FollowingButtonDialog = (props: Props) => {
   );
 };
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
-
-const mapStateToProps = (state: ApplicationState) => ({
-  followingUsers: state.profile.followingUsers,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FollowingButtonDialog);
+export default FollowingButtonDialog;

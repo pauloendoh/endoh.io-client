@@ -14,6 +14,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Dispatch } from "redux";
+import useProfileStore from "store/zustand/domain/useProfileStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
 import { setFollowingTags } from "../../../../store/auth/authActions";
 import { ApplicationState } from "../../../../store/store";
@@ -26,6 +27,8 @@ import Flex from "../../../_UI/Flexboxes/Flex";
 // PE 2/3
 const FollowDialog = (props: Props) => {
   const { username } = useParams<{ username: string }>();
+
+  const profileStore = useProfileStore();
 
   const [selectedTagIds, setSelectedTagIds] = useState<number[]>([]);
 
@@ -51,7 +54,7 @@ const FollowDialog = (props: Props) => {
   };
 
   const handleSubmit = () => {
-    const data = props.publicTags.map((publicTag) => ({
+    const data = profileStore.publicTags.map((publicTag) => ({
       tagId: publicTag.id,
       isFollowing: selectedTagIds.includes(publicTag.id),
     }));
@@ -80,7 +83,7 @@ const FollowDialog = (props: Props) => {
     >
       <Box pb={1} px={1}>
         <Formik
-          initialValues={props.profile}
+          initialValues={profileStore.profile}
           onSubmit={(formikValues, { setSubmitting }) => {
             handleSubmit();
           }}
@@ -93,7 +96,7 @@ const FollowDialog = (props: Props) => {
               <DialogContent>
                 <Box>
                   <List component="nav" aria-label="User resource lists">
-                    {props.publicTags.map((tag) => (
+                    {profileStore.publicTags.map((tag) => (
                       <ListItem
                         button
                         key={tag.id}
@@ -149,8 +152,6 @@ const FollowDialog = (props: Props) => {
 };
 
 const mapStateToProps = (state: ApplicationState) => ({
-  profile: state.profile.profile,
-  publicTags: state.profile.publicTags,
   followingTags: state.auth.followingTags,
 });
 

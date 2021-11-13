@@ -12,8 +12,6 @@ import defineReducer from "./define/defineReducer";
 import { DefineState } from "./define/defineTypes";
 import monerateReducer from "./monerate/monerateReducer";
 import { MonerateState } from "./monerate/monerateTypes";
-import profileReducer from "./profile/profileReducer";
-import { ProfileState } from "./profile/profileTypes";
 import relearnReducer from "./relearn/relearnReducer";
 import { RelearnState } from "./relearn/relearnTypes";
 import skillbaseReducer from "./skillbase/skillbaseReducer";
@@ -24,8 +22,6 @@ export interface ApplicationState {
   relearn: RelearnState;
   skillbase: SkillbaseState;
   define: DefineState;
-
-  profile: ProfileState;
 }
 
 const rootReducer = combineReducers({
@@ -34,7 +30,6 @@ const rootReducer = combineReducers({
   relearn: relearnReducer,
   skillbase: skillbaseReducer,
   define: defineReducer,
-  profile: profileReducer,
 });
 
 const composeEnhancers =

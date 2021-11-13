@@ -2,21 +2,27 @@ import { Box, ListItem, makeStyles, Typography } from "@material-ui/core";
 import ListItemText from "@material-ui/core/ListItemText";
 import LabelIcon from "@material-ui/icons/Label";
 import React from "react";
-import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Dispatch } from "redux";
-import { ApplicationState } from "../../../../store/store";
+import useProfileStore from "store/zustand/domain/useProfileStore";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
 import pageUrls from "../../../../utils/consts/pageUrls";
 import Flex from "../../../_UI/Flexboxes/Flex";
 import FlexHCenter from "../../../_UI/Flexboxes/FlexHCenter";
 
+interface Props {
+  tag: TagDto;
+  width: number;
+  username: string;
+  selectedTagId: string;
+}
+
 // PE 3/3
 const TagListItem = (props: Props) => {
   const classes = useStyles();
+  const profileStore = useProfileStore();
 
   const getResourcesFromListId = (listId: number) => {
-    return props.allResources.filter((r) => r.tag?.id === listId);
+    return profileStore.resources.filter((r) => r.tag?.id === listId);
   };
 
   return (
@@ -53,21 +59,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface OwnProps {
-  tag: TagDto;
-  width: number;
-  username: string;
-  selectedTagId: string;
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
-
-const mapStateToProps = (state: ApplicationState) => ({
-  allResources: state.profile.resources,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(TagListItem);
+export default TagListItem;

@@ -12,8 +12,6 @@ import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link as RouterLink, Redirect } from "react-router-dom";
-import { Dispatch } from "redux";
-import { logoutActionCreator } from "../../store/auth/authActions";
 import { ApplicationState } from "../../store/store";
 import { PasswordResetPostDto } from "../../types/domain/auth/PasswordResetPostDto";
 import MyAxiosError, { MyFieldError } from "../../types/MyAxiosError";
@@ -29,6 +27,7 @@ import TextPrimary from "../_UI/Text/TextPrimary";
 
 function ResetPasswordPage(props: Props) {
   const classes = useStyles();
+
   const [responseErrors, setResponseErrors] = useState([] as MyFieldError[]);
   const [success, setSuccess] = useState(false);
 
@@ -200,11 +199,6 @@ const mapStateToProps = (state: ApplicationState) => ({
   user: state.auth.user,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  logout: () => dispatch(logoutActionCreator(dispatch)),
-});
+type Props = ReturnType<typeof mapStateToProps>;
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
-
-export default connect(mapStateToProps, mapDispatchToProps)(ResetPasswordPage);
+export default connect(mapStateToProps, undefined)(ResetPasswordPage);

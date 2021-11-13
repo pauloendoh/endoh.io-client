@@ -2,7 +2,7 @@ import { Box, Button, Link, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Dispatch } from "redux";
+import useProfileStore from "store/zustand/domain/useProfileStore";
 import { ApplicationState } from "../../../store/store";
 import { isFollowing } from "../../../utils/feed/isFollowing";
 import Flex from "../../_UI/Flexboxes/Flex";
@@ -19,24 +19,28 @@ const ProfileHeader = (props: Props) => {
   const [openProfileDialog, setOpenProfileDialog] = useState(false);
   const [openFollowDialog, setOpenFollowDialog] = useState(false);
 
+  const profileStore = useProfileStore();
+
   return (
     <Flex>
       <Box>
         <ProfilePicture
           username={username}
           isLink={false}
-          pictureUrl={props.profile.pictureUrl}
+          pictureUrl={profileStore.profile.pictureUrl}
           size={64}
         />
       </Box>
       <Box ml={2}>
         <Flex>
-          {props.profile?.fullName.length > 0 && (
+          {profileStore.profile?.fullName.length > 0 && (
             <Box mr={3}>
-              <Typography variant="h5">{props.profile.fullName}</Typography>
+              <Typography variant="h5">
+                {profileStore.profile.fullName}
+              </Typography>
             </Box>
           )}
-          {props.profile?.userId === props.authUser.id ? (
+          {profileStore.profile?.userId === props.authUser.id ? (
             <Box>
               <Button
                 size="small"
@@ -53,7 +57,10 @@ const ProfileHeader = (props: Props) => {
             </Box>
           ) : (
             <Box>
-              {isFollowing(props.profile.userId, props.authFollowingTags) ? (
+              {isFollowing(
+                profileStore.profile.userId,
+                props.authFollowingTags
+              ) ? (
                 <Button
                   size="small"
                   variant="outlined"
@@ -87,13 +94,13 @@ const ProfileHeader = (props: Props) => {
 
         <Box mt={2}>
           <Typography style={{ whiteSpace: "pre-line" }}>
-            {props.profile?.bio}
+            {profileStore.profile?.bio}
           </Typography>
         </Box>
         <Box mt={1}>
-          {props.profile?.website.length > 0 && (
-            <Link href={props.profile?.website}>
-              <Typography>{props.profile?.website}</Typography>
+          {profileStore.profile?.website.length > 0 && (
+            <Link href={profileStore.profile?.website}>
+              <Typography>{profileStore.profile?.website}</Typography>
             </Link>
           )}
         </Box>
@@ -110,18 +117,11 @@ const ProfileHeader = (props: Props) => {
   );
 };
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+type Props = ReturnType<typeof mapStateToProps>;
 
 const mapStateToProps = (state: ApplicationState) => ({
   authUser: state.auth.user,
   authFollowingTags: state.auth.followingTags,
-
-  profile: state.profile.profile,
-  followingUsers: state.profile.followingUsers,
-  followers: state.profile.followers,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileHeader);
+export default connect(mapStateToProps, undefined)(ProfileHeader);

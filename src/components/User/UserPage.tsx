@@ -3,12 +3,9 @@ import useUserSuggestionsQuery from "hooks/react-query/feed/useUserSuggestionsQu
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { Dispatch } from "redux";
-import {
-  clearProfile,
-  setProfileResources,
-  setUserInfo,
-} from "../../store/profile/profileActions";
+import useProfileStore, {
+  resetProfileStore,
+} from "store/zustand/domain/useProfileStore";
 import { ApplicationState } from "../../store/store";
 import { ResourceDto } from "../../types/domain/relearn/ResourceDto";
 import { TagDto } from "../../types/domain/relearn/TagDto";
@@ -28,6 +25,9 @@ import UserPageSidebar from "./UserPageSidebar/UserPageSidebar";
 // PE 3/3
 const UserPage = (props: Props) => {
   const history = useHistory();
+
+  const profileStore = useProfileStore();
+
   const { username, tagId } = useParams<{
     username: string;
     tagId: string;
@@ -42,13 +42,15 @@ const UserPage = (props: Props) => {
 
   // filtering resources by min rating
   useEffect(() => {
-    const minResources = [...props.resources].filter(
+    const minResources = [...profileStore.resources].filter(
       (r) => r.rating >= minRating
     );
 
     const filtered = minResources.filter((r) => {
       if (tagId !== undefined) {
-        const allTags = props.publicTags.concat(props.privateTags);
+        const allTags = profileStore.publicTags.concat(
+          profileStore.privateTags
+        );
         setFilterByTag(allTags.find((t) => t.id === Number(tagId)));
         return r.tag?.id === Number(tagId);
       } else {
@@ -59,18 +61,18 @@ const UserPage = (props: Props) => {
 
     setFilteredResources(filtered);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.resources, minRating, tagId]);
+  }, [profileStore.resources, minRating, tagId]);
 
   useEffect(
     () => {
       document.title = username + " - Endoh.io";
 
-      props.clearProfile();
+      resetProfileStore();
 
       myAxios
         .get<UserInfoDto>(apiUrls.user.userInfo(username))
         .then((res) => {
-          props.setUserInfo(res.data);
+          profileStore.setUserInfo(res.data);
         })
         .catch((err) => {
           if (err.response && err.response.status === 404) {
@@ -84,7 +86,7 @@ const UserPage = (props: Props) => {
 
   return (
     <S.UserPageRoot>
-      {props.profile === null ? (
+      {profileStore.profile === null ? (
         <LoadingPage />
       ) : (
         <Grid container spacing={3}>
@@ -128,25 +130,11 @@ const UserPage = (props: Props) => {
   );
 };
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+type Props = ReturnType<typeof mapStateToProps>;
 
 const mapStateToProps = (state: ApplicationState) => ({
   authUser: state.auth.user,
   followingUsers: state.auth.followingUsers,
-  resources: state.profile.resources,
-  profile: state.profile.profile,
-  publicTags: state.profile.publicTags,
-  privateTags: state.profile.privateTags,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  clearProfile: () => dispatch(clearProfile()),
-
-  setProfileResources: (resources: ResourceDto[]) =>
-    dispatch(setProfileResources(resources)),
-
-  setUserInfo: (userInfo: UserInfoDto) => dispatch(setUserInfo(userInfo)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserPage);
+export default connect(mapStateToProps, undefined)(UserPage);

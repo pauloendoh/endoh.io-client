@@ -9,15 +9,12 @@ import {
 } from "@material-ui/core";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
 import { Form, Formik, FormikErrors } from "formik";
+import { useEditProfilePicture } from "hooks/auth/useEditProfilePicture";
 import React, { ChangeEvent, createRef } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import useProfileStore from "store/zustand/domain/useProfileStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
-import {
-  editProfilePicture,
-  setProfile,
-} from "../../../../store/profile/profileActions";
-import { ApplicationState } from "../../../../store/store";
 import { ProfileDto } from "../../../../types/domain/_common/ProfileDto";
 import MyAxiosError from "../../../../types/MyAxiosError";
 import apiUrls from "../../../../utils/consts/apiUrls";
@@ -35,11 +32,14 @@ const EditProfileDialog = (props: Props) => {
 
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
 
+  const profileStore = useProfileStore();
+  const editProfilePicture = useEditProfilePicture(props.dispatch);
+
   const handleSubmit = (sentProfile: ProfileDto) => {
     myAxios
       .put<ProfileDto>(apiUrls.user.profile, sentProfile)
       .then((res) => {
-        props.setProfile(res.data);
+        profileStore.setProfile(res.data);
         setSuccessMessage("Profile saved!");
       })
       .catch((err: MyAxiosError) => {
@@ -65,7 +65,7 @@ const EditProfileDialog = (props: Props) => {
       .post<string>(apiUrls.user.picture, formData)
       .then((res) => {
         setSuccessMessage("Image uploaded!");
-        props.editProfilePicture(res.data);
+        editProfilePicture(res.data);
       })
       .catch((err) => {
         setErrorMessage(
@@ -86,7 +86,7 @@ const EditProfileDialog = (props: Props) => {
     >
       <Box pb={1} px={1}>
         <Formik
-          initialValues={props.profile}
+          initialValues={profileStore.profile}
           onSubmit={(formikValues, { setSubmitting }) => {
             handleSubmit(formikValues);
           }}
@@ -117,7 +117,7 @@ const EditProfileDialog = (props: Props) => {
                     >
                       <ProfilePicture
                         isLink={false}
-                        pictureUrl={props.profile.pictureUrl}
+                        pictureUrl={profileStore.profile.pictureUrl}
                         username=""
                         size={120}
                         onClick={() => {}}
@@ -214,13 +214,8 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const mapStateToProps = (state: ApplicationState) => ({
-  profile: state.profile.profile,
-});
-
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setProfile: (profile: ProfileDto) => dispatch(setProfile(profile)),
-  editProfilePicture: (url: string) => editProfilePicture(dispatch, url),
+  dispatch,
 });
 
 interface OwnProps {
@@ -228,8 +223,6 @@ interface OwnProps {
   onClose: () => void;
 }
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
+type Props = ReturnType<typeof mapDispatchToProps> & OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditProfileDialog);
+export default connect(undefined, mapDispatchToProps)(EditProfileDialog);
