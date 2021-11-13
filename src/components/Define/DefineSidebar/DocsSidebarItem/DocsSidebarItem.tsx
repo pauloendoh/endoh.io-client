@@ -10,29 +10,33 @@ import {
 import DescriptionIcon from "@material-ui/icons/Description";
 import useSaveDocLastOpenedAt from "hooks/react-query/define/useSaveDocLastOpenedAt";
 import React from "react";
-import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Dispatch } from "redux";
-import { setDocs } from "store/define/defineActions";
+import useDocsStore from "store/zustand/domain/useDocsStore";
 import { pushOrReplace } from "utils/pushOrReplace";
-import { ApplicationState } from "../../../../store/store";
 import { DocDto } from "../../../../types/domain/define/DocDto";
 import pageUrls from "../../../../utils/consts/pageUrls";
 import Flex from "../../../_UI/Flexboxes/Flex";
 import FlexHCenter from "../../../_UI/Flexboxes/FlexHCenter";
 
+interface Props {
+  doc: DocDto;
+  selected: boolean;
+}
+
 function DocsSidebarItem(props: Props) {
+  const docsStore = useDocsStore();
+
   // PE 2/3 - change to styled-components ?
   const classes = useStyles();
 
   // PE 1/3 - create a .utils memo file
   const getNotesCount = (doc: DocDto) => {
-    return props.allNotes.filter((note) => note.docId === doc.id).length;
+    return docsStore.notes.filter((note) => note.docId === doc.id).length;
   };
 
   // PE 1/3 - create a .utils memo file
   const getQuestionsCount = (doc: DocDto) => {
-    return props.allNotes.filter(
+    return docsStore.notes.filter(
       (note) => note.docId === doc.id && note.question.trim().length > 0
     ).length;
   };
@@ -43,8 +47,8 @@ function DocsSidebarItem(props: Props) {
     saveDocLastOpenedAt(docId, {
       // PE 2/3 - do you have to do this? I don't think so :thinking:
       onSuccess: (savedDoc) => {
-        const docs = pushOrReplace([...props.allDocs], savedDoc, "id");
-        props.setDocs(docs);
+        const docs = pushOrReplace([...docsStore.docs], savedDoc, "id");
+        docsStore.setDocs(docs);
       },
     });
   };
@@ -87,22 +91,4 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const mapStateToProps = (state: ApplicationState) => ({
-  allDocs: state.define.docs,
-  allNotes: state.define.notes,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setDocs: (docs: DocDto[]) => dispatch(setDocs(docs)),
-});
-
-interface OwnProps {
-  doc: DocDto;
-  selected: boolean;
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(DocsSidebarItem);
+export default DocsSidebarItem;

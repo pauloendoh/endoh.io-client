@@ -7,11 +7,7 @@ import {
 } from "@material-ui/core";
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import {
-  addOrReplaceNote,
-  setNotes,
-} from "../../../../store/define/defineActions";
+import useDocsStore from "store/zustand/domain/useDocsStore";
 import { ApplicationState } from "../../../../store/store";
 import { newNoteDto, NoteDto } from "../../../../types/domain/define/NoteDto";
 import apiUrls from "../../../../utils/consts/apiUrls";
@@ -21,6 +17,8 @@ import { TBody, TD, THead, TR } from "../../../_UI/Table/MyTableWrappers";
 import DocTableRow from "./DocTableRow/DocTableRow";
 
 const DocTable = (props: Props) => {
+  const docsStore = useDocsStore();
+
   const classes = useStyles();
 
   const addNote = () => {
@@ -29,13 +27,13 @@ const DocTable = (props: Props) => {
     myAxios
       .post<NoteDto>(apiUrls.define.note, newNote)
       .then((res) => {
-        props.addOrReplaceNote(res.data);
+        docsStore.pushOrReplaceNote(res.data);
       })
       .finally(() => setSubmitting(false));
   };
 
   const sortedNotes = () => {
-    const filtered = props.allNotes.filter(
+    const filtered = docsStore.notes.filter(
       (note) => note.docId === props.docId
     );
     const sorted = filtered.sort((a, b) => a.index - b.index);
@@ -49,7 +47,7 @@ const DocTable = (props: Props) => {
     setThrottle(
       setTimeout(() => {
         myAxios.post<NoteDto>(apiUrls.define.note, changed).then((res) => {
-          props.addOrReplaceNote(res.data);
+          docsStore.pushOrReplaceNote(res.data);
         });
       }, 500)
     );
@@ -125,20 +123,12 @@ const useStyles = makeStyles((theme) => ({
 
 const mapStateToProps = (state: ApplicationState) => ({
   userId: state.auth.user.id,
-  allNotes: state.define.notes,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setAllNotes: (notes: NoteDto[]) => dispatch(setNotes(notes)),
-  addOrReplaceNote: (note: NoteDto) => dispatch(addOrReplaceNote(note)),
 });
 
 interface OwnProps {
   docId: number;
 }
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
+type Props = ReturnType<typeof mapStateToProps> & OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(DocTable);
+export default connect(mapStateToProps, undefined)(DocTable);

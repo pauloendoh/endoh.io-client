@@ -16,20 +16,20 @@ import ShuffleIcon from "@material-ui/icons/Shuffle";
 import useSaveDocLastOpenedAt from "hooks/react-query/define/useSaveDocLastOpenedAt";
 import sample from "lodash/sample";
 import React, { useState } from "react";
-import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Dispatch } from "redux";
-import { setDocs } from "store/define/defineActions";
+import useDocsStore from "store/zustand/domain/useDocsStore";
 import { pushOrReplace } from "utils/pushOrReplace";
-import { ApplicationState } from "../../../store/store";
 import useSidebarStore from "../../../store/zustand/useSidebarStore";
-import { DocDto } from "../../../types/domain/define/DocDto";
 import pageUrls from "../../../utils/consts/pageUrls";
 import stringIncludes from "../../../utils/text/stringIncludes";
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
 import MyTextField from "../../_UI/MyInputs/MyTextField";
 import DocTitleDialog from "../DocTitleDialog/DocTitleDialog";
 import DocsSidebarItem from "./DocsSidebarItem/DocsSidebarItem";
+
+interface Props {
+  selectedDocId: number;
+}
 
 function DefineSidebar(props: Props) {
   // PE 1/3 - put this next to where it's used
@@ -42,8 +42,10 @@ function DefineSidebar(props: Props) {
 
   const [textFilter, setTextFilter] = useState("");
 
+  const docsStore = useDocsStore();
+
   const filterAndSortDocs = () => {
-    let filtered = props.allDocs.filter((d) =>
+    let filtered = docsStore.docs.filter((d) =>
       stringIncludes(d.title, textFilter)
     );
 
@@ -56,15 +58,15 @@ function DefineSidebar(props: Props) {
     saveDocLastOpenedAt(docId, {
       // PE 2/3 - do you have to do this? I don't think so :thinking:
       onSuccess: (savedDoc) => {
-        const docs = pushOrReplace([...props.allDocs], savedDoc, "id");
-        props.setDocs(docs);
+        const docs = pushOrReplace([...docsStore.docs], savedDoc, "id");
+        docsStore.setDocs(docs);
       },
     });
   };
 
   const openRandomDoc = () => {
-    if (props.allDocs.length > 0) {
-      const randomDoc = sample(props.allDocs);
+    if (docsStore.docs.length > 0) {
+      const randomDoc = sample(docsStore.docs);
       history.push(pageUrls.define.doc(randomDoc.id));
 
       handleSaveDocLastOpenedAt(randomDoc.id);
@@ -155,21 +157,4 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const mapStateToProps = (state: ApplicationState) => ({
-  allDocs: state.define.docs,
-  allNotes: state.define.notes,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setDocs: (docs: DocDto[]) => dispatch(setDocs(docs)),
-});
-
-interface OwnProps {
-  selectedDocId: number;
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(DefineSidebar);
+export default DefineSidebar;

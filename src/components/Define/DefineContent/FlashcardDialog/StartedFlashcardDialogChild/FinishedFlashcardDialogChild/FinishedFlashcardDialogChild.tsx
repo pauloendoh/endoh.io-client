@@ -7,11 +7,8 @@ import {
 import { Clear } from "@material-ui/icons";
 import React, { useState } from "react";
 import { GlobalHotKeys } from "react-hotkeys";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import useDocsStore from "store/zustand/domain/useDocsStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
-import { setNotes } from "../../../../../../store/define/defineActions";
-import { ApplicationState } from "../../../../../../store/store";
 import { DocDto } from "../../../../../../types/domain/define/DocDto";
 import { NoteDto } from "../../../../../../types/domain/define/NoteDto";
 import apiUrls from "../../../../../../utils/consts/apiUrls";
@@ -19,8 +16,18 @@ import myAxios from "../../../../../../utils/consts/myAxios";
 import DarkButton from "../../../../../_UI/Buttons/DarkButton";
 import S from "./FinishedFlashcardDialogChild.styles";
 
+interface Props {
+  doc: DocDto;
+  wrongs: number;
+  halves: number;
+  corrects: number;
+  results: NoteDto[];
+  onFinish: () => void;
+}
+
 const FinishedFlashcardDialogChild = (props: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const docsStore = useDocsStore();
 
   const getScore = () => {
     return ((props.halves * 0.5 + props.corrects) * 100) / props.results.length;
@@ -34,7 +41,7 @@ const FinishedFlashcardDialogChild = (props: Props) => {
     myAxios
       .post<NoteDto[]>(apiUrls.define.postManyNotes, props.results)
       .then((res) => {
-        props.setNotes(res.data);
+        docsStore.setNotes(res.data);
         setSuccessMessage("Saved!");
         props.onFinish();
       })
@@ -89,26 +96,4 @@ const FinishedFlashcardDialogChild = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: ApplicationState) => ({});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setNotes: (notes: NoteDto[]) => dispatch(setNotes(notes)),
-});
-
-interface OwnProps {
-  doc: DocDto;
-  wrongs: number;
-  halves: number;
-  corrects: number;
-  results: NoteDto[];
-  onFinish: () => void;
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FinishedFlashcardDialogChild);
+export default FinishedFlashcardDialogChild;

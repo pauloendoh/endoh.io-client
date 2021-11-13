@@ -1,12 +1,9 @@
 import { Box, makeStyles } from "@material-ui/core";
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
 import { useHistory, useParams } from "react-router";
-import { Dispatch } from "redux";
+import useDocsStore from "store/zustand/domain/useDocsStore";
 import { urls } from "utils/urls";
-import { setDocs, setNotes } from "../../store/define/defineActions";
-import { ApplicationState } from "../../store/store";
 import useSidebarStore from "../../store/zustand/useSidebarStore";
 import { DocDto } from "../../types/domain/define/DocDto";
 import { NoteDto } from "../../types/domain/define/NoteDto";
@@ -18,8 +15,10 @@ import DefineContent from "./DefineContent/DefineContent";
 import DefineSidebar from "./DefineSidebar/DefineSidebar";
 
 // PE 3/3
-const DefinePage = (props: Props) => {
+const DefinePage = () => {
   const { docId } = useParams<{ docId: string }>();
+
+  const docsStore = useDocsStore();
 
   const [selectedDocId, setSelectedDocId] = useState<number>(null);
 
@@ -30,11 +29,11 @@ const DefinePage = (props: Props) => {
       openSidebar();
 
       myAxios.get<DocDto[]>(apiUrls.define.doc).then((res) => {
-        props.setDocs(res.data);
+        docsStore.setDocs(res.data);
       });
 
       myAxios.get<NoteDto[]>(apiUrls.define.note).then((res) => {
-        props.setNotes(res.data);
+        docsStore.setNotes(res.data);
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -42,10 +41,10 @@ const DefinePage = (props: Props) => {
   );
 
   useEffect(() => {
-    if (docId && props.hasFirstLoaded) {
+    if (docId && docsStore.hasFirstLoaded) {
       setSelectedDocId(Number(docId));
 
-      const doc = props.allDocs.find((doc) => doc.id === Number(docId));
+      const doc = docsStore.docs.find((doc) => doc.id === Number(docId));
       document.title = doc.title;
     } else {
       setSelectedDocId(null);
@@ -57,8 +56,8 @@ const DefinePage = (props: Props) => {
   useEffect(
     () => {
       // open last opened tag
-      if (!docId && props.allDocs?.length > 0) {
-        const sortedByLastOpened = props.allDocs.sort((a, b) => {
+      if (!docId && docsStore.docs?.length > 0) {
+        const sortedByLastOpened = docsStore.docs.sort((a, b) => {
           if (a.lastOpenedAt === undefined) return -1;
           if (b.lastOpenedAt === undefined) return 1;
 
@@ -70,7 +69,7 @@ const DefinePage = (props: Props) => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.allDocs, docId]
+    [docsStore.docs, docId]
   );
 
   const classes = useStyles();
@@ -85,7 +84,7 @@ const DefinePage = (props: Props) => {
           })}
           flexGrow={1}
         >
-          {props.hasFirstLoaded ? (
+          {docsStore.hasFirstLoaded ? (
             <React.Fragment>
               {selectedDocId && <DefineContent docId={selectedDocId} />}
             </React.Fragment>
@@ -115,17 +114,5 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 300,
   },
 }));
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
 
-const mapStateToProps = (state: ApplicationState) => ({
-  hasFirstLoaded: state.define.hasFirstLoaded,
-  allDocs: state.define.docs,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setDocs: (docs: DocDto[]) => dispatch(setDocs(docs)),
-  setNotes: (notes: NoteDto[]) => dispatch(setNotes(notes)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(DefinePage);
+export default DefinePage;

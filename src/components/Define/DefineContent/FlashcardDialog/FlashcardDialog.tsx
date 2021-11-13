@@ -11,8 +11,7 @@ import { Clear } from "@material-ui/icons";
 import sample from "lodash/sample";
 import React, { useEffect, useState } from "react";
 import { GlobalHotKeys } from "react-hotkeys";
-import { connect } from "react-redux";
-import { ApplicationState } from "../../../../store/store";
+import useDocsStore from "store/zustand/domain/useDocsStore";
 import { NoteDto } from "../../../../types/domain/define/NoteDto";
 import { shuffleArray } from "../../../../utils/shuffleArray";
 import DarkButton from "../../../_UI/Buttons/DarkButton";
@@ -20,24 +19,23 @@ import FlexHCenter from "../../../_UI/Flexboxes/FlexHCenter";
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
 import Txt from "../../../_UI/Text/Txt";
 import StartedFlashcardDialogChild from "./StartedFlashcardDialogChild/StartedFlashcardDialogChild";
-
-interface OwnProps {
+interface Props {
   open: boolean;
   docId?: number;
   onClose: () => void;
 }
 
-type Props = ReturnType<typeof mapStateToProps> & OwnProps;
-
 const FlashcardDialog = (props: Props) => {
   const classes = useStyles();
+
+  const docsStore = useDocsStore();
 
   const [minimumQuestionWeight, setMinWeight] = useState(1);
   const [allQuestions, setAllQuestions] = useState<NoteDto[]>([]);
   const [questionsLength, setQuestionsLength] = useState(0);
   const [testQuestions, setTestQuestions] = useState<NoteDto[]>([]);
 
-  const getDoc = () => props.allDocs.find((doc) => doc.id === props.docId);
+  const getDoc = () => docsStore.docs.find((doc) => doc.id === props.docId);
 
   // reset
   useEffect(() => {
@@ -49,7 +47,7 @@ const FlashcardDialog = (props: Props) => {
 
   useEffect(
     () => {
-      const max = props.allNotes.filter(
+      const max = docsStore.notes.filter(
         (note) =>
           note.docId === props.docId &&
           note.weight >= minimumQuestionWeight &&
@@ -60,7 +58,7 @@ const FlashcardDialog = (props: Props) => {
       setQuestionsLength(max.length);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [minimumQuestionWeight, props.allNotes]
+    [minimumQuestionWeight, docsStore.notes]
   );
 
   // PE 1/3 unnecessary?... since it resets on open
@@ -92,7 +90,7 @@ const FlashcardDialog = (props: Props) => {
       const randomId = sample(ids) as number;
       ids = ids.filter((id) => id !== randomId);
 
-      playNotes.push(props.allNotes.find((note) => note.id === randomId));
+      playNotes.push(docsStore.notes.find((note) => note.id === randomId));
     }
 
     setTestQuestions(playNotes);
@@ -203,9 +201,4 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const mapStateToProps = (state: ApplicationState) => ({
-  allDocs: state.define.docs,
-  allNotes: state.define.notes,
-});
-
-export default connect(mapStateToProps, undefined)(FlashcardDialog);
+export default FlashcardDialog;

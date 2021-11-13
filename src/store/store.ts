@@ -8,8 +8,6 @@ import {
 import thunk from "redux-thunk";
 import authReducer from "./auth/authReducer";
 import { AuthState } from "./auth/authTypes";
-import defineReducer from "./define/defineReducer";
-import { DefineState } from "./define/defineTypes";
 import monerateReducer from "./monerate/monerateReducer";
 import { MonerateState } from "./monerate/monerateTypes";
 import relearnReducer from "./relearn/relearnReducer";
@@ -21,7 +19,6 @@ export interface ApplicationState {
   monerate: MonerateState;
   relearn: RelearnState;
   skillbase: SkillbaseState;
-  define: DefineState;
 }
 
 const rootReducer = combineReducers({
@@ -29,7 +26,6 @@ const rootReducer = combineReducers({
   monerate: monerateReducer,
   relearn: relearnReducer,
   skillbase: skillbaseReducer,
-  define: defineReducer,
 });
 
 const composeEnhancers =

@@ -1,9 +1,9 @@
 import { Dispatch } from "redux";
 import { logoutAction } from "store/auth/authActions";
-import { clearDefineReducer } from "store/define/defineActions";
 import { monerateActionTypes } from "store/monerate/monerateTypes";
 import { relearnActionTypes } from "store/relearn/relearnTypes";
 import { skillbaseActionTypes } from "store/skillbase/skillbaseTypes";
+import { resetDocsStore } from "store/zustand/domain/useDocsStore";
 import { resetProfileStore } from "store/zustand/domain/useProfileStore";
 import { action } from "typesafe-actions";
 
@@ -12,7 +12,8 @@ export const useLogout = (dispatch: Dispatch) => {
     dispatch(action(relearnActionTypes.CLEAR_RELEARN_REDUCER));
     dispatch(action(monerateActionTypes.CLEAR_MONERATE_REDUCER));
     dispatch(action(skillbaseActionTypes.CLEAR_SKILLBASE_REDUCER));
-    dispatch(clearDefineReducer());
+
+    resetDocsStore();
     resetProfileStore();
     dispatch(logoutAction());
   };

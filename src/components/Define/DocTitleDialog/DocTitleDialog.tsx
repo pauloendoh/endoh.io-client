@@ -1,18 +1,25 @@
 import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
 import { Form, Formik } from "formik";
 import React from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import useDocsStore from "store/zustand/domain/useDocsStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
-import { addOrReplaceDoc } from "../../../store/define/defineActions";
-import { ApplicationState } from "../../../store/store";
 import { DocDto } from "../../../types/domain/define/DocDto";
 import apiUrls from "../../../utils/consts/apiUrls";
 import myAxios from "../../../utils/consts/myAxios";
 import SaveCancelButtons from "../../_UI/Buttons/SaveCancelButtons";
 import MyTextField from "../../_UI/MyInputs/MyTextField";
 
+interface Props {
+  open: boolean;
+  docId?: number;
+  initialValue: string;
+  onClose: () => void;
+  afterSave?: (doc: DocDto) => void;
+}
+
 const DocTitleDialog = (props: Props) => {
+  const docsStore = useDocsStore();
+
   const handleClose = () => {
     props.onClose();
   };
@@ -31,7 +38,7 @@ const DocTitleDialog = (props: Props) => {
     myAxios
       .post<DocDto>(apiUrls.define.doc, obj)
       .then((res) => {
-        props.addOrReplaceDoc(res.data);
+        docsStore.pushOrReplaceDoc(res.data);
         setSuccessMessage("Doc saved!");
 
         props.afterSave(res.data);
@@ -92,24 +99,4 @@ const DocTitleDialog = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: ApplicationState) => ({
-  // editingTag: state.relearn.editingTag,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  addOrReplaceDoc: (doc: DocDto) => dispatch(addOrReplaceDoc(doc)),
-});
-
-interface OwnProps {
-  open: boolean;
-  docId?: number;
-  initialValue: string;
-  onClose: () => void;
-  afterSave?: (doc: DocDto) => void;
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(DocTitleDialog);
+export default DocTitleDialog;

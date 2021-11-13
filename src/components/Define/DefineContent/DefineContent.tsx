@@ -1,24 +1,27 @@
 import { Box, Button, Container, Typography } from "@material-ui/core";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import React, { useState } from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { ApplicationState } from "../../../store/store";
+import useDocsStore from "store/zustand/domain/useDocsStore";
 import Flex from "../../_UI/Flexboxes/Flex";
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
 import DocTable from "./DocTable/DocTable";
 import FlashcardDialog from "./FlashcardDialog/FlashcardDialog";
 import TitleMoreIcon from "./TitleMoreIcon/TitleMoreIcon";
 
+interface Props {
+  docId: number;
+}
+
 const DefineContent = (props: Props) => {
+  const docsStore = useDocsStore();
   const [flashcardDialog, setFlashcardDialog] = useState(false);
 
   const getDoc = () => {
-    return props.allDocs.find((doc) => doc.id === props.docId);
+    return docsStore.docs.find((doc) => doc.id === props.docId);
   };
 
   const getQuestionsCount = () => {
-    return props.allNotes.filter(
+    return docsStore.notes.filter(
       (note) => note.docId === props.docId && note.question.trim().length > 0
     ).length;
   };
@@ -64,19 +67,4 @@ const DefineContent = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: ApplicationState) => ({
-  allDocs: state.define.docs,
-  allNotes: state.define.notes,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
-
-interface OwnProps {
-  docId: number;
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(DefineContent);
+export default DefineContent;
