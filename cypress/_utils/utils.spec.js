@@ -32,7 +32,9 @@ export const deleteAllTags = () => {
     cy.wrap($el).trigger("mouseover");
     cy.get("#tag-more").click();
     cy.get("#delete-tag-button").click();
+    cy.get("#confirm-button").click();
     cy.contains("Tag deleted!");
+    cy.wait(250);
   });
 };
 

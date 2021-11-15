@@ -1,10 +1,10 @@
 import { Box, Button, makeStyles, Paper } from "@material-ui/core";
-import AccessAlarmIcon from "@material-ui/icons/AccessAlarm";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import * as AuthActions from "store/auth/authActions";
 import { AuthUserGetDto } from "types/domain/auth/AuthUserGetDto";
+import Icons from "utils/styles/Icons";
 import myAxios from "../../../utils/consts/myAxios";
 import apiUrls from "../../../utils/url/urls/apiUrls";
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
@@ -73,7 +73,7 @@ const AuthFormWrapper = (props: Props) => {
                 id="temp-user-btn"
               >
                 <FlexVCenter>
-                  <AccessAlarmIcon fontSize="large" />
+                  <Icons.AccessAlarm fontSize="large" />
                   <S.TemporaryUserText>
                     Test with Temporary User
                   </S.TemporaryUserText>

@@ -52,6 +52,7 @@ const ConfirmationDialog = () => {
         <DialogTitle>
           <S.ButtonsWrapper>
             <Button
+              id="confirm-button"
               variant="contained"
               color="primary"
               size="small"

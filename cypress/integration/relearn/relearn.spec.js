@@ -16,20 +16,7 @@ context("Relearn", () => {
     createDeleteAllTags();
   });
 
-  it("create and delete resource", () => {
-    const resourceName = new Date().toISOString();
-
-    createResource(resourceName);
-
-    const resource = cy.get(".resource-item").last();
-    resource.contains(resourceName);
-    resource.trigger("mouseover");
-    cy.get("#resource-more-icon").click();
-    cy.get("#delete-resource-button").click({ force: true });
-    cy.contains("Resource deleted!");
-  });
-
-  it("rate and remove a resource's rating", () => {
+  it.only("rate and remove a resource's rating", () => {
     const resourceName = new Date().toISOString();
     createResource(resourceName);
 

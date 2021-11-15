@@ -13,7 +13,7 @@ context("Account stuff", () => {
     cy.get("#edit-username-btn").click();
 
     const newUsername = new Date().getTime();
-    cy.get("#newUsername").type(newUsername);
+    cy.get("[name='newUsername']").type(newUsername);
 
     cy.get("#save-username-button").click();
 
@@ -27,7 +27,7 @@ context("Account stuff", () => {
     cy.get("#edit-username-btn").click();
 
     const newUsername = new Date().toISOString();
-    cy.get("#newUsername").type(newUsername);
+    cy.get("[name='newUsername']").type(newUsername);
 
     cy.get("#save-username-button").click();
 
