@@ -1,13 +1,5 @@
 export const urls = {
-  pages: {
-    relearnTag: (tagId: number) => `/relearn/tag/${tagId}`,
-    define: {
-      docId: (docId: number) => `/define/doc/${docId}`,
-    },
-  },
   api: {
-    // AUTH
-    login: "/auth/login",
     register: "/auth/register",
 
     //TAGS

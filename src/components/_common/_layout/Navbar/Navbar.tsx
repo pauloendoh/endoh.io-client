@@ -1,23 +1,8 @@
 import { faFire } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  AppBar,
-  Box,
-  createStyles,
-  IconButton,
-  makeStyles,
-  Tab,
-  Tabs,
-  Theme,
-  Toolbar,
-} from "@material-ui/core";
+import { Box, IconButton } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
-import { Dispatch } from "redux";
-import pageUrls from "utils/consts/pageUrls";
-import { mediaQueries } from "utils/styles/mediaQueries";
-import { ApplicationState } from "../../../../store/store";
+import { Link as RouterLink, useLocation } from "react-router-dom";
+import pageUrls from "utils/url/urls/pageUrls";
 import Flex from "../../../_UI/Flexboxes/Flex";
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
 import LeftToggleButton from "./LeftToggleButton/LeftToggleButton";
@@ -29,8 +14,7 @@ import Notification from "./Notification/Notification";
 import SearchBar from "./SearchBar/SearchBar";
 
 // PE 2/3
-const Navbar = (props: Props) => {
-  const classes = useStyles();
+const Navbar = () => {
   const location = useLocation();
 
   const [tabIndex, setTabIndex] = useState<number | boolean>(false);
@@ -53,14 +37,14 @@ const Navbar = (props: Props) => {
   }, [location]);
 
   return (
-    <AppBar className={classes.root} position="fixed" elevation={0}>
-      <Toolbar className={classes.toolbar}>
+    <S.AppBarRoot position="fixed" elevation={0}>
+      <S.NavbarToolbar>
         <FlexVCenter>
           <LeftToggleButton />
           <Box ml={1} />
-          <IconButton component={Link} to={pageUrls.index} size="small">
+          <IconButton component={RouterLink} to={pageUrls.index} size="small">
             <FlexVCenter width={24} height={24} justifyContent="center">
-              <FontAwesomeIcon icon={faFire} className={classes.fireIcon} />
+              <S.FireIcon icon={faFire} />
             </FlexVCenter>
           </IconButton>
 
@@ -69,87 +53,33 @@ const Navbar = (props: Props) => {
         </FlexVCenter>
 
         <Flex>
-          <Tabs
-            className={classes.tabs}
+          <S.NavbarTabs
             value={tabIndex}
             indicatorColor="primary"
             textColor="primary"
             aria-label="disabled tabs example"
           >
             {utils.navbarTabs.map((tab) => (
-              <Tab
-                key={tab.id}
+              <S.NavbarTab
                 id={tab.id}
-                className={classes.tab}
-                label={tab.label}
-                component={Link}
-                icon={tab.icon}
+                component={RouterLink}
                 to={tab.to}
+                key={tab.id}
+                label={tab.label}
+                icon={tab.icon}
               />
             ))}
-          </Tabs>
+          </S.NavbarTabs>
         </Flex>
 
-        <S.ActionButtonsWrapper>
+        <S.RightButtonsWrapper>
           <NavbarAddButton />
           <Notification />
           <NavbarUserMenu />
-        </S.ActionButtonsWrapper>
-      </Toolbar>
-    </AppBar>
+        </S.RightButtonsWrapper>
+      </S.NavbarToolbar>
+    </S.AppBarRoot>
   );
 };
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-      background: "#202020",
-      borderBottom: "1px solid rgba(255, 255, 255, 0.05)",
-    },
-    toolbar: {
-      minHeight: 72,
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-    },
-
-    fireIcon: {
-      color: theme.palette.secondary.main,
-      height: "24px !important",
-      width: "18px !important",
-    },
-
-    tabs: {
-      // minHeight: 32,
-      position: "relative",
-      zIndex: 1202,
-    },
-    tab: {
-      width: "inherit",
-      color: "white",
-
-      "& svg": {
-        height: 16,
-        fontSize: 16,
-      },
-
-      [mediaQueries.isBiggerThan(950)]: {
-        minWidth: 100,
-      },
-
-      [mediaQueries.isSmallerThan(950)]: {
-        minWidth: "auto",
-      },
-    },
-  })
-);
-
-const mapStateToProps = (state: ApplicationState) => ({});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
-
-export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
+export default Navbar;

@@ -13,7 +13,7 @@ import {
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import pageUrls from "../../../../utils/consts/pageUrls";
+import pageUrls from "../../../../utils/url/urls/pageUrls";
 
 function MonerateSubmenu() {
   const classes = useStyles();

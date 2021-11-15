@@ -13,7 +13,7 @@ import { ApplicationState } from "store/store";
 import { ResourceDto } from "types/domain/relearn/ResourceDto";
 import { getColorByRating } from "utils/relearn/getColorByRating";
 import Icons from "utils/styles/Icons";
-import pageUrls from "../../../../../utils/consts/pageUrls";
+import pageUrls from "../../../../../utils/url/urls/pageUrls";
 import MyTextField from "../../../../_UI/MyInputs/MyTextField";
 
 interface ISearchForm {

@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 import useDocsStore from "store/zustand/domain/useDocsStore";
 import { pushOrReplace } from "utils/pushOrReplace";
 import { DocDto } from "../../../../types/domain/define/DocDto";
-import pageUrls from "../../../../utils/consts/pageUrls";
+import pageUrls from "../../../../utils/url/urls/pageUrls";
 import Flex from "../../../_UI/Flexboxes/Flex";
 import FlexHCenter from "../../../_UI/Flexboxes/FlexHCenter";
 
@@ -57,7 +57,7 @@ function DocsSidebarItem(props: Props) {
     <ListItem
       button
       component={Link}
-      to={pageUrls.define.doc(props.doc.id)}
+      to={pageUrls.define.docId(props.doc.id)}
       selected={props.selected}
       onClick={() => handleSaveDocLastOpenedAt(props.doc.id)}
     >

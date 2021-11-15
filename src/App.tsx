@@ -11,6 +11,7 @@ import {
   withRouter,
 } from "react-router-dom";
 import { Dispatch } from "redux";
+import { ThemeProvider } from "styled-components";
 import LandingPage from "./components/LandingPage/LandingPage";
 import ResourceDialog from "./components/Relearn/Dialogs/ResourceDialog/ResourceDialog";
 import ResetPasswordPage from "./components/ResetPassword/ResetPasswordPage";
@@ -36,11 +37,11 @@ import { FollowingTagDto } from "./types/domain/feed/FollowingTagDto";
 import { TagDto } from "./types/domain/relearn/TagDto";
 import { NotificationDto } from "./types/domain/utils/NotificationDto";
 import { UserInfoDto } from "./types/domain/_common/UserInfoDto";
-import apiUrls from "./utils/consts/apiUrls";
 import myAxios from "./utils/consts/myAxios";
 import { myQueryClient } from "./utils/consts/myQueryClient";
 import theme from "./utils/consts/theme";
 import { isValidApplicationPath } from "./utils/domain/app/isValidApplicationPath";
+import apiUrls from "./utils/url/urls/apiUrls";
 
 const MoneratePage = lazy(() => import("./components/Monerate/MoneratePage"));
 
@@ -180,13 +181,15 @@ const App = (props: Props) => {
 
   return (
     <MuiThemeProvider theme={theme}>
-      <QueryClientProvider client={myQueryClient}>
-        {/* What does this do? */}
-        <CssBaseline />
-        {isLoading ? <LoadingPage /> : routes}
+      <ThemeProvider theme={theme}>
+        <QueryClientProvider client={myQueryClient}>
+          {/* What does this do? */}
+          <CssBaseline />
+          {isLoading ? <LoadingPage /> : routes}
 
-        <MySnackBar2 />
-      </QueryClientProvider>
+          <MySnackBar2 />
+        </QueryClientProvider>
+      </ThemeProvider>
     </MuiThemeProvider>
   );
 };

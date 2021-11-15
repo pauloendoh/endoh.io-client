@@ -8,8 +8,8 @@ import {
 import { FollowingTagDto } from "../../types/domain/feed/FollowingTagDto";
 import { NotificationDto } from "../../types/domain/utils/NotificationDto";
 import { UserInfoDto } from "../../types/domain/_common/UserInfoDto";
-import apiUrls from "../../utils/consts/apiUrls";
 import myAxios from "../../utils/consts/myAxios";
+import apiUrls from "../../utils/url/urls/apiUrls";
 import { AuthActionTypes } from "./authTypes";
 
 export const setAuthUser = (authUser: AuthUserGetDto) =>

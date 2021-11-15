@@ -1,4 +1,4 @@
-import pageUrls from "../consts/pageUrls";
+import pageUrls from "../url/urls/pageUrls";
 
 export const getCurrentTagId = (pathname: string): number => {
   if (pathname.startsWith(pageUrls.skillbase.tag)) {

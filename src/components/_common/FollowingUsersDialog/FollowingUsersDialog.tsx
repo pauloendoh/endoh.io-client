@@ -12,7 +12,7 @@ import { Dispatch } from "redux";
 import { FollowingUserDto } from "types/domain/feed/FollowingUserDto";
 import { setFollowingTags } from "../../../store/auth/authActions";
 import { FollowingTagDto } from "../../../types/domain/feed/FollowingTagDto";
-import pageUrls from "../../../utils/consts/pageUrls";
+import pageUrls from "../../../utils/url/urls/pageUrls";
 import Flex from "../../_UI/Flexboxes/Flex";
 import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture";
 

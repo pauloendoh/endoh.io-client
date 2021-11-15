@@ -6,7 +6,7 @@ import { Dispatch } from "redux";
 import { setEditingSkill } from "../../../../../store/skillbase/skillbaseActions";
 import { ApplicationState } from "../../../../../store/store";
 import { SkillDto } from "../../../../../types/domain/skillbase/SkillDto";
-import pageUrls from "../../../../../utils/consts/pageUrls";
+import pageUrls from "../../../../../utils/url/urls/pageUrls";
 import SkillChip from "../../../../_common/SkillChip/SkillChip";
 import Flex from "../../../../_UI/Flexboxes/Flex";
 import EditSkillsButton from "./EditSkillsButton/EditSkillsButton";

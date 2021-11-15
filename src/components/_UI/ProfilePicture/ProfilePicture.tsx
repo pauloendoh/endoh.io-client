@@ -1,7 +1,7 @@
 import { Avatar, makeStyles, Theme } from "@material-ui/core";
 import React, { FunctionComponent } from "react";
 import { Link } from "react-router-dom";
-import pageUrls from "../../../utils/consts/pageUrls";
+import pageUrls from "../../../utils/url/urls/pageUrls";
 
 interface Props {
   pictureUrl: string;

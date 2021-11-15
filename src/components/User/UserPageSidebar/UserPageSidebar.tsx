@@ -6,7 +6,7 @@ import React, { useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import useProfileStore from "store/zustand/domain/useProfileStore";
 import useElementSize from "../../../hooks/useElementSize";
-import pageUrls from "../../../utils/consts/pageUrls";
+import pageUrls from "../../../utils/url/urls/pageUrls";
 import Flex from "../../_UI/Flexboxes/Flex";
 import FlexHCenter from "../../_UI/Flexboxes/FlexHCenter";
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";

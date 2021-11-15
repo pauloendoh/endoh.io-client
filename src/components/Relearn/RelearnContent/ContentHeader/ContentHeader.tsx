@@ -8,7 +8,7 @@ import { ApplicationState } from "../../../../store/store";
 import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto";
-import pageUrls from "../../../../utils/consts/pageUrls";
+import pageUrls from "../../../../utils/url/urls/pageUrls";
 import Flex from "../../../_UI/Flexboxes/Flex";
 import SkillChips from "./SkillChips/SkillChips";
 

@@ -14,9 +14,9 @@ import * as relearnActions from "../../../../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../../../../store/store";
 import { IMoveResource } from "../../../../../../types/domain/relearn/IMoveResource";
 import { ResourceDto } from "../../../../../../types/domain/relearn/ResourceDto";
-import apiUrls from "../../../../../../utils/consts/apiUrls";
 import myAxios from "../../../../../../utils/consts/myAxios";
 import { validateEstimatedTime } from "../../../../../../utils/relearn/validateEstimatedTime";
+import apiUrls from "../../../../../../utils/url/urls/apiUrls";
 import RateButton from "../../../../../_common/RateButton/RateButton";
 import ResourceThumbnail from "../../../../../_common/ResourceThumbnail/ResourceThumbnail";
 import Txt from "../../../../../_UI/Text/Txt";

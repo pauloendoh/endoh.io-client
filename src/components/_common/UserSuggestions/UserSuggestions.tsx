@@ -6,7 +6,7 @@ import { Dispatch } from "redux";
 import { FollowingUserDto } from "types/domain/feed/FollowingUserDto";
 import { ApplicationState } from "../../../store/store";
 import { UserSuggestionDto } from "../../../types/domain/feed/UserSuggestionDto";
-import pageUrls from "../../../utils/consts/pageUrls";
+import pageUrls from "../../../utils/url/urls/pageUrls";
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
 import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture";
 import UserSuggestionsDialog from "./UserSuggestionsDialog/UserSuggestionsDialog";

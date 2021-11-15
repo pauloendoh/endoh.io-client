@@ -1,5 +1,5 @@
 import { TagDto } from "../../types/domain/relearn/TagDto";
-import pageUrls from "../consts/pageUrls";
+import pageUrls from "../url/urls/pageUrls";
 
 export const getCurrentTag = (pathname: string, allTags: TagDto[]): TagDto => {
   if (pathname.startsWith(pageUrls.skillbase.tag)) {

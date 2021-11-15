@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
 import usePostDecisionMutation from "../../../hooks/BigDecisions/Decision/usePostDecisionMutation";
 import { DecisionDto } from "../../../types/domain/big-decisions/DecisionDto";
-import pageUrls from "../../../utils/consts/pageUrls";
+import pageUrls from "../../../utils/url/urls/pageUrls";
 import SaveCancelButtons from "../../_UI/Buttons/SaveCancelButtons";
 import MyTextField from "../../_UI/MyInputs/MyTextField";
 

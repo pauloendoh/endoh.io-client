@@ -6,16 +6,15 @@ import { connect } from "react-redux";
 import { Redirect, useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
 import { setSkills } from "store/skillbase/skillbaseActions";
-import { urls } from "utils/urls";
 import * as relearnActions from "../../store/relearn/relearnActions";
 import { ApplicationState } from "../../store/store";
 import useSidebarStore from "../../store/zustand/useSidebarStore";
 import { ResourceDto } from "../../types/domain/relearn/ResourceDto";
 import { SkillDto } from "../../types/domain/skillbase/SkillDto";
-import apiUrls from "../../utils/consts/apiUrls";
 import myAxios from "../../utils/consts/myAxios";
-import pageUrls from "../../utils/consts/pageUrls";
 import { sleep } from "../../utils/sleep";
+import apiUrls from "../../utils/url/urls/apiUrls";
+import pageUrls from "../../utils/url/urls/pageUrls";
 import LoadingPage from "../_common/LoadingPage/LoadingPage";
 import Flex from "../_UI/Flexboxes/Flex";
 import RelearnContent from "./RelearnContent/RelearnContent";
@@ -94,7 +93,7 @@ const RelearnPage = (props: Props) => {
         });
 
         const tagId = sortedByLastOpened[0].id;
-        setRedirectTo(urls.pages.relearnTag(tagId));
+        setRedirectTo(pageUrls.relearn.tagId(tagId));
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -7,6 +7,7 @@ const pageUrls = {
   relearn: {
     index: "/relearn",
     tag: "/relearn/tag",
+    tagId: (tagId: number) => `/relearn/tag/${tagId}`,
   },
   skillbase: {
     index: "/skillbase",
@@ -26,7 +27,7 @@ const pageUrls = {
   },
   define: {
     index: "/define/",
-    doc: (docId: number) => `/define/doc/${docId}`,
+    docId: (docId: number) => `/define/doc/${docId}`,
   },
   BigDecisions: {
     index: "/BigDecisions",

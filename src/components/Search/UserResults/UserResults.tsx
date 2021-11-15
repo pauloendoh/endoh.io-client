@@ -2,7 +2,7 @@ import { Box, Link, Typography, useTheme } from "@material-ui/core";
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { UserProfileDto } from "../../../types/domain/feed/UserProfileDto";
-import pageUrls from "../../../utils/consts/pageUrls";
+import pageUrls from "../../../utils/url/urls/pageUrls";
 import Flex from "../../_UI/Flexboxes/Flex";
 import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture";
 

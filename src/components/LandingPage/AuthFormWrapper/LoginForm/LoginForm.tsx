@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import * as AuthActions from "store/auth/authActions";
 import { AuthUserGetDto } from "types/domain/auth/AuthUserGetDto";
-import { urls } from "utils/urls";
+import apiUrls from "utils/url/urls/apiUrls";
 import MyAxiosError, { MyFieldError } from "../../../../types/MyAxiosError";
 import myAxios from "../../../../utils/consts/myAxios";
 import Flex from "../../../_UI/Flexboxes/Flex";
@@ -48,7 +48,7 @@ const LoginForm = ({ setFormType, ...props }: Props) => {
         setResponseErrors([]);
 
         myAxios
-          .post<AuthUserGetDto>(urls.api.login, authData)
+          .post<AuthUserGetDto>(apiUrls.auth.login, authData)
           .then((res) => {
             const authUser = res.data;
             props.setAuthUser(authUser);

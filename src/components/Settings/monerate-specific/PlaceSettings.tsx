@@ -17,7 +17,7 @@ import MY_AXIOS from "utils/consts/myAxios";
 import * as monerateActions from "../../../store/monerate/monerateActions";
 import { ApplicationState } from "../../../store/store";
 import PlaceGetDto from "../../../types/domain/monerate/PlaceGetDto";
-import apiUrls from "../../../utils/consts/apiUrls";
+import apiUrls from "../../../utils/url/urls/apiUrls";
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
 import PlaceIcon from "../../_UI/PlaceIcon";
 

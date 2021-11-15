@@ -16,8 +16,8 @@ import { Dispatch } from "redux";
 import * as monerateActions from "../../../store/monerate/monerateActions";
 import { ApplicationState } from "../../../store/store";
 import CategoryGetDto from "../../../types/domain/monerate/CategoryGetDto";
-import apiUrls from "../../../utils/consts/apiUrls";
 import MY_AXIOS from "../../../utils/consts/myAxios";
+import apiUrls from "../../../utils/url/urls/apiUrls";
 import CategoryIcon from "../../_UI/CategoryIcon";
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
 

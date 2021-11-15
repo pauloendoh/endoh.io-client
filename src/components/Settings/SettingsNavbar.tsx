@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import pageUrls from "../../utils/consts/pageUrls";
+import pageUrls from "../../utils/url/urls/pageUrls";
 import FlexVCenter from "../_UI/Flexboxes/FlexVCenter";
 
 const SettingsNavbar = () => {

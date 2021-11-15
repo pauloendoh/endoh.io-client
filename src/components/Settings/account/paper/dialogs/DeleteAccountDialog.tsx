@@ -11,12 +11,13 @@ import { useLogout } from "hooks/auth/useLogout";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import useDialogsStore from "store/zustand/useDialogsStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
 import { ApplicationState } from "../../../../../store/store";
 import { UserDeleteDto } from "../../../../../types/domain/auth/UserDeleteDto";
 import MyAxiosError, { MyFieldError } from "../../../../../types/MyAxiosError";
-import apiUrls from "../../../../../utils/consts/apiUrls";
 import myAxios from "../../../../../utils/consts/myAxios";
+import apiUrls from "../../../../../utils/url/urls/apiUrls";
 import Flex from "../../../../_UI/Flexboxes/Flex";
 import FlexHCenter from "../../../../_UI/Flexboxes/FlexHCenter";
 import MyTextField from "../../../../_UI/MyInputs/MyTextField";
@@ -25,6 +26,7 @@ const DeleteAccountDialog = (props: Props) => {
   const [responseErrors, setResponseErrors] = useState([] as MyFieldError[]);
 
   const { setSuccessMessage } = useSnackbarStore();
+  const dialogStore = useDialogsStore();
 
   const handleClose = () => {
     setResponseErrors([]);
@@ -37,29 +39,32 @@ const DeleteAccountDialog = (props: Props) => {
     values: UserDeleteDto,
     setSubmitting: (isSubmitting: boolean) => void
   ) => {
-    if (window.confirm("Do you really want to delete your account?")) {
-      setSubmitting(true);
+    dialogStore.openConfirmDialog({
+      title: "Do you really want to delete your account?",
+      onConfirm: () => {
+        setSubmitting(true);
 
-      setResponseErrors([]);
+        setResponseErrors([]);
 
-      myAxios
-        .delete(apiUrls.auth.index, {
-          headers: {},
-          data: values,
-        })
-        .then((res) => {
-          setSuccessMessage("Account delete successfully! Logging out...");
-          logout();
+        myAxios
+          .delete(apiUrls.auth.index, {
+            headers: {},
+            data: values,
+          })
+          .then((res) => {
+            setSuccessMessage("Account delete successfully! Logging out...");
+            logout();
 
-          // handleClose()
-        })
-        .catch((err: MyAxiosError) => {
-          setResponseErrors(err.response.data.errors);
-        })
-        .finally(() => {
-          setSubmitting(false);
-        });
-    }
+            // handleClose()
+          })
+          .catch((err: MyAxiosError) => {
+            setResponseErrors(err.response.data.errors);
+          })
+          .finally(() => {
+            setSubmitting(false);
+          });
+      },
+    });
   };
 
   return (

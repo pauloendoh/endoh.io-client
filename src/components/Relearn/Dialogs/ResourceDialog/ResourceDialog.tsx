@@ -29,10 +29,10 @@ import * as relearnActions from "../../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../../store/store";
 import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
-import apiUrls from "../../../../utils/consts/apiUrls";
 import myAxios from "../../../../utils/consts/myAxios";
-import pageUrls from "../../../../utils/consts/pageUrls";
 import { urlIsValid } from "../../../../utils/url/isValidUrl";
+import apiUrls from "../../../../utils/url/urls/apiUrls";
+import pageUrls from "../../../../utils/url/urls/pageUrls";
 import RateButton from "../../../_common/RateButton/RateButton";
 import SaveCancelButtons from "../../../_UI/Buttons/SaveCancelButtons";
 import Flex from "../../../_UI/Flexboxes/Flex";
@@ -212,6 +212,9 @@ const ResourceDialog = (props: Props) => {
                         onChange={handleChange}
                         fullWidth
                         autoFocus
+                        onClickClearIcon={() => {
+                          setFieldValue("title", "");
+                        }}
                       />
                     </Box>
                     <Box mt={2} position="relative">
@@ -232,6 +235,7 @@ const ResourceDialog = (props: Props) => {
                         }}
                         fullWidth
                         label="URL"
+                        onClickClearIcon={() => setFieldValue("url", "")}
                         error={errors?.url?.length > 0}
                       />
                       {isFetchingLinkPreview && (

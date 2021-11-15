@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 import { Dispatch } from "redux";
 import { ApplicationState } from "../../../store/store";
-import pageUrls from "../../../utils/consts/pageUrls";
+import pageUrls from "../../../utils/url/urls/pageUrls";
 import FollowersDialog from "../../_common/FollowersDialog/FollowersDialog";
 import FollowingUsersDialog from "../../_common/FollowingUsersDialog/FollowingUsersDialog";
 import Flex from "../../_UI/Flexboxes/Flex";

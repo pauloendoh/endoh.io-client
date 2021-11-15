@@ -5,7 +5,7 @@ import { stringIsValidNumber } from "utils/math/stringIsValidNumber";
 import useDecisionsQuery from "../../hooks/BigDecisions/Decision/useDecisionsQuery";
 import useDialogsStore from "../../store/zustand/useDialogsStore";
 import useSidebarStore from "../../store/zustand/useSidebarStore";
-import pageUrls from "../../utils/consts/pageUrls";
+import pageUrls from "../../utils/url/urls/pageUrls";
 import DecisionContent from "./DecisionContent/DecisionContent";
 import DecisionDialog from "./DecisionDialog/DecisionDialog";
 import DecisionSidebar from "./DecisionSidebar/DecisionSidebar";

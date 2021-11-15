@@ -8,7 +8,7 @@ import {
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { UserSuggestionDto } from "../../../../types/domain/feed/UserSuggestionDto";
-import pageUrls from "../../../../utils/consts/pageUrls";
+import pageUrls from "../../../../utils/url/urls/pageUrls";
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
 import ProfilePicture from "../../../_UI/ProfilePicture/ProfilePicture";
 // PE 2/3

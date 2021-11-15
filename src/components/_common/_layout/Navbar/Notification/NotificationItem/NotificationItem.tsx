@@ -1,6 +1,5 @@
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, makeStyles, MenuItem, Typography } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import React from "react";
 import ReactTimeago from "react-timeago";
 import { NotificationDto } from "../../../../../../types/domain/utils/NotificationDto";
@@ -8,21 +7,19 @@ import Flex from "../../../../../_UI/Flexboxes/Flex";
 import FlexHCenter from "../../../../../_UI/Flexboxes/FlexHCenter";
 import FlexVCenter from "../../../../../_UI/Flexboxes/FlexVCenter";
 import ProfilePicture from "../../../../../_UI/ProfilePicture/ProfilePicture";
+import S from "./NotificationItem.styles";
 
-// PE 2/3
+interface Props {
+  notification: NotificationDto;
+}
 
-// https://stackoverflow.com/questions/62645556/react-warning-function-components-cannot-be-given-refs
 const NotificationItem = React.forwardRef((props: Props, ref) => {
-  const classes = useStyles();
-
   return (
-    <MenuItem className={classes.menuItem}>
+    <S.MenuItem>
       <Flex>
         <FlexVCenter mt={1} height="fit-content">
           <FlexHCenter width={20}>
-            {!props.notification.seen && (
-              <FontAwesomeIcon icon={faCircle} className={classes.dot} />
-            )}
+            {!props.notification.seen && <S.Dot icon={faCircle} />}
           </FlexHCenter>
 
           <ProfilePicture
@@ -43,26 +40,8 @@ const NotificationItem = React.forwardRef((props: Props, ref) => {
           </Box>
         </Box>
       </Flex>
-    </MenuItem>
+    </S.MenuItem>
   );
 });
-
-const useStyles = makeStyles((theme) => ({
-  menuItem: {
-    whiteSpace: "normal",
-    width: 450,
-    paddingLeft: 8,
-  },
-  dot: {
-    fontSize: 8,
-    color: theme.palette.primary.main,
-  },
-}));
-
-interface OwnProps {
-  notification: NotificationDto;
-}
-
-type Props = OwnProps;
 
 export default NotificationItem;

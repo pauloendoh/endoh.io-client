@@ -20,8 +20,8 @@ import { setFollowingTags } from "../../../../store/auth/authActions";
 import { ApplicationState } from "../../../../store/store";
 import { FollowingTagDto } from "../../../../types/domain/feed/FollowingTagDto";
 import MyAxiosError from "../../../../types/MyAxiosError";
-import apiUrls from "../../../../utils/consts/apiUrls";
 import myAxios from "../../../../utils/consts/myAxios";
+import apiUrls from "../../../../utils/url/urls/apiUrls";
 import Flex from "../../../_UI/Flexboxes/Flex";
 
 // PE 2/3

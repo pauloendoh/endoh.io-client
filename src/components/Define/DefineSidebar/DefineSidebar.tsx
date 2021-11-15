@@ -20,8 +20,8 @@ import { useHistory } from "react-router-dom";
 import useDocsStore from "store/zustand/domain/useDocsStore";
 import { pushOrReplace } from "utils/pushOrReplace";
 import useSidebarStore from "../../../store/zustand/useSidebarStore";
-import pageUrls from "../../../utils/consts/pageUrls";
 import stringIncludes from "../../../utils/text/stringIncludes";
+import pageUrls from "../../../utils/url/urls/pageUrls";
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
 import MyTextField from "../../_UI/MyInputs/MyTextField";
 import DocTitleDialog from "../DocTitleDialog/DocTitleDialog";
@@ -67,7 +67,7 @@ function DefineSidebar(props: Props) {
   const openRandomDoc = () => {
     if (docsStore.docs.length > 0) {
       const randomDoc = sample(docsStore.docs);
-      history.push(pageUrls.define.doc(randomDoc.id));
+      history.push(pageUrls.define.docId(randomDoc.id));
 
       handleSaveDocLastOpenedAt(randomDoc.id);
     }
@@ -123,7 +123,7 @@ function DefineSidebar(props: Props) {
                   initialValue=""
                   onClose={() => setOpenTitleDialog(false)}
                   afterSave={(doc) => {
-                    history.push(pageUrls.define.doc(doc.id));
+                    history.push(pageUrls.define.docId(doc.id));
                     setOpenTitleDialog(false);
                   }}
                 />

@@ -5,7 +5,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import useProfileStore from "store/zustand/domain/useProfileStore";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
-import pageUrls from "../../../../utils/consts/pageUrls";
+import pageUrls from "../../../../utils/url/urls/pageUrls";
 import Flex from "../../../_UI/Flexboxes/Flex";
 import FlexHCenter from "../../../_UI/Flexboxes/FlexHCenter";
 

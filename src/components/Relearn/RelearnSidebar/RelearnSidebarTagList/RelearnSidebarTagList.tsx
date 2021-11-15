@@ -16,8 +16,8 @@ import { Dispatch } from "redux";
 import * as relearnActions from "../../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../../store/store";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
-import apiUrls from "../../../../utils/consts/apiUrls";
 import myAxios from "../../../../utils/consts/myAxios";
+import apiUrls from "../../../../utils/url/urls/apiUrls";
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
 import TagListItem from "../TagListItem/TagListItem";
 

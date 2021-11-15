@@ -14,8 +14,8 @@ import { pushOrReplace } from "utils/pushOrReplace";
 import * as relearnActions from "../../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../../store/store";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
-import pageUrls from "../../../../utils/consts/pageUrls";
 import { getTodoResources as filterTodoResources } from "../../../../utils/relearn/getTodoResources";
+import pageUrls from "../../../../utils/url/urls/pageUrls";
 import S from "./TagListItem.styles";
 import TagMoreIcon from "./TagMoreIcon/TagMoreIcon";
 

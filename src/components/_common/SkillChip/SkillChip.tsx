@@ -1,24 +1,30 @@
-import { Box, Button, makeStyles } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { setEditingSkill } from "../../../store/skillbase/skillbaseActions";
-import { ApplicationState } from "../../../store/store";
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto";
 import Flex from "../../_UI/Flexboxes/Flex";
-import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
+import S from "./SkillChip.styles";
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  editSkill: (skill: SkillDto) => dispatch(setEditingSkill(skill)),
+});
+
+interface OwnProps {
+  skill: SkillDto;
+}
+
+type Props = ReturnType<typeof mapDispatchToProps> & OwnProps;
 
 // PE 2/3
 function SkillChip(props: Props) {
-  const classes = useStyles();
-
   return (
-    <Button
+    <S.SkillButton
       key={props.skill.id}
       variant="outlined"
       size="small"
-      className={classes.skillButton}
       onClick={() => {
         props.editSkill(props.skill);
       }}
@@ -27,7 +33,7 @@ function SkillChip(props: Props) {
         <Box>{props.skill.name}</Box>
 
         {(props.skill.currentLevel || props.skill.goalLevel) && (
-          <FlexVCenter ml={1} className={classes.innerChip}>
+          <S.InnerChip ml={1}>
             {/* only has current level */}
             {props.skill.currentLevel &&
               !props.skill.goalLevel &&
@@ -49,39 +55,11 @@ function SkillChip(props: Props) {
                 {props.skill.goalLevel}
               </>
             )}
-          </FlexVCenter>
+          </S.InnerChip>
         )}
       </Flex>
-    </Button>
+    </S.SkillButton>
   );
 }
 
-const useStyles = makeStyles((theme) => ({
-  skillButton: {
-    marginRight: 8,
-    marginBottom: 8,
-    fontWeight: 400,
-  },
-  innerChip: {
-    background: "#393939",
-    paddingLeft: 4,
-    paddingRight: 4,
-    borderRadius: 3,
-  },
-}));
-
-const mapStateToProps = (state: ApplicationState) => ({});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  editSkill: (skill: SkillDto) => dispatch(setEditingSkill(skill)),
-});
-
-interface OwnProps {
-  skill: SkillDto;
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(SkillChip);
+export default connect(undefined, mapDispatchToProps)(SkillChip);

@@ -23,8 +23,8 @@ import {
 } from "../../../../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../../../../store/store";
 import { ResourceDto } from "../../../../../../types/domain/relearn/ResourceDto";
-import apiUrls from "../../../../../../utils/consts/apiUrls";
 import myAxios from "../../../../../../utils/consts/myAxios";
+import apiUrls from "../../../../../../utils/url/urls/apiUrls";
 
 // PE 1/3
 function ResourceMoreIcon(props: Props) {

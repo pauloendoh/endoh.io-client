@@ -20,8 +20,8 @@ import { ApplicationState } from "../../../../store/store";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto";
 import { IdsDto } from "../../../../types/domain/_common/IdsDto";
-import apiUrls from "../../../../utils/consts/apiUrls";
 import myAxios from "../../../../utils/consts/myAxios";
+import apiUrls from "../../../../utils/url/urls/apiUrls";
 
 // PE 2/3 - MenuItem could be shorter?
 function SkillMoreIcon(props: Props) {

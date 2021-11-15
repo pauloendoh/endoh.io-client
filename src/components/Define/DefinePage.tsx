@@ -3,12 +3,12 @@ import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import useDocsStore from "store/zustand/domain/useDocsStore";
-import { urls } from "utils/urls";
+import pageUrls from "utils/url/urls/pageUrls";
 import useSidebarStore from "../../store/zustand/useSidebarStore";
 import { DocDto } from "../../types/domain/define/DocDto";
 import { NoteDto } from "../../types/domain/define/NoteDto";
-import apiUrls from "../../utils/consts/apiUrls";
 import myAxios from "../../utils/consts/myAxios";
+import apiUrls from "../../utils/url/urls/apiUrls";
 import LoadingPage from "../_common/LoadingPage/LoadingPage";
 import Flex from "../_UI/Flexboxes/Flex";
 import DefineContent from "./DefineContent/DefineContent";
@@ -65,7 +65,7 @@ const DefinePage = () => {
         });
 
         const docId = sortedByLastOpened[0].id;
-        history.push(urls.pages.define.docId(docId));
+        history.push(pageUrls.define.docId(docId));
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

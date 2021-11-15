@@ -4,8 +4,8 @@ import React from "react";
 import useDocsStore from "store/zustand/domain/useDocsStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
 import { DocDto } from "../../../types/domain/define/DocDto";
-import apiUrls from "../../../utils/consts/apiUrls";
 import myAxios from "../../../utils/consts/myAxios";
+import apiUrls from "../../../utils/url/urls/apiUrls";
 import SaveCancelButtons from "../../_UI/Buttons/SaveCancelButtons";
 import MyTextField from "../../_UI/MyInputs/MyTextField";
 

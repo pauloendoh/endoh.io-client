@@ -14,17 +14,19 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import useDialogsStore from "store/zustand/useDialogsStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
 import * as relearnActions from "../../../../../store/relearn/relearnActions";
 import { TagDto } from "../../../../../types/domain/relearn/TagDto";
-import apiUrls from "../../../../../utils/consts/apiUrls";
 import myAxios from "../../../../../utils/consts/myAxios";
+import apiUrls from "../../../../../utils/url/urls/apiUrls";
 
 // PE 2/3 - MenuItem could be shorter?
 function TagMoreIcon(props: Props) {
   const classes = useStyles();
 
-  const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
+  const dialogStore = useDialogsStore();
+  const { setSuccessMessage } = useSnackbarStore();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleOpenMore = (event: any) => {
@@ -36,15 +38,18 @@ function TagMoreIcon(props: Props) {
 
   // handleDelete would be better?
   const handleDeleteTag = (id: number) => {
-    if (window.confirm("Confirm delete?")) {
-      myAxios.delete(`${apiUrls.relearn.tag}/${id}`).then((res) => {
-        setSuccessMessage("Tag deleted!");
+    dialogStore.openConfirmDialog({
+      title: "Confirm delete?",
+      onConfirm: () => {
+        myAxios.delete(`${apiUrls.relearn.tag}/${id}`).then((res) => {
+          setSuccessMessage("Tag deleted!");
 
-        props.afterDelete();
+          props.afterDelete();
 
-        props.removeTag(id);
-      });
-    }
+          props.removeTag(id);
+        });
+      },
+    });
   };
 
   return (

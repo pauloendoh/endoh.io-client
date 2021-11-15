@@ -1,17 +1,10 @@
-import {
-  Box,
-  Button,
-  ClickAwayListener,
-  makeStyles,
-  Tooltip,
-  Typography,
-} from "@material-ui/core";
+import { Box, ClickAwayListener, Tooltip, Typography } from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
-import clsx from "clsx";
 import React from "react";
 import { ratingLabels } from "utils/domain/relearn/resources/ratingLabels";
 import FlexHCenter from "../../_UI/Flexboxes/FlexHCenter";
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
+import S from "./MinRatingButton.styles";
 
 interface Props {
   value: number;
@@ -19,7 +12,6 @@ interface Props {
 }
 
 function MinRatingButton(props: Props) {
-  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const handleTooltipClose = () => {
     setOpen(false);
@@ -70,11 +62,11 @@ function MinRatingButton(props: Props) {
           </Box>
         }
       >
-        <Button
+        <S.RateButton
           size="small"
           onClick={handleTooltipOpen}
           variant="outlined"
-          className={clsx([classes.rateButton, "rate-button"])}
+          className="rate-button"
         >
           <FlexVCenter>
             <Box>Min. rating: </Box>
@@ -86,17 +78,10 @@ function MinRatingButton(props: Props) {
               <Box ml={1}>-</Box>
             )}
           </FlexVCenter>
-        </Button>
+        </S.RateButton>
       </Tooltip>
     </ClickAwayListener>
   );
 }
-
-const useStyles = makeStyles((theme) => ({
-  rateButton: {
-    position: "relative",
-    right: 8,
-  },
-}));
 
 export default MinRatingButton;

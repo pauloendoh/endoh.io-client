@@ -6,8 +6,8 @@ import { Dispatch } from "redux";
 import { setNotifications } from "../../../../../store/auth/authActions";
 import { ApplicationState } from "../../../../../store/store";
 import { NotificationDto } from "../../../../../types/domain/utils/NotificationDto";
-import apiUrls from "../../../../../utils/consts/apiUrls";
 import myAxios from "../../../../../utils/consts/myAxios";
+import apiUrls from "../../../../../utils/url/urls/apiUrls";
 import NotificationItem from "./NotificationItem/NotificationItem";
 
 // PE 2/3 - Change to "NotificationButtonMenu"

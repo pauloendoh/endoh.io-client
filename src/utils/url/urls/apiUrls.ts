@@ -2,6 +2,7 @@
 const apiUrls = {
   auth: {
     index: "/auth",
+    login: "/auth/login",
     google: "/auth/google",
     googleLogin: "/auth/google/login",
     resetPassword: "/auth/password-reset",

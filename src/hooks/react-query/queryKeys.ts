@@ -1,4 +1,4 @@
-import apiUrls from "utils/consts/apiUrls";
+import apiUrls from "utils/url/urls/apiUrls";
 
 export const queryKeys = {
   userSuggestions: apiUrls.feed.myUserSuggestions,

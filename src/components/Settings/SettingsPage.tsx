@@ -1,7 +1,7 @@
 import { Box } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
-import pageUrls from "../../utils/consts/pageUrls";
+import pageUrls from "../../utils/url/urls/pageUrls";
 import EditCategoryModal from "../Monerate/Modals/EditCategoryModal";
 import EditPlaceModal from "../Monerate/Modals/EditPlaceModal";
 import Flex from "../_UI/Flexboxes/Flex";

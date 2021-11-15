@@ -3,9 +3,9 @@ import { useMutation } from "react-query";
 import { DecisionTableDto } from "types/domain/big-decisions/DecisionTableDto";
 import useSnackbarStore from "../../../store/zustand/useSnackbarStore";
 import { DecisionDto } from "../../../types/domain/big-decisions/DecisionDto";
-import apiUrls from "../../../utils/consts/apiUrls";
 import myAxios from "../../../utils/consts/myAxios";
 import { myQueryClient } from "../../../utils/consts/myQueryClient";
+import apiUrls from "../../../utils/url/urls/apiUrls";
 
 export default function useDeleteTableMutation() {
   const { setSuccessMessage } = useSnackbarStore();

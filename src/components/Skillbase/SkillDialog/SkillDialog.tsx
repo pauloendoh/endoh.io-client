@@ -14,9 +14,9 @@ import {
 import { ApplicationState } from "../../../store/store";
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto";
 import MyAxiosError from "../../../types/MyAxiosError";
-import apiUrls from "../../../utils/consts/apiUrls";
 import myAxios from "../../../utils/consts/myAxios";
 import { getCurrentTagId } from "../../../utils/skillbase/getCurrentTagId";
+import apiUrls from "../../../utils/url/urls/apiUrls";
 import SaveCancelButtons from "../../_UI/Buttons/SaveCancelButtons";
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
 import PriorityStarIcon from "./PriorityStarIcon/PriorityStarIcon";

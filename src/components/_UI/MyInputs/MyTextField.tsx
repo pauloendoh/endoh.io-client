@@ -1,8 +1,10 @@
 import { TextField } from "@material-ui/core";
 import React from "react";
+import Icons from "utils/styles/Icons";
 
 type Props = React.ComponentProps<typeof TextField> & {
   onCtrlEnter?: (e: React.KeyboardEvent<HTMLDivElement>) => void;
+  onClickClearIcon?: () => void;
 };
 
 const MyTextField = React.forwardRef<HTMLDivElement, Props>(
@@ -12,6 +14,18 @@ const MyTextField = React.forwardRef<HTMLDivElement, Props>(
         size="small"
         autoComplete="off"
         variant="outlined"
+        InputProps={
+          props.onClickClearIcon
+            ? {
+                endAdornment: (
+                  <Icons.Clear
+                    style={{ cursor: "pointer" }}
+                    onClick={props.onClickClearIcon}
+                  />
+                ),
+              }
+            : undefined
+        }
         {...props}
         ref={ref}
         onKeyDown={(e) => {

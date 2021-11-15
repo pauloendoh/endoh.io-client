@@ -12,8 +12,8 @@ import { useHistory, useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
 import { ApplicationState } from "../../../../store/store";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
-import pageUrls from "../../../../utils/consts/pageUrls";
 import { getCurrentTag } from "../../../../utils/skillbase/getCurrentTag";
+import pageUrls from "../../../../utils/url/urls/pageUrls";
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
 import TagIcon from "../../../_UI/Icon/TagIcon";
 import SkillbaseTagSelector, {

@@ -11,8 +11,8 @@ import useDocsStore from "store/zustand/domain/useDocsStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
 import { DocDto } from "../../../../../../types/domain/define/DocDto";
 import { NoteDto } from "../../../../../../types/domain/define/NoteDto";
-import apiUrls from "../../../../../../utils/consts/apiUrls";
 import myAxios from "../../../../../../utils/consts/myAxios";
+import apiUrls from "../../../../../../utils/url/urls/apiUrls";
 import DarkButton from "../../../../../_UI/Buttons/DarkButton";
 import S from "./FinishedFlashcardDialogChild.styles";
 
