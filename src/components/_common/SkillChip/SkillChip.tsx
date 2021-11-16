@@ -32,31 +32,13 @@ function SkillChip(props: Props) {
       <Flex>
         <Box>{props.skill.name}</Box>
 
-        {(props.skill.currentLevel || props.skill.goalLevel) && (
-          <S.InnerChip ml={1}>
-            {/* only has current level */}
-            {props.skill.currentLevel &&
-              !props.skill.goalLevel &&
-              props.skill.currentLevel}
-
-            {/* only has goal */}
-            {!props.skill.currentLevel && props.skill.goalLevel && (
-              <>
-                ?<ArrowRightAltIcon />
-                {props.skill.goalLevel}
-              </>
-            )}
-
-            {/* has both */}
-            {props.skill.currentLevel && props.skill.goalLevel && (
-              <>
-                {props.skill.currentLevel}
-                <ArrowRightAltIcon />
-                {props.skill.goalLevel}
-              </>
-            )}
-          </S.InnerChip>
-        )}
+        <S.InnerChip ml={1}>
+          {props.skill.currentLevel > 0 ? props.skill.currentLevel : "?"}
+          <ArrowRightAltIcon />
+          {props.skill.currentGoal > 0 ? props.skill.currentGoal : "?"}
+          <ArrowRightAltIcon />
+          {props.skill.goalLevel > 0 ? props.skill.goalLevel : "?"}
+        </S.InnerChip>
       </Flex>
     </S.SkillButton>
   );

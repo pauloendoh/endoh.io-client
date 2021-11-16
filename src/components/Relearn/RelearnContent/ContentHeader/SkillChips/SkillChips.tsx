@@ -26,7 +26,7 @@ function SkillChips(props: Props) {
 
       if (listId) {
         const listedSkills = props.allSkills.filter(
-          (s) => s.tagId === listId && s.isPriority === true
+          (s) => s.tagId === listId && s.currentGoal > 0
         );
         setSkills(listedSkills);
       }
