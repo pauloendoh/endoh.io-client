@@ -79,7 +79,7 @@ const SkillbaseTableRow = (props: Props) => {
       <TableCell width={180}>
         <Flex style={{ gap: theme.spacing(0.5) }}>
           {props.skill.name}
-          {props.skill.currentLevel > 0 &&
+          {props.skill.goalLevel > 0 &&
             props.skill.currentLevel === props.skill.goalLevel && (
               <Tooltip title="You reached your end goal">
                 <Icons.CheckCircleOutline fontSize="small" color="primary" />
