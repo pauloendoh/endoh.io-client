@@ -78,16 +78,16 @@ const SkillbaseTableRow = (props: Props) => {
         <Flex>{props.skill.name}</Flex>
       </TableCell>
 
-      <SkillLevelTD value={props.skill.currentLevel} />
-      <SkillLevelTD value={props.skill.currentGoal} />
-
       <SkillLevelTD
-        value={props.skill.goalLevel}
+        value={props.skill.currentLevel}
         done={
-          props.skill.goalLevel > 0 &&
+          props.skill.currentLevel > 0 &&
           props.skill.currentLevel === props.skill.goalLevel
         }
       />
+      <SkillLevelTD value={props.skill.currentGoal} />
+
+      <SkillLevelTD value={props.skill.goalLevel} />
 
       <TableCell>
         {tag ? (
