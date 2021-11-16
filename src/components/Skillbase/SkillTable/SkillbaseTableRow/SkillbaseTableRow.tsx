@@ -4,12 +4,15 @@ import {
   makeStyles,
   TableCell,
   TableRow,
+  Tooltip,
 } from "@material-ui/core";
 import LabelIcon from "@material-ui/icons/Label";
+import Flex from "components/_UI/Flexboxes/Flex";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import useSnackbarStore from "store/zustand/useSnackbarStore";
+import { useTheme } from "styled-components";
+import Icons from "utils/styles/Icons";
 import {
   setEditingSkill,
   setSkills,
@@ -17,16 +20,15 @@ import {
 import { ApplicationState } from "../../../../store/store";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto";
-import Flex from "../../../_UI/Flexboxes/Flex";
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
 import SkillLevelTD from "./SkillLevelTd/SkillLevelTd";
 
 // PE 3/3
 const SkillbaseTableRow = (props: Props) => {
+  const theme = useTheme();
   const classes = useStyles();
-  const labelId = `enhanced-table-checkbox-${props.index}`;
 
-  const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
+  const labelId = `enhanced-table-checkbox-${props.index}`;
 
   const findTagById = (id: number) => {
     return props.allTags.find((tag) => tag.id === props.skill.tagId);
@@ -75,25 +77,21 @@ const SkillbaseTableRow = (props: Props) => {
       </TableCell>
 
       <TableCell width={180}>
-        <Flex>{props.skill.name}</Flex>
+        <Flex style={{ gap: theme.spacing(0.5) }}>
+          {props.skill.name}
+          {props.skill.currentLevel > 0 &&
+            props.skill.currentLevel === props.skill.goalLevel && (
+              <Tooltip title="You reached your end goal">
+                <Icons.CheckCircleOutline fontSize="small" color="primary" />
+              </Tooltip>
+            )}
+        </Flex>
       </TableCell>
 
-      <SkillLevelTD
-        value={props.skill.currentLevel}
-        done={
-          props.skill.currentLevel > 0 &&
-          props.skill.currentLevel === props.skill.goalLevel
-        }
-      />
+      <SkillLevelTD value={props.skill.currentLevel} />
       <SkillLevelTD value={props.skill.currentGoal} />
 
-      <SkillLevelTD
-        value={props.skill.goalLevel}
-        done={
-          props.skill.currentLevel > 0 &&
-          props.skill.currentLevel === props.skill.goalLevel
-        }
-      />
+      <SkillLevelTD value={props.skill.goalLevel} />
 
       <TableCell>
         {tag ? (
