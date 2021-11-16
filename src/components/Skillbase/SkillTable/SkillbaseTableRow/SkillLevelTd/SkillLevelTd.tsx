@@ -1,10 +1,15 @@
 import { makeStyles, TableCell } from "@material-ui/core";
 import clsx from "clsx";
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
 import React from "react";
+import { useTheme } from "styled-components";
+import Icons from "utils/styles/Icons";
 
 // PE 2/3 - Not so easy to understand the classes logic
-const SkillLevelTd = (props: { value: number }) => {
+const SkillLevelTd = (props: { value: number; done?: boolean }) => {
   const classes = useStyles();
+  const theme = useTheme();
+
   return (
     <TableCell
       align="center"
@@ -14,7 +19,11 @@ const SkillLevelTd = (props: { value: number }) => {
         [classes.advanced]: props.value >= 7 && props.value <= 10,
       })}
     >
-      {props.value}
+      <FlexVCenter justifyContent="center" style={{ gap: theme.spacing(0.5) }}>
+        {props.value}
+
+        {props.done && <Icons.Done fontSize="small" />}
+      </FlexVCenter>
     </TableCell>
   );
 };
