@@ -7,6 +7,7 @@ import { useLocation } from "react-router";
 import { scroller } from "react-scroll";
 import { Dispatch } from "redux";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
+import { useTheme } from "styled-components";
 import {
   setEditingSkill,
   setSkills,
@@ -29,6 +30,7 @@ import SkillMoreIcon from "./SkillMoreIcon/SkillMoreIcon";
 // PE 2/3
 const SkillDialog = (props: Props) => {
   const location = useLocation();
+  const theme = useTheme();
 
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
 
@@ -71,6 +73,7 @@ const SkillDialog = (props: Props) => {
 
     // E.g;: if you change from 5 to ""
     if ((skill.currentLevel as unknown) === "") skill.currentLevel = null;
+    if ((skill.currentGoal as unknown) === "") skill.currentGoal = null;
     if ((skill.goalLevel as unknown) === "") skill.goalLevel = null;
 
     myAxios
@@ -150,18 +153,29 @@ const SkillDialog = (props: Props) => {
                 {/* Separate into <SkillLevelSelectors/> */}
                 <FlexVCenter
                   mt={3}
-                  style={{ fontSize: 14, fontWeight: "normal" }}
+                  style={{
+                    fontSize: 14,
+                    fontWeight: "normal",
+                    gap: theme.spacing(2),
+                  }}
                 >
                   <SelectSkillLevel
-                    type="currentLevel"
+                    type="Current Level"
                     value={values.currentLevel}
                     onChange={(newValue: number) => {
                       setFieldValue("currentLevel", newValue);
                     }}
                   />
-                  <Box ml={4} />
                   <SelectSkillLevel
-                    type="goalLevel"
+                    type="Current Goal"
+                    value={values.currentGoal}
+                    onChange={(newValue: number) => {
+                      setFieldValue("currentGoal", newValue);
+                    }}
+                  />
+
+                  <SelectSkillLevel
+                    type="End Goal"
                     value={values.goalLevel}
                     onChange={(newValue: number) => {
                       setFieldValue("goalLevel", newValue);

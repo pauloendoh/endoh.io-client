@@ -21,7 +21,9 @@ export interface ResourceDto {
   tag: TagDto;
 }
 
-export const newResourceDto = (): ResourceDto => ({
+export const newResourceDto = (
+  partial?: Partial<ResourceDto>
+): ResourceDto => ({
   id: null,
   userId: null,
   title: "",
@@ -40,4 +42,6 @@ export const newResourceDto = (): ResourceDto => ({
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
   tag: null,
+
+  ...partial,
 });

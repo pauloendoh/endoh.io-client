@@ -1,15 +1,11 @@
 import {
   Box,
   Checkbox,
-  CircularProgress,
-  IconButton,
   makeStyles,
   TableCell,
   TableRow,
 } from "@material-ui/core";
 import LabelIcon from "@material-ui/icons/Label";
-import StarIcon from "@material-ui/icons/Star";
-import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -21,9 +17,6 @@ import {
 import { ApplicationState } from "../../../../store/store";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto";
-import MyAxiosError from "../../../../types/MyAxiosError";
-import myAxios from "../../../../utils/consts/myAxios";
-import apiUrls from "../../../../utils/url/urls/apiUrls";
 import Flex from "../../../_UI/Flexboxes/Flex";
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
 import SkillLevelTD from "./SkillLevelTd/SkillLevelTd";
@@ -61,28 +54,6 @@ const SkillbaseTableRow = (props: Props) => {
     [props.skill.tagId, props.allTags]
   );
 
-  const [isChangingPriority, setIsChangingPriority] = useState(false);
-
-  const togglePriority = () => {
-    setIsChangingPriority(true);
-    const changedSkill: SkillDto = {
-      ...props.skill,
-      isPriority: !props.skill.isPriority,
-    };
-    myAxios
-      .post<SkillDto[]>(apiUrls.skillbase.skill, changedSkill)
-      .then((res) => {
-        props.setSkills(res.data);
-        setSuccessMessage("Priority changed!");
-      })
-      .catch((err: MyAxiosError) => {
-        setErrorMessage(err.response.data.errors[0].message);
-      })
-      .finally(() => {
-        setIsChangingPriority(false);
-      });
-  };
-
   const getUncheckedExpectations = () => {
     return props.skill.expectations.filter(
       (expectation) => !expectation.checked
@@ -103,39 +74,14 @@ const SkillbaseTableRow = (props: Props) => {
         {props.index + 1}
       </TableCell>
 
-      <TableCell align="center" width={100}>
-        {isChangingPriority ? (
-          <CircularProgress size={22} />
-        ) : (
-          <IconButton
-            size="small"
-            onClick={(e) => {
-              e.stopPropagation();
-              togglePriority();
-            }}
-          >
-            <StarIcon
-              className={clsx({
-                [classes.isPriority]: props.skill.isPriority,
-                [classes.isNotPriority]: !props.skill.isPriority,
-              })}
-            />
-          </IconButton>
-        )}
-      </TableCell>
-
       <TableCell width={180}>
         <Flex>{props.skill.name}</Flex>
       </TableCell>
 
-      <SkillLevelTD
-        value={props.skill.currentLevel}
-        isPriority={props.skill.isPriority}
-      />
-      <SkillLevelTD
-        value={props.skill.goalLevel}
-        isPriority={props.skill.isPriority}
-      />
+      <SkillLevelTD value={props.skill.currentLevel} />
+      <SkillLevelTD value={props.skill.currentGoal} />
+
+      <SkillLevelTD value={props.skill.goalLevel} />
 
       <TableCell>
         {tag ? (

@@ -1,10 +1,13 @@
 import { Box, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { ApplicationState } from "../../../../store/store";
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
+
+interface Props {
+  type: "Current Level" | "Current Goal" | "End Goal";
+  value: number;
+  onChange: (newValue: number) => void;
+}
 
 // PE 1/3
 const SelectSkillLevel = (props: Props) => {
@@ -28,7 +31,7 @@ const SelectSkillLevel = (props: Props) => {
   };
 
   const getLabel = () => {
-    let text = props.type === "currentLevel" ? "Current Level" : "Goal";
+    let text = String(props.type);
 
     if (props.value) {
       text = labels[props.value];
@@ -140,18 +143,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mapStateToProps = (state: ApplicationState) => ({});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
-
-interface OwnProps {
-  type: "currentLevel" | "goalLevel";
-  value: number;
-  onChange: (newValue: number) => void;
-}
-
-type Props = OwnProps &
-  ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
-
-export default connect(mapStateToProps, mapDispatchToProps)(SelectSkillLevel);
+export default SelectSkillLevel;
