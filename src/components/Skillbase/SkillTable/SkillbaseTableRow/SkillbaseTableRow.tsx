@@ -87,7 +87,13 @@ const SkillbaseTableRow = (props: Props) => {
       />
       <SkillLevelTD value={props.skill.currentGoal} />
 
-      <SkillLevelTD value={props.skill.goalLevel} />
+      <SkillLevelTD
+        value={props.skill.goalLevel}
+        done={
+          props.skill.currentLevel > 0 &&
+          props.skill.currentLevel === props.skill.goalLevel
+        }
+      />
 
       <TableCell>
         {tag ? (

@@ -1,4 +1,4 @@
-import { makeStyles, TableCell } from "@material-ui/core";
+import { makeStyles, TableCell, Tooltip } from "@material-ui/core";
 import clsx from "clsx";
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
 import React from "react";
@@ -22,7 +22,11 @@ const SkillLevelTd = (props: { value: number; done?: boolean }) => {
       <FlexVCenter justifyContent="center" style={{ gap: theme.spacing(0.5) }}>
         {props.value}
 
-        {props.done && <Icons.Done fontSize="small" />}
+        {props.done && (
+          <Tooltip title="You reached your end goal">
+            <Icons.Done fontSize="small" />
+          </Tooltip>
+        )}
       </FlexVCenter>
     </TableCell>
   );
