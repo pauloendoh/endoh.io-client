@@ -26,11 +26,10 @@ function SkillChips(props: Props) {
 
       if (listId) {
         const listedSkills = props.allSkills.filter(
-          (s) => s.tagId === listId && s.currentLevel < s.currentGoal
+          (s) => s.tagId === listId && s.isPriority === true
         );
-
         setSkills(listedSkills);
-      } else setSkills([]);
+      }
     }
   }, [props.allSkills, location]);
 

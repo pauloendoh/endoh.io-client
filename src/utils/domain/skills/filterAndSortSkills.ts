@@ -33,11 +33,7 @@ export default function filterAndSortSkills(
       } else {
         skills = skills.sort((a, b) => b.name.localeCompare(a.name));
       }
-    } else if (
-      property === "currentLevel" ||
-      property === "goalLevel" ||
-      property === "currentGoal"
-    ) {
+    } else if (property === "currentLevel" || property === "goalLevel") {
       if (order === "asc") {
         skills = skills.sort((a, b) => a[property] - b[property]);
       } else {

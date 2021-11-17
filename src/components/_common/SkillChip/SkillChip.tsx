@@ -1,12 +1,8 @@
-import { faFire } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box } from "@material-ui/core";
-import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
-import React, { useMemo } from "react";
+import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
+import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { useTheme } from "styled-components";
-import Icons from "utils/styles/Icons";
 import { setEditingSkill } from "../../../store/skillbase/skillbaseActions";
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto";
 import Flex from "../../_UI/Flexboxes/Flex";
@@ -24,12 +20,6 @@ type Props = ReturnType<typeof mapDispatchToProps> & OwnProps;
 
 // PE 2/3
 function SkillChip(props: Props) {
-  const levelDiff = useMemo(() => {
-    return props.skill.currentGoal - (props.skill.currentLevel || 0);
-  }, [props.skill]);
-
-  const theme = useTheme();
-
   return (
     <S.SkillButton
       key={props.skill.id}
@@ -42,21 +32,31 @@ function SkillChip(props: Props) {
       <Flex>
         <Box>{props.skill.name}</Box>
 
-        <S.InnerChip ml={1}>
-          <span>{props.skill.currentLevel || "?"}</span>
-          <FlexVCenter
-            style={{ gap: theme.spacing(0.25), marginLeft: theme.spacing(0.5) }}
-          >
-            <span>+{levelDiff}</span>
-            <FontAwesomeIcon
-              icon={faFire}
-              style={{ color: theme.palette.secondary.main }}
-            />
-          </FlexVCenter>
-          <Icons.ArrowRightAlt />
+        {(props.skill.currentLevel || props.skill.goalLevel) && (
+          <S.InnerChip ml={1}>
+            {/* only has current level */}
+            {props.skill.currentLevel &&
+              !props.skill.goalLevel &&
+              props.skill.currentLevel}
 
-          {props.skill.goalLevel || "?"}
-        </S.InnerChip>
+            {/* only has goal */}
+            {!props.skill.currentLevel && props.skill.goalLevel && (
+              <>
+                ?<ArrowRightAltIcon />
+                {props.skill.goalLevel}
+              </>
+            )}
+
+            {/* has both */}
+            {props.skill.currentLevel && props.skill.goalLevel && (
+              <>
+                {props.skill.currentLevel}
+                <ArrowRightAltIcon />
+                {props.skill.goalLevel}
+              </>
+            )}
+          </S.InnerChip>
+        )}
       </Flex>
     </S.SkillButton>
   );

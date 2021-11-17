@@ -11,7 +11,6 @@ export interface SkillDto {
   isPriority: boolean;
   name: string;
   currentLevel: number;
-  currentGoal: number;
   goalLevel: number;
 
   createdAt: string;
@@ -29,7 +28,6 @@ export const newSkillDto = (tagId: number = null): SkillDto => ({
   isPriority: false,
   name: "",
   currentLevel: null,
-  currentGoal: null,
   goalLevel: null,
 
   createdAt: new Date().toISOString(),
