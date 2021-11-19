@@ -2,15 +2,18 @@ import { Popper, useTheme } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
 import Txt from "components/_UI/Text/Txt";
+import { queryKeys } from "hooks/react-query/queryKeys";
 import useFetchSearchResults from "hooks/react-query/search/useFetchSearchResults";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useQueryClient } from "react-query";
 import { connect } from "react-redux";
 import { useHistory } from "react-router";
 import { Dispatch } from "redux";
 import { editResource } from "store/relearn/relearnActions";
 import { ApplicationState } from "store/store";
 import { ResourceDto } from "types/domain/relearn/ResourceDto";
+import { SearchResultsDto } from "types/domain/utils/SearchResultsDto";
 import { getColorByRating } from "utils/relearn/getColorByRating";
 import Icons from "utils/styles/Icons";
 import pageUrls from "../../../../../utils/url/urls/pageUrls";
@@ -55,9 +58,20 @@ const SearchBar = ({ editResource }: Props) => {
     }
   };
 
+  const qc = useQueryClient();
+
+  useEffect(() => {
+    setLoading(false);
+    setValue("searchQuery", "");
+    qc.cancelQueries(queryKeys.searchResults);
+    qc.setQueryData<SearchResultsDto>(queryKeys.searchResults, null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [history.location.search]);
+
   useEffect(
     () => {
       if (getValues("searchQuery").length >= MIN_LENGTH) setLoading(true);
+      else setLoading(false);
       clearTimeout(throttle);
       setThrottle(setTimeout(refetch, 500));
     },
@@ -75,7 +89,7 @@ const SearchBar = ({ editResource }: Props) => {
     <form onSubmit={handleSubmit(submit)}>
       <Autocomplete
         loading={loading}
-        // if no text, it won't show "no resources :("
+        // if no text, show nothing (don't show 'no resources :(')
         freeSolo={watch("searchQuery").length < MIN_LENGTH}
         noOptionsText={"No resources :("}
         options={searchResults?.resources || []}

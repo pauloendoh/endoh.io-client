@@ -2,7 +2,7 @@ import { Button } from "@material-ui/core";
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
 import styled from "styled-components";
 
-const S = {
+const SkillChipStyles = {
   SkillButton: styled(Button)(({ theme }) => ({
     marginRight: 8,
     marginBottom: 8,
@@ -16,4 +16,4 @@ const S = {
   })),
 };
 
-export default S;
+export default SkillChipStyles;

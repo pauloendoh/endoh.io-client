@@ -1,6 +1,7 @@
 import { Box, CssBaseline, MuiThemeProvider } from "@material-ui/core";
 import React, { lazy, Suspense, useEffect, useState } from "react";
 import { QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import { connect } from "react-redux";
 import {
   Redirect,
@@ -183,6 +184,8 @@ const App = (props: Props) => {
     <MuiThemeProvider theme={theme}>
       <ThemeProvider theme={theme}>
         <QueryClientProvider client={myQueryClient}>
+          <ReactQueryDevtools initialIsOpen={false} />
+
           {/* What does this do? */}
           <CssBaseline />
           {isLoading ? <LoadingPage /> : routes}

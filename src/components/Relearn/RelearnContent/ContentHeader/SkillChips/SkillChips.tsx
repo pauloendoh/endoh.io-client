@@ -1,8 +1,9 @@
 import { makeStyles } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { connect } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
+import { FilterSkillChipsBy } from "types/domain/relearn/FilterSkillChipsBy";
 import { setEditingSkill } from "../../../../../store/skillbase/skillbaseActions";
 import { ApplicationState } from "../../../../../store/store";
 import { SkillDto } from "../../../../../types/domain/skillbase/SkillDto";
@@ -10,28 +11,34 @@ import pageUrls from "../../../../../utils/url/urls/pageUrls";
 import SkillChip from "../../../../_common/SkillChip/SkillChip";
 import Flex from "../../../../_UI/Flexboxes/Flex";
 import EditSkillsButton from "./EditSkillsButton/EditSkillsButton";
+import FilterSkillChipsButton from "./FilterSkillChipsButton/FilterSkillChipsButton";
 
 // PE 2/3
 function SkillChips(props: Props) {
   const classes = useStyles();
   const location = useLocation();
 
-  const [skills, setSkills] = useState([]);
+  const [filterBy, setFilterBy] = useState<FilterSkillChipsBy>("By tag");
 
-  useEffect(() => {
+  const skills = useMemo(() => {
     const { pathname } = location;
 
-    if (pathname.startsWith(pageUrls.relearn.tag)) {
-      const listId = Number(pathname.split("/").pop());
+    if (filterBy === "Show all") return props.allSkills;
+    if (filterBy === "Hide all") return [];
 
-      if (listId) {
-        const listedSkills = props.allSkills.filter(
-          (s) => s.tagId === listId && s.isPriority === true
-        );
-        setSkills(listedSkills);
+    if (filterBy === "By tag") {
+      if (pathname.startsWith(pageUrls.relearn.tag)) {
+        const listId = Number(pathname.split("/").pop());
+
+        if (listId) {
+          const listedSkills = props.allSkills.filter(
+            (s) => s.tagId === listId && s.isPriority === true
+          );
+          return listedSkills;
+        }
       }
     }
-  }, [props.allSkills, location]);
+  }, [props.allSkills, location, filterBy]);
 
   return (
     <Flex className={classes.root}>
@@ -39,6 +46,10 @@ function SkillChips(props: Props) {
         <SkillChip key={skill.id} skill={skill} />
       ))}
       <EditSkillsButton />
+      <FilterSkillChipsButton
+        filterBy={filterBy}
+        onChangeFilterBy={setFilterBy}
+      />
     </Flex>
   );
 }

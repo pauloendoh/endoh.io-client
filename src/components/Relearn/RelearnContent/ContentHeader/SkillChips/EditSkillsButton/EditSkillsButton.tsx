@@ -67,6 +67,7 @@ const useStyles = makeStyles((theme) => ({
   },
   editSkillsButton: {
     marginBottom: 8,
+    marginRight: 8,
   },
 }));
 
