@@ -23,7 +23,8 @@ function SkillChips(props: Props) {
   const skills = useMemo(() => {
     const { pathname } = location;
 
-    if (filterBy === "Show all") return props.allSkills;
+    if (filterBy === "Show all")
+      return props.allSkills.filter((skill) => skill.isPriority);
     if (filterBy === "Hide all") return [];
 
     if (filterBy === "By tag") {
