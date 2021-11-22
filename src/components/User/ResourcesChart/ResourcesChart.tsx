@@ -22,7 +22,7 @@ interface Props {
 
 // PE 3/3
 const ResourcesChart = (props: Props) => {
-  const [lists, setLists] = useState<TagDto[]>([]);
+  const [tags, setTags] = useState<TagDto[]>([]);
   const [data, setData] = useState([]);
 
   const [chartRange, setChartRange] = useState<ChartRange>("Last year");
@@ -30,12 +30,12 @@ const ResourcesChart = (props: Props) => {
   // prepare the graphic
   useEffect(() => {
     if (chartRange === "Last week") {
-      const { lists, data } = getLastWeekResourcesForChart(props.resources);
-      setLists(lists);
+      const { tags, data } = getLastWeekResourcesForChart(props.resources);
+      setTags(tags);
       setData(data);
     } else if (chartRange === "Last year") {
-      const { lists, data } = getLastYearResourcesForChart(props.resources);
-      setLists(lists);
+      const { tags, data } = getLastYearResourcesForChart(props.resources);
+      setTags(tags);
       setData(data);
     }
   }, [props.resources, chartRange]);
@@ -74,16 +74,14 @@ const ResourcesChart = (props: Props) => {
           }}
         />
         <Legend margin={{ top: 8 }} />
-        {lists.map((list) => (
+        {tags.map((tag) => (
           <Bar
-            key={list.id}
+            key={tag.id}
             type="monotone"
-            dataKey={list.name}
+            dataKey={tag.name}
             stackId="a"
-            fill={list.color}
-          >
-            {/* <LabelList dataKey={list.name} /> */}
-          </Bar>
+            fill={tag.color}
+          ></Bar>
         ))}
       </BarChart>
     </Box>

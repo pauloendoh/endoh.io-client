@@ -12,16 +12,15 @@ export const getLastYearResourcesForChart = (resources: ResourceDto[]) => {
     return date > fromDate;
   });
 
-  // get list ids
-  const lists: TagDto[] = [];
-  const listIds: number[] = [];
+  const tags: TagDto[] = [];
+  const tagIds: number[] = [];
   for (const resource of recentResources) {
-    if (resource.tag && !listIds.includes(resource.tag.id)) {
-      listIds.push(resource.tag.id);
-      lists.push(resource.tag);
+    if (resource.tag && !tagIds.includes(resource.tag.id)) {
+      tagIds.push(resource.tag.id);
+      tags.push(resource.tag);
     }
   }
-  lists.concat(lists);
+  tags.concat(tags);
 
   // select the months
   const months: DateTime[] = [];
@@ -36,8 +35,8 @@ export const getLastYearResourcesForChart = (resources: ResourceDto[]) => {
     const obj: any = {
       name: month.toFormat("LLL/yy"),
     };
-    for (const list of lists) {
-      obj[list.name] = 0;
+    for (const tag of tags) {
+      obj[tag.name] = 0;
     }
     const resourcesFromMonth = recentResources.filter((r) => {
       const completedAt = DateTime.fromISO(r.completedAt);
@@ -52,5 +51,6 @@ export const getLastYearResourcesForChart = (resources: ResourceDto[]) => {
     }
     data.push(obj);
   }
-  return { data: data, lists: lists };
+
+  return { data: data, tags: tags };
 };

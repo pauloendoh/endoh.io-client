@@ -38,6 +38,7 @@ function RelearnSidebarTagList(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
+
   const handleAddTag = () => {
     props.startNewTag(props.type === "private");
   };

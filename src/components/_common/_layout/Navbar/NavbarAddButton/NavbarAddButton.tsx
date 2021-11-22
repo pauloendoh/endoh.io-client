@@ -10,19 +10,8 @@ import { ApplicationState } from "../../../../../store/store";
 
 // PE 2/3
 const NavbarAddButton = (props: Props) => {
-  // const [anchorEl, setAnchorEl] = React.useState(null);
-
-  // const handleClick = (event: any) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
-
   const handleAddResource = () => {
     props.startNewResource();
-    // handleClose();
   };
 
   const keyMap = { openModal: "q" };
@@ -45,24 +34,6 @@ const NavbarAddButton = (props: Props) => {
           <Icons.Add />
         </Fab>
       </Tooltip>
-
-      {/* <Menu
-        id="navbar-add-menu"
-        anchorEl={anchorEl}
-        getContentAnchorEl={null}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        transformOrigin={{ vertical: "top", horizontal: "right" }}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <MenuItem id="navbar-add-menu-option" onClick={handleAddResource}>
-          <Box mr={2}>
-            <FontAwesomeIcon icon={faLink} />
-          </Box>
-          Add resource
-        </MenuItem>
-      </Menu> */}
     </GlobalHotKeys>
   );
 };
