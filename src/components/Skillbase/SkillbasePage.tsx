@@ -1,7 +1,6 @@
 import { Box, makeStyles, Paper } from "@material-ui/core";
 import clsx from "clsx";
 import React, { useEffect, useState } from "react";
-import { GlobalHotKeys } from "react-hotkeys";
 import { connect } from "react-redux";
 import { useLocation } from "react-router";
 import { Dispatch } from "redux";
@@ -14,9 +13,8 @@ import { ApplicationState } from "../../store/store";
 import useSidebarStore from "../../store/zustand/useSidebarStore";
 import { TagDto } from "../../types/domain/relearn/TagDto";
 import { ProgressDto } from "../../types/domain/skillbase/ProgressDto";
-import { newSkillDto, SkillDto } from "../../types/domain/skillbase/SkillDto";
+import { SkillDto } from "../../types/domain/skillbase/SkillDto";
 import myAxios from "../../utils/consts/myAxios";
-import { sleep } from "../../utils/sleep";
 import apiUrls from "../../utils/url/urls/apiUrls";
 import pageUrls from "../../utils/url/urls/pageUrls";
 import LoadingPage from "../_common/LoadingPage/LoadingPage";
@@ -62,36 +60,26 @@ const SkillbasePage = (props: Props) => {
     } else setSelectedTag(null);
   }, [pathname, props.allTags]);
 
-  const keyMap = { openModal: "q" };
-  const handlers = {
-    openModal: async () => {
-      await sleep(100); // required so it doesn't add 'q' at the title field
-      props.setEditingSkill(newSkillDto());
-    },
-  };
-
   return (
-    <GlobalHotKeys keyMap={keyMap} handlers={handlers}>
-      <Flex height="100%" pt={5} justifyContent="center">
-        <ProgressSidebar />
+    <Flex height="100%" pt={5} justifyContent="center">
+      <ProgressSidebar />
 
-        <Box
-          className={clsx(classes.content, {
-            [classes.contentShift]: sidebarIsOpen,
-          })}
-        >
-          <Box width="100%">
-            {props.hasFirstLoaded ? (
-              <Paper className={classes.paper}>
-                <SkillbaseTable tag={selectedTag} fixedTag={null} />
-              </Paper>
-            ) : (
-              <LoadingPage />
-            )}
-          </Box>
+      <Box
+        className={clsx(classes.content, {
+          [classes.contentShift]: sidebarIsOpen,
+        })}
+      >
+        <Box width="100%">
+          {props.hasFirstLoaded ? (
+            <Paper className={classes.paper}>
+              <SkillbaseTable tag={selectedTag} fixedTag={null} />
+            </Paper>
+          ) : (
+            <LoadingPage />
+          )}
         </Box>
-      </Flex>
-    </GlobalHotKeys>
+      </Box>
+    </Flex>
   );
 };
 

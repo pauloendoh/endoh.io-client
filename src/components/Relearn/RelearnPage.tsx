@@ -1,7 +1,6 @@
 import { Box, makeStyles } from "@material-ui/core";
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
-import { GlobalHotKeys } from "react-hotkeys";
 import { connect } from "react-redux";
 import { Redirect, useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
@@ -12,7 +11,6 @@ import useSidebarStore from "../../store/zustand/useSidebarStore";
 import { ResourceDto } from "../../types/domain/relearn/ResourceDto";
 import { SkillDto } from "../../types/domain/skillbase/SkillDto";
 import myAxios from "../../utils/consts/myAxios";
-import { sleep } from "../../utils/sleep";
 import apiUrls from "../../utils/url/urls/apiUrls";
 import pageUrls from "../../utils/url/urls/pageUrls";
 import LoadingPage from "../_common/LoadingPage/LoadingPage";
@@ -100,38 +98,28 @@ const RelearnPage = (props: Props) => {
     [props.allTags, location]
   );
 
-  const keyMap = { openModal: "q" };
-  const handlers = {
-    openModal: async () => {
-      await sleep(100); // required so it doesn't add 'q' at the title field immediately
-      props.startNewResource();
-    },
-  };
-
   if (redirectTo.length > 0) {
     return <Redirect to={redirectTo} />;
   }
 
   return (
-    <GlobalHotKeys keyMap={keyMap} handlers={handlers}>
-      <Flex height="100%">
-        <RelearnSidebar />
-        <Box
-          className={classNames(classes.content, {
-            [classes.contentShift]: sidebarIsOpen,
-          })}
-          flexGrow={1}
-        >
-          {props.hasFirstLoaded ? (
-            <RelearnContent resources={filteredResources} skills={skills} />
-          ) : (
-            <LoadingPage />
-          )}
-        </Box>
+    <Flex height="100%">
+      <RelearnSidebar />
+      <Box
+        className={classNames(classes.content, {
+          [classes.contentShift]: sidebarIsOpen,
+        })}
+        flexGrow={1}
+      >
+        {props.hasFirstLoaded ? (
+          <RelearnContent resources={filteredResources} skills={skills} />
+        ) : (
+          <LoadingPage />
+        )}
+      </Box>
 
-        <TagDialog />
-      </Flex>
-    </GlobalHotKeys>
+      <TagDialog />
+    </Flex>
   );
 };
 const useStyles = makeStyles((theme) => ({

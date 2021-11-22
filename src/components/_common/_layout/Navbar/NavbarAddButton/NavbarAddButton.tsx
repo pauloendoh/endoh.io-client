@@ -1,8 +1,10 @@
 import { Fab, Tooltip } from "@material-ui/core";
 import React from "react";
+import { GlobalHotKeys } from "react-hotkeys";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { startNewResource } from "store/relearn/relearnActions";
+import { sleep } from "utils/sleep";
 import Icons from "utils/styles/Icons";
 import { ApplicationState } from "../../../../../store/store";
 
@@ -23,8 +25,16 @@ const NavbarAddButton = (props: Props) => {
     // handleClose();
   };
 
+  const keyMap = { openModal: "q" };
+  const handlers = {
+    openModal: async () => {
+      await sleep(100); // required so it doesn't add 'q' at the title field immediately
+      props.startNewResource();
+    },
+  };
+
   return (
-    <>
+    <GlobalHotKeys keyMap={keyMap} handlers={handlers}>
       <Tooltip title="(q) Add resource">
         <Fab
           id="navbar-add-btn"
@@ -53,7 +63,7 @@ const NavbarAddButton = (props: Props) => {
           Add resource
         </MenuItem>
       </Menu> */}
-    </>
+    </GlobalHotKeys>
   );
 };
 
