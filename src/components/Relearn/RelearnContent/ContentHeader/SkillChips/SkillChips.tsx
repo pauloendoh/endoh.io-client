@@ -25,20 +25,21 @@ function SkillChips(props: Props) {
 
     if (filterBy === "Show all")
       return props.allSkills.filter((skill) => skill.isPriority);
-    if (filterBy === "Hide all") return [];
 
     if (filterBy === "By tag") {
       if (pathname.startsWith(pageUrls.relearn.tag)) {
-        const listId = Number(pathname.split("/").pop());
+        const tagId = Number(pathname.split("/").pop());
 
-        if (listId) {
+        if (tagId) {
           const listedSkills = props.allSkills.filter(
-            (s) => s.tagId === listId && s.isPriority === true
+            (s) => s.tagId === tagId && s.isPriority === true
           );
           return listedSkills;
         }
       }
     }
+
+    return [];
   }, [props.allSkills, location, filterBy]);
 
   return (
