@@ -68,9 +68,11 @@ function RelearnContent(props: {
         isDraggable={tabIndex === 0}
       />
 
-      <Flex mt={2}>
-        <AddResourceButton />
-      </Flex>
+      {tabIndex === 0 && (
+        <Flex mt={2}>
+          <AddResourceButton />
+        </Flex>
+      )}
     </Container>
   );
 }
