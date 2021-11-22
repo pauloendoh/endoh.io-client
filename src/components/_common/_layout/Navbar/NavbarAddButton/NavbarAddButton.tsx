@@ -29,7 +29,11 @@ const NavbarAddButton = (props: Props) => {
           id="navbar-add-btn"
           onClick={handleAddResource}
           color="primary"
-          size="small"
+          style={{
+            width: "1.875rem",
+            height: "1.875rem",
+            minHeight: "1.875rem",
+          }}
         >
           <Icons.Add />
         </Fab>
