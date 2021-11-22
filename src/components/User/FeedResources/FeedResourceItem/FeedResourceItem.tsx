@@ -1,4 +1,5 @@
 import { Box, Link, makeStyles } from "@material-ui/core";
+import Txt from "components/_UI/Text/Txt";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import TimeAgo from "react-timeago";
@@ -8,7 +9,6 @@ import * as relearnActions from "../../../../store/relearn/relearnActions";
 import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto";
 import myAxios from "../../../../utils/consts/myAxios";
 import { validateEstimatedTime } from "../../../../utils/relearn/validateEstimatedTime";
-import { getDomainFromUrl } from "../../../../utils/url/getDomainFromUrl";
 import { urlIsValid } from "../../../../utils/url/isValidUrl";
 import apiUrls from "../../../../utils/url/urls/apiUrls";
 import ResourceMoreIcon from "../../../Relearn/RelearnContent/ResourceList/DraggableResourceItem/ResourceMoreIcon/ResourceMoreIcon";
@@ -18,6 +18,7 @@ import Flex from "../../../_UI/Flexboxes/Flex";
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
 import MyTextField from "../../../_UI/MyInputs/MyTextField";
 
+// PE 1/3 - DRY with FeedPage's ? ...
 // This is for the user page... for the feed page, look for FeedResource.tsx
 function FeedResourceItem(props: Props) {
   const classes = useStyles();
@@ -64,27 +65,12 @@ function FeedResourceItem(props: Props) {
       <Box flexGrow={1}>
         <Flex className={classes.firstRow}>
           <Box>
-            {urlIsValid(props.resource.url) ? (
-              <>
-                <Link
-                  className={classes.link}
-                  href={props.resource.url}
-                  target="_blank"
-                >
-                  {props.resource.title}
-                </Link>
-                <span
-                  style={{
-                    marginRight: 16,
-                    display: "inline-flex",
-                    opacity: 0.75,
-                  }}
-                >
-                  ({getDomainFromUrl(props.resource.url)})
-                </span>
-              </>
-            ) : (
-              <span style={{ marginRight: 16 }}>{props.resource.title}</span>
+            <Txt>{props.resource.title}</Txt>
+
+            {urlIsValid(props.resource.url) && (
+              <Link href={props.resource.url} target="_blank">
+                <Txt variant="inherit">{props.resource.url}</Txt>
+              </Link>
             )}
           </Box>
 
@@ -101,12 +87,6 @@ function FeedResourceItem(props: Props) {
               </FlexVCenter>
             ) : (
               <FlexVCenter>
-                {/* {validateEstimatedTime(props.resource.estimatedTime) && (
-                  <FlexVCenter pr={2}>
-                   
-                  </FlexVCenter>
-                )} */}
-
                 {props.resource.dueDate.length > 0 && (
                   <FlexVCenter
                     className={
@@ -149,7 +129,6 @@ function FeedResourceItem(props: Props) {
 
 const useStyles = makeStyles((theme) => ({
   link: {
-    // fontSize: 12
     maxWidth: 400,
     overflow: "hidden",
     marginRight: 16,

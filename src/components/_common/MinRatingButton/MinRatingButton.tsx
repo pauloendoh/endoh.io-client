@@ -1,10 +1,15 @@
-import { Box, ClickAwayListener, Tooltip, Typography } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  ClickAwayListener,
+  Tooltip,
+  Typography,
+} from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
 import React from "react";
 import { ratingLabels } from "utils/domain/relearn/resources/ratingLabels";
 import FlexHCenter from "../../_UI/Flexboxes/FlexHCenter";
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
-import S from "./MinRatingButton.styles";
 
 interface Props {
   value: number;
@@ -62,7 +67,7 @@ function MinRatingButton(props: Props) {
           </Box>
         }
       >
-        <S.RateButton
+        <Button
           size="small"
           onClick={handleTooltipOpen}
           variant="outlined"
@@ -78,7 +83,7 @@ function MinRatingButton(props: Props) {
               <Box ml={1}>-</Box>
             )}
           </FlexVCenter>
-        </S.RateButton>
+        </Button>
       </Tooltip>
     </ClickAwayListener>
   );

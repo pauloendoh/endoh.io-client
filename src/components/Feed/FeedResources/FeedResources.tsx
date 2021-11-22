@@ -33,7 +33,7 @@ const FeedResources = () => {
 
   return (
     <Box pr={4}>
-      <Flex justifyContent="flex-end">
+      <Flex justifyContent="flex-end" mb={2}>
         <MinRatingButton onChange={setMinRating} value={minRating} />
       </Flex>
       {filteredResources.map((resource) => (

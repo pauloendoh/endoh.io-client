@@ -7,6 +7,8 @@ const S = {
   })),
   ChartWrapper: styled(Box)(({ theme }) => ({
     marginTop: theme.spacing(5),
+    display: "flex",
+    justifyContent: "center",
   })),
   ResourcesContentHeader: styled(Flex)(({ theme }) => ({
     marginTop: theme.spacing(3),
