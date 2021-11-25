@@ -129,7 +129,7 @@ const ExpectationsAtLevel = (props: Props) => {
                   }}
                 >
                   <Typography>
-                    {expectation.checked ? (
+                    {expectation.checked && !props.disabled ? (
                       <s>{expectation.description}</s>
                     ) : (
                       expectation.description
