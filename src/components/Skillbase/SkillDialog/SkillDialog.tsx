@@ -1,4 +1,14 @@
-import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
+import {
+  Box,
+  Checkbox,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  FormControlLabel,
+  Tooltip,
+} from "@material-ui/core";
+import Flex from "components/_UI/Flexboxes/Flex";
+import Txt from "components/_UI/Text/Txt";
 import { Form, Formik } from "formik";
 import isEqual from "lodash/isEqual";
 import React, { useEffect, useState } from "react";
@@ -7,6 +17,8 @@ import { useLocation } from "react-router";
 import { scroller } from "react-scroll";
 import { Dispatch } from "redux";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
+import { useTheme } from "styled-components";
+import Icons from "utils/styles/Icons";
 import {
   setEditingSkill,
   setSkills,
@@ -28,6 +40,7 @@ import SkillMoreIcon from "./SkillMoreIcon/SkillMoreIcon";
 
 // PE 2/3
 const SkillDialog = (props: Props) => {
+  const theme = useTheme();
   const location = useLocation();
 
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
@@ -187,11 +200,36 @@ const SkillDialog = (props: Props) => {
                 />
               </DialogContent>
               <DialogTitle id="skill-dialog-footer">
-                <SaveCancelButtons
-                  submitButtonId="save-skill-btn"
-                  disabled={isSubmitting}
-                  onCancel={confirmClose}
-                />
+                <Flex
+                  style={{ flexDirection: "column", gap: theme.spacing(2) }}
+                >
+                  <FormControlLabel
+                    label={
+                      <FlexVCenter style={{ gap: theme.spacing(1) }}>
+                        <Txt>Public roadmap</Txt>
+                        <Tooltip
+                          title="Public roadmaps will be available in your profile"
+                          placement="top"
+                        >
+                          <Icons.Info />
+                        </Tooltip>
+                      </FlexVCenter>
+                    }
+                    control={
+                      <Checkbox
+                        color="primary"
+                        name="isPublic"
+                        checked={values.isPublic}
+                        onChange={handleChange}
+                      />
+                    }
+                  />
+                  <SaveCancelButtons
+                    submitButtonId="save-skill-btn"
+                    disabled={isSubmitting}
+                    onCancel={confirmClose}
+                  />
+                </Flex>
               </DialogTitle>
             </Form>
           )}

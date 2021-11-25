@@ -28,12 +28,19 @@ const DecisionSidebar = (props: Props) => {
   const { data: decisions, isLoading } = useDecisionsQuery();
 
   const getFilteredDecisions = () => {
+    if (!decisions) return [];
+
+    const sortedDecisions = decisions.sort((a, b) =>
+      a.isPriority && !b.isPriority ? -1 : 1
+    );
+
     if (textFilter.length) {
-      return decisions.filter((d) =>
+      return sortedDecisions.filter((d) =>
         stringsAreVerySimilar(d.title, textFilter)
       );
     }
-    return decisions;
+
+    return sortedDecisions;
   };
 
   return (

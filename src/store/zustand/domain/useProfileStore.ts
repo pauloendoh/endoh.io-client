@@ -2,6 +2,7 @@ import { FollowerDto } from "types/domain/feed/FollowerDto";
 import { FollowingUserDto } from "types/domain/feed/FollowingUserDto";
 import { ResourceDto } from "types/domain/relearn/ResourceDto";
 import { TagDto } from "types/domain/relearn/TagDto";
+import { SkillDto } from "types/domain/skillbase/SkillDto";
 import { ProfileDto } from "types/domain/_common/ProfileDto";
 import { UserInfoDto } from "types/domain/_common/UserInfoDto";
 import create, { GetState } from "zustand";
@@ -19,6 +20,8 @@ interface IProfileStore {
 
   setProfile: (profile: ProfileDto) => void;
 
+  publicSkills: SkillDto[];
+
   setUserInfo: (userInfo: UserInfoDto) => void;
   setProfilePicture: (pictureUrl: string) => void;
 }
@@ -34,6 +37,8 @@ const useProfileStore = create<IProfileStore>(
     followingUsers: [],
     followers: [],
 
+    publicSkills: [],
+
     setProfile: (profile) => {
       set({ profile }, undefined, "setProfile");
     },
@@ -47,6 +52,7 @@ const useProfileStore = create<IProfileStore>(
           privateTags: userInfo.privateLists,
           followingUsers: userInfo.followingUsers,
           followers: userInfo.followers,
+          publicSkills: userInfo.publicSkills,
         },
         undefined,
         "setUserInfo"

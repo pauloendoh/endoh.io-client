@@ -7,6 +7,7 @@ import ExpectationsAtLevel from "./ExpectationsAtLevel/ExpectationsAtLevel";
 interface Props {
   currentLevel: number;
   expectations: SkillExpectationDto[];
+  disabled?: boolean;
   onChangeExpectations: (expectations: SkillExpectationDto[]) => void;
 }
 
@@ -23,6 +24,7 @@ const SkillExpectations = (props: Props) => {
           key={level}
           expectations={props.expectations}
           level={level}
+          disabled={props.disabled}
           isHighlighted={props.currentLevel === level}
           onChangeExpectations={props.onChangeExpectations}
         />

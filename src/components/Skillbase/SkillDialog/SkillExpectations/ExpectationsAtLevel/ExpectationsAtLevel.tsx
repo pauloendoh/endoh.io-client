@@ -94,9 +94,17 @@ const ExpectationsAtLevel = (props: Props) => {
 
       {filterAndSortExpectations(props.expectations, props.level).map(
         (expectation, i) => (
-          <Flex key={i}>
+          <Flex
+            key={i}
+            title={
+              props.disabled
+                ? "This is not your item. You can’t change it."
+                : ""
+            }
+          >
             <Box>
               <Checkbox
+                disabled={props.disabled}
                 onChange={(event) => handleCheck(event, expectation)}
                 checked={expectation.checked}
                 color="primary"
@@ -115,8 +123,10 @@ const ExpectationsAtLevel = (props: Props) => {
               ) : (
                 <Box
                   pt={1}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => setEditingIndex(i)}
+                  style={{ cursor: props.disabled ? "default" : "pointer" }}
+                  onClick={() => {
+                    if (!props.disabled) setEditingIndex(i);
+                  }}
                 >
                   <Typography>
                     {expectation.checked ? (
@@ -133,7 +143,7 @@ const ExpectationsAtLevel = (props: Props) => {
       )}
 
       <Box mt={0.5} ml={1}>
-        {editingIndex === null && (
+        {editingIndex === null && !props.disabled && (
           <Button
             onClick={handleAddExpectation}
             size="small"
@@ -196,6 +206,7 @@ interface OwnProps {
   expectations: SkillExpectationDto[];
   level: number;
   isHighlighted: boolean;
+  disabled?: boolean;
   onChangeExpectations: (expectations: SkillExpectationDto[]) => void;
 }
 

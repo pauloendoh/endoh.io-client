@@ -13,6 +13,8 @@ export interface SkillDto {
   currentLevel: number;
   goalLevel: number;
 
+  isPublic: boolean;
+
   createdAt: string;
   updatedAt: string;
 }
@@ -29,6 +31,8 @@ export const newSkillDto = (tagId: number = null): SkillDto => ({
   name: "",
   currentLevel: null,
   goalLevel: null,
+
+  isPublic: false,
 
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),

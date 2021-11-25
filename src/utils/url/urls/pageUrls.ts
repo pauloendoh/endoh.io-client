@@ -37,6 +37,8 @@ const pageUrls = {
     index: (username: string) => `/user/${username}`,
     tag: (username: string, listId: number) =>
       `/user/${username}/tag/${listId}`,
+    roadmap: (username: string, skillId: number) =>
+      `/user/${username}/roadmap/${skillId}`,
   },
   notFound: "/404",
   search: (query: string) => "/search?q=" + query,
