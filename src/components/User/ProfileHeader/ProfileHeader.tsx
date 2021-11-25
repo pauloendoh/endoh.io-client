@@ -1,4 +1,5 @@
 import { Box, Button, Link, Typography } from "@material-ui/core";
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -32,14 +33,20 @@ const ProfileHeader = (props: Props) => {
         />
       </Box>
       <Box ml={2}>
-        <Flex>
-          {profileStore.profile?.fullName.length > 0 && (
-            <Box mr={3}>
-              <Typography variant="h5">
-                {profileStore.profile.fullName}
-              </Typography>
+        <FlexVCenter>
+          <div style={{ marginRight: 16 }}>
+            {profileStore.profile?.fullName.length > 0 && (
+              <Box mr={3}>
+                <Typography variant="h5">
+                  {profileStore.profile.fullName}
+                </Typography>
+              </Box>
+            )}
+            <Box style={{ opacity: 0.75 }}>
+              <Typography variant="body1">{username}</Typography>
             </Box>
-          )}
+          </div>
+
           {profileStore.profile?.userId === props.authUser.id ? (
             <Box>
               <Button
@@ -86,11 +93,7 @@ const ProfileHeader = (props: Props) => {
               />
             </Box>
           )}
-        </Flex>
-
-        <Box style={{ opacity: 0.75 }}>
-          <Typography variant="body1">{username}</Typography>
-        </Box>
+        </FlexVCenter>
 
         <Box mt={2}>
           <Typography style={{ whiteSpace: "pre-line" }}>
