@@ -8,7 +8,7 @@ import { Link, useHistory, useParams } from "react-router-dom";
 import useProfileStore from "store/zustand/domain/useProfileStore";
 import { useTheme } from "styled-components";
 import { newSkillDto, SkillDto } from "types/domain/skillbase/SkillDto";
-import useElementSize from "../../../hooks/useElementSize";
+import useElementSize from "../../../hooks/utils/useElementSize";
 import pageUrls from "../../../utils/url/urls/pageUrls";
 import Flex from "../../_UI/Flexboxes/Flex";
 import FlexHCenter from "../../_UI/Flexboxes/FlexHCenter";

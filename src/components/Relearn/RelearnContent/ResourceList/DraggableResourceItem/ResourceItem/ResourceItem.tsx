@@ -2,7 +2,7 @@ import { Link, Tooltip, Typography, useTheme } from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
 import EventIcon from "@material-ui/icons/Event";
 import ScheduleIcon from "@material-ui/icons/Schedule";
-import useHover from "hooks/useHover";
+import useHover from "hooks/utils/useHover";
 import { DateTime } from "luxon";
 import React from "react";
 import { connect } from "react-redux";

@@ -10,8 +10,8 @@ import {
 import Flex from "components/_UI/Flexboxes/Flex";
 import Txt from "components/_UI/Text/Txt";
 import { Form, Formik } from "formik";
-import isEqual from "lodash/isEqual";
-import React, { useEffect, useState } from "react";
+import { useHasChanged } from "hooks/utils/useHasChanged";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { useLocation } from "react-router";
 import { scroller } from "react-scroll";
@@ -45,10 +45,9 @@ const SkillDialog = (props: Props) => {
 
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
 
-  const [hasChanged, setHasChanged] = useState(false);
+  const { hasChanged, validateHasChanged } = useHasChanged(props.skill);
 
   useEffect(() => {
-    setHasChanged(false);
     if (props.skill?.currentLevel > 0) {
       scrollToExpectation();
     }
@@ -127,7 +126,7 @@ const SkillDialog = (props: Props) => {
           }}
           validateOnChange
           validate={(newValues) => {
-            setHasChanged(!isEqual(props.skill, newValues));
+            validateHasChanged(newValues);
           }}
         >
           {({ values, setFieldValue, isSubmitting, handleChange }) => (

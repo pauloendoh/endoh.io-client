@@ -47,6 +47,17 @@ const ResourceDialog = (props: Props) => {
 
   const { openConfirmDialog } = useDialogsStore();
 
+  const confirmClose = (isDirty: boolean) => {
+    if (isDirty) {
+      openConfirmDialog({
+        onConfirm: () => props.closeResourceDialog(),
+        title: "Discard changes?",
+      });
+    } else {
+      props.closeResourceDialog();
+    }
+  };
+
   const handleSubmit = (resource: ResourceDto) => {
     myAxios
       .post<ResourceDto[]>(apiUrls.relearn.resource, resource)
@@ -153,10 +164,10 @@ const ResourceDialog = (props: Props) => {
           onSubmit={(formikValues, { setSubmitting }) => {
             handleSubmit(formikValues);
           }}
-          validate={(values: ResourceDto) => {
+          validate={(newValue: ResourceDto) => {
             let errors: FormikErrors<ResourceDto> = {};
 
-            if (values.url.length > 0 && !urlIsValid(values.url)) {
+            if (newValue.url.length > 0 && !urlIsValid(newValue.url)) {
               errors.url = "Invalid URL";
             }
             return errors;
@@ -170,6 +181,7 @@ const ResourceDialog = (props: Props) => {
             handleChange,
             setFieldValue,
             setValues,
+            dirty,
           }) => (
             <Form>
               <DialogTitle id="edit-resource-dialog-title">
@@ -404,7 +416,7 @@ const ResourceDialog = (props: Props) => {
                 <SaveCancelButtons
                   submitButtonId="save-resource-button"
                   disabled={isSubmitting}
-                  onCancel={() => props.closeResourceDialog()}
+                  onCancel={() => confirmClose(dirty)}
                 />
               </DialogContent>
             </Form>

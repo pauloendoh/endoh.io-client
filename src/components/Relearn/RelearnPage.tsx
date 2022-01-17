@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { Redirect, useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
 import { setSkills } from "store/skillbase/skillbaseActions";
+import useWindowFocus from "use-window-focus";
 import * as relearnActions from "../../store/relearn/relearnActions";
 import { ApplicationState } from "../../store/store";
 import useSidebarStore from "../../store/zustand/useSidebarStore";
@@ -29,21 +30,32 @@ const RelearnPage = (props: Props) => {
   const [skills, setSkills] = useState<SkillDto[]>([]);
   const { sidebarIsOpen, openSidebar } = useSidebarStore();
 
+  const windowFocused = useWindowFocus();
+
+  const fetchResourcesAndSkills = () => {
+    myAxios.get<ResourceDto[]>(apiUrls.relearn.resource).then((res) => {
+      props.setResources(res.data);
+    });
+
+    myAxios.get<SkillDto[]>(apiUrls.skillbase.skill).then((res) => {
+      props.setSkills(res.data);
+    });
+  };
+
+  useEffect(() => {
+    setRedirectTo("");
+    openSidebar();
+    fetchResourcesAndSkills();
+  }, []);
+
   useEffect(
     () => {
-      setRedirectTo("");
-      openSidebar();
-
-      myAxios.get<ResourceDto[]>(apiUrls.relearn.resource).then((res) => {
-        props.setResources(res.data);
-      });
-
-      myAxios.get<SkillDto[]>(apiUrls.skillbase.skill).then((res) => {
-        props.setSkills(res.data);
-      });
+      if (windowFocused) {
+        fetchResourcesAndSkills();
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [windowFocused]
   );
 
   const location = useLocation();
