@@ -1,7 +1,8 @@
-import { Link, Tooltip, Typography, useTheme } from "@material-ui/core";
+import { Link, useTheme } from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
 import EventIcon from "@material-ui/icons/Event";
 import ScheduleIcon from "@material-ui/icons/Schedule";
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
 import useHover from "hooks/utils/useHover";
 import { DateTime } from "luxon";
 import React from "react";
@@ -23,6 +24,7 @@ import Txt from "../../../../../_UI/Text/Txt";
 import ResourceMoreIcon from "../ResourceMoreIcon/ResourceMoreIcon";
 import S from "./ResourceItem.styles";
 import ResourceItemTaskCheckbox from "./ResourceItemTaskCheckbox/ResourceItemTaskCheckbox";
+import ShowMoreTextField from "./ShowMoreTextField/ShowMoreTextField";
 
 // PE 1/3
 function ResourceItem(props: Props) {
@@ -128,6 +130,15 @@ function ResourceItem(props: Props) {
                 {props.resource.estimatedTime}
               </S.DurationWrapper>
             )}
+
+            {props.showTag && props.resource.tag.id !== null && (
+              <FlexVCenter style={{ gap: 4 }}>
+                <Icons.Label style={{ color: props.resource.tag.color }} />
+                <Txt variant="body2" noWrap style={{ width: 150 }}>
+                  {props.resource.tag.name}
+                </Txt>
+              </FlexVCenter>
+            )}
           </S.IconsWrapper>
 
           {props.resource.url?.length > 0 ? (
@@ -142,39 +153,32 @@ function ResourceItem(props: Props) {
 
         {props.resource.publicReview?.length > 0 && (
           <S.PublicReviewWrapper>
-            <Tooltip title="Public Review">
+            <FlexVCenter style={{ gap: 4 }}>
               <Icons.Public
                 style={{
                   color: theme.palette.text.secondary,
                 }}
               />
-            </Tooltip>
+              <Txt color="textSecondary">Public review</Txt>
+            </FlexVCenter>
 
-            <Typography
-              color="textSecondary"
-              style={{ whiteSpace: "pre-line", fontStyle: "italic" }}
-            >
-              {props.resource.publicReview}
-            </Typography>
+            <ShowMoreTextField text={props.resource.publicReview} />
           </S.PublicReviewWrapper>
         )}
 
         {props.resource.privateNote?.length > 0 && (
           <S.PrivateNoteWrapper>
-            <Tooltip title="Private Notes">
+            <FlexVCenter style={{ gap: 4 }}>
+              {" "}
               <Icons.Lock
                 style={{
                   color: theme.palette.text.secondary,
                 }}
               />
-            </Tooltip>
+              <Txt color="textSecondary">Private notes</Txt>
+            </FlexVCenter>
 
-            <Typography
-              color="textSecondary"
-              style={{ whiteSpace: "pre-line", fontStyle: "italic" }}
-            >
-              {props.resource.privateNote}
-            </Typography>
+            <ShowMoreTextField text={props.resource.privateNote} />
           </S.PrivateNoteWrapper>
         )}
       </S.Content>
@@ -197,6 +201,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 interface OwnProps {
   resource: ResourceDto;
+  showTag?: boolean;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &

@@ -109,7 +109,7 @@ const SearchPage = (props: Props) => {
                                     : "1px solid rgb(255 255 255 / 0.1)"
                                 }
                               >
-                                <ResourceItem resource={resource} />
+                                <ResourceItem resource={resource} showTag />
                               </Box>
                             ))}
 

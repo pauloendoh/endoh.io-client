@@ -15,22 +15,20 @@ const S = {
   IconsRow: styled(FlexVCenter)({
     justifyContent: "space-between",
   }),
-  IconsWrapper: styled(FlexVCenter)({}),
-  DueDateWrapper: styled(FlexVCenter)(({ theme }) => ({
-    marginRight: theme.spacing(2),
+  IconsWrapper: styled(FlexVCenter)(({ theme }) => ({
+    gap: theme.spacing(2),
   })),
-  CompletedWrapper: styled(FlexVCenter)(({ theme }) => ({
-    marginRight: theme.spacing(2),
-  })),
-  DurationWrapper: styled(FlexVCenter)(({ theme }) => ({
-    marginRight: theme.spacing(2),
-  })),
+  DueDateWrapper: styled(FlexVCenter)(({ theme }) => ({})),
+  CompletedWrapper: styled(FlexVCenter)(({ theme }) => ({})),
+  DurationWrapper: styled(FlexVCenter)(({ theme }) => ({})),
   PublicReviewWrapper: styled(Flex)(({ theme }) => ({
+    flexDirection: "column",
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(1),
     gap: theme.spacing(1),
   })),
   PrivateNoteWrapper: styled(Flex)(({ theme }) => ({
+    flexDirection: "column",
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(1),
     gap: theme.spacing(1),
