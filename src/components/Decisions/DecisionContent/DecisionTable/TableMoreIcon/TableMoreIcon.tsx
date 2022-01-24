@@ -23,6 +23,7 @@ interface Props {
 
 function TableMoreIcon(props: Props) {
   const classes = useStyles();
+  const { openConfirmDialog } = useDialogsStore();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const handleOpenMore = (event: any) => {
@@ -81,7 +82,12 @@ function TableMoreIcon(props: Props) {
         <MenuItem
           onClick={(e) => {
             e.preventDefault();
-            deleteTableMutation.mutate(props.table);
+            openConfirmDialog({
+              title: "Confirm delete?",
+              onConfirm: () => {
+                deleteTableMutation.mutate(props.table);
+              },
+            });
           }}
           id="delete-decision-table-button"
         >
