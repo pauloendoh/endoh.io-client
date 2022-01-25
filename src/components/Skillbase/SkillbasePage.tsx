@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useLocation } from "react-router";
 import { Dispatch } from "redux";
+import titles from "utils/titles";
 import {
   setEditingSkill,
   setProgresses,
@@ -33,7 +34,6 @@ const SkillbasePage = (props: Props) => {
 
   useEffect(
     () => {
-      document.title = "Skills - Endoh.io";
       closeSidebar();
 
       myAxios.get<SkillDto[]>(apiUrls.skillbase.skill).then((res) => {
@@ -56,8 +56,12 @@ const SkillbasePage = (props: Props) => {
       if (tagId) {
         const tag = props.allTags.find((tag) => tag.id === tagId);
         setSelectedTag(tag);
+        document.title = titles.skillPage(tag.name);
       }
-    } else setSelectedTag(null);
+    } else {
+      setSelectedTag(null);
+      document.title = titles.skillPage();
+    }
   }, [pathname, props.allTags]);
 
   return (
