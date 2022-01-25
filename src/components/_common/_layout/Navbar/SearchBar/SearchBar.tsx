@@ -4,7 +4,7 @@ import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
 import Txt from "components/_UI/Text/Txt";
 import { queryKeys } from "hooks/react-query/queryKeys";
 import useFetchSearchResults from "hooks/react-query/search/useFetchSearchResults";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useQueryClient } from "react-query";
 import { connect } from "react-redux";
@@ -30,6 +30,7 @@ const MyPopper = function (props: React.ComponentProps<typeof Popper>) {
 const SearchBar = ({ editResource }: Props) => {
   const MIN_LENGTH = 3;
 
+  const theme = useTheme();
   const history = useHistory();
   const [loading, setLoading] = useState(false);
 
@@ -84,7 +85,11 @@ const SearchBar = ({ editResource }: Props) => {
     console.log(searchResults);
   }, [searchResults]);
 
-  const theme = useTheme();
+  const sortedResources = useMemo(() => {
+    if (searchResults?.resources)
+      return searchResults.resources.sort((a, b) => b.rating - a.rating);
+    return [];
+  }, [searchResults?.resources]);
 
   return (
     <form onSubmit={handleSubmit(submit)}>

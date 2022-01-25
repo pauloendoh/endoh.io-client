@@ -77,6 +77,7 @@ function ResourceItem(props: Props) {
     <S.ResourceItemRoot
       onClick={(e) => {
         if (e.altKey) {
+          e.preventDefault(); // avoids downloading URL by accident
           props.editResource(props.resource);
         }
       }}
