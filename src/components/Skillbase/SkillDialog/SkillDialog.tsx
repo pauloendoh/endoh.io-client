@@ -182,7 +182,12 @@ const SkillDialog = (props: Props) => {
                 </FlexVCenter>
               </DialogTitle>
 
-              <DialogContent id="skill-dialog-content">
+              <DialogContent
+                id="skill-dialog-content"
+                style={{
+                  height: `calc(100vh - 340px)`,
+                }}
+              >
                 <TagSelector
                   valueTagId={values.tagId}
                   required

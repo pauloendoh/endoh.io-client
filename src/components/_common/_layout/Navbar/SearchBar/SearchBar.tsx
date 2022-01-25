@@ -87,7 +87,9 @@ const SearchBar = ({ editResource }: Props) => {
 
   const sortedResources = useMemo(() => {
     if (searchResults?.resources)
-      return searchResults.resources.sort((a, b) => b.rating - a.rating);
+      return searchResults.resources
+        .sort((a, b) => b.rating - a.rating)
+        .slice(0, 25);
     return [];
   }, [searchResults?.resources]);
 
@@ -98,7 +100,7 @@ const SearchBar = ({ editResource }: Props) => {
         // if no text, show nothing (don't show 'no resources :(')
         freeSolo={watch("searchQuery").length < MIN_LENGTH}
         noOptionsText={"No resources :("}
-        options={searchResults?.resources || []}
+        options={sortedResources}
         PopperComponent={MyPopper}
         filterOptions={(resources) => resources}
         renderOption={(resource) => (
