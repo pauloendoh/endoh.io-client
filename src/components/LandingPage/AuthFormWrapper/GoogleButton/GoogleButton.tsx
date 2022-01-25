@@ -22,9 +22,13 @@ const GoogleButton = () => {
     >
       <FlexVCenter>
         <img
-          src="/static/images/google-icon-white.png"
-          height={24}
+          src="/static/images/google.svg"
           alt="Google button"
+          style={{
+            height: "1.875rem",
+            filter:
+              "invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(101%) contrast(102%)",
+          }}
         />
         {/* <FontAwesomeIcon className="fab fa-google"/> */}
         <S.TextWrapper>Enter with Google</S.TextWrapper>
