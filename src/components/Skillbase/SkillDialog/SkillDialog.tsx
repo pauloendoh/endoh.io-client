@@ -185,6 +185,7 @@ const SkillDialog = (props: Props) => {
               <DialogContent id="skill-dialog-content">
                 <TagSelector
                   valueTagId={values.tagId}
+                  required
                   onChange={(e, value) => {
                     setFieldValue("tagId", value);
                   }}

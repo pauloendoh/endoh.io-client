@@ -126,7 +126,9 @@ const RelearnPage = (props: Props) => {
         {props.hasFirstLoaded ? (
           <RelearnContent resources={filteredResources} skills={skills} />
         ) : (
-          <LoadingPage />
+          <div style={{ marginTop: 32 }}>
+            <LoadingPage />
+          </div>
         )}
       </Box>
 

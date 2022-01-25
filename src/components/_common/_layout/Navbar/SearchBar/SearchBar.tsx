@@ -81,6 +81,7 @@ const SearchBar = ({ editResource }: Props) => {
 
   useEffect(() => {
     if (searchResults) setLoading(false);
+    console.log(searchResults);
   }, [searchResults]);
 
   const theme = useTheme();
@@ -94,6 +95,7 @@ const SearchBar = ({ editResource }: Props) => {
         noOptionsText={"No resources :("}
         options={searchResults?.resources || []}
         PopperComponent={MyPopper}
+        filterOptions={(resources) => resources}
         renderOption={(resource) => (
           <FlexVCenter
             style={{ justifyContent: "space-between", width: "100%" }}

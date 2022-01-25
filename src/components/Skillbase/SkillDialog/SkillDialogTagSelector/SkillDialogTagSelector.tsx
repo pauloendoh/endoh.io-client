@@ -51,6 +51,7 @@ const SkillDialogTagSelector = (props: Props) => {
           InputProps={{ id: "skill-dialog-tag-selector" }}
           fullWidth
           label="# tag"
+          required={props.required}
           {...params}
           size="small"
         />
@@ -77,6 +78,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({});
 
 interface OwnProps {
   valueTagId: number;
+  required?: boolean;
   onChange?: (
     event: React.ChangeEvent<{}>,
     value: unknown,
