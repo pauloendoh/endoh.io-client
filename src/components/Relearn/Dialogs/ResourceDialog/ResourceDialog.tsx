@@ -191,17 +191,18 @@ const ResourceDialog = (props: Props) => {
                 <Flex>
                   {values.thumbnail.length > 0 && (
                     <Box mr={2} position="relative">
-                      <img
-                        style={{ maxHeight: 90, maxWidth: 200 }}
-                        alt="link-preview-thumbnail"
-                        src={values.thumbnail}
-                        // Testing... 20210510
-                        onError={(e: any) => {
-                          e.target.onerror = null;
-                          e.target.src = linkPng;
-                          e.target.alt = "default-link-thumbnail";
-                        }}
-                      />
+                      <a href={values.url} target="_blank" rel="noreferrer">
+                        <img
+                          style={{ maxHeight: 90, maxWidth: 200 }}
+                          alt="link-preview-thumbnail"
+                          src={values.thumbnail}
+                          onError={(e: any) => {
+                            e.target.onerror = null;
+                            e.target.src = linkPng;
+                            e.target.alt = "default-link-thumbnail";
+                          }}
+                        />
+                      </a>
                       <IconButton
                         onClick={() => setFieldValue("thumbnail", "")}
                         size="small"
