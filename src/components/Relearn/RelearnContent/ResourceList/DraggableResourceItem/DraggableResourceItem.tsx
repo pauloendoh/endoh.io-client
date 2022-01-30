@@ -1,4 +1,5 @@
 import { Box, makeStyles } from "@material-ui/core";
+import useMultiSelectResource from "hooks/relearn/useMultiSelectResource";
 import React, { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { connect } from "react-redux";
@@ -13,6 +14,7 @@ import ResourceItem from "./ResourceItem/ResourceItem";
 // PE 1/3
 function DraggableResourceItem(props: Props) {
   const classes = useStyles();
+  const { idIsSelected } = useMultiSelectResource();
 
   const { setErrorMessage } = useSnackbarStore();
 
@@ -74,6 +76,11 @@ function DraggableResourceItem(props: Props) {
           " resource-item " +
           (collected.isDragging ? classes.isDragging : "")
         }
+        style={{
+          background: idIsSelected(props.resource.id)
+            ? "rgb(255 255 255 / 0.1)"
+            : "unset",
+        }}
       >
         <ResourceItem resource={props.resource} />
       </Box>

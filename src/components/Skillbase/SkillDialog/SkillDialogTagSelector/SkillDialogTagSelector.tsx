@@ -50,7 +50,7 @@ const SkillDialogTagSelector = (props: Props) => {
         <MyTextField
           InputProps={{ id: "skill-dialog-tag-selector" }}
           fullWidth
-          label="# tag"
+          label="Tag"
           required={props.required}
           {...params}
           size="small"
@@ -81,7 +81,7 @@ interface OwnProps {
   required?: boolean;
   onChange?: (
     event: React.ChangeEvent<{}>,
-    value: unknown,
+    value: number,
     reason: AutocompleteChangeReason,
     details?: AutocompleteChangeDetails<unknown>
   ) => void;

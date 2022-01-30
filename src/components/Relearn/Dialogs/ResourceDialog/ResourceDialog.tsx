@@ -298,20 +298,8 @@ const ResourceDialog = (props: Props) => {
                         }}
                       />
                     </Grid>
-                    <Grid item xs={6} sm={3}>
-                      {/* <Typography component="legend">Due Date</Typography> */}
-                      <MyTextField
-                        type="date"
-                        id="dueDate"
-                        name="dueDate"
-                        value={values.dueDate}
-                        onChange={handleChange}
-                        label="Due Date"
-                        InputLabelProps={{ shrink: true }}
-                        fullWidth
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
+
+                    <Grid item xs={6} sm={9}>
                       {/* PE 1/3 - dry into <TagSelector/> also used at skill dialog */}
                       <Autocomplete
                         id="tags-autocomplete-input"

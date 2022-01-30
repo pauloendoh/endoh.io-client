@@ -28,9 +28,8 @@ import ShowMoreTextField from "./ShowMoreTextField/ShowMoreTextField";
 
 // PE 1/3
 function ResourceItem(props: Props) {
-  const { handleMouseEnter, handleMouseLeave, isHovering } = useHover();
-
   const { setSuccessMessage } = useSnackbarStore();
+  const { handleMouseEnter, handleMouseLeave, isHovering } = useHover();
 
   const handleSaveRating = (rating: number) => {
     const resource = { ...props.resource, rating } as ResourceDto;

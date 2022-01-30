@@ -1,4 +1,5 @@
 import { Box, makeStyles } from "@material-ui/core";
+import useMultiSelectResource from "hooks/relearn/useMultiSelectResource";
 import React from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -16,26 +17,67 @@ function ResourceList({
 }) {
   const classes = useStyles();
 
+  const { onCtrlClick, idIsSelected, onShiftClick } = useMultiSelectResource();
+
   if (isDraggable)
     return (
       <DndProvider backend={HTML5Backend}>
         {resources.map((resource, index) => (
-          <DraggableResourceItem
+          <div
             key={resource.id}
-            resource={resource}
-            index={index}
-            className={classes.resourceItem}
-          />
+            onClick={(e) => {
+              if (e.ctrlKey) {
+                e.preventDefault();
+                onCtrlClick(resource.id);
+              }
+
+              if (e.shiftKey) {
+                e.preventDefault();
+                onShiftClick(
+                  resources.map((r) => r.id),
+                  resource.id
+                );
+              }
+            }}
+          >
+            <DraggableResourceItem
+              resource={resource}
+              index={index}
+              className={classes.resourceItem}
+            />
+          </div>
         ))}
       </DndProvider>
     );
 
   return (
     <Virtuoso
-      style={{ height: 520 }}
+      style={{ height: "calc(100vh - 384px)" }}
       totalCount={resources.length}
       itemContent={(index) => (
-        <Box p={1} borderBottom="1px solid rgb(255 255 255 / 0.1)">
+        <Box
+          p={1}
+          borderBottom="1px solid rgb(255 255 255 / 0.1)"
+          style={{
+            background: idIsSelected(resources[index].id)
+              ? "rgb(255 255 255 / 0.1)"
+              : "unset",
+          }}
+          onClick={(e) => {
+            if (e.ctrlKey) {
+              e.preventDefault();
+              onCtrlClick(resources[index].id);
+            }
+
+            if (e.shiftKey) {
+              e.preventDefault();
+              onShiftClick(
+                resources.map((r) => r.id),
+                resources[index].id
+              );
+            }
+          }}
+        >
           <ResourceItem resource={resources[index]} />
         </Box>
       )}

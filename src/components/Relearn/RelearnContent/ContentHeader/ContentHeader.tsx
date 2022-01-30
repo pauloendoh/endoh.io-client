@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
+import useRelearnStore from "store/zustand/domain/useRelearnStore";
 import { removeTag } from "../../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../../store/store";
 import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto";
@@ -10,12 +11,14 @@ import { TagDto } from "../../../../types/domain/relearn/TagDto";
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto";
 import pageUrls from "../../../../utils/url/urls/pageUrls";
 import Flex from "../../../_UI/Flexboxes/Flex";
+import SelectedResourcesOptions from "./SelectedResourcesOptions/SelectedResourcesOptions";
 import SkillChips from "./SkillChips/SkillChips";
 
 // PE 2/3
 function ContentHeader(props: Props) {
   const classes = useStyles();
   const location = useLocation();
+  const { selectedResourceIds } = useRelearnStore();
 
   const [tag, setTag] = useState<TagDto>(null);
   const [height, setHeight] = useState(0);
@@ -72,35 +75,38 @@ function ContentHeader(props: Props) {
       <Box mt={2} />
       <SkillChips />
 
-      <Tabs
-        className={classes.tabs}
-        value={props.tabIndex}
-        indicatorColor="primary"
-        textColor="primary"
-        onChange={handleChangeTab}
-        aria-label="disabled tabs example"
-      >
-        <Tab
-          className={classes.tab}
-          label={`${props.todoResources.length} Resources`}
-        />
-        <Tab
-          className={classes.tab}
-          id="completed-resources-tab-button"
-          label={`${props.completedResources.length} Completed`}
-        />
-      </Tabs>
+      {selectedResourceIds.length > 0 ? (
+        <SelectedResourcesOptions />
+      ) : (
+        <Tabs
+          className={classes.tabs}
+          value={props.tabIndex}
+          indicatorColor="primary"
+          textColor="primary"
+          onChange={handleChangeTab}
+          aria-label="disabled tabs example"
+        >
+          <Tab
+            className={classes.tab}
+            label={`${props.todoResources.length} Resources`}
+          />
+          <Tab
+            className={classes.tab}
+            id="completed-resources-tab-button"
+            label={`${props.completedResources.length} Completed`}
+          />
+        </Tabs>
+      )}
     </Box>
   );
 }
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100%",
-    position: "fixed",
+    position: "sticky",
     background: theme.palette.background.default,
     zIndex: theme.zIndex.appBar,
-    top: 65,
+    top: 73,
     marginTop: 8,
     paddingTop: 24,
   },

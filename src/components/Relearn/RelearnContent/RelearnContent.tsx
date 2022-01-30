@@ -61,12 +61,14 @@ function RelearnContent(props: {
           setHeaderHeight(newHeight);
         }}
       />
-      <Box mt={headerHeight + 24 + "px"} />
+      {/* <Box mt={headerHeight + 24 + "px"} /> */}
 
-      <ResourceList
-        resources={tabIndex === 0 ? todo : completed}
-        isDraggable={tabIndex === 0}
-      />
+      <Box mt={2}>
+        <ResourceList
+          resources={tabIndex === 0 ? todo : completed}
+          isDraggable={tabIndex === 0}
+        />
+      </Box>
 
       {tabIndex === 0 && (
         <Flex mt={2}>

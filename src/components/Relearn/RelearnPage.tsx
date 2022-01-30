@@ -1,5 +1,6 @@
 import { Box, makeStyles } from "@material-ui/core";
 import classNames from "classnames";
+import useMultiSelectResource from "hooks/relearn/useMultiSelectResource";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Redirect, useLocation } from "react-router-dom";
@@ -24,13 +25,13 @@ import TagDialog from "./TagDialog/TagDialog";
 const RelearnPage = (props: Props) => {
   const classes = useStyles();
 
-  const [redirectTo, setRedirectTo] = useState("");
-
-  // PE 1/3 - why do we need this skills, if we have props.skills ?
-  const [skills, setSkills] = useState<SkillDto[]>([]);
+  const windowFocused = useWindowFocus();
+  const { clearSelectedIds } = useMultiSelectResource();
   const { sidebarIsOpen, openSidebar } = useSidebarStore();
 
-  const windowFocused = useWindowFocus();
+  const [redirectTo, setRedirectTo] = useState("");
+  // PE 1/3 - why do we need this skills, if we have props.skills ?
+  const [skills, setSkills] = useState<SkillDto[]>([]);
 
   const fetchResourcesAndSkills = () => {
     myAxios.get<ResourceDto[]>(apiUrls.relearn.resource).then((res) => {
@@ -89,6 +90,10 @@ const RelearnPage = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.resources, location]
   );
+
+  useEffect(() => {
+    clearSelectedIds();
+  }, [location.pathname]);
 
   useEffect(
     () => {
