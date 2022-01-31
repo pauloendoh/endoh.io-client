@@ -1,6 +1,7 @@
 import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
 import SkillDialogTagSelector from "components/Skillbase/SkillDialog/SkillDialogTagSelector/SkillDialogTagSelector";
 import SaveCancelButtons from "components/_UI/Buttons/SaveCancelButtons";
+import useMultiSelectResource from "hooks/relearn/useMultiSelectResource";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -14,6 +15,7 @@ import { ApplicationState } from "../../../../../../store/store";
 // PE 2/3
 const MoveResourcesToTagDialog = (props: Props) => {
   const [selectedTagId, setSelectedTagId] = useState<number>(null);
+  const { clearSelectedIds } = useMultiSelectResource();
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
 
   const onSubmit = () => {
@@ -26,6 +28,7 @@ const MoveResourcesToTagDialog = (props: Props) => {
         console.log(res.data);
         props.setResources(res.data);
         props.onClose();
+        clearSelectedIds();
         setSuccessMessage("Resources saved!");
       })
       .catch(() => {
