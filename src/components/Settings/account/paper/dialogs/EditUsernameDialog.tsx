@@ -7,19 +7,22 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import useAuthStore from "store/zustand/useAuthStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
 import MyAxiosError from "types/MyAxiosError";
 import myAxios from "utils/consts/myAxios";
 import apiUrls from "utils/url/urls/apiUrls";
-import { setUsername } from "../../../../../store/auth/authActions";
-import { ApplicationState } from "../../../../../store/store";
 import { UsernamePutDto } from "../../../../../types/domain/auth/UsernamePutDto";
 import Flex from "../../../../_UI/Flexboxes/Flex";
 import MyTextField from "../../../../_UI/MyInputs/MyTextField";
 
+type Props = {
+  open: boolean;
+  onClose: () => void;
+};
+
 const EditUsernameDialog = (props: Props) => {
+  const { setUsername } = useAuthStore();
   const { handleSubmit, control, formState } = useForm<UsernamePutDto>({
     defaultValues: {
       newUsername: "",
@@ -33,7 +36,7 @@ const EditUsernameDialog = (props: Props) => {
       .put(apiUrls.auth.username, formData)
       .then((res) => {
         setSuccessMessage("Username changed!");
-        props.setUsername(formData.newUsername);
+        setUsername(formData.newUsername);
         props.onClose();
       })
       .catch((err: MyAxiosError) => {
@@ -96,21 +99,4 @@ const EditUsernameDialog = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: ApplicationState) => ({
-  // editingTag: state.relearn.editingTag,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setUsername: (newUsername: string) => dispatch(setUsername(newUsername)),
-});
-
-interface OwnProps {
-  open: boolean;
-  onClose: () => void;
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(EditUsernameDialog);
+export default EditUsernameDialog;

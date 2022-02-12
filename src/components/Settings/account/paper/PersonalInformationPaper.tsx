@@ -8,17 +8,16 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { useState } from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { ApplicationState } from "store/store";
+import useAuthStore from "store/zustand/useAuthStore";
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
 import ChangePasswordDialog from "./dialogs/ChangePasswordDialog";
 import DeleteAccountDialog from "./dialogs/DeleteAccountDialog";
 import EditUsernameDialog from "./dialogs/EditUsernameDialog";
 
 // PE 2/3 - Maybe I should separate this into <UsernameRow/>, <EmailRow/>, <PasswordRow/> and <DeleteAccountRow>
-const PersonalInformationPaper = (props: Props) => {
+const PersonalInformationPaper = () => {
   const classes = useStyles();
+  const { authUser } = useAuthStore();
 
   const [editUsernameDialog, setEditUsernameDialog] = useState(false);
   const [changePasswordDialog, setChangePasswordDialog] = useState(false);
@@ -37,7 +36,7 @@ const PersonalInformationPaper = (props: Props) => {
           </Grid>
           <Grid item>
             <FlexVCenter>
-              <Box mr={2}>{props.user.username}</Box>
+              <Box mr={2}>{authUser.username}</Box>
               <Button
                 id="edit-username-btn"
                 color="primary"
@@ -60,7 +59,7 @@ const PersonalInformationPaper = (props: Props) => {
           <Grid item className={classes.leftGrid}>
             Email
           </Grid>
-          <Grid item>{props.user.email}</Grid>
+          <Grid item>{authUser.email}</Grid>
         </Grid>
 
         <Box pt={1} />
@@ -127,16 +126,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mapStateToProps = (state: ApplicationState) => ({
-  user: state.auth.user,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PersonalInformationPaper);
+export default PersonalInformationPaper;

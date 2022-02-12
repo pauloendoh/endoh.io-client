@@ -120,7 +120,7 @@ function DefineSidebar(props: Props) {
 
                 <DocTitleDialog
                   open={openTitleDialog}
-                  initialValue=""
+                  initialValue={{ title: "" }}
                   onClose={() => setOpenTitleDialog(false)}
                   afterSave={(doc) => {
                     history.push(pageUrls.define.docId(doc.id));

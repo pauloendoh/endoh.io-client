@@ -13,10 +13,10 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import useDialogsStore from "store/zustand/useDialogsStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
 import * as relearnActions from "../../../../store/relearn/relearnActions";
 import { removeSkills } from "../../../../store/skillbase/skillbaseActions";
-import { ApplicationState } from "../../../../store/store";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto";
 import { IdsDto } from "../../../../types/domain/_common/IdsDto";
@@ -28,6 +28,7 @@ function SkillMoreIcon(props: Props) {
   const classes = useStyles();
 
   const { setSuccessMessage } = useSnackbarStore();
+  const { openConfirmDialog } = useDialogsStore();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleOpenMore = (event: any) => {
@@ -39,18 +40,21 @@ function SkillMoreIcon(props: Props) {
 
   // handleDelete would be better?
   const handleDelete = (id: number) => {
-    if (window.confirm("Confirm delete?")) {
-      myAxios
-        .delete<SkillDto[]>(apiUrls.skillbase.skill, {
-          headers: {}, // why is this?
-          data: { ids: [id] } as IdsDto,
-        })
-        .then((res) => {
-          props.removeSkills([id]);
-          setSuccessMessage("Skill deleted successfully!");
-          props.afterDelete();
-        });
-    }
+    openConfirmDialog({
+      title: "Confirm delete?",
+      onConfirm: () => {
+        myAxios
+          .delete<SkillDto[]>(apiUrls.skillbase.skill, {
+            headers: {}, // why is this?
+            data: { ids: [id] } as IdsDto,
+          })
+          .then((res) => {
+            props.removeSkills([id]);
+            setSuccessMessage("Skill deleted successfully!");
+            props.afterDelete();
+          });
+      },
+    });
   };
 
   return (
@@ -119,10 +123,6 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const mapStateToProps = (state: ApplicationState) => ({
-  // user: state.auth.user,
-});
-
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   editTag: (tag: TagDto) => dispatch(relearnActions.editTag(tag)),
   removeTag: (id: number) => dispatch(relearnActions.removeTag(id)),
@@ -134,8 +134,6 @@ interface OwnProps {
   afterDelete: () => void;
 }
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
+type Props = ReturnType<typeof mapDispatchToProps> & OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(SkillMoreIcon);
+export default connect(undefined, mapDispatchToProps)(SkillMoreIcon);

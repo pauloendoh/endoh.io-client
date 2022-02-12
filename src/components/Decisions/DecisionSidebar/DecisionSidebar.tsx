@@ -16,7 +16,7 @@ import stringsAreVerySimilar from "../../../utils/text/stringsAreVerySimilar";
 import LoadingPage from "../../_common/LoadingPage/LoadingPage";
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
 import MyTextField from "../../_UI/MyInputs/MyTextField";
-import MySidebar from "../../_UI/MySidebar";
+import MySidebar from "../../_UI/MySidebar/MySidebar";
 import DecisionSidebarItem from "./DecisionSidebarItem/DecisionSidebarItem";
 
 type Props = { selectedDecisionId: number };

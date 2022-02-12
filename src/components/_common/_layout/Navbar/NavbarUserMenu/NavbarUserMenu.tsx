@@ -8,13 +8,14 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
+import useAuthStore from "store/zustand/useAuthStore";
 import theme from "utils/consts/theme";
-import { ApplicationState } from "../../../../../store/store";
 import ProfilePicture from "../../../../_UI/ProfilePicture/ProfilePicture";
 
 // PE 2/3
 const NavbarUserMenu = (props: Props) => {
   const location = useLocation();
+  const { profile, authUser: user } = useAuthStore();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -42,11 +43,11 @@ const NavbarUserMenu = (props: Props) => {
         aria-controls="simple-menu"
         aria-haspopup="true"
       >
-        {props.profile && (
+        {profile && (
           <ProfilePicture
             isLink={false}
-            pictureUrl={props.profile.pictureUrl}
-            username={props.authUser.username}
+            pictureUrl={profile.pictureUrl}
+            username={user.username}
             size="1.875rem"
           />
         )}
@@ -64,7 +65,7 @@ const NavbarUserMenu = (props: Props) => {
       >
         <MenuItem
           component={Link}
-          to={"/user/" + props.authUser.username}
+          to={"/user/" + user.username}
           id="profile-user-menu-option"
           onClick={handleClose}
         >
@@ -97,16 +98,10 @@ const NavbarUserMenu = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: ApplicationState) => ({
-  authUser: state.auth.user,
-  profile: state.auth.profile,
-});
-
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   dispatch,
 });
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+type Props = ReturnType<typeof mapDispatchToProps>;
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavbarUserMenu);
+export default connect(undefined, mapDispatchToProps)(NavbarUserMenu);

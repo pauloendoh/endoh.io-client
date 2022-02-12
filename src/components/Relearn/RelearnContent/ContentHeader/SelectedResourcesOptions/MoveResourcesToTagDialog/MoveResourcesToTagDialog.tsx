@@ -16,9 +16,11 @@ import { ApplicationState } from "../../../../../../store/store";
 const MoveResourcesToTagDialog = (props: Props) => {
   const [selectedTagId, setSelectedTagId] = useState<number>(null);
   const { clearSelectedIds } = useMultiSelectResource();
+  const [submitting, setSubmitting] = useState(false);
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
 
-  const onSubmit = () => {
+  const handleSubmit = () => {
+    setSubmitting(true);
     myAxios
       .put<ResourceDto[]>(apiUrls.relearn.resourceMoveToTag, {
         resourceIds: props.resourceIds,
@@ -33,7 +35,8 @@ const MoveResourcesToTagDialog = (props: Props) => {
       })
       .catch(() => {
         setErrorMessage("Error while failing resources!");
-      });
+      })
+      .finally(() => setSubmitting(false));
   };
 
   return (
@@ -44,21 +47,28 @@ const MoveResourcesToTagDialog = (props: Props) => {
       maxWidth="xs"
       aria-labelledby="move-resources-to-tag-dialog"
     >
-      <DialogTitle id="move-resources-to-tag-dialog-title">
-        Move resources to tag
-      </DialogTitle>
-      <DialogContent>
-        <Box>
-          <SkillDialogTagSelector
-            valueTagId={selectedTagId}
-            onChange={(_, tagId) => setSelectedTagId(tagId)}
-            required
-          />
-        </Box>
-      </DialogContent>
-      <DialogTitle>
-        <SaveCancelButtons onSave={onSubmit} onCancel={props.onClose} />
-      </DialogTitle>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit();
+        }}
+      >
+        <DialogTitle id="move-resources-to-tag-dialog-title">
+          Move resources to tag
+        </DialogTitle>
+        <DialogContent>
+          <Box>
+            <SkillDialogTagSelector
+              valueTagId={selectedTagId}
+              onChange={(_, tagId) => setSelectedTagId(tagId)}
+              required
+            />
+          </Box>
+        </DialogContent>
+        <DialogTitle>
+          <SaveCancelButtons disabled={submitting} onCancel={props.onClose} />
+        </DialogTitle>
+      </form>
     </Dialog>
   );
 };

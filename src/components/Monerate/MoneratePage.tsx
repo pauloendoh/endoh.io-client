@@ -72,7 +72,6 @@ type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
 const mapStateToProps = (state: ApplicationState) => ({
-  user: state.auth.user,
   expenses: state.monerate.expenses,
   filter: state.monerate.filter,
 });

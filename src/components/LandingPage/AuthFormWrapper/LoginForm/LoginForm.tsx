@@ -7,9 +7,7 @@ import {
 } from "@material-ui/core";
 import { Form, Formik } from "formik";
 import React, { MouseEvent, useState } from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import * as AuthActions from "store/auth/authActions";
+import useAuthStore from "store/zustand/useAuthStore";
 import { AuthUserGetDto } from "types/domain/auth/AuthUserGetDto";
 import apiUrls from "utils/url/urls/apiUrls";
 import MyAxiosError, { MyFieldError } from "../../../../types/MyAxiosError";
@@ -18,16 +16,12 @@ import Flex from "../../../_UI/Flexboxes/Flex";
 import MyTextField from "../../../_UI/MyInputs/MyTextField";
 import { AuthFormType } from "../_types/AuthFormType";
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setAuthUser: (authUser: AuthUserGetDto) =>
-    dispatch(AuthActions.setAuthUser(authUser)),
-});
-
-type Props = ReturnType<typeof mapDispatchToProps> & {
+type Props = {
   setFormType: (formType: AuthFormType) => void;
 };
 
-const LoginForm = ({ setFormType, ...props }: Props) => {
+const LoginForm = ({ setFormType }: Props) => {
+  const { setAuthUser } = useAuthStore();
   const [responseErrors, setResponseErrors] = useState([] as MyFieldError[]);
 
   return (
@@ -51,7 +45,7 @@ const LoginForm = ({ setFormType, ...props }: Props) => {
           .post<AuthUserGetDto>(apiUrls.auth.login, authData)
           .then((res) => {
             const authUser = res.data;
-            props.setAuthUser(authUser);
+            setAuthUser(authUser);
           })
           .catch((err: MyAxiosError) => {
             setResponseErrors(err.response.data.errors);
@@ -145,4 +139,4 @@ const LoginForm = ({ setFormType, ...props }: Props) => {
   );
 };
 
-export default connect(undefined, mapDispatchToProps)(LoginForm);
+export default LoginForm;

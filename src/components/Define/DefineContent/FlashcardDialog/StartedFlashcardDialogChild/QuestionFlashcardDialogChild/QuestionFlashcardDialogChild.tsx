@@ -12,7 +12,7 @@ import { Clear } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
 import { GlobalHotKeys } from "react-hotkeys";
 import { NoteDto } from "../../../../../../types/domain/define/NoteDto";
-import DarkButton from "../../../../../_UI/Buttons/DarkButton";
+import DarkButton from "../../../../../_UI/Buttons/DarkButton/DarkButton";
 import FlexVCenter from "../../../../../_UI/Flexboxes/FlexVCenter";
 import NoteDialog from "../NoteDialog/NoteDialog";
 

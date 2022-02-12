@@ -11,22 +11,25 @@ import {
 import LabelIcon from "@material-ui/icons/Label";
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Dispatch } from "redux";
 import useProfileStore from "store/zustand/domain/useProfileStore";
+import useAuthStore from "store/zustand/useAuthStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
-import { setFollowingTags } from "../../../../store/auth/authActions";
-import { ApplicationState } from "../../../../store/store";
 import { FollowingTagDto } from "../../../../types/domain/feed/FollowingTagDto";
 import MyAxiosError from "../../../../types/MyAxiosError";
 import myAxios from "../../../../utils/consts/myAxios";
 import apiUrls from "../../../../utils/url/urls/apiUrls";
 import Flex from "../../../_UI/Flexboxes/Flex";
 
+interface Props {
+  open: boolean;
+  onClose: () => void;
+}
+
 // PE 2/3
 const FollowDialog = (props: Props) => {
   const { username } = useParams<{ username: string }>();
+  const { followingTags, setFollowingTags } = useAuthStore();
 
   const profileStore = useProfileStore();
 
@@ -36,9 +39,9 @@ const FollowDialog = (props: Props) => {
 
   useEffect(() => {
     if (props.open) {
-      setSelectedTagIds(props.followingTags.map((t) => t.tagId));
+      setSelectedTagIds(followingTags.map((t) => t.tagId));
     }
-  }, [props.open, props.followingTags]);
+  }, [props.open, followingTags]);
 
   const toggleTagId = (tagId: number) => {
     if (selectedTagIds.includes(tagId)) {
@@ -62,7 +65,7 @@ const FollowDialog = (props: Props) => {
     myAxios
       .post<FollowingTagDto[]>(apiUrls.user.followingTags(username), data)
       .then((res) => {
-        props.setFollowingTags(res.data);
+        setFollowingTags(res.data);
         setSuccessMessage("Saved!");
       })
       .catch((err: MyAxiosError) => {
@@ -151,22 +154,4 @@ const FollowDialog = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: ApplicationState) => ({
-  followingTags: state.auth.followingTags,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setFollowingTags: (followingTags: FollowingTagDto[]) =>
-    dispatch(setFollowingTags(followingTags)),
-});
-
-interface OwnProps {
-  open: boolean;
-  onClose: () => void;
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(FollowDialog);
+export default FollowDialog;

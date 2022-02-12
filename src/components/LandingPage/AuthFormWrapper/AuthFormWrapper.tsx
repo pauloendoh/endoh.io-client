@@ -1,8 +1,6 @@
 import { Box, Button, makeStyles, Paper } from "@material-ui/core";
 import React, { useState } from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import * as AuthActions from "store/auth/authActions";
+import useAuthStore from "store/zustand/useAuthStore";
 import { AuthUserGetDto } from "types/domain/auth/AuthUserGetDto";
 import Icons from "utils/styles/Icons";
 import myAxios from "../../../utils/consts/myAxios";
@@ -16,16 +14,8 @@ import PasswordResetForm from "./PasswordResetForm/PasswordResetForm";
 import RegisterForm from "./RegisterForm/RegisterForm";
 import { AuthFormType } from "./_types/AuthFormType";
 
-// PE 2/3 - hard to read
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setAuthUser: (authUser: AuthUserGetDto) =>
-    dispatch(AuthActions.setAuthUser(authUser)),
-});
-
-// PE 1/3 - not really necessary
-type Props = ReturnType<typeof mapDispatchToProps>;
-
-const AuthFormWrapper = (props: Props) => {
+const AuthFormWrapper = () => {
+  const { setAuthUser } = useAuthStore();
   const [currentForm, setCurrentForm] = useState<AuthFormType>("login");
 
   // PE 2/3 - change to styled-components?
@@ -34,7 +24,7 @@ const AuthFormWrapper = (props: Props) => {
   const handleTempSignIn = () => {
     // PE 2/3
     myAxios.get<AuthUserGetDto>(apiUrls.auth.tempUser).then((res) => {
-      props.setAuthUser(res.data);
+      setAuthUser(res.data);
     });
   };
 
@@ -113,4 +103,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default connect(undefined, mapDispatchToProps)(AuthFormWrapper);
+export default AuthFormWrapper;

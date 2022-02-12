@@ -1,10 +1,9 @@
 import { Box, Button, Link, Typography } from "@material-ui/core";
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
 import React, { useState } from "react";
-import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 import useProfileStore from "store/zustand/domain/useProfileStore";
-import { ApplicationState } from "../../../store/store";
+import useAuthStore from "store/zustand/useAuthStore";
 import { isFollowing } from "../../../utils/feed/isFollowing";
 import Flex from "../../_UI/Flexboxes/Flex";
 import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture";
@@ -14,8 +13,9 @@ import FollowersButtonDialog from "./FollowersButtonDialog/FollowersButtonDialog
 import FollowingButtonDialog from "./FollowingButtonDialog/FollowingButtonDialog";
 
 // PE 2/3
-const ProfileHeader = (props: Props) => {
+const ProfileHeader = () => {
   const { username } = useParams<{ username: string }>();
+  const { authUser, followingTags: authFollowingTags } = useAuthStore();
 
   const [openProfileDialog, setOpenProfileDialog] = useState(false);
   const [openFollowDialog, setOpenFollowDialog] = useState(false);
@@ -47,7 +47,7 @@ const ProfileHeader = (props: Props) => {
             </Box>
           </div>
 
-          {profileStore.profile?.userId === props.authUser.id ? (
+          {profileStore.profile?.userId === authUser.id ? (
             <Box>
               <Button
                 size="small"
@@ -64,10 +64,7 @@ const ProfileHeader = (props: Props) => {
             </Box>
           ) : (
             <Box>
-              {isFollowing(
-                profileStore.profile.userId,
-                props.authFollowingTags
-              ) ? (
+              {isFollowing(profileStore.profile.userId, authFollowingTags) ? (
                 <Button
                   size="small"
                   variant="outlined"
@@ -120,11 +117,4 @@ const ProfileHeader = (props: Props) => {
   );
 };
 
-type Props = ReturnType<typeof mapStateToProps>;
-
-const mapStateToProps = (state: ApplicationState) => ({
-  authUser: state.auth.user,
-  authFollowingTags: state.auth.followingTags,
-});
-
-export default connect(mapStateToProps, undefined)(ProfileHeader);
+export default ProfileHeader;

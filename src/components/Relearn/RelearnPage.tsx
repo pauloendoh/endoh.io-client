@@ -21,7 +21,6 @@ import RelearnContent from "./RelearnContent/RelearnContent";
 import RelearnSidebar from "./RelearnSidebar/RelearnSidebar";
 import TagDialog from "./TagDialog/TagDialog";
 
-// PE 3/3
 const RelearnPage = (props: Props) => {
   const classes = useStyles();
 

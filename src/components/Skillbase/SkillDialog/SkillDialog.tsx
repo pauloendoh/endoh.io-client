@@ -16,6 +16,7 @@ import { connect } from "react-redux";
 import { useLocation } from "react-router";
 import { scroller } from "react-scroll";
 import { Dispatch } from "redux";
+import useDialogsStore from "store/zustand/useDialogsStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
 import { useTheme } from "styled-components";
 import Icons from "utils/styles/Icons";
@@ -45,6 +46,8 @@ const SkillDialog = (props: Props) => {
 
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
 
+  const { openConfirmDialog } = useDialogsStore();
+
   const { hasChanged, validateHasChanged } = useHasChanged(props.skill);
 
   useEffect(() => {
@@ -66,9 +69,10 @@ const SkillDialog = (props: Props) => {
 
   const confirmClose = () => {
     if (hasChanged) {
-      if (window.confirm("Discard changes?")) {
-        props.setEditingSkill(null);
-      }
+      openConfirmDialog({
+        title: "Discard changes?",
+        onConfirm: () => props.setEditingSkill(null),
+      });
     } else {
       props.setEditingSkill(null);
     }

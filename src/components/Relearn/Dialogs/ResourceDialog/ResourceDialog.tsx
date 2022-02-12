@@ -42,10 +42,9 @@ import { LinkPreviewDto } from "./_types/LinkPreviewDto";
 
 // PE 1/3 - tá muito grande
 const ResourceDialog = (props: Props) => {
-  const [isFetchingLinkPreview, setIsFetchingLinkPreview] = useState(false);
-  const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
-
   const { openConfirmDialog } = useDialogsStore();
+  const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
+  const [isFetchingLinkPreview, setIsFetchingLinkPreview] = useState(false);
 
   const confirmClose = (isDirty: boolean) => {
     if (isDirty) {
@@ -144,52 +143,53 @@ const ResourceDialog = (props: Props) => {
   };
 
   return (
-    <Dialog
-      onClose={() => props.closeResourceDialog()}
-      open={!!props.editingResource}
-      fullWidth
-      maxWidth="md"
-      aria-labelledby="edit-resource-dialog"
-    >
-      <Box pb={1} px={1}>
-        <Formik
-          initialValues={
-            {
-              ...props.editingResource,
-              tag: props.editingResource?.tag
-                ? props.editingResource.tag
-                : getCurrentTag(),
-            } as ResourceDto
-          }
-          onSubmit={(formikValues, { setSubmitting }) => {
-            handleSubmit(formikValues);
-          }}
-          validate={(newValue: ResourceDto) => {
-            let errors: FormikErrors<ResourceDto> = {};
+    <Formik
+      initialValues={
+        {
+          ...props.editingResource,
+          tag: props.editingResource?.tag
+            ? props.editingResource.tag
+            : getCurrentTag(),
+        } as ResourceDto
+      }
+      enableReinitialize
+      onSubmit={(formikValues, { setSubmitting }) => {
+        handleSubmit(formikValues);
+      }}
+      validate={(newValue: ResourceDto) => {
+        let errors: FormikErrors<ResourceDto> = {};
 
-            if (newValue.url.length > 0 && !urlIsValid(newValue.url)) {
-              errors.url = "Invalid URL";
-            }
-            return errors;
-          }}
-        >
-          {({
-            errors,
-            values,
-            isSubmitting,
-            submitForm,
-            handleChange,
-            setFieldValue,
-            setValues,
-            dirty,
-          }) => (
-            <Form>
+        if (newValue.url.length > 0 && !urlIsValid(newValue.url)) {
+          errors.url = "Invalid URL";
+        }
+        return errors;
+      }}
+    >
+      {({
+        errors,
+        values,
+        isSubmitting,
+        submitForm,
+        handleChange,
+        setFieldValue,
+        setValues,
+        dirty,
+      }) => (
+        <Form>
+          <Dialog
+            onClose={() => confirmClose(dirty)}
+            open={!!props.editingResource}
+            fullWidth
+            maxWidth="md"
+            aria-labelledby="edit-resource-dialog"
+          >
+            <Box pb={1} px={1}>
               <DialogTitle id="edit-resource-dialog-title">
                 {values.id > 0 ? "Edit Resource" : "Add Resource"}
               </DialogTitle>
               <DialogContent>
                 <Flex>
-                  {values.thumbnail.length > 0 && (
+                  {values.thumbnail?.length > 0 && (
                     <Box mr={2} position="relative">
                       <a href={values.url} target="_blank" rel="noreferrer">
                         <img
@@ -408,11 +408,11 @@ const ResourceDialog = (props: Props) => {
                   onCancel={() => confirmClose(dirty)}
                 />
               </DialogContent>
-            </Form>
-          )}
-        </Formik>
-      </Box>
-    </Dialog>
+            </Box>
+          </Dialog>
+        </Form>
+      )}
+    </Formik>
   );
 };
 

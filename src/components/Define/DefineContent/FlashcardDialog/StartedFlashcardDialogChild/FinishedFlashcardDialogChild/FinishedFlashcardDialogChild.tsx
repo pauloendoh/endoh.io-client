@@ -13,7 +13,7 @@ import { DocDto } from "../../../../../../types/domain/define/DocDto";
 import { NoteDto } from "../../../../../../types/domain/define/NoteDto";
 import myAxios from "../../../../../../utils/consts/myAxios";
 import apiUrls from "../../../../../../utils/url/urls/apiUrls";
-import DarkButton from "../../../../../_UI/Buttons/DarkButton";
+import DarkButton from "../../../../../_UI/Buttons/DarkButton/DarkButton";
 import S from "./FinishedFlashcardDialogChild.styles";
 
 interface Props {

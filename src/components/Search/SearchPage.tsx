@@ -11,7 +11,7 @@ import myAxios from "../../utils/consts/myAxios";
 import ResourceItem from "../Relearn/RelearnContent/ResourceList/DraggableResourceItem/ResourceItem/ResourceItem";
 import LoadingPage from "../_common/LoadingPage/LoadingPage";
 import SkillChip from "../_common/SkillChip/SkillChip";
-import DarkButton from "../_UI/Buttons/DarkButton";
+import DarkButton from "../_UI/Buttons/DarkButton/DarkButton";
 import Flex from "../_UI/Flexboxes/Flex";
 import FlexVCenter from "../_UI/Flexboxes/FlexVCenter";
 import SearchPageSidebar from "./SearchPageSidebar/SearchPageSidebar";

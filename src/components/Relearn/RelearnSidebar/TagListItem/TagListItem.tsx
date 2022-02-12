@@ -98,7 +98,6 @@ function TagListItem(props: Props) {
 }
 
 const mapStateToProps = (state: ApplicationState) => ({
-  // user: state.auth.user,
   allResources: state.relearn.resources,
   allTags: state.relearn.tags,
 });

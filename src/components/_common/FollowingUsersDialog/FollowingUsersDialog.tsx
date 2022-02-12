@@ -6,15 +6,17 @@ import {
   Link,
 } from "@material-ui/core";
 import React from "react";
-import { connect } from "react-redux";
 import { Link as RouterLink, useParams } from "react-router-dom";
-import { Dispatch } from "redux";
 import { FollowingUserDto } from "types/domain/feed/FollowingUserDto";
-import { setFollowingTags } from "../../../store/auth/authActions";
-import { FollowingTagDto } from "../../../types/domain/feed/FollowingTagDto";
 import pageUrls from "../../../utils/url/urls/pageUrls";
 import Flex from "../../_UI/Flexboxes/Flex";
 import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture";
+
+interface Props {
+  followingUsers: FollowingUserDto[];
+  open: boolean;
+  onClose: () => void;
+}
 
 // PE 2/3
 const FollowingUsersDialog = (props: Props) => {
@@ -80,17 +82,4 @@ const FollowingUsersDialog = (props: Props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setFollowingTags: (followingTags: FollowingTagDto[]) =>
-    dispatch(setFollowingTags(followingTags)),
-});
-
-interface OwnProps {
-  followingUsers: FollowingUserDto[];
-  open: boolean;
-  onClose: () => void;
-}
-
-type Props = ReturnType<typeof mapDispatchToProps> & OwnProps;
-
-export default connect(undefined, mapDispatchToProps)(FollowingUsersDialog);
+export default FollowingUsersDialog;

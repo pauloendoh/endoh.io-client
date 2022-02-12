@@ -1,9 +1,7 @@
 import { Box, Button, Link } from "@material-ui/core";
 import React, { useState } from "react";
-import { connect } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
-import { Dispatch } from "redux";
-import { ApplicationState } from "../../../store/store";
+import useAuthStore from "store/zustand/useAuthStore";
 import pageUrls from "../../../utils/url/urls/pageUrls";
 import FollowersDialog from "../../_common/FollowersDialog/FollowersDialog";
 import FollowingUsersDialog from "../../_common/FollowingUsersDialog/FollowingUsersDialog";
@@ -11,17 +9,19 @@ import Flex from "../../_UI/Flexboxes/Flex";
 import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture";
 
 // PE 3/3
-const AuthUserSummary = (props: Props) => {
+const AuthUserSummary = () => {
+  const { authUser, profile, followingUsers, followers } = useAuthStore();
+
+  const [openFollowersDialog, setOpenFollowersDialog] = useState(false);
   const [openFollowingUsersDialog, setOpenFollowingUsersDialog] =
     useState(false);
-  const [openFollowersDialog, setOpenFollowersDialog] = useState(false);
 
   return (
     <Flex>
-      {props.profile && (
+      {profile && (
         <ProfilePicture
-          pictureUrl={props.profile.pictureUrl}
-          username={props.authUser.username}
+          pictureUrl={profile.pictureUrl}
+          username={authUser.username}
           isLink
           size={32}
         />
@@ -32,20 +32,20 @@ const AuthUserSummary = (props: Props) => {
           variant="button"
           color="inherit"
           component={RouterLink}
-          to={pageUrls.user.index(props.authUser.username)}
+          to={pageUrls.user.index(authUser.username)}
           style={{ marginLeft: 8 }}
         >
-          {props.authUser.username}
+          {authUser.username}
         </Link>
         <Flex>
           {/* Following */}
 
           <Box>
             <Button onClick={() => setOpenFollowingUsersDialog(true)}>
-              {props.followingUsers.length} Following
+              {followingUsers.length} Following
             </Button>
             <FollowingUsersDialog
-              followingUsers={props.followingUsers}
+              followingUsers={followingUsers}
               open={openFollowingUsersDialog}
               onClose={() => setOpenFollowingUsersDialog(false)}
             />
@@ -54,10 +54,10 @@ const AuthUserSummary = (props: Props) => {
           {/* Followers */}
           <Box>
             <Button onClick={() => setOpenFollowersDialog(true)}>
-              {props.followers.length} Followers
+              {followers.length} Followers
             </Button>
             <FollowersDialog
-              followers={props.followers}
+              followers={followers}
               open={openFollowersDialog}
               onClose={() => setOpenFollowersDialog(false)}
             />
@@ -68,16 +68,4 @@ const AuthUserSummary = (props: Props) => {
   );
 };
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
-
-const mapStateToProps = (state: ApplicationState) => ({
-  authUser: state.auth.user,
-  profile: state.auth.profile,
-  followingUsers: state.auth.followingUsers,
-  followers: state.auth.followers,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(AuthUserSummary);
+export default AuthUserSummary;

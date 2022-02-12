@@ -76,8 +76,11 @@ function TitleMoreIcon(props: Props) {
       </Menu>
 
       <DocTitleDialog
-        initialValue={props.doc.title}
+        initialValue={{ title: props.doc.title }}
         open={openTitleDialog}
+        afterSave={() => {
+          setOpenTitleDialog(false);
+        }}
         onClose={() => {
           setOpenTitleDialog(false);
         }}

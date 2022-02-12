@@ -1,12 +1,11 @@
 import { Grid, Hidden, Typography } from "@material-ui/core";
 import useUserSuggestionsQuery from "hooks/react-query/feed/useUserSuggestionsQuery";
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import useProfileStore, {
   resetProfileStore,
 } from "store/zustand/domain/useProfileStore";
-import { ApplicationState } from "../../store/store";
+import useAuthStore from "store/zustand/useAuthStore";
 import { ResourceDto } from "../../types/domain/relearn/ResourceDto";
 import { TagDto } from "../../types/domain/relearn/TagDto";
 import { UserInfoDto } from "../../types/domain/_common/UserInfoDto";
@@ -23,8 +22,9 @@ import S from "./UserPage.styles";
 import UserPageSidebar from "./UserPageSidebar/UserPageSidebar";
 
 // PE 3/3
-const UserPage = (props: Props) => {
+const UserPage = () => {
   const history = useHistory();
+  const { followingUsers } = useAuthStore();
 
   const profileStore = useProfileStore();
 
@@ -118,7 +118,7 @@ const UserPage = (props: Props) => {
                 {userSuggestions?.length > 0 && (
                   <UserSuggestions
                     userSuggestions={userSuggestions}
-                    followingTags={props.followingUsers}
+                    followingTags={followingUsers}
                   />
                 )}
               </S.UserSuggestionsWrapper>
@@ -130,11 +130,4 @@ const UserPage = (props: Props) => {
   );
 };
 
-type Props = ReturnType<typeof mapStateToProps>;
-
-const mapStateToProps = (state: ApplicationState) => ({
-  authUser: state.auth.user,
-  followingUsers: state.auth.followingUsers,
-});
-
-export default connect(mapStateToProps, undefined)(UserPage);
+export default UserPage;

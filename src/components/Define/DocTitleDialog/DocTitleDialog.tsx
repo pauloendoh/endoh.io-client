@@ -1,6 +1,6 @@
 import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
-import { Form, Formik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
 import useDocsStore from "store/zustand/domain/useDocsStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
 import { DocDto } from "../../../types/domain/define/DocDto";
@@ -12,9 +12,9 @@ import MyTextField from "../../_UI/MyInputs/MyTextField";
 interface Props {
   open: boolean;
   docId?: number;
-  initialValue: string;
+  initialValue: { title: string };
   onClose: () => void;
-  afterSave?: (doc: DocDto) => void;
+  afterSave: (doc: DocDto) => void;
 }
 
 const DocTitleDialog = (props: Props) => {
@@ -25,28 +25,26 @@ const DocTitleDialog = (props: Props) => {
   };
 
   const { setSuccessMessage } = useSnackbarStore();
-  const handleSubmit = (
-    values: { title: string },
-    setSubmitting: (isSubmitting: boolean) => void
-  ) => {
-    setSubmitting(true);
-
+  const onSubmit = (values: { title: string }) => {
     const obj = {
       title: values.title,
       id: props.docId,
     };
-    myAxios
-      .post<DocDto>(apiUrls.define.doc, obj)
-      .then((res) => {
-        docsStore.pushOrReplaceDoc(res.data);
-        setSuccessMessage("Doc saved!");
+    myAxios.post<DocDto>(apiUrls.define.doc, obj).then((res) => {
+      docsStore.pushOrReplaceDoc(res.data);
+      setSuccessMessage("Doc saved!");
 
-        props.afterSave(res.data);
-      })
-      .finally(() => {
-        setSubmitting(false);
-      });
+      if (props.afterSave) props.afterSave(res.data);
+    });
   };
+
+  const { reset, handleSubmit, formState, control } = useForm({
+    defaultValues: props.initialValue,
+  });
+
+  useEffect(() => {
+    if (props.open) reset(props.initialValue);
+  }, [props.open]);
 
   return (
     <Dialog
@@ -57,43 +55,36 @@ const DocTitleDialog = (props: Props) => {
       aria-labelledby="doc-title-dialog"
     >
       <Box pb={1} px={1}>
-        <Formik
-          enableReinitialize
-          initialValues={{
-            title: props.initialValue,
-          }}
-          onSubmit={(formikValues, { setSubmitting }) => {
-            handleSubmit(formikValues, setSubmitting);
-          }}
-        >
-          {({ values, isSubmitting, handleChange }) => (
-            <Form>
-              <DialogTitle id="doc-title-dialog-title">Doc Title</DialogTitle>
-              <DialogContent>
-                <Box>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <DialogTitle id="doc-title-dialog-title">Doc Title</DialogTitle>
+          <DialogContent>
+            <Box>
+              <Controller
+                control={control}
+                name="title"
+                render={({ field }) => (
                   <MyTextField
                     id="title"
                     name="title"
-                    value={values.title}
-                    onChange={handleChange}
                     size="small"
                     label="Title"
                     className="mt-3"
                     fullWidth
                     required
                     autoFocus
+                    {...field}
                   />
-                </Box>
-              </DialogContent>
-              <DialogTitle>
-                <SaveCancelButtons
-                  disabled={isSubmitting}
-                  onCancel={handleClose}
-                />
-              </DialogTitle>
-            </Form>
-          )}
-        </Formik>
+                )}
+              />
+            </Box>
+          </DialogContent>
+          <DialogTitle>
+            <SaveCancelButtons
+              disabled={formState.isSubmitting}
+              onCancel={handleClose}
+            />
+          </DialogTitle>
+        </form>
       </Box>
     </Dialog>
   );

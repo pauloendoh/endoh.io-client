@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 import { Dispatch } from "redux";
+import useAuthStore from "store/zustand/useAuthStore";
 import { FollowingUserDto } from "types/domain/feed/FollowingUserDto";
-import { ApplicationState } from "../../../store/store";
 import { UserSuggestionDto } from "../../../types/domain/feed/UserSuggestionDto";
 import pageUrls from "../../../utils/url/urls/pageUrls";
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
@@ -13,6 +13,7 @@ import UserSuggestionsDialog from "./UserSuggestionsDialog/UserSuggestionsDialog
 
 // PE 2/3 - Change to UserSuggestionsSection ?
 function UserSuggestions(props: Props) {
+  const { authUser } = useAuthStore();
   const [dialogIsOpen, setDialogIsOpen] = useState(false);
 
   const [suggestions, setSuggestions] = useState<UserSuggestionDto[]>([]);
@@ -25,7 +26,7 @@ function UserSuggestions(props: Props) {
     const dontShowIds = props.followingTags.map(
       (fol) => fol.followingUser.userId
     );
-    dontShowIds.push(props.authUser.id);
+    dontShowIds.push(authUser.id);
 
     const filteredSuggestions = props.userSuggestions.filter(
       (suggestion) => dontShowIds.includes(suggestion.suggestedUserId) === false
@@ -79,10 +80,6 @@ function UserSuggestions(props: Props) {
   );
 }
 
-const mapStateToProps = (state: ApplicationState) => ({
-  authUser: state.auth.user,
-});
-
 const mapDispatchToProps = (dispatch: Dispatch) => ({});
 
 interface OwnProps {
@@ -90,8 +87,6 @@ interface OwnProps {
   followingTags: FollowingUserDto[];
 }
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
+type Props = ReturnType<typeof mapDispatchToProps> & OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserSuggestions);
+export default connect(undefined, mapDispatchToProps)(UserSuggestions);

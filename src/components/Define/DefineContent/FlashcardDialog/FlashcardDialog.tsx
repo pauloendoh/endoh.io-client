@@ -14,7 +14,7 @@ import { GlobalHotKeys } from "react-hotkeys";
 import useDocsStore from "store/zustand/domain/useDocsStore";
 import { NoteDto } from "../../../../types/domain/define/NoteDto";
 import { shuffleArray } from "../../../../utils/shuffleArray";
-import DarkButton from "../../../_UI/Buttons/DarkButton";
+import DarkButton from "../../../_UI/Buttons/DarkButton/DarkButton";
 import FlexHCenter from "../../../_UI/Flexboxes/FlexHCenter";
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
 import Txt from "../../../_UI/Text/Txt";

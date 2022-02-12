@@ -10,9 +10,7 @@ import {
 } from "@material-ui/core";
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
 import { Link as RouterLink, Redirect } from "react-router-dom";
-import { ApplicationState } from "../../store/store";
 import { PasswordResetPostDto } from "../../types/domain/auth/PasswordResetPostDto";
 import MyAxiosError, { MyFieldError } from "../../types/MyAxiosError";
 import myAxios from "../../utils/consts/myAxios";
@@ -25,7 +23,7 @@ import FlexVCenter from "../_UI/Flexboxes/FlexVCenter";
 import MyTextField from "../_UI/MyInputs/MyTextField";
 import TextPrimary from "../_UI/Text/TextPrimary";
 
-function ResetPasswordPage(props: Props) {
+function ResetPasswordPage() {
   const classes = useStyles();
 
   const [responseErrors, setResponseErrors] = useState([] as MyFieldError[]);
@@ -195,10 +193,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mapStateToProps = (state: ApplicationState) => ({
-  user: state.auth.user,
-});
-
-type Props = ReturnType<typeof mapStateToProps>;
-
-export default connect(mapStateToProps, undefined)(ResetPasswordPage);
+export default ResetPasswordPage;

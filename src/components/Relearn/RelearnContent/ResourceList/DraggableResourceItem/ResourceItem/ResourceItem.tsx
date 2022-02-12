@@ -131,11 +131,11 @@ function ResourceItem(props: Props) {
               </S.DurationWrapper>
             )}
 
-            {props.showTag && props.resource.tag.id !== null && (
+            {props.showTag && Boolean(props.resource.tag?.id) && (
               <FlexVCenter style={{ gap: 4 }}>
-                <Icons.Label style={{ color: props.resource.tag.color }} />
+                <Icons.Label style={{ color: props.resource.tag?.color }} />
                 <Txt variant="body2" noWrap style={{ width: 150 }}>
-                  {props.resource.tag.name}
+                  {props.resource.tag?.name}
                 </Txt>
               </FlexVCenter>
             )}

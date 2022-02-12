@@ -1,22 +1,15 @@
 import { Box, Grid } from "@material-ui/core";
 import useUserSuggestionsQuery from "hooks/react-query/feed/useUserSuggestionsQuery";
 import React from "react";
-import { connect } from "react-redux";
-import { ApplicationState } from "../../store/store";
+import useAuthStore from "store/zustand/useAuthStore";
 import UserSuggestions from "../_common/UserSuggestions/UserSuggestions";
 import AuthUserSummary from "./AuthUserSummary/AuthUserSummary";
 import FeedResources from "./FeedResources/FeedResources";
 
-type Props = ReturnType<typeof mapStateToProps>;
-
-const mapStateToProps = (state: ApplicationState) => ({
-  followingUsers: state.auth.followingUsers,
-});
-
 // PE 3/3
-const FeedPage = (props: Props) => {
+const FeedPage = () => {
+  const { followingUsers } = useAuthStore();
   const { data: userSuggestions } = useUserSuggestionsQuery();
-
   return (
     <Box pt={3}>
       <Grid container>
@@ -32,7 +25,7 @@ const FeedPage = (props: Props) => {
           {userSuggestions?.length > 0 && (
             <UserSuggestions
               userSuggestions={userSuggestions}
-              followingTags={props.followingUsers}
+              followingTags={followingUsers}
             />
           )}
         </Grid>
@@ -41,4 +34,4 @@ const FeedPage = (props: Props) => {
   );
 };
 
-export default connect(mapStateToProps, undefined)(FeedPage);
+export default FeedPage;

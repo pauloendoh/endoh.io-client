@@ -1,17 +1,15 @@
 import { Badge, IconButton, Menu } from "@material-ui/core";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import React from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { setNotifications } from "../../../../../store/auth/authActions";
-import { ApplicationState } from "../../../../../store/store";
+import useAuthStore from "store/zustand/useAuthStore";
 import { NotificationDto } from "../../../../../types/domain/utils/NotificationDto";
 import myAxios from "../../../../../utils/consts/myAxios";
 import apiUrls from "../../../../../utils/url/urls/apiUrls";
 import NotificationItem from "./NotificationItem/NotificationItem";
 
 // PE 2/3 - Change to "NotificationButtonMenu"
-const Notification = (props: Props) => {
+const Notification = () => {
+  const { notifications, setNotifications } = useAuthStore();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -23,19 +21,17 @@ const Notification = (props: Props) => {
     myAxios
       .post<NotificationDto[]>(apiUrls.utils.notificationsSeeAll)
       .then((res) => {
-        props.setNotifications(res.data);
+        setNotifications(res.data);
       });
 
     setAnchorEl(null);
   };
 
   const getUnseenNotificationsLength = () =>
-    props.allNotifications.filter((n) => !n.seen).length;
+    notifications.filter((n) => !n.seen).length;
 
   const getBadgeVariant = () =>
-    props.allNotifications.filter((n) => !n.seen).length > 0
-      ? "dot"
-      : "standard";
+    notifications.filter((n) => !n.seen).length > 0 ? "dot" : "standard";
 
   return (
     <React.Fragment>
@@ -53,7 +49,7 @@ const Notification = (props: Props) => {
           <NotificationsIcon fontSize="large" />
         </Badge>
       </IconButton>
-      {props.allNotifications.length > 0 && (
+      {notifications.length > 0 && (
         <Menu
           id="simple-menu"
           anchorEl={anchorEl}
@@ -65,7 +61,7 @@ const Notification = (props: Props) => {
           onClick={handleClose}
           onClose={handleClose}
         >
-          {props.allNotifications.map((notification) => (
+          {notifications.map((notification) => (
             <NotificationItem
               key={notification.id}
               notification={notification}
@@ -77,15 +73,4 @@ const Notification = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: ApplicationState) => ({
-  allNotifications: state.auth.notifications,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setNotifications: (not: NotificationDto[]) => dispatch(setNotifications(not)),
-});
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
-
-export default connect(mapStateToProps, mapDispatchToProps)(Notification);
+export default Notification;

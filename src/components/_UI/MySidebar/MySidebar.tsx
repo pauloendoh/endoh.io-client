@@ -5,43 +5,41 @@ import {
   makeStyles,
   Theme,
   Toolbar,
-} from "@material-ui/core"
-import React from "react"
-import useSidebarStore from "../../store/zustand/useSidebarStore"
+} from "@material-ui/core";
+import React from "react";
+import useSidebarStore from "../../../store/zustand/useSidebarStore";
+import S from "./MySidebar.styles";
 
 const MySidebar = (props: React.ComponentProps<typeof Drawer>) => {
-  const { sidebarIsOpen } = useSidebarStore()
-  
-  const classes = useStyles()
+  const { sidebarIsOpen } = useSidebarStore();
+
+  const classes = useStyles();
 
   return (
-    <Drawer
+    <S.RootDrawer
       anchor="left"
-      className={classes.root}
       variant="persistent"
       open={sidebarIsOpen}
       classes={{
+        // unfortunately, can't remove this
         paper: classes.drawerPaper,
       }}
       {...props}
     >
       <Toolbar />
       <Box>{props.children}</Box>
-    </Drawer>
-  )
-}
+    </S.RootDrawer>
+  );
+};
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      flexShrink: 0,
-    },
     drawerPaper: {
       width: 300,
       background: "#202020",
       borderRight: "1px solid rgba(255, 255, 255, 0.05)",
     },
   })
-)
+);
 
-export default MySidebar
+export default MySidebar;

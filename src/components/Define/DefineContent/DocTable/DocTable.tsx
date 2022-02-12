@@ -6,24 +6,24 @@ import {
   Toolbar,
 } from "@material-ui/core";
 import React, { useState } from "react";
-import { connect } from "react-redux";
 import useDocsStore from "store/zustand/domain/useDocsStore";
-import { ApplicationState } from "../../../../store/store";
+import useAuthStore from "store/zustand/useAuthStore";
 import { newNoteDto, NoteDto } from "../../../../types/domain/define/NoteDto";
 import myAxios from "../../../../utils/consts/myAxios";
 import apiUrls from "../../../../utils/url/urls/apiUrls";
-import DarkButton from "../../../_UI/Buttons/DarkButton";
+import DarkButton from "../../../_UI/Buttons/DarkButton/DarkButton";
 import { TBody, TD, THead, TR } from "../../../_UI/Table/MyTableWrappers";
 import DocTableRow from "./DocTableRow/DocTableRow";
 
 const DocTable = (props: Props) => {
   const docsStore = useDocsStore();
+  const { authUser } = useAuthStore();
 
   const classes = useStyles();
 
   const addNote = () => {
     setSubmitting(true);
-    const newNote = newNoteDto(sortedNotes().length, props.docId, props.userId);
+    const newNote = newNoteDto(sortedNotes().length, props.docId, authUser.id);
     myAxios
       .post<NoteDto>(apiUrls.define.note, newNote)
       .then((res) => {
@@ -121,14 +121,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mapStateToProps = (state: ApplicationState) => ({
-  userId: state.auth.user.id,
-});
-
 interface OwnProps {
   docId: number;
 }
 
-type Props = ReturnType<typeof mapStateToProps> & OwnProps;
+type Props = OwnProps;
 
-export default connect(mapStateToProps, undefined)(DocTable);
+export default DocTable;

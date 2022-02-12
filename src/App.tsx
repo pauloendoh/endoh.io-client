@@ -1,4 +1,5 @@
 import { Box, CssBaseline, MuiThemeProvider } from "@material-ui/core";
+import useCheckAuthOrLogout from "hooks/auth/useCheckAuthOrLogout";
 import React, { lazy, Suspense, useEffect, useState } from "react";
 import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
@@ -12,6 +13,7 @@ import {
   withRouter,
 } from "react-router-dom";
 import { Dispatch } from "redux";
+import useAuthStore from "store/zustand/useAuthStore";
 import { ThemeProvider } from "styled-components";
 import LandingPage from "./components/LandingPage/LandingPage";
 import ResourceDialog from "./components/Relearn/Dialogs/ResourceDialog/ResourceDialog";
@@ -24,15 +26,7 @@ import LoadingPage from "./components/_common/LoadingPage/LoadingPage";
 import Navbar from "./components/_common/_layout/Navbar/Navbar";
 import ConfirmDialog from "./components/_UI/Dialogs/ConfirmationDialog";
 import MySnackBar2 from "./components/_UI/SnackBars/Snackbars";
-import {
-  checkAuthOrLogoutActionCreator,
-  setAuthProfile,
-  setFollowingTags,
-  setNotifications,
-  setPreference,
-} from "./store/auth/authActions";
 import { setTags } from "./store/relearn/relearnActions";
-import { ApplicationState } from "./store/store";
 import { UserPreferenceDto } from "./types/domain/auth/AuthUserGetDto";
 import { FollowingTagDto } from "./types/domain/feed/FollowingTagDto";
 import { TagDto } from "./types/domain/relearn/TagDto";
@@ -59,11 +53,20 @@ const SearchPage = lazy(() => import("./components/Search/SearchPage"));
 // PE 2/3
 const App = (props: Props) => {
   // 0.1s is enough time to check for auth user
-  const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
+  const [isLoading, setIsLoading] = useState(true);
+  const {
+    authUser,
+    setPreference,
+    setFollowingTags,
+    setNotifications,
+    setAuthProfile,
+  } = useAuthStore();
+
+  const checkAuthOrLogout = useCheckAuthOrLogout();
 
   useEffect(() => {
-    props.checkAuthOrLogout();
+    checkAuthOrLogout();
 
     setTimeout(() => {
       setIsLoading(false);
@@ -74,24 +77,22 @@ const App = (props: Props) => {
   useEffect(
     () => {
       // Redirect after login
-      if (props.user) {
+      if (authUser) {
         const nextUrl = new URLSearchParams(location.search).get("next");
         if (nextUrl) {
           props.history.push(nextUrl);
         }
 
         myAxios
-          .get<FollowingTagDto[]>(
-            apiUrls.user.followingTags(props.user.username)
-          )
+          .get<FollowingTagDto[]>(apiUrls.user.followingTags(authUser.username))
           .then((res) => {
-            props.setFollowingTags(res.data);
+            setFollowingTags(res.data);
           });
 
         myAxios
           .get<UserPreferenceDto>(apiUrls.auth.userPreference)
           .then((res) => {
-            props.setPreference(res.data);
+            setPreference(res.data);
           });
 
         myAxios.get<TagDto[]>(apiUrls.relearn.tag).then((res) => {
@@ -99,20 +100,20 @@ const App = (props: Props) => {
         });
 
         myAxios
-          .get<UserInfoDto>(apiUrls.user.userInfo(props.user.username))
+          .get<UserInfoDto>(apiUrls.user.userInfo(authUser.username))
           .then((res) => {
-            props.setAuthProfile(res.data);
+            setAuthProfile(res.data);
           });
 
         myAxios
           .get<NotificationDto[]>(apiUrls.utils.notifications)
           .then((res) => {
-            props.setNotifications(res.data);
+            setNotifications(res.data);
           });
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.user]
+    [authUser]
   );
 
   // PE 2/3 - Not very scalable...
@@ -137,7 +138,7 @@ const App = (props: Props) => {
   );
 
   // PE 2/3 - Talvez criar um <UserRoutes/> ?
-  if (props.user) {
+  if (authUser) {
     routes = (
       <Box height="100%">
         {location.pathname.startsWith("/settings/") ? (
@@ -201,24 +202,10 @@ const App = (props: Props) => {
   );
 };
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  RouteComponentProps<{}>;
-
-const mapStateToProps = (state: ApplicationState) => ({
-  user: state.auth.user,
-});
+type Props = ReturnType<typeof mapDispatchToProps> & RouteComponentProps<{}>;
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setPreference: (preference: UserPreferenceDto) =>
-    dispatch(setPreference(preference)),
-  setFollowingTags: (followingTags: FollowingTagDto[]) =>
-    dispatch(setFollowingTags(followingTags)),
   setTags: (tags: TagDto[]) => dispatch(setTags(tags)),
-  setNotifications: (notifications: NotificationDto[]) =>
-    dispatch(setNotifications(notifications)),
-  setAuthProfile: (userInfo: UserInfoDto) => dispatch(setAuthProfile(userInfo)),
-  checkAuthOrLogout: () => dispatch(checkAuthOrLogoutActionCreator(dispatch)),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default withRouter(connect(undefined, mapDispatchToProps)(App));

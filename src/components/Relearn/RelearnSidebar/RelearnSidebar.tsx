@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { ApplicationState } from "../../../store/store";
 import { TagDto } from "../../../types/domain/relearn/TagDto";
-import MySidebar from "../../_UI/MySidebar";
+import MySidebar from "../../_UI/MySidebar/MySidebar";
 import RelearnSidebarTagList from "./RelearnSidebarTagList/RelearnSidebarTagList";
 
 function RelearnSidebar(props: Props) {
