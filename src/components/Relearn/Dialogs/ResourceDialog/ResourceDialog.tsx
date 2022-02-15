@@ -174,6 +174,7 @@ const ResourceDialog = (props: Props) => {
         setFieldValue,
         setValues,
         dirty,
+        handleSubmit,
       }) => (
         <Form>
           <Dialog
@@ -403,6 +404,7 @@ const ResourceDialog = (props: Props) => {
 
                 <Box mt={2} />
                 <SaveCancelButtons
+                  onSave={handleSubmit}
                   submitButtonId="save-resource-button"
                   disabled={isSubmitting}
                   onCancel={() => confirmClose(dirty)}
