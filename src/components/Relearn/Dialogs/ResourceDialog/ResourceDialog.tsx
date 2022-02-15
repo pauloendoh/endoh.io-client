@@ -176,18 +176,18 @@ const ResourceDialog = (props: Props) => {
         dirty,
         handleSubmit,
       }) => (
-        <Form>
-          <Dialog
-            onClose={() => confirmClose(dirty)}
-            open={!!props.editingResource}
-            fullWidth
-            maxWidth="md"
-            aria-labelledby="edit-resource-dialog"
-          >
-            <Box pb={1} px={1}>
-              <DialogTitle id="edit-resource-dialog-title">
-                {values.id > 0 ? "Edit Resource" : "Add Resource"}
-              </DialogTitle>
+        <Dialog
+          onClose={() => confirmClose(dirty)}
+          open={!!props.editingResource}
+          fullWidth
+          maxWidth="md"
+          aria-labelledby="edit-resource-dialog"
+        >
+          <Box pb={1} px={1}>
+            <DialogTitle id="edit-resource-dialog-title">
+              {values.id > 0 ? "Edit Resource" : "Add Resource"}
+            </DialogTitle>
+            <Form>
               <DialogContent>
                 <Flex>
                   {values.thumbnail?.length > 0 && (
@@ -410,9 +410,9 @@ const ResourceDialog = (props: Props) => {
                   onCancel={() => confirmClose(dirty)}
                 />
               </DialogContent>
-            </Box>
-          </Dialog>
-        </Form>
+            </Form>
+          </Box>
+        </Dialog>
       )}
     </Formik>
   );
