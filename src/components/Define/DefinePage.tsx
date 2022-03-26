@@ -50,7 +50,7 @@ const DefinePage = () => {
       setSelectedDocId(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [docId]);
+  }, [docId, docsStore.docs]);
 
   const history = useHistory();
   useEffect(
