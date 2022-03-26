@@ -19,7 +19,8 @@ const apiUrls = {
   relearn: {
     resource: "/relearn/resource",
     resourceDuplicate: "/relearn/resource/duplicate",
-    resourceMoveToTag: "/v2/resources/to-tag",
+    resourceMoveToTag: "/v2/resources/many/to-tag",
+    deleteManyResources: "/v2/resources/many/delete",
     tag: "/relearn/tag",
   },
   skillbase: {
