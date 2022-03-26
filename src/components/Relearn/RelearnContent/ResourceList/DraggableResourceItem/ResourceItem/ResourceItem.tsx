@@ -97,6 +97,10 @@ function ResourceItem(props: Props) {
               <Link
                 href={props.resource.url}
                 target="_blank"
+                onClick={(e) => {
+                  if (e.altKey) return;
+                  e.stopPropagation();
+                }}
                 style={{ maxWidth: 400, overflow: "hidden", marginRight: 16 }}
               >
                 <Txt noWrap style={{ maxWidth: "inherit" }}>

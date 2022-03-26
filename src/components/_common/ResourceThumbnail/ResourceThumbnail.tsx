@@ -41,7 +41,14 @@ function ResourceThumbnail(props: Props) {
     <Box mr={2}>
       <Box minWidth={getWidth()} width={getWidth()} position="relative">
         {isLink() ? (
-          <Link href={props.resourceUrl} target="_blank">
+          <Link
+            href={props.resourceUrl}
+            target="_blank"
+            onClick={(e) => {
+              if (e.altKey) return;
+              e.stopPropagation();
+            }}
+          >
             <LazyLoadImage
               style={{ width: "100%" }}
               alt={props.thumbnailSrc}
