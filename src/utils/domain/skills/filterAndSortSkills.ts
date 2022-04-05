@@ -77,7 +77,7 @@ export default function filterAndSortSkills(
 
   if (hidingDone) {
     skills = skills.filter(
-      (s) => s.currentLevel > 0 && s.currentLevel !== s.goalLevel
+      (s) => s.currentLevel !== null && s.currentLevel !== s.goalLevel
     );
   }
 
