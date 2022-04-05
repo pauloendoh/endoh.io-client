@@ -78,11 +78,11 @@ const SkillTableToolbar = (props: Props) => {
                   <Switch
                     checked={props.hidingDone}
                     onChange={() => props.setHidingDone(!props.hidingDone)}
-                    name="Hiding done"
+                    name="Hide done"
                     color="secondary"
                   />
                 }
-                label="Hiding done"
+                label="Hide done"
               />
             </FlexVCenter>
           )}

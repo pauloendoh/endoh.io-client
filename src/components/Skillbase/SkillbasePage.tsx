@@ -55,8 +55,10 @@ const SkillbasePage = (props: Props) => {
       const tagId = Number(pathname.split("/").pop());
       if (tagId) {
         const tag = props.allTags.find((tag) => tag.id === tagId);
-        setSelectedTag(tag);
-        document.title = titles.skillPage(tag.name);
+        if (tag) {
+          setSelectedTag(tag);
+          document.title = titles.skillPage(tag.name);
+        }
       }
     } else {
       setSelectedTag(null);
