@@ -5,7 +5,8 @@ import { SortSkill } from "./../../../store/skillbase/skillbaseTypes";
 export default function filterAndSortSkills(
   allSkills: SkillDto[],
   sortBy: SortSkill,
-  tag: TagDto | "Untagged"
+  tag: TagDto | "Untagged",
+  hidingDone: boolean
 ) {
   let skills = allSkills;
 
@@ -72,6 +73,12 @@ export default function filterAndSortSkills(
   } else if (tag?.id) {
     const tagId = tag.id;
     skills = skills.filter((s) => s.tagId === tagId);
+  }
+
+  if (hidingDone) {
+    skills = skills.filter(
+      (s) => s.currentLevel > 0 && s.currentLevel !== s.goalLevel
+    );
   }
 
   return skills;

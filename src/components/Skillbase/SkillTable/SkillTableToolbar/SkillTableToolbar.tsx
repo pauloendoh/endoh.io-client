@@ -1,4 +1,4 @@
-import { Box } from "@material-ui/core";
+import { Box, FormControlLabel, Switch } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import { lighten, makeStyles, Theme } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -58,7 +58,7 @@ const SkillTableToolbar = (props: Props) => {
           {props.numSelected} selected
         </Typography>
       ) : (
-        <Box>
+        <Box width="100%">
           {props.fixedTag ? (
             <Typography variant="h4">
               <FlexVCenter>
@@ -68,10 +68,23 @@ const SkillTableToolbar = (props: Props) => {
               </FlexVCenter>
             </Typography>
           ) : (
-            <SkillbaseTagSelector
-              value={tagSelectorValue}
-              onChange={handleTagChange}
-            />
+            <FlexVCenter justifyContent="space-between" width="100%">
+              <SkillbaseTagSelector
+                value={tagSelectorValue}
+                onChange={handleTagChange}
+              />
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={props.hidingDone}
+                    onChange={() => props.setHidingDone(!props.hidingDone)}
+                    name="Hiding done"
+                    color="secondary"
+                  />
+                }
+                label="Hiding done"
+              />
+            </FlexVCenter>
           )}
         </Box>
       )}
@@ -114,6 +127,8 @@ type Props = {
   fixedTag: TagDto;
   numSelected: number;
   onClickDelete: () => void;
+  hidingDone: boolean;
+  setHidingDone: (hidingDone: boolean) => void;
 } & ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 

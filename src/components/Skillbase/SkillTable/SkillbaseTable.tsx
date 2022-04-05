@@ -27,22 +27,27 @@ import SkillTableToolbar from "./SkillTableToolbar/SkillTableToolbar";
 // PE 2/3
 const SkillbaseTable = (props: Props) => {
   const classes = useStyles();
-
   const { setSuccessMessage } = useSnackbarStore();
 
-  const [selectedIds, setSelectedIds] = React.useState<number[]>([]);
+  const [hidingDone, setHidingDone] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [visibleSkills, setVisibleSkills] = useState<SkillDto[]>(
-    filterAndSortSkills(props.allSkills, props.sortBy, props.tag)
+    filterAndSortSkills(props.allSkills, props.sortBy, props.tag, hidingDone)
   );
 
   useEffect(
     () => {
       setVisibleSkills(
-        filterAndSortSkills(props.allSkills, props.sortBy, props.tag)
+        filterAndSortSkills(
+          props.allSkills,
+          props.sortBy,
+          props.tag,
+          hidingDone
+        )
       );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.allSkills, props.sortBy, props.tag]
+    [props.allSkills, props.sortBy, props.tag, hidingDone]
   );
 
   const sortByProperty = (property: keyof SkillDto) => {
@@ -95,6 +100,8 @@ const SkillbaseTable = (props: Props) => {
         fixedTag={props.fixedTag}
         onClickDelete={handleDelete}
         numSelected={selectedIds.length}
+        hidingDone={hidingDone}
+        setHidingDone={setHidingDone}
       />
       <TableContainer className={classes.container}>
         <Table

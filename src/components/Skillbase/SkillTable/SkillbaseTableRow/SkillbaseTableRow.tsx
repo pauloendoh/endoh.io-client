@@ -6,11 +6,13 @@ import {
   makeStyles,
   TableCell,
   TableRow,
+  useTheme,
 } from "@material-ui/core";
 import LabelIcon from "@material-ui/icons/Label";
 import StarIcon from "@material-ui/icons/Star";
 import clsx from "clsx";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { MdCheckCircleOutline } from "react-icons/md";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
@@ -24,13 +26,13 @@ import { SkillDto } from "../../../../types/domain/skillbase/SkillDto";
 import MyAxiosError from "../../../../types/MyAxiosError";
 import myAxios from "../../../../utils/consts/myAxios";
 import apiUrls from "../../../../utils/url/urls/apiUrls";
-import Flex from "../../../_UI/Flexboxes/Flex";
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
 import SkillLevelTD from "./SkillLevelTd/SkillLevelTd";
-
 // PE 3/3
 const SkillbaseTableRow = (props: Props) => {
+  const theme = useTheme();
   const classes = useStyles();
+
   const labelId = `enhanced-table-checkbox-${props.index}`;
 
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
@@ -40,6 +42,11 @@ const SkillbaseTableRow = (props: Props) => {
   };
 
   const [tag, setTag] = useState<TagDto>(findTagById(props.skill.tagId));
+
+  const isCompleted = useMemo(() => {
+    if (props.skill.currentLevel === 0) return false;
+    return props.skill.currentLevel === props.skill.goalLevel;
+  }, [props.skill]);
 
   useEffect(
     () => {
@@ -125,7 +132,17 @@ const SkillbaseTableRow = (props: Props) => {
       </TableCell>
 
       <TableCell width={180}>
-        <Flex>{props.skill.name}</Flex>
+        <Box style={{ display: "inline-flex" }}>
+          <span>
+            {props.skill.name}
+            {isCompleted && (
+              <MdCheckCircleOutline
+                color={theme.palette.success.main}
+                style={{ position: "relative", left: 4, top: 3, fontSize: 16 }}
+              />
+            )}
+          </span>
+        </Box>
       </TableCell>
 
       <SkillLevelTD
