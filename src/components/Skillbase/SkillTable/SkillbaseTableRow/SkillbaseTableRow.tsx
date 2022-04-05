@@ -27,6 +27,7 @@ import MyAxiosError from "../../../../types/MyAxiosError";
 import myAxios from "../../../../utils/consts/myAxios";
 import apiUrls from "../../../../utils/url/urls/apiUrls";
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
+import ExpectationsTd from "./ExpectationsTd/ExpectationsTd";
 import SkillLevelTD from "./SkillLevelTd/SkillLevelTd";
 // PE 3/3
 const SkillbaseTableRow = (props: Props) => {
@@ -88,12 +89,6 @@ const SkillbaseTableRow = (props: Props) => {
       .finally(() => {
         setIsChangingPriority(false);
       });
-  };
-
-  const getUncheckedExpectations = () => {
-    return props.skill.expectations.filter(
-      (expectation) => !expectation.checked
-    );
   };
 
   return (
@@ -163,14 +158,7 @@ const SkillbaseTableRow = (props: Props) => {
         ) : null}
       </TableCell>
 
-      <TableCell align="center">
-        {props.skill.expectations.length > 0 && (
-          <React.Fragment>
-            {getUncheckedExpectations().length}/
-            {props.skill.expectations.length} expectations
-          </React.Fragment>
-        )}
-      </TableCell>
+      <ExpectationsTd skill={props.skill} />
       <TableCell padding="checkbox">
         <Checkbox
           checked={props.isSelected}

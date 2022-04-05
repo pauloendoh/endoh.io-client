@@ -173,7 +173,7 @@ const filterAndSortExpectations = (
     });
 };
 
-const getLevelDescription = (level: number) => {
+export const getLevelDescription = (level: number) => {
   switch (level) {
     case 1:
       return "Basic I";
