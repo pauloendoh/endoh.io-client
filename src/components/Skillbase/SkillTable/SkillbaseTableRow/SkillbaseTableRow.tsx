@@ -45,7 +45,7 @@ const SkillbaseTableRow = (props: Props) => {
   const [tag, setTag] = useState<TagDto>(findTagById(props.skill.tagId));
 
   const isCompleted = useMemo(() => {
-    if (props.skill.currentLevel === null) return false;
+    if (props.skill.goalLevel === null) return false;
     return props.skill.currentLevel === props.skill.goalLevel;
   }, [props.skill]);
 

@@ -4,6 +4,7 @@ import useFeedResourcesQuery from "hooks/react-query/feed/useFeedResourcesQuery"
 import React, { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import TimeAgo from "react-timeago";
+import { Virtuoso } from "react-virtuoso";
 import { ratingLabels } from "utils/domain/relearn/resources/ratingLabels";
 import { FeedResourceDto } from "../../../types/domain/feed/FeedResourceDto";
 import { getColorByRating } from "../../../utils/relearn/getColorByRating";
@@ -36,68 +37,88 @@ const FeedResources = () => {
       <Flex justifyContent="flex-end" mb={2}>
         <MinRatingButton onChange={setMinRating} value={minRating} />
       </Flex>
-      {filteredResources.map((resource) => (
-        <Paper key={resource.id} style={{ marginBottom: 16, padding: 16 }}>
-          <FlexVCenter>
-            <ProfilePicture
-              pictureUrl={resource.user.pictureUrl}
-              username={resource.user.username}
-              size={32}
-              isLink
-            />
 
-            <Box ml={1}>
-              <Link
-                variant="button"
-                color="inherit"
-                component={RouterLink}
-                to={pageUrls.user.index(resource.user.username)}
-              >
-                {resource.user.username}
-              </Link>
-            </Box>
-          </FlexVCenter>
-          <Box mt={1}>
-            <Flex>
-              <ResourceThumbnail
-                linkable={true}
-                resourceUrl={resource.url}
-                thumbnailSrc={resource.thumbnail}
-                width={75}
+      <Virtuoso
+        style={{ height: "calc(100vh - 156px)" }}
+        totalCount={filteredResources.length}
+        itemContent={(index) => (
+          <Paper
+            key={filteredResources[index].id}
+            style={{ marginBottom: 16, padding: 16, marginRight: 8 }}
+          >
+            <FlexVCenter>
+              <ProfilePicture
+                pictureUrl={filteredResources[index].user.pictureUrl}
+                username={filteredResources[index].user.username}
+                size={32}
+                isLink
               />
 
-              <Box ml={1} width="100%">
-                <Typography>{resource.title}</Typography>
-                <Box>
-                  <Link href={resource.url} target="_blank">
-                    <Typography variant="inherit">{resource.url}</Typography>
-                  </Link>
-                </Box>
-                <FlexVCenter mt={1}>
-                  <TimeAgo date={resource.completedAt} live={false} />
-                  <FlexVCenter ml="auto">
-                    <FlexVCenter
-                      style={{
-                        width: 100,
-                        color: getColorByRating(resource.rating),
-                      }}
-                    >
-                      <StarRateIcon />
+              <Box ml={1}>
+                <Link
+                  variant="button"
+                  color="inherit"
+                  component={RouterLink}
+                  to={pageUrls.user.index(
+                    filteredResources[index].user.username
+                  )}
+                >
+                  {filteredResources[index].user.username}
+                </Link>
+              </Box>
+            </FlexVCenter>
+            <Box mt={1}>
+              <Flex>
+                <ResourceThumbnail
+                  linkable={true}
+                  resourceUrl={filteredResources[index].url}
+                  thumbnailSrc={filteredResources[index].thumbnail}
+                  width={75}
+                />
 
-                      <Box>
-                        {resource.rating} - {ratingLabels[resource.rating]}
-                      </Box>
-                    </FlexVCenter>
-                    <FlexVCenter>
-                      <SaveFeedResourceButton feedResource={resource} />
+                <Box ml={1} width="100%">
+                  <Typography>{filteredResources[index].title}</Typography>
+                  <Box>
+                    <Link href={filteredResources[index].url} target="_blank">
+                      <Typography variant="inherit">
+                        {filteredResources[index].url}
+                      </Typography>
+                    </Link>
+                  </Box>
+                  <FlexVCenter mt={1}>
+                    <TimeAgo
+                      date={filteredResources[index].completedAt}
+                      live={false}
+                    />
+                    <FlexVCenter ml="auto">
+                      <FlexVCenter
+                        style={{
+                          width: 100,
+                          color: getColorByRating(
+                            filteredResources[index].rating
+                          ),
+                        }}
+                      >
+                        <StarRateIcon />
+
+                        <Box>
+                          {filteredResources[index].rating} -{" "}
+                          {ratingLabels[filteredResources[index].rating]}
+                        </Box>
+                      </FlexVCenter>
+                      <FlexVCenter>
+                        <SaveFeedResourceButton
+                          feedResource={filteredResources[index]}
+                        />
+                      </FlexVCenter>
                     </FlexVCenter>
                   </FlexVCenter>
-                </FlexVCenter>
-              </Box>
-            </Flex>
-          </Box>
-        </Paper>
-      ))}
+                </Box>
+              </Flex>
+            </Box>
+          </Paper>
+        )}
+      />
     </Box>
   );
 };
