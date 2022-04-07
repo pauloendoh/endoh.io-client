@@ -1,6 +1,7 @@
 import {
   Box,
   Checkbox,
+  Chip,
   CircularProgress,
   IconButton,
   makeStyles,
@@ -11,6 +12,7 @@ import {
 import LabelIcon from "@material-ui/icons/Label";
 import StarIcon from "@material-ui/icons/Star";
 import clsx from "clsx";
+import Flex from "components/_UI/Flexboxes/Flex";
 import React, { useEffect, useMemo, useState } from "react";
 import { MdCheckCircleOutline } from "react-icons/md";
 import { connect } from "react-redux";
@@ -127,6 +129,16 @@ const SkillbaseTableRow = (props: Props) => {
       </TableCell>
 
       <TableCell width={180}>
+        <Flex style={{ flexWrap: "wrap", gap: 4 }}>
+          {props.skill.labels?.map((label) => (
+            <Chip
+              key={label.id}
+              size="small"
+              style={{ background: label.bgColor, color: "black" }}
+              label={label.name}
+            />
+          ))}
+        </Flex>
         <Box style={{ display: "inline-flex" }}>
           <span>
             {props.skill.name}

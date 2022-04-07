@@ -1,3 +1,4 @@
+import { LabelDto } from "./LabelDto";
 import { SkillExpectationDto } from "./SkillExpectationDto";
 
 export interface SkillDto {
@@ -7,6 +8,8 @@ export interface SkillDto {
 
   dependencies: SkillDto[];
   expectations: SkillExpectationDto[];
+
+  labels?: LabelDto[];
 
   isPriority: boolean;
   name: string;
@@ -26,6 +29,8 @@ export const newSkillDto = (tagId: number = null): SkillDto => ({
 
   dependencies: [],
   expectations: [],
+
+  labels: [],
 
   isPriority: false,
   name: "",

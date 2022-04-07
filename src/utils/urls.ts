@@ -5,6 +5,12 @@ export const urls = {
     //TAGS
     saveTagLastOpenedAt: (tagId: number) => `/v2/tag/${tagId}/last-opened-at`,
 
+    // Skillbase
+    skillbase: {
+      label: "/v2/skillbase/label",
+      skillLabel: (skillId: number) => `/v2/skillbase/skill/${skillId}/label`,
+    },
+
     // DEFINE
     saveDocLastOpenedAt: (docId: number) =>
       `define/doc/${docId}/last-opened-at`,

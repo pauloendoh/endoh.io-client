@@ -11,7 +11,7 @@ import Flex from "components/_UI/Flexboxes/Flex";
 import Txt from "components/_UI/Text/Txt";
 import { Form, Formik } from "formik";
 import { useHasChanged } from "hooks/utils/useHasChanged";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useLocation } from "react-router";
 import { scroller } from "react-scroll";
@@ -34,6 +34,8 @@ import SaveCancelButtons from "../../_UI/Buttons/SaveCancelButtons";
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
 import PriorityStarIcon from "./PriorityStarIcon/PriorityStarIcon";
 import SelectSkillLevel from "./SelectSkillLevel/SelectSkillLevel";
+import SelectSkillLabelsDialog from "./SkillDialogLabels/SelectSkillLabelsDialog/SelectSkillLabelsDialog";
+import SkillDialogLabels from "./SkillDialogLabels/SkillDialogLabels";
 import TagSelector from "./SkillDialogTagSelector/SkillDialogTagSelector";
 import TitleTextField from "./SkillDialogTitleTextField/SkillDialogTitleTextField";
 import SkillExpectations from "./SkillExpectations/SkillExpectations";
@@ -43,12 +45,11 @@ import SkillMoreIcon from "./SkillMoreIcon/SkillMoreIcon";
 const SkillDialog = (props: Props) => {
   const theme = useTheme();
   const location = useLocation();
-
-  const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
-
   const { openConfirmDialog } = useDialogsStore();
-
+  const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
   const { hasChanged, validateHasChanged } = useHasChanged(props.skill);
+
+  const [labelsDialog, setLabelsDialog] = useState(false);
 
   useEffect(() => {
     if (props.skill?.currentLevel > 0) {
@@ -184,12 +185,19 @@ const SkillDialog = (props: Props) => {
                     }}
                   />
                 </FlexVCenter>
+
+                {props.skill && (
+                  <SkillDialogLabels
+                    skill={props.skill}
+                    onOpenLabelsDialog={() => setLabelsDialog(true)}
+                  />
+                )}
               </DialogTitle>
 
               <DialogContent
                 id="skill-dialog-content"
                 style={{
-                  height: `calc(100vh - 340px)`,
+                  height: `calc(100vh - 410px)`,
                 }}
               >
                 <TagSelector
@@ -244,6 +252,12 @@ const SkillDialog = (props: Props) => {
           )}
         </Formik>
       </Box>
+
+      <SelectSkillLabelsDialog
+        open={labelsDialog}
+        skillId={getInitialValues().id}
+        onClose={() => setLabelsDialog(false)}
+      />
     </Dialog>
   );
 };
