@@ -18,11 +18,6 @@ interface IHeaderCell {
 // PE 2/3 - Better separate in a utils file?
 const headCells: IHeaderCell[] = [
   {
-    id: "isPriority",
-    label: "Priority",
-    align: "center",
-  },
-  {
     id: "name",
     label: "Skill Name",
     align: "left",

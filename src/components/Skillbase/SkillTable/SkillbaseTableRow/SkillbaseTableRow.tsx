@@ -1,16 +1,12 @@
 import {
   Box,
   Checkbox,
-  CircularProgress,
-  IconButton,
   makeStyles,
   TableCell,
   TableRow,
   useTheme,
 } from "@material-ui/core";
 import LabelIcon from "@material-ui/icons/Label";
-import StarIcon from "@material-ui/icons/Star";
-import clsx from "clsx";
 import Flex from "components/_UI/Flexboxes/Flex";
 import React, { useEffect, useMemo, useState } from "react";
 import { MdCheckCircleOutline } from "react-icons/md";
@@ -106,28 +102,7 @@ const SkillbaseTableRow = (props: Props) => {
         {props.index + 1}
       </TableCell>
 
-      <TableCell align="center" width={100}>
-        {isChangingPriority ? (
-          <CircularProgress size={22} />
-        ) : (
-          <IconButton
-            size="small"
-            onClick={(e) => {
-              e.stopPropagation();
-              togglePriority();
-            }}
-          >
-            <StarIcon
-              className={clsx({
-                [classes.isPriority]: props.skill.isPriority,
-                [classes.isNotPriority]: !props.skill.isPriority,
-              })}
-            />
-          </IconButton>
-        )}
-      </TableCell>
-
-      <TableCell width={180}>
+      <TableCell width={280}>
         <Flex style={{ flexWrap: "wrap", gap: 4 }}>
           {props.skill.labels?.map((label) => (
             <div
