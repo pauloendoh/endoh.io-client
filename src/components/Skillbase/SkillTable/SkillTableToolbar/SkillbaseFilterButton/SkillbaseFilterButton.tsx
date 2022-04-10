@@ -20,7 +20,7 @@ const SkillbaseFilterButton = () => {
     allLabelsAreInFilter,
   } = useSkillbaseStore();
 
-  const availableLabelIds = labels?.map((label) => label.id);
+  const availableLabelIds = labels?.map((label) => label.id) || [];
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
