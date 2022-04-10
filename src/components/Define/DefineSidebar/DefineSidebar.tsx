@@ -18,7 +18,7 @@ import sample from "lodash/sample";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import useDocsStore from "store/zustand/domain/useDocsStore";
-import { pushOrReplace } from "utils/pushOrReplace";
+import { pushOrReplace } from "utils/array/pushOrReplace";
 import useSidebarStore from "../../../store/zustand/useSidebarStore";
 import stringIncludes from "../../../utils/text/stringIncludes";
 import pageUrls from "../../../utils/url/urls/pageUrls";

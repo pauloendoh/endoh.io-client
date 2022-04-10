@@ -10,7 +10,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link, Redirect, useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
-import { pushOrReplace } from "utils/pushOrReplace";
+import { pushOrReplace } from "utils/array/pushOrReplace";
 import * as relearnActions from "../../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../../store/store";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";

@@ -76,6 +76,7 @@ const SelectSkillLabelsDialog = (props: Props) => {
       </Box>
       <EditLabelDialog
         open={labelDialogOpen}
+        skillId={props.skillId}
         initialValue={labelDialogInitialValue}
         onClose={() => setLabelDialogOpen(false)}
       />

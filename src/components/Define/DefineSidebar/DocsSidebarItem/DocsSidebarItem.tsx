@@ -12,7 +12,7 @@ import useSaveDocLastOpenedAt from "hooks/react-query/define/useSaveDocLastOpene
 import React from "react";
 import { Link } from "react-router-dom";
 import useDocsStore from "store/zustand/domain/useDocsStore";
-import { pushOrReplace } from "utils/pushOrReplace";
+import { pushOrReplace } from "utils/array/pushOrReplace";
 import { DocDto } from "../../../../types/domain/define/DocDto";
 import pageUrls from "../../../../utils/url/urls/pageUrls";
 import Flex from "../../../_UI/Flexboxes/Flex";

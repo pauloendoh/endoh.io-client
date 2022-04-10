@@ -1,15 +1,26 @@
-import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+} from "@material-ui/core";
 import SaveCancelButtons from "components/_UI/Buttons/SaveCancelButtons";
 import Flex from "components/_UI/Flexboxes/Flex";
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
 import MyTextField from "components/_UI/MyInputs/MyTextField";
+import useDeleteLabelMutation from "hooks/react-query/skillbase/labels/useDeleteLabelMutation";
 import useSaveLabelMutation from "hooks/react-query/skillbase/labels/useSaveLabelMutation";
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { MdDelete } from "react-icons/md";
+import useDialogsStore from "store/zustand/useDialogsStore";
 import { LabelDto } from "types/domain/skillbase/LabelDto";
 import labelColors from "./labelColors";
 
 interface Props {
   open: boolean;
+  skillId: number;
   initialValue: LabelDto;
   onClose: () => void;
   // afterSave?: (returned: DecisionDto) => void;
@@ -20,7 +31,9 @@ const EditLabelDialog = (props: Props) => {
     props.onClose();
   };
 
+  const { openConfirmDialog } = useDialogsStore();
   const { mutate, isLoading } = useSaveLabelMutation();
+  const { mutate: deleteLabel } = useDeleteLabelMutation();
 
   const {
     handleSubmit,
@@ -101,7 +114,32 @@ const EditLabelDialog = (props: Props) => {
             </Flex>
           </DialogContent>
           <DialogTitle>
-            <SaveCancelButtons disabled={isLoading} onCancel={props.onClose} />
+            <FlexVCenter justifyContent="space-between">
+              <SaveCancelButtons
+                disabled={isLoading}
+                onCancel={props.onClose}
+              />
+              {watch("id") && (
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  startIcon={<MdDelete />}
+                  onClick={() => {
+                    openConfirmDialog({
+                      title: "Delete Label",
+                      onConfirm: () => {
+                        deleteLabel(
+                          { labelId: watch("id"), skillId: props.skillId },
+                          { onSuccess: props.onClose }
+                        );
+                      },
+                    });
+                  }}
+                >
+                  Delete
+                </Button>
+              )}
+            </FlexVCenter>
           </DialogTitle>
         </Box>
       </form>

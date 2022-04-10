@@ -6,7 +6,8 @@ export default function filterAndSortSkills(
   allSkills: SkillDto[],
   sortBy: SortSkill,
   tag: TagDto | "Untagged",
-  hidingDone: boolean
+  hidingDone: boolean,
+  labelIds: number[]
 ) {
   let skills = allSkills;
 
@@ -80,6 +81,12 @@ export default function filterAndSortSkills(
       (s) => s.currentLevel !== null && s.currentLevel !== s.goalLevel
     );
   }
+
+  if (labelIds.length > 0)
+    skills = skills.filter((skill) => {
+      const skillLabelIds = skill.labels.map((l) => l.id);
+      return labelIds.every((labelId) => skillLabelIds.includes(labelId));
+    });
 
   return skills;
 }

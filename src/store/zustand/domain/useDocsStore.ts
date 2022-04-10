@@ -1,6 +1,6 @@
 import { DocDto } from "types/domain/define/DocDto";
 import { NoteDto } from "types/domain/define/NoteDto";
-import { pushOrReplace } from "utils/pushOrReplace";
+import { pushOrReplace } from "utils/array/pushOrReplace";
 import create, { GetState } from "zustand";
 import { devtools, NamedSet } from "zustand/middleware";
 

@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react";
 import { GlobalHotKeys } from "react-hotkeys";
 import useDocsStore from "store/zustand/domain/useDocsStore";
 import { NoteDto } from "../../../../types/domain/define/NoteDto";
-import { shuffleArray } from "../../../../utils/shuffleArray";
+import { shuffleArray } from "../../../../utils/array/shuffleArray";
 import DarkButton from "../../../_UI/Buttons/DarkButton/DarkButton";
 import FlexHCenter from "../../../_UI/Flexboxes/FlexHCenter";
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";

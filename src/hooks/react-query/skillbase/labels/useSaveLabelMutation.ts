@@ -1,7 +1,7 @@
 import { queryKeys } from "hooks/react-query/queryKeys";
 import { useMutation } from "react-query";
 import { LabelDto } from "types/domain/skillbase/LabelDto";
-import { pushOrReplace } from "utils/pushOrReplace";
+import { pushOrReplace } from "utils/array/pushOrReplace";
 import { urls } from "utils/urls";
 import useSnackbarStore from "../../../../store/zustand/useSnackbarStore";
 import myAxios from "../../../../utils/consts/myAxios";

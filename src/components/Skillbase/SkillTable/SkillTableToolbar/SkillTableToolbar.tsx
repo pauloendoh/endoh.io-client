@@ -16,6 +16,7 @@ import { getCurrentTag } from "../../../../utils/skillbase/getCurrentTag";
 import pageUrls from "../../../../utils/url/urls/pageUrls";
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
 import TagIcon from "../../../_UI/Icon/TagIcon";
+import SkillbaseFilterButton from "./SkillbaseFilterButton/SkillbaseFilterButton";
 import SkillbaseTagSelector, {
   optionTypes,
 } from "./SkillbaseTagSelector/SkillbaseTagSelector";
@@ -73,17 +74,20 @@ const SkillTableToolbar = (props: Props) => {
                 value={tagSelectorValue}
                 onChange={handleTagChange}
               />
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={props.hidingDone}
-                    onChange={() => props.setHidingDone(!props.hidingDone)}
-                    name="Hide done"
-                    color="secondary"
-                  />
-                }
-                label="Hide done"
-              />
+              <FlexVCenter style={{ gap: 24 }}>
+                <SkillbaseFilterButton />
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={props.hidingDone}
+                      onChange={() => props.setHidingDone(!props.hidingDone)}
+                      name="Hide done"
+                      color="secondary"
+                    />
+                  }
+                  label="Hide done"
+                />
+              </FlexVCenter>
             </FlexVCenter>
           )}
         </Box>

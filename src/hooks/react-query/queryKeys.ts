@@ -5,6 +5,5 @@ export const queryKeys = {
   feedResources: apiUrls.feed.resources,
   searchResults: "searchResults",
   labels: "labels",
-  skillLabels: "skillLabels",
   skill: (skillId: number) => `skill-${skillId}`,
 };

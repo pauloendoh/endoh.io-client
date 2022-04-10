@@ -8,6 +8,7 @@ export const urls = {
     // Skillbase
     skillbase: {
       label: "/v2/skillbase/label",
+      labelId: (labelId: number) => `/v2/skillbase/label/${labelId}`,
       skillLabel: (skillId: number) => `/v2/skillbase/skill/${skillId}/label`,
     },
 

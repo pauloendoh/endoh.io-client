@@ -6,6 +6,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
 import {
   removeSkills,
@@ -28,11 +29,18 @@ import SkillTableToolbar from "./SkillTableToolbar/SkillTableToolbar";
 const SkillbaseTable = (props: Props) => {
   const classes = useStyles();
   const { setSuccessMessage } = useSnackbarStore();
+  const { filter } = useSkillbaseStore();
 
   const [hidingDone, setHidingDone] = useState(false);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [visibleSkills, setVisibleSkills] = useState<SkillDto[]>(
-    filterAndSortSkills(props.allSkills, props.sortBy, props.tag, hidingDone)
+    filterAndSortSkills(
+      props.allSkills,
+      props.sortBy,
+      props.tag,
+      hidingDone,
+      filter.labelIds
+    )
   );
 
   useEffect(
@@ -42,12 +50,13 @@ const SkillbaseTable = (props: Props) => {
           props.allSkills,
           props.sortBy,
           props.tag,
-          hidingDone
+          hidingDone,
+          filter.labelIds
         )
       );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.allSkills, props.sortBy, props.tag, hidingDone]
+    [props.allSkills, props.sortBy, props.tag, hidingDone, filter.labelIds]
   );
 
   const sortByProperty = (property: keyof SkillDto) => {
