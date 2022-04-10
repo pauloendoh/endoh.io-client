@@ -1,7 +1,6 @@
 import {
   Box,
   Checkbox,
-  Chip,
   CircularProgress,
   IconButton,
   makeStyles,
@@ -131,12 +130,18 @@ const SkillbaseTableRow = (props: Props) => {
       <TableCell width={180}>
         <Flex style={{ flexWrap: "wrap", gap: 4 }}>
           {props.skill.labels?.map((label) => (
-            <Chip
+            <div
               key={label.id}
-              size="small"
-              style={{ background: label.bgColor, color: "black" }}
-              label={label.name}
-            />
+              style={{
+                background: label.bgColor,
+                padding: "2px 4px",
+                borderRadius: 4,
+                color: "white",
+                fontWeight: "bold",
+              }}
+            >
+              {label.name}
+            </div>
           ))}
         </Flex>
         <Box style={{ display: "inline-flex" }}>
