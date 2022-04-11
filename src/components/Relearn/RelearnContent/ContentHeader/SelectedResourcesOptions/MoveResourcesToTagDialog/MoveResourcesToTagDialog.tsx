@@ -27,7 +27,6 @@ const MoveResourcesToTagDialog = (props: Props) => {
         toTagId: selectedTagId,
       })
       .then((res) => {
-        console.log(res.data);
         props.setResources(res.data);
         props.onClose();
         clearSelectedIds();

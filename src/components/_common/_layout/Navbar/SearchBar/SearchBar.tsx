@@ -82,7 +82,6 @@ const SearchBar = ({ editResource }: Props) => {
 
   useEffect(() => {
     if (searchResults) setLoading(false);
-    console.log(searchResults);
   }, [searchResults]);
 
   const sortedResources = useMemo(() => {

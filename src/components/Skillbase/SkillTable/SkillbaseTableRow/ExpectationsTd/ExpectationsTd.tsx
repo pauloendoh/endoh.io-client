@@ -56,7 +56,7 @@ const ExpectationsTd = ({ skill }: Props) => {
               }}
             >
               {Array.from(missingExpectationsMap.keys()).map((level) => (
-                <div>
+                <div key={level}>
                   <div>
                     {level} - {getLevelDescription(level)}
                   </div>
@@ -81,7 +81,7 @@ const ExpectationsTd = ({ skill }: Props) => {
             </Box>
           }
         >
-          <div onMouseEnter={() => console.log(missingExpectationsMap)}>
+          <div>
             {checkedExpectations.length}/{skill.expectations.length}{" "}
             expectations
           </div>

@@ -18,8 +18,6 @@ function RelearnContent(props: {
   const [todo, setTodo] = useState<ResourceDto[]>([]);
   const [completed, setCompleted] = useState<ResourceDto[]>([]);
 
-  const [headerHeight, setHeaderHeight] = useState(0);
-
   const previousPathnameRef = useRef("");
   const location = useLocation();
 
@@ -57,11 +55,7 @@ function RelearnContent(props: {
         todoResources={todo}
         completedResources={completed}
         skills={props.skills}
-        onHeightChange={(newHeight) => {
-          setHeaderHeight(newHeight);
-        }}
       />
-      {/* <Box mt={headerHeight + 24 + "px"} /> */}
 
       <Box mt={2}>
         <ResourceList

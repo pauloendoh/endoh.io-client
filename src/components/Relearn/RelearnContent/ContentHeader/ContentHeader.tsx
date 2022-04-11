@@ -30,7 +30,6 @@ function ContentHeader(props: Props) {
     const newHeight = ref.current.clientHeight;
     if (height !== newHeight) {
       setHeight(newHeight);
-      props.onHeightChange(newHeight);
     }
   });
 
@@ -107,8 +106,8 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.background.default,
     zIndex: theme.zIndex.appBar,
     top: 73,
-    marginTop: 8,
     paddingTop: 24,
+    marginTop: -8,
   },
   tabs: {
     minHeight: 32,
@@ -143,7 +142,6 @@ interface OwnProps {
   todoResources: ResourceDto[];
   completedResources: ResourceDto[];
   skills: SkillDto[];
-  onHeightChange: (height: number) => void;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &

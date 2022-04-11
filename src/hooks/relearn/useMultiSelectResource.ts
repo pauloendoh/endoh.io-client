@@ -49,8 +49,6 @@ const useMultiSelectResource = () => {
 
     const clickedIdx = [...resourceIds].findIndex((id) => id === selectedId);
 
-    console.log({ clickedIdx, lastSelectedIdx });
-
     const finalIds = resourceIds.filter((_, idx) => {
       if (firstSelectedIdx < clickedIdx)
         return idx >= firstSelectedIdx && idx <= clickedIdx;

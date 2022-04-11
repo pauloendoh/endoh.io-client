@@ -37,7 +37,7 @@ const EditLabelDialog = (props: Props) => {
 
   const {
     handleSubmit,
-    formState: { isSubmitting },
+
     control,
     watch,
     setValue,

@@ -46,6 +46,7 @@ const RelearnPage = (props: Props) => {
     setRedirectTo("");
     openSidebar();
     fetchResourcesAndSkills();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(
@@ -92,6 +93,7 @@ const RelearnPage = (props: Props) => {
 
   useEffect(() => {
     clearSelectedIds();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
   useEffect(

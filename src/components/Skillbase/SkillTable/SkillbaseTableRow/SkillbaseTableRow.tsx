@@ -12,7 +12,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import { MdCheckCircleOutline } from "react-icons/md";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import useSnackbarStore from "store/zustand/useSnackbarStore";
 import {
   setEditingSkill,
   setSkills,
@@ -20,9 +19,6 @@ import {
 import { ApplicationState } from "../../../../store/store";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto";
-import MyAxiosError from "../../../../types/MyAxiosError";
-import myAxios from "../../../../utils/consts/myAxios";
-import apiUrls from "../../../../utils/url/urls/apiUrls";
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
 import ExpectationsTd from "./ExpectationsTd/ExpectationsTd";
 import SkillLevelTD from "./SkillLevelTd/SkillLevelTd";
@@ -32,8 +28,6 @@ const SkillbaseTableRow = (props: Props) => {
   const classes = useStyles();
 
   const labelId = `enhanced-table-checkbox-${props.index}`;
-
-  const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
 
   const findTagById = (id: number) => {
     return props.allTags.find((tag) => tag.id === props.skill.tagId);
@@ -65,28 +59,6 @@ const SkillbaseTableRow = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.skill.tagId, props.allTags]
   );
-
-  const [isChangingPriority, setIsChangingPriority] = useState(false);
-
-  const togglePriority = () => {
-    setIsChangingPriority(true);
-    const changedSkill: SkillDto = {
-      ...props.skill,
-      isPriority: !props.skill.isPriority,
-    };
-    myAxios
-      .post<SkillDto[]>(apiUrls.skillbase.skill, changedSkill)
-      .then((res) => {
-        props.setSkills(res.data);
-        setSuccessMessage("Priority changed!");
-      })
-      .catch((err: MyAxiosError) => {
-        setErrorMessage(err.response.data.errors[0].message);
-      })
-      .finally(() => {
-        setIsChangingPriority(false);
-      });
-  };
 
   return (
     <TableRow

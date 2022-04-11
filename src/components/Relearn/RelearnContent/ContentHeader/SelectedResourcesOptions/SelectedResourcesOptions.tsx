@@ -37,7 +37,6 @@ const SelectedResourcesOptions = (props: Props) => {
         },
       })
       .then((res) => {
-        console.log(res.data);
         props.setResources(res.data);
         clearSelectedIds();
         setSuccessMessage("Resources deleted!");
