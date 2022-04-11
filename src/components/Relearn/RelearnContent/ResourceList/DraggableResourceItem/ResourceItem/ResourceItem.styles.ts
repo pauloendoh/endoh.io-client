@@ -2,6 +2,7 @@ import { Box, styled } from "@material-ui/core";
 import Flex from "components/_UI/Flexboxes/Flex";
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
 
+// PE 2/3
 const S = {
   ResourceItemRoot: styled(Flex)({}),
   Content: styled(Box)(({ theme }) => ({

@@ -58,7 +58,7 @@ const MoveResourcesToTagDialog = (props: Props) => {
         <DialogContent>
           <Box>
             <SkillDialogTagSelector
-              valueTagId={selectedTagId}
+              selectedTagId={selectedTagId}
               onChange={(_, tagId) => setSelectedTagId(tagId)}
               required
             />

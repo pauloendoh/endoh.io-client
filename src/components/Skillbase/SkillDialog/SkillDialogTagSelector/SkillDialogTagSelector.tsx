@@ -19,12 +19,11 @@ const SkillDialogTagSelector = (props: Props) => {
 
   useEffect(
     () => {
-      if (props.valueTagId) {
-        setTag(props.allTags.find((tag) => tag.id === props.valueTagId));
-      }
+      if (props.selectedTagId)
+        setTag(props.allTags.find((tag) => tag.id === props.selectedTagId));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.valueTagId]
+    [props.selectedTagId]
   );
 
   return (
@@ -58,13 +57,9 @@ const SkillDialogTagSelector = (props: Props) => {
       )}
       onChange={(e, value) => {
         const tag = value as TagDto;
+        if (tag) return props.onChange(e, tag.id, null);
 
-        if (tag) {
-          props.onChange(e, tag.id, null);
-        } else {
-          // tag is null
-          props.onChange(e, null, null);
-        }
+        return props.onChange(e, null, null);
       }}
     />
   );
@@ -77,7 +72,7 @@ const mapStateToProps = (state: ApplicationState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({});
 
 interface OwnProps {
-  valueTagId: number;
+  selectedTagId: number;
   required?: boolean;
   onChange?: (
     event: React.ChangeEvent<{}>,

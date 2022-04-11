@@ -32,18 +32,17 @@ interface Props {
 }
 
 function DefineSidebar(props: Props) {
-  // PE 1/3 - put this next to where it's used
-  const history = useHistory();
-
   // PE 2/3 - change to styled-components ?
   const classes = useStyles();
-
-  const [openTitleDialog, setOpenTitleDialog] = useState(false);
+  const history = useHistory();
+  const docsStore = useDocsStore();
+  const { sidebarIsOpen } = useSidebarStore();
+  const { mutate: saveDocLastOpenedAt } = useSaveDocLastOpenedAt();
 
   const [textFilter, setTextFilter] = useState("");
+  const [openTitleDialog, setOpenTitleDialog] = useState(false);
 
-  const docsStore = useDocsStore();
-
+  // PE 2/3 - useMemo ?
   const filterAndSortDocs = () => {
     let filtered = docsStore.docs.filter((d) =>
       stringIncludes(d.title, textFilter)
@@ -52,7 +51,6 @@ function DefineSidebar(props: Props) {
     return filtered.sort((a, b) => a.title.localeCompare(b.title));
   };
 
-  const { mutate: saveDocLastOpenedAt } = useSaveDocLastOpenedAt();
   // PE 2/3 - name too big?
   const handleSaveDocLastOpenedAt = (docId: number) => {
     saveDocLastOpenedAt(docId, {
@@ -68,12 +66,9 @@ function DefineSidebar(props: Props) {
     if (docsStore.docs.length > 0) {
       const randomDoc = sample(docsStore.docs);
       history.push(pageUrls.define.docId(randomDoc.id));
-
       handleSaveDocLastOpenedAt(randomDoc.id);
     }
   };
-
-  const { sidebarIsOpen } = useSidebarStore();
 
   return (
     <Drawer

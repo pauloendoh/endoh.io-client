@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import DescriptionIcon from "@material-ui/icons/Description";
 import useSaveDocLastOpenedAt from "hooks/react-query/define/useSaveDocLastOpenedAt";
-import React from "react";
+import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import useDocsStore from "store/zustand/domain/useDocsStore";
 import { pushOrReplace } from "utils/array/pushOrReplace";
@@ -29,17 +29,18 @@ function DocsSidebarItem(props: Props) {
   // PE 2/3 - change to styled-components ?
   const classes = useStyles();
 
-  // PE 1/3 - create a .utils memo file
-  const getNotesCount = (doc: DocDto) => {
-    return docsStore.notes.filter((note) => note.docId === doc.id).length;
-  };
+  const notesCount = useMemo(
+    () => docsStore.notes.filter((note) => note.docId === props.doc.id).length,
+    [docsStore.notes, props.doc]
+  );
 
-  // PE 1/3 - create a .utils memo file
-  const getQuestionsCount = (doc: DocDto) => {
-    return docsStore.notes.filter(
-      (note) => note.docId === doc.id && note.question.trim().length > 0
-    ).length;
-  };
+  const questionsCount = useMemo(
+    () =>
+      docsStore.notes.filter(
+        (note) => note.docId === props.doc.id && note.question.trim().length > 0
+      ).length,
+    [docsStore.notes, props.doc]
+  );
 
   const { mutate: saveDocLastOpenedAt } = useSaveDocLastOpenedAt();
   // PE 2/3 - name too big?
@@ -71,9 +72,8 @@ function DocsSidebarItem(props: Props) {
           </Box>
           <FlexHCenter width={24}>
             <Typography className={classes.resourcesCount}>
-              {getNotesCount(props.doc)}
-              {getQuestionsCount(props.doc) > 0 &&
-                `/${getQuestionsCount(props.doc)}`}
+              {notesCount}
+              {questionsCount > 0 && `/${questionsCount}`}
             </Typography>
           </FlexHCenter>
         </Flex>

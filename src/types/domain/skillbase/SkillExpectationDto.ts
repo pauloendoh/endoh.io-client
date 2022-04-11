@@ -1,16 +1,14 @@
+// PE 2/3
 export interface SkillExpectationDto {
-  id: number
-  level: number
+  id: number;
 
-  index: number
+  level: number;
+  index: number;
+  description: string;
+  checked: boolean;
 
-  description: string
-
-  checked: boolean
-
-  createdAt: string
-
-  updatedAt: string
+  createdAt: string;
+  updatedAt: string;
 }
 
 export const createSkillExpectation = (
@@ -18,15 +16,12 @@ export const createSkillExpectation = (
   index: number
 ): SkillExpectationDto => ({
   id: null,
+
   level: level,
-
   index: index,
-
   description: "",
-
   checked: false,
 
   createdAt: new Date().toISOString(),
-
   updatedAt: new Date().toISOString(),
-})
+});

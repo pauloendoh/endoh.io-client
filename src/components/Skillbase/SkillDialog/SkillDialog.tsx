@@ -52,13 +52,13 @@ const SkillDialog = (props: Props) => {
   const [labelsDialog, setLabelsDialog] = useState(false);
 
   useEffect(() => {
-    if (props.skill?.currentLevel > 0) {
-      scrollToExpectation();
-    }
+    if (props.skill?.currentLevel > 0) scrollToNextLevel();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.skill]);
 
-  const scrollToExpectation = () => {
+  const scrollToNextLevel = () => {
+    // had to add this in order to work properly...
     setTimeout(() => {
       scroller.scrollTo("expectation-title-" + props.skill?.currentLevel, {
         containerId: "skill-dialog-content",
@@ -68,15 +68,14 @@ const SkillDialog = (props: Props) => {
     }, 0);
   };
 
-  const confirmClose = () => {
-    if (hasChanged) {
-      openConfirmDialog({
+  const handleClose = () => {
+    if (hasChanged)
+      return openConfirmDialog({
         title: "Discard changes?",
         onConfirm: () => props.setEditingSkill(null),
       });
-    } else {
-      props.setEditingSkill(null);
-    }
+
+    return props.setEditingSkill(null);
   };
 
   // PE 2/3
@@ -116,7 +115,7 @@ const SkillDialog = (props: Props) => {
 
   return (
     <Dialog // PE 2/3
-      onClose={confirmClose}
+      onClose={handleClose}
       open={props.skill !== null}
       fullWidth
       maxWidth="sm"
@@ -201,7 +200,7 @@ const SkillDialog = (props: Props) => {
                 }}
               >
                 <TagSelector
-                  valueTagId={values.tagId}
+                  selectedTagId={values.tagId}
                   required
                   onChange={(e, value) => {
                     setFieldValue("tagId", value);
@@ -244,7 +243,7 @@ const SkillDialog = (props: Props) => {
                   <SaveCancelButtons
                     submitButtonId="save-skill-btn"
                     disabled={isSubmitting}
-                    onCancel={confirmClose}
+                    onCancel={handleClose}
                   />
                 </Flex>
               </DialogTitle>

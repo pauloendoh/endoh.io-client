@@ -106,6 +106,15 @@ const SearchBar = ({ editResource }: Props) => {
           <FlexVCenter
             style={{ justifyContent: "space-between", width: "100%" }}
           >
+            {resource.thumbnail?.length ? (
+              <img
+                src={resource.thumbnail}
+                style={{ width: 50 }}
+                alt={`search-preview-thumbnail: ${resource.title}`}
+              />
+            ) : (
+              <div style={{ width: 50 }} />
+            )}
             <Txt noWrap style={{ width: 350 }}>
               {resource.title}
             </Txt>
