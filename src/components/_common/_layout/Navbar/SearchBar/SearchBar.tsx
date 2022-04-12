@@ -113,19 +113,21 @@ const SearchBar = ({ editResource }: Props) => {
                 alt={`search-preview-thumbnail: ${resource.title}`}
               />
             ) : (
-              <div style={{ width: 50 }} />
+              <div style={{ minWidth: 50 }} />
             )}
-            <Txt noWrap style={{ width: 350 }}>
+            <Txt noWrap style={{ width: 350, marginLeft: 8 }}>
               {resource.title}
             </Txt>
             <FlexVCenter style={{ gap: theme.spacing(2) }}>
-              {resource.rating > 0 && (
-                <FlexVCenter style={{ gap: theme.spacing(0.5) }}>
+              {resource.rating > 0 ? (
+                <FlexVCenter style={{ gap: theme.spacing(0.5), width: 30 }}>
                   <Icons.Star
                     style={{ color: getColorByRating(resource.rating) }}
                   />
                   <Txt>{resource.rating}</Txt>
                 </FlexVCenter>
+              ) : (
+                <div style={{ width: 30 }} />
               )}
 
               {resource.tag && (
