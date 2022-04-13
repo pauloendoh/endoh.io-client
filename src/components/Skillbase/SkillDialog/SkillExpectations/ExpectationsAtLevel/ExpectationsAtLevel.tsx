@@ -1,5 +1,13 @@
-import { Box, Button, Checkbox, Typography, useTheme } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  Checkbox,
+  IconButton,
+  Typography,
+  useTheme,
+} from "@material-ui/core";
 import React, { useState } from "react";
+import { FaFire } from "react-icons/fa";
 import { connect } from "react-redux";
 import { Element } from "react-scroll";
 import { Dispatch } from "redux";
@@ -81,6 +89,29 @@ const ExpectationsAtLevel = (props: Props) => {
     ]);
   };
 
+  const toggleCurrentGoal = (level: number, index: number) => {
+    let expectation = [...props.expectations].find(
+      (e) => e.level === level && e.index === index
+    );
+
+    if (!expectation) return; // very unlikely to happen
+
+    // remove current goal from everyone
+    let expectations = [...props.expectations].map((e) => ({
+      ...e,
+      isCurrentGoal: false,
+    }));
+
+    if (!expectation.isCurrentGoal) {
+      expectation = expectations.find(
+        (e) => e.level === level && e.index === index
+      );
+      expectation.isCurrentGoal = true;
+    }
+
+    props.onChangeExpectations(expectations);
+  };
+
   return (
     <Box mt={3}>
       <Element name={`expectation-title-${props.level}`} />
@@ -102,6 +133,7 @@ const ExpectationsAtLevel = (props: Props) => {
                 : ""
             }
           >
+            {/* box is required so checkbox doesn't get vertically centralized */}
             <Box>
               <Checkbox
                 disabled={props.disabled}
@@ -111,7 +143,7 @@ const ExpectationsAtLevel = (props: Props) => {
               />
             </Box>
 
-            <Box width="100%" position="relative">
+            <Box position="relative" style={{ flexGrow: 1 }}>
               {editingIndex === i ? (
                 <ExpectationTextarea
                   initialValue={expectation.description}
@@ -138,6 +170,20 @@ const ExpectationsAtLevel = (props: Props) => {
                 </Box>
               )}
             </Box>
+
+            <IconButton
+              onClick={() => toggleCurrentGoal(props.level, expectation.index)}
+              size="small"
+              style={{ width: 36, height: 36 }}
+            >
+              <FaFire
+                style={{
+                  color: expectation.isCurrentGoal
+                    ? theme.palette.secondary.main
+                    : "#989898",
+                }}
+              />
+            </IconButton>
           </Flex>
         )
       )}

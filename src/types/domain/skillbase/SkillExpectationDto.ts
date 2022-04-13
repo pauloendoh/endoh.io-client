@@ -6,6 +6,7 @@ export interface SkillExpectationDto {
   index: number;
   description: string;
   checked: boolean;
+  isCurrentGoal: boolean;
 
   createdAt: string;
   updatedAt: string;
@@ -21,6 +22,7 @@ export const createSkillExpectation = (
   index: index,
   description: "",
   checked: false,
+  isCurrentGoal: false,
 
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
