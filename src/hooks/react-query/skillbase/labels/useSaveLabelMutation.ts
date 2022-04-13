@@ -11,19 +11,19 @@ export default function useSaveLabelMutation() {
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
 
   return useMutation(
-    (data: LabelDto) =>
+    (params: { payload: LabelDto; skillId: number }) =>
       myAxios
-        .post<LabelDto>(urls.api.skillbase.label, data)
+        .post<LabelDto>(urls.api.skillbase.label, params.payload)
         .then((res) => res.data),
     {
-      onSuccess: (returned) => {
+      onSuccess: (returned, params) => {
         const labels = myQueryClient.getQueryData<LabelDto[]>(queryKeys.labels);
-
         const newLabels = pushOrReplace(labels, returned, "id");
-
         myQueryClient.setQueryData(queryKeys.labels, newLabels);
 
         setSuccessMessage("Label saved!");
+
+        myQueryClient.invalidateQueries(queryKeys.skill(params.skillId));
       },
       onError: (err) => {
         setErrorMessage("Error while saving label: " + JSON.stringify(err));

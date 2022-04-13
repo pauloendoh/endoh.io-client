@@ -3,7 +3,7 @@ import DarkButton from "components/_UI/Buttons/DarkButton/DarkButton";
 import Flex from "components/_UI/Flexboxes/Flex";
 import Txt from "components/_UI/Text/Txt";
 import useSkillQuery from "hooks/react-query/skillbase/skill/useSkillQuery";
-import React from "react";
+import React, { useMemo } from "react";
 import { MdAdd } from "react-icons/md";
 import { SkillDto } from "types/domain/skillbase/SkillDto";
 
@@ -16,11 +16,17 @@ const SkillDialogLabels = (props: Props) => {
   const theme = useTheme();
   const { data: skillWithLabels } = useSkillQuery(props.skill.id);
 
+  const sortedLabels = useMemo(() => {
+    if (!skillWithLabels) return [];
+    return skillWithLabels.labels.sort((a, b) => (a.id > b.id ? 1 : -1));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(skillWithLabels)]);
+
   return (
     <Flex mt={2} style={{ flexDirection: "column" }}>
       <Txt variant="h6">Labels</Txt>
       <Flex style={{ gap: theme.spacing(1) }}>
-        {skillWithLabels?.labels.map((label) => (
+        {sortedLabels.map((label) => (
           <Button
             key={label.id}
             variant="contained"

@@ -32,7 +32,7 @@ const EditLabelDialog = (props: Props) => {
   };
 
   const { openConfirmDialog } = useDialogsStore();
-  const { mutate, isLoading } = useSaveLabelMutation();
+  const { mutate: saveLabel, isLoading } = useSaveLabelMutation();
   const { mutate: deleteLabel } = useDeleteLabelMutation();
 
   const {
@@ -46,10 +46,13 @@ const EditLabelDialog = (props: Props) => {
     defaultValues: props.initialValue,
   });
 
-  const onSubmit = (values: LabelDto) => {
-    mutate(values, {
-      onSuccess: props.onClose,
-    });
+  const onSubmit = (label: LabelDto) => {
+    saveLabel(
+      { payload: label, skillId: props.skillId },
+      {
+        onSuccess: props.onClose,
+      }
+    );
   };
 
   useEffect(() => {

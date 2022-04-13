@@ -70,7 +70,7 @@ const SelectSkillLabelsDialog = (props: Props) => {
             }}
             style={{ marginTop: 16 }}
           >
-            + Add Label
+            + New Label
           </DarkButton>
         </DialogContent>
       </Box>

@@ -76,11 +76,12 @@ export default function filterAndSortSkills(
     skills = skills.filter((s) => s.tagId === tagId);
   }
 
-  if (hidingDone) {
-    skills = skills.filter(
-      (s) => s.currentLevel !== null && s.currentLevel !== s.goalLevel
-    );
-  }
+  if (hidingDone)
+    // show incompleted skills
+    skills = skills.filter((s) => {
+      if (s.currentLevel === null) return true;
+      return s.currentLevel !== s.goalLevel;
+    });
 
   if (labelIds.length > 0)
     skills = skills.filter((skill) => {
