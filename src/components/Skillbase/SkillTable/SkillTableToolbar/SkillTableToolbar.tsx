@@ -1,4 +1,4 @@
-import { Box, FormControlLabel, Switch } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import { lighten, makeStyles, Theme } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -85,20 +85,7 @@ const SkillTableToolbar = (props: Props) => {
                 onChange={(e) => setFilterByText(e.target.value)}
                 onClickClearIcon={() => setFilterByText("")}
               />
-              <FlexVCenter style={{ gap: 24 }}>
-                <SkillbaseFilterButton />
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={props.hidingDone}
-                      onChange={() => props.setHidingDone(!props.hidingDone)}
-                      name="Hide done"
-                      color="secondary"
-                    />
-                  }
-                  label="Hide done"
-                />
-              </FlexVCenter>
+              <SkillbaseFilterButton />
             </FlexVCenter>
           )}
         </Box>
@@ -142,8 +129,6 @@ type Props = {
   fixedTag: TagDto;
   numSelected: number;
   onClickDelete: () => void;
-  hidingDone: boolean;
-  setHidingDone: (hidingDone: boolean) => void;
 } & ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 

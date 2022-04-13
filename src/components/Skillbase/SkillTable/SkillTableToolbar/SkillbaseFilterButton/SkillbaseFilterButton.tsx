@@ -1,7 +1,6 @@
 import { Checkbox, Divider } from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import DarkButton from "components/_UI/Buttons/DarkButton/DarkButton";
-import Txt from "components/_UI/Text/Txt";
 import useLabelsQuery from "hooks/react-query/skillbase/labels/useLabelsQuery";
 import React from "react";
 import { MdFilterAlt } from "react-icons/md";
@@ -15,13 +14,12 @@ const SkillbaseFilterButton = () => {
   const { data: labels } = useLabelsQuery();
   const {
     filter,
+    getFilterCount,
     labelIdIsInFilter,
     toggleFilterLabelId,
-    toggleAllLabelIds,
-    allLabelsAreInFilter,
+    toggleFilterCurrentGoal,
+    toggleHidingDone,
   } = useSkillbaseStore();
-
-  const availableLabelIds = labels?.map((label) => label.id) || [];
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -39,7 +37,7 @@ const SkillbaseFilterButton = () => {
         startIcon={<MdFilterAlt />}
       >
         Filter
-        {filter.labelIds?.length > 0 && (
+        {getFilterCount() > 0 && (
           <div
             style={{
               padding: "2px 8px",
@@ -48,7 +46,7 @@ const SkillbaseFilterButton = () => {
               background: "#2b2b2b",
             }}
           >
-            {filter.labelIds.length}
+            {getFilterCount()}
           </div>
         )}
       </DarkButton>
@@ -63,24 +61,17 @@ const SkillbaseFilterButton = () => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <S.MenuItem onClick={() => toggleAllLabelIds(availableLabelIds)}>
-          <Checkbox
-            checked={allLabelsAreInFilter(availableLabelIds)}
-            name="all"
-          />
-
-          <div
-            style={{
-              padding: "4px 8px",
-              flexGrow: 1,
-              minWidth: 160,
-            }}
-          >
-            All Labels
-          </div>
+        <S.MenuItem onClick={toggleHidingDone}>
+          <Checkbox checked={filter.hidingDone} name="hiding-done" />
+          <S.CheckboxLabel>Hide done</S.CheckboxLabel>
         </S.MenuItem>
+        <S.MenuItem onClick={toggleFilterCurrentGoal}>
+          <Checkbox checked={filter.currentGoal} name="current-goal" />
+          <S.CheckboxLabel>With current goal</S.CheckboxLabel>
+        </S.MenuItem>
+
         <Divider />
-        <Txt style={{ marginTop: 8, marginLeft: 24 }}>Labels</Txt>
+
         {labels?.map((label) => (
           <S.MenuItem
             key={label.id}
@@ -88,17 +79,14 @@ const SkillbaseFilterButton = () => {
           >
             <Checkbox checked={labelIdIsInFilter(label.id)} name={label.name} />
 
-            <div
+            <S.CheckboxLabel
               style={{
-                padding: "4px 8px",
                 background: label.bgColor,
                 borderRadius: 4,
-                flexGrow: 1,
-                minWidth: 160,
               }}
             >
               {label.name}
-            </div>
+            </S.CheckboxLabel>
           </S.MenuItem>
         ))}
       </Menu>

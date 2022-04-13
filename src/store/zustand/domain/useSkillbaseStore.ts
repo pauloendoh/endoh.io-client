@@ -6,21 +6,34 @@ interface ISkillbaseStore {
   filter: {
     byText: string;
     labelIds: number[];
+    hidingDone: boolean;
+    currentGoal: boolean;
   };
+
+  getFilterCount: () => number;
   filterLabelIds: (ids: number[]) => void;
   toggleFilterLabelId: (id: number) => void;
   labelIdIsInFilter: (id: number) => boolean;
-  toggleAllLabelIds: (availableLabelIds: number[]) => void;
-  allLabelsAreInFilter: (availableLabelIds: number[]) => boolean;
 
   setFilterByText: (text: string) => void;
+  toggleHidingDone: () => void;
+  toggleFilterCurrentGoal: () => void;
 }
 
 const useSkillbaseStore = create<ISkillbaseStore>(
   devtools((set, get) => ({
     filter: {
+      hidingDone: false,
       byText: "",
       labelIds: [],
+      currentGoal: false,
+    },
+
+    getFilterCount: () => {
+      const { labelIds, hidingDone } = get().filter;
+      let count = labelIds.length;
+      if (hidingDone) count++;
+      return count;
     },
     filterLabelIds: (ids) => {
       set((prev) => ({
@@ -46,25 +59,6 @@ const useSkillbaseStore = create<ISkillbaseStore>(
     labelIdIsInFilter: (id) => {
       return get().filter.labelIds.includes(id);
     },
-    toggleAllLabelIds: (availableLabelIds) => {
-      const { filter, allLabelsAreInFilter } = get();
-
-      const newLabelIds = allLabelsAreInFilter(availableLabelIds)
-        ? []
-        : availableLabelIds;
-
-      set({
-        filter: {
-          ...filter,
-          labelIds: newLabelIds,
-        },
-      });
-    },
-    allLabelsAreInFilter: (availableLabelIds) => {
-      const { filter } = get();
-
-      return availableLabelIds.every((id) => filter.labelIds.includes(id));
-    },
 
     setFilterByText: (text) => {
       set((prev) => ({
@@ -74,6 +68,26 @@ const useSkillbaseStore = create<ISkillbaseStore>(
           byText: text,
         },
       }));
+    },
+    toggleHidingDone: () => {
+      const { filter } = get();
+
+      set({
+        filter: {
+          ...filter,
+          hidingDone: !filter.hidingDone,
+        },
+      });
+    },
+    toggleFilterCurrentGoal: () => {
+      const { filter } = get();
+
+      set({
+        filter: {
+          ...filter,
+          currentGoal: !filter.currentGoal,
+        },
+      });
     },
   }))
 );

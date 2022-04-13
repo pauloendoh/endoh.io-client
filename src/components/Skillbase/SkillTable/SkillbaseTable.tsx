@@ -31,7 +31,6 @@ const SkillbaseTable = (props: Props) => {
   const { filter } = useSkillbaseStore();
   const { setSuccessMessage } = useSnackbarStore();
 
-  const [hidingDone, setHidingDone] = useState(false);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
   // Transform this into a utility hook
@@ -40,9 +39,10 @@ const SkillbaseTable = (props: Props) => {
       props.allSkills,
       props.sortBy,
       props.tag,
-      hidingDone,
+      filter.hidingDone,
       filter.labelIds,
-      filter.byText
+      filter.byText,
+      filter.currentGoal
     )
   );
 
@@ -53,9 +53,10 @@ const SkillbaseTable = (props: Props) => {
           props.allSkills,
           props.sortBy,
           props.tag,
-          hidingDone,
+          filter.hidingDone,
           filter.labelIds,
-          filter.byText
+          filter.byText,
+          filter.currentGoal
         )
       );
     },
@@ -64,9 +65,10 @@ const SkillbaseTable = (props: Props) => {
       props.allSkills,
       props.sortBy,
       props.tag,
-      hidingDone,
+      filter.hidingDone,
       filter.labelIds,
       filter.byText,
+      filter.currentGoal,
     ]
   );
 
@@ -120,8 +122,6 @@ const SkillbaseTable = (props: Props) => {
         fixedTag={props.fixedTag}
         onClickDelete={handleDelete}
         numSelected={selectedIds.length}
-        hidingDone={hidingDone}
-        setHidingDone={setHidingDone}
       />
       <TableContainer className={classes.container}>
         <Table

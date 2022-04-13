@@ -9,7 +9,8 @@ export default function filterAndSortSkills(
   tag: TagDto | "Untagged",
   hidingDone: boolean,
   labelIds: number[],
-  byText: string
+  byText: string,
+  onlyWithCurrentGoal: boolean
 ) {
   let skills = allSkills;
 
@@ -93,6 +94,11 @@ export default function filterAndSortSkills(
       const skillLabelIds = skill.labels.map((l) => l.id);
       return labelIds.every((labelId) => skillLabelIds.includes(labelId));
     });
+
+  if (onlyWithCurrentGoal)
+    skills = skills.filter((skill) =>
+      skill.expectations.some((e) => e.isCurrentGoal)
+    );
 
   return skills;
 }
