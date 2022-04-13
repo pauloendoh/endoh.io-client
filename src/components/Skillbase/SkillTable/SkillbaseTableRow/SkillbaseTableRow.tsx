@@ -61,6 +61,10 @@ const SkillbaseTableRow = (props: Props) => {
     [props.skill.tagId, props.allTags]
   );
 
+  const currentGoalStep = useMemo(() => {
+    return props.skill.expectations?.find((e) => e.isCurrentGoal);
+  }, [props.skill]);
+
   return (
     <TableRow
       hover
@@ -114,12 +118,9 @@ const SkillbaseTableRow = (props: Props) => {
 
       <SkillLevelTD
         value={props.skill.currentLevel}
-        isPriority={props.skill.isPriority}
+        rightValue={currentGoalStep?.level}
       />
-      <SkillLevelTD
-        value={props.skill.goalLevel}
-        isPriority={props.skill.isPriority}
-      />
+      <SkillLevelTD value={props.skill.goalLevel} />
 
       <TableCell>
         {tag ? (
@@ -149,9 +150,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     cursor: "pointer",
   },
-  isPriority: {
-    color: "#ffb400",
-  },
+
   isNotPriority: {
     color: theme.palette.grey[800],
   },

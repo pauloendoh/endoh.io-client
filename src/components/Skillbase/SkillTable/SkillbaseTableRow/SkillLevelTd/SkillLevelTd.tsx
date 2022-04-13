@@ -1,9 +1,16 @@
 import { makeStyles, TableCell } from "@material-ui/core";
 import clsx from "clsx";
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
 import React from "react";
+import { MdOutlineArrowRightAlt } from "react-icons/md";
+
+interface Props {
+  value: number;
+  rightValue?: number;
+}
 
 // PE 2/3 - Not so easy to understand the classes logic
-const SkillLevelTd = (props: { value: number; isPriority: boolean }) => {
+const SkillLevelTd = (props: Props) => {
   const classes = useStyles();
   return (
     <TableCell
@@ -12,10 +19,15 @@ const SkillLevelTd = (props: { value: number; isPriority: boolean }) => {
         [classes.basic]: props.value >= 1 && props.value <= 3,
         [classes.intermediary]: props.value >= 4 && props.value <= 6,
         [classes.advanced]: props.value >= 7 && props.value <= 10,
-        [classes.isPriority]: props.isPriority,
       })}
     >
-      {props.value}
+      {props.rightValue ? (
+        <FlexVCenter justifyContent="center">
+          {props.value} <MdOutlineArrowRightAlt /> {props.rightValue}
+        </FlexVCenter>
+      ) : (
+        props.value
+      )}
     </TableCell>
   );
 };
@@ -25,9 +37,7 @@ const useStyles = makeStyles((theme) => ({
     color: "black",
     width: 50,
   },
-  isPriority: {
-    fontWeight: "bold",
-  },
+
   basic: {
     background: "#FFF2CC",
     // color: "#ffaa00",
