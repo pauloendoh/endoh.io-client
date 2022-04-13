@@ -28,18 +28,21 @@ import SkillTableToolbar from "./SkillTableToolbar/SkillTableToolbar";
 // PE 2/3
 const SkillbaseTable = (props: Props) => {
   const classes = useStyles();
-  const { setSuccessMessage } = useSnackbarStore();
   const { filter } = useSkillbaseStore();
+  const { setSuccessMessage } = useSnackbarStore();
 
   const [hidingDone, setHidingDone] = useState(false);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
+
+  // Transform this into a utility hook
   const [visibleSkills, setVisibleSkills] = useState<SkillDto[]>(
     filterAndSortSkills(
       props.allSkills,
       props.sortBy,
       props.tag,
       hidingDone,
-      filter.labelIds
+      filter.labelIds,
+      filter.byText
     )
   );
 
@@ -51,12 +54,20 @@ const SkillbaseTable = (props: Props) => {
           props.sortBy,
           props.tag,
           hidingDone,
-          filter.labelIds
+          filter.labelIds,
+          filter.byText
         )
       );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.allSkills, props.sortBy, props.tag, hidingDone, filter.labelIds]
+    [
+      props.allSkills,
+      props.sortBy,
+      props.tag,
+      hidingDone,
+      filter.labelIds,
+      filter.byText,
+    ]
   );
 
   const sortByProperty = (property: keyof SkillDto) => {

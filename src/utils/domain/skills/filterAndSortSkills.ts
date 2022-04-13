@@ -1,3 +1,4 @@
+import stringsAreVerySimilar from "utils/text/stringsAreVerySimilar";
 import { TagDto } from "../../../types/domain/relearn/TagDto";
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto";
 import { SortSkill } from "./../../../store/skillbase/skillbaseTypes";
@@ -7,7 +8,8 @@ export default function filterAndSortSkills(
   sortBy: SortSkill,
   tag: TagDto | "Untagged",
   hidingDone: boolean,
-  labelIds: number[]
+  labelIds: number[],
+  byText: string
 ) {
   let skills = allSkills;
 
@@ -68,6 +70,9 @@ export default function filterAndSortSkills(
         );
     }
   }
+
+  if (byText.length > 0)
+    return skills.filter((skill) => stringsAreVerySimilar(skill.name, byText));
 
   if (tag === "Untagged") {
     skills = skills.filter((s) => s.tagId === null);

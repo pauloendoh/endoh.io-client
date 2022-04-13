@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import LabelIcon from "@material-ui/icons/Label";
 import Flex from "components/_UI/Flexboxes/Flex";
+import FlexCol from "components/_UI/Flexboxes/FlexCol";
 import React, { useEffect, useMemo, useState } from "react";
 import { MdCheckCircleOutline } from "react-icons/md";
 import { connect } from "react-redux";
@@ -75,33 +76,40 @@ const SkillbaseTableRow = (props: Props) => {
       </TableCell>
 
       <TableCell width={280}>
-        <Flex style={{ flexWrap: "wrap", gap: 4 }}>
-          {props.skill.labels?.map((label) => (
-            <div
-              key={label.id}
-              style={{
-                background: label.bgColor,
-                padding: "2px 4px",
-                borderRadius: 4,
-                color: "white",
-                fontWeight: "bold",
-              }}
-            >
-              {label.name}
-            </div>
-          ))}
-        </Flex>
-        <Box style={{ display: "inline-flex" }}>
-          <span>
-            {props.skill.name}
-            {isCompleted && (
-              <MdCheckCircleOutline
-                color={theme.palette.success.main}
-                style={{ position: "relative", left: 4, top: 3, fontSize: 16 }}
-              />
-            )}
-          </span>
-        </Box>
+        <FlexCol style={{ gap: 8 }}>
+          <Flex style={{ flexWrap: "wrap", gap: 4 }}>
+            {props.skill.labels?.map((label) => (
+              <div
+                key={label.id}
+                style={{
+                  background: label.bgColor,
+                  padding: "2px 4px",
+                  borderRadius: 4,
+                  color: "white",
+                  fontWeight: "bold",
+                }}
+              >
+                {label.name}
+              </div>
+            ))}
+          </Flex>
+          <Box style={{ display: "inline-flex" }}>
+            <span>
+              {props.skill.name}
+              {isCompleted && (
+                <MdCheckCircleOutline
+                  color={theme.palette.success.main}
+                  style={{
+                    position: "relative",
+                    left: 4,
+                    top: 3,
+                    fontSize: 16,
+                  }}
+                />
+              )}
+            </span>
+          </Box>
+        </FlexCol>
       </TableCell>
 
       <SkillLevelTD

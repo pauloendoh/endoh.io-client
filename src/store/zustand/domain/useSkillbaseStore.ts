@@ -4,6 +4,7 @@ import { devtools } from "zustand/middleware";
 
 interface ISkillbaseStore {
   filter: {
+    byText: string;
     labelIds: number[];
   };
   filterLabelIds: (ids: number[]) => void;
@@ -11,11 +12,14 @@ interface ISkillbaseStore {
   labelIdIsInFilter: (id: number) => boolean;
   toggleAllLabelIds: (availableLabelIds: number[]) => void;
   allLabelsAreInFilter: (availableLabelIds: number[]) => boolean;
+
+  setFilterByText: (text: string) => void;
 }
 
 const useSkillbaseStore = create<ISkillbaseStore>(
   devtools((set, get) => ({
     filter: {
+      byText: "",
       labelIds: [],
     },
     filterLabelIds: (ids) => {
@@ -60,6 +64,16 @@ const useSkillbaseStore = create<ISkillbaseStore>(
       const { filter } = get();
 
       return availableLabelIds.every((id) => filter.labelIds.includes(id));
+    },
+
+    setFilterByText: (text) => {
+      set((prev) => ({
+        ...prev,
+        filter: {
+          ...prev.filter,
+          byText: text,
+        },
+      }));
     },
   }))
 );

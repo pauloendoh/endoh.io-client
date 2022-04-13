@@ -6,10 +6,12 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import DeleteIcon from "@material-ui/icons/Delete";
 import clsx from "clsx";
+import MyTextField from "components/_UI/MyInputs/MyTextField";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
+import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
 import { ApplicationState } from "../../../../store/store";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
 import { getCurrentTag } from "../../../../utils/skillbase/getCurrentTag";
@@ -22,9 +24,11 @@ import SkillbaseTagSelector, {
 } from "./SkillbaseTagSelector/SkillbaseTagSelector";
 
 const SkillTableToolbar = (props: Props) => {
-  const location = useLocation();
   const classes = useStyles();
   const history = useHistory();
+  const location = useLocation();
+
+  const { filter, setFilterByText } = useSkillbaseStore();
 
   const [tagSelectorValue, setTagSelectorValue] = useState<optionTypes>("All");
   const handleTagChange = (value: optionTypes) => {
@@ -73,6 +77,13 @@ const SkillTableToolbar = (props: Props) => {
               <SkillbaseTagSelector
                 value={tagSelectorValue}
                 onChange={handleTagChange}
+              />
+
+              <MyTextField
+                placeholder="Search skill name"
+                value={filter.byText}
+                onChange={(e) => setFilterByText(e.target.value)}
+                onClickClearIcon={() => setFilterByText("")}
               />
               <FlexVCenter style={{ gap: 24 }}>
                 <SkillbaseFilterButton />

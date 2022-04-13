@@ -1,6 +1,7 @@
 import { Checkbox, Divider } from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import DarkButton from "components/_UI/Buttons/DarkButton/DarkButton";
+import Txt from "components/_UI/Text/Txt";
 import useLabelsQuery from "hooks/react-query/skillbase/labels/useLabelsQuery";
 import React from "react";
 import { MdFilterAlt } from "react-icons/md";
@@ -79,6 +80,7 @@ const SkillbaseFilterButton = () => {
           </div>
         </S.MenuItem>
         <Divider />
+        <Txt style={{ marginTop: 8, marginLeft: 24 }}>Labels</Txt>
         {labels?.map((label) => (
           <S.MenuItem
             key={label.id}
