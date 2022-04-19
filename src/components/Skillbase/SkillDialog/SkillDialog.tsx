@@ -32,7 +32,6 @@ import { getCurrentTagId } from "../../../utils/skillbase/getCurrentTagId";
 import apiUrls from "../../../utils/url/urls/apiUrls";
 import SaveCancelButtons from "../../_UI/Buttons/SaveCancelButtons";
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
-import PriorityStarIcon from "./PriorityStarIcon/PriorityStarIcon";
 import SelectSkillLevel from "./SelectSkillLevel/SelectSkillLevel";
 import SelectSkillLabelsDialog from "./SkillDialogLabels/SelectSkillLabelsDialog/SelectSkillLabelsDialog";
 import SkillDialogLabels from "./SkillDialogLabels/SkillDialogLabels";
@@ -139,7 +138,7 @@ const SkillDialog = (props: Props) => {
               <DialogTitle id="skill-dialog-title">
                 <FlexVCenter justifyContent="space-between">
                   <FlexVCenter width="80%">
-                    <Box mr={2}>
+                    {/* <Box mr={2}>
                       <PriorityStarIcon
                         isPriority={values.isPriority}
                         tooltipText="This skill is a priority in your life right now"
@@ -147,7 +146,7 @@ const SkillDialog = (props: Props) => {
                           setFieldValue("isPriority", !values.isPriority);
                         }}
                       />
-                    </Box>
+                    </Box> */}
 
                     <TitleTextField
                       value={values.name}

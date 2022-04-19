@@ -1,8 +1,17 @@
-import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
+import {
+  Box,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+} from "@material-ui/core";
 import DarkButton from "components/_UI/Buttons/DarkButton/DarkButton";
 import FlexCol from "components/_UI/Flexboxes/FlexCol";
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
+import Txt from "components/_UI/Text/Txt";
 import useLabelsQuery from "hooks/react-query/skillbase/labels/useLabelsQuery";
 import React, { useMemo, useState } from "react";
+import { MdClose } from "react-icons/md";
 import { newLabelDto } from "types/domain/skillbase/LabelDto";
 import EditLabelDialog from "./EditLabelDialog/EditLabelDialog";
 import SkillLabelOption from "./SkillLabelOption/SkillLabelOption";
@@ -47,7 +56,14 @@ const SelectSkillLabelsDialog = (props: Props) => {
       aria-labelledby="select-skill-labels-dialog"
     >
       <Box pb={1}>
-        <DialogTitle id="select-skill-labels-dialog-title">Labels</DialogTitle>
+        <DialogTitle id="select-skill-labels-dialog-title">
+          <FlexVCenter justifyContent="space-between">
+            <Txt variant="h6">Labels</Txt>
+            <IconButton onClick={props.onClose} size="small">
+              <MdClose />
+            </IconButton>
+          </FlexVCenter>
+        </DialogTitle>
         <DialogContent>
           <FlexCol style={{ gap: 8 }}>
             {sortedLabels?.map((label) => (

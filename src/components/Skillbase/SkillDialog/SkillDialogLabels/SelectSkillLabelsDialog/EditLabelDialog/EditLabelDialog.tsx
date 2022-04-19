@@ -4,16 +4,18 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  IconButton,
 } from "@material-ui/core";
 import SaveCancelButtons from "components/_UI/Buttons/SaveCancelButtons";
 import Flex from "components/_UI/Flexboxes/Flex";
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
 import MyTextField from "components/_UI/MyInputs/MyTextField";
+import Txt from "components/_UI/Text/Txt";
 import useDeleteLabelMutation from "hooks/react-query/skillbase/labels/useDeleteLabelMutation";
 import useSaveLabelMutation from "hooks/react-query/skillbase/labels/useSaveLabelMutation";
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { MdDelete } from "react-icons/md";
+import { MdClose, MdDelete } from "react-icons/md";
 import useDialogsStore from "store/zustand/useDialogsStore";
 import { LabelDto } from "types/domain/skillbase/LabelDto";
 import labelColors from "./labelColors";
@@ -73,7 +75,15 @@ const EditLabelDialog = (props: Props) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box pb={1}>
           <DialogTitle id="edit-label-dialog-title">
-            {watch("id") ? "Edit Label" : "New Label"}
+            <FlexVCenter justifyContent="space-between">
+              <Txt variant="h6">
+                {" "}
+                {watch("id") ? "Edit Label" : "New Label"}
+              </Txt>
+              <IconButton onClick={handleClose} size="small">
+                <MdClose />
+              </IconButton>
+            </FlexVCenter>
           </DialogTitle>
           <DialogContent>
             <Controller

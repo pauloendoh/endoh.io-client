@@ -2,6 +2,7 @@ import stringsAreVerySimilar from "utils/text/stringsAreVerySimilar";
 import { TagDto } from "../../../types/domain/relearn/TagDto";
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto";
 import { SortSkill } from "./../../../store/skillbase/skillbaseTypes";
+import skillIsIncompleted from "./skillIsIncompleted";
 
 export default function filterAndSortSkills(
   allSkills: SkillDto[],
@@ -83,11 +84,8 @@ export default function filterAndSortSkills(
   }
 
   if (hidingDone)
-    // show incompleted skills
-    skills = skills.filter((s) => {
-      if (s.currentLevel === null) return true;
-      return s.currentLevel !== s.goalLevel;
-    });
+    // show only incompleted skills
+    skills = skills.filter(skillIsIncompleted);
 
   if (labelIds.length > 0)
     skills = skills.filter((skill) => {
