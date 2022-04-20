@@ -29,7 +29,7 @@ const SkillDialogLabels = (props: Props) => {
           <Button
             key={label.id}
             variant="contained"
-            style={{ backgroundColor: label.bgColor }}
+            style={{ backgroundColor: label.bgColor, minHeight: 32 }}
             onClick={props.onOpenLabelsDialog}
           >
             <Txt style={{ fontWeight: "bold", color: "white" }}>
@@ -40,7 +40,7 @@ const SkillDialogLabels = (props: Props) => {
 
         <DarkButton
           onClick={props.onOpenLabelsDialog}
-          style={{ minWidth: 0, width: 32 }}
+          style={{ minWidth: 0, width: 32, minHeight: 32 }}
         >
           <MdAdd />
         </DarkButton>

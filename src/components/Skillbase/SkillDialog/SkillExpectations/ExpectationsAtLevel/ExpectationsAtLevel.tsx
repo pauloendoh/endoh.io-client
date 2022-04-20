@@ -6,6 +6,8 @@ import {
   Typography,
   useTheme,
 } from "@material-ui/core";
+import MyReactLinkify from "components/_UI/link/MyReactLinkify";
+import Txt from "components/_UI/Text/Txt";
 import React, { useState } from "react";
 import { FaFire } from "react-icons/fa";
 import { Element } from "react-scroll";
@@ -165,13 +167,19 @@ const ExpectationsAtLevel = (props: Props) => {
                     if (!props.disabled) setEditingIndex(i);
                   }}
                 >
-                  <Typography>
+                  <Txt>
                     {expectation.checked && !props.disabled ? (
-                      <s>{expectation.description}</s>
+                      <s>
+                        <MyReactLinkify openNewTab>
+                          {expectation.description}
+                        </MyReactLinkify>
+                      </s>
                     ) : (
-                      expectation.description
+                      <MyReactLinkify openNewTab>
+                        {expectation.description}
+                      </MyReactLinkify>
                     )}
-                  </Typography>
+                  </Txt>
                 </Box>
               )}
             </Box>
