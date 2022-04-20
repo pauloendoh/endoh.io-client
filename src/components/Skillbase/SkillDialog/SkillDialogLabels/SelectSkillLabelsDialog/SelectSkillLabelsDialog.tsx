@@ -12,7 +12,8 @@ import Txt from "components/_UI/Text/Txt";
 import useLabelsQuery from "hooks/react-query/skillbase/labels/useLabelsQuery";
 import React, { useMemo, useState } from "react";
 import { MdClose } from "react-icons/md";
-import { newLabelDto } from "types/domain/skillbase/LabelDto";
+import { LabelDto, newLabelDto } from "types/domain/skillbase/LabelDto";
+import { pushOrRemove } from "utils/array/pushOrRemove";
 import EditLabelDialog from "./EditLabelDialog/EditLabelDialog";
 import SkillLabelOption from "./SkillLabelOption/SkillLabelOption";
 
@@ -20,6 +21,8 @@ interface Props {
   open: boolean;
   // initialValue: DecisionDto;
   skillId: number;
+  selectedLabels: LabelDto[];
+  onChange: (labels: LabelDto[]) => void;
   onClose: () => void;
   // afterSave?: (returned: DecisionDto) => void;
 }
@@ -40,6 +43,10 @@ const SelectSkillLabelsDialog = (props: Props) => {
   }, [labels]);
 
   // const [selectedLabelIds, setSelectedLabelIds] = useState<number[]>([]);
+  const selectedLabelIds = useMemo(
+    () => props.selectedLabels?.map((l) => l.id) || [],
+    [props.selectedLabels]
+  );
 
   const handleClose = () => {
     props.onClose();
@@ -69,7 +76,15 @@ const SelectSkillLabelsDialog = (props: Props) => {
             {sortedLabels?.map((label) => (
               <SkillLabelOption
                 label={label}
-                skillId={props.skillId}
+                isSelected={selectedLabelIds.includes(label.id)}
+                onToggle={() => {
+                  const newSelectedLabels = pushOrRemove(
+                    props.selectedLabels,
+                    label,
+                    "id"
+                  );
+                  props.onChange(newSelectedLabels);
+                }}
                 onClickEdit={() => {
                   setLabelDialogOpen(true);
                   setLabelDialogInitialValue(label);

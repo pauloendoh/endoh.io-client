@@ -1,40 +1,27 @@
-import { CircularProgress, IconButton } from "@material-ui/core";
+import { IconButton } from "@material-ui/core";
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
 import Txt from "components/_UI/Text/Txt";
-import useAttachSkillLabelMutation from "hooks/react-query/skillbase/skill-label/useAttachSkillLabelMutation";
-import useDetachSkillLabelMutation from "hooks/react-query/skillbase/skill-label/useDetachSkillLabelMutation";
-import useSkillQuery from "hooks/react-query/skillbase/skill/useSkillQuery";
 import React from "react";
 import { MdEdit } from "react-icons/md";
 import { LabelDto } from "types/domain/skillbase/LabelDto";
 
 interface Props {
   label: LabelDto;
-  skillId: number;
+  isSelected: boolean;
+  onToggle: () => void;
   onClickEdit: () => void;
 }
 
-const SkillLabelOption = ({ label, skillId, onClickEdit }: Props) => {
-  const { data: skill } = useSkillQuery(skillId);
-
-  const isAttached = skill?.labels.some((l) => l.id === label.id);
-
-  const { mutate: attachSkillLabel, isLoading: isAttaching } =
-    useAttachSkillLabelMutation();
-  const { mutate: detachSkillLabel, isLoading: isDetaching } =
-    useDetachSkillLabelMutation();
-
-  const isLoading = isAttaching || isDetaching;
-
-  const handleClick = () => {
-    if (isAttached) return detachSkillLabel({ skillId, labelId: label.id });
-    return attachSkillLabel({ labelId: label.id, skillId });
-  };
-
+const SkillLabelOption = ({
+  label,
+  onClickEdit,
+  onToggle,
+  isSelected,
+}: Props) => {
   return (
     <FlexVCenter style={{ justifyContent: "space-between" }}>
       <FlexVCenter
-        onClick={handleClick}
+        onClick={onToggle}
         style={{
           background: label.bgColor,
           padding: "4px 8px",
@@ -46,8 +33,7 @@ const SkillLabelOption = ({ label, skillId, onClickEdit }: Props) => {
         }}
       >
         <Txt style={{ fontWeight: "bold" }}>{label.name}</Txt>
-        {isLoading && <CircularProgress size={12} />}
-        {isAttached && !isLoading && <Txt>✓</Txt>}
+        {isSelected && <Txt>✓</Txt>}
       </FlexVCenter>
 
       <IconButton size="small" style={{ marginLeft: 8 }} onClick={onClickEdit}>

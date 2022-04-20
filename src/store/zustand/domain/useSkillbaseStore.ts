@@ -30,9 +30,11 @@ const useSkillbaseStore = create<ISkillbaseStore>(
     },
 
     getFilterCount: () => {
-      const { labelIds, hidingDone } = get().filter;
+      const { labelIds, hidingDone, currentGoal } = get().filter;
       let count = labelIds.length;
       if (hidingDone) count++;
+      if (currentGoal) count++;
+
       return count;
     },
     filterLabelIds: (ids) => {

@@ -8,16 +8,21 @@ import {
 } from "@material-ui/core";
 import React, { useState } from "react";
 import { FaFire } from "react-icons/fa";
-import { connect } from "react-redux";
 import { Element } from "react-scroll";
-import { Dispatch } from "redux";
-import { ApplicationState } from "../../../../../store/store";
 import {
   createSkillExpectation,
   SkillExpectationDto,
 } from "../../../../../types/domain/skillbase/SkillExpectationDto";
 import Flex from "../../../../_UI/Flexboxes/Flex";
 import ExpectationTextarea from "./ExpectationTextarea/ExpectationTextarea";
+
+interface Props {
+  expectations: SkillExpectationDto[];
+  level: number;
+  isHighlighted: boolean;
+  disabled?: boolean;
+  onChangeExpectations: (expectations: SkillExpectationDto[]) => void;
+}
 
 const ExpectationsAtLevel = (props: Props) => {
   const theme = useTheme();
@@ -210,6 +215,7 @@ const filterAndSortExpectations = (
   expectations: SkillExpectationDto[],
   level: number
 ) => {
+  if (!expectations) return [];
   return expectations
     .filter((expectation) => expectation.level === level)
     .sort((a, b) => {
@@ -244,23 +250,4 @@ export const getLevelDescription = (level: number) => {
   }
 };
 
-const mapStateToProps = (state: ApplicationState) => ({});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
-
-interface OwnProps {
-  expectations: SkillExpectationDto[];
-  level: number;
-  isHighlighted: boolean;
-  disabled?: boolean;
-  onChangeExpectations: (expectations: SkillExpectationDto[]) => void;
-}
-
-type Props = OwnProps &
-  ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ExpectationsAtLevel);
+export default ExpectationsAtLevel;

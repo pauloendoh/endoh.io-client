@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import Flex from "components/_UI/Flexboxes/Flex";
 import Txt from "components/_UI/Text/Txt";
-import { Form, Formik } from "formik";
+import { useFormik } from "formik";
 import { useHasChanged } from "hooks/utils/useHasChanged";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
@@ -40,30 +40,45 @@ import TitleTextField from "./SkillDialogTitleTextField/SkillDialogTitleTextFiel
 import SkillExpectations from "./SkillExpectations/SkillExpectations";
 import SkillMoreIcon from "./SkillMoreIcon/SkillMoreIcon";
 
+const mapStateToProps = (state: ApplicationState) => ({
+  initialValue: state.skillbase.editingSkill,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  setSkills: (skills: SkillDto[]) => dispatch(setSkills(skills)),
+  setEditingSkill: (skill: SkillDto) => dispatch(setEditingSkill(skill)),
+});
+
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
+
 // PE 2/3
 const SkillDialog = (props: Props) => {
   const theme = useTheme();
   const location = useLocation();
   const { openConfirmDialog } = useDialogsStore();
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
-  const { hasChanged, validateHasChanged } = useHasChanged(props.skill);
+  const { hasChanged, validateHasChanged } = useHasChanged(props.initialValue);
 
   const [labelsDialog, setLabelsDialog] = useState(false);
 
   useEffect(() => {
-    if (props.skill?.currentLevel > 0) scrollToNextLevel();
+    if (props.initialValue?.currentLevel > 0) scrollToNextLevel();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.skill]);
+  }, [props.initialValue]);
 
   const scrollToNextLevel = () => {
     // had to add this in order to work properly...
     setTimeout(() => {
-      scroller.scrollTo("expectation-title-" + props.skill?.currentLevel, {
-        containerId: "skill-dialog-content",
-        duration: 500,
-        smooth: true,
-      });
+      scroller.scrollTo(
+        "expectation-title-" + props.initialValue?.currentLevel,
+        {
+          containerId: "skill-dialog-content",
+          duration: 500,
+          smooth: true,
+        }
+      );
     }, 0);
   };
 
@@ -105,40 +120,41 @@ const SkillDialog = (props: Props) => {
 
   const getInitialValues = (): SkillDto => {
     return {
-      ...props.skill,
-      tagId: props.skill?.tagId // why not use simply props.skill.tagId ?
-        ? props.skill.tagId
+      ...props.initialValue,
+      tagId: props.initialValue?.tagId // why not use simply props.skill.tagId ?
+        ? props.initialValue.tagId
         : getCurrentTagId(location.pathname),
     };
   };
 
+  const formik = useFormik<SkillDto>({
+    initialValues: getInitialValues(),
+    onSubmit: (formikValues, { setSubmitting }) => {
+      handleSubmit(formikValues, setSubmitting);
+    },
+    enableReinitialize: true,
+    validateOnChange: true,
+    validate: (newValues) => {
+      validateHasChanged(newValues);
+    },
+  });
+
   return (
     <Dialog // PE 2/3
       onClose={handleClose}
-      open={props.skill !== null}
+      open={props.initialValue !== null}
       fullWidth
       maxWidth="sm"
       aria-labelledby="skill-dialog"
     >
       {/* Maybe I should make a MyDialog or something? With default paddings */}
       <Box pb={1} px={1}>
-        <Formik
-          initialValues={getInitialValues()}
-          onSubmit={(formikValues, { setSubmitting }) => {
-            handleSubmit(formikValues, setSubmitting);
-          }}
-          validateOnChange
-          validate={(newValues) => {
-            validateHasChanged(newValues);
-          }}
-        >
-          {({ values, setFieldValue, isSubmitting, handleChange }) => (
-            <Form>
-              {/* Separate into <SkillDialogTitle skill={skill}/> */}
-              <DialogTitle id="skill-dialog-title">
-                <FlexVCenter justifyContent="space-between">
-                  <FlexVCenter width="80%">
-                    {/* <Box mr={2}>
+        <form onSubmit={formik.handleSubmit}>
+          {/* Separate into <SkillDialogTitle skill={skill}/> */}
+          <DialogTitle id="skill-dialog-title">
+            <FlexVCenter justifyContent="space-between">
+              <FlexVCenter width="80%">
+                {/* <Box mr={2}>
                       <PriorityStarIcon
                         isPriority={values.isPriority}
                         tooltipText="This skill is a priority in your life right now"
@@ -148,128 +164,113 @@ const SkillDialog = (props: Props) => {
                       />
                     </Box> */}
 
-                    <TitleTextField
-                      value={values.name}
-                      onChange={(newValue) => setFieldValue("name", newValue)}
-                    />
-                  </FlexVCenter>
-
-                  {values.id > 0 && (
-                    <SkillMoreIcon
-                      skillId={values.id}
-                      afterDelete={() => props.setEditingSkill(null)}
-                    />
-                  )}
-                </FlexVCenter>
-
-                {/* Separate into <SkillLevelSelectors/> */}
-                <FlexVCenter
-                  mt={3}
-                  style={{ fontSize: 14, fontWeight: "normal" }}
-                >
-                  <SelectSkillLevel
-                    type="currentLevel"
-                    value={values.currentLevel}
-                    onChange={(newValue: number) => {
-                      setFieldValue("currentLevel", newValue);
-                    }}
-                  />
-                  <Box ml={4} />
-                  <SelectSkillLevel
-                    type="goalLevel"
-                    value={values.goalLevel}
-                    onChange={(newValue: number) => {
-                      setFieldValue("goalLevel", newValue);
-                    }}
-                  />
-                </FlexVCenter>
-
-                {props.skill && (
-                  <SkillDialogLabels
-                    skill={props.skill}
-                    onOpenLabelsDialog={() => setLabelsDialog(true)}
-                  />
-                )}
-              </DialogTitle>
-
-              <DialogContent
-                id="skill-dialog-content"
-                style={{
-                  height: `calc(100vh - 410px)`,
-                }}
-              >
-                <TagSelector
-                  selectedTagId={values.tagId}
-                  required
-                  onChange={(e, value) => {
-                    setFieldValue("tagId", value);
-                  }}
-                />
-
-                <SkillExpectations
-                  currentLevel={values.currentLevel}
-                  expectations={values.expectations}
-                  onChangeExpectations={(expectations) =>
-                    setFieldValue("expectations", expectations)
+                <TitleTextField
+                  value={formik.values.name}
+                  onChange={(newValue) =>
+                    formik.setFieldValue("name", newValue)
                   }
                 />
-              </DialogContent>
-              <DialogTitle id="skill-dialog-footer">
-                <Flex
-                  style={{ flexDirection: "column", gap: theme.spacing(2) }}
-                >
-                  <FormControlLabel
-                    label={
-                      <FlexVCenter style={{ gap: theme.spacing(1) }}>
-                        <Txt>Public roadmap</Txt>
-                        <Tooltip
-                          title="Public roadmaps will be available in your profile"
-                          placement="top"
-                        >
-                          <Icons.Info />
-                        </Tooltip>
-                      </FlexVCenter>
-                    }
-                    control={
-                      <Checkbox
-                        color="primary"
-                        name="isPublic"
-                        checked={values.isPublic}
-                        onChange={handleChange}
-                      />
-                    }
+              </FlexVCenter>
+
+              {formik.values.id > 0 && (
+                <SkillMoreIcon
+                  skillId={formik.values.id}
+                  afterDelete={() => props.setEditingSkill(null)}
+                />
+              )}
+            </FlexVCenter>
+
+            {/* Separate into <SkillLevelSelectors/> */}
+            <FlexVCenter mt={3} style={{ fontSize: 14, fontWeight: "normal" }}>
+              <SelectSkillLevel
+                type="currentLevel"
+                value={formik.values.currentLevel}
+                onChange={(newValue: number) => {
+                  formik.setFieldValue("currentLevel", newValue);
+                }}
+              />
+              <Box ml={4} />
+              <SelectSkillLevel
+                type="goalLevel"
+                value={formik.values.goalLevel}
+                onChange={(newValue: number) => {
+                  formik.setFieldValue("goalLevel", newValue);
+                }}
+              />
+            </FlexVCenter>
+
+            {props.initialValue && (
+              <SkillDialogLabels
+                skill={formik.values}
+                onOpenLabelsDialog={() => setLabelsDialog(true)}
+              />
+            )}
+          </DialogTitle>
+
+          <DialogContent
+            id="skill-dialog-content"
+            style={{
+              height: `calc(100vh - 410px)`,
+            }}
+          >
+            <TagSelector
+              selectedTagId={formik.values.tagId}
+              required
+              onChange={(e, value) => {
+                formik.setFieldValue("tagId", value);
+              }}
+            />
+
+            <SkillExpectations
+              currentLevel={formik.values.currentLevel}
+              expectations={formik.values.expectations}
+              onChangeExpectations={(expectations) =>
+                formik.setFieldValue("expectations", expectations)
+              }
+            />
+          </DialogContent>
+          <DialogTitle id="skill-dialog-footer">
+            <Flex style={{ flexDirection: "column", gap: theme.spacing(2) }}>
+              <FormControlLabel
+                label={
+                  <FlexVCenter style={{ gap: theme.spacing(1) }}>
+                    <Txt>Public roadmap</Txt>
+                    <Tooltip
+                      title="Public roadmaps will be available in your profile"
+                      placement="top"
+                    >
+                      <Icons.Info />
+                    </Tooltip>
+                  </FlexVCenter>
+                }
+                control={
+                  <Checkbox
+                    color="primary"
+                    name="isPublic"
+                    checked={formik.values.isPublic}
+                    onChange={formik.handleChange}
                   />
-                  <SaveCancelButtons
-                    submitButtonId="save-skill-btn"
-                    disabled={isSubmitting}
-                    onCancel={handleClose}
-                  />
-                </Flex>
-              </DialogTitle>
-            </Form>
-          )}
-        </Formik>
+                }
+              />
+              <SaveCancelButtons
+                submitButtonId="save-skill-btn"
+                disabled={formik.isSubmitting}
+                onCancel={handleClose}
+              />
+            </Flex>
+          </DialogTitle>
+        </form>
       </Box>
 
       <SelectSkillLabelsDialog
         open={labelsDialog}
-        skillId={getInitialValues().id}
         onClose={() => setLabelsDialog(false)}
+        selectedLabels={formik.values.labels}
+        onChange={(labels) => formik.setFieldValue("labels", labels)}
+        skillId={getInitialValues().id}
       />
     </Dialog>
   );
 };
-
-const mapStateToProps = (state: ApplicationState) => ({
-  skill: state.skillbase.editingSkill,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setSkills: (skills: SkillDto[]) => dispatch(setSkills(skills)),
-  setEditingSkill: (skill: SkillDto) => dispatch(setEditingSkill(skill)),
-});
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
 
 export default connect(mapStateToProps, mapDispatchToProps)(SkillDialog);
