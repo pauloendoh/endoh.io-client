@@ -53,7 +53,6 @@ function ResourceThumbnail(props: Props) {
               style={{ width: "100%" }}
               alt={props.thumbnailSrc}
               src={getThumbnailSrc()}
-              // Testing... 20210510
               onError={(e: any) => {
                 e.target.onerror = null;
                 e.target.src = linkPng;

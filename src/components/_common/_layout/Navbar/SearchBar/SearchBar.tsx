@@ -1,7 +1,5 @@
-import { Popper, useTheme } from "@material-ui/core";
+import { Popper } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
-import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
-import Txt from "components/_UI/Text/Txt";
 import { queryKeys } from "hooks/react-query/queryKeys";
 import useFetchSearchResults from "hooks/react-query/search/useFetchSearchResults";
 import React, { useEffect, useMemo, useState } from "react";
@@ -14,10 +12,9 @@ import { editResource } from "store/relearn/relearnActions";
 import { ApplicationState } from "store/store";
 import { ResourceDto } from "types/domain/relearn/ResourceDto";
 import { SearchResultsDto } from "types/domain/utils/SearchResultsDto";
-import { getColorByRating } from "utils/relearn/getColorByRating";
-import Icons from "utils/styles/Icons";
 import pageUrls from "../../../../../utils/url/urls/pageUrls";
 import MyTextField from "../../../../_UI/MyInputs/MyTextField";
+import SearchBarOption from "./SearchBarOption/SearchBarOption";
 
 interface ISearchForm {
   searchQuery?: string;
@@ -30,7 +27,6 @@ const MyPopper = function (props: React.ComponentProps<typeof Popper>) {
 const SearchBar = ({ editResource }: Props) => {
   const MIN_LENGTH = 3;
 
-  const theme = useTheme();
   const history = useHistory();
   const [loading, setLoading] = useState(false);
 
@@ -103,43 +99,7 @@ const SearchBar = ({ editResource }: Props) => {
         PopperComponent={MyPopper}
         filterOptions={(resources) => resources}
         renderOption={(resource) => (
-          <FlexVCenter
-            style={{ justifyContent: "space-between", width: "100%" }}
-          >
-            {resource.thumbnail?.length ? (
-              <img
-                src={resource.thumbnail}
-                style={{ width: 50 }}
-                alt={`search-preview-thumbnail: ${resource.title}`}
-              />
-            ) : (
-              <div style={{ minWidth: 50 }} />
-            )}
-            <Txt noWrap style={{ width: 350, marginLeft: 8 }}>
-              {resource.title}
-            </Txt>
-            <FlexVCenter style={{ gap: theme.spacing(2) }}>
-              {resource.rating > 0 ? (
-                <FlexVCenter style={{ gap: theme.spacing(0.5), width: 30 }}>
-                  <Icons.Star
-                    style={{ color: getColorByRating(resource.rating) }}
-                  />
-                  <Txt>{resource.rating}</Txt>
-                </FlexVCenter>
-              ) : (
-                <div style={{ width: 30 }} />
-              )}
-
-              {resource.tag && (
-                <FlexVCenter style={{ gap: theme.spacing(0.5) }}>
-                  <Icons.Label style={{ color: resource.tag.color }} />
-                  <Txt noWrap style={{ width: 125 }}>
-                    {resource.tag.name}
-                  </Txt>
-                </FlexVCenter>
-              )}
-            </FlexVCenter>
-          </FlexVCenter>
+          <SearchBarOption key={resource.id} resource={resource} />
         )}
         getOptionLabel={(resource) => resource.title}
         onChange={(e, resource) => {
