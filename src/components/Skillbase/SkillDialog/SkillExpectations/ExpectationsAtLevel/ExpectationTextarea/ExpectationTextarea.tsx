@@ -1,34 +1,37 @@
 import React, { useState } from "react";
 import MyTextField from "../../../../../_UI/MyInputs/MyTextField";
 
+interface Props {
+  initialValue: string;
+  onChange: (value: string) => void;
+}
+
 const ExpectationTextarea = (props: Props) => {
-  const [value, setValue] = useState(props.initialValue);
+  const [localValue, setLocalValue] = useState(props.initialValue);
 
   return (
     <>
       <MyTextField
         autoFocus
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        onKeyPress={(e) => {
-          if (e.key === "Enter") props.onSave(value);
-          else if (e.key === "ESC") {
-            props.onSave(value);
+        value={localValue}
+        onChange={(e) => setLocalValue(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Escape") {
+            props.onChange(props.initialValue);
+            e.stopPropagation();
+            return;
           }
+
+          if (e.key === "Enter") props.onChange(localValue);
         }}
         fullWidth
         multiline
         size="small"
-        onBlur={() => props.onSave(value)}
+        onBlur={() => props.onChange(localValue)}
+        onFocus={(e) => e.currentTarget.select()}
       />
     </>
   );
 };
 
-interface OwnProps {
-  initialValue: string;
-  onSave: (newValue: string) => void;
-}
-
-type Props = OwnProps;
 export default ExpectationTextarea;

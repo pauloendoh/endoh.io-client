@@ -10,7 +10,6 @@ import {
 import Flex from "components/_UI/Flexboxes/Flex";
 import Txt from "components/_UI/Text/Txt";
 import { useFormik } from "formik";
-import { useHasChanged } from "hooks/utils/useHasChanged";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useLocation } from "react-router";
@@ -58,7 +57,6 @@ const SkillDialog = (props: Props) => {
   const location = useLocation();
   const { openConfirmDialog } = useDialogsStore();
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
-  const { hasChanged, validateHasChanged } = useHasChanged(props.initialValue);
 
   const [labelsDialog, setLabelsDialog] = useState(false);
 
@@ -67,6 +65,23 @@ const SkillDialog = (props: Props) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.initialValue]);
+
+  const getInitialValues = (): SkillDto => {
+    return {
+      ...props.initialValue,
+      tagId: props.initialValue?.tagId // why not use simply props.skill.tagId ?
+        ? props.initialValue.tagId
+        : getCurrentTagId(location.pathname),
+    };
+  };
+
+  const formik = useFormik<SkillDto>({
+    initialValues: getInitialValues(),
+    onSubmit: (formikValues, { setSubmitting }) => {
+      handleSubmit(formikValues, setSubmitting);
+    },
+    enableReinitialize: true,
+  });
 
   const scrollToNextLevel = () => {
     // had to add this in order to work properly...
@@ -83,11 +98,14 @@ const SkillDialog = (props: Props) => {
   };
 
   const handleClose = () => {
-    if (hasChanged)
+    if (formik.dirty) {
+      console.log(formik.initialValues);
+      console.log(formik.values);
       return openConfirmDialog({
         title: "Discard changes?",
         onConfirm: () => props.setEditingSkill(null),
       });
+    }
 
     return props.setEditingSkill(null);
   };
@@ -118,27 +136,6 @@ const SkillDialog = (props: Props) => {
       });
   };
 
-  const getInitialValues = (): SkillDto => {
-    return {
-      ...props.initialValue,
-      tagId: props.initialValue?.tagId // why not use simply props.skill.tagId ?
-        ? props.initialValue.tagId
-        : getCurrentTagId(location.pathname),
-    };
-  };
-
-  const formik = useFormik<SkillDto>({
-    initialValues: getInitialValues(),
-    onSubmit: (formikValues, { setSubmitting }) => {
-      handleSubmit(formikValues, setSubmitting);
-    },
-    enableReinitialize: true,
-    validateOnChange: true,
-    validate: (newValues) => {
-      validateHasChanged(newValues);
-    },
-  });
-
   return (
     <Dialog // PE 2/3
       onClose={handleClose}
@@ -154,16 +151,6 @@ const SkillDialog = (props: Props) => {
           <DialogTitle id="skill-dialog-title">
             <FlexVCenter justifyContent="space-between">
               <FlexVCenter width="80%">
-                {/* <Box mr={2}>
-                      <PriorityStarIcon
-                        isPriority={values.isPriority}
-                        tooltipText="This skill is a priority in your life right now"
-                        onClick={() => {
-                          setFieldValue("isPriority", !values.isPriority);
-                        }}
-                      />
-                    </Box> */}
-
                 <TitleTextField
                   value={formik.values.name}
                   onChange={(newValue) =>

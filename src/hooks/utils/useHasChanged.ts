@@ -1,6 +1,7 @@
 import isEqual from "lodash/isEqual";
 import { useEffect, useState } from "react";
 
+// PE 1/3 - remove?
 export const useHasChanged = <T>(originalValue: T) => {
   const [hasChanged, setHasChanged] = useState(false);
 

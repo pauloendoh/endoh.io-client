@@ -57,7 +57,7 @@ const ExpectationsAtLevel = (props: Props) => {
     );
   };
 
-  const editDescription = (index: number, newDescription: string) => {
+  const editOrRemoveDescription = (index: number, newDescription: string) => {
     // remove
     if (newDescription.trim().length === 0) {
       changeExpectations(
@@ -66,17 +66,19 @@ const ExpectationsAtLevel = (props: Props) => {
           return true;
         })
       );
-    } else {
-      // update
-      changeExpectations(
-        props.expectations.map((e) => {
-          if (e.index === index && e.level === props.level) {
-            e.description = newDescription;
-          }
-          return e;
-        })
-      );
+
+      return;
     }
+
+    // update
+    changeExpectations(
+      props.expectations.map((e) => {
+        if (e.index === index && e.level === props.level) {
+          e.description = newDescription;
+        }
+        return e;
+      })
+    );
   };
 
   const changeExpectations = (expectations: SkillExpectationDto[]) => {
@@ -154,8 +156,13 @@ const ExpectationsAtLevel = (props: Props) => {
               {editingIndex === i ? (
                 <ExpectationTextarea
                   initialValue={expectation.description}
-                  onSave={(newDescription) => {
-                    editDescription(i, newDescription);
+                  onChange={(newDescription) => {
+                    if (
+                      newDescription !== expectation.description ||
+                      newDescription.length === 0
+                    )
+                      editOrRemoveDescription(i, newDescription);
+
                     setEditingIndex(null);
                   }}
                 />
