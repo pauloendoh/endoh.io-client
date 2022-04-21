@@ -1,9 +1,8 @@
 import axios from "axios";
-require("dotenv").config();
 
 const myAxios = axios.create();
 
-myAxios.defaults.baseURL = process.env.REACT_APP_API_URL;
+myAxios.defaults.baseURL = import.meta.env.VITE_API_URL;
 
 myAxios.interceptors.request.use((config) => {
   const userStr = localStorage.getItem("user");
