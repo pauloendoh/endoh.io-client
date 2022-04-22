@@ -70,7 +70,7 @@ const SkillbaseFilterButton = () => {
           <S.CheckboxLabel>With current goal</S.CheckboxLabel>
         </S.MenuItem>
 
-        <Divider />
+        {labels?.length > 0 && <Divider />}
 
         {labels?.map((label) => (
           <S.MenuItem

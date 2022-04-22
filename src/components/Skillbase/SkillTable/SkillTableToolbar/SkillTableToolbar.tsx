@@ -1,3 +1,5 @@
+import Txt from "@/components/_UI/Text/Txt";
+import useDebounce from "@/hooks/utils/useDebounce";
 import { Box } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import { lighten, makeStyles, Theme } from "@material-ui/core/styles";
@@ -8,6 +10,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import clsx from "clsx";
 import MyTextField from "components/_UI/MyInputs/MyTextField";
 import React, { useEffect, useState } from "react";
+import { MdSearch } from "react-icons/md";
 import { connect } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
@@ -27,8 +30,16 @@ const SkillTableToolbar = (props: Props) => {
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
+  const { setFilterByText } = useSkillbaseStore();
 
-  const { filter, setFilterByText } = useSkillbaseStore();
+  const [searchSkillName, setSearchSkillName] = useState("");
+
+  const debouncedSearchSkillName = useDebounce(searchSkillName, 250);
+
+  useEffect(() => {
+    setFilterByText(debouncedSearchSkillName);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedSearchSkillName]);
 
   const [tagSelectorValue, setTagSelectorValue] = useState<optionTypes>("All");
   const handleTagChange = (value: optionTypes) => {
@@ -74,17 +85,26 @@ const SkillTableToolbar = (props: Props) => {
             </Typography>
           ) : (
             <FlexVCenter justifyContent="space-between" width="100%">
-              <SkillbaseTagSelector
-                value={tagSelectorValue}
-                onChange={handleTagChange}
-              />
+              <FlexVCenter style={{ gap: 24 }}>
+                <SkillbaseTagSelector
+                  value={tagSelectorValue}
+                  onChange={handleTagChange}
+                />
 
-              <MyTextField
-                placeholder="Search skill name"
-                value={filter.byText}
-                onChange={(e) => setFilterByText(e.target.value)}
-                onClickClearIcon={() => setFilterByText("")}
-              />
+                <MyTextField
+                  label={
+                    <FlexVCenter style={{ gap: 4 }}>
+                      <MdSearch />
+                      <Txt>Search skill name</Txt>
+                    </FlexVCenter>
+                  }
+                  inputProps={{ style: { minHeight: 21 } }}
+                  value={searchSkillName}
+                  onChange={(e) => setSearchSkillName(e.target.value)}
+                  onClickClearIcon={() => setSearchSkillName("")}
+                />
+              </FlexVCenter>
+
               <SkillbaseFilterButton />
             </FlexVCenter>
           )}

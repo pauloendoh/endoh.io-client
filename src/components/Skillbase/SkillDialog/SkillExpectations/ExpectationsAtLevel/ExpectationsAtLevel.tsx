@@ -3,6 +3,7 @@ import {
   Button,
   Checkbox,
   IconButton,
+  Tooltip,
   Typography,
   useTheme,
 } from "@material-ui/core";
@@ -191,19 +192,23 @@ const ExpectationsAtLevel = (props: Props) => {
               )}
             </Box>
 
-            <IconButton
-              onClick={() => toggleCurrentGoal(props.level, expectation.index)}
-              size="small"
-              style={{ width: 36, height: 36 }}
-            >
-              <FaFire
-                style={{
-                  color: expectation.isCurrentGoal
-                    ? theme.palette.secondary.main
-                    : "#989898",
-                }}
-              />
-            </IconButton>
+            <Tooltip title="Current goal">
+              <IconButton
+                onClick={() =>
+                  toggleCurrentGoal(props.level, expectation.index)
+                }
+                size="small"
+                style={{ width: 36, height: 36 }}
+              >
+                <FaFire
+                  style={{
+                    color: expectation.isCurrentGoal
+                      ? theme.palette.secondary.main
+                      : "#989898",
+                  }}
+                />
+              </IconButton>
+            </Tooltip>
           </Flex>
         )
       )}

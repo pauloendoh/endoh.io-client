@@ -74,6 +74,7 @@ const SkillbaseTableRow = (props: Props) => {
       tabIndex={-1}
       selected={props.isSelected}
       className={classes.root}
+      style={{ display: !props.visible && "none" }}
     >
       <TableCell align="center" width={50}>
         {props.index + 1}
@@ -176,6 +177,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 interface OwnProps {
   skill: SkillDto;
+  visible: boolean;
   index: number;
   isSelected: boolean;
   onCheck: (e: React.MouseEvent, skillId: number) => void;
