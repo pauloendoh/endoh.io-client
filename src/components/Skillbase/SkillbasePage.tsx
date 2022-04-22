@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useLocation } from "react-router";
 import { Dispatch } from "redux";
+import useWindowFocus from "use-window-focus";
 import titles from "utils/titles";
 import {
   setEditingSkill,
@@ -27,26 +28,30 @@ import SkillbaseTable from "./SkillTable/SkillbaseTable";
 const SkillbasePage = (props: Props) => {
   const classes = useStyles();
   const { pathname } = useLocation();
-
-  const [selectedTag, setSelectedTag] = useState<TagDto | "Untagged">();
+  const windowFocused = useWindowFocus();
 
   const { sidebarIsOpen, closeSidebar } = useSidebarStore();
+  const [selectedTag, setSelectedTag] = useState<TagDto | "Untagged">();
+
+  const fetchSkills = () => {
+    myAxios.get<SkillDto[]>(apiUrls.skillbase.skill).then((res) => {
+      props.setSkills(res.data);
+    });
+  };
 
   useEffect(
     () => {
       closeSidebar();
-
-      myAxios.get<SkillDto[]>(apiUrls.skillbase.skill).then((res) => {
-        props.setSkills(res.data);
-      });
-
-      myAxios.get<ProgressDto[]>(apiUrls.skillbase.progress).then((res) => {
-        props.setProgresses(res.data);
-      });
+      fetchSkills();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
+
+  useEffect(() => {
+    if (windowFocused) fetchSkills();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [windowFocused]);
 
   useEffect(() => {
     if (pathname.startsWith(pageUrls.skillbase.untagged)) {
