@@ -9,13 +9,17 @@ import Icons from "utils/styles/Icons";
 
 type Props = {
   resource: ResourceDto;
+  handleClick: () => void;
 };
 
-const SearchBarOption = ({ resource }: Props) => {
+const SearchBarOption = ({ resource, handleClick }: Props) => {
   const theme = useTheme();
 
   return (
-    <FlexVCenter style={{ justifyContent: "space-between", width: "100%" }}>
+    <FlexVCenter
+      style={{ justifyContent: "space-between", width: "100%" }}
+      onClick={handleClick}
+    >
       {resource.thumbnail?.length ? (
         <MyImage
           src={resource.thumbnail}
@@ -25,7 +29,7 @@ const SearchBarOption = ({ resource }: Props) => {
       ) : (
         <div style={{ minWidth: 50 }} />
       )}
-      <Txt noWrap style={{ width: 350, marginLeft: 8 }}>
+      <Txt noWrap style={{ width: 350, marginLeft: 8 }} title={resource.title}>
         {resource.title}
       </Txt>
       <FlexVCenter style={{ gap: theme.spacing(2) }}>

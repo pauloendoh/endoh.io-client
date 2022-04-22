@@ -99,15 +99,24 @@ const SearchBar = ({ editResource }: Props) => {
         PopperComponent={MyPopper}
         filterOptions={(resources) => resources}
         renderOption={(resource) => (
-          <SearchBarOption key={resource.id} resource={resource} />
+          <SearchBarOption
+            key={resource.id}
+            resource={resource}
+            handleClick={() => editResource(resource)}
+          />
         )}
-        getOptionLabel={(resource) => resource.title}
-        onChange={(e, resource) => {
-          if (typeof resource === "string") setValue("searchQuery", resource);
-          else {
-            setValue("searchQuery", resource?.title || "");
-            editResource(resource);
+        // don't change input text when selecting a resource
+        getOptionLabel={() => watch("searchQuery")}
+        // getOptionLabel={(resource) => "resource.title"}
+
+        clearOnBlur={false}
+        onChange={(e, newSelectedResource) => {
+          if (typeof newSelectedResource === "string") {
+            // setValue("searchQuery", resource);
+            return;
           }
+          // setValue("searchQuery", resource?.title || "");
+          editResource(newSelectedResource);
         }}
         renderInput={(params) => (
           <Controller
