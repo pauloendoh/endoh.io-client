@@ -1,6 +1,7 @@
-import FlexVCenter from "@/components/_UI/Flexboxes/FlexVCenter";
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
 import React, { useState } from "react";
 import S from "./Googlebutton.styles";
+require("dotenv").config();
 
 const GoogleButton = () => {
   const [isSubmitting, setSubmitting] = useState(false);
@@ -10,7 +11,8 @@ const GoogleButton = () => {
 
     // Authenticate using via passport api in the backend
     // Open Twitter login page
-    window.open(import.meta.env.VITE_API_URL + "auth/google", "_self");
+    // window.open(import.meta.env.VITE_API_URL + "auth/google", "_self");
+    window.open(process.env.REACT_APP_API_URL + "auth/google", "_self");
   };
 
   return (

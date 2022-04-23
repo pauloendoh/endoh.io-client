@@ -1,5 +1,3 @@
-import Txt from "@/components/_UI/Text/Txt";
-import useDebounce from "@/hooks/utils/useDebounce";
 import { Box } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import { lighten, makeStyles, Theme } from "@material-ui/core/styles";
@@ -9,6 +7,8 @@ import Typography from "@material-ui/core/Typography";
 import DeleteIcon from "@material-ui/icons/Delete";
 import clsx from "clsx";
 import MyTextField from "components/_UI/MyInputs/MyTextField";
+import Txt from "components/_UI/Text/Txt";
+import useDebounce from "hooks/utils/useDebounce";
 import React, { useEffect, useState } from "react";
 import { MdSearch } from "react-icons/md";
 import { connect } from "react-redux";
