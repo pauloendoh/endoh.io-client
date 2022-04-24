@@ -2,6 +2,10 @@
   "name": "front",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "v14.17.4",
+    "npm": "7.23.0"
+  },
   "scripts": {
     "start": "react-scripts  start",
     "dev": "set PORT=8000 & npm start",
