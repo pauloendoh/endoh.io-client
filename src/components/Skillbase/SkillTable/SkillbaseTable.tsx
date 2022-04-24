@@ -3,7 +3,7 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableContainer from "@material-ui/core/TableContainer";
 import Toolbar from "@material-ui/core/Toolbar";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
@@ -70,11 +70,6 @@ const SkillbaseTable = (props: Props) => {
       filter.byText,
       filter.currentGoal,
     ]
-  );
-
-  const visibleSkillsId = useMemo(
-    () => visibleSkills.map((skill) => skill.id),
-    [visibleSkills]
   );
 
   const sortByProperty = (property: keyof SkillDto) => {
@@ -147,11 +142,10 @@ const SkillbaseTable = (props: Props) => {
             rowCount={props.allSkills.length}
           />
           <TableBody>
-            {props.allSkills.map((skill, index) => {
+            {visibleSkills.map((skill, index) => {
               return (
                 <SkillbaseTableRow
                   key={skill.id}
-                  visible={visibleSkillsId.includes(skill.id)}
                   skill={skill}
                   index={index}
                   isSelected={isSelected(skill.id)}
