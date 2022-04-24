@@ -1,23 +1,11 @@
-import {
-  Box,
-  Button,
-  Checkbox,
-  IconButton,
-  Tooltip,
-  Typography,
-  useTheme,
-} from "@material-ui/core";
-import MyReactLinkify from "components/_UI/link/MyReactLinkify";
-import Txt from "components/_UI/Text/Txt";
+import { Box, Button, Typography, useTheme } from "@material-ui/core";
 import React, { useState } from "react";
-import { FaFire } from "react-icons/fa";
 import { Element } from "react-scroll";
 import {
   createSkillExpectation,
   SkillExpectationDto,
 } from "../../../../../types/domain/skillbase/SkillExpectationDto";
-import Flex from "../../../../_UI/Flexboxes/Flex";
-import ExpectationTextarea from "./ExpectationTextarea/ExpectationTextarea";
+import ExpectationItem from "./ExpectationItem/ExpectationItem";
 
 interface Props {
   expectations: SkillExpectationDto[];
@@ -44,44 +32,6 @@ const ExpectationsAtLevel = (props: Props) => {
     changeExpectations(expectations);
   };
 
-  const handleCheck = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    expectation: SkillExpectationDto
-  ) => {
-    changeExpectations(
-      props.expectations.map((e) => {
-        if (e.index === expectation.index && e.level === expectation.level) {
-          e.checked = event.target.checked;
-        }
-        return e;
-      })
-    );
-  };
-
-  const editOrRemoveDescription = (index: number, newDescription: string) => {
-    // remove
-    if (newDescription.trim().length === 0) {
-      changeExpectations(
-        props.expectations.filter((e) => {
-          if (e.index === index && e.level === props.level) return false;
-          return true;
-        })
-      );
-
-      return;
-    }
-
-    // update
-    changeExpectations(
-      props.expectations.map((e) => {
-        if (e.index === index && e.level === props.level) {
-          e.description = newDescription;
-        }
-        return e;
-      })
-    );
-  };
-
   const changeExpectations = (expectations: SkillExpectationDto[]) => {
     const otherLevelsExpectations = expectations.filter(
       (e) => e.level !== props.level
@@ -99,29 +49,6 @@ const ExpectationsAtLevel = (props: Props) => {
     ]);
   };
 
-  const toggleCurrentGoal = (level: number, index: number) => {
-    let expectation = [...props.expectations].find(
-      (e) => e.level === level && e.index === index
-    );
-
-    if (!expectation) return; // very unlikely to happen
-
-    // remove current goal from everyone
-    let expectations = [...props.expectations].map((e) => ({
-      ...e,
-      isCurrentGoal: false,
-    }));
-
-    if (!expectation.isCurrentGoal) {
-      expectation = expectations.find(
-        (e) => e.level === level && e.index === index
-      );
-      expectation.isCurrentGoal = true;
-    }
-
-    props.onChangeExpectations(expectations);
-  };
-
   return (
     <Box mt={3}>
       <Element name={`expectation-title-${props.level}`} />
@@ -134,82 +61,17 @@ const ExpectationsAtLevel = (props: Props) => {
       </Typography>
 
       {filterAndSortExpectations(props.expectations, props.level).map(
-        (expectation, i) => (
-          <Flex
-            key={i}
-            title={
-              props.disabled
-                ? "This is not your item. You can’t change it."
-                : ""
-            }
-          >
-            {/* box is required so checkbox doesn't get vertically centralized */}
-            <Box>
-              <Checkbox
-                disabled={props.disabled}
-                onChange={(event) => handleCheck(event, expectation)}
-                checked={expectation.checked}
-                color="primary"
-              />
-            </Box>
-
-            <Box position="relative" style={{ flexGrow: 1 }}>
-              {editingIndex === i ? (
-                <ExpectationTextarea
-                  initialValue={expectation.description}
-                  onChange={(newDescription) => {
-                    if (
-                      newDescription !== expectation.description ||
-                      newDescription.length === 0
-                    )
-                      editOrRemoveDescription(i, newDescription);
-
-                    setEditingIndex(null);
-                  }}
-                />
-              ) : (
-                <Box
-                  pt={1}
-                  style={{ cursor: props.disabled ? "default" : "pointer" }}
-                  onClick={() => {
-                    if (!props.disabled) setEditingIndex(i);
-                  }}
-                >
-                  <Txt>
-                    {expectation.checked && !props.disabled ? (
-                      <s>
-                        <MyReactLinkify openNewTab>
-                          {expectation.description}
-                        </MyReactLinkify>
-                      </s>
-                    ) : (
-                      <MyReactLinkify openNewTab>
-                        {expectation.description}
-                      </MyReactLinkify>
-                    )}
-                  </Txt>
-                </Box>
-              )}
-            </Box>
-
-            <Tooltip title="Current goal">
-              <IconButton
-                onClick={() =>
-                  toggleCurrentGoal(props.level, expectation.index)
-                }
-                size="small"
-                style={{ width: 36, height: 36 }}
-              >
-                <FaFire
-                  style={{
-                    color: expectation.isCurrentGoal
-                      ? theme.palette.secondary.main
-                      : "#989898",
-                  }}
-                />
-              </IconButton>
-            </Tooltip>
-          </Flex>
+        (expectation, index) => (
+          <ExpectationItem
+            expectations={props.expectations}
+            level={props.level}
+            disabled={props.disabled}
+            onChangeExpectations={props.onChangeExpectations}
+            expectation={expectation}
+            index={index}
+            editingIndex={editingIndex}
+            setEditingIndex={setEditingIndex}
+          />
         )
       )}
 

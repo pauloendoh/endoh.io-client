@@ -1,8 +1,6 @@
 import { Box, makeStyles } from "@material-ui/core";
 import useMultiSelectResource from "hooks/relearn/useMultiSelectResource";
 import React from "react";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 import { Virtuoso } from "react-virtuoso";
 import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto";
 import DraggableResourceItem from "./DraggableResourceItem/DraggableResourceItem";
@@ -21,7 +19,7 @@ function ResourceList({
 
   if (isDraggable)
     return (
-      <DndProvider backend={HTML5Backend}>
+      <>
         {resources.map((resource, index) => (
           <div
             key={resource.id}
@@ -47,7 +45,7 @@ function ResourceList({
             />
           </div>
         ))}
-      </DndProvider>
+      </>
     );
 
   return (

@@ -1,6 +1,8 @@
 import { Box, CssBaseline, MuiThemeProvider } from "@material-ui/core";
 import useCheckAuthOrLogout from "hooks/auth/useCheckAuthOrLogout";
 import React, { lazy, Suspense, useEffect, useState } from "react";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { connect } from "react-redux";
@@ -188,15 +190,17 @@ const App = (props: Props) => {
   return (
     <MuiThemeProvider theme={theme}>
       <ThemeProvider theme={theme}>
-        <QueryClientProvider client={myQueryClient}>
-          <ReactQueryDevtools initialIsOpen={false} />
+        <DndProvider backend={HTML5Backend}>
+          <QueryClientProvider client={myQueryClient}>
+            <ReactQueryDevtools initialIsOpen={false} />
 
-          {/* What does this do? */}
-          <CssBaseline />
-          {isLoading ? <LoadingPage /> : routes}
+            {/* What does this do? */}
+            <CssBaseline />
+            {isLoading ? <LoadingPage /> : routes}
 
-          <MySnackBar2 />
-        </QueryClientProvider>
+            <MySnackBar2 />
+          </QueryClientProvider>
+        </DndProvider>
       </ThemeProvider>
     </MuiThemeProvider>
   );
