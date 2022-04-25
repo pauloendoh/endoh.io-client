@@ -10,6 +10,13 @@ import {
 import EditIcon from "@material-ui/icons/Edit";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import React, { useState } from "react";
+import { AiOutlineClear } from "react-icons/ai";
+import useDocsStore from "store/zustand/domain/useDocsStore";
+import useDialogsStore from "store/zustand/useDialogsStore";
+import useSnackbarStore from "store/zustand/useSnackbarStore";
+import { NoteDto } from "types/domain/define/NoteDto";
+import myAxios from "utils/consts/myAxios";
+import { urls } from "utils/urls";
 import { DocDto } from "../../../../types/domain/define/DocDto";
 import DocTitleDialog from "../../DocTitleDialog/DocTitleDialog";
 
@@ -19,17 +26,38 @@ interface Props {
 }
 
 // PE 2/3 - MenuItem could be shorter?
+// PE 1/3 rename to DocMoreIcon?
 function TitleMoreIcon(props: Props) {
   const classes = useStyles();
 
-  const [openTitleDialog, setOpenTitleDialog] = useState(false);
+  const { setNotes } = useDocsStore();
+  const { openConfirmDialog } = useDialogsStore();
+  const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [openTitleDialog, setOpenTitleDialog] = useState(false);
+
   const handleOpenMore = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleCloseMore = () => {
     setAnchorEl(null); // avoids error "The `anchorEl` prop provided to the component is invalid"
+  };
+
+  const handleClearEmptyNotes = () => {
+    openConfirmDialog({
+      title: "Clear empty notes?",
+      onConfirm: () => {
+        myAxios
+          .delete<NoteDto[]>(urls.api.clearEmptyNotes(props.doc.id))
+          .then((res) => {
+            setSuccessMessage("Cleared empty notes");
+            setNotes(res.data);
+          })
+          .catch((err) => setErrorMessage(err.response.data.message));
+      },
+    });
   };
 
   return (
@@ -61,7 +89,6 @@ function TitleMoreIcon(props: Props) {
       >
         <MenuItem
           onClick={(e) => {
-            e.preventDefault();
             setOpenTitleDialog(true);
             handleCloseMore();
           }}
@@ -71,6 +98,20 @@ function TitleMoreIcon(props: Props) {
           </ListItemIcon>
           <Typography variant="inherit" noWrap>
             Edit
+          </Typography>
+        </MenuItem>
+
+        <MenuItem
+          onClick={(e) => {
+            handleClearEmptyNotes();
+            handleCloseMore();
+          }}
+        >
+          <ListItemIcon className={classes.listItemIcon}>
+            <AiOutlineClear />
+          </ListItemIcon>
+          <Typography variant="inherit" noWrap>
+            Clear empty notes
           </Typography>
         </MenuItem>
       </Menu>

@@ -3,6 +3,7 @@ import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import useDocsStore from "store/zustand/domain/useDocsStore";
+import useSnackbarStore from "store/zustand/useSnackbarStore";
 import pageUrls from "utils/url/urls/pageUrls";
 import useSidebarStore from "../../store/zustand/useSidebarStore";
 import { DocDto } from "../../types/domain/define/DocDto";
@@ -16,10 +17,10 @@ import DefineSidebar from "./DefineSidebar/DefineSidebar";
 
 // PE 3/3
 const DefinePage = () => {
-  const { docId } = useParams<{ docId: string }>();
-
+  const history = useHistory();
   const docsStore = useDocsStore();
-
+  const { setErrorMessage } = useSnackbarStore();
+  const { docId: paramDocId } = useParams<{ docId: string }>();
   const [selectedDocId, setSelectedDocId] = useState<number>(null);
 
   const { sidebarIsOpen, openSidebar } = useSidebarStore();
@@ -28,35 +29,39 @@ const DefinePage = () => {
     () => {
       openSidebar();
 
-      myAxios.get<DocDto[]>(apiUrls.define.doc).then((res) => {
-        docsStore.setDocs(res.data);
-      });
+      myAxios
+        .get<DocDto[]>(apiUrls.define.doc)
+        .then((res) => docsStore.setDocs(res.data));
 
-      myAxios.get<NoteDto[]>(apiUrls.define.note).then((res) => {
-        docsStore.setNotes(res.data);
-      });
+      myAxios
+        .get<NoteDto[]>(apiUrls.define.note)
+        .then((res) => docsStore.setNotes(res.data));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
   useEffect(() => {
-    if (docId && docsStore.hasFirstLoaded) {
-      setSelectedDocId(Number(docId));
+    if (paramDocId && docsStore.hasFirstLoaded) {
+      const docId = Number(paramDocId);
 
-      const doc = docsStore.docs.find((doc) => doc.id === Number(docId));
+      const doc = docsStore.docs.find((doc) => doc.id === docId);
+      if (!doc) {
+        history.push(pageUrls.define.index);
+        return;
+      }
+      setSelectedDocId(docId);
       document.title = doc.title;
     } else {
       setSelectedDocId(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [docId, docsStore.docs]);
+  }, [paramDocId, docsStore.docs]);
 
-  const history = useHistory();
   useEffect(
     () => {
       // open last opened tag
-      if (!docId && docsStore.docs?.length > 0) {
+      if (!paramDocId && docsStore.docs?.length > 0) {
         const sortedByLastOpened = docsStore.docs.sort((a, b) => {
           if (a.lastOpenedAt === undefined) return -1;
           if (b.lastOpenedAt === undefined) return 1;
@@ -69,7 +74,7 @@ const DefinePage = () => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [docsStore.docs, docId]
+    [docsStore.docs, paramDocId]
   );
 
   const classes = useStyles();

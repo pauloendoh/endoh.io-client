@@ -6,8 +6,8 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import { Form, Formik } from "formik";
 import React, { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { connect } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 import { Dispatch } from "redux";
@@ -23,16 +23,23 @@ import H5 from "../../../_UI/Text/H5";
 // PE 2/3
 const ResetPasswordByEmailForm = (props: Props) => {
   const classes = useStyles();
-  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[]);
 
   const [isOk, setIsOk] = useState(false);
+  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[]);
 
-  const handleSubmit = (
-    values: EmailPostDto,
-    setSubmitting: (isSubmitting: boolean) => void
-  ) => {
-    setSubmitting(true);
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+    control,
+    watch,
+    reset,
+  } = useForm<EmailPostDto>({
+    defaultValues: {
+      email: "",
+    },
+  });
 
+  const onSubmit = (values: EmailPostDto) => {
     myAxios
       .post(apiUrls.utils.passwordResetEmail, values)
       .then((res) => {
@@ -40,9 +47,6 @@ const ResetPasswordByEmailForm = (props: Props) => {
       })
       .catch((err: MyAxiosError) => {
         setResponseErrors(err.response.data.errors);
-      })
-      .finally(() => {
-        setSubmitting(false);
       });
   };
 
@@ -64,60 +68,54 @@ const ResetPasswordByEmailForm = (props: Props) => {
             </Typography>
           </Box>
 
-          <Formik
-            initialValues={
-              {
-                email: "",
-              } as EmailPostDto
-            }
-            // PE 2/3 jogar pra fora
-            onSubmit={(values, { setSubmitting }) => {
-              handleSubmit(values, setSubmitting);
-            }}
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="d-flex flex-column"
           >
-            {({ isSubmitting, handleChange, errors }) => (
-              <Form className="d-flex flex-column">
-                <Box>
+            <Box>
+              <Controller
+                control={control}
+                name="email"
+                render={({ field }) => (
                   <MyTextField
                     id="email"
                     name="email"
-                    className="mt-3"
                     type="email"
-                    onChange={handleChange}
                     label="Email"
                     fullWidth
                     required
                     InputLabelProps={{ required: false }}
                     autoFocus
+                    {...field}
                   />
-                </Box>
+                )}
+              />
+            </Box>
 
-                <Box mt={2}>
-                  <Button
-                    id="submit-reset-password-button"
-                    className={classes.button}
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    disabled={isSubmitting}
-                    style={{ textTransform: "none", fontSize: 16 }}
-                    fullWidth
-                  >
-                    SEND LINK
-                    {isSubmitting && (
-                      <CircularProgress size={20} className="ml-3" />
-                    )}
-                  </Button>
-                </Box>
+            <Box mt={2}>
+              <Button
+                id="submit-reset-password-button"
+                className={classes.button}
+                type="submit"
+                variant="contained"
+                color="primary"
+                disabled={isSubmitting}
+                style={{ textTransform: "none", fontSize: 16 }}
+                fullWidth
+              >
+                SEND LINK
+                {isSubmitting && (
+                  <CircularProgress size={20} className="ml-3" />
+                )}
+              </Button>
+            </Box>
 
-                {responseErrors.map((err, i) => (
-                  <Box key={i} mt={1}>
-                    <Typography color="error">{err.message}</Typography>
-                  </Box>
-                ))}
-              </Form>
-            )}
-          </Formik>
+            {responseErrors.map((err, i) => (
+              <Box key={i} mt={1}>
+                <Typography color="error">{err.message}</Typography>
+              </Box>
+            ))}
+          </form>
         </React.Fragment>
       )}
 

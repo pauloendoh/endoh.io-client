@@ -77,7 +77,6 @@ const DecisionDialog = (props: Props) => {
                     name="title"
                     size="small"
                     label="Title"
-                    className="mt-3"
                     fullWidth
                     required
                     autoFocus
