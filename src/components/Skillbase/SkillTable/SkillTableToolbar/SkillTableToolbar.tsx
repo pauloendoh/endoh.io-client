@@ -15,6 +15,7 @@ import { connect } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
+import useSnackbarStore from "store/zustand/useSnackbarStore";
 import { ApplicationState } from "../../../../store/store";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
 import { getCurrentTag } from "../../../../utils/skillbase/getCurrentTag";
@@ -30,6 +31,7 @@ const SkillTableToolbar = (props: Props) => {
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
+  const { setErrorMessage } = useSnackbarStore();
   const { setFilterByText } = useSkillbaseStore();
 
   const [searchSkillName, setSearchSkillName] = useState("");
@@ -52,9 +54,15 @@ const SkillTableToolbar = (props: Props) => {
     const { pathname } = location;
     if (pathname.includes(pageUrls.skillbase.untagged))
       setTagSelectorValue("Untagged");
-    else if (pathname.includes(pageUrls.skillbase.tag))
-      setTagSelectorValue(getCurrentTag(pathname, props.allTags));
-    else setTagSelectorValue("All");
+    else if (pathname.includes(pageUrls.skillbase.tag)) {
+      const currentTag = getCurrentTag(pathname, props.allTags);
+      if (currentTag) {
+        setTagSelectorValue(currentTag);
+        return;
+      }
+      setErrorMessage("Could not find tag");
+      history.push(pageUrls.skillbase.index);
+    } else setTagSelectorValue("All");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 

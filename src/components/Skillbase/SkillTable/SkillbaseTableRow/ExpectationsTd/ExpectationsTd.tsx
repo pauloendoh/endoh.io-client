@@ -64,7 +64,7 @@ const ExpectationsTd = ({ skill }: Props) => {
                     {missingExpectationsMap
                       .get(level)
                       .map((expectation: SkillExpectationDto) => (
-                        <span>
+                        <span key={expectation.id}>
                           <MdCheckBoxOutlineBlank
                             style={{
                               marginRight: 4,

@@ -28,6 +28,7 @@ const SkillbaseTagSelector = (props: Props) => {
 
   const getProperValue = (option: optionTypes) => {
     if (typeof option === "string") return option;
+    if (option === undefined) return "";
     return option.id;
   };
 
