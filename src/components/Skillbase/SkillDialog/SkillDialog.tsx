@@ -10,6 +10,7 @@ import {
 import Flex from "components/_UI/Flexboxes/Flex";
 import Txt from "components/_UI/Text/Txt";
 import { useFormik } from "formik";
+import useConfirmTabClose from "hooks/utils/useConfirmTabClose";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useLocation } from "react-router";
@@ -56,6 +57,7 @@ const SkillDialog = (props: Props) => {
   const theme = useTheme();
   const location = useLocation();
   const { openConfirmDialog } = useDialogsStore();
+
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
 
   const [labelsDialog, setLabelsDialog] = useState(false);
@@ -96,6 +98,7 @@ const SkillDialog = (props: Props) => {
       );
     }, 0);
   };
+  useConfirmTabClose(formik.dirty);
 
   const handleClose = () => {
     if (formik.dirty) {
