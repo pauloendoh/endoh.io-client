@@ -7,9 +7,10 @@ import {
 } from "@material-ui/core";
 import MyReactLinkify from "components/_UI/link/MyReactLinkify";
 import Txt from "components/_UI/Text/Txt";
-import React, { useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { FaFire } from "react-icons/fa";
+import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
 import { SkillExpectationDto } from "../../../../../../types/domain/skillbase/SkillExpectationDto";
 import ExpectationTextarea from "../ExpectationTextarea/ExpectationTextarea";
 import changeExpectationPosition from "./utils/changeExpectationPosition";
@@ -35,6 +36,11 @@ const ExpectationItem = ({
   ...props
 }: Props) => {
   const theme = useTheme();
+
+  const {
+    setDraggingExpectation,
+    draggingExpectation: storedDraggingExpectation,
+  } = useSkillbaseStore();
 
   const handleCheck = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -114,18 +120,28 @@ const ExpectationItem = ({
     props.onChangeExpectations(expectations);
   };
 
-  interface DndExpectation {
-    id: number;
-    expectation: SkillExpectationDto;
-  }
-
-  const [{ isDragging: isDraggingContainer }, dragExpectationRef] = useDrag({
+  const [{ isDragging: localIsDragging }, dragExpectationRef] = useDrag({
     type: "dnd-expectation",
     item: expectation,
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
+    end: () => {
+      setDraggingExpectation(null);
+    },
   });
+
+  useEffect(() => {
+    if (localIsDragging) setDraggingExpectation(expectation);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [localIsDragging]);
+
+  const isDragging = useMemo(() => {
+    console.log({ storedDraggingExpectation, expectation });
+    if (storedDraggingExpectation?.id === expectation.id) return true;
+    if (expectation.randomId === undefined) return false;
+    return storedDraggingExpectation?.randomId === expectation.randomId;
+  }, [storedDraggingExpectation, expectation]);
 
   const [, dropExpectationRef] = useDrop<SkillExpectationDto, unknown, unknown>(
     {
@@ -185,42 +201,6 @@ const ExpectationItem = ({
         // required to avoid multiple events
         fromExpectation.index = toExpectation.index;
         fromExpectation.level = toExpectation.level;
-
-        /// ===============
-
-        // const toContainer = {
-        //   id: container.id,
-        //   position: container.position,
-        // } as DndContainer;
-
-        // if (fromContainer.position === toContainer.position) return;
-
-        // const targetSize = htmlDragContainerRef.current.getBoundingClientRect();
-        // const targetCenterX = (targetSize.right - targetSize.left) / 2;
-
-        // const cursorCoord = monitor.getClientOffset();
-        // const draggedLeftX = cursorCoord.x - targetSize.left;
-
-        // // evita bugs em elementos de larguras diferentes
-        // if (
-        //   fromContainer.position < toContainer.position &&
-        //   draggedLeftX < targetCenterX
-        // )
-        //   return;
-
-        // if (
-        //   fromContainer.position > toContainer.position &&
-        //   draggedLeftX > targetCenterX
-        // )
-        //   return;
-
-        // changeContainerPosition({
-        //   containerId: fromContainer.id,
-        //   fromPosition: fromContainer.position,
-        //   toPosition: toContainer.position,
-        // });
-
-        // fromContainer.position = toContainer.position;
       },
     }
   );
@@ -233,7 +213,11 @@ const ExpectationItem = ({
 
   return (
     <div
-      style={{ display: "flex" }}
+      style={{
+        display: "flex",
+        background: isDragging && "#4d4d4d",
+        borderRadius: 4,
+      }}
       key={index}
       title={
         props.disabled ? "This is not your item. You can’t change it." : ""

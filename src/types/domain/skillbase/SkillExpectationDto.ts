@@ -10,9 +10,11 @@ export interface SkillExpectationDto {
 
   createdAt: string;
   updatedAt: string;
+
+  randomId?: number; // for drag and rop purpose
 }
 
-export const createSkillExpectation = (
+export const newSkillExpectationDto = (
   level: number,
   index: number
 ): SkillExpectationDto => ({
@@ -26,4 +28,6 @@ export const createSkillExpectation = (
 
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
+
+  randomId: Math.random(),
 });

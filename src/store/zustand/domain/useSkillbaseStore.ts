@@ -1,3 +1,4 @@
+import { SkillExpectationDto } from "types/domain/skillbase/SkillExpectationDto";
 import { pushOrRemove } from "utils/array/pushOrRemove";
 import create from "zustand";
 import { devtools } from "zustand/middleware";
@@ -18,6 +19,10 @@ interface ISkillbaseStore {
   setFilterByText: (text: string) => void;
   toggleHidingDone: () => void;
   toggleFilterCurrentGoal: () => void;
+
+  // drag and drop
+  draggingExpectation: SkillExpectationDto;
+  setDraggingExpectation: (expectation: SkillExpectationDto) => void;
 }
 
 const useSkillbaseStore = create<ISkillbaseStore>(
@@ -89,6 +94,13 @@ const useSkillbaseStore = create<ISkillbaseStore>(
           ...filter,
           currentGoal: !filter.currentGoal,
         },
+      });
+    },
+
+    draggingExpectation: null,
+    setDraggingExpectation: (expectation) => {
+      set({
+        draggingExpectation: expectation,
       });
     },
   }))
