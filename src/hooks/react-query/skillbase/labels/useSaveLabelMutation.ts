@@ -23,7 +23,7 @@ export default function useSaveLabelMutation() {
 
         setSuccessMessage("Label saved!");
 
-        myQueryClient.invalidateQueries(queryKeys.skill(params.skillId));
+        myQueryClient.invalidateQueries(queryKeys.skillId(params.skillId));
       },
       onError: (err) => {
         setErrorMessage("Error while saving label: " + JSON.stringify(err));

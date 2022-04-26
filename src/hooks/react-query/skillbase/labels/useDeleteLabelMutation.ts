@@ -25,13 +25,16 @@ export default function useDeleteLabelMutation() {
         myQueryClient.setQueryData(queryKeys.labels, newLabels);
 
         const skill = myQueryClient.getQueryData<SkillDto>(
-          queryKeys.skill(payload.skillId)
+          queryKeys.skillId(payload.skillId)
         );
         const newSkillLabels = skill.labels.filter(
           (label) => label.id !== payload.labelId
         );
         const newSkill = { ...skill, labels: newSkillLabels };
-        myQueryClient.setQueryData(queryKeys.skill(payload.skillId), newSkill);
+        myQueryClient.setQueryData(
+          queryKeys.skillId(payload.skillId),
+          newSkill
+        );
 
         setSuccessMessage("Label deleted!");
       },

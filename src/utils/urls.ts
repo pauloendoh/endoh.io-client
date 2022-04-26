@@ -10,6 +10,9 @@ export const urls = {
       label: "/v2/skillbase/label",
       labelId: (labelId: number) => `/v2/skillbase/label/${labelId}`,
       skillLabel: (skillId: number) => `/v2/skillbase/skill/${skillId}/label`,
+      progressMonths: `/v2/skillbase/skill-progress/months`,
+      progressFrom: (fromYearMonth: string) =>
+        `/v2/skillbase/skill-progress?from=${fromYearMonth}`,
     },
 
     // DEFINE

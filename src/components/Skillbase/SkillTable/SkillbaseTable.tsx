@@ -3,6 +3,8 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableContainer from "@material-ui/core/TableContainer";
 import Toolbar from "@material-ui/core/Toolbar";
+import DarkButton from "components/_UI/Buttons/DarkButton/DarkButton";
+import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -21,6 +23,7 @@ import myAxios from "../../../utils/consts/myAxios";
 import filterAndSortSkills from "../../../utils/domain/skills/filterAndSortSkills";
 import apiUrls from "../../../utils/url/urls/apiUrls";
 import AddSkillButton from "./AddSkillButton/AddSkillButton";
+import SkillbaseProgressDialog from "./SkillbaseProgressDialog/SkillbaseProgressDialog";
 import SkillbaseTableHead from "./SkillbaseTableHead/SkillbaseTableHead";
 import SkillbaseTableRow from "./SkillbaseTableRow/SkillbaseTableRow";
 import SkillTableToolbar from "./SkillTableToolbar/SkillTableToolbar";
@@ -31,6 +34,7 @@ const SkillbaseTable = (props: Props) => {
   const { filter } = useSkillbaseStore();
   const { setSuccessMessage } = useSnackbarStore();
 
+  const [progressDialog, setProgressDialog] = useState(false);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
   // Transform this into a utility hook
@@ -158,7 +162,17 @@ const SkillbaseTable = (props: Props) => {
       </TableContainer>
 
       <Toolbar>
-        <AddSkillButton tag={props.tag} />
+        <FlexVCenterBetween width="100%">
+          <AddSkillButton tag={props.tag} />
+
+          <DarkButton onClick={() => setProgressDialog(true)}>
+            See Progress
+          </DarkButton>
+          <SkillbaseProgressDialog
+            open={progressDialog}
+            onClose={() => setProgressDialog(false)}
+          />
+        </FlexVCenterBetween>
       </Toolbar>
     </>
   );
