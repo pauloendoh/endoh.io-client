@@ -3,27 +3,31 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, IconButton, Typography } from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
 import { useLogout } from "hooks/auth/useLogout";
-import React from "react";
+import React, { useState } from "react";
+import { MdHelpOutline } from "react-icons/md";
 import { connect } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
 import useAuthStore from "store/zustand/useAuthStore";
 import theme from "utils/consts/theme";
 import ProfilePicture from "../../../../_UI/ProfilePicture/ProfilePicture";
+import KeyboardShortcutsDialog from "./KeyboardShortcutsDialog/KeyboardShortcutsDialog";
 
 // PE 2/3
 const NavbarUserMenu = (props: Props) => {
   const location = useLocation();
   const { profile, authUser: user } = useAuthStore();
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [shortcutsDialog, setShortcutsDialog] = useState(false);
 
-  const handleClick = (event: any) => {
+  const handleOpenMenu = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleCloseMenu = () => {
     setAnchorEl(null);
   };
 
@@ -39,7 +43,7 @@ const NavbarUserMenu = (props: Props) => {
       <IconButton
         size="small"
         id="user-menu-btn"
-        onClick={handleClick}
+        onClick={handleOpenMenu}
         aria-controls="simple-menu"
         aria-haspopup="true"
       >
@@ -61,18 +65,30 @@ const NavbarUserMenu = (props: Props) => {
         transformOrigin={{ vertical: "top", horizontal: "right" }}
         keepMounted
         open={Boolean(anchorEl)}
-        onClose={handleClose}
+        onClose={handleCloseMenu}
       >
         <MenuItem
           component={Link}
           to={"/user/" + user.username}
           id="profile-user-menu-option"
-          onClick={handleClose}
+          onClick={handleCloseMenu}
         >
           <Box mr={2}>
             <FontAwesomeIcon icon={faUser} />
           </Box>
           Profile
+        </MenuItem>
+
+        <MenuItem
+          onClick={() => {
+            handleCloseMenu();
+            setShortcutsDialog(true);
+          }}
+        >
+          <FlexVCenter style={{ gap: 16 }}>
+            <MdHelpOutline />
+            Keyboard Shortcuts
+          </FlexVCenter>
         </MenuItem>
 
         <MenuItem component={Link} to={settingsHref} id="settings-user-menu">
@@ -94,6 +110,11 @@ const NavbarUserMenu = (props: Props) => {
           </Typography>
         </MenuItem>
       </Menu>
+
+      <KeyboardShortcutsDialog
+        open={shortcutsDialog}
+        onClose={() => setShortcutsDialog(false)}
+      />
     </div>
   );
 };

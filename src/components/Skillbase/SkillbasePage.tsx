@@ -2,7 +2,7 @@ import { Box, makeStyles, Paper } from "@material-ui/core";
 import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { useLocation } from "react-router";
+import { useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
 import useWindowFocus from "use-window-focus";
 import titles from "utils/titles";

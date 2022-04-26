@@ -15,10 +15,11 @@ import { Autocomplete } from "@material-ui/lab";
 import FlexHCenter from "components/_UI/Flexboxes/FlexHCenter";
 import TagIcon from "components/_UI/Icon/TagIcon";
 import { FormikErrors, useFormik } from "formik";
+import useQueryParams from "hooks/utils/react-router/useQueryParams";
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose";
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { connect } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import MaskedInput from "react-text-mask";
 import { Dispatch } from "redux";
 import useDialogsStore from "store/zustand/useDialogsStore";
@@ -43,9 +44,43 @@ import { LinkPreviewDto } from "./_types/LinkPreviewDto";
 
 // PE 1/3 - tá muito grande
 const ResourceDialog = (props: Props) => {
+  const history = useHistory();
   const location = useLocation();
   const { openConfirmDialog } = useDialogsStore();
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
+  const queryParams = useQueryParams();
+
+  const openResourceId = useMemo(
+    () => Number(queryParams.get("openResourceId")) || undefined,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [queryParams.get("openResourceId")]
+  );
+
+  const clearOpenResourceId = () => {
+    queryParams.delete("openResourceId");
+    history.push(`${location.pathname}?${queryParams.toString()}`);
+  };
+
+  // Testing ?openResourceId -> should open a resource dialog
+  useEffect(() => {
+    if (!openResourceId) {
+      clearOpenResourceId();
+      return;
+    }
+
+    if (props.resources?.length === 0) return;
+
+    const resource = props.resources.find((r) => r.id === openResourceId);
+    if (resource) {
+      props.editResource(resource);
+      return;
+    }
+
+    clearOpenResourceId();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openResourceId, JSON.stringify(props.resources)]);
+
   const [isFetchingLinkPreview, setIsFetchingLinkPreview] = useState(false);
 
   const getCurrentTag = (): TagDto => {
@@ -97,12 +132,17 @@ const ResourceDialog = (props: Props) => {
   const confirmClose = (isDirty: boolean) => {
     if (isDirty) {
       openConfirmDialog({
-        onConfirm: () => props.closeResourceDialog(),
+        onConfirm: () => beforeClose(),
         title: "Discard changes?",
       });
     } else {
-      props.closeResourceDialog();
+      beforeClose();
     }
+  };
+
+  const beforeClose = () => {
+    clearOpenResourceId();
+    props.closeResourceDialog();
   };
 
   const handleSubmit = (resource: ResourceDto) => {
@@ -122,7 +162,7 @@ const ResourceDialog = (props: Props) => {
         setErrorMessage(err.response.data.errors[0].message);
       })
       .finally(() => {
-        props.closeResourceDialog();
+        beforeClose();
       });
   };
 
@@ -436,11 +476,14 @@ function TextMaskCustom(props: TextMaskCustomProps) {
 
 const mapStateToProps = (state: ApplicationState) => ({
   // editingPlace: state.monerate.editingPlace,
+  resources: state.relearn.resources,
   tags: state.relearn.tags,
   editingResource: state.relearn.editingResource,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  editResource: (resource: ResourceDto) =>
+    dispatch(relearnActions.editResource(resource)),
   closeResourceDialog: () => dispatch(relearnActions.closeResourceDialog()),
   setResources: (resources: ResourceDto[]) =>
     dispatch(relearnActions.setResources(resources)),

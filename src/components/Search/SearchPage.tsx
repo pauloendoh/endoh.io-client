@@ -1,7 +1,7 @@
 import { Box, Grid, Paper, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { useLocation } from "react-router";
+import { useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
 import { siteTitles } from "utils/consts/siteTitles";
 import { urls } from "utils/urls";

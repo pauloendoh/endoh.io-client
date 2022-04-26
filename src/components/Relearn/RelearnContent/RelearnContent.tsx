@@ -1,7 +1,7 @@
 import { Box, Container } from "@material-ui/core";
 import Flex from "components/_UI/Flexboxes/Flex";
 import React, { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router";
+import { useLocation } from "react-router-dom";
 import { ResourceDto } from "../../../types/domain/relearn/ResourceDto";
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto";
 import { getTodoResources as filterTodo } from "../../../utils/relearn/getTodoResources";

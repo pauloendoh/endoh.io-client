@@ -6,7 +6,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useQueryClient } from "react-query";
 import { connect } from "react-redux";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import { Dispatch } from "redux";
 import { editResource } from "store/relearn/relearnActions";
 import { ApplicationState } from "store/store";

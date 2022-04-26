@@ -13,7 +13,7 @@ import { useFormik } from "formik";
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { useLocation } from "react-router";
+import { useLocation } from "react-router-dom";
 import { scroller } from "react-scroll";
 import { Dispatch } from "redux";
 import useDialogsStore from "store/zustand/useDialogsStore";

@@ -1,7 +1,7 @@
 import { Box, makeStyles } from "@material-ui/core";
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router";
+import { useHistory, useParams } from "react-router-dom";
 import useDocsStore from "store/zustand/domain/useDocsStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
 import pageUrls from "utils/url/urls/pageUrls";
