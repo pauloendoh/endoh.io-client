@@ -141,6 +141,7 @@ const App = (props: Props) => {
 
   // PE 2/3 - Talvez criar um <UserRoutes/> ?
   if (authUser) {
+    if (location.pathname === "/") props.history.push("/relearn");
     routes = (
       <Box height="100%">
         {location.pathname.startsWith("/settings/") ? (
@@ -177,7 +178,6 @@ const App = (props: Props) => {
 
               <Route path="/404" component={NotFoundPage} />
               <Route path="/search" component={SearchPage} />
-              <Redirect to="/relearn" />
             </Switch>
           </Suspense>
         </Box>
