@@ -9,17 +9,21 @@ import StarBorderOutlined from "@material-ui/icons/StarBorderOutlined";
 import StarRateIcon from "@material-ui/icons/StarRate";
 import { Rating } from "@material-ui/lab";
 import React from "react";
-import { ratingLabels } from "utils/domain/relearn/resources/ratingLabels";
+import {
+  hoverRatingLabels,
+  ratingLabels,
+} from "utils/domain/relearn/resources/ratingLabels";
 import { ResourceDto } from "../../../types/domain/relearn/ResourceDto";
 import { getColorByRating } from "../../../utils/relearn/getColorByRating";
 import FlexHCenter from "../../_UI/Flexboxes/FlexHCenter";
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
 
 interface Props {
-  resource: ResourceDto;
+  resource: ResourceDto; // PE 1/3 - change to rating: number
   onChange: (newRating: number) => void;
 }
 
+// PE 1/3 - change to RatingButton
 const RateButton = (props: Props) => {
   const [open, setOpen] = React.useState(false);
   const handleTooltipClose = () => {
@@ -29,9 +33,11 @@ const RateButton = (props: Props) => {
     setOpen(true);
   };
 
-  const [rating, setRating] = React.useState<number | null>(
+  // PE 1/3 - remove this?
+  const [localRating, setLocalRating] = React.useState<number | null>(
     props.resource.rating
   );
+
   const [hover, setHover] = React.useState(-1);
 
   return (
@@ -51,16 +57,16 @@ const RateButton = (props: Props) => {
           <Box>
             <Rating
               name="rating-input"
-              value={rating}
+              value={localRating}
               onChange={(event, newValue) => {
-                setRating(rating);
+                setLocalRating(localRating);
                 setOpen(false);
                 props.onChange(newValue);
                 // handleSaveRating(newValue)
                 // setValue(newValue)
               }}
               onChangeActive={(event, newHover) => {
-                if (newHover === rating) {
+                if (newHover === localRating) {
                   setHover(0);
                 } else {
                   setHover(newHover);
@@ -69,7 +75,9 @@ const RateButton = (props: Props) => {
             />
             <FlexHCenter>
               <Typography>
-                {ratingLabels[hover !== -1 ? hover : rating]}
+                {hover !== -1
+                  ? hoverRatingLabels[hover]
+                  : ratingLabels[localRating]}
               </Typography>
             </FlexHCenter>
           </Box>
