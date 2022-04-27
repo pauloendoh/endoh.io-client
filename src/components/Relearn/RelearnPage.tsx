@@ -3,7 +3,7 @@ import classNames from "classnames";
 import useMultiSelectResource from "hooks/relearn/useMultiSelectResource";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { Redirect, useLocation } from "react-router-dom";
+import { Redirect, useLocation, useParams } from "react-router-dom";
 import { Dispatch } from "redux";
 import { setSkills } from "store/skillbase/skillbaseActions";
 import useWindowFocus from "use-window-focus";
@@ -24,8 +24,10 @@ import TagDialog from "./TagDialog/TagDialog";
 const RelearnPage = (props: Props) => {
   const classes = useStyles();
 
+  const params = useParams<{ tagId?: string }>();
   const windowFocused = useWindowFocus();
   const { clearSelectedIds } = useMultiSelectResource();
+
   const { sidebarIsOpen, openSidebar } = useSidebarStore();
 
   const [redirectTo, setRedirectTo] = useState("");
@@ -51,9 +53,7 @@ const RelearnPage = (props: Props) => {
 
   useEffect(
     () => {
-      if (windowFocused) {
-        fetchResourcesAndSkills();
-      }
+      if (windowFocused) fetchResourcesAndSkills();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [windowFocused]
@@ -99,21 +99,30 @@ const RelearnPage = (props: Props) => {
   useEffect(
     () => {
       // open last opened tag
-      const tagId = Number(location.pathname.split("/").pop());
-      if (!tagId && props.allTags?.length > 0) {
-        const sortedByLastOpened = props.allTags.sort((a, b) => {
+      if (props.allTags?.length > 0) {
+        const lastOpened = props.allTags.sort((a, b) => {
           if (a.lastOpenedAt === undefined) return -1;
           if (b.lastOpenedAt === undefined) return 1;
 
           return a.lastOpenedAt > b.lastOpenedAt ? -1 : 1;
-        });
+        })[0];
 
-        const tagId = sortedByLastOpened[0].id;
-        setRedirectTo(pageUrls.relearn.tagId(tagId));
+        console.log(params);
+        if (!params.tagId) {
+          setRedirectTo(pageUrls.relearn.tagId(lastOpened.id));
+          return;
+        }
+
+        const foundTag = props.allTags.find(
+          (tag) => tag.id === Number(params.tagId)
+        );
+        if (!foundTag) {
+          setRedirectTo(pageUrls.relearn.tagId(lastOpened.id));
+        }
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.allTags, location]
+    [props.allTags, params.tagId]
   );
 
   if (redirectTo.length > 0) {

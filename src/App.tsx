@@ -153,7 +153,9 @@ const App = (props: Props) => {
           <Suspense fallback={<LoadingPage />}>
             <Switch>
               <Route path="/monerate" component={MoneratePage} />
+              <Route path="/relearn/tag/:tagId" component={RelearnPage} />
               <Route path="/relearn" component={RelearnPage} />
+
               <Route path="/skillbase/tag/:tagId" component={SkillbasePage} />
               <Route path="/skillbase" component={SkillbasePage} />
               <Route path="/feed" component={FeedPage} />
