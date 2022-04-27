@@ -3,9 +3,11 @@ import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
 import MyImage from "components/_UI/images/MyImage";
 import Txt from "components/_UI/Text/Txt";
 import React from "react";
+import { useLocation } from "react-router-dom";
 import { ResourceDto } from "types/domain/relearn/ResourceDto";
 import { getColorByRating } from "utils/relearn/getColorByRating";
 import Icons from "utils/styles/Icons";
+import { urls } from "utils/urls";
 
 type Props = {
   resource: ResourceDto;
@@ -15,10 +17,21 @@ type Props = {
 const SearchBarOption = ({ resource, handleClick }: Props) => {
   const theme = useTheme();
 
+  const location = useLocation();
+
   return (
     <FlexVCenter
       style={{ justifyContent: "space-between", width: "100%" }}
       onClick={handleClick}
+      onMouseDown={(e) => {
+        if (e.button === 1)
+          window
+            .open(
+              urls.pages.openResourceId(resource.id, location.pathname),
+              "_blank"
+            )
+            .focus();
+      }}
     >
       {resource.thumbnail?.length ? (
         <MyImage

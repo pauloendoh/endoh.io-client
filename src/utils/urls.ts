@@ -1,4 +1,8 @@
 export const urls = {
+  pages: {
+    openResourceId: (resourceId: number, pathname?: string) =>
+      `${pathname}?openResourceId=${resourceId}`,
+  },
   api: {
     register: "/auth/register",
 
