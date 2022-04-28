@@ -1,15 +1,16 @@
 import { Checkbox, Divider } from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import DarkButton from "components/_UI/Buttons/DarkButton/DarkButton";
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
 import useLabelsQuery from "hooks/react-query/skillbase/labels/useLabelsQuery";
-import React from "react";
-import { MdFilterAlt } from "react-icons/md";
+import React, { useMemo, useState } from "react";
+import { MdClose, MdFilterAlt } from "react-icons/md";
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
 import S from "./styles";
 
 // PE 2/3
 const SkillbaseFilterButton = () => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const { data: labels } = useLabelsQuery();
   const {
@@ -29,25 +30,29 @@ const SkillbaseFilterButton = () => {
     setAnchorEl(null);
   };
 
+  const isDisabled = useMemo(() => filter.byText?.length > 0, [filter.byText]);
+
   return (
-    <div>
+    <>
       <DarkButton
         id="skilbase-filter-btn"
         onClick={handleClick}
         startIcon={<MdFilterAlt />}
+        disabled={isDisabled}
       >
         Filter
         {getFilterCount() > 0 && (
-          <div
+          <FlexVCenter
             style={{
               padding: "2px 8px",
               marginLeft: 8,
               borderRadius: 4,
               background: "#2b2b2b",
+              minHeight: 25,
             }}
           >
-            {getFilterCount()}
-          </div>
+            {isDisabled ? <MdClose /> : getFilterCount()}
+          </FlexVCenter>
         )}
       </DarkButton>
 
@@ -90,7 +95,7 @@ const SkillbaseFilterButton = () => {
           </S.MenuItem>
         ))}
       </Menu>
-    </div>
+    </>
   );
 };
 
