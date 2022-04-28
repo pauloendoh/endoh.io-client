@@ -12,18 +12,23 @@ interface Props {
 // PE 2/3 - Not so easy to understand the classes logic
 const SkillLevelTd = (props: Props) => {
   const classes = useStyles();
+
+  const nullButHasRightValue = !props.value && props.rightValue > 0;
+
   return (
     <TableCell
       align="center"
       className={clsx(classes.root, {
-        [classes.basic]: props.value >= 1 && props.value <= 3,
+        [classes.basic]:
+          (props.value >= 1 && props.value <= 3) || nullButHasRightValue,
         [classes.intermediary]: props.value >= 4 && props.value <= 6,
         [classes.advanced]: props.value >= 7 && props.value <= 10,
       })}
     >
       {props.rightValue ? (
         <FlexVCenter justifyContent="center">
-          {props.value} <MdOutlineArrowRightAlt /> {props.rightValue}
+          {nullButHasRightValue ? "?" : props.value} <MdOutlineArrowRightAlt />{" "}
+          {props.rightValue}
         </FlexVCenter>
       ) : (
         props.value
