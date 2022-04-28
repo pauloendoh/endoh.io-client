@@ -21,7 +21,6 @@ import { ApplicationState } from "../../../../store/store";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto";
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
-import ExpectationsTd from "./ExpectationsTd/ExpectationsTd";
 import SkillLevelTD from "./SkillLevelTd/SkillLevelTd";
 // PE 3/3
 const SkillbaseTableRow = (props: Props) => {
@@ -81,22 +80,25 @@ const SkillbaseTableRow = (props: Props) => {
 
       <TableCell width={280}>
         <FlexCol style={{ gap: 8 }}>
-          <Flex style={{ flexWrap: "wrap", gap: 4 }}>
-            {props.skill.labels?.map((label) => (
-              <div
-                key={label.id}
-                style={{
-                  background: label.bgColor,
-                  padding: "2px 4px",
-                  borderRadius: 4,
-                  color: "white",
-                  fontWeight: "bold",
-                }}
-              >
-                {label.name}
-              </div>
-            ))}
-          </Flex>
+          {props.skill?.labels?.length > 0 && (
+            <Flex style={{ flexWrap: "wrap", gap: 4 }}>
+              {props.skill.labels.map((label) => (
+                <div
+                  key={label.id}
+                  style={{
+                    background: label.bgColor,
+                    padding: "2px 4px",
+                    borderRadius: 4,
+                    color: "white",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {label.name}
+                </div>
+              ))}
+            </Flex>
+          )}
+
           <Box style={{ display: "inline-flex" }}>
             <span>
               {props.skill.name}
@@ -131,7 +133,6 @@ const SkillbaseTableRow = (props: Props) => {
         ) : null}
       </TableCell>
 
-      <ExpectationsTd skill={props.skill} />
       <TableCell padding="checkbox">
         <Checkbox
           checked={props.isSelected}

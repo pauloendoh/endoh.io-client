@@ -38,11 +38,6 @@ const headCells: IHeaderCell[] = [
     label: "Tag",
     align: "left",
   },
-  {
-    id: "expectations",
-    label: "Expectations",
-    align: "center",
-  },
 ];
 
 const SkillbaseTableHead = (props: Props) => {
