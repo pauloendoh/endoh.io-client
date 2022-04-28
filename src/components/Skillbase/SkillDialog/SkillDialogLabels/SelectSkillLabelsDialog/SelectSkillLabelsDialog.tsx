@@ -75,6 +75,7 @@ const SelectSkillLabelsDialog = (props: Props) => {
           <FlexCol style={{ gap: 8 }}>
             {sortedLabels?.map((label) => (
               <SkillLabelOption
+                key={label.id}
                 label={label}
                 isSelected={selectedLabelIds.includes(label.id)}
                 onToggle={() => {

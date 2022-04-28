@@ -133,7 +133,7 @@ const ExpectationsAtLevel = (props: Props) => {
             }}
             ref={htmlDropItemRef}
           >
-            Add Goal or Concept to Learn
+            Add next step
           </Button>
         )}
       </Box>

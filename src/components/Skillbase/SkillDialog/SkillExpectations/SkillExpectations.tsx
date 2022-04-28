@@ -17,7 +17,7 @@ const SkillExpectations = (props: Props) => {
 
   return (
     <Box mt={2} maxHeight={450}>
-      <Txt variant="h5">Roadmap</Txt>
+      <Txt variant="h5">Next Steps</Txt>
 
       {levels.map((level) => (
         <ExpectationsAtLevel
