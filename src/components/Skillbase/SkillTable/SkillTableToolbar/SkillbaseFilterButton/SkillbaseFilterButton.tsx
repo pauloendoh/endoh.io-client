@@ -34,7 +34,7 @@ const SkillbaseFilterButton = () => {
 
   // PE 1/3 - Check if it's being used in other places
   const sortedLabelsById = useMemo(() => {
-    if (labels?.length === 0) return [];
+    if (labels === undefined || labels?.length === 0) return [];
     return labels.sort((a, b) => (a.id > b.id ? 1 : -1));
   }, [labels]);
 
