@@ -2,6 +2,7 @@
   "name": "front",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://endoh.io/",
   "engines": {
     "node": "v14.17.4",
     "npm": "7.23.0"
