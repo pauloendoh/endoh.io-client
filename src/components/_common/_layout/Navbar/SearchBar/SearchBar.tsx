@@ -21,7 +21,7 @@ interface ISearchForm {
 }
 
 const MyPopper = function (props: React.ComponentProps<typeof Popper>) {
-  return <Popper {...props} style={{ width: 600 }} placement="bottom-start" />;
+  return <Popper {...props} style={{ width: 700 }} placement="bottom-start" />;
 };
 
 const SearchBar = ({ editResource }: Props) => {

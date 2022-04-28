@@ -2,7 +2,8 @@ import { useTheme } from "@material-ui/core";
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
 import MyImage from "components/_UI/images/MyImage";
 import Txt from "components/_UI/Text/Txt";
-import React from "react";
+import { DateTime } from "luxon";
+import React, { useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { ResourceDto } from "types/domain/relearn/ResourceDto";
 import { getColorByRating } from "utils/relearn/getColorByRating";
@@ -18,6 +19,16 @@ const SearchBarOption = ({ resource, handleClick }: Props) => {
   const theme = useTheme();
 
   const location = useLocation();
+
+  const daysAgoStr = useMemo(() => {
+    if (resource?.completedAt.length === 0) return "";
+    const completed = DateTime.fromISO(resource.completedAt);
+    const now = DateTime.now();
+    const diff = now.diff(completed, ["days"]);
+    const days = Math.floor(diff.days);
+    if (days === 0) return "today";
+    return `${days}d ago`;
+  }, [resource.completedAt]);
 
   return (
     <FlexVCenter
@@ -47,12 +58,23 @@ const SearchBarOption = ({ resource, handleClick }: Props) => {
       </Txt>
       <FlexVCenter style={{ gap: theme.spacing(2) }}>
         {resource.rating > 0 ? (
-          <FlexVCenter style={{ gap: theme.spacing(0.5), width: 30 }}>
-            <Icons.Star style={{ color: getColorByRating(resource.rating) }} />
-            <Txt>{resource.rating}</Txt>
+          <FlexVCenter style={{ width: 125, gap: theme.spacing(2) }}>
+            <FlexVCenter style={{ gap: theme.spacing(0.5) }}>
+              <Icons.Star
+                style={{ color: getColorByRating(resource.rating) }}
+              />
+              <Txt>{resource.rating}</Txt>
+            </FlexVCenter>
+
+            <Txt
+              noWrap
+              title={DateTime.fromISO(resource.completedAt).toLocaleString()}
+            >
+              {daysAgoStr}
+            </Txt>
           </FlexVCenter>
         ) : (
-          <div style={{ width: 30 }} />
+          <div style={{ width: 125 }} />
         )}
 
         {resource.tag && (
