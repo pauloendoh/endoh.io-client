@@ -32,6 +32,12 @@ const SkillbaseFilterButton = () => {
 
   const isDisabled = useMemo(() => filter.byText?.length > 0, [filter.byText]);
 
+  // PE 1/3 - Check if it's being used in other places
+  const sortedLabelsById = useMemo(() => {
+    if (labels?.length === 0) return [];
+    return labels.sort((a, b) => (a.id > b.id ? 1 : -1));
+  }, [labels]);
+
   return (
     <>
       <DarkButton
@@ -75,9 +81,9 @@ const SkillbaseFilterButton = () => {
           <S.CheckboxLabel>With current goal</S.CheckboxLabel>
         </S.MenuItem>
 
-        {labels?.length > 0 && <Divider />}
+        {sortedLabelsById.length > 0 && <Divider />}
 
-        {labels?.map((label) => (
+        {sortedLabelsById.map((label) => (
           <S.MenuItem
             key={label.id}
             onClick={() => toggleFilterLabelId(label.id)}
