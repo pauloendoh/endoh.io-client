@@ -2,6 +2,7 @@ import { faGlobeAmericas, faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
+  Button,
   CircularProgress,
   Dialog,
   DialogContent,
@@ -9,15 +10,19 @@ import {
   Grid,
   IconButton,
   Typography,
+  useTheme,
 } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import { Autocomplete } from "@material-ui/lab";
 import FlexHCenter from "components/_UI/Flexboxes/FlexHCenter";
+import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween";
 import TagIcon from "components/_UI/Icon/TagIcon";
+import Txt from "components/_UI/Text/Txt";
 import { FormikErrors, useFormik } from "formik";
 import useQueryParams from "hooks/utils/react-router/useQueryParams";
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose";
 import React, { useEffect, useMemo, useState } from "react";
+import { MdDeleteForever } from "react-icons/md";
 import { connect } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import MaskedInput from "react-text-mask";
@@ -44,6 +49,7 @@ import { LinkPreviewDto } from "./_types/LinkPreviewDto";
 
 // PE 1/3 - tá muito grande
 const ResourceDialog = (props: Props) => {
+  const theme = useTheme();
   const history = useHistory();
   const location = useLocation();
   const { openConfirmDialog } = useDialogsStore();
@@ -132,15 +138,15 @@ const ResourceDialog = (props: Props) => {
   const confirmClose = (isDirty: boolean) => {
     if (isDirty) {
       openConfirmDialog({
-        onConfirm: () => beforeClose(),
+        onConfirm: () => closeAndClearQueryParam(),
         title: "Discard changes?",
       });
     } else {
-      beforeClose();
+      closeAndClearQueryParam();
     }
   };
 
-  const beforeClose = () => {
+  const closeAndClearQueryParam = () => {
     clearOpenResourceId();
     props.closeResourceDialog();
   };
@@ -162,7 +168,7 @@ const ResourceDialog = (props: Props) => {
         setErrorMessage(err.response.data.errors[0].message);
       })
       .finally(() => {
-        beforeClose();
+        closeAndClearQueryParam();
       });
   };
 
@@ -216,6 +222,22 @@ const ResourceDialog = (props: Props) => {
     );
   };
 
+  // PE 1/3 - dry with resource more icon?
+  const handleDeleteResource = () => {
+    openConfirmDialog({
+      title: "Delete resource?",
+      onConfirm: () => {
+        myAxios
+          .delete(`${apiUrls.relearn.resource}/${values.id}`)
+          .then((res) => {
+            setSuccessMessage("Resource deleted!");
+            props.removeResource(values.id);
+            closeAndClearQueryParam();
+          });
+      },
+    });
+  };
+
   return (
     <Dialog
       onClose={() => confirmClose(dirty)}
@@ -226,7 +248,22 @@ const ResourceDialog = (props: Props) => {
     >
       <Box pb={1} px={1}>
         <DialogTitle id="edit-resource-dialog-title">
-          {values.id > 0 ? "Edit Resource" : "Add Resource"}
+          <FlexVCenterBetween>
+            <Txt variant="h5">
+              {values.id > 0 ? "Edit Resource" : "Add Resource"}
+            </Txt>
+            {values.id > 0 && (
+              <Button
+                onClick={handleDeleteResource}
+                style={{
+                  color: theme.palette.error.main,
+                }}
+                startIcon={<MdDeleteForever />}
+              >
+                Delete
+              </Button>
+            )}
+          </FlexVCenterBetween>
         </DialogTitle>
         <form onSubmit={formikHandleSubmit}>
           <DialogContent>
@@ -488,6 +525,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   setResources: (resources: ResourceDto[]) =>
     dispatch(relearnActions.setResources(resources)),
   setTags: (tags: TagDto[]) => dispatch(relearnActions.setTags(tags)),
+  removeResource: (id: number) => dispatch(relearnActions.removeResource(id)),
 });
 
 type Props = ReturnType<typeof mapStateToProps> &
