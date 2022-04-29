@@ -33,30 +33,7 @@ const ExpectationsAtLevel = (props: Props) => {
 
     setEditingIndex(newExpectation.index);
 
-    console.log({ expectations });
     props.onChangeExpectations(expectations);
-
-    // beforeOnChangeExpectations(expectations);
-  };
-
-  const beforeOnChangeExpectations = (expectations: SkillExpectationDto[]) => {
-    const otherLevelsExpectations = expectations.filter(
-      (e) => e.level !== props.level
-    );
-
-    // normalizing index
-    const thisLevelExpectation = filteredAndSorted.map((exp, index) => ({
-      ...exp,
-      index,
-    }));
-
-    const newExpectations = [
-      ...otherLevelsExpectations,
-      ...thisLevelExpectation,
-    ];
-
-    console.log({ newExpectations });
-    props.onChangeExpectations(newExpectations);
   };
 
   const filteredAndSorted = useMemo(() => {

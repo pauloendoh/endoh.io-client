@@ -137,7 +137,6 @@ const ExpectationItem = ({
   }, [localIsDragging]);
 
   const isDragging = useMemo(() => {
-    console.log({ storedDraggingExpectation, expectation });
     if (storedDraggingExpectation?.id === expectation.id) return true;
     if (expectation.randomId === undefined) return false;
     return storedDraggingExpectation?.randomId === expectation.randomId;

@@ -107,7 +107,6 @@ const RelearnPage = (props: Props) => {
           return a.lastOpenedAt > b.lastOpenedAt ? -1 : 1;
         })[0];
 
-        console.log(params);
         if (!params.tagId) {
           setRedirectTo(pageUrls.relearn.tagId(lastOpened.id));
           return;

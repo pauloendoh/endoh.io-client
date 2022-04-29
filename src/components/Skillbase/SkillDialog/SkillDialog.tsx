@@ -102,8 +102,6 @@ const SkillDialog = (props: Props) => {
 
   const handleClose = () => {
     if (formik.dirty) {
-      console.log(formik.initialValues);
-      console.log(formik.values);
       return openConfirmDialog({
         title: "Discard changes?",
         onConfirm: () => props.setEditingSkill(null),
