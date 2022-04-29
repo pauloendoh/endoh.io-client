@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
 import { ApplicationState } from "../../../../../store/store";
 import { TagDto } from "../../../../../types/domain/relearn/TagDto";
 import FlexHCenter from "../../../../_UI/Flexboxes/FlexHCenter";
@@ -18,6 +18,8 @@ import TagIcon from "../../../../_UI/Icon/TagIcon";
 // PE 2/3 - Not so easy to understand the classes logic
 const SkillbaseTagSelector = (props: Props) => {
   const theme = useTheme();
+
+  const { skills: allSkills } = useSkillbaseStore();
 
   const [options, setOptions] = useState<optionTypes[]>([]);
   useEffect(() => {
@@ -38,11 +40,11 @@ const SkillbaseTagSelector = (props: Props) => {
   };
 
   const getSkillCount = (option: optionTypes) => {
-    if (option === "All") return props.allSkills.length;
+    if (option === "All") return allSkills.length;
     if (option === "Untagged")
-      return props.allSkills.filter((s) => s.tagId === null).length;
+      return allSkills.filter((s) => s.tagId === null).length;
 
-    return props.allSkills.filter((s) => s.tagId === option.id).length;
+    return allSkills.filter((s) => s.tagId === option.id).length;
   };
 
   const handleChange = (
@@ -101,11 +103,8 @@ const SkillbaseTagSelector = (props: Props) => {
 };
 
 const mapStateToProps = (state: ApplicationState) => ({
-  allSkills: state.skillbase.skills,
   allTags: state.relearn.tags,
 });
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
 
 export type optionTypes = TagDto | "All" | "Untagged";
 
@@ -114,11 +113,6 @@ type OwnProps = {
   onChange: (newValue: optionTypes) => void;
 };
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
+type Props = ReturnType<typeof mapStateToProps> & OwnProps;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SkillbaseTagSelector);
+export default connect(mapStateToProps, undefined)(SkillbaseTagSelector);

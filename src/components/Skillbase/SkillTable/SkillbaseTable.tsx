@@ -6,16 +6,8 @@ import Toolbar from "@material-ui/core/Toolbar";
 import DarkButton from "components/_UI/Buttons/DarkButton/DarkButton";
 import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween";
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
-import {
-  removeSkills,
-  sortSkill,
-} from "../../../store/skillbase/skillbaseActions";
-import { SortSkill } from "../../../store/skillbase/skillbaseTypes";
-import { ApplicationState } from "../../../store/store";
 import { TagDto } from "../../../types/domain/relearn/TagDto";
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto";
 import { IdsDto } from "../../../types/domain/_common/IdsDto";
@@ -28,10 +20,20 @@ import SkillbaseTableHead from "./SkillbaseTableHead/SkillbaseTableHead";
 import SkillbaseTableRow from "./SkillbaseTableRow/SkillbaseTableRow";
 import SkillTableToolbar from "./SkillTableToolbar/SkillTableToolbar";
 
-// PE 2/3
+interface Props {
+  tag: TagDto | "Untagged";
+  fixedTag: TagDto;
+}
+
 const SkillbaseTable = (props: Props) => {
   const classes = useStyles();
-  const { filter } = useSkillbaseStore();
+  const {
+    filter,
+    sortBy,
+    skills: allSkills,
+    sortSkill,
+    removeSkills,
+  } = useSkillbaseStore();
   const { setSuccessMessage } = useSnackbarStore();
 
   const [progressDialog, setProgressDialog] = useState(false);
@@ -40,8 +42,8 @@ const SkillbaseTable = (props: Props) => {
   // Transform this into a utility hook
   const [visibleSkills, setVisibleSkills] = useState<SkillDto[]>(
     filterAndSortSkills(
-      props.allSkills,
-      props.sortBy,
+      allSkills,
+      sortBy,
       props.tag,
       filter.hidingDone,
       filter.labelIds,
@@ -54,8 +56,8 @@ const SkillbaseTable = (props: Props) => {
     () => {
       setVisibleSkills(
         filterAndSortSkills(
-          props.allSkills,
-          props.sortBy,
+          allSkills,
+          sortBy,
           props.tag,
           filter.hidingDone,
           filter.labelIds,
@@ -66,8 +68,8 @@ const SkillbaseTable = (props: Props) => {
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
-      props.allSkills,
-      props.sortBy,
+      allSkills,
+      sortBy,
       props.tag,
       filter.hidingDone,
       filter.labelIds,
@@ -79,10 +81,8 @@ const SkillbaseTable = (props: Props) => {
   const sortByProperty = (property: keyof SkillDto) => {
     // if sorting the same column, order = "asc"
     const order =
-      props.sortBy.property === property && props.sortBy.order === "desc"
-        ? "asc"
-        : "desc";
-    props.sortSkill({ order, property });
+      sortBy.property === property && sortBy.order === "desc" ? "asc" : "desc";
+    sortSkill({ order, property });
   };
 
   const checkSelectAll = (checked: boolean) => {
@@ -113,7 +113,7 @@ const SkillbaseTable = (props: Props) => {
           data: { ids: selectedIds } as IdsDto,
         })
         .then((res) => {
-          props.removeSkills(selectedIds);
+          removeSkills(selectedIds);
           setSuccessMessage("Skills deleted successfully!");
           setSelectedIds([]);
         });
@@ -143,7 +143,7 @@ const SkillbaseTable = (props: Props) => {
             onSort={(headerCellId) => {
               sortByProperty(headerCellId);
             }}
-            rowCount={props.allSkills.length}
+            rowCount={allSkills.length}
           />
           <TableBody>
             {visibleSkills.map((skill, index) => {
@@ -191,23 +191,4 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const mapStateToProps = (state: ApplicationState) => ({
-  allSkills: state.skillbase.skills,
-  sortBy: state.skillbase.sortBy,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  sortSkill: (sortBy: SortSkill) => dispatch(sortSkill(sortBy)),
-  removeSkills: (ids: number[]) => dispatch(removeSkills(ids)),
-});
-
-interface OwnProps {
-  tag: TagDto | "Untagged";
-  fixedTag: TagDto;
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(SkillbaseTable);
+export default SkillbaseTable;

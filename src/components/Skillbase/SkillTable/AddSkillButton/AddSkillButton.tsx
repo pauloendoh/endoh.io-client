@@ -1,32 +1,22 @@
 import { Button, Tooltip } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import React from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { setEditingSkill } from "../../../../store/skillbase/skillbaseActions";
+import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
-import {
-  newSkillDto,
-  SkillDto,
-} from "../../../../types/domain/skillbase/SkillDto";
+import { newSkillDto } from "../../../../types/domain/skillbase/SkillDto";
 
 // PE 2/3
-interface OwnProps {
+interface Props {
   tag: TagDto | "Untagged";
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setEditingSkill: (skill: SkillDto) => dispatch(setEditingSkill(skill)),
-});
-
-type Props = ReturnType<typeof mapDispatchToProps> & OwnProps;
-
 const AddSkillButton = (props: Props) => {
+  const { setEditingSkill } = useSkillbaseStore();
   const handleClick = () => {
     // PE 2/3
     if (props.tag === "Untagged" || props.tag === null)
-      props.setEditingSkill(newSkillDto(null));
-    else props.setEditingSkill(newSkillDto(props.tag.id));
+      setEditingSkill(newSkillDto(null));
+    else setEditingSkill(newSkillDto(props.tag.id));
   };
 
   return (
@@ -45,4 +35,4 @@ const AddSkillButton = (props: Props) => {
   );
 };
 
-export default connect(undefined, mapDispatchToProps)(AddSkillButton);
+export default AddSkillButton;

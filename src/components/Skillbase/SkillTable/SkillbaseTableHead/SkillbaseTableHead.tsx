@@ -5,8 +5,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import React from "react";
-import { connect } from "react-redux";
-import { ApplicationState } from "../../../../store/store";
+import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto";
 
 interface IHeaderCell {
@@ -40,11 +39,20 @@ const headCells: IHeaderCell[] = [
   },
 ];
 
+interface Props {
+  selectedCount: number;
+  onSort: (property: keyof SkillDto) => void;
+  onClickSelectAll: (event: React.ChangeEvent<HTMLInputElement>) => void;
+
+  rowCount: number;
+}
+
 const SkillbaseTableHead = (props: Props) => {
   const classes = useStyles();
+  const { sortBy } = useSkillbaseStore();
 
   const getSortDirection = (headCellId: keyof SkillDto) => {
-    return props.sortBy.property === headCellId ? props.sortBy.order : "desc";
+    return sortBy.property === headCellId ? sortBy.order : "desc";
   };
 
   return (
@@ -60,7 +68,7 @@ const SkillbaseTableHead = (props: Props) => {
             align={headCell.align}
           >
             <TableSortLabel
-              active={props.sortBy.property === headCell.id}
+              active={sortBy.property === headCell.id}
               direction={getSortDirection(headCell.id)}
               onClick={() => props.onSort(headCell.id)}
             >
@@ -87,24 +95,10 @@ const SkillbaseTableHead = (props: Props) => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   th: {
     backgroundColor: "#2B2B2B",
   },
 }));
 
-const mapStateToProps = (state: ApplicationState) => ({
-  sortBy: state.skillbase.sortBy,
-});
-
-interface OwnProps {
-  selectedCount: number;
-  onSort: (property: keyof SkillDto) => void;
-  onClickSelectAll: (event: React.ChangeEvent<HTMLInputElement>) => void;
-
-  rowCount: number;
-}
-
-type Props = ReturnType<typeof mapStateToProps> & OwnProps;
-
-export default connect(mapStateToProps)(SkillbaseTableHead);
+export default SkillbaseTableHead;

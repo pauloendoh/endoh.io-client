@@ -1,9 +1,22 @@
+import { ISortSkillBy } from "types/domain/skillbase/ISortSkillBy";
+import { SkillDto } from "types/domain/skillbase/SkillDto";
 import { SkillExpectationDto } from "types/domain/skillbase/SkillExpectationDto";
 import { pushOrRemove } from "utils/array/pushOrRemove";
 import create from "zustand";
 import { devtools } from "zustand/middleware";
 
 interface ISkillbaseStore {
+  skills: SkillDto[];
+  hasFirstLoaded: boolean;
+  sortBy: ISortSkillBy;
+  editingSkill: SkillDto;
+
+  setSkills: (skills: SkillDto[]) => void;
+  setEditingSkill: (skill: SkillDto) => void;
+  sortSkill: (sortBy: ISortSkillBy) => void;
+  removeSkills: (ids: number[]) => void;
+
+  // filter
   filter: {
     byText: string;
     labelIds: number[];
@@ -27,11 +40,33 @@ interface ISkillbaseStore {
 
 const useSkillbaseStore = create<ISkillbaseStore>(
   devtools((set, get) => ({
+    skills: [],
+    hasFirstLoaded: false,
+    sortBy: { property: "goalLevel", order: "desc" },
+    editingSkill: null,
+
+    sidebarIsOpen: false,
+    setSkills: (skills) => {
+      set({ skills, hasFirstLoaded: true });
+    },
+    setEditingSkill: (skill) => {
+      set({ editingSkill: skill });
+    },
+    sortSkill: (sortBy) => {
+      set({ sortBy });
+    },
+    // --------------- FILTER
     filter: {
       hidingDone: false,
       byText: "",
       labelIds: [],
       currentGoal: false,
+    },
+    removeSkills: (idsToRemove) => {
+      const skillsToKeep = [...get().skills].filter(
+        (skill) => !idsToRemove.includes(skill.id)
+      );
+      set({ skills: skillsToKeep });
     },
 
     getFilterCount: () => {

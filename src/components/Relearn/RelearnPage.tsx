@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Redirect, useLocation, useParams } from "react-router-dom";
 import { Dispatch } from "redux";
-import { setSkills } from "store/skillbase/skillbaseActions";
+import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
 import useWindowFocus from "use-window-focus";
 import * as relearnActions from "../../store/relearn/relearnActions";
 import { ApplicationState } from "../../store/store";
@@ -23,9 +23,10 @@ import TagDialog from "./TagDialog/TagDialog";
 
 const RelearnPage = (props: Props) => {
   const classes = useStyles();
+  const windowFocused = useWindowFocus();
+  const { setSkills: setSkillsStore, skills: allSkills } = useSkillbaseStore();
 
   const params = useParams<{ tagId?: string }>();
-  const windowFocused = useWindowFocus();
   const { clearSelectedIds } = useMultiSelectResource();
 
   const { sidebarIsOpen, openSidebar } = useSidebarStore();
@@ -40,7 +41,7 @@ const RelearnPage = (props: Props) => {
     });
 
     myAxios.get<SkillDto[]>(apiUrls.skillbase.skill).then((res) => {
-      props.setSkills(res.data);
+      setSkillsStore(res.data);
     });
   };
 
@@ -83,7 +84,7 @@ const RelearnPage = (props: Props) => {
             })
           );
 
-          setSkills(props.allSkills.filter((skill) => skill.tagId === tagId));
+          setSkillsStore(allSkills.filter((skill) => skill.tagId === tagId));
         }
       }
     },
@@ -174,14 +175,13 @@ type Props = ReturnType<typeof mapStateToProps> &
 const mapStateToProps = (state: ApplicationState) => ({
   resources: state.relearn.resources,
   hasFirstLoaded: state.relearn.hasFirstLoaded,
-  allSkills: state.skillbase.skills,
+
   allTags: state.relearn.tags,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setResources: (resources: ResourceDto[]) =>
     dispatch(relearnActions.setResources(resources)),
-  setSkills: (skills: SkillDto[]) => dispatch(setSkills(skills)),
 
   startNewResource: () => dispatch(relearnActions.startNewResource()),
 });

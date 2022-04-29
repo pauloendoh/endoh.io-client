@@ -10,18 +10,14 @@ import monerateReducer from "./monerate/monerateReducer";
 import { MonerateState } from "./monerate/monerateTypes";
 import relearnReducer from "./relearn/relearnReducer";
 import { RelearnState } from "./relearn/relearnTypes";
-import skillbaseReducer from "./skillbase/skillbaseReducer";
-import { SkillbaseState } from "./skillbase/skillbaseTypes";
 export interface ApplicationState {
   monerate: MonerateState;
   relearn: RelearnState;
-  skillbase: SkillbaseState;
 }
 
 const rootReducer = combineReducers({
   monerate: monerateReducer,
   relearn: relearnReducer,
-  skillbase: skillbaseReducer,
 });
 
 const composeEnhancers =

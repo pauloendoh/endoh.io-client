@@ -12,11 +12,7 @@ import FlexCol from "components/_UI/Flexboxes/FlexCol";
 import React, { useEffect, useMemo, useState } from "react";
 import { MdCheckCircleOutline } from "react-icons/md";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import {
-  setEditingSkill,
-  setSkills,
-} from "../../../../store/skillbase/skillbaseActions";
+import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
 import { ApplicationState } from "../../../../store/store";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto";
@@ -26,6 +22,7 @@ import SkillLevelTD from "./SkillLevelTd/SkillLevelTd";
 const SkillbaseTableRow = (props: Props) => {
   const theme = useTheme();
   const classes = useStyles();
+  const { setEditingSkill } = useSkillbaseStore();
 
   const labelId = `enhanced-table-checkbox-${props.index}`;
 
@@ -68,7 +65,7 @@ const SkillbaseTableRow = (props: Props) => {
     <TableRow
       hover
       role="checkbox"
-      onClick={() => props.setEditingSkill(props.skill)}
+      onClick={() => setEditingSkill(props.skill)}
       aria-checked={props.isSelected}
       tabIndex={-1}
       selected={props.isSelected}
@@ -170,11 +167,6 @@ const mapStateToProps = (state: ApplicationState) => ({
   allTags: state.relearn.tags,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setEditingSkill: (skill: SkillDto) => dispatch(setEditingSkill(skill)),
-  setSkills: (skills: SkillDto[]) => dispatch(setSkills(skills)),
-});
-
 interface OwnProps {
   skill: SkillDto;
   index: number;
@@ -182,8 +174,6 @@ interface OwnProps {
   onCheck: (e: React.MouseEvent, skillId: number) => void;
 }
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
+type Props = ReturnType<typeof mapStateToProps> & OwnProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(SkillbaseTableRow);
+export default connect(mapStateToProps, undefined)(SkillbaseTableRow);

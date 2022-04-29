@@ -1,12 +1,8 @@
 import { makeStyles } from "@material-ui/core";
 import React, { useMemo, useState } from "react";
-import { connect } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { Dispatch } from "redux";
+import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
 import { FilterSkillChipsBy } from "types/domain/relearn/FilterSkillChipsBy";
-import { setEditingSkill } from "../../../../../store/skillbase/skillbaseActions";
-import { ApplicationState } from "../../../../../store/store";
-import { SkillDto } from "../../../../../types/domain/skillbase/SkillDto";
 import pageUrls from "../../../../../utils/url/urls/pageUrls";
 import SkillChip from "../../../../_common/SkillChip/SkillChip";
 import Flex from "../../../../_UI/Flexboxes/Flex";
@@ -14,9 +10,10 @@ import EditSkillsButton from "./EditSkillsButton/EditSkillsButton";
 import FilterSkillChipsButton from "./FilterSkillChipsButton/FilterSkillChipsButton";
 
 // PE 2/3
-function SkillChips(props: Props) {
+function SkillChips() {
   const classes = useStyles();
   const location = useLocation();
+  const { skills: allSkills } = useSkillbaseStore();
 
   const [filterBy, setFilterBy] = useState<FilterSkillChipsBy>("By tag");
 
@@ -24,14 +21,14 @@ function SkillChips(props: Props) {
     const { pathname } = location;
 
     if (filterBy === "Show all")
-      return props.allSkills.filter((skill) => skill.isPriority);
+      return allSkills.filter((skill) => skill.isPriority);
 
     if (filterBy === "By tag") {
       if (pathname.startsWith(pageUrls.relearn.tag)) {
         const tagId = Number(pathname.split("/").pop());
 
         if (tagId) {
-          const listedSkills = props.allSkills.filter(
+          const listedSkills = allSkills.filter(
             (s) => s.tagId === tagId && s.isPriority === true
           );
           return listedSkills;
@@ -40,7 +37,7 @@ function SkillChips(props: Props) {
     }
 
     return [];
-  }, [props.allSkills, location, filterBy]);
+  }, [allSkills, location, filterBy]);
 
   return (
     <Flex className={classes.root}>
@@ -77,15 +74,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mapStateToProps = (state: ApplicationState) => ({
-  allSkills: state.skillbase.skills,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  editSkill: (skill: SkillDto) => dispatch(setEditingSkill(skill)),
-});
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
-
-export default connect(mapStateToProps, mapDispatchToProps)(SkillChips);
+export default SkillChips;

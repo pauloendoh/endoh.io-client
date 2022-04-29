@@ -5,16 +5,27 @@ import {
   AutocompleteChangeReason,
 } from "@material-ui/lab";
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { ApplicationState } from "../../../../store/store";
+import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto";
 import FlexHCenter from "../../../_UI/Flexboxes/FlexHCenter";
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
 import MyTextField from "../../../_UI/MyInputs/MyTextField";
 
+interface Props {
+  parentSkillId: number;
+  selected: SkillDto[];
+  onChange?: (
+    event: React.ChangeEvent<{}>,
+    value: unknown,
+    reason: AutocompleteChangeReason,
+    details?: AutocompleteChangeDetails<unknown>
+  ) => void;
+}
+
 const SelectDependencies = (props: Props) => {
-  const [options, setOptions] = useState<SkillDto[]>(props.allSkills);
+  const { skills: allSkills } = useSkillbaseStore();
+
+  const [options, setOptions] = useState<SkillDto[]>(allSkills);
 
   // filtering options
   useEffect(
@@ -22,11 +33,11 @@ const SelectDependencies = (props: Props) => {
       const dontShowTheseIds = [props.parentSkillId];
 
       setOptions(
-        props.allSkills.filter((skill) => !dontShowTheseIds.includes(skill.id))
+        allSkills.filter((skill) => !dontShowTheseIds.includes(skill.id))
       );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.allSkills, props.selected]
+    [allSkills, props.selected]
   );
 
   return (
@@ -71,25 +82,4 @@ const SelectDependencies = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: ApplicationState) => ({
-  allSkills: state.skillbase.skills,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
-
-interface OwnProps {
-  parentSkillId: number;
-  selected: SkillDto[];
-  onChange?: (
-    event: React.ChangeEvent<{}>,
-    value: unknown,
-    reason: AutocompleteChangeReason,
-    details?: AutocompleteChangeDetails<unknown>
-  ) => void;
-}
-
-type Props = OwnProps &
-  ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
-
-export default connect(mapStateToProps, mapDispatchToProps)(SelectDependencies);
+export default SelectDependencies;

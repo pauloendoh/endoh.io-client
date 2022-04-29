@@ -1,32 +1,25 @@
 import { Box } from "@material-ui/core";
 import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
 import React from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { setEditingSkill } from "../../../store/skillbase/skillbaseActions";
+import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto";
 import Flex from "../../_UI/Flexboxes/Flex";
 import S from "./SkillChip.styles";
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  editSkill: (skill: SkillDto) => dispatch(setEditingSkill(skill)),
-});
-
-interface OwnProps {
+interface Props {
   skill: SkillDto;
 }
 
-type Props = ReturnType<typeof mapDispatchToProps> & OwnProps;
-
-// PE 2/3
+// PE 1/3 delete?
 function SkillChip(props: Props) {
+  const { setEditingSkill } = useSkillbaseStore();
   return (
     <S.SkillButton
       key={props.skill.id}
       variant="outlined"
       size="small"
       onClick={() => {
-        props.editSkill(props.skill);
+        setEditingSkill(props.skill);
       }}
     >
       <Flex>
@@ -62,4 +55,4 @@ function SkillChip(props: Props) {
   );
 }
 
-export default connect(undefined, mapDispatchToProps)(SkillChip);
+export default SkillChip;

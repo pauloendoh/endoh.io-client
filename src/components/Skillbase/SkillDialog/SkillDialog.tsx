@@ -12,19 +12,13 @@ import Txt from "components/_UI/Text/Txt";
 import { useFormik } from "formik";
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose";
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { scroller } from "react-scroll";
-import { Dispatch } from "redux";
+import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
 import useDialogsStore from "store/zustand/useDialogsStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
 import { useTheme } from "styled-components";
 import Icons from "utils/styles/Icons";
-import {
-  setEditingSkill,
-  setSkills,
-} from "../../../store/skillbase/skillbaseActions";
-import { ApplicationState } from "../../../store/store";
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto";
 import MyAxiosError from "../../../types/MyAxiosError";
 import myAxios from "../../../utils/consts/myAxios";
@@ -40,22 +34,16 @@ import TitleTextField from "./SkillDialogTitleTextField/SkillDialogTitleTextFiel
 import SkillExpectations from "./SkillExpectations/SkillExpectations";
 import SkillMoreIcon from "./SkillMoreIcon/SkillMoreIcon";
 
-const mapStateToProps = (state: ApplicationState) => ({
-  initialValue: state.skillbase.editingSkill,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setSkills: (skills: SkillDto[]) => dispatch(setSkills(skills)),
-  setEditingSkill: (skill: SkillDto) => dispatch(setEditingSkill(skill)),
-});
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
-
 // PE 2/3
-const SkillDialog = (props: Props) => {
+const SkillDialog = () => {
   const theme = useTheme();
   const location = useLocation();
+
+  const {
+    setSkills,
+    setEditingSkill,
+    editingSkill: initialValue,
+  } = useSkillbaseStore();
   const { openConfirmDialog } = useDialogsStore();
 
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
@@ -63,16 +51,16 @@ const SkillDialog = (props: Props) => {
   const [labelsDialog, setLabelsDialog] = useState(false);
 
   useEffect(() => {
-    if (props.initialValue?.currentLevel > 0) scrollToNextLevel();
+    if (initialValue?.currentLevel > 0) scrollToNextLevel();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.initialValue]);
+  }, [initialValue]);
 
   const getInitialValues = (): SkillDto => {
     return {
-      ...props.initialValue,
-      tagId: props.initialValue?.tagId // why not use simply props.skill.tagId ?
-        ? props.initialValue.tagId
+      ...initialValue,
+      tagId: initialValue?.tagId // why not use simply props.skill.tagId ?
+        ? initialValue.tagId
         : getCurrentTagId(location.pathname),
     };
   };
@@ -88,14 +76,11 @@ const SkillDialog = (props: Props) => {
   const scrollToNextLevel = () => {
     // had to add this in order to work properly...
     setTimeout(() => {
-      scroller.scrollTo(
-        "expectation-title-" + props.initialValue?.currentLevel,
-        {
-          containerId: "skill-dialog-content",
-          duration: 500,
-          smooth: true,
-        }
-      );
+      scroller.scrollTo("expectation-title-" + initialValue?.currentLevel, {
+        containerId: "skill-dialog-content",
+        duration: 500,
+        smooth: true,
+      });
     }, 0);
   };
   useConfirmTabClose(formik.dirty);
@@ -104,11 +89,11 @@ const SkillDialog = (props: Props) => {
     if (formik.dirty) {
       return openConfirmDialog({
         title: "Discard changes?",
-        onConfirm: () => props.setEditingSkill(null),
+        onConfirm: () => setEditingSkill(null),
       });
     }
 
-    return props.setEditingSkill(null);
+    return setEditingSkill(null);
   };
 
   // PE 2/3
@@ -125,8 +110,8 @@ const SkillDialog = (props: Props) => {
     myAxios
       .post<SkillDto[]>(apiUrls.skillbase.skill, skill)
       .then((res) => {
-        props.setSkills(res.data);
-        props.setEditingSkill(null);
+        setSkills(res.data);
+        setEditingSkill(null);
         setSuccessMessage("Skill saved successfully!");
       })
       .catch((err: MyAxiosError) => {
@@ -140,7 +125,7 @@ const SkillDialog = (props: Props) => {
   return (
     <Dialog // PE 2/3
       onClose={handleClose}
-      open={props.initialValue !== null}
+      open={initialValue !== null}
       fullWidth
       maxWidth="sm"
       aria-labelledby="skill-dialog"
@@ -163,7 +148,7 @@ const SkillDialog = (props: Props) => {
               {formik.values.id > 0 && (
                 <SkillMoreIcon
                   skillId={formik.values.id}
-                  afterDelete={() => props.setEditingSkill(null)}
+                  afterDelete={() => setEditingSkill(null)}
                 />
               )}
             </FlexVCenter>
@@ -187,7 +172,7 @@ const SkillDialog = (props: Props) => {
               />
             </FlexVCenter>
 
-            {props.initialValue && (
+            {initialValue && (
               <SkillDialogLabels
                 skill={formik.values}
                 onOpenLabelsDialog={() => setLabelsDialog(true)}
@@ -261,4 +246,4 @@ const SkillDialog = (props: Props) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SkillDialog);
+export default SkillDialog;

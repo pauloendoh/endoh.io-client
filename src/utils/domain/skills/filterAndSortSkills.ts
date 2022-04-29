@@ -1,12 +1,12 @@
 import stringsAreVerySimilar from "utils/text/stringsAreVerySimilar";
 import { TagDto } from "../../../types/domain/relearn/TagDto";
+import { ISortSkillBy } from "../../../types/domain/skillbase/ISortSkillBy";
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto";
-import { SortSkill } from "./../../../store/skillbase/skillbaseTypes";
 import skillIsIncompleted from "./skillIsIncompleted";
 
 export default function filterAndSortSkills(
   allSkills: SkillDto[],
-  sortBy: SortSkill,
+  sortBy: ISortSkillBy,
   tag: TagDto | "Untagged",
   hidingDone: boolean,
   labelIds: number[],

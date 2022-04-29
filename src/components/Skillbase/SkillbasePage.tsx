@@ -3,18 +3,12 @@ import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { Dispatch } from "redux";
+import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
 import useWindowFocus from "use-window-focus";
 import titles from "utils/titles";
-import {
-  setEditingSkill,
-  setProgresses,
-  setSkills,
-} from "../../store/skillbase/skillbaseActions";
 import { ApplicationState } from "../../store/store";
 import useSidebarStore from "../../store/zustand/useSidebarStore";
 import { TagDto } from "../../types/domain/relearn/TagDto";
-import { ProgressDto } from "../../types/domain/skillbase/ProgressDto";
 import { SkillDto } from "../../types/domain/skillbase/SkillDto";
 import myAxios from "../../utils/consts/myAxios";
 import apiUrls from "../../utils/url/urls/apiUrls";
@@ -23,19 +17,19 @@ import LoadingPage from "../_common/LoadingPage/LoadingPage";
 import Flex from "../_UI/Flexboxes/Flex";
 import ProgressSidebar from "./ProgressSidebar/ProgressSidebar";
 import SkillbaseTable from "./SkillTable/SkillbaseTable";
-
-// PE 3/3
 const SkillbasePage = (props: Props) => {
   const classes = useStyles();
   const { pathname } = useLocation();
   const windowFocused = useWindowFocus();
+
+  const { setSkills, hasFirstLoaded } = useSkillbaseStore();
 
   const { sidebarIsOpen, closeSidebar } = useSidebarStore();
   const [selectedTag, setSelectedTag] = useState<TagDto | "Untagged">();
 
   const fetchSkills = () => {
     myAxios.get<SkillDto[]>(apiUrls.skillbase.skill).then((res) => {
-      props.setSkills(res.data);
+      setSkills(res.data);
     });
   };
 
@@ -81,7 +75,7 @@ const SkillbasePage = (props: Props) => {
         })}
       >
         <Box width="100%">
-          {props.hasFirstLoaded ? (
+          {hasFirstLoaded ? (
             <Paper className={classes.paper}>
               <SkillbaseTable tag={selectedTag} fixedTag={null} />
             </Paper>
@@ -117,19 +111,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+type Props = ReturnType<typeof mapStateToProps>;
 
 const mapStateToProps = (state: ApplicationState) => ({
-  hasFirstLoaded: state.skillbase.hasFirstLoaded,
   allTags: state.relearn.tags,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setSkills: (skills: SkillDto[]) => dispatch(setSkills(skills)),
-  setProgresses: (progresses: ProgressDto[]) =>
-    dispatch(setProgresses(progresses)),
-  setEditingSkill: (skill: SkillDto) => dispatch(setEditingSkill(skill)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(SkillbasePage);
+export default connect(mapStateToProps, undefined)(SkillbasePage);

@@ -13,10 +13,10 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
 import useDialogsStore from "store/zustand/useDialogsStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
 import * as relearnActions from "../../../../store/relearn/relearnActions";
-import { removeSkills } from "../../../../store/skillbase/skillbaseActions";
 import { TagDto } from "../../../../types/domain/relearn/TagDto";
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto";
 import { IdsDto } from "../../../../types/domain/_common/IdsDto";
@@ -27,6 +27,7 @@ import apiUrls from "../../../../utils/url/urls/apiUrls";
 function SkillMoreIcon(props: Props) {
   const classes = useStyles();
 
+  const { removeSkills } = useSkillbaseStore();
   const { setSuccessMessage } = useSnackbarStore();
   const { openConfirmDialog } = useDialogsStore();
 
@@ -49,7 +50,7 @@ function SkillMoreIcon(props: Props) {
             data: { ids: [id] } as IdsDto,
           })
           .then((res) => {
-            props.removeSkills([id]);
+            removeSkills([id]);
             setSuccessMessage("Skill deleted successfully!");
             props.afterDelete();
           });
@@ -126,7 +127,6 @@ const useStyles = makeStyles((theme: Theme) =>
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   editTag: (tag: TagDto) => dispatch(relearnActions.editTag(tag)),
   removeTag: (id: number) => dispatch(relearnActions.removeTag(id)),
-  removeSkills: (ids: number[]) => dispatch(removeSkills(ids)),
 });
 
 interface OwnProps {
