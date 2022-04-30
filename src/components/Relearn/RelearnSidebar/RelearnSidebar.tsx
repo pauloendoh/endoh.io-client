@@ -18,8 +18,8 @@ function RelearnSidebar(props: Props) {
   return (
     <MySidebar>
       <List disablePadding>
-        <RelearnSidebarTagList type="public" lists={publicLists} />
-        <RelearnSidebarTagList type="private" lists={privateLists} />
+        <RelearnSidebarTagList type="public" tags={publicLists} />
+        <RelearnSidebarTagList type="private" tags={privateLists} />
       </List>
     </MySidebar>
   );

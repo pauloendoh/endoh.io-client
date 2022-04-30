@@ -5,7 +5,7 @@ import {
   AutocompleteChangeReason,
 } from "@material-ui/lab";
 import TagIcon from "components/_UI/Icon/TagIcon";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { ApplicationState } from "../../../../store/store";
@@ -26,10 +26,15 @@ const SkillDialogTagSelector = (props: Props) => {
     [props.selectedTagId]
   );
 
+  const sortedTags = useMemo(() => {
+    if (props.allTags?.length === 0) return [];
+    return props.allTags.sort((a, b) => (a.id > b.id ? 1 : -1));
+  }, [props.allTags]);
+
   return (
     <Autocomplete // PE 1/3 - dry into <TagSelector/> also used at skill dialog
       value={tag}
-      options={[...props.allTags]}
+      options={sortedTags}
       renderOption={(option) => (
         <FlexVCenter>
           {option.id ? (

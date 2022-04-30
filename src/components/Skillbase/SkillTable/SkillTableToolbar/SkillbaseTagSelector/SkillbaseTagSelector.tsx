@@ -23,7 +23,9 @@ const SkillbaseTagSelector = (props: Props) => {
 
   const [options, setOptions] = useState<optionTypes[]>([]);
   useEffect(() => {
-    const options: optionTypes[] = ["All", ...props.allTags, "Untagged"];
+    const sortedTags =
+      props.allTags?.sort((a, b) => (a.id > b.id ? 1 : -1)) || [];
+    const options: optionTypes[] = ["All", ...sortedTags, "Untagged"];
 
     setOptions(options);
   }, [props.allTags]);

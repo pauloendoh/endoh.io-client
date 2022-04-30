@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import AddIcon from "@material-ui/icons/Add";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import * as relearnActions from "../../../../store/relearn/relearnActions";
@@ -43,6 +43,11 @@ function RelearnSidebarTagList(props: Props) {
     props.startNewTag(props.type === "private");
   };
 
+  const sortedTags = useMemo(() => {
+    if (props.tags?.length === 0) return [];
+    return props.tags.sort((a, b) => (a.id > b.id ? 1 : -1));
+  }, [props.tags]);
+
   return (
     <React.Fragment>
       <ListItem button onClick={handleClickTags}>
@@ -72,7 +77,7 @@ function RelearnSidebarTagList(props: Props) {
 
       <Collapse in={openTags} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          {props.lists.map((tag) => (
+          {props.tags.map((tag) => (
             <TagListItem key={tag.id} tag={tag} />
           ))}
         </List>
@@ -91,7 +96,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 interface OwnProps {
   type: "public" | "private";
-  lists: TagDto[];
+  tags: TagDto[];
 }
 
 type Props = ReturnType<typeof mapStateToProps> &

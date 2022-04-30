@@ -62,6 +62,11 @@ const ResourceDialog = (props: Props) => {
     [queryParams.get("openResourceId")]
   );
 
+  const sortedTags = useMemo(
+    () => props.tags?.sort((a, b) => (a.id > b.id ? 1 : -1)) || [],
+    [props.tags]
+  );
+
   const clearOpenResourceId = () => {
     queryParams.delete("openResourceId");
     history.push(`${location.pathname}?${queryParams.toString()}`);
@@ -93,7 +98,7 @@ const ResourceDialog = (props: Props) => {
     if (location.pathname.startsWith(pageUrls.relearn.tag)) {
       const tagId = Number(location.pathname.split("/").pop());
       if (tagId) {
-        const currentTag = props.tags.find((t) => t.id === tagId);
+        const currentTag = sortedTags.find((t) => t.id === tagId);
         if (currentTag) {
           return currentTag;
         }
@@ -382,7 +387,7 @@ const ResourceDialog = (props: Props) => {
                   {/* PE 1/3 - dry into <TagSelector/> also used at skill dialog */}
                   <Autocomplete
                     id="tags-autocomplete-input"
-                    options={props.tags}
+                    options={sortedTags}
                     value={values.tag}
                     getOptionLabel={(option) => option.name}
                     filterSelectedOptions
