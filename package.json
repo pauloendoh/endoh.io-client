@@ -107,6 +107,7 @@
     "@types/recharts": "^1.8.22",
     "@types/string-similarity": "^4.0.0",
     "@types/styled-components": "^5.1.15",
-    "cypress": "^9.0.0"
+    "cypress": "^9.0.0",
+    "vite-plugin-rewrite-all": "^0.1.2"
   }
 }
