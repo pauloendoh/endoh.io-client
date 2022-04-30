@@ -8,12 +8,12 @@
     "npm": "7.23.0"
   },
   "scripts": {
-    "start": "react-scripts  start",
-    "dev": "set PORT=8000 & npm start",
-    "build": "react-scripts build",
-    "vite:start": "vite start",
-    "vite:dev": "vite --host 8000",
-    "vite:build": "vite build",
+    "dev": "vite --port 8000",
+    "build": "vite build",
+    "preview": "vite preview --port 8000",
+    "react:start": "react-scripts  start",
+    "react:dev": "set PORT=8000 & npm start",
+    "react:build": "react-scripts build",
     "test": "react-scripts test",
     "build:test": "react-scripts build && react-scripts  test",
     "eject": "react-scripts  eject",
