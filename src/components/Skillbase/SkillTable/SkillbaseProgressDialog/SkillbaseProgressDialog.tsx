@@ -9,12 +9,12 @@ import {
   MenuItem,
   Select,
 } from "@material-ui/core";
-import FlexCol from "components/_UI/Flexboxes/FlexCol";
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
 import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween";
 import Txt from "components/_UI/Text/Txt";
 import React, { useEffect, useState } from "react";
 import { MdClose, MdOutlineArrowRightAlt } from "react-icons/md";
+import { useTheme } from "styled-components";
 import useProgressesQuery from "../../../../hooks/react-query/skillbase/skill-progress/useProgressesQuery";
 import useSkillProgressMonthsQuery from "../../../../hooks/react-query/skillbase/skill-progress/useSkillProgressMonthsQuery";
 
@@ -42,6 +42,22 @@ const SkillbaseProgressDialog = (props: Props) => {
     if (months?.length > 0) setSelectedMonth(months[0]);
   }, [months]);
 
+  const theme = useTheme();
+
+  const ImprovementText = (p: { levelImprovement: number }) => (
+    <span
+      style={{
+        marginLeft: 4,
+        color:
+          p.levelImprovement > 0
+            ? theme.palette.success.main
+            : theme.palette.error.main,
+      }}
+    >
+      {p.levelImprovement > 0 ? `+${p.levelImprovement}` : p.levelImprovement}
+    </span>
+  );
+
   return (
     <Dialog
       onClose={props.onClose}
@@ -53,7 +69,7 @@ const SkillbaseProgressDialog = (props: Props) => {
       <Box pb={1}>
         <DialogTitle id="progress-dialog-title">
           <FlexVCenter justifyContent="space-between">
-            <Txt variant="h5">Your Progress</Txt>
+            <Txt variant="h5">Monthly Progress</Txt>
             <IconButton onClick={props.onClose}>
               <MdClose />
             </IconButton>
@@ -61,25 +77,31 @@ const SkillbaseProgressDialog = (props: Props) => {
         </DialogTitle>
 
         <DialogContent>
-          <FormControl variant="outlined" size="small">
-            <InputLabel id="progress-dialog-select-label">
-              From month
-            </InputLabel>
+          <FlexVCenterBetween>
+            <FormControl variant="outlined" size="small" style={{ width: 150 }}>
+              <InputLabel id="progress-dialog-select-label">
+                From month
+              </InputLabel>
 
-            <Select
-              id="demo-simple-select-outlined"
-              label="From month"
-              labelId="progress-dialog-select-label"
-              value={selectedMonth}
-              onChange={(e, value) => setSelectedMonth(value as string)}
-            >
-              {months?.map((month) => (
-                <MenuItem value={month} key={month}>
-                  {month}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              <Select
+                id="demo-simple-select-outlined"
+                label="From month"
+                labelId="progress-dialog-select-label"
+                value={selectedMonth}
+                onChange={(e, value) => setSelectedMonth(value as string)}
+              >
+                {months?.map((month) => (
+                  <MenuItem value={month} key={month}>
+                    {month}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <MdOutlineArrowRightAlt size="24px" />
+
+            <Txt style={{ width: 80 }}>Today</Txt>
+          </FlexVCenterBetween>
 
           <Box mt={2}>
             {isFetching ? (
@@ -95,34 +117,30 @@ const SkillbaseProgressDialog = (props: Props) => {
                   <FlexVCenter key={progress.skillId}>
                     <div style={{ width: 150 }}>
                       {progress.currentName === progress.previousName ? (
-                        <Txt>{progress.currentName}</Txt>
+                        <Txt>
+                          {progress.currentName}
+                          <ImprovementText
+                            levelImprovement={progress.levelImprovement}
+                          />
+                        </Txt>
                       ) : (
                         <>
                           <Txt style={{ textDecoration: "line-through" }}>
                             {progress.previousName}
                           </Txt>
-                          <Txt>{progress.currentName}</Txt>
+                          <Txt>
+                            {progress.currentName}{" "}
+                            <ImprovementText
+                              levelImprovement={progress.levelImprovement}
+                            />
+                          </Txt>
                         </>
                       )}
                     </div>
 
                     <FlexVCenterBetween style={{ width: 100 }}>
                       <Txt>{progress.previousLevel || "?"}</Txt>
-                      <FlexCol style={{ alignItems: "center" }}>
-                        <Txt
-                          style={{
-                            fontSize: 10,
-                            top: 8,
-                            position: "relative",
-                          }}
-                        >
-                          {progress.levelImprovement > 0
-                            ? `+${progress.levelImprovement}`
-                            : progress.levelImprovement}
-                        </Txt>
-
-                        <MdOutlineArrowRightAlt size="24px" />
-                      </FlexCol>
+                      <MdOutlineArrowRightAlt size="24px" />
                       <Txt>{progress.currentLevel}</Txt>
                     </FlexVCenterBetween>
                   </FlexVCenter>
