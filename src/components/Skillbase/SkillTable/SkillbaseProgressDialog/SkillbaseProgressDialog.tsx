@@ -88,7 +88,9 @@ const SkillbaseProgressDialog = (props: Props) => {
                 label="From month"
                 labelId="progress-dialog-select-label"
                 value={selectedMonth}
-                onChange={(e, value) => setSelectedMonth(value as string)}
+                onChange={(e, value) => {
+                  setSelectedMonth(e.target.value as string);
+                }}
               >
                 {months?.map((month) => (
                   <MenuItem value={month} key={month}>
