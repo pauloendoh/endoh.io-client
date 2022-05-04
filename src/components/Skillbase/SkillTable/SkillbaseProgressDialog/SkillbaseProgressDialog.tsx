@@ -39,6 +39,10 @@ const SkillbaseProgressDialog = (props: Props) => {
   }, [props.open]);
 
   useEffect(() => {
+    refetch();
+  }, [selectedMonth]);
+
+  useEffect(() => {
     if (months?.length > 0) setSelectedMonth(months[0]);
   }, [months]);
 
