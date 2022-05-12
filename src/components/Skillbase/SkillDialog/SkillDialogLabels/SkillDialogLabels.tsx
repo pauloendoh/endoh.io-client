@@ -24,7 +24,7 @@ const SkillDialogLabels = (props: Props) => {
   return (
     <Flex mt={2} style={{ flexDirection: "column" }}>
       <Txt variant="h6">Labels</Txt>
-      <Flex style={{ gap: theme.spacing(1) }}>
+      <Flex style={{ gap: theme.spacing(1), flexWrap: "wrap" }}>
         {sortedLabels.map((label) => (
           <Button
             key={label.id}

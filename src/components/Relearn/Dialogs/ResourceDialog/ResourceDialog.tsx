@@ -392,6 +392,7 @@ const ResourceDialog = (props: Props) => {
                     getOptionLabel={(option) => option.name}
                     filterSelectedOptions
                     onChange={(e, val) => {
+                      console.log(val);
                       const selectedTag = val as TagDto;
                       setFieldValue("tag", selectedTag);
                     }}
@@ -484,7 +485,6 @@ const ResourceDialog = (props: Props) => {
 
             <Box mt={2} />
             <SaveCancelButtons
-              onSave={formikHandleSubmit}
               submitButtonId="save-resource-button"
               disabled={isSubmitting}
               onCancel={() => confirmClose(dirty)}
