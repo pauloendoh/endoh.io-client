@@ -10,6 +10,7 @@ const apiUrls = {
     username: "/auth/username",
     tempUser: "/auth/temp-user",
     userPreference: "/auth/user-preference",
+    me: "/auth/me",
   },
   monerate: {
     expense: "/monerate/expense",
