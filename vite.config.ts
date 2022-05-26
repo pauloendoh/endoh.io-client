@@ -11,8 +11,5 @@ export default defineConfig({
     pluginRewriteAll(),
     EnvironmentPlugin("all", { prefix: "REACT_" }),
   ],
-  define: {
-    "process.env": {},
-  },
 });
 //
