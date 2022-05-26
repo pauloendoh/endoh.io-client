@@ -14,10 +14,11 @@
     "react:start": "react-scripts  start",
     "react:dev": "set PORT=8000 & npm start",
     "react:build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll=false",
     "build:test": "react-scripts build && react-scripts  test",
     "eject": "react-scripts  eject",
-    "e2e:headless": "cypress run"
+    "e2e:headless": "cypress run",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
@@ -89,7 +90,7 @@
   },
   "devDependencies": {
     "@testing-library/react": "^12.1.2",
-    "@types/jest": "^27.0.2",
+    "@types/jest": "^27.5.1",
     "@types/lodash": "^4.14.176",
     "@types/luxon": "^1.26.5",
     "@types/node": "^16.11.1",
@@ -108,6 +109,8 @@
     "@types/string-similarity": "^4.0.0",
     "@types/styled-components": "^5.1.15",
     "cypress": "^9.0.0",
+    "husky": "^8.0.1",
+    "vite-plugin-environment": "^1.1.1",
     "vite-plugin-rewrite-all": "^0.1.2"
   }
 }
