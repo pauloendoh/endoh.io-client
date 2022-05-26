@@ -37,15 +37,7 @@ const useCheckAuthOrLogout = () => {
       // Regular login
       const user: AuthUserGetDto = JSON.parse(userLocalStorage);
       if (new Date(user.expiresAt) <= new Date()) return logout();
-
-      myAxios
-        .get<AuthUserGetDto>(apiUrls.auth.me)
-        .then((res) => {
-          setAuthUser(res.data);
-        })
-        .catch((err) => {
-          logout();
-        });
+      return setAuthUser(user);
     }
   };
 

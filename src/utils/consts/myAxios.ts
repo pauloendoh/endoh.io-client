@@ -21,7 +21,9 @@ myAxios.interceptors.response.use(
   },
   (error) => {
     // unauthenticated -> go to "/"
-    if (error?.response?.status === 401) window.location.reload();
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
     return Promise.reject(error);
   }
 );
