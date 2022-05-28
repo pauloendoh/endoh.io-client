@@ -25,7 +25,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import { MdDeleteForever } from "react-icons/md";
 import { connect } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import MaskedInput from "react-text-mask";
 import { Dispatch } from "redux";
 import useDialogsStore from "store/zustand/useDialogsStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
@@ -377,9 +376,6 @@ const ResourceDialog = (props: Props) => {
                     onChange={handleChange}
                     label="Duration"
                     fullWidth
-                    InputProps={{
-                      inputComponent: TextMaskCustom as any,
-                    }}
                   />
                 </Grid>
 
@@ -495,26 +491,6 @@ const ResourceDialog = (props: Props) => {
     </Dialog>
   );
 };
-
-interface TextMaskCustomProps {
-  inputRef: (ref: HTMLInputElement | null) => void;
-}
-
-function TextMaskCustom(props: TextMaskCustomProps) {
-  const { inputRef, ...other } = props;
-
-  return (
-    <MaskedInput
-      {...other}
-      ref={(ref: any) => {
-        inputRef(ref ? ref.inputElement : null);
-      }}
-      mask={[/\d/, /\d/, ":", /\d/, /\d/, "h"]}
-      placeholderChar={"\u2000"}
-      showMask
-    />
-  );
-}
 
 const mapStateToProps = (state: ApplicationState) => ({
   // editingPlace: state.monerate.editingPlace,
