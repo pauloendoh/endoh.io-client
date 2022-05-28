@@ -1,12 +1,7 @@
 import axios from "axios";
-// import { config } from "dotenv";
-
-// config();
 
 const myAxios = axios.create();
 
-// @ts-ignore
-// myAxios.defaults.baseURL = import.meta.env.VITE_API_URL;
 myAxios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 myAxios.interceptors.request.use((config) => {
