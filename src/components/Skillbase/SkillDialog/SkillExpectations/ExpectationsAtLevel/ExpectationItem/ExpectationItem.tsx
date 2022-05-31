@@ -137,9 +137,12 @@ const ExpectationItem = ({
   }, [localIsDragging]);
 
   const isDragging = useMemo(() => {
-    if (storedDraggingExpectation?.id === expectation.id) return true;
-    if (expectation.randomId === undefined) return false;
-    return storedDraggingExpectation?.randomId === expectation.randomId;
+    console.log({ storedDraggingExpectation, expectation });
+    return (
+      (storedDraggingExpectation?.id || 0) +
+        (storedDraggingExpectation?.randomId || 0) ===
+      (expectation.id || 0) + (expectation.randomId || 0)
+    );
   }, [storedDraggingExpectation, expectation]);
 
   const [, dropExpectationRef] = useDrop<SkillExpectationDto, unknown, unknown>(
