@@ -18,7 +18,7 @@ import { ResourceDto } from "../../../../../../types/domain/relearn/ResourceDto"
 import myAxios from "../../../../../../utils/consts/myAxios";
 import { validateEstimatedTime } from "../../../../../../utils/relearn/validateEstimatedTime";
 import apiUrls from "../../../../../../utils/url/urls/apiUrls";
-import RateButton from "../../../../../_common/RateButton/RateButton";
+import RatingButton from "../../../../../_common/RatingButton/RatingButton";
 import ResourceThumbnail from "../../../../../_common/ResourceThumbnail/ResourceThumbnail";
 import Txt from "../../../../../_UI/Text/Txt";
 import ResourceMoreIcon from "../ResourceMoreIcon/ResourceMoreIcon";
@@ -146,7 +146,10 @@ function ResourceItem(props: Props) {
           </S.IconsWrapper>
 
           {props.resource.url?.length > 0 ? (
-            <RateButton resource={props.resource} onChange={handleSaveRating} />
+            <RatingButton
+              rating={props.resource.rating}
+              onChange={handleSaveRating}
+            />
           ) : (
             <ResourceItemTaskCheckbox
               resource={props.resource}

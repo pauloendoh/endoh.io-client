@@ -12,7 +12,7 @@ import { validateEstimatedTime } from "../../../../utils/relearn/validateEstimat
 import { urlIsValid } from "../../../../utils/url/isValidUrl";
 import apiUrls from "../../../../utils/url/urls/apiUrls";
 import ResourceMoreIcon from "../../../Relearn/RelearnContent/ResourceList/DraggableResourceItem/ResourceMoreIcon/ResourceMoreIcon";
-import RateButton from "../../../_common/RateButton/RateButton";
+import RatingButton from "../../../_common/RatingButton/RatingButton";
 import ResourceThumbnail from "../../../_common/ResourceThumbnail/ResourceThumbnail";
 import Flex from "../../../_UI/Flexboxes/Flex";
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
@@ -78,7 +78,10 @@ function FeedResourceItem(props: Props) {
         </Flex>
 
         <Flex mt={1}>
-          <RateButton resource={props.resource} onChange={handleSaveRating} />
+          <RatingButton
+            rating={props.resource.rating}
+            onChange={handleSaveRating}
+          />
           <Flex ml="auto">
             {props.resource.completedAt.length ? (
               <FlexVCenter>

@@ -39,7 +39,7 @@ import myAxios from "../../../../utils/consts/myAxios";
 import { urlIsValid } from "../../../../utils/url/isValidUrl";
 import apiUrls from "../../../../utils/url/urls/apiUrls";
 import pageUrls from "../../../../utils/url/urls/pageUrls";
-import RateButton from "../../../_common/RateButton/RateButton";
+import RatingButton from "../../../_common/RatingButton/RatingButton";
 import SaveCancelButtons from "../../../_UI/Buttons/SaveCancelButtons";
 import Flex from "../../../_UI/Flexboxes/Flex";
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
@@ -421,8 +421,8 @@ const ResourceDialog = (props: Props) => {
               </Grid>
             </Box>
             <Box mt={2}>
-              <RateButton
-                resource={values}
+              <RatingButton
+                rating={values.rating}
                 onChange={(newRating) => {
                   setFieldValue("rating", newRating);
 
