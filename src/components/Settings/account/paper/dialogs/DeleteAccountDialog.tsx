@@ -13,11 +13,11 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import useDialogsStore from "store/zustand/useDialogsStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
+import { urls } from "utils/urls";
 import { ApplicationState } from "../../../../../store/store";
 import { UserDeleteDto } from "../../../../../types/domain/auth/UserDeleteDto";
 import MyAxiosError, { MyFieldError } from "../../../../../types/MyAxiosError";
 import myAxios from "../../../../../utils/consts/myAxios";
-import apiUrls from "../../../../../utils/url/urls/apiUrls";
 import Flex from "../../../../_UI/Flexboxes/Flex";
 import FlexHCenter from "../../../../_UI/Flexboxes/FlexHCenter";
 import MyTextField from "../../../../_UI/MyInputs/MyTextField";
@@ -47,7 +47,7 @@ const DeleteAccountDialog = (props: Props) => {
         setResponseErrors([]);
 
         myAxios
-          .delete(apiUrls.auth.index, {
+          .delete(urls.api.auth.index, {
             headers: {},
             data: values,
           })

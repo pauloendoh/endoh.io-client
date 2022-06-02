@@ -2,7 +2,7 @@ import useAuthStore from "store/zustand/useAuthStore";
 import { AuthUserGetDto } from "types/domain/auth/AuthUserGetDto";
 import myAxios from "utils/consts/myAxios";
 import { getQueryParam } from "utils/url/getQueryParam";
-import apiUrls from "utils/url/urls/apiUrls";
+import { urls } from "utils/urls";
 import { useLogout } from "./useLogout";
 
 const useCheckAuthOrLogout = () => {
@@ -20,7 +20,7 @@ const useCheckAuthOrLogout = () => {
 
       if (oauthToken?.length && userId?.length) {
         myAxios
-          .post<AuthUserGetDto>(apiUrls.auth.googleLogin, {
+          .post<AuthUserGetDto>(urls.api.auth.googleLogin, {
             // withCredentials: true
             userId: Number(userId),
             token: oauthToken,

@@ -4,6 +4,11 @@ export const urls = {
       `${pathname}?openResourceId=${resourceId}`,
   },
   api: {
+    auth: {
+      index: "/auth",
+      login: "/auth/login",
+      googleLogin: "/auth/google/login",
+    },
     register: "/auth/register",
 
     //TAGS

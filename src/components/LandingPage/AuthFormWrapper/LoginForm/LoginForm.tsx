@@ -9,7 +9,7 @@ import React, { MouseEvent, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import useAuthStore from "store/zustand/useAuthStore";
 import { AuthUserGetDto } from "types/domain/auth/AuthUserGetDto";
-import apiUrls from "utils/url/urls/apiUrls";
+import { urls } from "utils/urls";
 import MyAxiosError, { MyFieldError } from "../../../../types/MyAxiosError";
 import myAxios from "../../../../utils/consts/myAxios";
 import Flex from "../../../_UI/Flexboxes/Flex";
@@ -48,7 +48,7 @@ const LoginForm = ({ setFormType }: Props) => {
     setResponseErrors([]);
 
     myAxios
-      .post<AuthUserGetDto>(apiUrls.auth.login, authData)
+      .post<AuthUserGetDto>(urls.api.auth.login, authData)
       .then((res) => {
         const authUser = res.data;
         setAuthUser(authUser);

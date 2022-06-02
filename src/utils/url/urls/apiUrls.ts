@@ -1,10 +1,6 @@
-// PE 3/3
+// PE 2/3 - slowly mergint to urls.ts
 const apiUrls = {
   auth: {
-    index: "/auth",
-    login: "/auth/login",
-    google: "/auth/google",
-    googleLogin: "/auth/google/login",
     resetPassword: "/auth/password-reset",
     authPasswordChange: "/auth/authenticated-password-change",
     username: "/auth/username",
