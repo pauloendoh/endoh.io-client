@@ -84,7 +84,7 @@ const RelearnPage = (props: Props) => {
             })
           );
 
-          setSkillsStore(allSkills.filter((skill) => skill.tagId === tagId));
+          // setSkillsStore(allSkills.filter((skill) => skill.tagId === tagId));
         }
       }
     },

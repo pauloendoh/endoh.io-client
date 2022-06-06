@@ -21,7 +21,7 @@ function SkillChips() {
     const { pathname } = location;
 
     if (filterBy === "Show all")
-      return allSkills.filter((skill) =>
+      return [...allSkills].filter((skill) =>
         skill.expectations.some((e) => e.isCurrentGoal)
       );
 
@@ -30,7 +30,7 @@ function SkillChips() {
         const tagId = Number(pathname.split("/").pop());
 
         if (tagId) {
-          const listedSkills = allSkills.filter(
+          const listedSkills = [...allSkills].filter(
             (s) =>
               s.tagId === tagId && s.expectations.some((e) => e.isCurrentGoal)
           );
