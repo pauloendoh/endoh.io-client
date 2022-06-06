@@ -9,7 +9,7 @@ import {
 import LabelIcon from "@material-ui/icons/Label";
 import Flex from "components/_UI/Flexboxes/Flex";
 import FlexCol from "components/_UI/Flexboxes/FlexCol";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { MdCheckCircleOutline } from "react-icons/md";
 import { connect } from "react-redux";
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
@@ -61,6 +61,10 @@ const SkillbaseTableRow = (props: Props) => {
     return props.skill.expectations?.find((e) => e.isCurrentGoal);
   }, [props.skill]);
 
+  const openDialogShortcutEvent = useCallback((e: KeyboardEvent) => {
+    if (e.key === "l") props.openLabelsDialog(props.skill);
+  }, []);
+
   return (
     <TableRow
       hover
@@ -70,6 +74,12 @@ const SkillbaseTableRow = (props: Props) => {
       tabIndex={-1}
       selected={props.isSelected}
       className={classes.root}
+      onMouseEnter={() => {
+        window.addEventListener("keydown", openDialogShortcutEvent);
+      }}
+      onMouseLeave={() => {
+        window.removeEventListener("keydown", openDialogShortcutEvent);
+      }}
     >
       <TableCell align="center" width={50}>
         {props.index + 1}
@@ -172,6 +182,7 @@ interface OwnProps {
   index: number;
   isSelected: boolean;
   onCheck: (e: React.MouseEvent, skillId: number) => void;
+  openLabelsDialog: (skill: SkillDto) => void;
 }
 
 type Props = ReturnType<typeof mapStateToProps> & OwnProps;

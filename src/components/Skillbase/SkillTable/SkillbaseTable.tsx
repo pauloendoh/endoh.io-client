@@ -5,6 +5,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import Toolbar from "@material-ui/core/Toolbar";
 import DarkButton from "components/_UI/Buttons/DarkButton/DarkButton";
 import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween";
+import useSaveSkill from "hooks/skillbase/useSaveSkill";
 import React, { useEffect, useState } from "react";
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
@@ -14,6 +15,7 @@ import { IdsDto } from "../../../types/domain/_common/IdsDto";
 import myAxios from "../../../utils/consts/myAxios";
 import filterAndSortSkills from "../../../utils/domain/skills/filterAndSortSkills";
 import apiUrls from "../../../utils/url/urls/apiUrls";
+import SelectSkillLabelsDialog from "../SkillDialog/SkillDialogLabels/SelectSkillLabelsDialog/SelectSkillLabelsDialog";
 import AddSkillButton from "./AddSkillButton/AddSkillButton";
 import SkillbaseProgressDialog from "./SkillbaseProgressDialog/SkillbaseProgressDialog";
 import SkillbaseTableHead from "./SkillbaseTableHead/SkillbaseTableHead";
@@ -27,6 +29,7 @@ interface Props {
 
 const SkillbaseTable = (props: Props) => {
   const classes = useStyles();
+  const saveSkill = useSaveSkill();
   const {
     filter,
     sortBy,
@@ -36,6 +39,7 @@ const SkillbaseTable = (props: Props) => {
   } = useSkillbaseStore();
   const { setSuccessMessage } = useSnackbarStore();
 
+  const [labelsDialogSkill, setLabelsDialogSkill] = useState<SkillDto>(null);
   const [progressDialog, setProgressDialog] = useState(false);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
@@ -149,14 +153,31 @@ const SkillbaseTable = (props: Props) => {
             {visibleSkills.map((skill, index) => {
               return (
                 <SkillbaseTableRow
-                  key={skill.id}
+                  key={JSON.stringify(skill)}
                   skill={skill}
                   index={index}
                   isSelected={isSelected(skill.id)}
                   onCheck={changeSkillCheck}
+                  openLabelsDialog={() => {
+                    const s = allSkills.find((s) => s.id === skill.id);
+                    setLabelsDialogSkill({ ...s });
+                  }}
                 />
               );
             })}
+
+            <SelectSkillLabelsDialog
+              open={!!labelsDialogSkill}
+              skillId={labelsDialogSkill?.id}
+              selectedLabels={labelsDialogSkill?.labels}
+              onChange={(labels) =>
+                setLabelsDialogSkill((prev) => ({ ...prev, labels }))
+              }
+              onClose={() => {
+                saveSkill(labelsDialogSkill);
+                setLabelsDialogSkill(null);
+              }}
+            />
           </TableBody>
         </Table>
       </TableContainer>

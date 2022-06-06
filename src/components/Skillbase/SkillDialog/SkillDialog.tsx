@@ -10,20 +10,17 @@ import {
 import Flex from "components/_UI/Flexboxes/Flex";
 import Txt from "components/_UI/Text/Txt";
 import { useFormik } from "formik";
+import useSaveSkill from "hooks/skillbase/useSaveSkill";
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { scroller } from "react-scroll";
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
 import useDialogsStore from "store/zustand/useDialogsStore";
-import useSnackbarStore from "store/zustand/useSnackbarStore";
 import { useTheme } from "styled-components";
 import Icons from "utils/styles/Icons";
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto";
-import MyAxiosError from "../../../types/MyAxiosError";
-import myAxios from "../../../utils/consts/myAxios";
 import { getCurrentTagId } from "../../../utils/skillbase/getCurrentTagId";
-import apiUrls from "../../../utils/url/urls/apiUrls";
 import SaveCancelButtons from "../../_UI/Buttons/SaveCancelButtons";
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
 import SelectSkillLevel from "./SelectSkillLevel/SelectSkillLevel";
@@ -38,15 +35,10 @@ import SkillMoreIcon from "./SkillMoreIcon/SkillMoreIcon";
 const SkillDialog = () => {
   const theme = useTheme();
   const location = useLocation();
+  const handleSubmit = useSaveSkill();
 
-  const {
-    setSkills,
-    setEditingSkill,
-    editingSkill: initialValue,
-  } = useSkillbaseStore();
+  const { setEditingSkill, editingSkill: initialValue } = useSkillbaseStore();
   const { openConfirmDialog } = useDialogsStore();
-
-  const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
 
   const [labelsDialog, setLabelsDialog] = useState(false);
 
@@ -94,32 +86,6 @@ const SkillDialog = () => {
     }
 
     return setEditingSkill(null);
-  };
-
-  // PE 2/3
-  const handleSubmit = (
-    skill: SkillDto,
-    setSubmitting: (isSubmitting: boolean) => void
-  ) => {
-    setSubmitting(true);
-
-    // E.g;: if you change from 5 to ""
-    if ((skill.currentLevel as unknown) === "") skill.currentLevel = null;
-    if ((skill.goalLevel as unknown) === "") skill.goalLevel = null;
-
-    myAxios
-      .post<SkillDto[]>(apiUrls.skillbase.skill, skill)
-      .then((res) => {
-        setSkills(res.data);
-        setEditingSkill(null);
-        setSuccessMessage("Skill saved successfully!");
-      })
-      .catch((err: MyAxiosError) => {
-        setErrorMessage(err.response.data.errors[0].message);
-      })
-      .finally(() => {
-        setSubmitting(false);
-      });
   };
 
   return (
