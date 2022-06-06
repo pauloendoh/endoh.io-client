@@ -1,4 +1,4 @@
-import stringsAreVerySimilar from "utils/text/stringsAreVerySimilar";
+import textContainsWords from "utils/text/textContainsWords";
 import { TagDto } from "../../../types/domain/relearn/TagDto";
 import { ISortSkillBy } from "../../../types/domain/skillbase/ISortSkillBy";
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto";
@@ -74,7 +74,7 @@ export default function filterAndSortSkills(
   }
 
   if (byText.length > 0)
-    return skills.filter((skill) => stringsAreVerySimilar(skill.name, byText));
+    return skills.filter((skill) => textContainsWords(skill.name, byText));
 
   if (tag === "Untagged") {
     skills = skills.filter((s) => s.tagId === null);

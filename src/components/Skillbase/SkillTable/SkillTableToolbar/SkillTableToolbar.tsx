@@ -103,7 +103,7 @@ const SkillTableToolbar = (props: Props) => {
                   label={
                     <FlexVCenter style={{ gap: 4 }}>
                       <MdSearch />
-                      <Txt>Search skill name</Txt>
+                      <Txt>Search skill</Txt>
                     </FlexVCenter>
                   }
                   inputProps={{ style: { minHeight: 21 } }}
