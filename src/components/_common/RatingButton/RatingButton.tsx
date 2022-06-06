@@ -5,17 +5,14 @@ import {
   Tooltip,
   Typography,
 } from "@material-ui/core";
-import StarBorderOutlined from "@material-ui/icons/StarBorderOutlined";
-import StarRateIcon from "@material-ui/icons/StarRate";
 import { Rating } from "@material-ui/lab";
 import React from "react";
 import {
   hoverRatingLabels,
   ratingLabels,
 } from "utils/domain/relearn/resources/ratingLabels";
-import { getColorByRating } from "../../../utils/relearn/getColorByRating";
 import FlexHCenter from "../../_UI/Flexboxes/FlexHCenter";
-import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
+import RatingButtonLabel from "./RatingButtonLabel/RatingButtonLabel";
 
 interface Props {
   rating: number;
@@ -84,17 +81,7 @@ const RatingButton = (props: Props) => {
           }}
           className="rate-button"
         >
-          <FlexVCenter style={{ color: getColorByRating(props.rating) }}>
-            {props.rating > 0 ? <StarRateIcon /> : <StarBorderOutlined />}
-
-            {props.rating > 0 ? (
-              <Box ml={1}>
-                {props.rating} - {ratingLabels[props.rating]}
-              </Box>
-            ) : (
-              <Box ml={1}>Rate this resource</Box>
-            )}
-          </FlexVCenter>
+          <RatingButtonLabel rating={props.rating} />
         </Button>
       </Tooltip>
     </ClickAwayListener>

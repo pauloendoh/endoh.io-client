@@ -29,11 +29,11 @@ const UserPageSidebar = () => {
   const { width } = useElementSize(rootRef);
 
   const classes = useStyles();
-  const {
-    username,
-    tagId,
-    skillId: skillIdStr,
-  } = useParams<{ username: string; tagId: string; skillId: string }>();
+  const { username, tagId, skillId: skillIdStr } = useParams<{
+    username: string;
+    tagId: string;
+    skillId: string;
+  }>();
 
   useEffect(() => {
     const skillId = Number(skillIdStr);
@@ -48,11 +48,11 @@ const UserPageSidebar = () => {
     }
     setSelectedSkill(newSkillDto());
     setRoadmapsDialog(false);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [skillIdStr, profileStore.publicSkills]);
 
   return (
-    <Box maxWidth={300} ml="auto" {...({ ref: rootRef } as any)}>
+    <Box maxWidth={300} {...({ ref: rootRef } as any)}>
       <List component="nav" aria-label="User resource lists">
         <ListItem
           button
@@ -130,7 +130,7 @@ const UserPageSidebar = () => {
                 to={pageUrls.user.roadmap(username, skill.id)}
                 selected={skill.id === Number(skillIdStr)}
               >
-                <ListItemText>{skill.name}</ListItemText>
+                <ListItemText title={skill.name}>{skill.name}</ListItemText>
               </ListItem>
             ))}
           </List>

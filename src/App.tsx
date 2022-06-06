@@ -43,7 +43,7 @@ import apiUrls from "./utils/url/urls/apiUrls";
 const MoneratePage = lazy(() => import("./components/Monerate/MoneratePage"));
 
 const RelearnPage = lazy(() => import("./components/Relearn/RelearnPage"));
-const UserPage = lazy(() => import("./components/User/UserPage"));
+const UserPage = lazy(() => import("./components/User/ProfilePage"));
 const FeedPage = lazy(() => import("./components/Feed/FeedPage"));
 const DefinePage = lazy(() => import("./components/Define/DefinePage"));
 const BigDecisionsPage = lazy(

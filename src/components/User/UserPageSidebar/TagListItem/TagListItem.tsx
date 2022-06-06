@@ -36,7 +36,11 @@ const TagListItem = (props: Props) => {
         <Flex>
           <LabelIcon style={{ color: props.tag.color }} />
           <Box ml={1} width={props.width - 90}>
-            <Typography noWrap style={{ maxWidth: "inherit" }}>
+            <Typography
+              noWrap
+              style={{ maxWidth: "inherit" }}
+              title={props.tag.name}
+            >
               {props.tag.name}
             </Typography>
           </Box>

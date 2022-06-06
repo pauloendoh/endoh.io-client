@@ -1,13 +1,10 @@
 import { Link, useTheme } from "@material-ui/core";
-import DoneIcon from "@material-ui/icons/Done";
 import EventIcon from "@material-ui/icons/Event";
-import ScheduleIcon from "@material-ui/icons/Schedule";
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
 import useHover from "hooks/utils/useHover";
 import { DateTime } from "luxon";
 import React from "react";
 import { connect } from "react-redux";
-import TimeAgo from "react-timeago";
 import { Dispatch } from "redux";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
 import Icons from "utils/styles/Icons";
@@ -16,12 +13,13 @@ import { ApplicationState } from "../../../../../../store/store";
 import { IMoveResource } from "../../../../../../types/domain/relearn/IMoveResource";
 import { ResourceDto } from "../../../../../../types/domain/relearn/ResourceDto";
 import myAxios from "../../../../../../utils/consts/myAxios";
-import { validateEstimatedTime } from "../../../../../../utils/relearn/validateEstimatedTime";
 import apiUrls from "../../../../../../utils/url/urls/apiUrls";
 import RatingButton from "../../../../../_common/RatingButton/RatingButton";
 import ResourceThumbnail from "../../../../../_common/ResourceThumbnail/ResourceThumbnail";
 import Txt from "../../../../../_UI/Text/Txt";
 import ResourceMoreIcon from "../ResourceMoreIcon/ResourceMoreIcon";
+import ResourceCompletedLabel from "./ResourceCompletedLabel/ResourceCompletedLabel";
+import ResourceDurationLabel from "./ResourceDurationLabel/ResourceDurationLabel";
 import S from "./ResourceItem.styles";
 import ResourceItemTaskCheckbox from "./ResourceItemTaskCheckbox/ResourceItemTaskCheckbox";
 import ShowMoreTextField from "./ShowMoreTextField/ShowMoreTextField";
@@ -122,18 +120,12 @@ function ResourceItem(props: Props) {
             )}
 
             {props.resource.completedAt.length > 0 && (
-              <S.CompletedWrapper>
-                <DoneIcon />{" "}
-                <TimeAgo date={props.resource.completedAt} live={false} />
-              </S.CompletedWrapper>
+              <ResourceCompletedLabel
+                completedAt={props.resource.completedAt}
+              />
             )}
 
-            {validateEstimatedTime(props.resource.estimatedTime) && (
-              <S.DurationWrapper>
-                <ScheduleIcon style={{ marginRight: 4 }} />
-                {props.resource.estimatedTime}
-              </S.DurationWrapper>
-            )}
+            <ResourceDurationLabel duration={props.resource.estimatedTime} />
 
             {props.showTag && Boolean(props.resource.tag?.id) && (
               <FlexVCenter style={{ gap: 4 }}>
