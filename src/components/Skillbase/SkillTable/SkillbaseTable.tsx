@@ -6,6 +6,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import DarkButton from "components/_UI/Buttons/DarkButton/DarkButton";
 import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween";
 import useSaveSkill from "hooks/skillbase/useSaveSkill";
+import { isEqual } from "lodash";
 import React, { useEffect, useState } from "react";
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
@@ -174,7 +175,16 @@ const SkillbaseTable = (props: Props) => {
                 setLabelsDialogSkill((prev) => ({ ...prev, labels }))
               }
               onClose={() => {
-                saveSkill(labelsDialogSkill);
+                const prevSkill = allSkills.find(
+                  (s) => s.id === labelsDialogSkill?.id
+                );
+                const prevLabelIds = new Set(prevSkill.labels.map((l) => l.id));
+                const newLabelIds = new Set(
+                  labelsDialogSkill?.labels.map((l) => l.id)
+                );
+
+                if (!isEqual(prevLabelIds, newLabelIds))
+                  saveSkill(labelsDialogSkill);
                 setLabelsDialogSkill(null);
               }}
             />
