@@ -23,6 +23,7 @@ import useQueryParams from "hooks/utils/react-router/useQueryParams";
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose";
 import React, { useEffect, useMemo, useState } from "react";
 import { MdDeleteForever } from "react-icons/md";
+import ReactInputMask from "react-input-mask";
 import { connect } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
@@ -369,14 +370,21 @@ const ResourceDialog = (props: Props) => {
               <Grid container spacing={3}>
                 <Grid item xs={6} sm={3}>
                   {/* <Typography component="legend">Duration</Typography> */}
-                  <MyTextField
-                    id="estimatedTime"
-                    name="estimatedTime"
+                  <ReactInputMask
+                    mask="99:99h"
                     value={values.estimatedTime}
                     onChange={handleChange}
-                    label="Duration"
-                    fullWidth
-                  />
+                    maskPlaceholder=" "
+                  >
+                    {() => (
+                      <MyTextField
+                        id="estimatedTime"
+                        name="estimatedTime"
+                        label="Duration"
+                        fullWidth
+                      />
+                    )}
+                  </ReactInputMask>
                 </Grid>
 
                 <Grid item xs={6} sm={9}>
