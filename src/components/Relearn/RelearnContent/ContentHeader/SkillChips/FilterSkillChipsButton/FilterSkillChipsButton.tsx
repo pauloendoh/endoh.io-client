@@ -41,7 +41,7 @@ function FilterSkillChipsButton(props: Props) {
   const config: {
     [key in FilterSkillChipsBy]: { icon: IconDefinition; text: string };
   } = {
-    "Show all": { icon: faEye, text: "Show all priority skills" },
+    "Show all": { icon: faEye, text: "All skills w/ current goal" },
     "By tag": { icon: faTag, text: "Filter by tag" },
     "Hide all": { icon: faEyeSlash, text: "Hide all" },
   };
