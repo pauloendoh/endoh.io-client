@@ -1,6 +1,6 @@
 import { Box } from "@material-ui/core";
 import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
-import React from "react";
+import React, { useMemo } from "react";
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto";
 import Flex from "../../_UI/Flexboxes/Flex";
@@ -13,6 +13,11 @@ interface Props {
 // PE 1/3 delete?
 function SkillChip(props: Props) {
   const { setEditingSkill } = useSkillbaseStore();
+
+  const currentGoalLevel = useMemo(() => {
+    return props.skill.expectations.find((e) => e.isCurrentGoal).level;
+  }, [props.skill.expectations]);
+
   return (
     <S.SkillButton
       key={props.skill.id}
@@ -25,27 +30,27 @@ function SkillChip(props: Props) {
       <Flex>
         <Box>{props.skill.name}</Box>
 
-        {(props.skill.currentLevel || props.skill.goalLevel) && (
+        {(props.skill.currentLevel || currentGoalLevel) && (
           <S.InnerChip ml={1}>
             {/* only has current level */}
             {props.skill.currentLevel &&
-              !props.skill.goalLevel &&
+              !currentGoalLevel &&
               props.skill.currentLevel}
 
-            {/* only has goal */}
-            {!props.skill.currentLevel && props.skill.goalLevel && (
+            {/* only has currentGoalLevel */}
+            {!props.skill.currentLevel && currentGoalLevel && (
               <>
                 ?<ArrowRightAltIcon />
-                {props.skill.goalLevel}
+                {currentGoalLevel}
               </>
             )}
 
             {/* has both */}
-            {props.skill.currentLevel && props.skill.goalLevel && (
+            {props.skill.currentLevel && currentGoalLevel && (
               <>
                 {props.skill.currentLevel}
                 <ArrowRightAltIcon />
-                {props.skill.goalLevel}
+                {currentGoalLevel}
               </>
             )}
           </S.InnerChip>

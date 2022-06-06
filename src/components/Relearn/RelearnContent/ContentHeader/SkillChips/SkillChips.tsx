@@ -17,11 +17,13 @@ function SkillChips() {
 
   const [filterBy, setFilterBy] = useState<FilterSkillChipsBy>("By tag");
 
-  const skills = useMemo(() => {
+  const skillsWithCurrentGoal = useMemo(() => {
     const { pathname } = location;
 
     if (filterBy === "Show all")
-      return allSkills.filter((skill) => skill.isPriority);
+      return allSkills.filter((skill) =>
+        skill.expectations.some((e) => e.isCurrentGoal)
+      );
 
     if (filterBy === "By tag") {
       if (pathname.startsWith(pageUrls.relearn.tag)) {
@@ -29,7 +31,8 @@ function SkillChips() {
 
         if (tagId) {
           const listedSkills = allSkills.filter(
-            (s) => s.tagId === tagId && s.isPriority === true
+            (s) =>
+              s.tagId === tagId && s.expectations.some((e) => e.isCurrentGoal)
           );
           return listedSkills;
         }
@@ -41,7 +44,7 @@ function SkillChips() {
 
   return (
     <Flex className={classes.root}>
-      {skills.map((skill) => (
+      {skillsWithCurrentGoal.map((skill) => (
         <SkillChip key={skill.id} skill={skill} />
       ))}
       <EditSkillsButton />
