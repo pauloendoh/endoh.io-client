@@ -14,7 +14,7 @@
     "react:start": "react-scripts  start",
     "react:dev": "set PORT=8000 & npm start",
     "react:build": "react-scripts build",
-    "test": "react-scripts test -- --config jest.config.js --watchAll=false --bail",
+    "test": "react-scripts test ./jest.config.js --watchAll=false --bail --findRelatedTests",
     "test:watch": "react-scripts test",
     "build:test": "react-scripts build && react-scripts  test",
     "eject": "react-scripts  eject",
