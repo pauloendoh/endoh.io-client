@@ -76,7 +76,11 @@ function ProfileResourceItem(props: Props) {
             <Txt>{props.resource.title}</Txt>
 
             {urlIsValid(props.resource.url) && (
-              <Link href={props.resource.url} target="_blank">
+              <Link
+                href={props.resource.url}
+                style={{ fontWeight: "normal" }}
+                target="_blank"
+              >
                 <Txt variant="inherit">{props.resource.url}</Txt>
               </Link>
             )}
