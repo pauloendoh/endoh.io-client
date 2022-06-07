@@ -113,7 +113,7 @@ const PersonalInformationPaper = () => {
             }}
           />
 
-          <Box ml={3}>Requires password</Box>
+          <Box ml={3}>*Requires password</Box>
         </FlexVCenter>
       </Box>
     </Paper>
