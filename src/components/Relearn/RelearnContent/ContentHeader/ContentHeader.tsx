@@ -1,5 +1,6 @@
 import { Box, makeStyles, Tab, Tabs, Typography } from "@material-ui/core";
 import React, { useEffect, useRef, useState } from "react";
+import { useDrop } from "react-dnd";
 import { connect } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { Dispatch } from "redux";
@@ -23,11 +24,11 @@ function ContentHeader(props: Props) {
   const [tag, setTag] = useState<TagDto>(null);
   const [height, setHeight] = useState(0);
 
-  const ref = useRef<HTMLDivElement>();
+  const rootRef = useRef<HTMLDivElement>();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    const newHeight = ref.current.clientHeight;
+    const newHeight = rootRef.current.clientHeight;
     if (height !== newHeight) {
       setHeight(newHeight);
     }
@@ -65,8 +66,29 @@ function ContentHeader(props: Props) {
     props.onTabChange(newTabIndex);
   };
 
+  const [{ isOver }, dropRef] = useDrop(() => ({
+    accept: "CARD",
+    collect: (monitor) => ({ isOver: monitor.isOver() }),
+  }));
+  dropRef(rootRef);
+
+  const [scrollInterval, setScrollInterval] = useState<NodeJS.Timer>(null);
+
+  useEffect(() => {
+    if (isOver) {
+      setScrollInterval(
+        setInterval(() => {
+          window.scrollBy(0, -10);
+        }, 10)
+      );
+    } else {
+      clearInterval(scrollInterval);
+      setScrollInterval(null);
+    }
+  }, [isOver]);
+
   return (
-    <Box className={classes.root} {...{ ref: ref }}>
+    <div className={classes.root} ref={rootRef}>
       <Flex justifyContent="space-between" width="100%">
         <Typography variant="h5">{tag ? tag.name : "Untagged"}</Typography>
       </Flex>
@@ -96,7 +118,7 @@ function ContentHeader(props: Props) {
           />
         </Tabs>
       )}
-    </Box>
+    </div>
   );
 }
 
