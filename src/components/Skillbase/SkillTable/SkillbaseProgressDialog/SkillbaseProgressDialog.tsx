@@ -12,11 +12,14 @@ import {
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
 import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween";
 import Txt from "components/_UI/Text/Txt";
-import React, { useEffect, useState } from "react";
+import {
+  useSkillProgressesQuery,
+  useSkillProgressMonthsQuery as useMonthsQuery,
+} from "generated/graphql";
+import { useEffect, useState } from "react";
 import { MdClose, MdOutlineArrowRightAlt } from "react-icons/md";
 import { useTheme } from "styled-components";
-import useProgressesQuery from "../../../../hooks/react-query/skillbase/skill-progress/useProgressesQuery";
-import useSkillProgressMonthsQuery from "../../../../hooks/react-query/skillbase/skill-progress/useSkillProgressMonthsQuery";
+import buildGraphqlClient from "utils/consts/buildGraphqlClient";
 
 interface Props {
   open: boolean;
@@ -26,12 +29,19 @@ interface Props {
 const SkillbaseProgressDialog = (props: Props) => {
   const [selectedMonth, setSelectedMonth] = useState("");
 
-  const { data: months } = useSkillProgressMonthsQuery();
   const {
-    data: progresses,
+    data: progressListData,
     isFetching,
     refetch,
-  } = useProgressesQuery(selectedMonth);
+  } = useSkillProgressesQuery(buildGraphqlClient(), {
+    fromYearMonth: selectedMonth,
+  });
+
+  const { data: monthsData } = useMonthsQuery(buildGraphqlClient());
+
+  useEffect(() => {
+    console.log(monthsData);
+  }, [monthsData]);
 
   useEffect(() => {
     if (props.open) refetch();
@@ -43,8 +53,9 @@ const SkillbaseProgressDialog = (props: Props) => {
   }, [selectedMonth]);
 
   useEffect(() => {
-    if (months?.length > 0) setSelectedMonth(months[0]);
-  }, [months]);
+    if (monthsData?.skillProgressMonths?.length > 0)
+      setSelectedMonth(monthsData.skillProgressMonths[0]);
+  }, [monthsData]);
 
   const theme = useTheme();
 
@@ -96,7 +107,7 @@ const SkillbaseProgressDialog = (props: Props) => {
                   setSelectedMonth(e.target.value as string);
                 }}
               >
-                {months?.map((month) => (
+                {monthsData?.skillProgressMonths?.map((month) => (
                   <MenuItem value={month} key={month}>
                     {month}
                   </MenuItem>
@@ -114,12 +125,12 @@ const SkillbaseProgressDialog = (props: Props) => {
               <Txt>Loading...</Txt>
             ) : (
               <>
-                {progresses?.length > 0 && (
+                {progressListData?.skillProgresses?.length > 0 && (
                   <Txt variant="h6">Highest improvements</Txt>
                 )}
 
                 <Box mt={2} />
-                {progresses?.map((progress) => (
+                {progressListData?.skillProgresses?.map((progress) => (
                   <FlexVCenter key={progress.skillId}>
                     <div style={{ width: 150 }}>
                       {progress.currentName === progress.previousName ? (

@@ -19,9 +19,12 @@
     "build:test": "react-scripts build && react-scripts  test",
     "eject": "react-scripts  eject",
     "e2e:headless": "cypress run",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
+    "graphql": "^15.8.0",
+    "graphql-request": "^4.2.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.16",
@@ -92,6 +95,13 @@
     ]
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^2.6.2",
+    "@graphql-codegen/introspection": "2.1.1",
+    "@graphql-codegen/typescript": "^2.4.8",
+    "@graphql-codegen/typescript-graphql-request": "^4.4.5",
+    "@graphql-codegen/typescript-operations": "^2.3.5",
+    "@graphql-codegen/typescript-react-apollo": "3.2.11",
+    "@graphql-codegen/typescript-react-query": "^3.5.9",
     "@originjs/vite-plugin-commonjs": "^1.0.3",
     "@testing-library/react": "^12.1.2",
     "@types/jest": "^27.5.1",

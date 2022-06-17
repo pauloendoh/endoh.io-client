@@ -1,0 +1,10 @@
+query SkillProgresses($fromYearMonth: String!) {
+  skillProgresses(fromYearMonth: $fromYearMonth) {
+    skillId
+    previousName
+    currentName
+    previousLevel
+    currentLevel
+    levelImprovement
+  }
+}

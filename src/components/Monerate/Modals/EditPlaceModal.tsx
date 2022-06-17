@@ -1,8 +1,8 @@
 import { Box, Button, Dialog } from "@material-ui/core";
 import { Form, Formik } from "formik";
-import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import useDialogsStore from "store/zustand/useDialogsStore";
 import myAxios from "utils/consts/myAxios";
 import apiUrls from "utils/url/urls/apiUrls";
 import * as monerateActions from "../../../store/monerate/monerateActions";
@@ -12,6 +12,8 @@ import Flex from "../../_UI/Flexboxes/Flex";
 import MyTextField from "../../_UI/MyInputs/MyTextField";
 
 const EditPlaceModal = (props: Props) => {
+  const { openConfirmDialog } = useDialogsStore();
+
   const handleSubmit = (place: PlaceGetDto) => {
     myAxios
       .post<PlaceGetDto[]>(apiUrls.monerate.place, place)
@@ -24,16 +26,19 @@ const EditPlaceModal = (props: Props) => {
   };
 
   const handleDelete = (id: number) => {
-    if (window.confirm("Confirm delete?")) {
-      myAxios
-        .delete<PlaceGetDto[]>(`${apiUrls.monerate.place}/${id}`)
-        .then((res) => {
-          props.setPlaces(res.data);
-        })
-        .finally(() => {
-          props.closePlaceModal();
-        });
-    }
+    openConfirmDialog({
+      title: "Confirm delete?",
+      onConfirm: () => {
+        myAxios
+          .delete<PlaceGetDto[]>(`${apiUrls.monerate.place}/${id}`)
+          .then((res) => {
+            props.setPlaces(res.data);
+          })
+          .finally(() => {
+            props.closePlaceModal();
+          });
+      },
+    });
   };
 
   return (

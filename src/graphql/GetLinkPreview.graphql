@@ -1,0 +1,8 @@
+query GetLinkPreview($url: String!) {
+  getLinkPreview(url: $url) {
+    title
+    image
+    description
+    url
+  }
+}

@@ -20,6 +20,7 @@ import React from "react";
 import { GlobalHotKeys } from "react-hotkeys";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import useDialogsStore from "store/zustand/useDialogsStore";
 import * as monerateActions from "../../../store/monerate/monerateActions";
 import { ApplicationState } from "../../../store/store";
 import CategoryGetDto from "../../../types/domain/monerate/CategoryGetDto";
@@ -39,6 +40,8 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 // PE 1/3
 const ExpenseDialog = (props: Props) => {
+  const { openConfirmDialog } = useDialogsStore();
+
   // 20201215 - Actually, I can change rating inside formik values, using setFieldValue
   const [rating, setRating] = React.useState(0);
 
@@ -78,16 +81,19 @@ const ExpenseDialog = (props: Props) => {
   };
 
   const handleConfirmDelete = (id: number) => {
-    if (window.confirm("Delete this expense?")) {
-      myAxios
-        .delete(`${apiUrls.monerate.expense}/${id}`)
-        .then((res) => {
-          props.removeExpense(id);
-        })
-        .finally(() => {
-          props.closeExpenseModal();
-        });
-    }
+    openConfirmDialog({
+      title: "Delete this expense?",
+      onConfirm() {
+        myAxios
+          .delete(`${apiUrls.monerate.expense}/${id}`)
+          .then((res) => {
+            props.removeExpense(id);
+          })
+          .finally(() => {
+            props.closeExpenseModal();
+          });
+      },
+    });
   };
 
   const keyMap = { openModal: "q" };

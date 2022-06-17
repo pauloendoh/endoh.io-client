@@ -42,6 +42,10 @@ const SkillbaseTableRow = (props: Props) => {
       if (props.skill.tagId) {
         setTag(findTagById(props.skill.tagId));
       }
+
+      return () => {
+        window.removeEventListener("keydown", openDialogShortcutEvent);
+      };
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []

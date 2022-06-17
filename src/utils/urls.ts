@@ -3,6 +3,7 @@ export const urls = {
     openResourceId: (resourceId: number, pathname?: string) =>
       `${pathname}?openResourceId=${resourceId}`,
   },
+  graphql: import.meta.env.VITE_API_URL + "graphql",
   api: {
     auth: {
       index: "/auth",
