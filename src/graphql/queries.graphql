@@ -8,3 +8,30 @@ query SkillProgresses($fromYearMonth: String!) {
     levelImprovement
   }
 }
+
+query LinkPreview($url: String!) {
+  getLinkPreview(url: $url) {
+    title
+    image
+    description
+    url
+    youtubeVideoLength
+    alreadySavedResource {
+      id
+      userId
+      title
+      url
+      thumbnail
+      estimatedTime
+      dueDate
+      rating
+      completedAt
+      position
+      publicReview
+      privateNote
+      createdAt
+      updatedAt
+      tagId
+    }
+  }
+}

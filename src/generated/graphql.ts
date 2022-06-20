@@ -21,10 +21,12 @@ export type Scalars = {
 
 export type LinkPreviewDto = {
   __typename?: 'LinkPreviewDto';
+  alreadySavedResource?: Maybe<Resource>;
   description: Scalars['String'];
   image: Scalars['String'];
   title: Scalars['String'];
   url: Scalars['String'];
+  youtubeVideoLength: Scalars['String'];
 };
 
 export type Month = {
@@ -84,13 +86,6 @@ export type SkillProgressDto = {
   skillId: Scalars['Float'];
 };
 
-export type GetLinkPreviewQueryVariables = Exact<{
-  url: Scalars['String'];
-}>;
-
-
-export type GetLinkPreviewQuery = { __typename?: 'Query', getLinkPreview: { __typename?: 'LinkPreviewDto', title: string, image: string, description: string, url: string } };
-
 export type SkillProgressMonthsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -103,31 +98,14 @@ export type SkillProgressesQueryVariables = Exact<{
 
 export type SkillProgressesQuery = { __typename?: 'Query', skillProgresses: Array<{ __typename?: 'SkillProgressDto', skillId: number, previousName: string, currentName: string, previousLevel?: number | null, currentLevel: number, levelImprovement: number }> };
 
+export type LinkPreviewQueryVariables = Exact<{
+  url: Scalars['String'];
+}>;
 
-export const GetLinkPreviewDocument = `
-    query GetLinkPreview($url: String!) {
-  getLinkPreview(url: $url) {
-    title
-    image
-    description
-    url
-  }
-}
-    `;
-export const useGetLinkPreviewQuery = <
-      TData = GetLinkPreviewQuery,
-      TError = unknown
-    >(
-      client: GraphQLClient,
-      variables: GetLinkPreviewQueryVariables,
-      options?: UseQueryOptions<GetLinkPreviewQuery, TError, TData>,
-      headers?: RequestInit['headers']
-    ) =>
-    useQuery<GetLinkPreviewQuery, TError, TData>(
-      ['GetLinkPreview', variables],
-      fetcher<GetLinkPreviewQuery, GetLinkPreviewQueryVariables>(client, GetLinkPreviewDocument, variables, headers),
-      options
-    );
+
+export type LinkPreviewQuery = { __typename?: 'Query', getLinkPreview: { __typename?: 'LinkPreviewDto', title: string, image: string, description: string, url: string, youtubeVideoLength: string, alreadySavedResource?: { __typename?: 'Resource', id: number, userId: number, title: string, url: string, thumbnail: string, estimatedTime: string, dueDate: string, rating?: number | null, completedAt: string, position?: number | null, publicReview: string, privateNote: string, createdAt: string, updatedAt: string, tagId?: number | null } | null } };
+
+
 export const SkillProgressMonthsDocument = `
     query SkillProgressMonths {
   skillProgressMonths
@@ -147,6 +125,11 @@ export const useSkillProgressMonthsQuery = <
       fetcher<SkillProgressMonthsQuery, SkillProgressMonthsQueryVariables>(client, SkillProgressMonthsDocument, variables, headers),
       options
     );
+
+useSkillProgressMonthsQuery.getKey = (variables?: SkillProgressMonthsQueryVariables) => variables === undefined ? ['SkillProgressMonths'] : ['SkillProgressMonths', variables];
+;
+
+useSkillProgressMonthsQuery.fetcher = (client: GraphQLClient, variables?: SkillProgressMonthsQueryVariables, headers?: RequestInit['headers']) => fetcher<SkillProgressMonthsQuery, SkillProgressMonthsQueryVariables>(client, SkillProgressMonthsDocument, variables, headers);
 export const SkillProgressesDocument = `
     query SkillProgresses($fromYearMonth: String!) {
   skillProgresses(fromYearMonth: $fromYearMonth) {
@@ -173,3 +156,55 @@ export const useSkillProgressesQuery = <
       fetcher<SkillProgressesQuery, SkillProgressesQueryVariables>(client, SkillProgressesDocument, variables, headers),
       options
     );
+
+useSkillProgressesQuery.getKey = (variables: SkillProgressesQueryVariables) => ['SkillProgresses', variables];
+;
+
+useSkillProgressesQuery.fetcher = (client: GraphQLClient, variables: SkillProgressesQueryVariables, headers?: RequestInit['headers']) => fetcher<SkillProgressesQuery, SkillProgressesQueryVariables>(client, SkillProgressesDocument, variables, headers);
+export const LinkPreviewDocument = `
+    query LinkPreview($url: String!) {
+  getLinkPreview(url: $url) {
+    title
+    image
+    description
+    url
+    youtubeVideoLength
+    alreadySavedResource {
+      id
+      userId
+      title
+      url
+      thumbnail
+      estimatedTime
+      dueDate
+      rating
+      completedAt
+      position
+      publicReview
+      privateNote
+      createdAt
+      updatedAt
+      tagId
+    }
+  }
+}
+    `;
+export const useLinkPreviewQuery = <
+      TData = LinkPreviewQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: LinkPreviewQueryVariables,
+      options?: UseQueryOptions<LinkPreviewQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<LinkPreviewQuery, TError, TData>(
+      ['LinkPreview', variables],
+      fetcher<LinkPreviewQuery, LinkPreviewQueryVariables>(client, LinkPreviewDocument, variables, headers),
+      options
+    );
+
+useLinkPreviewQuery.getKey = (variables: LinkPreviewQueryVariables) => ['LinkPreview', variables];
+;
+
+useLinkPreviewQuery.fetcher = (client: GraphQLClient, variables: LinkPreviewQueryVariables, headers?: RequestInit['headers']) => fetcher<LinkPreviewQuery, LinkPreviewQueryVariables>(client, LinkPreviewDocument, variables, headers);

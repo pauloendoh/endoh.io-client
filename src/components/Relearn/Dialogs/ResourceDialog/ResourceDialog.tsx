@@ -19,6 +19,7 @@ import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween";
 import TagIcon from "components/_UI/Icon/TagIcon";
 import Txt from "components/_UI/Text/Txt";
 import { FormikErrors, useFormik } from "formik";
+import { useLinkPreviewQuery } from "generated/graphql";
 import useQueryParams from "hooks/utils/react-router/useQueryParams";
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose";
 import React, { useEffect, useMemo, useState } from "react";
@@ -30,7 +31,7 @@ import { Dispatch } from "redux";
 import useDialogsStore from "store/zustand/useDialogsStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
 import MyAxiosError from "types/MyAxiosError";
-import { urls } from "utils/urls";
+import buildGraphqlClient from "utils/consts/buildGraphqlClient";
 import linkPng from "../../../../static/images/link.png";
 import * as relearnActions from "../../../../store/relearn/relearnActions";
 import { ApplicationState } from "../../../../store/store";
@@ -45,7 +46,6 @@ import SaveCancelButtons from "../../../_UI/Buttons/SaveCancelButtons";
 import Flex from "../../../_UI/Flexboxes/Flex";
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
 import MyTextField from "../../../_UI/MyInputs/MyTextField";
-import { LinkPreviewDto } from "./_types/LinkPreviewDto";
 
 // PE 1/3 - tá muito grande
 const ResourceDialog = (props: Props) => {
@@ -197,12 +197,15 @@ const ResourceDialog = (props: Props) => {
         if (urlIsValid(url)) {
           setIsFetchingLinkPreview(true);
           setFieldValue("title", "Loading...");
-          myAxios
-            .get<LinkPreviewDto>(urls.api.linkPreview(url))
+
+          useLinkPreviewQuery
+            .fetcher(buildGraphqlClient(), {
+              url,
+            })()
             .then((res) => {
-              const preview = res.data;
-              if (preview.duration !== "00:00h")
-                setFieldValue("estimatedTime", preview.duration);
+              const { getLinkPreview: preview } = res;
+              if (preview.youtubeVideoLength !== "00:00h")
+                setFieldValue("estimatedTime", preview.youtubeVideoLength);
               setFieldValue("title", preview.title);
               setFieldValue("thumbnail", preview.image);
 
@@ -211,7 +214,7 @@ const ResourceDialog = (props: Props) => {
                   title: "You already saved this URL. Open it?",
                   description: preview.alreadySavedResource.title,
                   onConfirm: () => {
-                    setValues(preview.alreadySavedResource);
+                    setValues(preview.alreadySavedResource as ResourceDto);
                   },
                 });
               }
