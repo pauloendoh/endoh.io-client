@@ -125,7 +125,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 125,
     width: "-webkit-fill-available",
     background: "none",
-    fontSize: 13,
+    fontSize: 14,
     fontFamily: theme.typography.fontFamily,
     color: "white",
     cursor: "pointer",
