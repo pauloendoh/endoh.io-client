@@ -5,10 +5,11 @@ import {
   TableRow,
   TextareaAutosize,
 } from "@material-ui/core";
-import { LearningsQuery } from "generated/graphql";
+import { LearningsQuery, useUpdateLearningMutation } from "generated/graphql";
 import useDebounce from "hooks/utils/useDebounce";
 import { createRef, useEffect, useState } from "react";
 import { MdStar } from "react-icons/md";
+import buildGraphqlClient from "utils/consts/buildGraphqlClient";
 import colors from "utils/consts/colors";
 
 interface Props {
@@ -18,6 +19,11 @@ interface Props {
 
 const DiaryTableRow = (props: Props) => {
   const classes = useStyles();
+
+  const {
+    mutate: updateLearning,
+    isLoading: isUpdating,
+  } = useUpdateLearningMutation(buildGraphqlClient());
 
   const [learning, setLearning] = useState(props.initialValue);
   const debouncedLearning = useDebounce(learning, 500);
@@ -37,7 +43,18 @@ const DiaryTableRow = (props: Props) => {
   };
 
   useEffect(() => {
-    console.log(debouncedLearning);
+    if (
+      JSON.stringify(props.initialValue) !== JSON.stringify(debouncedLearning)
+    ) {
+      updateLearning({
+        input: {
+          id: debouncedLearning.id,
+          date: debouncedLearning.date,
+          description: debouncedLearning.description,
+          isHighlight: debouncedLearning.isHighlight,
+        },
+      });
+    }
   }, [debouncedLearning]);
 
   const descriptionRef = createRef<HTMLTextAreaElement>();

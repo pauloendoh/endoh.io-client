@@ -6,6 +6,7 @@ import {
   Toolbar,
 } from "@material-ui/core";
 import { useAddLearningMutation, useLearningsQuery } from "generated/graphql";
+import { useMemo } from "react";
 import { useQueryClient } from "react-query";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
 import buildGraphqlClient from "utils/consts/buildGraphqlClient";
@@ -19,6 +20,14 @@ const DiaryTable = () => {
 
   const { setSuccessMessage } = useSnackbarStore();
 
+  const { data } = useLearningsQuery(buildGraphqlClient());
+  const sortedLearnings = useMemo(
+    () =>
+      data?.learnings.sort((a, b) => a.createdAt.localeCompare(b.createdAt)) ||
+      [],
+    [data]
+  );
+
   const {
     mutate: mutateAddLearning,
     isLoading: isAdding,
@@ -28,11 +37,6 @@ const DiaryTable = () => {
       qc.invalidateQueries(useLearningsQuery.getKey());
     },
   });
-
-  const { data } = useLearningsQuery(buildGraphqlClient());
-  const sortedLearnings =
-    data?.learnings.sort((a, b) => a.createdAt.localeCompare(b.createdAt)) ||
-    [];
 
   return (
     <Paper>

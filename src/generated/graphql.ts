@@ -30,9 +30,10 @@ export type Learning = {
   userId: Scalars['Float'];
 };
 
-export type LearningAddInput = {
+export type LearningInput = {
   date: Scalars['String'];
   description: Scalars['String'];
+  id?: InputMaybe<Scalars['Float']>;
   isHighlight: Scalars['Boolean'];
 };
 
@@ -54,11 +55,17 @@ export type Month = {
 export type Mutation = {
   __typename?: 'Mutation';
   addLearning: Learning;
+  updateLearning: Learning;
 };
 
 
 export type MutationAddLearningArgs = {
-  input: LearningAddInput;
+  input: LearningInput;
+};
+
+
+export type MutationUpdateLearningArgs = {
+  input: LearningInput;
 };
 
 export type Query = {
@@ -120,11 +127,18 @@ export type SkillProgressMonthsQueryVariables = Exact<{ [key: string]: never; }>
 export type SkillProgressMonthsQuery = { __typename?: 'Query', skillProgressMonths: Array<string> };
 
 export type AddLearningMutationVariables = Exact<{
-  input: LearningAddInput;
+  input: LearningInput;
 }>;
 
 
 export type AddLearningMutation = { __typename?: 'Mutation', addLearning: { __typename?: 'Learning', id: number, userId: number, description: string, isHighlight: boolean, date: string } };
+
+export type UpdateLearningMutationVariables = Exact<{
+  input: LearningInput;
+}>;
+
+
+export type UpdateLearningMutation = { __typename?: 'Mutation', updateLearning: { __typename?: 'Learning', id: number, userId: number, description: string, isHighlight: boolean, date: string, createdAt: string, updatedAt: string } };
 
 export type SkillProgressesQueryVariables = Exact<{
   fromYearMonth: Scalars['String'];
@@ -171,7 +185,7 @@ useSkillProgressMonthsQuery.getKey = (variables?: SkillProgressMonthsQueryVariab
 
 useSkillProgressMonthsQuery.fetcher = (client: GraphQLClient, variables?: SkillProgressMonthsQueryVariables, headers?: RequestInit['headers']) => fetcher<SkillProgressMonthsQuery, SkillProgressMonthsQueryVariables>(client, SkillProgressMonthsDocument, variables, headers);
 export const AddLearningDocument = `
-    mutation AddLearning($input: LearningAddInput!) {
+    mutation AddLearning($input: LearningInput!) {
   addLearning(input: $input) {
     id
     userId
@@ -195,6 +209,33 @@ export const useAddLearningMutation = <
       options
     );
 useAddLearningMutation.fetcher = (client: GraphQLClient, variables: AddLearningMutationVariables, headers?: RequestInit['headers']) => fetcher<AddLearningMutation, AddLearningMutationVariables>(client, AddLearningDocument, variables, headers);
+export const UpdateLearningDocument = `
+    mutation UpdateLearning($input: LearningInput!) {
+  updateLearning(input: $input) {
+    id
+    userId
+    description
+    isHighlight
+    date
+    createdAt
+    updatedAt
+  }
+}
+    `;
+export const useUpdateLearningMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateLearningMutation, TError, UpdateLearningMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateLearningMutation, TError, UpdateLearningMutationVariables, TContext>(
+      ['UpdateLearning'],
+      (variables?: UpdateLearningMutationVariables) => fetcher<UpdateLearningMutation, UpdateLearningMutationVariables>(client, UpdateLearningDocument, variables, headers)(),
+      options
+    );
+useUpdateLearningMutation.fetcher = (client: GraphQLClient, variables: UpdateLearningMutationVariables, headers?: RequestInit['headers']) => fetcher<UpdateLearningMutation, UpdateLearningMutationVariables>(client, UpdateLearningDocument, variables, headers);
 export const SkillProgressesDocument = `
     query SkillProgresses($fromYearMonth: String!) {
   skillProgresses(fromYearMonth: $fromYearMonth) {
