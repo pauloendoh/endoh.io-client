@@ -63,6 +63,7 @@ const LearningDiaryPage = () => {
               id="date-picker-inline"
               label="Date picker inline"
               value={parseISO(selectedDate)}
+              autoOk
               onChange={(date, val) =>
                 setSelectedDate(DateTime.fromJSDate(date).toISODate())
               }

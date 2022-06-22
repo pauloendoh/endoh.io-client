@@ -8,6 +8,7 @@ import {
 import { useAddLearningMutation, useLearningsQuery } from "generated/graphql";
 import { useMemo } from "react";
 import { useQueryClient } from "react-query";
+import useLearningDiaryStore from "store/zustand/domain/useLearningDiaryStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
 import buildGraphqlClient from "utils/consts/buildGraphqlClient";
 import DarkButton from "../../_UI/Buttons/DarkButton/DarkButton";
@@ -18,14 +19,17 @@ const DiaryTable = () => {
   const classes = useStyles();
   const qc = useQueryClient();
 
+  const { selectedDate } = useLearningDiaryStore();
   const { setSuccessMessage } = useSnackbarStore();
 
   const { data } = useLearningsQuery(buildGraphqlClient());
+
   const sortedLearnings = useMemo(
     () =>
-      data?.learnings.sort((a, b) => a.createdAt.localeCompare(b.createdAt)) ||
-      [],
-    [data]
+      data?.learnings
+        .filter((l) => l.date === selectedDate)
+        .sort((a, b) => a.createdAt.localeCompare(b.createdAt)) || [],
+    [data, selectedDate]
   );
 
   const {
