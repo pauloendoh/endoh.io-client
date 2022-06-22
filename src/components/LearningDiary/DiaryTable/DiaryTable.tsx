@@ -6,7 +6,8 @@ import {
   Toolbar,
 } from "@material-ui/core";
 import { useAddLearningMutation, useLearningsQuery } from "generated/graphql";
-import { useMemo } from "react";
+import useFilteredLearnings from "hooks/learning-diary/useFilteredLearnings";
+import { DateTime } from "luxon";
 import { useQueryClient } from "react-query";
 import useLearningDiaryStore from "store/zustand/domain/useLearningDiaryStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
@@ -22,15 +23,7 @@ const DiaryTable = () => {
   const { selectedDate } = useLearningDiaryStore();
   const { setSuccessMessage } = useSnackbarStore();
 
-  const { data } = useLearningsQuery(buildGraphqlClient());
-
-  const sortedLearnings = useMemo(
-    () =>
-      data?.learnings
-        .filter((l) => l.date === selectedDate)
-        .sort((a, b) => a.createdAt.localeCompare(b.createdAt)) || [],
-    [data, selectedDate]
-  );
+  const filteredLearnings = useFilteredLearnings(selectedDate);
 
   const {
     mutate: mutateAddLearning,
@@ -66,7 +59,7 @@ const DiaryTable = () => {
           </THead>
 
           <TBody>
-            {sortedLearnings.map((learning, index) => (
+            {filteredLearnings.map((learning, index) => (
               <DiaryTableRow
                 key={learning.id}
                 index={index}
@@ -82,7 +75,7 @@ const DiaryTable = () => {
           onClick={() =>
             mutateAddLearning({
               input: {
-                date: new Date().toISOString(),
+                date: DateTime.now().toISODate(),
                 description: "",
                 isHighlight: false,
               },

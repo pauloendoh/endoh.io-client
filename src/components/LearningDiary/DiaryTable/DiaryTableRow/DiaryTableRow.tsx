@@ -5,10 +5,16 @@ import {
   TableRow,
   TextareaAutosize,
 } from "@material-ui/core";
-import { LearningsQuery, useUpdateLearningMutation } from "generated/graphql";
+import {
+  LearningsQuery,
+  useLearningsQuery,
+  useUpdateLearningMutation,
+} from "generated/graphql";
 import useDebounce from "hooks/utils/useDebounce";
 import { createRef, useEffect, useState } from "react";
 import { MdStar } from "react-icons/md";
+import { useQueryClient } from "react-query";
+import { pushOrReplace } from "utils/array/pushOrReplace";
 import buildGraphqlClient from "utils/consts/buildGraphqlClient";
 import colors from "utils/consts/colors";
 
@@ -20,10 +26,26 @@ interface Props {
 const DiaryTableRow = (props: Props) => {
   const classes = useStyles();
 
+  const qc = useQueryClient();
+  const { data } = useLearningsQuery(buildGraphqlClient());
+
   const {
     mutate: updateLearning,
     isLoading: isUpdating,
-  } = useUpdateLearningMutation(buildGraphqlClient());
+  } = useUpdateLearningMutation(buildGraphqlClient(), {
+    onSuccess: (res) => {
+      const prevLearnings = [...data.learnings];
+      const newLearnings = pushOrReplace(
+        prevLearnings,
+        res.updateLearning,
+        "id"
+      );
+      qc.setQueryData(useLearningsQuery.getKey(), {
+        ...data,
+        learnings: newLearnings,
+      });
+    },
+  });
 
   const [learning, setLearning] = useState(props.initialValue);
   const debouncedLearning = useDebounce(learning, 500);

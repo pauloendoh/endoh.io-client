@@ -9,6 +9,7 @@ import {
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import clsx from "clsx";
+import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween";
 import { useLearningsQuery } from "generated/graphql";
 import { DateTime } from "luxon";
 import { useEffect, useMemo } from "react";
@@ -17,6 +18,7 @@ import buildGraphqlClient from "utils/consts/buildGraphqlClient";
 import useSidebarStore from "../../store/zustand/useSidebarStore";
 import Flex from "../_UI/Flexboxes/Flex";
 import DiaryTable from "./DiaryTable/DiaryTable";
+import LearningDayCounter from "./LearningDayCounter/LearningDayCounter";
 
 const LearningDiaryPage = () => {
   const classes = useStyles();
@@ -55,51 +57,54 @@ const LearningDiaryPage = () => {
           })}
         >
           <Box width="100%">
-            <KeyboardDatePicker
-              disableToolbar
-              variant="inline"
-              format="MM/dd/yyyy"
-              margin="normal"
-              id="date-picker-inline"
-              label="Date picker inline"
-              value={parseISO(selectedDate)}
-              autoOk
-              onChange={(date, val) =>
-                setSelectedDate(DateTime.fromJSDate(date).toISODate())
-              }
-              renderDay={(day, _, currentMonth) => {
-                const luxonDay = DateTime.fromJSDate(day);
-                const isoDay = luxonDay.toISODate();
-                return (
-                  <Day selected={isoDay === selectedDate}>
-                    <div
-                      style={{
-                        color: currentMonth ? "unset" : "grey",
-                        position: "relative",
-                      }}
-                    >
-                      {sortedDays.includes(isoDay) && (
-                        <div
-                          style={{
-                            position: "absolute",
-                            background: "red",
-                            width: 8,
-                            height: 8,
-                            borderRadius: 8,
-                            right: "-8px",
-                            top: "-4px",
-                          }}
-                        />
-                      )}
-                      <span>{luxonDay.day}</span>
-                    </div>
-                  </Day>
-                );
-              }}
-              KeyboardButtonProps={{
-                "aria-label": "change date",
-              }}
-            />
+            <FlexVCenterBetween>
+              <KeyboardDatePicker
+                disableToolbar
+                variant="inline"
+                format="MM/dd/yyyy"
+                margin="normal"
+                id="date-picker-inline"
+                label="Date picker inline"
+                value={parseISO(selectedDate)}
+                autoOk
+                onChange={(date, val) =>
+                  setSelectedDate(DateTime.fromJSDate(date).toISODate())
+                }
+                renderDay={(day, _, currentMonth) => {
+                  const luxonDay = DateTime.fromJSDate(day);
+                  const isoDay = luxonDay.toISODate();
+                  return (
+                    <Day selected={isoDay === selectedDate}>
+                      <div
+                        style={{
+                          color: currentMonth ? "unset" : "grey",
+                          position: "relative",
+                        }}
+                      >
+                        {sortedDays.includes(isoDay) && (
+                          <div
+                            style={{
+                              position: "absolute",
+                              background: "red",
+                              width: 8,
+                              height: 8,
+                              borderRadius: 8,
+                              right: "-8px",
+                              top: "-4px",
+                            }}
+                          />
+                        )}
+                        <span>{luxonDay.day}</span>
+                      </div>
+                    </Day>
+                  );
+                }}
+                KeyboardButtonProps={{
+                  "aria-label": "change date",
+                }}
+              />
+              <LearningDayCounter />
+            </FlexVCenterBetween>
             <DiaryTable />
           </Box>
         </Box>
