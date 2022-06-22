@@ -2,7 +2,7 @@ import { parseISO } from "date-fns";
 
 import DateFnsUtils from "@date-io/date-fns";
 
-import { Box, makeStyles } from "@material-ui/core";
+import { Box, Container, Grid, makeStyles } from "@material-ui/core";
 import {
   Day,
   KeyboardDatePicker,
@@ -10,13 +10,13 @@ import {
 } from "@material-ui/pickers";
 import clsx from "clsx";
 import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween";
-import { useLearningsQuery } from "generated/graphql";
+import useDaysWithLearnings from "hooks/learning-diary/useDaysWithLearnings";
 import { DateTime } from "luxon";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import useLearningDiaryStore from "store/zustand/domain/useLearningDiaryStore";
-import buildGraphqlClient from "utils/consts/buildGraphqlClient";
 import useSidebarStore from "../../store/zustand/useSidebarStore";
 import Flex from "../_UI/Flexboxes/Flex";
+import AvgLearning from "./AvgLearning/AvgLearning";
 import DiaryTable from "./DiaryTable/DiaryTable";
 import LearningDayCounter from "./LearningDayCounter/LearningDayCounter";
 
@@ -26,19 +26,7 @@ const LearningDiaryPage = () => {
   const { selectedDate, setSelectedDate } = useLearningDiaryStore();
   const { sidebarIsOpen, closeSidebar } = useSidebarStore();
 
-  const { data } = useLearningsQuery(buildGraphqlClient());
-  const learnings = useMemo(() => data?.learnings || [], [data]);
-
-  const sortedDays = useMemo(() => {
-    const days = learnings.reduce(
-      (result, learning) => {
-        if (!result.includes(learning.date)) return [...result, learning.date];
-        return result;
-      },
-      [new Date().toISOString().split("T")[0]]
-    );
-    return days.sort();
-  }, [learnings]);
+  const sortedDays = useDaysWithLearnings();
 
   useEffect(() => {
     closeSidebar();
@@ -57,55 +45,64 @@ const LearningDiaryPage = () => {
           })}
         >
           <Box width="100%">
-            <FlexVCenterBetween>
-              <LearningDayCounter />
-              <KeyboardDatePicker
-                disableToolbar
-                variant="inline"
-                format="MM/dd/yyyy"
-                margin="normal"
-                id="date-picker-inline"
-                label="Date picker inline"
-                value={parseISO(selectedDate)}
-                autoOk
-                onChange={(date, val) =>
-                  setSelectedDate(DateTime.fromJSDate(date).toISODate())
-                }
-                renderDay={(day, _, currentMonth) => {
-                  const luxonDay = DateTime.fromJSDate(day);
-                  const isoDay = luxonDay.toISODate();
-                  return (
-                    <Day selected={isoDay === selectedDate}>
-                      <div
-                        style={{
-                          color: currentMonth ? "unset" : "grey",
-                          position: "relative",
-                        }}
-                      >
-                        {sortedDays.includes(isoDay) && (
+            <Grid container>
+              <Grid item xs={9}>
+                <FlexVCenterBetween>
+                  <LearningDayCounter />
+                  <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="MM/dd/yyyy"
+                    margin="normal"
+                    id="date-picker-inline"
+                    label="Date picker inline"
+                    value={parseISO(selectedDate)}
+                    autoOk
+                    onChange={(date, val) =>
+                      setSelectedDate(DateTime.fromJSDate(date).toISODate())
+                    }
+                    renderDay={(day, _, currentMonth) => {
+                      const luxonDay = DateTime.fromJSDate(day);
+                      const isoDay = luxonDay.toISODate();
+                      return (
+                        <Day selected={isoDay === selectedDate}>
                           <div
                             style={{
-                              position: "absolute",
-                              background: "red",
-                              width: 8,
-                              height: 8,
-                              borderRadius: 8,
-                              right: "-8px",
-                              top: "-4px",
+                              color: currentMonth ? "unset" : "grey",
+                              position: "relative",
                             }}
-                          />
-                        )}
-                        <span>{luxonDay.day}</span>
-                      </div>
-                    </Day>
-                  );
-                }}
-                KeyboardButtonProps={{
-                  "aria-label": "change date",
-                }}
-              />
-            </FlexVCenterBetween>
-            <DiaryTable />
+                          >
+                            {sortedDays.includes(isoDay) && (
+                              <div
+                                style={{
+                                  position: "absolute",
+                                  background: "red",
+                                  width: 8,
+                                  height: 8,
+                                  borderRadius: 8,
+                                  right: "-8px",
+                                  top: "-4px",
+                                }}
+                              />
+                            )}
+                            <span>{luxonDay.day}</span>
+                          </div>
+                        </Day>
+                      );
+                    }}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                  />
+                </FlexVCenterBetween>
+                <DiaryTable />
+              </Grid>
+              <Grid item xs={3}>
+                <Container>
+                  <AvgLearning />
+                </Container>
+              </Grid>
+            </Grid>
           </Box>
         </Box>
       </Flex>
