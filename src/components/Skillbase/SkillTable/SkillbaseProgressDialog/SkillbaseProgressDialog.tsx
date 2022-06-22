@@ -30,7 +30,7 @@ const SkillbaseProgressDialog = (props: Props) => {
   const [selectedMonth, setSelectedMonth] = useState("");
 
   const {
-    data: progressListData,
+    data: { skillProgresses } = { skillProgresses: [] },
     isFetching,
     refetch,
   } = useSkillProgressesQuery(buildGraphqlClient(), {
@@ -125,12 +125,12 @@ const SkillbaseProgressDialog = (props: Props) => {
               <Txt>Loading...</Txt>
             ) : (
               <>
-                {progressListData?.skillProgresses?.length > 0 && (
+                {skillProgresses?.length > 0 && (
                   <Txt variant="h6">Highest improvements</Txt>
                 )}
 
                 <Box mt={2} />
-                {progressListData?.skillProgresses?.map((progress) => (
+                {skillProgresses?.map((progress) => (
                   <FlexVCenter key={progress.skillId}>
                     <div style={{ width: 150 }}>
                       {progress.currentName === progress.previousName ? (

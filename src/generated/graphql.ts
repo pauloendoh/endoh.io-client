@@ -1,6 +1,6 @@
 import { GraphQLClient } from 'graphql-request';
 import { RequestInit } from 'graphql-request/dist/types.dom';
-import { useQuery, UseQueryOptions } from 'react-query';
+import { useQuery, useMutation, UseQueryOptions, UseMutationOptions } from 'react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -19,6 +19,23 @@ export type Scalars = {
   Float: number;
 };
 
+export type Learning = {
+  __typename?: 'Learning';
+  createdAt: Scalars['String'];
+  date: Scalars['String'];
+  description: Scalars['String'];
+  id: Scalars['Float'];
+  isHighlight: Scalars['Boolean'];
+  updatedAt: Scalars['String'];
+  userId: Scalars['Float'];
+};
+
+export type LearningAddInput = {
+  date: Scalars['String'];
+  description: Scalars['String'];
+  isHighlight: Scalars['Boolean'];
+};
+
 export type LinkPreviewDto = {
   __typename?: 'LinkPreviewDto';
   alreadySavedResource?: Maybe<Resource>;
@@ -34,10 +51,21 @@ export type Month = {
   month?: Maybe<Scalars['String']>;
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  addLearning: Learning;
+};
+
+
+export type MutationAddLearningArgs = {
+  input: LearningAddInput;
+};
+
 export type Query = {
   __typename?: 'Query';
   findResources: Array<Resource>;
   getLinkPreview: LinkPreviewDto;
+  learnings: Array<Learning>;
   skillProgressMonths: Array<Scalars['String']>;
   skillProgresses: Array<SkillProgressDto>;
 };
@@ -91,6 +119,13 @@ export type SkillProgressMonthsQueryVariables = Exact<{ [key: string]: never; }>
 
 export type SkillProgressMonthsQuery = { __typename?: 'Query', skillProgressMonths: Array<string> };
 
+export type AddLearningMutationVariables = Exact<{
+  input: LearningAddInput;
+}>;
+
+
+export type AddLearningMutation = { __typename?: 'Mutation', addLearning: { __typename?: 'Learning', id: number, userId: number, description: string, isHighlight: boolean, date: string } };
+
 export type SkillProgressesQueryVariables = Exact<{
   fromYearMonth: Scalars['String'];
 }>;
@@ -104,6 +139,11 @@ export type LinkPreviewQueryVariables = Exact<{
 
 
 export type LinkPreviewQuery = { __typename?: 'Query', getLinkPreview: { __typename?: 'LinkPreviewDto', title: string, image: string, description: string, url: string, youtubeVideoLength: string, alreadySavedResource?: { __typename?: 'Resource', id: number, userId: number, title: string, url: string, thumbnail: string, estimatedTime: string, dueDate: string, rating?: number | null, completedAt: string, position?: number | null, publicReview: string, privateNote: string, createdAt: string, updatedAt: string, tagId?: number | null } | null } };
+
+export type LearningsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LearningsQuery = { __typename?: 'Query', learnings: Array<{ __typename?: 'Learning', id: number, description: string, isHighlight: boolean, date: string, createdAt: string, updatedAt: string }> };
 
 
 export const SkillProgressMonthsDocument = `
@@ -130,6 +170,31 @@ useSkillProgressMonthsQuery.getKey = (variables?: SkillProgressMonthsQueryVariab
 ;
 
 useSkillProgressMonthsQuery.fetcher = (client: GraphQLClient, variables?: SkillProgressMonthsQueryVariables, headers?: RequestInit['headers']) => fetcher<SkillProgressMonthsQuery, SkillProgressMonthsQueryVariables>(client, SkillProgressMonthsDocument, variables, headers);
+export const AddLearningDocument = `
+    mutation AddLearning($input: LearningAddInput!) {
+  addLearning(input: $input) {
+    id
+    userId
+    description
+    isHighlight
+    date
+  }
+}
+    `;
+export const useAddLearningMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<AddLearningMutation, TError, AddLearningMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<AddLearningMutation, TError, AddLearningMutationVariables, TContext>(
+      ['AddLearning'],
+      (variables?: AddLearningMutationVariables) => fetcher<AddLearningMutation, AddLearningMutationVariables>(client, AddLearningDocument, variables, headers)(),
+      options
+    );
+useAddLearningMutation.fetcher = (client: GraphQLClient, variables: AddLearningMutationVariables, headers?: RequestInit['headers']) => fetcher<AddLearningMutation, AddLearningMutationVariables>(client, AddLearningDocument, variables, headers);
 export const SkillProgressesDocument = `
     query SkillProgresses($fromYearMonth: String!) {
   skillProgresses(fromYearMonth: $fromYearMonth) {
@@ -208,3 +273,34 @@ useLinkPreviewQuery.getKey = (variables: LinkPreviewQueryVariables) => ['LinkPre
 ;
 
 useLinkPreviewQuery.fetcher = (client: GraphQLClient, variables: LinkPreviewQueryVariables, headers?: RequestInit['headers']) => fetcher<LinkPreviewQuery, LinkPreviewQueryVariables>(client, LinkPreviewDocument, variables, headers);
+export const LearningsDocument = `
+    query Learnings {
+  learnings {
+    id
+    description
+    isHighlight
+    date
+    createdAt
+    updatedAt
+  }
+}
+    `;
+export const useLearningsQuery = <
+      TData = LearningsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: LearningsQueryVariables,
+      options?: UseQueryOptions<LearningsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<LearningsQuery, TError, TData>(
+      variables === undefined ? ['Learnings'] : ['Learnings', variables],
+      fetcher<LearningsQuery, LearningsQueryVariables>(client, LearningsDocument, variables, headers),
+      options
+    );
+
+useLearningsQuery.getKey = (variables?: LearningsQueryVariables) => variables === undefined ? ['Learnings'] : ['Learnings', variables];
+;
+
+useLearningsQuery.fetcher = (client: GraphQLClient, variables?: LearningsQueryVariables, headers?: RequestInit['headers']) => fetcher<LearningsQuery, LearningsQueryVariables>(client, LearningsDocument, variables, headers);

@@ -10,3 +10,4 @@ generates:
       fetcher: graphql-request
       exposeFetcher: true
       exposeQueryKeys: true
+      withResultType: true

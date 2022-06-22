@@ -35,3 +35,14 @@ query LinkPreview($url: String!) {
     }
   }
 }
+
+query Learnings {
+  learnings {
+    id
+    description
+    isHighlight
+    date
+    createdAt
+    updatedAt
+  }
+}

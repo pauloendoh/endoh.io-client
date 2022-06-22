@@ -1,0 +1,9 @@
+mutation AddLearning($input: LearningAddInput!) {
+  addLearning(input: $input) {
+    id
+    userId
+    description
+    isHighlight
+    date
+  }
+}

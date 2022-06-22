@@ -1,6 +1,6 @@
 import { Box, CssBaseline, MuiThemeProvider } from "@material-ui/core";
 import useCheckAuthOrLogout from "hooks/auth/useCheckAuthOrLogout";
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { QueryClientProvider } from "react-query";
@@ -51,6 +51,9 @@ const BigDecisionsPage = lazy(
 );
 const NotFoundPage = lazy(() => import("./components/NotFound/NotFoundPage"));
 const SearchPage = lazy(() => import("./components/Search/SearchPage"));
+const LearningDiaryPage = lazy(
+  () => import("./components/LearningDiary/LearningDiaryPage")
+);
 
 // PE 2/3
 const App = (props: Props) => {
@@ -175,6 +178,7 @@ const App = (props: Props) => {
               <Route path="/user/:username" component={UserPage} />
 
               <Route path="/settings" component={SettingsPage} />
+              <Route path="/LearningDiary" component={LearningDiaryPage} />
 
               <Route path="/404" component={NotFoundPage} />
               <Route path="/search" component={SearchPage} />
