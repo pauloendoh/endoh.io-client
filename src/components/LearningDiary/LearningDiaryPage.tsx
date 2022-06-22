@@ -58,6 +58,7 @@ const LearningDiaryPage = () => {
         >
           <Box width="100%">
             <FlexVCenterBetween>
+              <LearningDayCounter />
               <KeyboardDatePicker
                 disableToolbar
                 variant="inline"
@@ -103,7 +104,6 @@ const LearningDiaryPage = () => {
                   "aria-label": "change date",
                 }}
               />
-              <LearningDayCounter />
             </FlexVCenterBetween>
             <DiaryTable />
           </Box>
