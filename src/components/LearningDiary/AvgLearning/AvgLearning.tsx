@@ -1,4 +1,5 @@
 import { Box, Paper } from "@material-ui/core";
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
 import Txt from "components/_UI/Text/Txt";
 import useAvgLearnings from "hooks/learning-diary/useAvgLearnings";
 
@@ -16,6 +17,12 @@ const AvgLearning = (props: Props) => {
         <Txt style={{ color: "red" }}>{avg75} (-25%)</Txt>
         <Txt style={{ color: "yellow" }}>{avg}</Txt>
         <Txt style={{ color: "green" }}>{avg125} (+25%)</Txt>
+
+        <FlexVCenter justifyContent="flex-end" mt={3}>
+          <Txt style={{ fontStyle: "italic" }}>
+            Last {daysQty} {daysQty > 1 ? "days" : "day"}
+          </Txt>
+        </FlexVCenter>
       </Box>
     </Paper>
   );
