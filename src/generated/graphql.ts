@@ -17,21 +17,23 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
+  DateTime: any;
 };
 
 export type Learning = {
   __typename?: 'Learning';
-  createdAt: Scalars['String'];
-  date: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  datetime: Scalars['DateTime'];
   description: Scalars['String'];
   id: Scalars['Float'];
   isHighlight: Scalars['Boolean'];
-  updatedAt: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
   userId: Scalars['Float'];
 };
 
 export type LearningInput = {
-  date: Scalars['String'];
+  datetime: Scalars['String'];
   description: Scalars['String'];
   id?: InputMaybe<Scalars['Float']>;
   isHighlight: Scalars['Boolean'];
@@ -131,14 +133,14 @@ export type AddLearningMutationVariables = Exact<{
 }>;
 
 
-export type AddLearningMutation = { __typename?: 'Mutation', addLearning: { __typename?: 'Learning', id: number, userId: number, description: string, isHighlight: boolean, date: string } };
+export type AddLearningMutation = { __typename?: 'Mutation', addLearning: { __typename?: 'Learning', id: number, userId: number, description: string, isHighlight: boolean, datetime: any } };
 
 export type UpdateLearningMutationVariables = Exact<{
   input: LearningInput;
 }>;
 
 
-export type UpdateLearningMutation = { __typename?: 'Mutation', updateLearning: { __typename?: 'Learning', id: number, userId: number, description: string, isHighlight: boolean, date: string, createdAt: string, updatedAt: string } };
+export type UpdateLearningMutation = { __typename?: 'Mutation', updateLearning: { __typename?: 'Learning', id: number, userId: number, description: string, isHighlight: boolean, datetime: any, createdAt: any, updatedAt: any } };
 
 export type SkillProgressesQueryVariables = Exact<{
   fromYearMonth: Scalars['String'];
@@ -157,7 +159,7 @@ export type LinkPreviewQuery = { __typename?: 'Query', getLinkPreview: { __typen
 export type LearningsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LearningsQuery = { __typename?: 'Query', learnings: Array<{ __typename?: 'Learning', id: number, description: string, isHighlight: boolean, date: string, createdAt: string, updatedAt: string }> };
+export type LearningsQuery = { __typename?: 'Query', learnings: Array<{ __typename?: 'Learning', id: number, description: string, isHighlight: boolean, datetime: any, createdAt: any, updatedAt: any }> };
 
 
 export const SkillProgressMonthsDocument = `
@@ -191,7 +193,7 @@ export const AddLearningDocument = `
     userId
     description
     isHighlight
-    date
+    datetime
   }
 }
     `;
@@ -216,7 +218,7 @@ export const UpdateLearningDocument = `
     userId
     description
     isHighlight
-    date
+    datetime
     createdAt
     updatedAt
   }
@@ -320,7 +322,7 @@ export const LearningsDocument = `
     id
     description
     isHighlight
-    date
+    datetime
     createdAt
     updatedAt
   }

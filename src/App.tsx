@@ -1,4 +1,6 @@
+import DateFnsUtils from "@date-io/date-fns";
 import { Box, CssBaseline, MuiThemeProvider } from "@material-ui/core";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import useCheckAuthOrLogout from "hooks/auth/useCheckAuthOrLogout";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { DndProvider } from "react-dnd";
@@ -197,15 +199,17 @@ const App = (props: Props) => {
     <MuiThemeProvider theme={theme}>
       <ThemeProvider theme={theme}>
         <DndProvider backend={HTML5Backend}>
-          <QueryClientProvider client={myQueryClient}>
-            <ReactQueryDevtools initialIsOpen={false} />
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <QueryClientProvider client={myQueryClient}>
+              <ReactQueryDevtools initialIsOpen={false} />
 
-            {/* What does this do? */}
-            <CssBaseline />
-            {isLoading ? <LoadingPage /> : routes}
+              {/* What does this do? */}
+              <CssBaseline />
+              {isLoading ? <LoadingPage /> : routes}
 
-            <MySnackBar2 />
-          </QueryClientProvider>
+              <MySnackBar2 />
+            </QueryClientProvider>
+          </MuiPickersUtilsProvider>
         </DndProvider>
       </ThemeProvider>
     </MuiThemeProvider>

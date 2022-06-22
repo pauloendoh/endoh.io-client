@@ -1,4 +1,5 @@
 import { useLearningsQuery } from "generated/graphql";
+import { DateTime } from "luxon";
 import { useMemo } from "react";
 import buildGraphqlClient from "utils/consts/buildGraphqlClient";
 
@@ -8,8 +9,10 @@ const useFilteredLearnings = (selectedDate: string) => {
   const filteredLearnings = useMemo(
     () =>
       data?.learnings
-        .filter((l) => l.date === selectedDate)
-        .sort((a, b) => a.createdAt.localeCompare(b.createdAt)) || [],
+        .filter(
+          (l) => DateTime.fromISO(l.datetime).toISODate() === selectedDate
+        )
+        .sort((a, b) => a.datetime.localeCompare(b.datetime)) || [],
     [data, selectedDate]
   );
 

@@ -4,7 +4,7 @@ mutation AddLearning($input: LearningInput!) {
     userId
     description
     isHighlight
-    date
+    datetime
   }
 }
 
@@ -14,7 +14,7 @@ mutation UpdateLearning($input: LearningInput!) {
     userId
     description
     isHighlight
-    date
+    datetime
     createdAt
     updatedAt
   }

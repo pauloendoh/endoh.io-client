@@ -2,6 +2,7 @@ import { useLearningsQuery } from "generated/graphql";
 import { DateTime } from "luxon";
 import { useMemo } from "react";
 import buildGraphqlClient from "utils/consts/buildGraphqlClient";
+import toISODate from "utils/date/toISODate";
 import useDaysWithLearnings from "./useDaysWithLearnings";
 
 const useAvgLearnings = () => {
@@ -20,7 +21,7 @@ const useAvgLearnings = () => {
   );
 
   const learningsLast10Days = useMemo(
-    () => learnings.filter((l) => last10Days.includes(l.date)),
+    () => learnings.filter((l) => last10Days.includes(toISODate(l.datetime))),
     [last10Days, learnings]
   );
 

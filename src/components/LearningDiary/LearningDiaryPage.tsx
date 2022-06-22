@@ -1,13 +1,7 @@
 import { parseISO } from "date-fns";
 
-import DateFnsUtils from "@date-io/date-fns";
-
 import { Box, Container, Grid, makeStyles } from "@material-ui/core";
-import {
-  Day,
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider,
-} from "@material-ui/pickers";
+import { Day, KeyboardDatePicker } from "@material-ui/pickers";
 import clsx from "clsx";
 import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween";
 import useDaysWithLearnings from "hooks/learning-diary/useDaysWithLearnings";
@@ -37,76 +31,74 @@ const LearningDiaryPage = () => {
   }, [selectedDate]);
 
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <Flex height="100%" pt={5} justifyContent="center">
-        <Box
-          className={clsx(classes.content, {
-            [classes.contentShift]: sidebarIsOpen,
-          })}
-        >
-          <Box width="100%">
-            <Grid container>
-              <Grid item xs={9}>
-                <FlexVCenterBetween>
-                  <LearningDayCounter />
-                  <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="MM/dd/yyyy"
-                    margin="normal"
-                    id="date-picker-inline"
-                    label="Date picker inline"
-                    value={parseISO(selectedDate)}
-                    autoOk
-                    onChange={(date, val) =>
-                      setSelectedDate(DateTime.fromJSDate(date).toISODate())
-                    }
-                    renderDay={(day, _, currentMonth) => {
-                      const luxonDay = DateTime.fromJSDate(day);
-                      const isoDay = luxonDay.toISODate();
-                      return (
-                        <Day selected={isoDay === selectedDate}>
-                          <div
-                            style={{
-                              color: currentMonth ? "unset" : "grey",
-                              position: "relative",
-                            }}
-                          >
-                            {sortedDays.includes(isoDay) && (
-                              <div
-                                style={{
-                                  position: "absolute",
-                                  background: "red",
-                                  width: 8,
-                                  height: 8,
-                                  borderRadius: 8,
-                                  right: "-8px",
-                                  top: "-4px",
-                                }}
-                              />
-                            )}
-                            <span>{luxonDay.day}</span>
-                          </div>
-                        </Day>
-                      );
-                    }}
-                    KeyboardButtonProps={{
-                      "aria-label": "change date",
-                    }}
-                  />
-                </FlexVCenterBetween>
-                <DiaryTable />
-              </Grid>
-              <Grid item xs={3}>
-                <Container>
-                  <AvgLearning />
-                </Container>
-              </Grid>
+    <Flex height="100%" pt={5} justifyContent="center">
+      <Box
+        className={clsx(classes.content, {
+          [classes.contentShift]: sidebarIsOpen,
+        })}
+      >
+        <Box width="100%">
+          <Grid container>
+            <Grid item xs={9}>
+              <FlexVCenterBetween>
+                <LearningDayCounter />
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="normal"
+                  id="date-picker-inline"
+                  label="Date picker inline"
+                  value={parseISO(selectedDate)}
+                  autoOk
+                  onChange={(date, val) =>
+                    setSelectedDate(DateTime.fromJSDate(date).toISODate())
+                  }
+                  renderDay={(day, _, currentMonth) => {
+                    const luxonDay = DateTime.fromJSDate(day);
+                    const isoDay = luxonDay.toISODate();
+                    return (
+                      <Day selected={isoDay === selectedDate}>
+                        <div
+                          style={{
+                            color: currentMonth ? "unset" : "grey",
+                            position: "relative",
+                          }}
+                        >
+                          {sortedDays.includes(isoDay) && (
+                            <div
+                              style={{
+                                position: "absolute",
+                                background: "red",
+                                width: 8,
+                                height: 8,
+                                borderRadius: 8,
+                                right: "-8px",
+                                top: "-4px",
+                              }}
+                            />
+                          )}
+                          <span>{luxonDay.day}</span>
+                        </div>
+                      </Day>
+                    );
+                  }}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                />
+              </FlexVCenterBetween>
+              <DiaryTable />
             </Grid>
-          </Box>
+            <Grid item xs={3}>
+              <Container>
+                <AvgLearning />
+              </Container>
+            </Grid>
+          </Grid>
         </Box>
-      </Flex>
-    </MuiPickersUtilsProvider>
+      </Box>
+    </Flex>
   );
 };
 

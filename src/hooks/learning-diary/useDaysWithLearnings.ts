@@ -1,4 +1,5 @@
 import { useLearningsQuery } from "generated/graphql";
+import { DateTime } from "luxon";
 import { useMemo } from "react";
 import buildGraphqlClient from "utils/consts/buildGraphqlClient";
 
@@ -10,10 +11,11 @@ const useDaysWithLearnings = () => {
 
     const days = learnings.reduce(
       (result, learning) => {
-        if (!result.includes(learning.date)) return [...result, learning.date];
+        const isoDate = DateTime.fromISO(learning.datetime).toISODate();
+        if (!result.includes(isoDate)) return [...result, isoDate];
         return result;
       },
-      [new Date().toISOString().split("T")[0]]
+      [DateTime.now().toISODate()]
     );
     return days.sort();
   }, [data]);

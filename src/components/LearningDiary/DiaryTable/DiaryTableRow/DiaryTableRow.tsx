@@ -5,6 +5,8 @@ import {
   TableRow,
   TextareaAutosize,
 } from "@material-ui/core";
+import { DateTimePicker } from "@material-ui/pickers";
+import { TD } from "components/_UI/Table/MyTableWrappers";
 import {
   LearningsQuery,
   useLearningsQuery,
@@ -64,6 +66,13 @@ const DiaryTableRow = (props: Props) => {
     }));
   };
 
+  const handleChangeDatetime = (newValue: Date) => {
+    setLearning((prev) => ({
+      ...prev,
+      datetime: newValue.toISOString(),
+    }));
+  };
+
   useEffect(() => {
     if (
       JSON.stringify(props.initialValue) !== JSON.stringify(debouncedLearning)
@@ -71,7 +80,7 @@ const DiaryTableRow = (props: Props) => {
       updateLearning({
         input: {
           id: debouncedLearning.id,
-          date: debouncedLearning.date,
+          datetime: debouncedLearning.datetime,
           description: debouncedLearning.description,
           isHighlight: debouncedLearning.isHighlight,
         },
@@ -108,6 +117,12 @@ const DiaryTableRow = (props: Props) => {
           />
         </IconButton>
       </TableCell>
+      <TD align="center" className={classes.td}>
+        <DateTimePicker
+          value={new Date(learning.datetime)}
+          onChange={handleChangeDatetime}
+        />
+      </TD>
     </TableRow>
   );
 };

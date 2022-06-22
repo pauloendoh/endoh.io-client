@@ -55,6 +55,9 @@ const DiaryTable = () => {
               <TD align="center" className={classes.th} width="100px">
                 Highlight
               </TD>
+              <TD align="center" className={classes.th} width="200px">
+                Time
+              </TD>
             </TR>
           </THead>
 
@@ -75,7 +78,7 @@ const DiaryTable = () => {
           onClick={() =>
             mutateAddLearning({
               input: {
-                date: DateTime.now().toISODate(),
+                datetime: DateTime.now().toISO(),
                 description: "",
                 isHighlight: false,
               },
