@@ -28,7 +28,6 @@ const AvgLearningAtCurrentTime = (props: Props) => {
       <Box width="100%" p={2}>
         <Txt variant="h6">Average at {time}</Txt>
 
-        <Txt style={{ color: "red" }}>{avg75} (-25%)</Txt>
         <Txt style={{ color: "yellow" }}>{avg}</Txt>
         <Txt style={{ color: "green" }}>{avg125} (+25%)</Txt>
 
