@@ -1,5 +1,6 @@
 import { Box } from "@material-ui/core";
 import Txt from "components/_UI/Text/Txt";
+import useCloseColorAvgLearningAtCurrentTime from "hooks/learning-diary/useCloseColorAvgLearningAtCurrentTime";
 import useCloserColorAvgLearning from "hooks/learning-diary/useCloserColorAvgLearning";
 import useFilteredLearnings from "hooks/learning-diary/useFilteredLearnings";
 import { DateTime } from "luxon";
@@ -14,6 +15,10 @@ const LearningDayCounter = (props: Props) => {
   const { selectedDate } = useLearningDiaryStore();
   const learnings = useFilteredLearnings(selectedDate);
 
+  const isToday = useMemo(() => selectedDate === DateTime.now().toISODate(), [
+    selectedDate,
+  ]);
+
   const counter = useMemo(() => {
     return learnings.reduce(
       (total, learning) => (learning.isHighlight ? total + 2 : total + 1),
@@ -21,15 +26,17 @@ const LearningDayCounter = (props: Props) => {
     );
   }, [learnings]);
 
-  const color = useCloserColorAvgLearning(counter);
-
-  const today = DateTime.now().toISODate();
+  const colorDay = useCloserColorAvgLearning(counter);
+  const colorCurrentTime = useCloseColorAvgLearningAtCurrentTime(counter);
 
   return (
     <Box mr={2}>
       {counter > 0 && (
-        <Txt variant="h5" style={{ color }}>
-          {counter} learnings {selectedDate === today && "today"}
+        <Txt
+          variant="h5"
+          style={{ color: isToday ? colorCurrentTime : colorDay }}
+        >
+          {counter} learnings {isToday && "today"}
         </Txt>
       )}
     </Box>

@@ -1,37 +1,16 @@
-import { useLearningsQuery } from "generated/graphql";
-import { DateTime } from "luxon";
 import { useMemo } from "react";
-import buildGraphqlClient from "utils/consts/buildGraphqlClient";
-import toISODate from "utils/date/toISODate";
-import useDaysWithLearnings from "./useDaysWithLearnings";
+import useLearningsLast10Days from "./useLearningsLast10Days";
 
 const useAvgLearnings = () => {
-  const daysWithLearnings = useDaysWithLearnings();
-  const { data } = useLearningsQuery(buildGraphqlClient());
-  const learnings = useMemo(() => data?.learnings || [], [data]);
-
-  const today = DateTime.now().toISODate();
-
-  const last10Days = useMemo(
-    () =>
-      daysWithLearnings
-        .filter((d) => d !== today)
-        .slice(Math.max(daysWithLearnings.length - 5, 0)),
-    [daysWithLearnings, today]
-  );
-
-  const learningsLast10Days = useMemo(
-    () => learnings.filter((l) => last10Days.includes(toISODate(l.datetime))),
-    [last10Days, learnings]
-  );
+  const { learnings, last10Days } = useLearningsLast10Days();
 
   const counter = useMemo(
     () =>
-      learningsLast10Days.reduce(
+      learnings.reduce(
         (total, l) => (l.isHighlight ? total + 2 : total + 1),
         0
       ),
-    [learningsLast10Days]
+    [learnings]
   );
 
   const avg = counter / last10Days.length;

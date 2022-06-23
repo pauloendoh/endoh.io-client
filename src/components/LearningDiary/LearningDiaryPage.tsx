@@ -11,6 +11,7 @@ import useLearningDiaryStore from "store/zustand/domain/useLearningDiaryStore";
 import useSidebarStore from "../../store/zustand/useSidebarStore";
 import Flex from "../_UI/Flexboxes/Flex";
 import AvgLearning from "./AvgLearning/AvgLearning";
+import AvgLearningAtCurrentTime from "./AvgLearningAtCurrentTime/AvgLearningAtCurrentTime";
 import DiaryTable from "./DiaryTable/DiaryTable";
 import LearningDayCounter from "./LearningDayCounter/LearningDayCounter";
 
@@ -93,6 +94,8 @@ const LearningDiaryPage = () => {
             <Grid item xs={3}>
               <Container>
                 <AvgLearning />
+                <Box mt={2} />
+                <AvgLearningAtCurrentTime />
               </Container>
             </Grid>
           </Grid>
