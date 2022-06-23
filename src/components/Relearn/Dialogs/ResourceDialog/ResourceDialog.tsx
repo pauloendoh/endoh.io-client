@@ -214,6 +214,16 @@ const ResourceDialog = (props: Props) => {
                   title: "You already saved this URL. Open it?",
                   description: preview.alreadySavedResource.title,
                   onConfirm: () => {
+                    if (preview.alreadySavedResource?.tagId) {
+                      const tag = props.tags.find(
+                        (t) => t.id === preview.alreadySavedResource.tagId
+                      );
+                      if (tag)
+                        return setValues({
+                          ...preview.alreadySavedResource,
+                          tag,
+                        } as ResourceDto);
+                    }
                     setValues(preview.alreadySavedResource as ResourceDto);
                   },
                 });
