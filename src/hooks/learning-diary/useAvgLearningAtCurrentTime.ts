@@ -5,16 +5,17 @@ import useLearningsLast10Days from "./useLearningsLast10Days";
 const useAvgLearningAtCurrentTime = () => {
   const { learnings, last10Days } = useLearningsLast10Days();
   const now = DateTime.now();
+  const nowMinutes = now.hour * 60 + now.minute;
 
   const filteredLearnings = useMemo(
     () =>
       learnings.filter((l) => {
         const datetime = DateTime.fromISO(l.datetime);
-        if (datetime.hour > now.hour) return false;
-        if (datetime.minute > now.minute) return false;
-        return true;
+
+        const thenMinutes = datetime.hour * 60 + datetime.minute;
+        return thenMinutes < nowMinutes;
       }),
-    [learnings, now]
+    [learnings, nowMinutes]
   );
 
   const counter = useMemo(
@@ -29,9 +30,9 @@ const useAvgLearningAtCurrentTime = () => {
   const avg = counter / last10Days.length;
 
   return {
-    avg75: avg * 0.75,
-    avg125: avg * 1.25,
-    avg,
+    avg75: Math.floor(avg * 0.75),
+    avg125: Math.floor(avg * 1.25),
+    avg: Math.floor(avg),
     daysQty: last10Days.length,
   };
 };

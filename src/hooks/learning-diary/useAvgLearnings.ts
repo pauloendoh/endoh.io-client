@@ -16,9 +16,9 @@ const useAvgLearnings = () => {
   const avg = counter / last10Days.length;
 
   return {
-    avg75: avg * 0.75,
-    avg125: avg * 1.25,
-    avg,
+    avg75: Math.floor(avg * 0.75),
+    avg125: Math.floor(avg * 1.25),
+    avg: Math.floor(avg),
     daysQty: last10Days.length,
   };
 };
