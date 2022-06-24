@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import useLearningsLast10Days from "./useLearningsLast10Days";
 
 const useAvgLearningAtCurrentTime = () => {
-  const { learnings, last10Days } = useLearningsLast10Days();
+  const { learnings } = useLearningsLast10Days();
   const now = DateTime.now();
   const nowMinutes = now.hour * 60 + now.minute;
 
@@ -27,13 +27,22 @@ const useAvgLearningAtCurrentTime = () => {
     [filteredLearnings]
   );
 
-  const avg = counter / last10Days.length;
+  const lastDays = useMemo(
+    () =>
+      filteredLearnings.reduce((days: string[], l) => {
+        const d = DateTime.fromISO(l.datetime).toISODate();
+        return days.includes(d) ? days : [...days, d];
+      }, []),
+    [filteredLearnings]
+  );
+
+  const avg = counter / lastDays.length;
 
   return {
     avg75: Math.floor(avg * 0.75),
     avg125: Math.floor(avg * 1.25),
     avg: Math.floor(avg),
-    daysQty: last10Days.length,
+    daysQty: lastDays.length,
   };
 };
 
