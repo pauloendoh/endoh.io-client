@@ -1,6 +1,6 @@
 import { Box, Button, Container, Typography } from "@material-ui/core";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
-import React, { useState } from "react";
+import { useState } from "react";
 import useDocsStore from "store/zustand/domain/useDocsStore";
 import Flex from "../../_UI/Flexboxes/Flex";
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
@@ -22,7 +22,10 @@ const DefineContent = (props: Props) => {
 
   const getQuestionsCount = () => {
     return docsStore.notes.filter(
-      (note) => note.docId === props.docId && note.question.trim().length > 0
+      (note) =>
+        note.docId === props.docId &&
+        note.question.trim().length > 0 &&
+        note.description.trim().length > 0
     ).length;
   };
 

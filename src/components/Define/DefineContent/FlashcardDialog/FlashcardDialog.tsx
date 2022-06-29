@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
 import sample from "lodash/sample";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { GlobalHotKeys } from "react-hotkeys";
 import useDocsStore from "store/zustand/domain/useDocsStore";
 import { NoteDto } from "../../../../types/domain/define/NoteDto";
@@ -49,7 +49,8 @@ const FlashcardDialog = (props: Props) => {
         (note) =>
           note.docId === props.docId &&
           note.weight >= minWeight &&
-          note.question.length > 0
+          note.question.trim().length > 0 &&
+          note.description.trim().length > 0
       );
       setAllQuestions(max);
 
