@@ -1,7 +1,6 @@
 import { faFire } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, makeStyles, Typography } from "@material-ui/core";
-import React from "react";
 import FlexHCenter from "../../_UI/Flexboxes/FlexHCenter";
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
 
@@ -19,7 +18,7 @@ const LandingPageDescription = () => {
       <FlexHCenter mt={1}>
         {/* TODO: create a utils/SecondaryTxt */}
         <Typography variant="subtitle1">
-          A suite of self-learning tools
+          Online tools for self-learners
         </Typography>
       </FlexHCenter>
     </FlexHCenter>
