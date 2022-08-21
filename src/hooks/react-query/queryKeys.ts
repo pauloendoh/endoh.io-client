@@ -8,4 +8,6 @@ export const queryKeys = {
   skillId: (skillId: number) => `skill-${skillId}`,
   progressMonths: "progressMonths",
   progresses: "progresses",
+
+  similarExpenses: "/similar-expenses",
 };

@@ -11,7 +11,6 @@ import NumberFormat from "react-number-format";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import * as monerateActions from "../../../store/monerate/monerateActions";
-import { ApplicationState } from "../../../store/store";
 import ExpenseGetDto from "../../../types/domain/monerate/ExpenseGetDto";
 import CategoryIcon from "../../_UI/CategoryIcon";
 import Flex from "../../_UI/Flexboxes/Flex";
@@ -132,8 +131,6 @@ interface OwnProps {
   expenses: ExpenseGetDto[];
 }
 
-const mapStateToProps = (state: ApplicationState) => ({});
-
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   editExpense: (expense: ExpenseGetDto) =>
     dispatch(monerateActions.editExpense(expense)),
@@ -141,7 +138,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 type Props = OwnProps &
   React.ComponentProps<typeof Paper> &
-  ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExpenseList);
+export default connect(undefined, mapDispatchToProps)(ExpenseList);

@@ -19,6 +19,7 @@ import {
 import { Dispatch } from "redux";
 import useAuthStore from "store/zustand/useAuthStore";
 import { ThemeProvider } from "styled-components";
+import { urls } from "utils/urls";
 import LandingPage from "./components/LandingPage/LandingPage";
 import ResourceDialog from "./components/Relearn/Dialogs/ResourceDialog/ResourceDialog";
 import ResetPasswordPage from "./components/ResetPassword/ResetPasswordPage";
@@ -43,6 +44,9 @@ import { isValidApplicationPath } from "./utils/domain/app/isValidApplicationPat
 import apiUrls from "./utils/url/urls/apiUrls";
 
 const MoneratePage = lazy(() => import("./components/Monerate/MoneratePage"));
+const SimilarExpensesPage = lazy(
+  () => import("./components/Monerate/SimilarExpensesPage/SimilarExpensesPage")
+);
 
 const RelearnPage = lazy(() => import("./components/Relearn/RelearnPage"));
 const UserPage = lazy(() => import("./components/User/ProfilePage"));
@@ -158,7 +162,12 @@ const App = (props: Props) => {
         <Box py={10}>
           <Suspense fallback={<LoadingPage />}>
             <Switch>
+              <Route
+                path={urls.pages.monerate.similarExpenses}
+                component={SimilarExpensesPage}
+              />
               <Route path="/monerate" component={MoneratePage} />
+
               <Route path="/relearn/tag/:tagId" component={RelearnPage} />
               <Route path="/relearn" component={RelearnPage} />
 

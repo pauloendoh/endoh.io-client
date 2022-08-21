@@ -2,6 +2,10 @@ export const urls = {
   pages: {
     openResourceId: (resourceId: number, pathname?: string) =>
       `${pathname}?openResourceId=${resourceId}`,
+    monerate: {
+      index: "/monerate",
+      similarExpenses: "/monerate/similar-expenses",
+    },
   },
   graphql: import.meta.env.VITE_API_URL + "graphql",
   api: {
@@ -33,5 +37,10 @@ export const urls = {
     // UTILS
     search: (query: string) => `/search?q=${query}`,
     linkPreview: (url: string) => `/v2/utils/link-preview?url=${url}`,
+
+    monerate: {
+      similarExpenses: (value: number) =>
+        `/expenses/similar-expenses?value=${value}`,
+    },
   },
 };

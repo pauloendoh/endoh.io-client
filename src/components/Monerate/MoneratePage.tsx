@@ -1,5 +1,5 @@
-import { Box, Container } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import { Box } from "@material-ui/core";
+import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { ApplicationState } from "store/store";
@@ -14,7 +14,7 @@ import ExpenseList from "./ExpenseList/ExpenseList";
 import ExpenseOverview from "./ExpenseOverview/ExpenseOverview";
 import EditCategoryModal from "./Modals/EditCategoryModal";
 import EditPlaceModal from "./Modals/EditPlaceModal";
-import ExpenseDialog from "./Modals/ExpenseDialog";
+import MonerateLayout from "./MonerateLayout/MonerateLayout";
 
 // PE 3/3
 const MoneratePage = (props: Props) => {
@@ -45,11 +45,7 @@ const MoneratePage = (props: Props) => {
   }, [props.expenses, props.filter]);
 
   return (
-    <Container>
-      <Box mt={4}></Box>
-
-      <ExpenseDialog />
-
+    <MonerateLayout>
       <Box mt={3}>
         <ExpenseFilter />
       </Box>
@@ -64,7 +60,7 @@ const MoneratePage = (props: Props) => {
 
       <EditPlaceModal />
       <EditCategoryModal />
-    </Container>
+    </MonerateLayout>
   );
 };
 

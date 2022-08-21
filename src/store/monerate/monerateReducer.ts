@@ -58,13 +58,6 @@ const setExpenses = (
   state: MonerateState,
   expenses: ExpenseGetDto[]
 ): MonerateState => {
-  // let maxValue = 1
-  // for(const expense of expenses){
-  //   if(expense.value > maxValue){
-  //     maxValue = expense.value
-  //   }
-  // }
-
   state.filter.valueRange[1] = getHighestExpenseValue(expenses);
 
   return { ...state, expenses };
