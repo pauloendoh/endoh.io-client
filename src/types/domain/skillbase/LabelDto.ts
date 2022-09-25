@@ -9,7 +9,7 @@ export interface LabelDto {
   updatedAt: string;
 }
 
-export const newLabelDto = (): LabelDto => ({
+export const newLabelDto = (p?: Partial<LabelDto>): LabelDto => ({
   id: null,
   userId: null,
 
@@ -18,4 +18,5 @@ export const newLabelDto = (): LabelDto => ({
 
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
+  ...p,
 });

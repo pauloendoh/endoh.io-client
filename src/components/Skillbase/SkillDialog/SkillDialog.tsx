@@ -12,20 +12,21 @@ import Txt from "components/_UI/Text/Txt";
 import { useFormik } from "formik";
 import useSaveSkill from "hooks/skillbase/useSaveSkill";
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { scroller } from "react-scroll";
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
 import useDialogsStore from "store/zustand/useDialogsStore";
 import { useTheme } from "styled-components";
+import { newLabelDto } from "types/domain/skillbase/LabelDto";
 import Icons from "utils/styles/Icons";
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto";
 import { getCurrentTagId } from "../../../utils/skillbase/getCurrentTagId";
 import SaveCancelButtons from "../../_UI/Buttons/SaveCancelButtons";
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
 import SelectSkillLevel from "./SelectSkillLevel/SelectSkillLevel";
-import SelectSkillLabelsDialog from "./SkillDialogLabels/SelectSkillLabelsDialog/SelectSkillLabelsDialog";
-import SkillDialogLabels from "./SkillDialogLabels/SkillDialogLabels";
+import LabelsSelectorV2 from "./SkillDialogLabels/LabelsSelectorV2/LabelsSelectorV2";
+import EditLabelDialog from "./SkillDialogLabels/SelectSkillLabelsDialog/EditLabelDialog/EditLabelDialog";
 import TagSelector from "./SkillDialogTagSelector/SkillDialogTagSelector";
 import TitleTextField from "./SkillDialogTitleTextField/SkillDialogTitleTextField";
 import SkillExpectations from "./SkillExpectations/SkillExpectations";
@@ -40,7 +41,10 @@ const SkillDialog = () => {
   const { setEditingSkill, editingSkill: initialValue } = useSkillbaseStore();
   const { openConfirmDialog } = useDialogsStore();
 
-  const [labelsDialog, setLabelsDialog] = useState(false);
+  const [labelDialogOpen, setLabelDialogOpen] = useState(false);
+  const [labelDialogInitialValue, setLabelDialogInitialValue] = useState(
+    newLabelDto()
+  );
 
   useEffect(() => {
     if (initialValue?.currentLevel > 0) scrollToNextLevel();
@@ -139,10 +143,19 @@ const SkillDialog = () => {
             </FlexVCenter>
 
             {initialValue && (
-              <SkillDialogLabels
-                skill={formik.values}
-                onOpenLabelsDialog={() => setLabelsDialog(true)}
-              />
+              <Box mt={2}>
+                {/* <SkillDialogLabels
+                  skill={formik.values}
+                  onOpenLabelsDialog={() => setLabelsDialog(true)}
+                /> */}
+                <LabelsSelectorV2
+                  selectedLabels={formik.values.labels}
+                  onChange={(labels) => formik.setFieldValue("labels", labels)}
+                  skillId={getInitialValues().id}
+                  setLabelDialogOpen={setLabelDialogOpen}
+                  setLabelDialogInitialValue={setLabelDialogInitialValue}
+                />
+              </Box>
             )}
           </DialogTitle>
 
@@ -201,12 +214,19 @@ const SkillDialog = () => {
         </form>
       </Box>
 
-      <SelectSkillLabelsDialog
+      {/* <SelectSkillLabelsDialog
         open={labelsDialog}
         onClose={() => setLabelsDialog(false)}
         selectedLabels={formik.values.labels}
         onChange={(labels) => formik.setFieldValue("labels", labels)}
         skillId={getInitialValues().id}
+      /> */}
+
+      <EditLabelDialog
+        open={labelDialogOpen}
+        skillId={getInitialValues().id}
+        initialValue={labelDialogInitialValue}
+        onClose={() => setLabelDialogOpen(false)}
       />
     </Dialog>
   );

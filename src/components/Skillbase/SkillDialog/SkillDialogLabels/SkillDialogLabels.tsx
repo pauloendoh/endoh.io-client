@@ -2,7 +2,7 @@ import { Button, useTheme } from "@material-ui/core";
 import DarkButton from "components/_UI/Buttons/DarkButton/DarkButton";
 import Flex from "components/_UI/Flexboxes/Flex";
 import Txt from "components/_UI/Text/Txt";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { MdAdd } from "react-icons/md";
 import { SkillDto } from "types/domain/skillbase/SkillDto";
 
