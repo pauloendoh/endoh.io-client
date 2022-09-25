@@ -3,7 +3,6 @@ import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import useDocsStore from "store/zustand/domain/useDocsStore";
-import useSnackbarStore from "store/zustand/useSnackbarStore";
 import pageUrls from "utils/url/urls/pageUrls";
 import useSidebarStore from "../../store/zustand/useSidebarStore";
 import { DocDto } from "../../types/domain/define/DocDto";
@@ -19,7 +18,6 @@ import DefineSidebar from "./DefineSidebar/DefineSidebar";
 const DefinePage = () => {
   const history = useHistory();
   const docsStore = useDocsStore();
-  const { setErrorMessage } = useSnackbarStore();
   const { docId: paramDocId } = useParams<{ docId: string }>();
   const [selectedDocId, setSelectedDocId] = useState<number>(null);
 

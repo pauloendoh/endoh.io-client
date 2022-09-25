@@ -10,4 +10,6 @@ export const queryKeys = {
   progresses: "progresses",
 
   similarExpenses: "/similar-expenses",
+
+  folders: "/folders",
 };

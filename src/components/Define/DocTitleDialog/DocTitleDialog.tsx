@@ -1,5 +1,5 @@
 import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import useDocsStore from "store/zustand/domain/useDocsStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
@@ -12,7 +12,7 @@ import MyTextField from "../../_UI/MyInputs/MyTextField";
 interface Props {
   open: boolean;
   docId?: number;
-  initialValue: { title: string };
+  initialValue: { title: string; folderId?: number };
   onClose: () => void;
   afterSave: (doc: DocDto) => void;
 }
@@ -29,6 +29,7 @@ const DocTitleDialog = (props: Props) => {
     const obj = {
       title: values.title,
       id: props.docId,
+      folderId: props.initialValue.folderId,
     };
     myAxios.post<DocDto>(apiUrls.define.doc, obj).then((res) => {
       docsStore.pushOrReplaceDoc(res.data);

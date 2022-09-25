@@ -15,7 +15,7 @@ import AddIcon from "@material-ui/icons/Add";
 import ShuffleIcon from "@material-ui/icons/Shuffle";
 import useSaveDocLastOpenedAt from "hooks/react-query/define/useSaveDocLastOpenedAt";
 import sample from "lodash/sample";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import useDocsStore from "store/zustand/domain/useDocsStore";
 import { pushOrReplace } from "utils/array/pushOrReplace";
@@ -26,6 +26,7 @@ import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
 import MyTextField from "../../_UI/MyInputs/MyTextField";
 import DocTitleDialog from "../DocTitleDialog/DocTitleDialog";
 import DocsSidebarItem from "./DocsSidebarItem/DocsSidebarItem";
+import FileSystem from "./FileSystem/FileSystem";
 
 interface Props {
   selectedDocId: number;
@@ -44,9 +45,9 @@ function DefineSidebar(props: Props) {
 
   // PE 2/3 - useMemo ?
   const filterAndSortDocs = () => {
-    let filtered = docsStore.docs.filter((d) =>
-      stringIncludes(d.title, textFilter)
-    );
+    let filtered = docsStore.docs
+      .filter((d) => stringIncludes(d.title, textFilter))
+      .filter((d) => d.folderId === null);
 
     return filtered.sort((a, b) => a.title.localeCompare(b.title));
   };
@@ -133,6 +134,8 @@ function DefineSidebar(props: Props) {
             />
           ))}
         </List>
+
+        <FileSystem />
       </Box>
     </Drawer>
   );

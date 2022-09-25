@@ -6,6 +6,7 @@ export const urls = {
       index: "/monerate",
       similarExpenses: "/monerate/similar-expenses",
     },
+    defineDoc: (docId: number) => `/define/doc/${docId}`,
   },
   graphql: import.meta.env.VITE_API_URL + "graphql",
   api: {
@@ -30,6 +31,9 @@ export const urls = {
     },
 
     // DEFINE
+    folders: "/playground/folders",
+    folderId: (folderId: number) => "/playground/folders/" + folderId,
+    files: "/playground/files",
     saveDocLastOpenedAt: (docId: number) =>
       `define/doc/${docId}/last-opened-at`,
     clearEmptyNotes: (docId: number) => `define/doc/${docId}/clear-empty-notes`,
