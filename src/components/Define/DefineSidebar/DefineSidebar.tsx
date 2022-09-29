@@ -20,12 +20,9 @@ import { useHistory } from "react-router-dom";
 import useDocsStore from "store/zustand/domain/useDocsStore";
 import { pushOrReplace } from "utils/array/pushOrReplace";
 import useSidebarStore from "../../../store/zustand/useSidebarStore";
-import stringIncludes from "../../../utils/text/stringIncludes";
 import pageUrls from "../../../utils/url/urls/pageUrls";
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
-import MyTextField from "../../_UI/MyInputs/MyTextField";
 import DocTitleDialog from "../DocTitleDialog/DocTitleDialog";
-import DocsSidebarItem from "./DocsSidebarItem/DocsSidebarItem";
 import FileSystem from "./FileSystem/FileSystem";
 
 interface Props {
@@ -40,17 +37,7 @@ function DefineSidebar(props: Props) {
   const { sidebarIsOpen } = useSidebarStore();
   const { mutate: saveDocLastOpenedAt } = useSaveDocLastOpenedAt();
 
-  const [textFilter, setTextFilter] = useState("");
   const [openTitleDialog, setOpenTitleDialog] = useState(false);
-
-  // PE 2/3 - useMemo ?
-  const filterAndSortDocs = () => {
-    let filtered = docsStore.docs
-      .filter((d) => stringIncludes(d.title, textFilter))
-      .filter((d) => d.folderId === null);
-
-    return filtered.sort((a, b) => a.title.localeCompare(b.title));
-  };
 
   // PE 2/3 - name too big?
   const handleSaveDocLastOpenedAt = (docId: number) => {
@@ -82,20 +69,10 @@ function DefineSidebar(props: Props) {
     >
       <Toolbar />
       <Box>
-        <Box pt={4} px={2}>
-          <MyTextField
-            fullWidth
-            style={{ marginLeft: "auto", marginRight: "auto" }}
-            label="Filter docs"
-            value={textFilter}
-            onChange={(e) => setTextFilter(e.target.value)}
-          />
-        </Box>
         <List disablePadding>
           <ListItem>
             <ListItemText>
               <FlexVCenter justifyContent="space-between">
-                <Box>{filterAndSortDocs().length} Docs</Box>
                 <FlexVCenter>
                   <Tooltip title="Open random doc">
                     <IconButton size="small" onClick={openRandomDoc}>
@@ -126,13 +103,6 @@ function DefineSidebar(props: Props) {
               </FlexVCenter>
             </ListItemText>
           </ListItem>
-          {filterAndSortDocs().map((doc) => (
-            <DocsSidebarItem
-              key={doc.id}
-              selected={doc.id === props.selectedDocId}
-              doc={doc}
-            />
-          ))}
         </List>
 
         <FileSystem />

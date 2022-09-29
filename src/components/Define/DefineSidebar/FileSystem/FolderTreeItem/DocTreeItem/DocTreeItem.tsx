@@ -37,7 +37,7 @@ export default function DocTreeItem({ doc }: Props) {
   return (
     <TreeItem
       ref={htmlDragDocRef}
-      nodeId={doc.folderId.toString() + "-" + doc.id.toString()}
+      nodeId={doc.folderId?.toString() + "-" + doc.id.toString()}
       onClick={(e) => {
         e.preventDefault();
         setSelectedDoc(doc);

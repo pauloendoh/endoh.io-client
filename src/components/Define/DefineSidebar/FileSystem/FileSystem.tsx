@@ -8,11 +8,13 @@ import { useFoldersQuery } from "hooks/react-query/folders/useFoldersQuery";
 import useSaveFolderMutation from "hooks/react-query/folders/useSaveFolderMutation";
 import { useMemo, useRef } from "react";
 import { useDrop } from "react-dnd";
+import useDocsStore from "store/zustand/domain/useDocsStore";
 import useFlashnotesStore from "store/zustand/domain/useFlashnotesStore";
 import { newFolderDto, partialFolderDto } from "types/domain/folder/FolderDto";
 import FolderWithSubfoldersDto from "types/domain/folder/FolderWithSubfoldersDto";
 import Icons from "utils/styles/Icons";
 import FolderDialog from "./FolderDialog/FolderDialog";
+import DocTreeItem from "./FolderTreeItem/DocTreeItem/DocTreeItem";
 import FolderTreeItem from "./FolderTreeItem/FolderTreeItem";
 
 export default function FileSystem() {
@@ -24,6 +26,8 @@ export default function FileSystem() {
     setOpenFolderDialog,
     folderDialogParentFolderId,
   } = useFlashnotesStore();
+
+  const docs = useDocsStore((s) => s.docs);
 
   const { data: userFolders } = useFoldersQuery();
 
@@ -58,6 +62,13 @@ export default function FileSystem() {
   const { expandedNodes, toggleNode } = useFlashnotesStore();
 
   const theme = useTheme();
+
+  const docsWithoutFolder = useMemo(() => {
+    let filtered = docs.filter((d) => d.folderId === null);
+
+    return filtered.sort((a, b) => a.title.localeCompare(b.title));
+  }, [docs]);
+
   return (
     <Flex style={{ gap: theme.spacing(4) }}>
       <TreeView
@@ -84,7 +95,7 @@ export default function FileSystem() {
                   : undefined,
               }}
             >
-              <Txt>ROOT</Txt>
+              <Txt>Docs</Txt>
               <FlexVCenter>
                 <IconButton
                   size="small"
@@ -102,6 +113,9 @@ export default function FileSystem() {
         >
           {sortedFolders.map((folder) => (
             <FolderTreeItem folder={folder} key={folder.id} />
+          ))}
+          {docsWithoutFolder.map((doc) => (
+            <DocTreeItem doc={doc} key={doc.id} />
           ))}
         </TreeItem>
       </TreeView>
