@@ -1,6 +1,8 @@
 import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
+import { queryKeys } from "hooks/react-query/queryKeys";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useQueryClient } from "react-query";
 import useDocsStore from "store/zustand/domain/useDocsStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
 import { DocDto } from "../../../types/domain/define/DocDto";
@@ -25,6 +27,9 @@ const DocTitleDialog = (props: Props) => {
   };
 
   const { setSuccessMessage } = useSnackbarStore();
+
+  const queryClient = useQueryClient();
+
   const onSubmit = (values: { title: string }) => {
     const obj = {
       title: values.title,
@@ -34,6 +39,8 @@ const DocTitleDialog = (props: Props) => {
     myAxios.post<DocDto>(apiUrls.define.doc, obj).then((res) => {
       docsStore.pushOrReplaceDoc(res.data);
       setSuccessMessage("Doc saved!");
+
+      queryClient.invalidateQueries(queryKeys.folders);
 
       if (props.afterSave) props.afterSave(res.data);
     });
