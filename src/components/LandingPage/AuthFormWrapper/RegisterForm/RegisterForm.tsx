@@ -6,11 +6,10 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Form, Formik } from "formik";
-import React, { MouseEvent, useState } from "react";
+import { MouseEvent, useState } from "react";
 import useAuthStore from "store/zustand/useAuthStore";
 import { AuthUserGetDto } from "types/domain/auth/AuthUserGetDto";
 import { urls } from "utils/urls";
-import MyAxiosError, { MyFieldError } from "../../../../types/MyAxiosError";
 import myAxios from "../../../../utils/consts/myAxios";
 import MyTextField from "../../../_UI/MyInputs/MyTextField";
 import { AuthFormType } from "../_types/AuthFormType";
@@ -21,7 +20,7 @@ type Props = {
 
 const RegisterForm = ({ setFormType, ...props }: Props) => {
   const { setAuthUser } = useAuthStore();
-  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[]);
+  const [responseErrorMessage, setErrorMessage] = useState("");
 
   return (
     <Formik
@@ -34,9 +33,7 @@ const RegisterForm = ({ setFormType, ...props }: Props) => {
       // PE 2/3 jogar pra fora
       onSubmit={(values, { setSubmitting }) => {
         if (values.password !== values.password2) {
-          setResponseErrors([
-            { field: "password", message: "Passwords don't match" },
-          ]);
+          setErrorMessage("Passwords don't match");
           setSubmitting(false);
           return;
         }
@@ -47,7 +44,7 @@ const RegisterForm = ({ setFormType, ...props }: Props) => {
           password: values.password,
         };
 
-        setResponseErrors([]);
+        setErrorMessage("");
 
         myAxios
           .post<AuthUserGetDto>(urls.api.register, authData)
@@ -55,8 +52,8 @@ const RegisterForm = ({ setFormType, ...props }: Props) => {
             const authUser = res.data;
             setAuthUser(authUser);
           })
-          .catch((err: MyAxiosError) => {
-            setResponseErrors(err.response.data.errors);
+          .catch((err: any) => {
+            setErrorMessage(err.response.data.message);
             setSubmitting(false);
           });
       }}
@@ -138,11 +135,11 @@ const RegisterForm = ({ setFormType, ...props }: Props) => {
             </Button>
           </Box>
 
-          {responseErrors.map((err, i) => (
-            <Box key={i} mt={1}>
-              <Typography color="error">{err.message}</Typography>
+          {responseErrorMessage && (
+            <Box mt={1}>
+              <Typography color="error">{responseErrorMessage}</Typography>
             </Box>
-          ))}
+          )}
 
           <Box mt={3}>
             <Box display="flex" alignItems="center" justifyContent="center">
@@ -151,7 +148,7 @@ const RegisterForm = ({ setFormType, ...props }: Props) => {
                 href="#"
                 onClick={(e: MouseEvent) => {
                   e.preventDefault();
-                  setResponseErrors([]);
+                  setErrorMessage("");
                   setFormType("login");
                 }}
               >
