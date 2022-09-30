@@ -9,8 +9,11 @@ import {
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import useDeleteDocMutation from "hooks/react-query/define/doc/useDeleteDocMutation";
 import React, { useState } from "react";
 import { AiOutlineClear } from "react-icons/ai";
+import { MdDelete } from "react-icons/md";
+import { useHistory } from "react-router-dom";
 import useDocsStore from "store/zustand/domain/useDocsStore";
 import useDialogsStore from "store/zustand/useDialogsStore";
 import useSnackbarStore from "store/zustand/useSnackbarStore";
@@ -25,9 +28,7 @@ interface Props {
   afterDelete?: () => void;
 }
 
-// PE 2/3 - MenuItem could be shorter?
-// PE 1/3 rename to DocMoreIcon?
-function TitleMoreIcon(props: Props) {
+function DocMoreMenu(props: Props) {
   const classes = useStyles();
 
   const { setNotes } = useDocsStore();
@@ -59,6 +60,9 @@ function TitleMoreIcon(props: Props) {
       },
     });
   };
+
+  const { mutate: submitDeleteDoc } = useDeleteDocMutation();
+  const history = useHistory();
 
   return (
     <React.Fragment>
@@ -100,7 +104,21 @@ function TitleMoreIcon(props: Props) {
             Edit
           </Typography>
         </MenuItem>
-
+        <MenuItem
+          onClick={(e) => {
+            if (window.confirm("Delete doc?")) {
+              submitDeleteDoc(props.doc.id);
+            }
+            handleCloseMore();
+          }}
+        >
+          <ListItemIcon className={classes.listItemIcon}>
+            <MdDelete />
+          </ListItemIcon>
+          <Typography variant="inherit" noWrap>
+            Delete doc
+          </Typography>
+        </MenuItem>
         <MenuItem
           onClick={(e) => {
             handleClearEmptyNotes();
@@ -137,4 +155,4 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export default TitleMoreIcon;
+export default DocMoreMenu;

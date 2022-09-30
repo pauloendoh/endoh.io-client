@@ -4,9 +4,9 @@ import { useState } from "react";
 import useDocsStore from "store/zustand/domain/useDocsStore";
 import Flex from "../../_UI/Flexboxes/Flex";
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
+import DocMoreMenu from "./DocMoreMenu/DocMoreMenu";
 import DocTable from "./DocTable/DocTable";
 import FlashcardDialog from "./FlashcardDialog/FlashcardDialog";
-import TitleMoreIcon from "./TitleMoreIcon/TitleMoreIcon";
 
 interface Props {
   docId: number;
@@ -35,7 +35,7 @@ const DefineContent = (props: Props) => {
       <Flex justifyContent="space-between">
         <Typography variant="h4">{getDoc().title}</Typography>
         <Box>
-          <TitleMoreIcon doc={getDoc()} afterDelete={() => {}} />
+          <DocMoreMenu doc={getDoc()} afterDelete={() => {}} />
         </Box>
       </Flex>
 
