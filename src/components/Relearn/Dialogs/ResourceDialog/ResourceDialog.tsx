@@ -23,6 +23,7 @@ import { useLinkPreviewQuery } from "generated/graphql";
 import useQueryParams from "hooks/utils/react-router/useQueryParams";
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose";
 import React, { useEffect, useMemo, useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 import { MdDeleteForever } from "react-icons/md";
 import ReactInputMask from "react-input-mask";
 import { connect } from "react-redux";
@@ -107,6 +108,11 @@ const ResourceDialog = (props: Props) => {
     return null;
   };
 
+  const [initialValues, setInitialValues] = useState<ResourceDto>({
+    ...props.editingResource,
+    tag: props.editingResource?.tag || getCurrentTag(),
+  });
+
   const {
     errors,
     values,
@@ -117,13 +123,9 @@ const ResourceDialog = (props: Props) => {
     setValues,
     dirty,
     handleSubmit: formikHandleSubmit,
+    resetForm,
   } = useFormik({
-    initialValues: {
-      ...props.editingResource,
-      tag: props.editingResource?.tag
-        ? props.editingResource.tag
-        : getCurrentTag(),
-    } as ResourceDto,
+    initialValues: initialValues,
     enableReinitialize: true,
     onSubmit: (formikValues, { setSubmitting }) => {
       handleSubmit(formikValues);
@@ -156,26 +158,51 @@ const ResourceDialog = (props: Props) => {
     props.closeResourceDialog();
   };
 
-  const handleSubmit = (resource: ResourceDto) => {
+  const handleSubmit = (resource: ResourceDto, closeOnSuccess = true) => {
     myAxios
       .post<ResourceDto[]>(apiUrls.relearn.resource, resource)
       .then((res) => {
+        const resources = [...props.resources];
         props.setResources(res.data);
         setSuccessMessage("Resource saved!");
 
         myAxios.get<TagDto[]>(apiUrls.relearn.tag).then((res) => {
           props.setTags(res.data);
         });
+
+        if (closeOnSuccess) {
+          closeAndClearQueryParam();
+          return;
+        }
+
+        let newResource = res.data.find((r) => r.id === resource.id);
+        if (!newResource) {
+          const prevResourcesIds = resources.map((r) => r.id);
+          newResource = res.data.find((r) => !prevResourcesIds.includes(r.id));
+        }
+
+        setInitialValues({
+          ...newResource,
+          tag: props.editingResource?.tag || getCurrentTag(),
+        });
       })
       .catch((err: MyAxiosError) => {
         // PE 1/3 - This is common. Should I create a getFirstErrorMessage(err: MyAxiosErr)
         // or even props.showAxiosError(err: MyAxiosError)
         setErrorMessage(err.response.data.errors[0].message);
-      })
-      .finally(() => {
-        closeAndClearQueryParam();
       });
   };
+
+  useHotkeys(
+    "Control+s",
+    (e) => {
+      e.preventDefault();
+      handleSubmit(values, false);
+    },
+    {
+      enableOnTags: ["INPUT", "SELECT", "TEXTAREA"],
+    }
+  );
 
   const [throttle, setThrottle] = useState<NodeJS.Timeout>(null);
 
@@ -503,7 +530,7 @@ const ResourceDialog = (props: Props) => {
             <Box mt={2} />
             <SaveCancelButtons
               submitButtonId="save-resource-button"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !dirty}
               onCancel={() => confirmClose(dirty)}
             />
           </DialogContent>
