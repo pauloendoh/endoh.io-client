@@ -85,13 +85,17 @@ const ResourceDialog = (props: Props) => {
     const resource = props.resources.find((r) => r.id === openResourceId);
     if (resource) {
       props.editResource(resource);
+      setInitialValues({
+        ...resource,
+        tag: props.editingResource?.tag || getCurrentTag(),
+      });
       return;
     }
 
     clearOpenResourceId();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [openResourceId, JSON.stringify(props.resources)]);
+  }, [openResourceId, props.resources]);
 
   const [isFetchingLinkPreview, setIsFetchingLinkPreview] = useState(false);
 
@@ -123,7 +127,6 @@ const ResourceDialog = (props: Props) => {
     setValues,
     dirty,
     handleSubmit: formikHandleSubmit,
-    resetForm,
   } = useFormik({
     initialValues: initialValues,
     enableReinitialize: true,
