@@ -85,10 +85,7 @@ const ResourceDialog = (props: Props) => {
     const resource = props.resources.find((r) => r.id === openResourceId);
     if (resource) {
       props.editResource(resource);
-      setInitialValues({
-        ...resource,
-        tag: props.editingResource?.tag || getCurrentTag(),
-      });
+
       return;
     }
 
@@ -96,6 +93,15 @@ const ResourceDialog = (props: Props) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openResourceId, props.resources]);
+
+  useEffect(() => {
+    if (props.editingResource) {
+      setInitialValues({
+        ...props.editingResource,
+        tag: props.editingResource?.tag || getCurrentTag(),
+      });
+    }
+  }, [props.editingResource]);
 
   const [isFetchingLinkPreview, setIsFetchingLinkPreview] = useState(false);
 
