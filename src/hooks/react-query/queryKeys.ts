@@ -1,9 +1,10 @@
-import apiUrls from "utils/url/urls/apiUrls";
+import apiUrls from "utils/url/urls/apiUrls"
 
 export const queryKeys = {
   userSuggestions: apiUrls.feed.myUserSuggestions,
   feedResources: apiUrls.feed.resources,
-  searchResults: "searchResults",
+  resourceSearchResults: "resourceSearchResults",
+  notesSearchResults: "notesSearchResults",
   labels: "labels",
   skillId: (skillId: number) => `skill-${skillId}`,
   progressMonths: "progressMonths",
@@ -12,4 +13,4 @@ export const queryKeys = {
   similarExpenses: "/similar-expenses",
 
   folders: "/folders",
-};
+}

@@ -1,7 +1,10 @@
+import { DocDto } from "./DocDto"
+
 export interface NoteDto {
   id: number
   userId: number
   docId: number
+  doc?: DocDto
 
   index: number
   description: string
@@ -28,4 +31,17 @@ export const newNoteDto = (
 
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
+})
+
+export const buildNoteDto = (p?: Partial<NoteDto>): NoteDto => ({
+  id: null,
+  description: "",
+  index: 0,
+  question: "",
+  docId: 0,
+  userId: 0,
+  weight: 0,
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+  ...p,
 })

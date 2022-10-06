@@ -1,26 +1,27 @@
-import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
-import React, { useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { NoteDto } from "../../../../../../types/domain/define/NoteDto";
-import SaveCancelButtons from "../../../../../_UI/Buttons/SaveCancelButtons";
-import MyTextField from "../../../../../_UI/MyInputs/MyTextField";
+import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core"
+import { useEffect } from "react"
+import { Controller, useForm } from "react-hook-form"
+import { NoteDto } from "../../../../../../types/domain/define/NoteDto"
+import SaveCancelButtons from "../../../../../_UI/Buttons/SaveCancelButtons"
+import MyTextField from "../../../../../_UI/MyInputs/MyTextField"
 
 interface Props {
-  open: boolean;
-  initialValue: NoteDto;
-  onClose: () => void;
-  onSubmit: (newValue: NoteDto) => void;
+  open: boolean
+  initialValue: NoteDto
+  onClose: () => void
+  onSubmit: (newValue: NoteDto) => void
 }
 
+// PE 1/3 - transform into global dialog
 const NoteDialog = (props: Props) => {
   const { handleSubmit, watch, reset, control, formState } = useForm({
     defaultValues: props.initialValue,
-  });
+  })
 
   useEffect(() => {
-    if (props.open) reset(props.initialValue);
+    if (props.open) reset(props.initialValue)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.open]);
+  }, [props.open])
 
   return (
     <Dialog
@@ -86,7 +87,7 @@ const NoteDialog = (props: Props) => {
         </form>
       </Box>
     </Dialog>
-  );
-};
+  )
+}
 
-export default NoteDialog;
+export default NoteDialog

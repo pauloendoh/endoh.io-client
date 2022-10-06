@@ -4,10 +4,9 @@ import {
   InputLabel,
   MenuItem,
   Select,
-} from "@material-ui/core";
-import React from "react";
-import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
-import { tagColors } from "./_utils/tagColors";
+} from "@material-ui/core"
+import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
+import { tagColors } from "./_utils/tagColors"
 
 // PE 2/3
 const TagColorSelector = (props: OwnProps) => {
@@ -39,12 +38,12 @@ const TagColorSelector = (props: OwnProps) => {
         ))}
       </Select>
     </FormControl>
-  );
-};
-
-interface OwnProps {
-  value: string;
-  onChange?: (newValue: string) => void;
+  )
 }
 
-export default TagColorSelector;
+interface OwnProps {
+  value: string
+  onChange?: (newValue: string) => void
+}
+
+export default TagColorSelector

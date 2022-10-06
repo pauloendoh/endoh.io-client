@@ -1,34 +1,34 @@
-import { useTheme } from "@material-ui/core";
-import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
-import MyImage from "components/_UI/images/MyImage";
-import Txt from "components/_UI/Text/Txt";
-import { DateTime } from "luxon";
-import React, { useMemo } from "react";
-import { useLocation } from "react-router-dom";
-import { ResourceDto } from "types/domain/relearn/ResourceDto";
-import { getColorByRating } from "utils/relearn/getColorByRating";
-import Icons from "utils/styles/Icons";
-import { urls } from "utils/urls";
+import { useTheme } from "@material-ui/core"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import MyImage from "components/_UI/images/MyImage"
+import Txt from "components/_UI/Text/Txt"
+import { DateTime } from "luxon"
+import { useMemo } from "react"
+import { useLocation } from "react-router-dom"
+import { ResourceDto } from "types/domain/relearn/ResourceDto"
+import { getColorByRating } from "utils/relearn/getColorByRating"
+import Icons from "utils/styles/Icons"
+import { urls } from "utils/urls"
 
 type Props = {
-  resource: ResourceDto;
-  handleClick: () => void;
-};
+  resource: ResourceDto
+  handleClick: () => void
+}
 
-const SearchBarOption = ({ resource, handleClick }: Props) => {
-  const theme = useTheme();
+const ResourcesSearchBarOption = ({ resource, handleClick }: Props) => {
+  const theme = useTheme()
 
-  const location = useLocation();
+  const location = useLocation()
 
   const daysAgoStr = useMemo(() => {
-    if (resource?.completedAt.length === 0) return "";
-    const completed = DateTime.fromISO(resource.completedAt);
-    const now = DateTime.now();
-    const diff = now.diff(completed, ["days"]);
-    const days = Math.floor(diff.days);
-    if (days === 0) return "today";
-    return `${days}d ago`;
-  }, [resource.completedAt]);
+    if (resource?.completedAt.length === 0) return ""
+    const completed = DateTime.fromISO(resource.completedAt)
+    const now = DateTime.now()
+    const diff = now.diff(completed, ["days"])
+    const days = Math.floor(diff.days)
+    if (days === 0) return "today"
+    return `${days}d ago`
+  }, [resource.completedAt])
 
   return (
     <FlexVCenter
@@ -41,7 +41,7 @@ const SearchBarOption = ({ resource, handleClick }: Props) => {
               urls.pages.openResourceId(resource.id, location.pathname),
               "_blank"
             )
-            .focus();
+            .focus()
       }}
     >
       {resource.thumbnail?.length ? (
@@ -87,7 +87,7 @@ const SearchBarOption = ({ resource, handleClick }: Props) => {
         )}
       </FlexVCenter>
     </FlexVCenter>
-  );
-};
+  )
+}
 
-export default SearchBarOption;
+export default ResourcesSearchBarOption

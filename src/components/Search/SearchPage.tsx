@@ -1,70 +1,70 @@
-import { Box, Grid, Paper, Typography } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { Dispatch } from "redux";
-import { siteTitles } from "utils/consts/siteTitles";
-import { urls } from "utils/urls";
-import { ApplicationState } from "../../store/store";
-import { SearchResultsDto } from "../../types/domain/utils/SearchResultsDto";
-import myAxios from "../../utils/consts/myAxios";
-import ResourceItem from "../Relearn/RelearnContent/ResourceList/DraggableResourceItem/ResourceItem/ResourceItem";
-import LoadingPage from "../_common/LoadingPage/LoadingPage";
-import SkillChip from "../_common/SkillChip/SkillChip";
-import DarkButton from "../_UI/Buttons/DarkButton/DarkButton";
-import Flex from "../_UI/Flexboxes/Flex";
-import FlexVCenter from "../_UI/Flexboxes/FlexVCenter";
-import SearchPageSidebar from "./SearchPageSidebar/SearchPageSidebar";
-import UserResults from "./UserResults/UserResults";
+import { Box, Grid, Paper, Typography } from "@material-ui/core"
+import { useEffect, useState } from "react"
+import { connect } from "react-redux"
+import { useLocation } from "react-router-dom"
+import { Dispatch } from "redux"
+import { siteTitles } from "utils/consts/siteTitles"
+import { urls } from "utils/urls"
+import { ApplicationState } from "../../store/store"
+import { SearchResultsDto } from "../../types/domain/utils/SearchResultsDto"
+import myAxios from "../../utils/consts/myAxios"
+import ResourceItem from "../Relearn/RelearnContent/ResourceList/DraggableResourceItem/ResourceItem/ResourceItem"
+import LoadingPage from "../_common/LoadingPage/LoadingPage"
+import SkillChip from "../_common/SkillChip/SkillChip"
+import DarkButton from "../_UI/Buttons/DarkButton/DarkButton"
+import Flex from "../_UI/Flexboxes/Flex"
+import FlexVCenter from "../_UI/Flexboxes/FlexVCenter"
+import SearchPageSidebar from "./SearchPageSidebar/SearchPageSidebar"
+import UserResults from "./UserResults/UserResults"
 
-export type FilterByType = "all" | "resources" | "users" | "skills";
+export type FilterByType = "all" | "resources" | "users" | "skills"
 
 // PE 3/3
 const SearchPage = (props: Props) => {
-  const location = useLocation();
+  const location = useLocation()
 
   // PE 2/3 - melhor searchQuery?
-  const [q, setQ] = useState("");
+  const [q, setQ] = useState("")
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true)
 
-  const [results, setResults] = useState<SearchResultsDto>(null);
+  const [results, setResults] = useState<SearchResultsDto>(null)
 
-  const [filterBy, setFilterBy] = useState<FilterByType>("all");
+  const [filterBy, setFilterBy] = useState<FilterByType>("all")
 
   const countAllResults = () => {
-    let count = 0;
+    let count = 0
     if (results) {
-      count += results.resources.length;
-      count += results.users.length;
-      count += results.skills.length;
+      count += results.resources.length
+      count += results.users.length
+      count += results.skills.length
     }
-    return count;
-  };
+    return count
+  }
 
   const filterResources = () => {
     return filterBy === "resources"
       ? results.resources
-      : results.resources.slice(0, 3);
-  };
+      : results.resources.slice(0, 3)
+  }
 
   useEffect(() => {
-    setIsLoading(true);
-    const searchParams = new URLSearchParams(location.search);
-    const q = searchParams.get("q");
-    setQ(q);
+    setIsLoading(true)
+    const searchParams = new URLSearchParams(location.search)
+    const q = searchParams.get("q")
+    setQ(q)
 
-    document.title = siteTitles.search(q);
+    document.title = siteTitles.search(q)
 
     myAxios
-      .get<SearchResultsDto>(urls.api.search(q))
+      .get<SearchResultsDto>(urls.api.resourcesSearch(q))
       .then((res) => {
-        setResults(res.data);
+        setResults(res.data)
       })
       .finally(() => {
-        setIsLoading(false);
-      });
-  }, [location, props.resources]);
+        setIsLoading(false)
+      })
+  }, [location, props.resources])
 
   return (
     <Box p={3}>
@@ -119,7 +119,7 @@ const SearchPage = (props: Props) => {
                                   <DarkButton
                                     fullWidth
                                     onClick={() => {
-                                      setFilterBy("resources");
+                                      setFilterBy("resources")
                                     }}
                                   >
                                     Show More
@@ -155,7 +155,7 @@ const SearchPage = (props: Props) => {
                                 <DarkButton
                                   fullWidth
                                   onClick={() => {
-                                    setFilterBy("users");
+                                    setFilterBy("users")
                                   }}
                                 >
                                   Show More
@@ -195,16 +195,16 @@ const SearchPage = (props: Props) => {
         </Box>
       )}
     </Box>
-  );
-};
+  )
+}
 
 const mapStateToProps = (state: ApplicationState) => ({
   resources: state.relearn.resources,
-});
+})
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
+const mapDispatchToProps = (dispatch: Dispatch) => ({})
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps>
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchPage)

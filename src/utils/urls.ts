@@ -41,7 +41,8 @@ export const urls = {
     docId: (docId: number) => `docs/${docId}`,
 
     // UTILS
-    search: (query: string) => `/search?q=${query}`,
+    resourcesSearch: (query: string) => `/search?q=${query}`,
+    notesSearch: (query: string) => `/flashnotes/search?q=${query}`,
     linkPreview: (url: string) => `/v2/utils/link-preview?url=${url}`,
 
     monerate: {
@@ -49,4 +50,4 @@ export const urls = {
         `/expenses/similar-expenses?value=${value}`,
     },
   },
-};
+}
