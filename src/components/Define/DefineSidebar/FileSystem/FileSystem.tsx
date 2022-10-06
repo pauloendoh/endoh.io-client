@@ -76,6 +76,10 @@ export default function FileSystem() {
 
   const [didFirstExpansion, setDidFirstExpansion] = useState(false)
   useEffect(() => {
+    console.log({ docId })
+  }, [docId])
+
+  useEffect(() => {
     if (docs.length === 0 || sortedFolders.length === 0 || didFirstExpansion)
       return
 
@@ -85,7 +89,7 @@ export default function FileSystem() {
 
       const allFolders = spreadFolders(sortedFolders)
 
-      if (!doc || !doc.folderId) return
+      if (!doc) return
       let { folderId } = doc
 
       while (folderId) {
@@ -107,10 +111,9 @@ export default function FileSystem() {
         defaultExpandIcon={<Icons.ChevronRight />}
         style={{ width: 300 }}
         expanded={expandedNodes}
-        selected={docId ? docId : undefined}
+        selected={docId ? [docId] : []}
       >
         <TreeItem
-          defaultChecked
           nodeId="root"
           onClick={(e) => {
             e.preventDefault()
