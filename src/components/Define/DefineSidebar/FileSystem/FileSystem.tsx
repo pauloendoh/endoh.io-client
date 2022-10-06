@@ -75,9 +75,6 @@ export default function FileSystem() {
   const { docId } = useParams<{ docId?: string }>()
 
   const [didFirstExpansion, setDidFirstExpansion] = useState(false)
-  useEffect(() => {
-    console.log({ docId })
-  }, [docId])
 
   useEffect(() => {
     if (docs.length === 0 || sortedFolders.length === 0 || didFirstExpansion)
