@@ -82,8 +82,15 @@ const NotesSearchBar = () => {
     if (searchResults) setLoading(false)
   }, [searchResults])
 
-  const filteredNotes = useMemo(() => {
-    if (searchResults?.notes) return searchResults.notes.slice(0, 25)
+  const sortedNotes = useMemo(() => {
+    if (searchResults?.notes)
+      return searchResults.notes
+        .sort((a, b) => {
+          if (b.question.trim().length > 0 && a.question.trim().length === 0)
+            return 1
+          return -1
+        })
+        .slice(0, 25)
     return []
   }, [searchResults?.notes])
 
@@ -101,7 +108,7 @@ const NotesSearchBar = () => {
           // if no text, show nothing (don't show 'no resources :(')
           freeSolo={watch("searchQuery").length < MIN_LENGTH}
           noOptionsText={"No results :("}
-          options={filteredNotes}
+          options={sortedNotes}
           PopperComponent={MyPopper}
           filterOptions={(notes) => notes}
           renderOption={(note) => (

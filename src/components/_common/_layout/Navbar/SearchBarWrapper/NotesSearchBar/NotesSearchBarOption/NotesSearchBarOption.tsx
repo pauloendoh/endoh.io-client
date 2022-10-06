@@ -30,8 +30,8 @@ const NotesSearchBarOption = ({ note, handleClick }: Props) => {
       //       .focus()
       // }}
     >
-      <FlexCol style={{ gap: 4 }}>
-        <Flex justifyContent="space-between">
+      <FlexCol style={{ gap: 4 }} width="100%">
+        <Flex justifyContent="space-between" width="100%">
           <Typography>{note.question}</Typography>
           <Typography
             noWrap
