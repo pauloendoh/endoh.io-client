@@ -6,8 +6,9 @@ import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
 import Txt from "components/_UI/Text/Txt";
 import { useFoldersQuery } from "hooks/react-query/folders/useFoldersQuery";
 import useSaveFolderMutation from "hooks/react-query/folders/useSaveFolderMutation";
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useDrop } from "react-dnd";
+import { useParams } from "react-router-dom";
 import useDocsStore from "store/zustand/domain/useDocsStore";
 import useFlashnotesStore from "store/zustand/domain/useFlashnotesStore";
 import { newFolderDto, partialFolderDto } from "types/domain/folder/FolderDto";
@@ -16,7 +17,9 @@ import Icons from "utils/styles/Icons";
 import FolderDialog from "./FolderDialog/FolderDialog";
 import DocTreeItem from "./FolderTreeItem/DocTreeItem/DocTreeItem";
 import FolderTreeItem from "./FolderTreeItem/FolderTreeItem";
+import { spreadFolders } from "./spreadFolders/spreadFolders";
 
+// PE 1/3 - rename?
 export default function FileSystem() {
   const {
     fileDialogParentFolderId,
@@ -59,7 +62,7 @@ export default function FileSystem() {
   const htmlDropRef = useRef<HTMLDivElement>();
   dropFolderRef(htmlDropRef);
 
-  const { expandedNodes, toggleNode } = useFlashnotesStore();
+  const { expandedNodes, toggleNode, setExpandedNodes } = useFlashnotesStore();
 
   const theme = useTheme();
 
@@ -69,6 +72,35 @@ export default function FileSystem() {
     return filtered.sort((a, b) => a.title.localeCompare(b.title));
   }, [docs]);
 
+  const { docId } = useParams<{ docId?: string }>();
+
+  const [didFirstExpansion, setDidFirstExpansion] = useState(false);
+  useEffect(() => {
+    if (!docs || sortedFolders.length === 0) return;
+    if (didFirstExpansion) return;
+
+    let expandNodeIds = ["root"];
+    if (docId) {
+      let doc = docs.find((d) => d.id === Number(docId));
+
+      const allFolders = spreadFolders(sortedFolders);
+
+      if (!doc) return;
+      let { folderId } = doc;
+
+      while (folderId) {
+        expandNodeIds.push(String(folderId));
+
+        let folder = allFolders.find((f) => f.id === folderId);
+        debugger;
+        folderId = folder?.parentFolderId;
+      }
+    }
+
+    setExpandedNodes(expandNodeIds);
+    setDidFirstExpansion(true);
+  }, [docs, sortedFolders, docId]);
+
   return (
     <Flex style={{ gap: theme.spacing(4) }}>
       <TreeView
@@ -76,8 +108,10 @@ export default function FileSystem() {
         defaultExpandIcon={<Icons.ChevronRight />}
         style={{ width: 300 }}
         expanded={expandedNodes}
+        selected={docId ? docId : undefined}
       >
         <TreeItem
+          defaultChecked
           nodeId="root"
           onClick={(e) => {
             e.preventDefault();

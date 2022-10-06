@@ -175,8 +175,8 @@ const App = (props: Props) => {
               <Route path="/skillbase" component={SkillbasePage} />
               <Route path="/feed" component={FeedPage} />
 
-              <Route path="/define" exact component={DefinePage} />
               <Route path="/define/doc/:docId" component={DefinePage} />
+              <Route path="/define" exact component={DefinePage} />
 
               <Route path="/BigDecisions" exact component={BigDecisionsPage} />
               <Route path="/BigDecisions/:id" component={BigDecisionsPage} />

@@ -11,6 +11,7 @@ export default interface FolderWithSubfoldersDto {
   subfolders: FolderWithSubfoldersDto[];
 
   parentFolder: FolderWithSubfoldersDto;
+  parentFolderId: number | null;
 
   files: FileDto[];
   docs: DocDto[];

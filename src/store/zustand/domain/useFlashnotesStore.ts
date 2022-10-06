@@ -17,6 +17,7 @@ interface IFlashnotesStore {
 
   expandedNodes: string[];
   toggleNode: (nodeId: string) => void;
+  setExpandedNodes: (nodeIds: string[]) => void;
 }
 
 const useFlashnotesStore = create<IFlashnotesStore>(
@@ -58,6 +59,9 @@ const useFlashnotesStore = create<IFlashnotesStore>(
           // add
           set({ expandedNodes: [...expandedNodes, nodeId] });
         }
+      },
+      setExpandedNodes: (nodeIds: string[]) => {
+        set({ expandedNodes: nodeIds });
       },
     }),
     "@FileSystemStore"
