@@ -40,7 +40,7 @@ export default function DocTreeItem({ doc }: Props) {
   return (
     <TreeItem
       ref={htmlDragDocRef}
-      nodeId={String(doc.id)}
+      nodeId={`doc-${doc.id}`}
       onClick={(e) => {
         e.preventDefault()
         setSelectedDoc(doc)

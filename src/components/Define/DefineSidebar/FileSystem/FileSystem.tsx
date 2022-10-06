@@ -90,7 +90,7 @@ export default function FileSystem() {
       let { folderId } = doc
 
       while (folderId) {
-        expandNodeIds.push(String(folderId))
+        expandNodeIds.push(`folder-${folderId}`)
 
         let folder = allFolders.find((f) => f.id === folderId)
         folderId = folder?.parentFolderId
@@ -108,7 +108,7 @@ export default function FileSystem() {
         defaultExpandIcon={<Icons.ChevronRight />}
         style={{ width: 300 }}
         expanded={expandedNodes}
-        selected={docId ? [docId] : []}
+        selected={docId ? `doc-${docId}` : ""}
       >
         <TreeItem
           nodeId="root"
