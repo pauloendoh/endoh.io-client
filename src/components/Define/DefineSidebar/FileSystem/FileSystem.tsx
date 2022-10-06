@@ -76,8 +76,8 @@ export default function FileSystem() {
 
   const [didFirstExpansion, setDidFirstExpansion] = useState(false)
   useEffect(() => {
-    if (!docs || sortedFolders.length === 0) return
-    if (didFirstExpansion) return
+    if (docs.length === 0 || sortedFolders.length === 0 || didFirstExpansion)
+      return
 
     let expandNodeIds = ["root"]
     if (docId) {
@@ -85,20 +85,19 @@ export default function FileSystem() {
 
       const allFolders = spreadFolders(sortedFolders)
 
-      if (!doc) return
+      if (!doc || !doc.folderId) return
       let { folderId } = doc
 
       while (folderId) {
         expandNodeIds.push(String(folderId))
 
         let folder = allFolders.find((f) => f.id === folderId)
-        debugger
         folderId = folder?.parentFolderId
       }
-    }
 
-    setExpandedNodes(expandNodeIds)
-    setDidFirstExpansion(true)
+      setExpandedNodes(expandNodeIds)
+      setDidFirstExpansion(true)
+    }
   }, [docs, sortedFolders, docId])
 
   return (
