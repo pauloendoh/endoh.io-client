@@ -45,7 +45,7 @@ const NotesSearchBarOption = ({ note, handleClick }: Props) => {
               padding: "2px 8px 2px 8px",
               borderRadius: 2,
               height: "fit-content",
-              background: theme.palette.grey[800],
+              background: theme.palette.grey[700],
             }}
           >
             {note.doc?.title}

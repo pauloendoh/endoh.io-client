@@ -1,5 +1,5 @@
-import { faGlobeAmericas, faLock } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGlobeAmericas, faLock } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   Box,
   Button,
@@ -11,117 +11,117 @@ import {
   IconButton,
   Typography,
   useTheme,
-} from "@material-ui/core";
-import HighlightOffIcon from "@material-ui/icons/HighlightOff";
-import { Autocomplete } from "@material-ui/lab";
-import FlexHCenter from "components/_UI/Flexboxes/FlexHCenter";
-import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween";
-import TagIcon from "components/_UI/Icon/TagIcon";
-import Txt from "components/_UI/Text/Txt";
-import { FormikErrors, useFormik } from "formik";
-import { useLinkPreviewQuery } from "generated/graphql";
-import useQueryParams from "hooks/utils/react-router/useQueryParams";
-import useConfirmTabClose from "hooks/utils/useConfirmTabClose";
-import React, { useEffect, useMemo, useState } from "react";
-import { useHotkeys } from "react-hotkeys-hook";
-import { MdDeleteForever } from "react-icons/md";
-import ReactInputMask from "react-input-mask";
-import { connect } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
-import { Dispatch } from "redux";
-import useDialogsStore from "store/zustand/useDialogsStore";
-import useSnackbarStore from "store/zustand/useSnackbarStore";
-import MyAxiosError from "types/MyAxiosError";
-import buildGraphqlClient from "utils/consts/buildGraphqlClient";
-import linkPng from "../../../../static/images/link.png";
-import * as relearnActions from "../../../../store/relearn/relearnActions";
-import { ApplicationState } from "../../../../store/store";
-import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto";
-import { TagDto } from "../../../../types/domain/relearn/TagDto";
-import myAxios from "../../../../utils/consts/myAxios";
-import { urlIsValid } from "../../../../utils/url/isValidUrl";
-import apiUrls from "../../../../utils/url/urls/apiUrls";
-import pageUrls from "../../../../utils/url/urls/pageUrls";
-import RatingButton from "../../../_common/RatingButton/RatingButton";
-import SaveCancelButtons from "../../../_UI/Buttons/SaveCancelButtons";
-import Flex from "../../../_UI/Flexboxes/Flex";
-import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
-import MyTextField from "../../../_UI/MyInputs/MyTextField";
+} from "@material-ui/core"
+import HighlightOffIcon from "@material-ui/icons/HighlightOff"
+import { Autocomplete } from "@material-ui/lab"
+import FlexHCenter from "components/_UI/Flexboxes/FlexHCenter"
+import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween"
+import TagIcon from "components/_UI/Icon/TagIcon"
+import Txt from "components/_UI/Text/Txt"
+import { FormikErrors, useFormik } from "formik"
+import { useLinkPreviewQuery } from "generated/graphql"
+import useQueryParams from "hooks/utils/react-router/useQueryParams"
+import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
+import React, { useEffect, useMemo, useState } from "react"
+import { useHotkeys } from "react-hotkeys-hook"
+import { MdDeleteForever } from "react-icons/md"
+import ReactInputMask from "react-input-mask"
+import { connect } from "react-redux"
+import { useHistory, useLocation } from "react-router-dom"
+import { Dispatch } from "redux"
+import useDialogsStore from "store/zustand/useDialogsStore"
+import useSnackbarStore from "store/zustand/useSnackbarStore"
+import MyAxiosError from "types/MyAxiosError"
+import buildGraphqlClient from "utils/consts/buildGraphqlClient"
+import linkPng from "../../../../static/images/link.png"
+import * as relearnActions from "../../../../store/relearn/relearnActions"
+import { ApplicationState } from "../../../../store/store"
+import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto"
+import { TagDto } from "../../../../types/domain/relearn/TagDto"
+import myAxios from "../../../../utils/consts/myAxios"
+import { urlIsValid } from "../../../../utils/url/isValidUrl"
+import apiUrls from "../../../../utils/url/urls/apiUrls"
+import pageUrls from "../../../../utils/url/urls/pageUrls"
+import RatingButton from "../../../_common/RatingButton/RatingButton"
+import SaveCancelButtons from "../../../_UI/Buttons/SaveCancelButtons"
+import Flex from "../../../_UI/Flexboxes/Flex"
+import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
+import MyTextField from "../../../_UI/MyInputs/MyTextField"
 
 // PE 1/3 - tá muito grande
 const ResourceDialog = (props: Props) => {
-  const theme = useTheme();
-  const history = useHistory();
-  const location = useLocation();
-  const { openConfirmDialog } = useDialogsStore();
-  const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
-  const queryParams = useQueryParams();
+  const theme = useTheme()
+  const history = useHistory()
+  const location = useLocation()
+  const { openConfirmDialog } = useDialogsStore()
+  const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
+  const queryParams = useQueryParams()
 
   const openResourceId = useMemo(
     () => Number(queryParams.get("openResourceId")) || undefined,
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [queryParams.get("openResourceId")]
-  );
+  )
 
   const sortedTags = useMemo(
     () => props.tags?.sort((a, b) => (a.id > b.id ? 1 : -1)) || [],
     [props.tags]
-  );
+  )
 
   const clearOpenResourceId = () => {
-    queryParams.delete("openResourceId");
-    history.push(`${location.pathname}?${queryParams.toString()}`);
-  };
+    queryParams.delete("openResourceId")
+    history.push(`${location.pathname}?${queryParams.toString()}`)
+  }
 
   // Testing ?openResourceId -> should open a resource dialog
   useEffect(() => {
     if (!openResourceId) {
-      clearOpenResourceId();
-      return;
+      clearOpenResourceId()
+      return
     }
 
-    if (props.resources?.length === 0) return;
+    if (props.resources?.length === 0) return
 
-    const resource = props.resources.find((r) => r.id === openResourceId);
+    const resource = props.resources.find((r) => r.id === openResourceId)
     if (resource) {
-      props.editResource(resource);
+      props.editResource(resource)
 
-      return;
+      return
     }
 
-    clearOpenResourceId();
+    clearOpenResourceId()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [openResourceId, props.resources]);
+  }, [openResourceId, props.resources])
 
   useEffect(() => {
     if (props.editingResource) {
       setInitialValues({
         ...props.editingResource,
         tag: props.editingResource?.tag || getCurrentTag(),
-      });
+      })
     }
-  }, [props.editingResource]);
+  }, [props.editingResource])
 
-  const [isFetchingLinkPreview, setIsFetchingLinkPreview] = useState(false);
+  const [isFetchingLinkPreview, setIsFetchingLinkPreview] = useState(false)
 
   const getCurrentTag = (): TagDto => {
     if (location.pathname.startsWith(pageUrls.relearn.tag)) {
-      const tagId = Number(location.pathname.split("/").pop());
+      const tagId = Number(location.pathname.split("/").pop())
       if (tagId) {
-        const currentTag = sortedTags.find((t) => t.id === tagId);
+        const currentTag = sortedTags.find((t) => t.id === tagId)
         if (currentTag) {
-          return currentTag;
+          return currentTag
         }
       }
     }
-    return null;
-  };
+    return null
+  }
 
   const [initialValues, setInitialValues] = useState<ResourceDto>({
     ...props.editingResource,
     tag: props.editingResource?.tag || getCurrentTag(),
-  });
+  })
 
   const {
     errors,
@@ -137,83 +137,83 @@ const ResourceDialog = (props: Props) => {
     initialValues: initialValues,
     enableReinitialize: true,
     onSubmit: (formikValues, { setSubmitting }) => {
-      handleSubmit(formikValues);
+      handleSubmit(formikValues)
     },
     validate: (newValue: ResourceDto) => {
-      let errors: FormikErrors<ResourceDto> = {};
+      let errors: FormikErrors<ResourceDto> = {}
 
       if (newValue.url.length > 0 && !urlIsValid(newValue.url)) {
-        errors.url = "Invalid URL";
+        errors.url = "Invalid URL"
       }
-      return errors;
+      return errors
     },
-  });
+  })
 
-  useConfirmTabClose(dirty);
+  useConfirmTabClose(dirty)
 
   const confirmClose = (isDirty: boolean) => {
     if (isDirty) {
       openConfirmDialog({
         onConfirm: () => closeAndClearQueryParam(),
         title: "Discard changes?",
-      });
+      })
     } else {
-      closeAndClearQueryParam();
+      closeAndClearQueryParam()
     }
-  };
+  }
 
   const closeAndClearQueryParam = () => {
-    clearOpenResourceId();
-    props.closeResourceDialog();
-  };
+    clearOpenResourceId()
+    props.closeResourceDialog()
+  }
 
   const handleSubmit = (resource: ResourceDto, closeOnSuccess = true) => {
     myAxios
       .post<ResourceDto[]>(apiUrls.relearn.resource, resource)
       .then((res) => {
-        const resources = [...props.resources];
-        props.setResources(res.data);
-        setSuccessMessage("Resource saved!");
+        const resources = [...props.resources]
+        props.setResources(res.data)
+        setSuccessMessage("Resource saved!")
 
         myAxios.get<TagDto[]>(apiUrls.relearn.tag).then((res) => {
-          props.setTags(res.data);
-        });
+          props.setTags(res.data)
+        })
 
         if (closeOnSuccess) {
-          closeAndClearQueryParam();
-          return;
+          closeAndClearQueryParam()
+          return
         }
 
-        let newResource = res.data.find((r) => r.id === resource.id);
+        let newResource = res.data.find((r) => r.id === resource.id)
         if (!newResource) {
-          const prevResourcesIds = resources.map((r) => r.id);
-          newResource = res.data.find((r) => !prevResourcesIds.includes(r.id));
+          const prevResourcesIds = resources.map((r) => r.id)
+          newResource = res.data.find((r) => !prevResourcesIds.includes(r.id))
         }
 
         setInitialValues({
           ...newResource,
           tag: props.editingResource?.tag || getCurrentTag(),
-        });
+        })
       })
       .catch((err: MyAxiosError) => {
         // PE 1/3 - This is common. Should I create a getFirstErrorMessage(err: MyAxiosErr)
         // or even props.showAxiosError(err: MyAxiosError)
-        setErrorMessage(err.response.data.errors[0].message);
-      });
-  };
+        setErrorMessage(err.response.data.errors[0].message)
+      })
+  }
 
   useHotkeys(
     "Control+s",
     (e) => {
-      e.preventDefault();
-      handleSubmit(values, false);
+      e.preventDefault()
+      handleSubmit(values, false)
     },
     {
       enableOnTags: ["INPUT", "SELECT", "TEXTAREA"],
     }
-  );
+  )
 
-  const [throttle, setThrottle] = useState<NodeJS.Timeout>(null);
+  const [throttle, setThrottle] = useState<NodeJS.Timeout>(null)
 
   const fetchLinkPreview = (
     url: string,
@@ -227,23 +227,23 @@ const ResourceDialog = (props: Props) => {
       shouldValidate?: boolean
     ) => void
   ) => {
-    clearTimeout(throttle);
+    clearTimeout(throttle)
     setThrottle(
       setTimeout(() => {
         if (urlIsValid(url)) {
-          setIsFetchingLinkPreview(true);
-          setFieldValue("title", "Loading...");
+          setIsFetchingLinkPreview(true)
+          setFieldValue("title", "Loading...")
 
           useLinkPreviewQuery
             .fetcher(buildGraphqlClient(), {
               url,
             })()
             .then((res) => {
-              const { getLinkPreview: preview } = res;
+              const { getLinkPreview: preview } = res
               if (preview.youtubeVideoLength !== "00:00h")
-                setFieldValue("estimatedTime", preview.youtubeVideoLength);
-              setFieldValue("title", preview.title);
-              setFieldValue("thumbnail", preview.image);
+                setFieldValue("estimatedTime", preview.youtubeVideoLength)
+              setFieldValue("title", preview.title)
+              setFieldValue("thumbnail", preview.image)
 
               if (preview.alreadySavedResource) {
                 openConfirmDialog({
@@ -253,28 +253,28 @@ const ResourceDialog = (props: Props) => {
                     if (preview.alreadySavedResource?.tagId) {
                       const tag = props.tags.find(
                         (t) => t.id === preview.alreadySavedResource.tagId
-                      );
+                      )
                       if (tag)
                         return setValues({
                           ...preview.alreadySavedResource,
                           tag,
-                        } as ResourceDto);
+                        } as ResourceDto)
                     }
-                    setValues(preview.alreadySavedResource as ResourceDto);
+                    setValues(preview.alreadySavedResource as ResourceDto)
                   },
-                });
+                })
               }
             })
             .catch(() => {
-              setFieldValue("title", "");
+              setFieldValue("title", "")
             })
             .finally(() => {
-              setIsFetchingLinkPreview(false);
-            });
+              setIsFetchingLinkPreview(false)
+            })
         }
       }, 200)
-    );
-  };
+    )
+  }
 
   // PE 1/3 - dry with resource more icon?
   const handleDeleteResource = () => {
@@ -284,13 +284,13 @@ const ResourceDialog = (props: Props) => {
         myAxios
           .delete(`${apiUrls.relearn.resource}/${values.id}`)
           .then((res) => {
-            setSuccessMessage("Resource deleted!");
-            props.removeResource(values.id);
-            closeAndClearQueryParam();
-          });
+            setSuccessMessage("Resource deleted!")
+            props.removeResource(values.id)
+            closeAndClearQueryParam()
+          })
       },
-    });
-  };
+    })
+  }
 
   return (
     <Dialog
@@ -330,9 +330,9 @@ const ResourceDialog = (props: Props) => {
                       alt="link-preview-thumbnail"
                       src={values.thumbnail}
                       onError={(e: any) => {
-                        e.target.onerror = null;
-                        e.target.src = linkPng;
-                        e.target.alt = "default-link-thumbnail";
+                        e.target.onerror = null
+                        e.target.src = linkPng
+                        e.target.alt = "default-link-thumbnail"
                       }}
                     />
                   </a>
@@ -359,7 +359,7 @@ const ResourceDialog = (props: Props) => {
                     fullWidth
                     autoFocus
                     onClickClearIcon={() => {
-                      setFieldValue("title", "");
+                      setFieldValue("title", "")
                     }}
                   />
                 </Box>
@@ -369,12 +369,8 @@ const ResourceDialog = (props: Props) => {
                     name="url"
                     value={values.url}
                     onChange={(e) => {
-                      handleChange(e);
-                      fetchLinkPreview(
-                        e.target.value,
-                        setFieldValue,
-                        setValues
-                      );
+                      handleChange(e)
+                      fetchLinkPreview(e.target.value, setFieldValue, setValues)
                       // if (urlAutofillChecked) {
                       //   fetchLinkPreview(e.target.value, setFieldValue)
                       // }
@@ -445,9 +441,9 @@ const ResourceDialog = (props: Props) => {
                     getOptionLabel={(option) => option.name}
                     filterSelectedOptions
                     onChange={(e, val) => {
-                      console.log(val);
-                      const selectedTag = val as TagDto;
-                      setFieldValue("tag", selectedTag);
+                      console.log(val)
+                      const selectedTag = val as TagDto
+                      setFieldValue("tag", selectedTag)
                     }}
                     renderInput={(params) => (
                       <MyTextField
@@ -481,13 +477,13 @@ const ResourceDialog = (props: Props) => {
               <RatingButton
                 rating={values.rating}
                 onChange={(newRating) => {
-                  setFieldValue("rating", newRating);
+                  setFieldValue("rating", newRating)
 
                   // If you're adding a rating, set "completedAt"
                   setFieldValue(
                     "completedAt",
                     newRating > 0 ? new Date().toISOString() : ""
-                  );
+                  )
                 }}
               />
             </Box>
@@ -501,8 +497,9 @@ const ResourceDialog = (props: Props) => {
                 multiline
                 onChange={handleChange}
                 fullWidth
+                maxRows={16}
                 onCtrlEnter={() => {
-                  submitForm();
+                  submitForm()
                 }}
                 label={
                   <FlexVCenter>
@@ -523,10 +520,11 @@ const ResourceDialog = (props: Props) => {
                 value={values.privateNote}
                 multiline
                 onCtrlEnter={() => {
-                  submitForm();
+                  submitForm()
                 }}
                 onChange={handleChange}
                 fullWidth
+                maxRows={16}
                 label={
                   <FlexVCenter>
                     <FontAwesomeIcon icon={faLock} style={{ marginRight: 4 }} />
@@ -546,15 +544,15 @@ const ResourceDialog = (props: Props) => {
         </form>
       </Box>
     </Dialog>
-  );
-};
+  )
+}
 
 const mapStateToProps = (state: ApplicationState) => ({
   // editingPlace: state.monerate.editingPlace,
   resources: state.relearn.resources,
   tags: state.relearn.tags,
   editingResource: state.relearn.editingResource,
-});
+})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   editResource: (resource: ResourceDto) =>
@@ -564,9 +562,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch(relearnActions.setResources(resources)),
   setTags: (tags: TagDto[]) => dispatch(relearnActions.setTags(tags)),
   removeResource: (id: number) => dispatch(relearnActions.removeResource(id)),
-});
+})
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps>
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResourceDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(ResourceDialog)
