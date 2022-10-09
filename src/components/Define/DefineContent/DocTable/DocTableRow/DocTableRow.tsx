@@ -3,35 +3,44 @@ import {
   TableCell,
   TableRow,
   TextareaAutosize,
-} from "@material-ui/core";
-import React, { createRef, useState } from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { ApplicationState } from "../../../../../store/store";
-import { NoteDto } from "../../../../../types/domain/define/NoteDto";
+} from "@material-ui/core"
+import useDebounce from "hooks/utils/useDebounce"
+import { createRef, useEffect, useState } from "react"
+import { NoteDto } from "../../../../../types/domain/define/NoteDto"
+
+interface Props {
+  index: number
+  initialValue: NoteDto
+  onChange: (newValue: NoteDto) => void
+}
 
 const DocTableRow = (props: Props) => {
-  const classes = useStyles();
+  const classes = useStyles()
 
-  const [note, setNote] = useState(props.initialValue);
+  const [localNote, setLocalNote] = useState(props.initialValue)
+
+  const debouncedLocalNote = useDebounce(localNote, 250)
+
+  useEffect(() => {
+    if (debouncedLocalNote !== props.initialValue)
+      props.onChange(debouncedLocalNote)
+  }, [debouncedLocalNote])
 
   const changeDescription = (newValue: string) => {
-    const changed = { ...note, description: newValue };
-    setNote(changed);
-    props.onChange(changed);
-  };
+    const changed = { ...localNote, description: newValue }
+    setLocalNote(changed)
+  }
 
   const changeQuestion = (newValue: string) => {
-    const changed = { ...note, question: newValue };
-    setNote(changed);
-    props.onChange(changed);
-  };
+    const changed = { ...localNote, question: newValue }
+    setLocalNote(changed)
+  }
 
-  const descriptionRef = createRef<HTMLTextAreaElement>();
-  const questionRef = createRef<HTMLTextAreaElement>();
+  const descriptionRef = createRef<HTMLTextAreaElement>()
+  const questionRef = createRef<HTMLTextAreaElement>()
 
-  const focusDescription = () => descriptionRef.current.focus();
-  const focusQuestion = () => questionRef.current.focus();
+  const focusDescription = () => descriptionRef.current.focus()
+  const focusQuestion = () => questionRef.current.focus()
 
   return (
     <TableRow>
@@ -42,7 +51,7 @@ const DocTableRow = (props: Props) => {
         <TextareaAutosize
           ref={descriptionRef}
           onChange={(e) => changeDescription(e.target.value)}
-          value={note.description}
+          value={localNote.description}
           className={classes.textarea}
           autoFocus
         />
@@ -50,17 +59,17 @@ const DocTableRow = (props: Props) => {
       <TableCell className={classes.textareaCell} onClick={focusQuestion}>
         <TextareaAutosize
           onChange={(e) => changeQuestion(e.target.value)}
-          value={note.question}
+          value={localNote.question}
           className={classes.textarea}
           ref={questionRef}
         />
       </TableCell>
       <TableCell align="center" className={classes.td}>
-        {note.weight}
+        {localNote.weight}
       </TableCell>
     </TableRow>
-  );
-};
+  )
+}
 
 const useStyles = makeStyles((theme) => ({
   textareaCell: {
@@ -80,20 +89,6 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     cursor: "pointer",
   },
-}));
+}))
 
-const mapStateToProps = (state: ApplicationState) => ({});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
-
-interface OwnProps {
-  index: number;
-  initialValue: NoteDto;
-  onChange: (newValue: NoteDto) => void;
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(DocTableRow);
+export default DocTableRow
