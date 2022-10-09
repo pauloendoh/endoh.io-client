@@ -1,60 +1,60 @@
-import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
-import { queryKeys } from "hooks/react-query/queryKeys";
-import { useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { useQueryClient } from "react-query";
-import useDocsStore from "store/zustand/domain/useDocsStore";
-import useSnackbarStore from "store/zustand/useSnackbarStore";
-import { DocDto } from "../../../types/domain/define/DocDto";
-import myAxios from "../../../utils/consts/myAxios";
-import apiUrls from "../../../utils/url/urls/apiUrls";
-import SaveCancelButtons from "../../_UI/Buttons/SaveCancelButtons";
-import MyTextField from "../../_UI/MyInputs/MyTextField";
+import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core"
+import { queryKeys } from "hooks/react-query/queryKeys"
+import { useEffect } from "react"
+import { Controller, useForm } from "react-hook-form"
+import { useQueryClient } from "react-query"
+import useDocsStore from "store/zustand/domain/useDocsStore"
+import useSnackbarStore from "store/zustand/useSnackbarStore"
+import { DocDto } from "../../../types/domain/define/DocDto"
+import myAxios from "../../../utils/consts/myAxios"
+import apiUrls from "../../../utils/url/urls/apiUrls"
+import SaveCancelButtons from "../../_UI/Buttons/SaveCancelButtons"
+import MyTextField from "../../_UI/MyInputs/MyTextField"
 
 interface Props {
-  open: boolean;
-  docId?: number;
-  initialValue: { title: string; folderId?: number };
-  onClose: () => void;
-  afterSave: (doc: DocDto) => void;
+  open: boolean
+  docId?: number
+  initialValue: { title: string; folderId?: number }
+  onClose: () => void
+  afterSave: (doc: DocDto) => void
 }
 
 const DocTitleDialog = (props: Props) => {
-  const docsStore = useDocsStore();
+  const docsStore = useDocsStore()
 
   const handleClose = () => {
-    props.onClose();
-  };
+    props.onClose()
+  }
 
-  const { setSuccessMessage } = useSnackbarStore();
+  const { setSuccessMessage } = useSnackbarStore()
 
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   const onSubmit = (values: { title: string }) => {
     const obj = {
       title: values.title,
       id: props.docId,
       folderId: props.initialValue.folderId,
-    };
+    }
     myAxios.post<DocDto>(apiUrls.define.doc, obj).then((res) => {
-      docsStore.pushOrReplaceDoc(res.data);
-      setSuccessMessage("Doc saved!");
+      docsStore.pushOrReplaceDoc(res.data)
+      setSuccessMessage("Doc saved!")
 
-      queryClient.invalidateQueries(queryKeys.folders);
+      queryClient.invalidateQueries(queryKeys.folders)
 
-      if (props.afterSave) props.afterSave(res.data);
-    });
-  };
+      if (props.afterSave) props.afterSave(res.data)
+    })
+  }
 
-  const { reset, handleSubmit, formState, control } = useForm({
+  const { reset, handleSubmit, formState, control, watch } = useForm({
     defaultValues: props.initialValue,
-  });
+  })
 
   useEffect(() => {
-    if (props.open) reset(props.initialValue);
+    if (props.open) reset(props.initialValue)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.open]);
+  }, [props.open])
 
   return (
     <Dialog
@@ -92,12 +92,15 @@ const DocTitleDialog = (props: Props) => {
             <SaveCancelButtons
               disabled={formState.isSubmitting}
               onCancel={handleClose}
+              onEnabledAndCtrlEnter={() => {
+                onSubmit(watch())
+              }}
             />
           </DialogTitle>
         </form>
       </Box>
     </Dialog>
-  );
-};
+  )
+}
 
-export default DocTitleDialog;
+export default DocTitleDialog

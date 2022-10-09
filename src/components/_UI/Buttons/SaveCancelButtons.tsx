@@ -1,8 +1,28 @@
 import { Box, Button } from "@material-ui/core"
-import React from "react"
+import { useHotkeys } from "react-hotkeys-hook"
 import Flex from "../Flexboxes/Flex"
 
+interface Props {
+  submitButtonId?: string
+  disabled?: boolean
+  onSave?: () => void
+  onCancel?: () => void
+  onEnabledAndCtrlEnter?: () => void
+}
+
 const SaveCancelButtons = (props: Props) => {
+  useHotkeys(
+    "Ctrl+Enter",
+    () => {
+      if (!props.disabled && props.onEnabledAndCtrlEnter) {
+        props.onEnabledAndCtrlEnter()
+      }
+    },
+    {
+      enableOnTags: ["INPUT", "SELECT", "TEXTAREA"],
+    }
+  )
+
   return (
     <Flex>
       <Button
@@ -23,13 +43,6 @@ const SaveCancelButtons = (props: Props) => {
       </Box>
     </Flex>
   )
-}
-
-interface Props {
-  submitButtonId?: string
-  disabled?: boolean
-  onSave?: () => void
-  onCancel?: () => void
 }
 
 export default SaveCancelButtons

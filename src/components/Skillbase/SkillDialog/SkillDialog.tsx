@@ -6,51 +6,51 @@ import {
   DialogTitle,
   FormControlLabel,
   Tooltip,
-} from "@material-ui/core";
-import Flex from "components/_UI/Flexboxes/Flex";
-import Txt from "components/_UI/Text/Txt";
-import { useFormik } from "formik";
-import useSaveSkill from "hooks/skillbase/useSaveSkill";
-import useConfirmTabClose from "hooks/utils/useConfirmTabClose";
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { scroller } from "react-scroll";
-import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
-import useDialogsStore from "store/zustand/useDialogsStore";
-import { useTheme } from "styled-components";
-import { newLabelDto } from "types/domain/skillbase/LabelDto";
-import Icons from "utils/styles/Icons";
-import { SkillDto } from "../../../types/domain/skillbase/SkillDto";
-import { getCurrentTagId } from "../../../utils/skillbase/getCurrentTagId";
-import SaveCancelButtons from "../../_UI/Buttons/SaveCancelButtons";
-import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
-import SelectSkillLevel from "./SelectSkillLevel/SelectSkillLevel";
-import LabelsSelectorV2 from "./SkillDialogLabels/LabelsSelectorV2/LabelsSelectorV2";
-import EditLabelDialog from "./SkillDialogLabels/SelectSkillLabelsDialog/EditLabelDialog/EditLabelDialog";
-import TagSelector from "./SkillDialogTagSelector/SkillDialogTagSelector";
-import TitleTextField from "./SkillDialogTitleTextField/SkillDialogTitleTextField";
-import SkillExpectations from "./SkillExpectations/SkillExpectations";
-import SkillMoreIcon from "./SkillMoreIcon/SkillMoreIcon";
+} from "@material-ui/core"
+import Flex from "components/_UI/Flexboxes/Flex"
+import Txt from "components/_UI/Text/Txt"
+import { useFormik } from "formik"
+import useSaveSkill from "hooks/skillbase/useSaveSkill"
+import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
+import { useEffect, useState } from "react"
+import { useLocation } from "react-router-dom"
+import { scroller } from "react-scroll"
+import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
+import useDialogsStore from "store/zustand/useDialogsStore"
+import { useTheme } from "styled-components"
+import { newLabelDto } from "types/domain/skillbase/LabelDto"
+import Icons from "utils/styles/Icons"
+import { SkillDto } from "../../../types/domain/skillbase/SkillDto"
+import { getCurrentTagId } from "../../../utils/skillbase/getCurrentTagId"
+import SaveCancelButtons from "../../_UI/Buttons/SaveCancelButtons"
+import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
+import SelectSkillLevel from "./SelectSkillLevel/SelectSkillLevel"
+import LabelsSelectorV2 from "./SkillDialogLabels/LabelsSelectorV2/LabelsSelectorV2"
+import EditLabelDialog from "./SkillDialogLabels/SelectSkillLabelsDialog/EditLabelDialog/EditLabelDialog"
+import TagSelector from "./SkillDialogTagSelector/SkillDialogTagSelector"
+import TitleTextField from "./SkillDialogTitleTextField/SkillDialogTitleTextField"
+import SkillExpectations from "./SkillExpectations/SkillExpectations"
+import SkillMoreIcon from "./SkillMoreIcon/SkillMoreIcon"
 
 // PE 2/3
 const SkillDialog = () => {
-  const theme = useTheme();
-  const location = useLocation();
-  const handleSubmit = useSaveSkill();
+  const theme = useTheme()
+  const location = useLocation()
+  const submitSaveSkill = useSaveSkill()
 
-  const { setEditingSkill, editingSkill: initialValue } = useSkillbaseStore();
-  const { openConfirmDialog } = useDialogsStore();
+  const { setEditingSkill, editingSkill: initialValue } = useSkillbaseStore()
+  const { openConfirmDialog } = useDialogsStore()
 
-  const [labelDialogOpen, setLabelDialogOpen] = useState(false);
+  const [labelDialogOpen, setLabelDialogOpen] = useState(false)
   const [labelDialogInitialValue, setLabelDialogInitialValue] = useState(
     newLabelDto()
-  );
+  )
 
   useEffect(() => {
-    if (initialValue?.currentLevel > 0) scrollToNextLevel();
+    if (initialValue?.currentLevel > 0) scrollToNextLevel()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialValue]);
+  }, [initialValue])
 
   const getInitialValues = (): SkillDto => {
     return {
@@ -58,16 +58,16 @@ const SkillDialog = () => {
       tagId: initialValue?.tagId // why not use simply props.skill.tagId ?
         ? initialValue.tagId
         : getCurrentTagId(location.pathname),
-    };
-  };
+    }
+  }
 
   const formik = useFormik<SkillDto>({
     initialValues: getInitialValues(),
     onSubmit: (formikValues, { setSubmitting }) => {
-      handleSubmit(formikValues, setSubmitting);
+      submitSaveSkill(formikValues, setSubmitting)
     },
     enableReinitialize: true,
-  });
+  })
 
   const scrollToNextLevel = () => {
     // had to add this in order to work properly...
@@ -76,21 +76,21 @@ const SkillDialog = () => {
         containerId: "skill-dialog-content",
         duration: 500,
         smooth: true,
-      });
-    }, 0);
-  };
-  useConfirmTabClose(formik.dirty);
+      })
+    }, 0)
+  }
+  useConfirmTabClose(formik.dirty)
 
   const handleClose = () => {
     if (formik.dirty) {
       return openConfirmDialog({
         title: "Discard changes?",
         onConfirm: () => setEditingSkill(null),
-      });
+      })
     }
 
-    return setEditingSkill(null);
-  };
+    return setEditingSkill(null)
+  }
 
   return (
     <Dialog // PE 2/3
@@ -129,7 +129,7 @@ const SkillDialog = () => {
                 type="currentLevel"
                 value={formik.values.currentLevel}
                 onChange={(newValue: number) => {
-                  formik.setFieldValue("currentLevel", newValue);
+                  formik.setFieldValue("currentLevel", newValue)
                 }}
               />
               <Box ml={4} />
@@ -137,7 +137,7 @@ const SkillDialog = () => {
                 type="goalLevel"
                 value={formik.values.goalLevel}
                 onChange={(newValue: number) => {
-                  formik.setFieldValue("goalLevel", newValue);
+                  formik.setFieldValue("goalLevel", newValue)
                 }}
               />
             </FlexVCenter>
@@ -169,7 +169,7 @@ const SkillDialog = () => {
               selectedTagId={formik.values.tagId}
               required
               onChange={(e, value) => {
-                formik.setFieldValue("tagId", value);
+                formik.setFieldValue("tagId", value)
               }}
             />
 
@@ -208,6 +208,7 @@ const SkillDialog = () => {
                 submitButtonId="save-skill-btn"
                 disabled={formik.isSubmitting}
                 onCancel={handleClose}
+                onEnabledAndCtrlEnter={() => formik.handleSubmit()}
               />
             </Flex>
           </DialogTitle>
@@ -229,7 +230,7 @@ const SkillDialog = () => {
         onClose={() => setLabelDialogOpen(false)}
       />
     </Dialog>
-  );
-};
+  )
+}
 
-export default SkillDialog;
+export default SkillDialog
