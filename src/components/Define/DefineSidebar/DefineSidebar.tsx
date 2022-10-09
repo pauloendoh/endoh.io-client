@@ -9,20 +9,22 @@ import {
   makeStyles,
   Theme,
   Toolbar,
-  Tooltip,
 } from "@material-ui/core"
-import AddIcon from "@material-ui/icons/Add"
-import ShuffleIcon from "@material-ui/icons/Shuffle"
 import useSaveDocLastOpenedAt from "hooks/react-query/define/useSaveDocLastOpenedAt"
 import sample from "lodash/sample"
-import { useState } from "react"
+import { useMemo, useState } from "react"
+import { MdShuffle } from "react-icons/md"
 import { useHistory } from "react-router-dom"
 import useDocsStore from "store/zustand/domain/useDocsStore"
+import useSnackbarStore from "store/zustand/useSnackbarStore"
+import { buildNoteDto, NoteDto } from "types/domain/define/NoteDto"
 import { pushOrReplace } from "utils/array/pushOrReplace"
+import myAxios from "utils/consts/myAxios"
+import apiUrls from "utils/url/urls/apiUrls"
 import useSidebarStore from "../../../store/zustand/useSidebarStore"
 import pageUrls from "../../../utils/url/urls/pageUrls"
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
-import DocTitleDialog from "../DocTitleDialog/DocTitleDialog"
+import NoteDialog from "../DefineContent/FlashcardDialog/StartedFlashcardDialogChild/NoteDialog/NoteDialog"
 import FileSystem from "./FileSystem/FileSystem"
 
 interface Props {
@@ -58,6 +60,21 @@ function DefineSidebar(props: Props) {
     }
   }
 
+  const notesWithoutAnswer = useMemo(() => {
+    return docsStore.notes.filter(
+      (n) => n.question.length > 0 && n.description.length === 0
+    )
+  }, [docsStore.notes])
+
+  const [initialValue, setInitialValue] = useState(buildNoteDto())
+  const [dialogIsOpen, setDialogIsOpen] = useState(false)
+  const openRandomUnansweredQuestion = (note: NoteDto) => {
+    setInitialValue(note)
+    setDialogIsOpen(true)
+  }
+
+  const setSuccessMessage = useSnackbarStore((s) => s.setSuccessMessage)
+
   return (
     <Drawer
       className={classes.root}
@@ -71,6 +88,40 @@ function DefineSidebar(props: Props) {
       <Box paddingBottom={4}>
         <List disablePadding>
           <ListItem>
+            <ListItemText>
+              <FlexVCenter justifyContent="space-between">
+                {notesWithoutAnswer.length} unanswered questions
+                {notesWithoutAnswer.length > 0 && (
+                  <IconButton
+                    size="small"
+                    onClick={() =>
+                      openRandomUnansweredQuestion(notesWithoutAnswer[0])
+                    }
+                  >
+                    <MdShuffle />
+                  </IconButton>
+                )}
+              </FlexVCenter>
+            </ListItemText>
+          </ListItem>
+          <NoteDialog
+            initialValue={initialValue}
+            onClose={() => {
+              setDialogIsOpen(false)
+            }}
+            onSubmit={(updatedNote) => {
+              myAxios
+                .post<NoteDto>(apiUrls.define.note, updatedNote)
+                .then((res) => {
+                  docsStore.pushOrReplaceNote(res.data)
+
+                  setDialogIsOpen(false)
+                  setSuccessMessage("Question saved!")
+                })
+            }}
+            open={dialogIsOpen}
+          />
+          {/* <ListItem>
             <ListItemText>
               <FlexVCenter justifyContent="space-between">
                 <FlexVCenter>
@@ -102,7 +153,7 @@ function DefineSidebar(props: Props) {
                 />
               </FlexVCenter>
             </ListItemText>
-          </ListItem>
+          </ListItem> */}
         </List>
 
         <FileSystem />

@@ -50,7 +50,6 @@ const NoteDialog = (props: Props) => {
                     multiline
                     className="mt-3"
                     fullWidth
-                    required
                     autoFocus
                     {...field}
                   />
@@ -71,7 +70,6 @@ const NoteDialog = (props: Props) => {
                     multiline
                     className="mt-3"
                     fullWidth
-                    required
                     {...field}
                   />
                 )}
