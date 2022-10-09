@@ -5,10 +5,10 @@ import Txt from "components/_UI/Text/Txt"
 import useSaveDocLastOpenedAt from "hooks/react-query/define/useSaveDocLastOpenedAt"
 import { useRef } from "react"
 import { useDrag } from "react-dnd"
+import { MdInsertDriveFile } from "react-icons/md"
 import { useHistory } from "react-router-dom"
 import useFlashnotesStore from "store/zustand/domain/useFlashnotesStore"
 import { DocDto } from "types/domain/define/DocDto"
-import Icons from "utils/styles/Icons"
 import { urls } from "utils/urls"
 
 interface Props {
@@ -50,7 +50,7 @@ export default function DocTreeItem({ doc }: Props) {
       label={
         <FlexVCenter style={{ justifyContent: "space-between", minHeight: 30 }}>
           <FlexVCenter style={{ gap: theme.spacing(1) }}>
-            <Icons.InsertDriveFileOutlined fontSize="small" />
+            <MdInsertDriveFile fontSize="small" />
             <Txt variant="body2">{doc.title}</Txt>
           </FlexVCenter>
         </FlexVCenter>
