@@ -82,6 +82,7 @@ const NoteDialog = (props: Props) => {
             <SaveCancelButtons
               disabled={formState.isSubmitting}
               onCancel={props.onClose}
+              onEnabledAndCtrlEnter={() => props.onSubmit(watch())}
             />
           </DialogTitle>
         </form>
