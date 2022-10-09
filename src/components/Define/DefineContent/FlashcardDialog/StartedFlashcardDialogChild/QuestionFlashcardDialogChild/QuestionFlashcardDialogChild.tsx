@@ -7,59 +7,59 @@ import {
   Link,
   makeStyles,
   Typography,
-} from "@material-ui/core";
-import { Clear } from "@material-ui/icons";
-import React, { useEffect, useState } from "react";
-import { GlobalHotKeys } from "react-hotkeys";
-import { NoteDto } from "../../../../../../types/domain/define/NoteDto";
-import DarkButton from "../../../../../_UI/Buttons/DarkButton/DarkButton";
-import FlexVCenter from "../../../../../_UI/Flexboxes/FlexVCenter";
-import NoteDialog from "../NoteDialog/NoteDialog";
+} from "@material-ui/core"
+import { Clear } from "@material-ui/icons"
+import { useEffect, useState } from "react"
+import { GlobalHotKeys } from "react-hotkeys"
+import { NoteDto } from "../../../../../../types/domain/define/NoteDto"
+import DarkButton from "../../../../../_UI/Buttons/DarkButton/DarkButton"
+import FlexVCenter from "../../../../../_UI/Flexboxes/FlexVCenter"
+import NoteDialog from "../NoteDialog/NoteDialog"
 
 // PE 2/3
 const QuestionFlashcardDialogChild = (p: {
-  question: NoteDto;
-  questionNumber: number;
-  totalQuestions: number;
-  docTitle: string;
-  closeDialog: () => void;
-  onEditQuestion: (newQuestion: NoteDto) => void;
-  onWrongAnswer: () => void;
-  onHalfAnswer: () => void;
-  onCorrectAnswer: () => void;
+  question: NoteDto
+  questionNumber: number
+  totalQuestions: number
+  docTitle: string
+  closeDialog: () => void
+  onEditQuestion: (newQuestion: NoteDto) => void
+  onWrongAnswer: () => void
+  onHalfAnswer: () => void
+  onCorrectAnswer: () => void
 }) => {
-  const [showingAnswer, setShowingAnswer] = useState(false);
-  const [openNoteDialog, setOpenNoteDialog] = useState(false);
+  const [showingAnswer, setShowingAnswer] = useState(false)
+  const [openNoteDialog, setOpenNoteDialog] = useState(false)
 
   useEffect(() => {
-    setShowingAnswer(false);
-  }, [p.questionNumber]);
+    setShowingAnswer(false)
+  }, [p.questionNumber])
 
   const keyMap = {
     onSpacePress: "space",
     onJPress: "j",
     onKPress: "k",
     onLPress: "l",
-  };
+  }
   const handlers = {
     onSpacePress: async () => {
-      if (!showingAnswer) setShowingAnswer(true);
+      if (!showingAnswer) setShowingAnswer(true)
     },
     onJPress: async () => {
-      if (!showingAnswer) setShowingAnswer(true);
-      if (showingAnswer) p.onWrongAnswer();
+      if (!showingAnswer) setShowingAnswer(true)
+      if (showingAnswer) p.onWrongAnswer()
     },
     onKPress: async () => {
-      if (!showingAnswer) setShowingAnswer(true);
-      if (showingAnswer) p.onHalfAnswer();
+      if (!showingAnswer) setShowingAnswer(true)
+      if (showingAnswer) p.onHalfAnswer()
     },
     onLPress: async () => {
-      if (!showingAnswer) setShowingAnswer(true);
-      if (showingAnswer) p.onCorrectAnswer();
+      if (!showingAnswer) setShowingAnswer(true)
+      if (showingAnswer) p.onCorrectAnswer()
     },
-  };
+  }
 
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={handlers} allowChanges>
@@ -89,8 +89,8 @@ const QuestionFlashcardDialogChild = (p: {
               <Link
                 href="#"
                 onClick={(e: any) => {
-                  e.preventDefault();
-                  setOpenNoteDialog(true);
+                  e.preventDefault()
+                  setOpenNoteDialog(true)
                 }}
                 variant="body2"
               >
@@ -99,11 +99,11 @@ const QuestionFlashcardDialogChild = (p: {
               <NoteDialog
                 initialValue={p.question}
                 onClose={() => {
-                  setOpenNoteDialog(false);
+                  setOpenNoteDialog(false)
                 }}
                 onSubmit={(changed) => {
-                  p.onEditQuestion(changed);
-                  setOpenNoteDialog(false);
+                  p.onEditQuestion(changed)
+                  setOpenNoteDialog(false)
                 }}
                 open={openNoteDialog}
               />
@@ -124,11 +124,7 @@ const QuestionFlashcardDialogChild = (p: {
             <Button onClick={p.onWrongAnswer} className={classes.wrongButton}>
               Wrong (J)
             </Button>
-            <DarkButton
-              onClick={p.onHalfAnswer}
-              variant="contained"
-              className={classes.button}
-            >
+            <DarkButton onClick={p.onHalfAnswer} className={classes.button}>
               Half (K)
             </DarkButton>
             <Button
@@ -143,8 +139,8 @@ const QuestionFlashcardDialogChild = (p: {
         )}
       </DialogTitle>
     </GlobalHotKeys>
-  );
-};
+  )
+}
 
 const useStyles = makeStyles((theme) => ({
   wrongButton: {
@@ -155,6 +151,6 @@ const useStyles = makeStyles((theme) => ({
   button: {
     width: 125,
   },
-}));
+}))
 
-export default QuestionFlashcardDialogChild;
+export default QuestionFlashcardDialogChild
