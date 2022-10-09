@@ -1,3 +1,5 @@
+import NotesIcon from "@material-ui/icons/Notes"
+
 import { Typography, useTheme } from "@material-ui/core"
 import Flex from "components/_UI/Flexboxes/Flex"
 import FlexCol from "components/_UI/Flexboxes/FlexCol"
@@ -32,7 +34,10 @@ const NotesSearchBarOption = ({ note, handleClick }: Props) => {
     >
       <FlexCol style={{ gap: 4 }} width="100%">
         <Flex justifyContent="space-between" width="100%">
-          <Typography>{note.question}</Typography>
+          <Flex style={{ gap: 8 }}>
+            <NotesIcon />
+            <Typography>{note.question}</Typography>
+          </Flex>
           <Typography
             noWrap
             display="inline"
@@ -46,7 +51,12 @@ const NotesSearchBarOption = ({ note, handleClick }: Props) => {
             {note.doc?.title}
           </Typography>
         </Flex>
-        <Typography variant="body2">{note.description}</Typography>
+        <Typography
+          variant="body2"
+          style={{ fontStyle: "italic", marginLeft: 28 }}
+        >
+          {note.description}
+        </Typography>
       </FlexCol>
     </FlexVCenter>
   )
