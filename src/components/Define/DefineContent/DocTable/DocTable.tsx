@@ -4,60 +4,60 @@ import {
   Table,
   TableContainer,
   Toolbar,
-} from "@material-ui/core";
-import React, { useState } from "react";
-import useDocsStore from "store/zustand/domain/useDocsStore";
-import useAuthStore from "store/zustand/useAuthStore";
-import { newNoteDto, NoteDto } from "../../../../types/domain/define/NoteDto";
-import myAxios from "../../../../utils/consts/myAxios";
-import apiUrls from "../../../../utils/url/urls/apiUrls";
-import DarkButton from "../../../_UI/Buttons/DarkButton/DarkButton";
-import { TBody, TD, THead, TR } from "../../../_UI/Table/MyTableWrappers";
-import DocTableRow from "./DocTableRow/DocTableRow";
+} from "@material-ui/core"
+import { useState } from "react"
+import useDocsStore from "store/zustand/domain/useDocsStore"
+import useAuthStore from "store/zustand/useAuthStore"
+import { newNoteDto, NoteDto } from "../../../../types/domain/define/NoteDto"
+import myAxios from "../../../../utils/consts/myAxios"
+import apiUrls from "../../../../utils/url/urls/apiUrls"
+import DarkButton from "../../../_UI/Buttons/DarkButton/DarkButton"
+import { TBody, TD, THead, TR } from "../../../_UI/Table/MyTableWrappers"
+import DocTableRow from "./DocTableRow/DocTableRow"
 
 const DocTable = (props: Props) => {
-  const docsStore = useDocsStore();
-  const { authUser } = useAuthStore();
+  const docsStore = useDocsStore()
+  const { authUser } = useAuthStore()
 
-  const classes = useStyles();
+  const classes = useStyles()
 
   const addNote = () => {
-    setSubmitting(true);
-    const newNote = newNoteDto(sortedNotes().length, props.docId, authUser.id);
+    setSubmitting(true)
+    const newNote = newNoteDto(sortedNotes().length, props.docId, authUser.id)
     myAxios
       .post<NoteDto>(apiUrls.define.note, newNote)
       .then((res) => {
-        docsStore.pushOrReplaceNote(res.data);
+        docsStore.pushOrReplaceNote(res.data)
       })
-      .finally(() => setSubmitting(false));
-  };
+      .finally(() => setSubmitting(false))
+  }
 
   const sortedNotes = () => {
     const filtered = docsStore.notes.filter(
       (note) => note.docId === props.docId
-    );
-    const sorted = filtered.sort((a, b) => a.index - b.index);
-    return sorted;
-  };
+    )
+    const sorted = filtered.sort((a, b) => a.index - b.index)
+    return sorted
+  }
 
-  const [throttle, setThrottle] = useState<NodeJS.Timeout>(null);
+  const [throttle, setThrottle] = useState<NodeJS.Timeout>(null)
 
   const handleNoteChange = (changed: NoteDto) => {
-    clearTimeout(throttle);
+    clearTimeout(throttle)
     setThrottle(
       setTimeout(() => {
         myAxios.post<NoteDto>(apiUrls.define.note, changed).then((res) => {
-          docsStore.pushOrReplaceNote(res.data);
-        });
+          docsStore.pushOrReplaceNote(res.data)
+        })
       }, 500)
-    );
-  };
+    )
+  }
 
   const getRowKey = (note: NoteDto) => {
-    return `${note.id}-${note.weight}`;
-  };
+    return `${note.id}-${note.weight}`
+  }
 
-  const [submitting, setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState(false)
 
   return (
     <Paper>
@@ -102,12 +102,12 @@ const DocTable = (props: Props) => {
         {/* <AddSkillButton tag={props.tag} /> */}
       </Toolbar>
     </Paper>
-  );
-};
+  )
+}
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    maxHeight: 440,
+    maxHeight: "calc(100vh - 400px)",
   },
   th: {
     background: "#232323",
@@ -119,12 +119,12 @@ const useStyles = makeStyles((theme) => ({
       borderBottom: "1px solid rgb(255 255 255 / 0.1)",
     },
   },
-}));
+}))
 
 interface OwnProps {
-  docId: number;
+  docId: number
 }
 
-type Props = OwnProps;
+type Props = OwnProps
 
-export default DocTable;
+export default DocTable
