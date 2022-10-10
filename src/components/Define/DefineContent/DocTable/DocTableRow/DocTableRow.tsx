@@ -74,9 +74,11 @@ const DocTableRow = (props: Props) => {
 const useStyles = makeStyles((theme) => ({
   textareaCell: {
     cursor: "pointer !important",
+    verticalAlign: "top",
   },
   td: {
     fontSize: 13,
+    verticalAlign: "top",
   },
   textarea: {
     resize: "none",
