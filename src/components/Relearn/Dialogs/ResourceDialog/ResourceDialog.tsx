@@ -150,7 +150,7 @@ const ResourceDialog = (props: Props) => {
     },
   })
 
-  useConfirmTabClose(dirty)
+  useConfirmTabClose(!!props.editingResource && dirty)
 
   const confirmClose = (isDirty: boolean) => {
     if (isDirty) {
