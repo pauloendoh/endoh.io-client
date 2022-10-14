@@ -71,6 +71,9 @@ function DefineSidebar(props: Props) {
   const [dialogIsOpen, setDialogIsOpen] = useState(false)
   const openRandomUnansweredQuestion = useCallback(() => {
     const randomIndex = getRandomIntInclusive(0, notesWithoutAnswer.length - 1)
+    console.log({
+      randomNote: notesWithoutAnswer[randomIndex],
+    })
     setInitialValue(notesWithoutAnswer[randomIndex])
     setDialogIsOpen(true)
   }, [notesWithoutAnswer])

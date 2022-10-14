@@ -4,6 +4,7 @@ import { Controller, useForm } from "react-hook-form"
 import { NoteDto } from "../../../../../../types/domain/define/NoteDto"
 import SaveCancelButtons from "../../../../../_UI/Buttons/SaveCancelButtons"
 import MyTextField from "../../../../../_UI/MyInputs/MyTextField"
+import DocSelector from "./DocSelector/DocSelector"
 
 interface Props {
   open: boolean
@@ -14,7 +15,7 @@ interface Props {
 
 // PE 1/3 - transform into global dialog
 const NoteDialog = (props: Props) => {
-  const { handleSubmit, watch, reset, control, formState } = useForm({
+  const { handleSubmit, watch, reset, control, formState, setValue } = useForm({
     defaultValues: props.initialValue,
   })
 
@@ -68,11 +69,19 @@ const NoteDialog = (props: Props) => {
                     size="small"
                     label="Answer"
                     multiline
+                    minRows={3}
                     className="mt-3"
                     fullWidth
                     {...field}
                   />
                 )}
+              />
+            </Box>
+
+            <Box mt={4} width={240}>
+              <DocSelector
+                docId={watch("docId")}
+                onChange={(docId) => setValue("docId", docId)}
               />
             </Box>
           </DialogContent>
