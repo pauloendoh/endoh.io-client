@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core"
 import useSaveDocLastOpenedAt from "hooks/react-query/define/useSaveDocLastOpenedAt"
 import sample from "lodash/sample"
-import { useMemo, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { MdShuffle } from "react-icons/md"
 import { useHistory } from "react-router-dom"
 import useDocsStore from "store/zustand/domain/useDocsStore"
@@ -20,6 +20,7 @@ import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { buildNoteDto, NoteDto } from "types/domain/define/NoteDto"
 import { pushOrReplace } from "utils/array/pushOrReplace"
 import myAxios from "utils/consts/myAxios"
+import getRandomIntInclusive from "utils/math/getRandomIntInclusive"
 import apiUrls from "utils/url/urls/apiUrls"
 import useSidebarStore from "../../../store/zustand/useSidebarStore"
 import pageUrls from "../../../utils/url/urls/pageUrls"
@@ -68,10 +69,11 @@ function DefineSidebar(props: Props) {
 
   const [initialValue, setInitialValue] = useState(buildNoteDto())
   const [dialogIsOpen, setDialogIsOpen] = useState(false)
-  const openRandomUnansweredQuestion = (note: NoteDto) => {
-    setInitialValue(note)
+  const openRandomUnansweredQuestion = useCallback(() => {
+    const randomIndex = getRandomIntInclusive(0, notesWithoutAnswer.length - 1)
+    setInitialValue(notesWithoutAnswer[randomIndex])
     setDialogIsOpen(true)
-  }
+  }, [notesWithoutAnswer])
 
   const setSuccessMessage = useSnackbarStore((s) => s.setSuccessMessage)
 
@@ -94,9 +96,7 @@ function DefineSidebar(props: Props) {
                 {notesWithoutAnswer.length > 0 && (
                   <IconButton
                     size="small"
-                    onClick={() =>
-                      openRandomUnansweredQuestion(notesWithoutAnswer[0])
-                    }
+                    onClick={() => openRandomUnansweredQuestion()}
                   >
                     <MdShuffle />
                   </IconButton>

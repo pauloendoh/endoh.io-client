@@ -4,45 +4,44 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-} from "@material-ui/core";
-import React from "react";
-import { Controller, useForm } from "react-hook-form";
-import useAuthStore from "store/zustand/useAuthStore";
-import useSnackbarStore from "store/zustand/useSnackbarStore";
-import MyAxiosError from "types/MyAxiosError";
-import myAxios from "utils/consts/myAxios";
-import apiUrls from "utils/url/urls/apiUrls";
-import { UsernamePutDto } from "../../../../../types/domain/auth/UsernamePutDto";
-import Flex from "../../../../_UI/Flexboxes/Flex";
-import MyTextField from "../../../../_UI/MyInputs/MyTextField";
+} from "@material-ui/core"
+import { AxiosError } from "axios"
+import { Controller, useForm } from "react-hook-form"
+import useAuthStore from "store/zustand/useAuthStore"
+import useSnackbarStore from "store/zustand/useSnackbarStore"
+import myAxios from "utils/consts/myAxios"
+import apiUrls from "utils/url/urls/apiUrls"
+import { UsernamePutDto } from "../../../../../types/domain/auth/UsernamePutDto"
+import Flex from "../../../../_UI/Flexboxes/Flex"
+import MyTextField from "../../../../_UI/MyInputs/MyTextField"
 
 type Props = {
-  open: boolean;
-  onClose: () => void;
-};
+  open: boolean
+  onClose: () => void
+}
 
 const EditUsernameDialog = (props: Props) => {
-  const { setUsername } = useAuthStore();
+  const { setUsername } = useAuthStore()
   const { handleSubmit, control, formState } = useForm<UsernamePutDto>({
     defaultValues: {
       newUsername: "",
     },
-  });
+  })
 
-  const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
+  const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
 
   const submit = async (formData: UsernamePutDto) => {
     return myAxios
       .put(apiUrls.auth.username, formData)
       .then((res) => {
-        setSuccessMessage("Username changed!");
-        setUsername(formData.newUsername);
-        props.onClose();
+        setSuccessMessage("Username changed!")
+        setUsername(formData.newUsername)
+        props.onClose()
       })
-      .catch((err: MyAxiosError) => {
-        setErrorMessage(err.response.data.errors[0].message);
-      });
-  };
+      .catch((err: AxiosError<{ message: string }>) => {
+        setErrorMessage(err.response.data.message)
+      })
+  }
 
   return (
     <Dialog
@@ -96,7 +95,7 @@ const EditUsernameDialog = (props: Props) => {
         </form>
       </Box>
     </Dialog>
-  );
-};
+  )
+}
 
-export default EditUsernameDialog;
+export default EditUsernameDialog

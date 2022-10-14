@@ -5,60 +5,63 @@ import {
   DialogContent,
   DialogTitle,
   Typography,
-} from "@material-ui/core";
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import useSnackbarStore from "store/zustand/useSnackbarStore";
-import { AuthChangePasswordPostDto } from "../../../../../types/domain/auth/AuthChangePasswordPostDto";
-import MyAxiosError, { MyFieldError } from "../../../../../types/MyAxiosError";
-import myAxios from "../../../../../utils/consts/myAxios";
-import apiUrls from "../../../../../utils/url/urls/apiUrls";
-import Flex from "../../../../_UI/Flexboxes/Flex";
-import FlexHCenter from "../../../../_UI/Flexboxes/FlexHCenter";
-import MyTextField from "../../../../_UI/MyInputs/MyTextField";
+} from "@material-ui/core"
+import { AxiosError } from "axios"
+import { Form, Formik } from "formik"
+import { useState } from "react"
+import useSnackbarStore from "store/zustand/useSnackbarStore"
+import { AuthChangePasswordPostDto } from "../../../../../types/domain/auth/AuthChangePasswordPostDto"
+import { MyFieldError } from "../../../../../types/MyAxiosError"
+import myAxios from "../../../../../utils/consts/myAxios"
+import apiUrls from "../../../../../utils/url/urls/apiUrls"
+import Flex from "../../../../_UI/Flexboxes/Flex"
+import FlexHCenter from "../../../../_UI/Flexboxes/FlexHCenter"
+import MyTextField from "../../../../_UI/MyInputs/MyTextField"
 
 interface Props {
-  open: boolean;
-  onClose: () => void;
+  open: boolean
+  onClose: () => void
 }
 
 const ChangePasswordDialog = (props: Props) => {
-  const { setSuccessMessage } = useSnackbarStore();
+  const { setSuccessMessage } = useSnackbarStore()
 
-  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[]);
+  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[])
 
   const handleClose = () => {
-    setResponseErrors([]);
-    props.onClose();
-  };
+    setResponseErrors([])
+    props.onClose()
+  }
 
   const handleSubmit = (
     values: AuthChangePasswordPostDto,
     setSubmitting: (isSubmitting: boolean) => void
   ) => {
-    setSubmitting(true);
+    setSubmitting(true)
 
     if (values.newPassword !== values.newPassword2) {
       setResponseErrors([
         { field: "password", message: "Passwords don't match" },
-      ]);
-      setSubmitting(false);
-      return;
+      ])
+      setSubmitting(false)
+      return
     }
 
     myAxios
       .post(apiUrls.auth.authPasswordChange, values)
       .then((res) => {
-        setSuccessMessage("Password changed successfully!");
-        handleClose();
+        setSuccessMessage("Password changed successfully!")
+        handleClose()
       })
-      .catch((err: MyAxiosError) => {
-        setResponseErrors(err.response.data.errors);
+      .catch((err: AxiosError<{ message: string }>) => {
+        setResponseErrors([
+          { field: "password", message: err.response.data.message },
+        ])
       })
       .finally(() => {
-        setSubmitting(false);
-      });
-  };
+        setSubmitting(false)
+      })
+  }
 
   return (
     <Dialog
@@ -78,7 +81,7 @@ const ChangePasswordDialog = (props: Props) => {
             } as AuthChangePasswordPostDto
           }
           onSubmit={(formikValues, { setSubmitting }) => {
-            handleSubmit(formikValues, setSubmitting);
+            handleSubmit(formikValues, setSubmitting)
           }}
         >
           {({ values, isSubmitting, handleChange }) => (
@@ -159,7 +162,7 @@ const ChangePasswordDialog = (props: Props) => {
         </Formik>
       </Box>
     </Dialog>
-  );
-};
+  )
+}
 
-export default ChangePasswordDialog;
+export default ChangePasswordDialog
