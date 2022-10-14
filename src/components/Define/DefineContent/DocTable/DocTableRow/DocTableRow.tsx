@@ -19,7 +19,7 @@ const DocTableRow = (props: Props) => {
 
   const [localNote, setLocalNote] = useState(props.initialValue)
 
-  const debouncedLocalNote = useDebounce(localNote, 250)
+  const debouncedLocalNote = useDebounce(localNote, 500)
 
   useEffect(() => {
     if (debouncedLocalNote !== props.initialValue)
