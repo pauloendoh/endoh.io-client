@@ -15,9 +15,10 @@ import sample from "lodash/sample"
 import { useCallback, useMemo, useState } from "react"
 import { MdShuffle } from "react-icons/md"
 import { useHistory } from "react-router-dom"
+import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
-import { buildNoteDto, NoteDto } from "types/domain/define/NoteDto"
+import { NoteDto } from "types/domain/define/NoteDto"
 import { pushOrReplace } from "utils/array/pushOrReplace"
 import myAxios from "utils/consts/myAxios"
 import getRandomIntInclusive from "utils/math/getRandomIntInclusive"
@@ -25,7 +26,6 @@ import apiUrls from "utils/url/urls/apiUrls"
 import useSidebarStore from "../../../store/zustand/useSidebarStore"
 import pageUrls from "../../../utils/url/urls/pageUrls"
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
-import NoteDialog from "../DefineContent/FlashcardDialog/StartedFlashcardDialogChild/NoteDialog/NoteDialog"
 import FileSystem from "./FileSystem/FileSystem"
 
 interface Props {
@@ -67,15 +67,25 @@ function DefineSidebar(props: Props) {
     )
   }, [docsStore.notes])
 
-  const [initialValue, setInitialValue] = useState(buildNoteDto())
-  const [dialogIsOpen, setDialogIsOpen] = useState(false)
+  const [openNoteDialog, closeNoteDialog] = useNoteDialogStore((s) => [
+    s.onOpen,
+    s.onClose,
+  ])
+
   const openRandomUnansweredQuestion = useCallback(() => {
     const randomIndex = getRandomIntInclusive(0, notesWithoutAnswer.length - 1)
-    console.log({
-      randomNote: notesWithoutAnswer[randomIndex],
+
+    openNoteDialog({
+      initialValue: notesWithoutAnswer[randomIndex],
+      onSubmit: (updatedNote) => {
+        myAxios.post<NoteDto>(apiUrls.define.note, updatedNote).then((res) => {
+          docsStore.pushOrReplaceNote(res.data)
+
+          closeNoteDialog()
+          setSuccessMessage("Question saved!")
+        })
+      },
     })
-    setInitialValue(notesWithoutAnswer[randomIndex])
-    setDialogIsOpen(true)
   }, [notesWithoutAnswer])
 
   const setSuccessMessage = useSnackbarStore((s) => s.setSuccessMessage)
@@ -107,23 +117,7 @@ function DefineSidebar(props: Props) {
               </FlexVCenter>
             </ListItemText>
           </ListItem>
-          <NoteDialog
-            initialValue={initialValue}
-            onClose={() => {
-              setDialogIsOpen(false)
-            }}
-            onSubmit={(updatedNote) => {
-              myAxios
-                .post<NoteDto>(apiUrls.define.note, updatedNote)
-                .then((res) => {
-                  docsStore.pushOrReplaceNote(res.data)
 
-                  setDialogIsOpen(false)
-                  setSuccessMessage("Question saved!")
-                })
-            }}
-            open={dialogIsOpen}
-          />
           {/* <ListItem>
             <ListItemText>
               <FlexVCenter justifyContent="space-between">

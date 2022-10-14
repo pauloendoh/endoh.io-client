@@ -1,13 +1,14 @@
-import DateFnsUtils from "@date-io/date-fns";
-import { Box, CssBaseline, MuiThemeProvider } from "@material-ui/core";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import useCheckAuthOrLogout from "hooks/auth/useCheckAuthOrLogout";
-import { lazy, Suspense, useEffect, useState } from "react";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
-import { connect } from "react-redux";
+import DateFnsUtils from "@date-io/date-fns"
+import { Box, CssBaseline, MuiThemeProvider } from "@material-ui/core"
+import { MuiPickersUtilsProvider } from "@material-ui/pickers"
+import NoteDialog from "components/Define/DefineContent/FlashcardDialog/StartedFlashcardDialogChild/NoteDialog/NoteDialog"
+import useCheckAuthOrLogout from "hooks/auth/useCheckAuthOrLogout"
+import { lazy, Suspense, useEffect, useState } from "react"
+import { DndProvider } from "react-dnd"
+import { HTML5Backend } from "react-dnd-html5-backend"
+import { QueryClientProvider } from "react-query"
+import { ReactQueryDevtools } from "react-query/devtools"
+import { connect } from "react-redux"
 import {
   Redirect,
   Route,
@@ -15,128 +16,128 @@ import {
   Switch,
   useLocation,
   withRouter,
-} from "react-router-dom";
-import { Dispatch } from "redux";
-import useAuthStore from "store/zustand/useAuthStore";
-import { ThemeProvider } from "styled-components";
-import { urls } from "utils/urls";
-import LandingPage from "./components/LandingPage/LandingPage";
-import ResourceDialog from "./components/Relearn/Dialogs/ResourceDialog/ResourceDialog";
-import ResetPasswordPage from "./components/ResetPassword/ResetPasswordPage";
-import SettingsNavbar from "./components/Settings/SettingsNavbar";
-import SettingsPage from "./components/Settings/SettingsPage";
-import SkillbasePage from "./components/Skillbase/SkillbasePage";
-import SkillDialog from "./components/Skillbase/SkillDialog/SkillDialog";
-import LoadingPage from "./components/_common/LoadingPage/LoadingPage";
-import Navbar from "./components/_common/_layout/Navbar/Navbar";
-import ConfirmDialog from "./components/_UI/Dialogs/ConfirmationDialog";
-import MySnackBar2 from "./components/_UI/SnackBars/Snackbars";
-import { setTags } from "./store/relearn/relearnActions";
-import { UserPreferenceDto } from "./types/domain/auth/AuthUserGetDto";
-import { FollowingTagDto } from "./types/domain/feed/FollowingTagDto";
-import { TagDto } from "./types/domain/relearn/TagDto";
-import { NotificationDto } from "./types/domain/utils/NotificationDto";
-import { UserInfoDto } from "./types/domain/_common/UserInfoDto";
-import myAxios from "./utils/consts/myAxios";
-import { myQueryClient } from "./utils/consts/myQueryClient";
-import theme from "./utils/consts/theme";
-import { isValidApplicationPath } from "./utils/domain/app/isValidApplicationPath";
-import apiUrls from "./utils/url/urls/apiUrls";
+} from "react-router-dom"
+import { Dispatch } from "redux"
+import useAuthStore from "store/zustand/useAuthStore"
+import { ThemeProvider } from "styled-components"
+import { urls } from "utils/urls"
+import LandingPage from "./components/LandingPage/LandingPage"
+import ResourceDialog from "./components/Relearn/Dialogs/ResourceDialog/ResourceDialog"
+import ResetPasswordPage from "./components/ResetPassword/ResetPasswordPage"
+import SettingsNavbar from "./components/Settings/SettingsNavbar"
+import SettingsPage from "./components/Settings/SettingsPage"
+import SkillbasePage from "./components/Skillbase/SkillbasePage"
+import SkillDialog from "./components/Skillbase/SkillDialog/SkillDialog"
+import LoadingPage from "./components/_common/LoadingPage/LoadingPage"
+import Navbar from "./components/_common/_layout/Navbar/Navbar"
+import ConfirmDialog from "./components/_UI/Dialogs/ConfirmationDialog"
+import MySnackBar2 from "./components/_UI/SnackBars/Snackbars"
+import { setTags } from "./store/relearn/relearnActions"
+import { UserPreferenceDto } from "./types/domain/auth/AuthUserGetDto"
+import { FollowingTagDto } from "./types/domain/feed/FollowingTagDto"
+import { TagDto } from "./types/domain/relearn/TagDto"
+import { NotificationDto } from "./types/domain/utils/NotificationDto"
+import { UserInfoDto } from "./types/domain/_common/UserInfoDto"
+import myAxios from "./utils/consts/myAxios"
+import { myQueryClient } from "./utils/consts/myQueryClient"
+import theme from "./utils/consts/theme"
+import { isValidApplicationPath } from "./utils/domain/app/isValidApplicationPath"
+import apiUrls from "./utils/url/urls/apiUrls"
 
-const MoneratePage = lazy(() => import("./components/Monerate/MoneratePage"));
+const MoneratePage = lazy(() => import("./components/Monerate/MoneratePage"))
 const SimilarExpensesPage = lazy(
   () => import("./components/Monerate/SimilarExpensesPage/SimilarExpensesPage")
-);
+)
 
-const RelearnPage = lazy(() => import("./components/Relearn/RelearnPage"));
-const UserPage = lazy(() => import("./components/User/ProfilePage"));
-const FeedPage = lazy(() => import("./components/Feed/FeedPage"));
-const DefinePage = lazy(() => import("./components/Define/DefinePage"));
+const RelearnPage = lazy(() => import("./components/Relearn/RelearnPage"))
+const UserPage = lazy(() => import("./components/User/ProfilePage"))
+const FeedPage = lazy(() => import("./components/Feed/FeedPage"))
+const DefinePage = lazy(() => import("./components/Define/DefinePage"))
 const BigDecisionsPage = lazy(
   () => import("./components/Decisions/DecisionsPage")
-);
-const NotFoundPage = lazy(() => import("./components/NotFound/NotFoundPage"));
-const SearchPage = lazy(() => import("./components/Search/SearchPage"));
+)
+const NotFoundPage = lazy(() => import("./components/NotFound/NotFoundPage"))
+const SearchPage = lazy(() => import("./components/Search/SearchPage"))
 const LearningDiaryPage = lazy(
   () => import("./components/LearningDiary/LearningDiaryPage")
-);
+)
 
 // PE 2/3
 const App = (props: Props) => {
   // 0.1s is enough time to check for auth user
-  const location = useLocation();
-  const [isLoading, setIsLoading] = useState(true);
+  const location = useLocation()
+  const [isLoading, setIsLoading] = useState(true)
   const {
     authUser,
     setPreference,
     setFollowingTags,
     setNotifications,
     setAuthProfile,
-  } = useAuthStore();
+  } = useAuthStore()
 
-  const checkAuthOrLogout = useCheckAuthOrLogout();
+  const checkAuthOrLogout = useCheckAuthOrLogout()
 
   useEffect(() => {
-    checkAuthOrLogout();
+    checkAuthOrLogout()
 
     setTimeout(() => {
-      setIsLoading(false);
-    }, 500);
+      setIsLoading(false)
+    }, 500)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
   useEffect(
     () => {
       // Redirect after login
       if (authUser) {
-        const nextUrl = new URLSearchParams(location.search).get("next");
+        const nextUrl = new URLSearchParams(location.search).get("next")
         if (nextUrl) {
-          props.history.push(nextUrl);
+          props.history.push(nextUrl)
         }
 
         myAxios
           .get<FollowingTagDto[]>(apiUrls.user.followingTags(authUser.username))
           .then((res) => {
-            setFollowingTags(res.data);
-          });
+            setFollowingTags(res.data)
+          })
 
         myAxios
           .get<UserPreferenceDto>(apiUrls.auth.userPreference)
           .then((res) => {
-            setPreference(res.data);
-          });
+            setPreference(res.data)
+          })
 
         myAxios.get<TagDto[]>(apiUrls.relearn.tag).then((res) => {
-          props.setTags(res.data);
-        });
+          props.setTags(res.data)
+        })
 
         myAxios
           .get<UserInfoDto>(apiUrls.user.userInfo(authUser.username))
           .then((res) => {
-            setAuthProfile(res.data);
-          });
+            setAuthProfile(res.data)
+          })
 
         myAxios
           .get<NotificationDto[]>(apiUrls.utils.notifications)
           .then((res) => {
-            setNotifications(res.data);
-          });
+            setNotifications(res.data)
+          })
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [authUser]
-  );
+  )
 
   // PE 2/3 - Not very scalable...
-  let redirectAfterLogout = "/";
+  let redirectAfterLogout = "/"
 
   // Redirecting to HTTPS
   if (window.location.href.includes("http://endoh.io")) {
-    window.location.replace(window.location.href.replace("http", "https"));
+    window.location.replace(window.location.href.replace("http", "https"))
   }
 
   if (isValidApplicationPath(location.pathname)) {
-    redirectAfterLogout = `/?next=${location.pathname}`;
+    redirectAfterLogout = `/?next=${location.pathname}`
   }
 
   // PE 2/3 - routes = nome ruim?
@@ -146,11 +147,11 @@ const App = (props: Props) => {
       <Route path="/password-reset" component={ResetPasswordPage} />
       <Redirect to={redirectAfterLogout} />
     </Switch>
-  );
+  )
 
   // PE 2/3 - Talvez criar um <UserRoutes/> ?
   if (authUser) {
-    if (location.pathname === "/") props.history.push("/relearn");
+    if (location.pathname === "/") props.history.push("/relearn")
     routes = (
       <Box height="100%">
         {location.pathname.startsWith("/settings/") ? (
@@ -200,8 +201,9 @@ const App = (props: Props) => {
         <ConfirmDialog />
         <ResourceDialog />
         <SkillDialog />
+        <NoteDialog />
       </Box>
-    );
+    )
   }
 
   return (
@@ -222,13 +224,13 @@ const App = (props: Props) => {
         </DndProvider>
       </ThemeProvider>
     </MuiThemeProvider>
-  );
-};
+  )
+}
 
-type Props = ReturnType<typeof mapDispatchToProps> & RouteComponentProps<{}>;
+type Props = ReturnType<typeof mapDispatchToProps> & RouteComponentProps<{}>
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setTags: (tags: TagDto[]) => dispatch(setTags(tags)),
-});
+})
 
-export default withRouter(connect(undefined, mapDispatchToProps)(App));
+export default withRouter(connect(undefined, mapDispatchToProps)(App))

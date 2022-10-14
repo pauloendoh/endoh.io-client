@@ -1,15 +1,15 @@
 import { Popper } from "@material-ui/core"
 import { Autocomplete } from "@material-ui/lab"
-import NoteDialog from "components/Define/DefineContent/FlashcardDialog/StartedFlashcardDialogChild/NoteDialog/NoteDialog"
 import { queryKeys } from "hooks/react-query/queryKeys"
 import useNotesSearchQuery from "hooks/react-query/search/useNotesSearchQuery"
 import React, { useEffect, useMemo, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { useQueryClient } from "react-query"
 import { useHistory } from "react-router-dom"
+import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
-import { buildNoteDto, NoteDto } from "types/domain/define/NoteDto"
+import { NoteDto } from "types/domain/define/NoteDto"
 import { SearchResultsDto } from "types/domain/utils/SearchResultsDto"
 import myAxios from "utils/consts/myAxios"
 import apiUrls from "utils/url/urls/apiUrls"
@@ -94,12 +94,13 @@ const NotesSearchBar = () => {
     return []
   }, [searchResults?.notes])
 
-  const [dialogIsOpen, setDialogIsOpen] = useState(false)
-  const [initialValue, setInitialValue] = useState<NoteDto>(buildNoteDto())
-
   const pushOrReplaceNote = useDocsStore((s) => s.pushOrReplaceNote)
   const setSuccessMessage = useSnackbarStore((s) => s.setSuccessMessage)
 
+  const [onOpenDialog, closeDialog] = useNoteDialogStore((s) => [
+    s.onOpen,
+    s.onClose,
+  ])
   return (
     <>
       <form onSubmit={handleSubmit(submit)}>
@@ -116,8 +117,19 @@ const NotesSearchBar = () => {
               key={note.id}
               note={note}
               handleClick={() => {
-                setDialogIsOpen(true)
-                setInitialValue(note)
+                onOpenDialog({
+                  initialValue: note,
+                  onSubmit: (value) => {
+                    myAxios
+                      .post<NoteDto>(apiUrls.define.note, value)
+                      .then((res) => {
+                        pushOrReplaceNote(res.data)
+
+                        setSuccessMessage("Question saved!")
+                        closeDialog()
+                      })
+                  },
+                })
               }}
             />
           )}
@@ -163,20 +175,6 @@ const NotesSearchBar = () => {
           )}
         />
       </form>
-      <NoteDialog
-        open={dialogIsOpen}
-        initialValue={initialValue}
-        onClose={() => setDialogIsOpen(false)}
-        onSubmit={(updatedNote) => {
-          myAxios
-            .post<NoteDto>(apiUrls.define.note, updatedNote)
-            .then((res) => {
-              pushOrReplaceNote(res.data)
-              setDialogIsOpen(false)
-              setSuccessMessage("Question saved!")
-            })
-        }}
-      />
     </>
   )
 }

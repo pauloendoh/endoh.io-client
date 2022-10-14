@@ -11,10 +11,10 @@ import {
 import { Clear } from "@material-ui/icons"
 import { useEffect, useState } from "react"
 import { GlobalHotKeys } from "react-hotkeys"
+import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import { NoteDto } from "../../../../../../types/domain/define/NoteDto"
 import DarkButton from "../../../../../_UI/Buttons/DarkButton/DarkButton"
 import FlexVCenter from "../../../../../_UI/Flexboxes/FlexVCenter"
-import NoteDialog from "../NoteDialog/NoteDialog"
 
 // PE 2/3
 const QuestionFlashcardDialogChild = (p: {
@@ -29,7 +29,11 @@ const QuestionFlashcardDialogChild = (p: {
   onCorrectAnswer: () => void
 }) => {
   const [showingAnswer, setShowingAnswer] = useState(false)
-  const [openNoteDialog, setOpenNoteDialog] = useState(false)
+
+  const [openNoteDialog, closeDialog] = useNoteDialogStore((s) => [
+    s.onOpen,
+    s.onClose,
+  ])
 
   useEffect(() => {
     setShowingAnswer(false)
@@ -90,23 +94,18 @@ const QuestionFlashcardDialogChild = (p: {
                 href="#"
                 onClick={(e: any) => {
                   e.preventDefault()
-                  setOpenNoteDialog(true)
+                  openNoteDialog({
+                    initialValue: p.question,
+                    onSubmit: (value) => {
+                      p.onEditQuestion(value)
+                      closeDialog()
+                    },
+                  })
                 }}
                 variant="body2"
               >
                 edit
               </Link>
-              <NoteDialog
-                initialValue={p.question}
-                onClose={() => {
-                  setOpenNoteDialog(false)
-                }}
-                onSubmit={(changed) => {
-                  p.onEditQuestion(changed)
-                  setOpenNoteDialog(false)
-                }}
-                open={openNoteDialog}
-              />
             </Box>
           </Box>
         )}

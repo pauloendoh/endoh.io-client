@@ -25,7 +25,7 @@ const DocSelector = (props: Props) => {
         props.onChange(doc.id)
       }}
       renderInput={(params) => (
-        <MyTextField {...params} label="Doc" size="small" />
+        <MyTextField {...params} label="Doc" size="small" required />
       )}
     />
   )
