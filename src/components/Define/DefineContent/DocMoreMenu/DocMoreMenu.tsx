@@ -6,45 +6,45 @@ import {
   MenuItem,
   Theme,
   Typography,
-} from "@material-ui/core";
-import EditIcon from "@material-ui/icons/Edit";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import useDeleteDocMutation from "hooks/react-query/define/doc/useDeleteDocMutation";
-import React, { useState } from "react";
-import { AiOutlineClear } from "react-icons/ai";
-import { MdDelete } from "react-icons/md";
-import { useHistory } from "react-router-dom";
-import useDocsStore from "store/zustand/domain/useDocsStore";
-import useDialogsStore from "store/zustand/useDialogsStore";
-import useSnackbarStore from "store/zustand/useSnackbarStore";
-import { NoteDto } from "types/domain/define/NoteDto";
-import myAxios from "utils/consts/myAxios";
-import { urls } from "utils/urls";
-import { DocDto } from "../../../../types/domain/define/DocDto";
-import DocTitleDialog from "../../DocTitleDialog/DocTitleDialog";
+} from "@material-ui/core"
+import EditIcon from "@material-ui/icons/Edit"
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
+import useDeleteDocMutation from "hooks/react-query/define/doc/useDeleteDocMutation"
+import React, { useState } from "react"
+import { AiOutlineClear } from "react-icons/ai"
+import { MdDelete } from "react-icons/md"
+import { useHistory } from "react-router-dom"
+import useDocsStore from "store/zustand/domain/useDocsStore"
+import useDialogsStore from "store/zustand/useDialogsStore"
+import useSnackbarStore from "store/zustand/useSnackbarStore"
+import { NoteDto } from "types/domain/define/NoteDto"
+import myAxios from "utils/consts/myAxios"
+import { urls } from "utils/urls"
+import { DocDto } from "../../../../types/domain/define/DocDto"
+import DocTitleDialog from "../../DocTitleDialog/DocTitleDialog"
 
 interface Props {
-  doc: DocDto;
-  afterDelete?: () => void;
+  doc: DocDto
+  afterDelete?: () => void
 }
 
 function DocMoreMenu(props: Props) {
-  const classes = useStyles();
+  const classes = useStyles()
 
-  const { setNotes } = useDocsStore();
-  const { openConfirmDialog } = useDialogsStore();
-  const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
+  const { setNotes } = useDocsStore()
+  const { openConfirmDialog } = useDialogsStore()
+  const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [openTitleDialog, setOpenTitleDialog] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null)
+  const [openTitleDialog, setOpenTitleDialog] = useState(false)
 
   const handleOpenMore = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleCloseMore = () => {
-    setAnchorEl(null); // avoids error "The `anchorEl` prop provided to the component is invalid"
-  };
+    setAnchorEl(null) // avoids error "The `anchorEl` prop provided to the component is invalid"
+  }
 
   const handleClearEmptyNotes = () => {
     openConfirmDialog({
@@ -53,16 +53,16 @@ function DocMoreMenu(props: Props) {
         myAxios
           .delete<NoteDto[]>(urls.api.clearEmptyNotes(props.doc.id))
           .then((res) => {
-            setSuccessMessage("Cleared empty notes");
-            setNotes(res.data);
+            setSuccessMessage("Cleared empty notes")
+            setNotes(res.data)
           })
-          .catch((err) => setErrorMessage(err.response.data.message));
+          .catch((err) => setErrorMessage(err.response.data.message))
       },
-    });
-  };
+    })
+  }
 
-  const { mutate: submitDeleteDoc } = useDeleteDocMutation();
-  const history = useHistory();
+  const { mutate: submitDeleteDoc } = useDeleteDocMutation()
+  const history = useHistory()
 
   return (
     <React.Fragment>
@@ -70,8 +70,8 @@ function DocMoreMenu(props: Props) {
         id="doc-title-more"
         size="small"
         onClick={(e) => {
-          e.preventDefault();
-          handleOpenMore(e);
+          e.preventDefault()
+          handleOpenMore(e)
         }}
       >
         <MoreHorizIcon />
@@ -86,15 +86,15 @@ function DocMoreMenu(props: Props) {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={(e) => {
-          const event = e as any;
-          event.preventDefault();
-          handleCloseMore();
+          const event = e as any
+          event.preventDefault()
+          handleCloseMore()
         }}
       >
         <MenuItem
           onClick={(e) => {
-            setOpenTitleDialog(true);
-            handleCloseMore();
+            setOpenTitleDialog(true)
+            handleCloseMore()
           }}
         >
           <ListItemIcon className={classes.listItemIcon}>
@@ -104,25 +104,11 @@ function DocMoreMenu(props: Props) {
             Edit
           </Typography>
         </MenuItem>
+
         <MenuItem
           onClick={(e) => {
-            if (window.confirm("Delete doc?")) {
-              submitDeleteDoc(props.doc.id);
-            }
-            handleCloseMore();
-          }}
-        >
-          <ListItemIcon className={classes.listItemIcon}>
-            <MdDelete />
-          </ListItemIcon>
-          <Typography variant="inherit" noWrap>
-            Delete doc
-          </Typography>
-        </MenuItem>
-        <MenuItem
-          onClick={(e) => {
-            handleClearEmptyNotes();
-            handleCloseMore();
+            handleClearEmptyNotes()
+            handleCloseMore()
           }}
         >
           <ListItemIcon className={classes.listItemIcon}>
@@ -132,27 +118,47 @@ function DocMoreMenu(props: Props) {
             Clear empty notes
           </Typography>
         </MenuItem>
+
+        <MenuItem
+          onClick={(e) => {
+            if (window.confirm("Delete doc?")) {
+              submitDeleteDoc(props.doc.id)
+            }
+            handleCloseMore()
+          }}
+          style={{ color: "red" }}
+        >
+          <ListItemIcon
+            className={classes.listItemIcon}
+            style={{ color: "red" }}
+          >
+            <MdDelete />
+          </ListItemIcon>
+          <Typography variant="inherit" noWrap>
+            Delete doc
+          </Typography>
+        </MenuItem>
       </Menu>
 
       <DocTitleDialog
         initialValue={{ title: props.doc.title }}
         open={openTitleDialog}
         afterSave={() => {
-          setOpenTitleDialog(false);
+          setOpenTitleDialog(false)
         }}
         onClose={() => {
-          setOpenTitleDialog(false);
+          setOpenTitleDialog(false)
         }}
         docId={props.doc.id}
       />
     </React.Fragment>
-  );
+  )
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
   listItemIcon: {
     width: 16,
   },
-}));
+}))
 
-export default DocMoreMenu;
+export default DocMoreMenu

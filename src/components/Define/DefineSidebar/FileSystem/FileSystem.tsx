@@ -1,5 +1,5 @@
-import { IconButton, useTheme } from "@material-ui/core"
-import { TreeItem, TreeView } from "@material-ui/lab"
+import { IconButton, Tooltip, useTheme } from "@material-ui/core"
+import { TreeItem } from "@material-ui/lab"
 import DocTitleDialog from "components/Define/DocTitleDialog/DocTitleDialog"
 import Flex from "components/_UI/Flexboxes/Flex"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
@@ -14,6 +14,7 @@ import useFlashnotesStore from "store/zustand/domain/useFlashnotesStore"
 import { newFolderDto, partialFolderDto } from "types/domain/folder/FolderDto"
 import FolderWithSubfoldersDto from "types/domain/folder/FolderWithSubfoldersDto"
 import Icons from "utils/styles/Icons"
+import { S } from "./FileSystem.styles"
 import FolderDialog from "./FolderDialog/FolderDialog"
 import DocTreeItem from "./FolderTreeItem/DocTreeItem/DocTreeItem"
 import FolderTreeItem from "./FolderTreeItem/FolderTreeItem"
@@ -103,7 +104,7 @@ export default function FileSystem() {
 
   return (
     <Flex style={{ gap: theme.spacing(4) }}>
-      <TreeView
+      <S.TreeView
         defaultCollapseIcon={<Icons.ExpandMore />}
         defaultExpandIcon={<Icons.ChevronRight />}
         style={{ width: 300 }}
@@ -129,17 +130,19 @@ export default function FileSystem() {
               }}
             >
               <Txt>Docs</Txt>
-              <FlexVCenter>
-                <IconButton
-                  size="small"
-                  onClick={(e) => {
-                    // impede o toggle
-                    e.preventDefault()
-                    setOpenFolderDialog(true)
-                  }}
-                >
-                  <Icons.CreateNewFolder fontSize="small" />
-                </IconButton>
+              <FlexVCenter paddingRight={1}>
+                <Tooltip title="New folder" arrow>
+                  <IconButton
+                    size="small"
+                    onClick={(e) => {
+                      // impede o toggle
+                      e.stopPropagation()
+                      setOpenFolderDialog(true)
+                    }}
+                  >
+                    <Icons.CreateNewFolder fontSize="small" />
+                  </IconButton>
+                </Tooltip>
               </FlexVCenter>
             </div>
           }
@@ -151,7 +154,7 @@ export default function FileSystem() {
             <DocTreeItem doc={doc} key={doc.id} />
           ))}
         </TreeItem>
-      </TreeView>
+      </S.TreeView>
 
       <FolderDialog
         open={openFolderDialog}

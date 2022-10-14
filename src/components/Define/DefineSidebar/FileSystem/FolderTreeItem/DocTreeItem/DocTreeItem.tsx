@@ -50,7 +50,7 @@ export default function DocTreeItem({ doc }: Props) {
       label={
         <FlexVCenter style={{ justifyContent: "space-between", minHeight: 30 }}>
           <FlexVCenter style={{ gap: theme.spacing(1) }}>
-            <MdInsertDriveFile fontSize="small" />
+            <MdInsertDriveFile fontSize="small" style={{ minWidth: 16 }} />
             <Txt variant="body2">{doc.title}</Txt>
           </FlexVCenter>
         </FlexVCenter>

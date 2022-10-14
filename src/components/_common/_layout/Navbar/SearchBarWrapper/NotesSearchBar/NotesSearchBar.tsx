@@ -22,7 +22,13 @@ interface ISearchForm {
 }
 
 const MyPopper = function (props: React.ComponentProps<typeof Popper>) {
-  return <Popper {...props} style={{ width: 480 }} placement="bottom-start" />
+  return (
+    <Popper
+      {...props}
+      style={{ width: "clamp(350px, 800px, 90vw)" }}
+      placement="bottom-start"
+    />
+  )
 }
 
 const NotesSearchBar = () => {
