@@ -10,6 +10,7 @@ export interface NoteDto {
   description: string
   question: string
   weight: number
+  toRefine: boolean
 
   createdAt: string
   updatedAt: string
@@ -28,6 +29,7 @@ export const newNoteDto = (
   description: "",
   question: "",
   weight: 1,
+  toRefine: false,
 
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
@@ -41,6 +43,8 @@ export const buildNoteDto = (p?: Partial<NoteDto>): NoteDto => ({
   docId: 0,
   userId: 0,
   weight: 0,
+  toRefine: false,
+
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
   ...p,

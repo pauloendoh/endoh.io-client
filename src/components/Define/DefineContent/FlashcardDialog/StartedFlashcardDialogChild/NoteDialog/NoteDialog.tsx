@@ -1,4 +1,11 @@
-import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core"
+import {
+  Box,
+  Checkbox,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  FormControlLabel,
+} from "@material-ui/core"
 import { useEffect } from "react"
 import { Controller, useForm } from "react-hook-form"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
@@ -77,6 +84,20 @@ const NoteDialog = () => {
               <DocSelector
                 docId={watch("docId")}
                 onChange={(docId) => setValue("docId", docId)}
+              />
+            </Box>
+
+            <Box mt={2}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={watch("toRefine")}
+                    onChange={() => setValue("toRefine", !watch("toRefine"))}
+                    name="toRefine"
+                    color="primary"
+                  />
+                }
+                label="To refine"
               />
             </Box>
           </DialogContent>
