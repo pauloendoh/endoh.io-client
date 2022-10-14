@@ -246,6 +246,15 @@ const ResourceDialog = (props: Props) => {
               setFieldValue("title", preview.title)
               setFieldValue("thumbnail", preview.image)
 
+              if (preview.viewCount > 0 && values.privateNote.length === 0) {
+                setFieldValue(
+                  "privateNote",
+                  `${
+                    preview.viewCount
+                  } views - ${new Date().toLocaleDateString()}`
+                )
+              }
+
               if (preview.alreadySavedResource) {
                 openConfirmDialog({
                   title: "You already saved this URL. Open it?",

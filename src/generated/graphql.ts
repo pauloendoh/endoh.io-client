@@ -46,6 +46,7 @@ export type LinkPreviewDto = {
   image: Scalars['String'];
   title: Scalars['String'];
   url: Scalars['String'];
+  viewCount: Scalars['Float'];
   youtubeVideoLength: Scalars['String'];
 };
 
@@ -97,7 +98,7 @@ export type QuerySkillProgressesArgs = {
 export type Resource = {
   __typename?: 'Resource';
   completedAt: Scalars['String'];
-  createdAt: Scalars['String'];
+  createdAt: Scalars['DateTime'];
   dueDate: Scalars['String'];
   estimatedTime: Scalars['String'];
   id: Scalars['Float'];
@@ -108,7 +109,7 @@ export type Resource = {
   tagId?: Maybe<Scalars['Float']>;
   thumbnail: Scalars['String'];
   title: Scalars['String'];
-  updatedAt: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
   url: Scalars['String'];
   userId: Scalars['Float'];
 };
@@ -154,7 +155,7 @@ export type LinkPreviewQueryVariables = Exact<{
 }>;
 
 
-export type LinkPreviewQuery = { __typename?: 'Query', getLinkPreview: { __typename?: 'LinkPreviewDto', title: string, image: string, description: string, url: string, youtubeVideoLength: string, alreadySavedResource?: { __typename?: 'Resource', id: number, userId: number, title: string, url: string, thumbnail: string, estimatedTime: string, dueDate: string, rating?: number | null, completedAt: string, position?: number | null, publicReview: string, privateNote: string, createdAt: string, updatedAt: string, tagId?: number | null } | null } };
+export type LinkPreviewQuery = { __typename?: 'Query', getLinkPreview: { __typename?: 'LinkPreviewDto', title: string, image: string, description: string, url: string, youtubeVideoLength: string, viewCount: number, alreadySavedResource?: { __typename?: 'Resource', id: number, userId: number, title: string, url: string, thumbnail: string, estimatedTime: string, dueDate: string, rating?: number | null, completedAt: string, position?: number | null, publicReview: string, privateNote: string, createdAt: any, updatedAt: any, tagId?: number | null } | null } };
 
 export type LearningsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -277,6 +278,7 @@ export const LinkPreviewDocument = `
     description
     url
     youtubeVideoLength
+    viewCount
     alreadySavedResource {
       id
       userId

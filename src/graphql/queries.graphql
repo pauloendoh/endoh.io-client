@@ -16,6 +16,7 @@ query LinkPreview($url: String!) {
     description
     url
     youtubeVideoLength
+    viewCount
     alreadySavedResource {
       id
       userId
