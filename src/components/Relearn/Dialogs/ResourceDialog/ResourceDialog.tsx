@@ -14,6 +14,7 @@ import {
 } from "@material-ui/core"
 import HighlightOffIcon from "@material-ui/icons/HighlightOff"
 import { Autocomplete } from "@material-ui/lab"
+import { AxiosError } from "axios"
 import FlexHCenter from "components/_UI/Flexboxes/FlexHCenter"
 import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween"
 import TagIcon from "components/_UI/Icon/TagIcon"
@@ -31,7 +32,6 @@ import { useHistory, useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
 import useDialogsStore from "store/zustand/useDialogsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
-import MyAxiosError from "types/MyAxiosError"
 import buildGraphqlClient from "utils/consts/buildGraphqlClient"
 import linkPng from "../../../../static/images/link.png"
 import * as relearnActions from "../../../../store/relearn/relearnActions"
@@ -111,6 +111,7 @@ const ResourceDialog = (props: Props) => {
       if (tagId) {
         const currentTag = sortedTags.find((t) => t.id === tagId)
         if (currentTag) {
+          currentTag.resources = undefined
           return currentTag
         }
       }
@@ -179,6 +180,7 @@ const ResourceDialog = (props: Props) => {
           props.setTags(res.data)
         })
 
+        // PE 1/3 - why this?
         if (closeOnSuccess) {
           closeAndClearQueryParam()
           return
@@ -195,11 +197,10 @@ const ResourceDialog = (props: Props) => {
           tag: props.editingResource?.tag || getCurrentTag(),
         })
       })
-      .catch((err: MyAxiosError) => {
-        // PE 1/3 - This is common. Should I create a getFirstErrorMessage(err: MyAxiosErr)
-        // or even props.showAxiosError(err: MyAxiosError)
-        setErrorMessage(err.response.data.errors[0].message)
+      .catch((err: AxiosError) => {
+        setErrorMessage(err.message || "Error while saving resource.")
       })
+      .finally()
   }
 
   useHotkeys(
