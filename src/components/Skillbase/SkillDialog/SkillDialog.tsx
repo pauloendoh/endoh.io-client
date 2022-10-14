@@ -167,7 +167,6 @@ const SkillDialog = () => {
           >
             <TagSelector
               selectedTagId={formik.values.tagId}
-              required
               onChange={(e, value) => {
                 formik.setFieldValue("tagId", value)
               }}
