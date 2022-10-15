@@ -1,6 +1,7 @@
 import { FormControl, MenuItem, Select } from "@material-ui/core"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useLocation } from "react-router-dom"
 import NotesSearchBar from "./NotesSearchBar/NotesSearchBar"
 import ResourcesSearchBar from "./ResourcesSearchBar/ResourcesSearchBar"
 
@@ -12,6 +13,15 @@ const SearchBarWrapper = (props: Props) => {
   type SearchType = "resources" | "notes"
 
   const [searchType, setSearchType] = useState<SearchType>("resources")
+
+  const location = useLocation()
+  useEffect(() => {
+    if (location.pathname.includes("define")) {
+      setSearchType("notes")
+      return
+    }
+    setSearchType("resources")
+  }, [location.pathname])
 
   return (
     <FlexVCenter>
