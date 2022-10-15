@@ -8,12 +8,14 @@ import { useFoldersQuery } from "hooks/react-query/folders/useFoldersQuery"
 import useSaveFolderMutation from "hooks/react-query/folders/useSaveFolderMutation"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { useDrop } from "react-dnd"
-import { useParams } from "react-router-dom"
+import { RiFileAddFill } from "react-icons/ri"
+import { useHistory, useParams } from "react-router-dom"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useFlashnotesStore from "store/zustand/domain/useFlashnotesStore"
 import { newFolderDto, partialFolderDto } from "types/domain/folder/FolderDto"
 import FolderWithSubfoldersDto from "types/domain/folder/FolderWithSubfoldersDto"
 import Icons from "utils/styles/Icons"
+import pageUrls from "utils/url/urls/pageUrls"
 import { S } from "./FileSystem.styles"
 import FolderDialog from "./FolderDialog/FolderDialog"
 import DocTreeItem from "./FolderTreeItem/DocTreeItem/DocTreeItem"
@@ -22,6 +24,8 @@ import { spreadFolders } from "./spreadFolders/spreadFolders"
 
 // PE 1/3 - rename?
 export default function FileSystem() {
+  const history = useHistory()
+
   const {
     fileDialogParentFolderId,
     setFileDialogParentFolderId,
@@ -102,6 +106,8 @@ export default function FileSystem() {
     }
   }, [docs, sortedFolders, docId])
 
+  const [openTitleDialog, setOpenTitleDialog] = useState(false)
+
   return (
     <Flex style={{ gap: theme.spacing(4) }}>
       <S.TreeView
@@ -130,7 +136,19 @@ export default function FileSystem() {
               }}
             >
               <Txt>Docs</Txt>
-              <FlexVCenter paddingRight={1}>
+              <FlexVCenter paddingRight={1} style={{ gap: 8 }}>
+                <Tooltip title="Add doc">
+                  <IconButton
+                    size="small"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setOpenTitleDialog(true)
+                    }}
+                  >
+                    <RiFileAddFill />
+                  </IconButton>
+                </Tooltip>
+
                 <Tooltip title="New folder" arrow>
                   <IconButton
                     size="small"
@@ -167,6 +185,16 @@ export default function FileSystem() {
         initialValue={{ title: "", folderId: fileDialogParentFolderId }}
         onClose={() => setFileDialogParentFolderId(null)}
         afterSave={() => setFileDialogParentFolderId(null)}
+      />
+
+      <DocTitleDialog
+        open={openTitleDialog}
+        initialValue={{ title: "" }}
+        onClose={() => setOpenTitleDialog(false)}
+        afterSave={(doc) => {
+          history.push(pageUrls.define.docId(doc.id))
+          setOpenTitleDialog(false)
+        }}
       />
 
       {/* <FileDialog

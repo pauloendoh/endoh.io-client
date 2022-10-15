@@ -1,6 +1,9 @@
-import { FormControl, MenuItem, Select } from "@material-ui/core"
+import NotesIcon from "@material-ui/icons/Notes"
+
+import { FormControl, MenuItem, Select, Typography } from "@material-ui/core"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import { useEffect, useState } from "react"
+import { FaLink } from "react-icons/fa"
 import { useLocation } from "react-router-dom"
 import NotesSearchBar from "./NotesSearchBar/NotesSearchBar"
 import ResourcesSearchBar from "./ResourcesSearchBar/ResourcesSearchBar"
@@ -38,10 +41,20 @@ const SearchBarWrapper = (props: Props) => {
         <Select
           value={searchType}
           onChange={(e) => setSearchType(e.target.value as SearchType)}
-          style={{ borderRadius: "0px 4px 4px 0px" }}
+          style={{ borderRadius: "0px 4px 4px 0px", height: 38 }}
         >
-          <MenuItem value={"resources" as SearchType}>Resources</MenuItem>
-          <MenuItem value={"notes" as SearchType}>Notes</MenuItem>
+          <MenuItem value={"resources" as SearchType}>
+            <FlexVCenter style={{ gap: 4 }}>
+              <FaLink />
+              <Typography>Resources</Typography>
+            </FlexVCenter>
+          </MenuItem>
+          <MenuItem value={"notes" as SearchType}>
+            <FlexVCenter style={{ gap: 4 }}>
+              <NotesIcon />
+              <Typography>Notes</Typography>
+            </FlexVCenter>
+          </MenuItem>
         </Select>
       </FormControl>
     </FlexVCenter>
