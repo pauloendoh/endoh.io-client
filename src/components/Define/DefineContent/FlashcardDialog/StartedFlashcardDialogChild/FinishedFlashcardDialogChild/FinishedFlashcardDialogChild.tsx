@@ -3,59 +3,59 @@ import {
   DialogTitle,
   IconButton,
   Typography,
-} from "@material-ui/core";
-import { Clear } from "@material-ui/icons";
-import React, { useState } from "react";
-import { GlobalHotKeys } from "react-hotkeys";
-import useDocsStore from "store/zustand/domain/useDocsStore";
-import useSnackbarStore from "store/zustand/useSnackbarStore";
-import { DocDto } from "../../../../../../types/domain/define/DocDto";
-import { NoteDto } from "../../../../../../types/domain/define/NoteDto";
-import myAxios from "../../../../../../utils/consts/myAxios";
-import apiUrls from "../../../../../../utils/url/urls/apiUrls";
-import DarkButton from "../../../../../_UI/Buttons/DarkButton/DarkButton";
-import S from "./FinishedFlashcardDialogChild.styles";
+} from "@material-ui/core"
+import { Clear } from "@material-ui/icons"
+import { useState } from "react"
+import { GlobalHotKeys } from "react-hotkeys"
+import useDocsStore from "store/zustand/domain/useDocsStore"
+import useSnackbarStore from "store/zustand/useSnackbarStore"
+import { DocDto } from "../../../../../../types/domain/define/DocDto"
+import { NoteDto } from "../../../../../../types/domain/define/NoteDto"
+import myAxios from "../../../../../../utils/consts/myAxios"
+import apiUrls from "../../../../../../utils/url/urls/apiUrls"
+import DarkButton from "../../../../../_UI/Buttons/DarkButton/DarkButton"
+import S from "./FinishedFlashcardDialogChild.styles"
 
 interface Props {
-  doc: DocDto;
-  wrongs: number;
-  halves: number;
-  corrects: number;
-  results: NoteDto[];
-  onFinish: () => void;
+  doc: DocDto
+  wrongs: number
+  halves: number
+  corrects: number
+  results: NoteDto[]
+  onFinish: () => void
 }
 
 const FinishedFlashcardDialogChild = (props: Props) => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const docsStore = useDocsStore();
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const docsStore = useDocsStore()
 
   const getScore = () => {
-    return ((props.halves * 0.5 + props.corrects) * 100) / props.results.length;
-  };
+    return ((props.halves * 0.5 + props.corrects) * 100) / props.results.length
+  }
 
-  const { setSuccessMessage } = useSnackbarStore();
+  const { setSuccessMessage } = useSnackbarStore()
 
   const saveResults = () => {
-    setIsSubmitting(true);
+    setIsSubmitting(true)
 
     myAxios
-      .post<NoteDto[]>(apiUrls.define.postManyNotes, props.results)
+      .put<NoteDto[]>(apiUrls.define.updateManyNotes, props.results)
       .then((res) => {
-        docsStore.setNotes(res.data);
-        setSuccessMessage("Saved!");
-        props.onFinish();
+        docsStore.setNotes(res.data)
+        setSuccessMessage("Saved!")
+        props.onFinish()
       })
-      .finally(() => setIsSubmitting(false));
-  };
+      .finally(() => setIsSubmitting(false))
+  }
 
   const keyMap = {
     onSpacePress: "space",
-  };
+  }
   const handlers = {
     onSpacePress: async () => {
-      saveResults();
+      saveResults()
     },
-  };
+  }
 
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={handlers} allowChanges>
@@ -93,7 +93,7 @@ const FinishedFlashcardDialogChild = (props: Props) => {
         </DarkButton>
       </DialogTitle>
     </GlobalHotKeys>
-  );
-};
+  )
+}
 
-export default FinishedFlashcardDialogChild;
+export default FinishedFlashcardDialogChild

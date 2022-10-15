@@ -13,6 +13,7 @@ import myAxios from "../../../../utils/consts/myAxios"
 import apiUrls from "../../../../utils/url/urls/apiUrls"
 import DarkButton from "../../../_UI/Buttons/DarkButton/DarkButton"
 import { TBody, TD, THead, TR } from "../../../_UI/Table/MyTableWrappers"
+import AddManyNotesMenuButton from "./AddManyNotesMenuButton/AddManyNotesMenuButton"
 import DocTableRow from "./DocTableRow/DocTableRow"
 
 const DocTable = (props: Props) => {
@@ -95,11 +96,12 @@ const DocTable = (props: Props) => {
         </Table>
       </TableContainer>
 
-      <Toolbar>
+      <Toolbar style={{ display: "flex", gap: 16 }}>
         <DarkButton onClick={addNote} disabled={submitting}>
           + Add Note
         </DarkButton>
-        {/* <AddSkillButton tag={props.tag} /> */}
+
+        <AddManyNotesMenuButton docId={props.docId} />
       </Toolbar>
     </Paper>
   )

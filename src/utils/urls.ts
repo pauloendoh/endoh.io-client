@@ -37,6 +37,7 @@ export const urls = {
     files: "/playground/files",
     saveDocLastOpenedAt: (docId: number) =>
       `define/doc/${docId}/last-opened-at`,
+    createManyNotesAtDoc: (docId: number) => `/define/doc/${docId}/notes/many`,
     clearEmptyNotes: (docId: number) => `define/doc/${docId}/clear-empty-notes`,
     docId: (docId: number) => `docs/${docId}`,
 

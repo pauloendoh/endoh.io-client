@@ -36,7 +36,7 @@ const apiUrls = {
   define: {
     doc: "define/doc",
     note: "define/note",
-    postManyNotes: "/define/note/many",
+    updateManyNotes: "/define/note/many",
   },
   BigDecisions: {
     decision: "v2/BigDecisions/decision",
@@ -57,6 +57,6 @@ const apiUrls = {
     myUserSuggestions: "v2/feed/my-user-suggestions",
     resources: "v2/feed/resources",
   },
-};
+}
 
-export default apiUrls;
+export default apiUrls

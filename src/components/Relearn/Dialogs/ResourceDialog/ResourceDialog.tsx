@@ -529,9 +529,6 @@ const ResourceDialog = (props: Props) => {
                 name="privateNote"
                 value={values.privateNote}
                 multiline
-                onCtrlEnter={() => {
-                  submitForm()
-                }}
                 onChange={handleChange}
                 fullWidth
                 maxRows={16}
@@ -548,6 +545,7 @@ const ResourceDialog = (props: Props) => {
             <SaveCancelButtons
               submitButtonId="save-resource-button"
               disabled={isSubmitting || !dirty}
+              onEnabledAndCtrlEnter={() => submitForm()}
               onCancel={() => confirmClose(dirty)}
             />
           </DialogContent>
