@@ -169,8 +169,15 @@ const ResourceDialog = (props: Props) => {
   }
 
   const handleSubmit = (resource: ResourceDto, closeOnSuccess = true) => {
+    const payload: ResourceDto = {
+      ...resource,
+      tag: {
+        ...resource.tag,
+        resources: undefined,
+      },
+    }
     myAxios
-      .post<ResourceDto[]>(apiUrls.relearn.resource, resource)
+      .post<ResourceDto[]>(apiUrls.relearn.resource, payload)
       .then((res) => {
         const resources = [...props.resources]
         props.setResources(res.data)
