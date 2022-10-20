@@ -13,6 +13,7 @@ import { useFormik } from "formik"
 import useSaveSkill from "hooks/skillbase/useSaveSkill"
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
 import { useEffect, useState } from "react"
+import { MdOutlineArrowRightAlt } from "react-icons/md"
 import { useLocation } from "react-router-dom"
 import { scroller } from "react-scroll"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
@@ -132,7 +133,11 @@ const SkillDialog = () => {
                   formik.setFieldValue("currentLevel", newValue)
                 }}
               />
-              <Box ml={4} />
+              <MdOutlineArrowRightAlt
+                fontSize={24}
+                style={{ marginRight: 20, marginTop: 8 }}
+              />
+
               <SelectSkillLevel
                 type="goalLevel"
                 value={formik.values.goalLevel}

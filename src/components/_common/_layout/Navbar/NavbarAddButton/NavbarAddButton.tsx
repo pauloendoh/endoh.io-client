@@ -51,7 +51,6 @@ const NavbarAddButton = (props: Props) => {
                 pushOrReplaceNote(res.data)
 
                 setSuccessMessage("Question saved!")
-                alert("hey")
                 closeNoteDialog()
               })
           },
