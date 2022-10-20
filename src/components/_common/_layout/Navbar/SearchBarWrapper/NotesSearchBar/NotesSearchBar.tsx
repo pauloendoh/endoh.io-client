@@ -144,19 +144,8 @@ const NotesSearchBar = () => {
               }}
             />
           )}
-          // don't change input text when selecting a resource
           getOptionLabel={() => watch("searchQuery")}
-          // getOptionLabel={(resource) => "resource.title"}
-
           clearOnBlur={false}
-          // onChange={(e, newSelectedResource) => {
-          //   if (typeof newSelectedResource === "string") {
-          //     // setValue("searchQuery", resource);
-          //     return
-          //   }
-          //   // setValue("searchQuery", resource?.title || "");
-          //   editResource(newSelectedResource)
-          // }}
           renderInput={(params) => (
             <Controller
               control={control}
@@ -177,6 +166,7 @@ const NotesSearchBar = () => {
                       borderRadius: "4px 0px 0px 4px",
                     },
                   }}
+                  onFocus={() => refetch()}
                   onCtrlEnter={(e) => {
                     ctrlSubmit(getValues())
                   }}
