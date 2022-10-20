@@ -1,4 +1,4 @@
-import { IconButton, ListItem, ListItemText } from "@material-ui/core"
+import { IconButton, ListItem, ListItemText, Tooltip } from "@material-ui/core"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import { useCallback, useMemo } from "react"
 import { MdShuffle } from "react-icons/md"
@@ -31,7 +31,7 @@ const QuestionsToRefineListItem = (props: Props) => {
     return allNotes.filter((n) => n.toRefine)
   }, [allNotes])
 
-  const openRandomUnansweredQuestion = useCallback(() => {
+  const openRandomQuestionToRefine = useCallback(() => {
     const randomIndex = getRandomIntInclusive(0, questionsToRefine.length - 1)
 
     openNoteDialog({
@@ -53,12 +53,14 @@ const QuestionsToRefineListItem = (props: Props) => {
         <FlexVCenter justifyContent="space-between">
           {questionsToRefine.length} questions to refine
           {questionsToRefine.length > 0 && (
-            <IconButton
-              size="small"
-              onClick={() => openRandomUnansweredQuestion()}
-            >
-              <MdShuffle />
-            </IconButton>
+            <Tooltip title="Open random question to refine">
+              <IconButton
+                size="small"
+                onClick={() => openRandomQuestionToRefine()}
+              >
+                <MdShuffle />
+              </IconButton>
+            </Tooltip>
           )}
         </FlexVCenter>
       </ListItemText>

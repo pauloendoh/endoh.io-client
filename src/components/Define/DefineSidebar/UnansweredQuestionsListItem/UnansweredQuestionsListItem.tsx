@@ -1,4 +1,4 @@
-import { IconButton, ListItem, ListItemText } from "@material-ui/core"
+import { IconButton, ListItem, ListItemText, Tooltip } from "@material-ui/core"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import { useCallback, useMemo } from "react"
 import { MdShuffle } from "react-icons/md"
@@ -55,12 +55,14 @@ const UnansweredQuestionsListItem = (props: Props) => {
         <FlexVCenter justifyContent="space-between">
           {notesWithoutAnswer.length} unanswered questions
           {notesWithoutAnswer.length > 0 && (
-            <IconButton
-              size="small"
-              onClick={() => openRandomUnansweredQuestion()}
-            >
-              <MdShuffle />
-            </IconButton>
+            <Tooltip title="Open random unanswered question">
+              <IconButton
+                size="small"
+                onClick={() => openRandomUnansweredQuestion()}
+              >
+                <MdShuffle />
+              </IconButton>
+            </Tooltip>
           )}
         </FlexVCenter>
       </ListItemText>
