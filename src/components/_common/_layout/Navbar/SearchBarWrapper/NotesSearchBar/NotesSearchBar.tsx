@@ -166,7 +166,7 @@ const NotesSearchBar = () => {
                 <MyTextField
                   {...params}
                   {...field}
-                  label="Search notes, docs..."
+                  label="Search questions, docs..."
                   size="small"
                   style={{
                     width: 160,

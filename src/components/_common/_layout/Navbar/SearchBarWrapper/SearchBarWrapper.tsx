@@ -52,7 +52,7 @@ const SearchBarWrapper = (props: Props) => {
           <MenuItem value={"notes" as SearchType}>
             <FlexVCenter style={{ gap: 4 }}>
               <NotesIcon />
-              <Typography>Notes</Typography>
+              <Typography>Questions</Typography>
             </FlexVCenter>
           </MenuItem>
         </Select>

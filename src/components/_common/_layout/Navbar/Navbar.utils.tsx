@@ -1,15 +1,15 @@
-import { faChessKnight, faLink } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import NotesIcon from "@material-ui/icons/Notes";
-import TimeLineIcon from "@material-ui/icons/Timeline";
-import { ReactElement, ReactNode } from "react";
-import pageUrls from "../../../../utils/url/urls/pageUrls";
+import { faChessKnight, faLink } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import NotesIcon from "@material-ui/icons/Notes"
+import TimeLineIcon from "@material-ui/icons/Timeline"
+import { ReactElement, ReactNode } from "react"
+import pageUrls from "../../../../utils/url/urls/pageUrls"
 
 interface ITab {
-  id: string;
-  to: string;
-  label: ReactNode;
-  icon: ReactElement;
+  id: string
+  to: string
+  label: ReactNode
+  icon: ReactElement
 }
 
 const utils = {
@@ -35,7 +35,7 @@ const utils = {
     {
       id: "notes-tab",
       to: pageUrls.define.index,
-      label: "Notes",
+      label: "Questions",
       icon: <NotesIcon />,
     },
     // {
@@ -45,6 +45,6 @@ const utils = {
     //   icon: <FontAwesomeIcon icon={faBalanceScaleRight} />,
     // },
   ] as ITab[],
-};
+}
 
-export default utils;
+export default utils

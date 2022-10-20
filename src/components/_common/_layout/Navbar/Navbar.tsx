@@ -29,8 +29,6 @@ const Navbar = () => {
       setTabIndex(2)
     } else if (location.pathname.startsWith(pageUrls.define.index)) {
       setTabIndex(3)
-    } else if (location.pathname.startsWith(pageUrls.BigDecisions.index)) {
-      setTabIndex(4)
     } else {
       setTabIndex(false)
     }
