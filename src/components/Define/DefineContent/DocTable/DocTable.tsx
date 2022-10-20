@@ -98,7 +98,7 @@ const DocTable = (props: Props) => {
 
       <Toolbar style={{ display: "flex", gap: 16 }}>
         <DarkButton onClick={addNote} disabled={submitting}>
-          + Add Note
+          + Add question
         </DarkButton>
 
         <AddManyNotesMenuButton docId={props.docId} />

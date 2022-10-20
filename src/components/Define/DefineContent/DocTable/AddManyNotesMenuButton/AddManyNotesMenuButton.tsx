@@ -36,7 +36,7 @@ const AddManyNotesMenuButton = (props: Props) => {
 
   return (
     <>
-      <DarkButton onClick={handleOpenMenu}>+ Add Many Notes</DarkButton>
+      <DarkButton onClick={handleOpenMenu}>+ Add many questions</DarkButton>
 
       <Menu
         anchorEl={anchorEl}
