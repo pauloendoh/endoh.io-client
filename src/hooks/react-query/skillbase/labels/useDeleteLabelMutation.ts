@@ -1,15 +1,14 @@
-import { queryKeys } from "hooks/react-query/queryKeys";
-import { useMutation } from "react-query";
-import { LabelDto } from "types/domain/skillbase/LabelDto";
-import { SkillDto } from "types/domain/skillbase/SkillDto";
-import SkillLabelDto from "types/domain/skillbase/SkillLabelDto";
-import { urls } from "utils/urls";
-import useSnackbarStore from "../../../../store/zustand/useSnackbarStore";
-import myAxios from "../../../../utils/consts/myAxios";
-import { myQueryClient } from "../../../../utils/consts/myQueryClient";
+import { queryKeys } from "hooks/react-query/queryKeys"
+import { useMutation } from "react-query"
+import { LabelDto } from "types/domain/skillbase/LabelDto"
+import SkillLabelDto from "types/domain/skillbase/SkillLabelDto"
+import { urls } from "utils/urls"
+import useSnackbarStore from "../../../../store/zustand/useSnackbarStore"
+import myAxios from "../../../../utils/consts/myAxios"
+import { myQueryClient } from "../../../../utils/consts/myQueryClient"
 
 export default function useDeleteLabelMutation() {
-  const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
+  const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
 
   return useMutation(
     (payload: SkillLabelDto) =>
@@ -18,29 +17,17 @@ export default function useDeleteLabelMutation() {
         .then((res) => res.data),
     {
       onSuccess: (_, payload) => {
-        const labels = myQueryClient.getQueryData<LabelDto[]>(queryKeys.labels);
+        const labels = myQueryClient.getQueryData<LabelDto[]>(queryKeys.labels)
         const newLabels = [...labels].filter(
           (label) => label.id !== payload.labelId
-        );
-        myQueryClient.setQueryData(queryKeys.labels, newLabels);
+        )
+        myQueryClient.setQueryData(queryKeys.labels, newLabels)
 
-        const skill = myQueryClient.getQueryData<SkillDto>(
-          queryKeys.skillId(payload.skillId)
-        );
-        const newSkillLabels = skill.labels.filter(
-          (label) => label.id !== payload.labelId
-        );
-        const newSkill = { ...skill, labels: newSkillLabels };
-        myQueryClient.setQueryData(
-          queryKeys.skillId(payload.skillId),
-          newSkill
-        );
-
-        setSuccessMessage("Label deleted!");
+        setSuccessMessage("Label deleted!")
       },
       onError: (err) => {
-        setErrorMessage("Error while deleting label: " + JSON.stringify(err));
+        setErrorMessage("Error while deleting label: " + JSON.stringify(err))
       },
     }
-  );
+  )
 }

@@ -5,37 +5,38 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-} from "@material-ui/core";
-import SaveCancelButtons from "components/_UI/Buttons/SaveCancelButtons";
-import Flex from "components/_UI/Flexboxes/Flex";
-import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
-import MyTextField from "components/_UI/MyInputs/MyTextField";
-import Txt from "components/_UI/Text/Txt";
-import useDeleteLabelMutation from "hooks/react-query/skillbase/labels/useDeleteLabelMutation";
-import useSaveLabelMutation from "hooks/react-query/skillbase/labels/useSaveLabelMutation";
-import React, { useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { MdClose, MdDelete } from "react-icons/md";
-import useDialogsStore from "store/zustand/useDialogsStore";
-import { LabelDto } from "types/domain/skillbase/LabelDto";
-import labelColors from "./labelColors";
+} from "@material-ui/core"
+import SaveCancelButtons from "components/_UI/Buttons/SaveCancelButtons"
+import Flex from "components/_UI/Flexboxes/Flex"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import MyTextField from "components/_UI/MyInputs/MyTextField"
+import Txt from "components/_UI/Text/Txt"
+import useDeleteLabelMutation from "hooks/react-query/skillbase/labels/useDeleteLabelMutation"
+import useSaveLabelMutation from "hooks/react-query/skillbase/labels/useSaveLabelMutation"
+import { useEffect } from "react"
+import { Controller, useForm } from "react-hook-form"
+import { MdClose, MdDelete } from "react-icons/md"
+import useDialogsStore from "store/zustand/useDialogsStore"
+import { LabelDto } from "types/domain/skillbase/LabelDto"
+import useSkillbaseStore from "../../../../../../store/zustand/domain/useSkillbaseStore"
+import labelColors from "./labelColors"
 
 interface Props {
-  open: boolean;
-  skillId: number;
-  initialValue: LabelDto;
-  onClose: () => void;
+  open: boolean
+  skillId: number
+  initialValue: LabelDto
+  onClose: () => void
   // afterSave?: (returned: DecisionDto) => void;
 }
 
 const EditLabelDialog = (props: Props) => {
   const handleClose = () => {
-    props.onClose();
-  };
+    props.onClose()
+  }
 
-  const { openConfirmDialog } = useDialogsStore();
-  const { mutate: saveLabel, isLoading } = useSaveLabelMutation();
-  const { mutate: deleteLabel } = useDeleteLabelMutation();
+  const { openConfirmDialog } = useDialogsStore()
+  const { mutate: saveLabel, isLoading } = useSaveLabelMutation()
+  const { mutate: deleteLabel } = useDeleteLabelMutation()
 
   const {
     handleSubmit,
@@ -46,7 +47,7 @@ const EditLabelDialog = (props: Props) => {
     reset,
   } = useForm<LabelDto>({
     defaultValues: props.initialValue,
-  });
+  })
 
   const onSubmit = (label: LabelDto) => {
     saveLabel(
@@ -54,14 +55,18 @@ const EditLabelDialog = (props: Props) => {
       {
         onSuccess: props.onClose,
       }
-    );
-  };
+    )
+  }
 
   useEffect(() => {
-    if (props.open) reset(props.initialValue);
+    if (props.open) reset(props.initialValue)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.open]);
+  }, [props.open])
+
+  const skills = useSkillbaseStore((s) => s.skills)
+  const getLabelSkills = (labelId: number) =>
+    skills.filter((s) => s.labels.some((l) => l.id === labelId))
 
   return (
     <Dialog
@@ -140,13 +145,16 @@ const EditLabelDialog = (props: Props) => {
                   onClick={() => {
                     openConfirmDialog({
                       title: "Delete Label",
+                      description: `There are ${
+                        getLabelSkills(watch("id")).length
+                      } skills with this label. They won't be deleted.`,
                       onConfirm: () => {
                         deleteLabel(
                           { labelId: watch("id"), skillId: props.skillId },
                           { onSuccess: props.onClose }
-                        );
+                        )
                       },
-                    });
+                    })
                   }}
                 >
                   Delete
@@ -157,7 +165,7 @@ const EditLabelDialog = (props: Props) => {
         </Box>
       </form>
     </Dialog>
-  );
-};
+  )
+}
 
-export default EditLabelDialog;
+export default EditLabelDialog
