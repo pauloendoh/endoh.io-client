@@ -1,4 +1,4 @@
-import { createTheme } from "@material-ui/core";
+import { createTheme } from "@material-ui/core"
 
 const theme = createTheme({
   palette: {
@@ -39,14 +39,17 @@ const theme = createTheme({
     },
     MuiTooltip: {
       arrow: { color: "#292929" },
+
       tooltip: {
         backgroundColor: "#292929",
+        fontSize: 12,
       },
     },
   },
+
   zIndex: {
     appBar: 1201, // zIndex.drawer + 1
   },
-});
+})
 
-export default theme;
+export default theme

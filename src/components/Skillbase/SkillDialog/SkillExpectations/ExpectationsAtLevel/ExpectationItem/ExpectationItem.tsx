@@ -1,31 +1,25 @@
-import {
-  Box,
-  Checkbox,
-  IconButton,
-  Tooltip,
-  useTheme,
-} from "@material-ui/core";
-import MyReactLinkify from "components/_UI/link/MyReactLinkify";
-import Txt from "components/_UI/Text/Txt";
-import React, { useEffect, useMemo, useRef } from "react";
-import { useDrag, useDrop } from "react-dnd";
-import { FaFire } from "react-icons/fa";
-import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
-import { SkillExpectationDto } from "../../../../../../types/domain/skillbase/SkillExpectationDto";
-import ExpectationTextarea from "../ExpectationTextarea/ExpectationTextarea";
-import changeExpectationPosition from "./utils/changeExpectationPosition";
+import { Box, Checkbox, IconButton, Tooltip, useTheme } from "@material-ui/core"
+import MyReactLinkify from "components/_UI/link/MyReactLinkify"
+import Txt from "components/_UI/Text/Txt"
+import React, { useEffect, useMemo, useRef } from "react"
+import { useDrag, useDrop } from "react-dnd"
+import { FaFire } from "react-icons/fa"
+import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
+import { SkillExpectationDto } from "../../../../../../types/domain/skillbase/SkillExpectationDto"
+import ExpectationTextarea from "../ExpectationTextarea/ExpectationTextarea"
+import changeExpectationPosition from "./utils/changeExpectationPosition"
 
 interface Props {
-  expectations: SkillExpectationDto[];
-  level: number;
-  disabled?: boolean;
-  onChangeExpectations: (expectations: SkillExpectationDto[]) => void;
+  expectations: SkillExpectationDto[]
+  level: number
+  disabled?: boolean
+  onChangeExpectations: (expectations: SkillExpectationDto[]) => void
 
-  expectation: SkillExpectationDto;
-  index: number;
+  expectation: SkillExpectationDto
+  index: number
 
-  editingIndex: number;
-  setEditingIndex: (index: number) => void;
+  editingIndex: number
+  setEditingIndex: (index: number) => void
 }
 
 const ExpectationItem = ({
@@ -35,12 +29,12 @@ const ExpectationItem = ({
   setEditingIndex,
   ...props
 }: Props) => {
-  const theme = useTheme();
+  const theme = useTheme()
 
   const {
     setDraggingExpectation,
     draggingExpectation: storedDraggingExpectation,
-  } = useSkillbaseStore();
+  } = useSkillbaseStore()
 
   const handleCheck = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -49,76 +43,76 @@ const ExpectationItem = ({
     changeExpectations(
       props.expectations.map((e) => {
         if (e.index === expectation.index && e.level === expectation.level) {
-          e.checked = event.target.checked;
+          e.checked = event.target.checked
         }
-        return e;
+        return e
       })
-    );
-  };
+    )
+  }
 
   const editOrRemoveDescription = (index: number, newDescription: string) => {
     // remove
     if (newDescription.trim().length === 0) {
       changeExpectations(
         props.expectations.filter((e) => {
-          if (e.index === index && e.level === props.level) return false;
-          return true;
+          if (e.index === index && e.level === props.level) return false
+          return true
         })
-      );
+      )
 
-      return;
+      return
     }
 
     // update
     changeExpectations(
       props.expectations.map((e) => {
         if (e.index === index && e.level === props.level) {
-          e.description = newDescription;
+          e.description = newDescription
         }
-        return e;
+        return e
       })
-    );
-  };
+    )
+  }
 
   const changeExpectations = (expectations: SkillExpectationDto[]) => {
     const otherLevelsExpectations = expectations.filter(
       (e) => e.level !== props.level
-    );
+    )
 
     // Fixing this level's indexes
     const thisLevelExpectation = filterAndSortExpectations(
       expectations,
       props.level
-    ).map((exp, index) => ({ ...exp, index }));
+    ).map((exp, index) => ({ ...exp, index }))
 
     props.onChangeExpectations([
       ...otherLevelsExpectations,
       ...thisLevelExpectation,
-    ]);
-  };
+    ])
+  }
 
   const toggleCurrentGoal = (level: number, index: number) => {
     let expectation = [...props.expectations].find(
       (e) => e.level === level && e.index === index
-    );
+    )
 
-    if (!expectation) return; // very unlikely to happen
+    if (!expectation) return // very unlikely to happen
 
     // remove current goal from everyone
     let expectations = [...props.expectations].map((e) => ({
       ...e,
       isCurrentGoal: false,
-    }));
+    }))
 
     if (!expectation.isCurrentGoal) {
       expectation = expectations.find(
         (e) => e.level === level && e.index === index
-      );
-      expectation.isCurrentGoal = true;
+      )
+      expectation.isCurrentGoal = true
     }
 
-    props.onChangeExpectations(expectations);
-  };
+    props.onChangeExpectations(expectations)
+  }
 
   const [{ isDragging: localIsDragging }, dragExpectationRef] = useDrag({
     type: "dnd-expectation",
@@ -127,46 +121,46 @@ const ExpectationItem = ({
       isDragging: monitor.isDragging(),
     }),
     end: () => {
-      setDraggingExpectation(null);
+      setDraggingExpectation(null)
     },
-  });
+  })
 
   useEffect(() => {
-    if (localIsDragging) setDraggingExpectation(expectation);
+    if (localIsDragging) setDraggingExpectation(expectation)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [localIsDragging]);
+  }, [localIsDragging])
 
   const isDragging = useMemo(() => {
-    console.log({ storedDraggingExpectation, expectation });
+    console.log({ storedDraggingExpectation, expectation })
     return (
       (storedDraggingExpectation?.id || 0) +
         (storedDraggingExpectation?.randomId || 0) ===
       (expectation.id || 0) + (expectation.randomId || 0)
-    );
-  }, [storedDraggingExpectation, expectation]);
+    )
+  }, [storedDraggingExpectation, expectation])
 
   const [, dropExpectationRef] = useDrop<SkillExpectationDto, unknown, unknown>(
     {
       accept: "dnd-expectation",
       hover(fromExpectation, monitor) {
-        const toExpectation = expectation;
+        const toExpectation = expectation
         if (
           fromExpectation.level === toExpectation.level &&
           fromExpectation.index === toExpectation.index
         )
-          return;
+          return
 
-        const targetSize = htmlDropRef.current.getBoundingClientRect();
-        const targetCenterY = (targetSize.bottom - targetSize.top) / 2;
+        const targetSize = htmlDropRef.current.getBoundingClientRect()
+        const targetCenterY = (targetSize.bottom - targetSize.top) / 2
 
-        const cursorCoord = monitor.getClientOffset();
-        const cursorYInTarget = cursorCoord.y - targetSize.top;
+        const cursorCoord = monitor.getClientOffset()
+        const cursorYInTarget = cursorCoord.y - targetSize.top
 
         // some utility booleans
-        const areSameLevel = fromExpectation.level === toExpectation.level;
-        const areDifferentLevels = !areSameLevel;
-        const cursorIsBefore = cursorYInTarget < targetCenterY;
-        const cursorIsAfter = cursorYInTarget > targetCenterY;
+        const areSameLevel = fromExpectation.level === toExpectation.level
+        const areDifferentLevels = !areSameLevel
+        const cursorIsBefore = cursorYInTarget < targetCenterY
+        const cursorIsAfter = cursorYInTarget > targetCenterY
 
         // if you try to drop the first before the second
         if (
@@ -174,7 +168,7 @@ const ExpectationItem = ({
           fromExpectation.index < toExpectation.index &&
           cursorIsBefore
         )
-          return;
+          return
 
         // if you try to drop the second after the first
         if (
@@ -182,36 +176,36 @@ const ExpectationItem = ({
           fromExpectation.index > toExpectation.index &&
           cursorIsAfter
         )
-          return;
+          return
 
         // eg: drag one item to another level
         const toIndexAfter =
           areDifferentLevels && cursorIsAfter
             ? toExpectation.index + 1
-            : undefined;
+            : undefined
 
-        if (toIndexAfter) toExpectation.index = toIndexAfter;
+        if (toIndexAfter) toExpectation.index = toIndexAfter
 
         const newExpectations = changeExpectationPosition(
           props.expectations,
           fromExpectation,
           toExpectation
-        );
+        )
 
-        props.onChangeExpectations(newExpectations);
+        props.onChangeExpectations(newExpectations)
 
         // required to avoid multiple events
-        fromExpectation.index = toExpectation.index;
-        fromExpectation.level = toExpectation.level;
+        fromExpectation.index = toExpectation.index
+        fromExpectation.level = toExpectation.level
       },
     }
-  );
+  )
 
-  const htmlDragRef = useRef<HTMLDivElement>();
-  dragExpectationRef(htmlDragRef);
+  const htmlDragRef = useRef<HTMLDivElement>()
+  dragExpectationRef(htmlDragRef)
 
-  const htmlDropRef = useRef<HTMLDivElement>();
-  dropExpectationRef(htmlDropRef);
+  const htmlDropRef = useRef<HTMLDivElement>()
+  dropExpectationRef(htmlDropRef)
 
   return (
     <div
@@ -245,9 +239,9 @@ const ExpectationItem = ({
                 newDescription !== expectation.description ||
                 newDescription.length === 0
               )
-                editOrRemoveDescription(index, newDescription);
+                editOrRemoveDescription(index, newDescription)
 
-              setEditingIndex(null);
+              setEditingIndex(null)
             }}
           />
         ) : (
@@ -258,7 +252,7 @@ const ExpectationItem = ({
               paddingTop: theme.spacing(1),
             }}
             onClick={() => {
-              if (!props.disabled) setEditingIndex(index);
+              if (!props.disabled) setEditingIndex(index)
             }}
           >
             <Txt>
@@ -278,7 +272,7 @@ const ExpectationItem = ({
         )}
       </Box>
 
-      <Tooltip title="Current goal">
+      <Tooltip title="Current goal ━ this is not your end goal, but your next checkpoint.">
         <IconButton
           onClick={() => toggleCurrentGoal(props.level, expectation.index)}
           size="small"
@@ -294,21 +288,21 @@ const ExpectationItem = ({
         </IconButton>
       </Tooltip>
     </div>
-  );
-};
+  )
+}
 
 const filterAndSortExpectations = (
   expectations: SkillExpectationDto[],
   level: number
 ) => {
-  if (!expectations) return [];
+  if (!expectations) return []
   return expectations
     .filter((expectation) => expectation.level === level)
     .sort((a, b) => {
-      if (a.index > b.index) return 1;
-      if (a.index < b.index) return -1;
-      return 0;
-    });
-};
+      if (a.index > b.index) return 1
+      if (a.index < b.index) return -1
+      return 0
+    })
+}
 
-export default ExpectationItem;
+export default ExpectationItem
