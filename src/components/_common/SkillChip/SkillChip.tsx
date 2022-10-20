@@ -1,22 +1,24 @@
-import { Box } from "@material-ui/core";
-import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
-import React, { useMemo } from "react";
-import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
-import { SkillDto } from "../../../types/domain/skillbase/SkillDto";
-import Flex from "../../_UI/Flexboxes/Flex";
-import S from "./SkillChip.styles";
+import { Box } from "@material-ui/core"
+import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt"
+import { useMemo } from "react"
+import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
+import { SkillDto } from "../../../types/domain/skillbase/SkillDto"
+import Flex from "../../_UI/Flexboxes/Flex"
+import S from "./SkillChip.styles"
 
 interface Props {
-  skill: SkillDto;
+  skill: SkillDto
 }
 
 // PE 1/3 delete?
 function SkillChip(props: Props) {
-  const { setEditingSkill } = useSkillbaseStore();
+  const { setEditingSkill } = useSkillbaseStore()
 
   const currentGoalLevel = useMemo(() => {
-    return props.skill.expectations.find((e) => e.isCurrentGoal).level;
-  }, [props.skill.expectations]);
+    const foundSkill = props.skill.expectations.find((e) => e.isCurrentGoal)
+    if (!foundSkill) return 0
+    return foundSkill.level
+  }, [props.skill.expectations])
 
   return (
     <S.SkillButton
@@ -24,7 +26,7 @@ function SkillChip(props: Props) {
       variant="outlined"
       size="small"
       onClick={() => {
-        setEditingSkill(props.skill);
+        setEditingSkill(props.skill)
       }}
     >
       <Flex>
@@ -57,7 +59,7 @@ function SkillChip(props: Props) {
         )}
       </Flex>
     </S.SkillButton>
-  );
+  )
 }
 
-export default SkillChip;
+export default SkillChip
