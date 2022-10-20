@@ -6,7 +6,7 @@ import useSaveDocLastOpenedAt from "hooks/react-query/define/useSaveDocLastOpene
 import { useRef } from "react"
 import { useDrag } from "react-dnd"
 import { MdInsertDriveFile } from "react-icons/md"
-import { useHistory } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import useFlashnotesStore from "store/zustand/domain/useFlashnotesStore"
 import { DocDto } from "types/domain/define/DocDto"
 import { urls } from "utils/urls"
@@ -45,15 +45,21 @@ export default function DocTreeItem({ doc }: Props) {
         e.preventDefault()
         setSelectedDoc(doc)
         submitSaveDocLastOpenedAt(doc.id)
-        history.push(urls.pages.defineDoc(doc.id))
       }}
       label={
-        <FlexVCenter style={{ justifyContent: "space-between", minHeight: 30 }}>
-          <FlexVCenter style={{ gap: theme.spacing(1) }}>
-            <MdInsertDriveFile fontSize="small" style={{ minWidth: 16 }} />
-            <Txt variant="body2">{doc.title}</Txt>
+        <Link
+          to={urls.pages.defineDoc(doc.id)}
+          style={{ color: "unset", textDecoration: "none" }}
+        >
+          <FlexVCenter
+            style={{ justifyContent: "space-between", minHeight: 30 }}
+          >
+            <FlexVCenter style={{ gap: theme.spacing(1) }}>
+              <MdInsertDriveFile fontSize="small" style={{ minWidth: 16 }} />
+              <Txt variant="body2">{doc.title}</Txt>
+            </FlexVCenter>
           </FlexVCenter>
-        </FlexVCenter>
+        </Link>
       }
     />
   )
