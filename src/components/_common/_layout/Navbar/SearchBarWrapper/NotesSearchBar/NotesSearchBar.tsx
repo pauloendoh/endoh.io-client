@@ -52,10 +52,7 @@ const NotesSearchBar = () => {
     MIN_LENGTH
   )
 
-  const submit = (values: ISearchForm) => {
-    if (values.searchQuery?.length)
-      history.push(pageUrls.search(values.searchQuery))
-  }
+  const submit = (values: ISearchForm) => {}
 
   const ctrlSubmit = (values: ISearchForm) => {
     if (values.searchQuery?.length) {
