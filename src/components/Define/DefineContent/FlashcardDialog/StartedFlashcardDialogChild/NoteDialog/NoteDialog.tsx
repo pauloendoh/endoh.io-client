@@ -8,10 +8,12 @@ import {
   Tooltip,
 } from "@material-ui/core"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
 import { useEffect } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { MdInfo } from "react-icons/md"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
+import useDialogsStore from "store/zustand/useDialogsStore"
 import SaveCancelButtons from "../../../../../_UI/Buttons/SaveCancelButtons"
 import MyTextField from "../../../../../_UI/MyInputs/MyTextField"
 import DocSelector from "./DocSelector/DocSelector"
@@ -29,9 +31,25 @@ const NoteDialog = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen])
 
+  useConfirmTabClose(isOpen && formState.isDirty)
+
+  const openConfirmDialog = useDialogsStore((s) => s.openConfirmDialog)
+
+  const handleConfirmClose = () => {
+    if (!formState.isDirty) {
+      onClose()
+      return
+    }
+
+    openConfirmDialog({
+      onConfirm: () => onClose(),
+      title: "Discard changes?",
+    })
+  }
+
   return (
     <Dialog
-      onClose={onClose}
+      onClose={handleConfirmClose}
       open={isOpen}
       fullWidth
       maxWidth="xs"
@@ -122,7 +140,7 @@ const NoteDialog = () => {
           <DialogTitle>
             <SaveCancelButtons
               disabled={formState.isSubmitting}
-              onCancel={onClose}
+              onCancel={handleConfirmClose}
               onEnabledAndCtrlEnter={() => onSubmit(watch())}
             />
           </DialogTitle>
