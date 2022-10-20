@@ -65,9 +65,7 @@ const NavbarAddButton = (props: Props) => {
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={handlers}>
       <Tooltip
-        title={
-          isQuestionsPage ? "(q) Add new question" : "(q) Add new resource"
-        }
+        title={isQuestionsPage ? "(q) New question" : "(q) New resource"}
       >
         <Fab
           id="navbar-add-btn"
