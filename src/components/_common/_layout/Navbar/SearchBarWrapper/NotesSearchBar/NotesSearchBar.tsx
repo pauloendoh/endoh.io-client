@@ -13,6 +13,7 @@ import { NoteDto } from "types/domain/define/NoteDto"
 import { SearchResultsDto } from "types/domain/utils/SearchResultsDto"
 import myAxios from "utils/consts/myAxios"
 import apiUrls from "utils/url/urls/apiUrls"
+import { urls } from "utils/urls"
 import pageUrls from "../../../../../../utils/url/urls/pageUrls"
 import MyTextField from "../../../../../_UI/MyInputs/MyTextField"
 import NotesSearchBarOption from "./NotesSearchBarOption/NotesSearchBarOption"
@@ -85,17 +86,21 @@ const NotesSearchBar = () => {
     if (searchResults) setLoading(false)
   }, [searchResults])
 
-  const sortedNotes = useMemo(() => {
-    if (searchResults?.notes)
-      return searchResults.notes
-        .sort((a, b) => {
-          if (b.question.trim().length > 0 && a.question.trim().length === 0)
-            return 1
-          return -1
-        })
-        .slice(0, 25)
+  const sortedOptions = useMemo(() => {
+    if (searchResults?.notes && searchResults?.docs)
+      return [
+        ...searchResults.docs,
+        ...searchResults.notes
+          .sort((a, b) => {
+            if (b.question.trim().length > 0 && a.question.trim().length === 0)
+              return 1
+            return -1
+          })
+          .slice(0, 25),
+      ]
+
     return []
-  }, [searchResults?.notes])
+  }, [searchResults?.notes, searchResults?.docs])
 
   const pushOrReplaceNote = useDocsStore((s) => s.pushOrReplaceNote)
   const setSuccessMessage = useSnackbarStore((s) => s.setSuccessMessage)
@@ -104,6 +109,7 @@ const NotesSearchBar = () => {
     s.onOpen,
     s.onClose,
   ])
+
   return (
     <>
       <form onSubmit={handleSubmit(submit)}>
@@ -112,16 +118,19 @@ const NotesSearchBar = () => {
           // if no text, show nothing (don't show 'no resources :(')
           freeSolo={watch("searchQuery").length < MIN_LENGTH}
           noOptionsText={"No results :("}
-          options={sortedNotes}
+          options={sortedOptions}
           PopperComponent={MyPopper}
-          filterOptions={(notes) => notes}
-          renderOption={(note) => (
+          filterOptions={(notes) => notes} // what this do?
+          renderOption={(docOrNote) => (
             <NotesSearchBarOption
-              key={note.id}
-              note={note}
+              key={docOrNote.id}
+              docOrNote={docOrNote}
               handleClick={() => {
-                onOpenDialog({
-                  initialValue: note,
+                if ("title" in docOrNote)
+                  return history.push(urls.pages.defineDoc(docOrNote.id))
+
+                return onOpenDialog({
+                  initialValue: docOrNote,
                   onSubmit: (value) => {
                     myAxios
                       .post<NoteDto>(apiUrls.define.note, value)

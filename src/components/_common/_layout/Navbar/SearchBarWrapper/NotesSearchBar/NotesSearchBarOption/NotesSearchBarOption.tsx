@@ -4,18 +4,17 @@ import { Typography, useTheme } from "@material-ui/core"
 import Flex from "components/_UI/Flexboxes/Flex"
 import FlexCol from "components/_UI/Flexboxes/FlexCol"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
-import { useLocation } from "react-router-dom"
+import { MdInsertDriveFile } from "react-icons/md"
+import { DocDto } from "types/domain/define/DocDto"
 import { NoteDto } from "types/domain/define/NoteDto"
 
 type Props = {
-  note: NoteDto
+  docOrNote: NoteDto | DocDto
   handleClick: () => void
 }
 
-const NotesSearchBarOption = ({ note, handleClick }: Props) => {
+const NotesSearchBarOption = ({ docOrNote, handleClick }: Props) => {
   const theme = useTheme()
-
-  const location = useLocation()
 
   return (
     <FlexVCenter
@@ -26,44 +25,47 @@ const NotesSearchBarOption = ({ note, handleClick }: Props) => {
       }}
       onClick={handleClick}
       height="100%"
-      // onMouseDown={(e) => {
-      //   if (e.button === 1)
-      //     window
-      //       .open(
-      //         urls.pages.openResourceId(resource.id, location.pathname),
-      //         "_blank"
-      //       )
-      //       .focus()
-      // }}
     >
-      <FlexCol style={{ gap: 4 }} width="100%">
-        <Flex justifyContent="space-between" width="100%">
-          <Flex style={{ gap: 8 }}>
-            <NotesIcon />
-            <Typography>{note.question}</Typography>
+      {"question" in docOrNote && (
+        <FlexCol style={{ gap: 4 }} width="100%">
+          <Flex justifyContent="space-between" width="100%">
+            <Flex style={{ gap: 8 }}>
+              <NotesIcon />
+              <Typography>{docOrNote.question}</Typography>
+            </Flex>
+            <Typography
+              noWrap
+              title={docOrNote.doc?.title}
+              display="inline"
+              style={{
+                width: 120,
+                padding: "2px 8px 2px 8px",
+                borderRadius: 2,
+                height: "fit-content",
+                background: theme.palette.grey[700],
+              }}
+            >
+              {docOrNote.doc?.title}
+            </Typography>
           </Flex>
           <Typography
-            noWrap
-            title={note.doc?.title}
-            display="inline"
-            style={{
-              width: 120,
-              padding: "2px 8px 2px 8px",
-              borderRadius: 2,
-              height: "fit-content",
-              background: theme.palette.grey[700],
-            }}
+            variant="body2"
+            style={{ fontStyle: "italic", marginLeft: 28 }}
           >
-            {note.doc?.title}
+            {docOrNote.description}
           </Typography>
-        </Flex>
-        <Typography
-          variant="body2"
-          style={{ fontStyle: "italic", marginLeft: 28 }}
-        >
-          {note.description}
-        </Typography>
-      </FlexCol>
+        </FlexCol>
+      )}
+      {"title" in docOrNote && (
+        <FlexCol style={{ gap: 4 }} width="100%">
+          <Flex justifyContent="space-between" width="100%">
+            <Flex style={{ gap: 8 }}>
+              <MdInsertDriveFile fontSize={24} />
+              <Typography>{docOrNote.title}</Typography>
+            </Flex>
+          </Flex>
+        </FlexCol>
+      )}
     </FlexVCenter>
   )
 }
