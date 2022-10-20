@@ -5,9 +5,12 @@ import {
   DialogContent,
   DialogTitle,
   FormControlLabel,
+  Tooltip,
 } from "@material-ui/core"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import { useEffect } from "react"
 import { Controller, useForm } from "react-hook-form"
+import { MdInfo } from "react-icons/md"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import SaveCancelButtons from "../../../../../_UI/Buttons/SaveCancelButtons"
 import MyTextField from "../../../../../_UI/MyInputs/MyTextField"
@@ -97,7 +100,22 @@ const NoteDialog = () => {
                     color="primary"
                   />
                 }
-                label="To refine"
+                label={
+                  <FlexVCenter>
+                    To refine
+                    <Tooltip title="Improve this question's content later">
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginLeft: 8,
+                        }}
+                      >
+                        <MdInfo />
+                      </div>
+                    </Tooltip>
+                  </FlexVCenter>
+                }
               />
             </Box>
           </DialogContent>
