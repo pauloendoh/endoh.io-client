@@ -23,9 +23,20 @@ const NavbarAddButton = (props: Props) => {
 
   const location = useLocation()
 
+  const [pushOrReplaceNote, docs] = useDocsStore((s) => [
+    s.pushOrReplaceNote,
+    s.docs,
+  ])
+
   const openQuestionDialog = () => {
+    const splits = location.pathname.split("/")
+    const docId = Number(splits[splits.length - 1])
+    const doc = docs.find((d) => d.id === docId)
+
     openNoteDialog({
-      initialValue: buildNoteDto(),
+      initialValue: buildNoteDto({
+        docId: doc?.id,
+      }),
       onSubmit: (updatedNote) => {
         myAxios.post<NoteDto>(apiUrls.define.note, updatedNote).then((res) => {
           pushOrReplaceNote(res.data)
@@ -38,8 +49,6 @@ const NavbarAddButton = (props: Props) => {
   }
 
   const setSuccessMessage = useSnackbarStore((s) => s.setSuccessMessage)
-
-  const pushOrReplaceNote = useDocsStore((s) => s.pushOrReplaceNote)
 
   const isQuestionsPage = useMemo(() => {
     return location.pathname.includes("define")
