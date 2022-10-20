@@ -2,6 +2,7 @@ import { Popper } from "@material-ui/core"
 import { Autocomplete } from "@material-ui/lab"
 import { queryKeys } from "hooks/react-query/queryKeys"
 import useNotesSearchQuery from "hooks/react-query/search/useNotesSearchQuery"
+import useDebounce from "hooks/utils/useDebounce"
 import React, { useEffect, useMemo, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { useQueryClient } from "react-query"
@@ -48,7 +49,7 @@ const NotesSearchBar = () => {
     },
   })
 
-  const { data: searchResults, refetch } = useNotesSearchQuery(
+  const { data: searchResults, refetch, isFetching } = useNotesSearchQuery(
     watch("searchQuery"),
     MIN_LENGTH
   )
@@ -71,19 +72,18 @@ const NotesSearchBar = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history.location.search])
 
+  const debouncedSearchQuery = useDebounce(watch("searchQuery"), 250)
+
   useEffect(
     () => {
-      if (getValues("searchQuery").length >= MIN_LENGTH) setLoading(true)
-      else setLoading(false)
-      clearTimeout(throttle)
-      setThrottle(setTimeout(refetch, 500))
+      refetch()
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [watch("searchQuery")]
+    [debouncedSearchQuery]
   )
 
   useEffect(() => {
-    if (searchResults) setLoading(false)
+    if (!!searchResults) setLoading(false)
   }, [searchResults])
 
   const sortedOptions = useMemo(() => {
@@ -114,11 +114,18 @@ const NotesSearchBar = () => {
     <>
       <form onSubmit={handleSubmit(submit)}>
         <Autocomplete
-          loading={loading}
+          loading={isFetching}
           // if no text, show nothing (don't show 'no resources :(')
-          freeSolo={watch("searchQuery").length < MIN_LENGTH}
-          noOptionsText={"No results :("}
-          options={sortedOptions}
+
+          noOptionsText={
+            watch("searchQuery").length >= MIN_LENGTH &&
+            debouncedSearchQuery === watch("searchQuery")
+              ? "No questions or docs found :("
+              : "Type at least 3 characters"
+          }
+          options={
+            watch("searchQuery").length >= MIN_LENGTH ? sortedOptions : []
+          }
           PopperComponent={MyPopper}
           filterOptions={(notes) => notes} // what this do?
           renderOption={(docOrNote) => (
@@ -166,7 +173,7 @@ const NotesSearchBar = () => {
                 <MyTextField
                   {...params}
                   {...field}
-                  label="Search questions, docs..."
+                  label="Search questions"
                   size="small"
                   style={{
                     width: 160,
