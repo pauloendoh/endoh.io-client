@@ -47,6 +47,15 @@ const DocTableRow = (props: Props) => {
       <TableCell className={classes.td} align="center">
         {props.index + 1}
       </TableCell>
+
+      <TableCell className={classes.textareaCell} onClick={focusQuestion}>
+        <TextareaAutosize
+          onChange={(e) => changeQuestion(e.target.value)}
+          value={localNote.question}
+          className={classes.textarea}
+          ref={questionRef}
+        />
+      </TableCell>
       <TableCell className={classes.textareaCell} onClick={focusDescription}>
         <TextareaAutosize
           ref={descriptionRef}
@@ -56,14 +65,7 @@ const DocTableRow = (props: Props) => {
           autoFocus
         />
       </TableCell>
-      <TableCell className={classes.textareaCell} onClick={focusQuestion}>
-        <TextareaAutosize
-          onChange={(e) => changeQuestion(e.target.value)}
-          value={localNote.question}
-          className={classes.textarea}
-          ref={questionRef}
-        />
-      </TableCell>
+
       <TableCell align="center" className={classes.td}>
         {localNote.weight}
       </TableCell>

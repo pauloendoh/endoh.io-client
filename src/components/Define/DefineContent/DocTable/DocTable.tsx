@@ -75,8 +75,8 @@ const DocTable = (props: Props) => {
               <TD className={classes.th} align="center">
                 #
               </TD>
-              <TD className={classes.th}>Notes</TD>
-              <TD className={classes.th}>Flashcard Question</TD>
+              <TD className={classes.th}>Question</TD>
+              <TD className={classes.th}>Answer</TD>
               <TD align="center" className={classes.th}>
                 Weight
               </TD>
