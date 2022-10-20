@@ -1,6 +1,6 @@
 import { Fab, Tooltip } from "@material-ui/core"
 import { useMemo } from "react"
-import { GlobalHotKeys } from "react-hotkeys"
+import { useHotkeys } from "react-hotkeys-hook"
 import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
@@ -13,7 +13,6 @@ import myAxios from "utils/consts/myAxios"
 import { sleep } from "utils/sleep"
 import Icons from "utils/styles/Icons"
 import apiUrls from "utils/url/urls/apiUrls"
-import { ApplicationState } from "../../../../../store/store"
 
 // PE 2/3
 const NavbarAddButton = (props: Props) => {
@@ -24,72 +23,66 @@ const NavbarAddButton = (props: Props) => {
 
   const location = useLocation()
 
-  const handleAddResource = () => {
-    props.startNewResource()
+  const openQuestionDialog = () => {
+    openNoteDialog({
+      initialValue: buildNoteDto(),
+      onSubmit: (updatedNote) => {
+        myAxios.post<NoteDto>(apiUrls.define.note, updatedNote).then((res) => {
+          pushOrReplaceNote(res.data)
+
+          setSuccessMessage("Question saved!")
+          closeNoteDialog()
+        })
+      },
+    })
   }
+
   const setSuccessMessage = useSnackbarStore((s) => s.setSuccessMessage)
 
   const pushOrReplaceNote = useDocsStore((s) => s.pushOrReplaceNote)
-
-  const keyMap = { openModal: "q" }
 
   const isQuestionsPage = useMemo(() => {
     return location.pathname.includes("define")
   }, [location.pathname])
 
-  const handlers = {
-    openModal: async () => {
-      await sleep(100) // required so it doesn't add 'q' at the title field immediately
-
-      if (isQuestionsPage) {
-        openNoteDialog({
-          initialValue: buildNoteDto(),
-          onSubmit: (updatedNote) => {
-            myAxios
-              .post<NoteDto>(apiUrls.define.note, updatedNote)
-              .then((res) => {
-                pushOrReplaceNote(res.data)
-
-                setSuccessMessage("Question saved!")
-                closeNoteDialog()
-              })
-          },
-        })
-        return
-      }
-      props.startNewResource()
-    },
+  const handleActivateButton = () => {
+    if (isQuestionsPage) {
+      openQuestionDialog()
+      return
+    }
+    props.startNewResource()
   }
 
+  useHotkeys(
+    "q",
+    (e) => {
+      sleep(100).then(() => handleActivateButton())
+    },
+    [location.pathname]
+  )
+
   return (
-    <GlobalHotKeys keyMap={keyMap} handlers={handlers}>
-      <Tooltip
-        title={isQuestionsPage ? "(q) New question" : "(q) New resource"}
+    <Tooltip title={isQuestionsPage ? "(q) New question" : "(q) New resource"}>
+      <Fab
+        id="navbar-add-btn"
+        onClick={handleActivateButton}
+        color="primary"
+        style={{
+          width: "1.875rem",
+          height: "1.875rem",
+          minHeight: "1.875rem",
+        }}
       >
-        <Fab
-          id="navbar-add-btn"
-          onClick={handleAddResource}
-          color="primary"
-          style={{
-            width: "1.875rem",
-            height: "1.875rem",
-            minHeight: "1.875rem",
-          }}
-        >
-          <Icons.Add />
-        </Fab>
-      </Tooltip>
-    </GlobalHotKeys>
+        <Icons.Add />
+      </Fab>
+    </Tooltip>
   )
 }
-
-const mapStateToProps = (state: ApplicationState) => ({})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   startNewResource: () => dispatch(startNewResource()),
 })
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
+type Props = ReturnType<typeof mapDispatchToProps>
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavbarAddButton)
+export default connect(undefined, mapDispatchToProps)(NavbarAddButton)
