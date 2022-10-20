@@ -1,6 +1,6 @@
 import { useTheme } from "@material-ui/core"
 import { TreeItem } from "@material-ui/lab"
-import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import Flex from "components/_UI/Flexboxes/Flex"
 import Txt from "components/_UI/Text/Txt"
 import useSaveFolderMutation from "hooks/react-query/folders/useSaveFolderMutation"
 import { queryKeys } from "hooks/react-query/queryKeys"
@@ -125,7 +125,7 @@ export default function FolderTreeItem({ folder }: Props) {
                 : undefined,
           }}
         >
-          <FlexVCenter
+          <Flex
             style={{
               justifyContent: "space-between",
               minHeight: 30,
@@ -133,13 +133,19 @@ export default function FolderTreeItem({ folder }: Props) {
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
           >
-            <FlexVCenter style={{ gap: theme.spacing(1) }}>
+            <Flex style={{ gap: theme.spacing(1) }}>
               <Icons.Folder fontSize="small" />
               <Txt variant="body2">{folder.name}</Txt>
-            </FlexVCenter>
+            </Flex>
 
-            {hover && <FolderMoreIcon folder={folder} />}
-          </FlexVCenter>
+            <Flex style={{ width: 64 }}>
+              {hover && (
+                <div>
+                  <FolderMoreIcon folder={folder} />
+                </div>
+              )}
+            </Flex>
+          </Flex>
         </div>
       }
     >
