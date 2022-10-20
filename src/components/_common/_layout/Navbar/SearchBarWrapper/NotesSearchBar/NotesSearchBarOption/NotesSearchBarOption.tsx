@@ -19,7 +19,11 @@ const NotesSearchBarOption = ({ note, handleClick }: Props) => {
 
   return (
     <FlexVCenter
-      style={{ justifyContent: "space-between", width: "100%" }}
+      style={{
+        justifyContent: "space-between",
+        width: "100%",
+        paddingBottom: 8,
+      }}
       onClick={handleClick}
       height="100%"
       // onMouseDown={(e) => {
@@ -40,8 +44,10 @@ const NotesSearchBarOption = ({ note, handleClick }: Props) => {
           </Flex>
           <Typography
             noWrap
+            title={note.doc?.title}
             display="inline"
             style={{
+              width: 120,
               padding: "2px 8px 2px 8px",
               borderRadius: 2,
               height: "fit-content",
