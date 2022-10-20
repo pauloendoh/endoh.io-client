@@ -1,4 +1,5 @@
 import { Fab, Tooltip } from "@material-ui/core"
+import { useMemo } from "react"
 import { GlobalHotKeys } from "react-hotkeys"
 import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
@@ -31,11 +32,16 @@ const NavbarAddButton = (props: Props) => {
   const pushOrReplaceNote = useDocsStore((s) => s.pushOrReplaceNote)
 
   const keyMap = { openModal: "q" }
+
+  const isQuestionsPage = useMemo(() => {
+    return location.pathname.includes("define")
+  }, [location.pathname])
+
   const handlers = {
     openModal: async () => {
       await sleep(100) // required so it doesn't add 'q' at the title field immediately
 
-      if (location.pathname.includes("define")) {
+      if (isQuestionsPage) {
         openNoteDialog({
           initialValue: buildNoteDto(),
           onSubmit: (updatedNote) => {
@@ -59,7 +65,11 @@ const NavbarAddButton = (props: Props) => {
 
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={handlers}>
-      <Tooltip title="(q) Add resource">
+      <Tooltip
+        title={
+          isQuestionsPage ? "(q) Add new question" : "(q) Add new resource"
+        }
+      >
         <Fab
           id="navbar-add-btn"
           onClick={handleAddResource}
