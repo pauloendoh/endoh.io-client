@@ -138,12 +138,14 @@ export default function FolderTreeItem({ folder }: Props) {
               <Txt variant="body2">{folder.name}</Txt>
             </Flex>
 
-            <Flex style={{ width: 64 }}>
-              {hover && (
-                <div>
-                  <FolderMoreIcon folder={folder} />
-                </div>
-              )}
+            <Flex>
+              <div
+                style={{
+                  width: 32,
+                }}
+              >
+                {hover && <FolderMoreIcon folder={folder} />}
+              </div>
             </Flex>
           </Flex>
         </div>
