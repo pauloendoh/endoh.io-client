@@ -42,7 +42,7 @@ export const buildNoteDto = (p?: Partial<NoteDto>): NoteDto => ({
   question: "",
   docId: 0,
   userId: 0,
-  weight: 0,
+  weight: 1,
   toRefine: false,
 
   createdAt: new Date().toISOString(),
