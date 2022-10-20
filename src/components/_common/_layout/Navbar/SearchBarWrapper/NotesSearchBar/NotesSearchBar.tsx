@@ -3,7 +3,7 @@ import { Autocomplete } from "@material-ui/lab"
 import { queryKeys } from "hooks/react-query/queryKeys"
 import useNotesSearchQuery from "hooks/react-query/search/useNotesSearchQuery"
 import useDebounce from "hooks/utils/useDebounce"
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useEffect, useMemo } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { useQueryClient } from "react-query"
 import { useHistory } from "react-router-dom"
@@ -37,9 +37,6 @@ const NotesSearchBar = () => {
   const MIN_LENGTH = 3
 
   const history = useHistory()
-  const [loading, setLoading] = useState(false)
-
-  const [throttle, setThrottle] = useState<NodeJS.Timeout>(null)
 
   const { handleSubmit, control, getValues, watch, setValue } = useForm<
     ISearchForm
@@ -65,7 +62,6 @@ const NotesSearchBar = () => {
   const qc = useQueryClient()
 
   useEffect(() => {
-    setLoading(false)
     setValue("searchQuery", "")
     qc.cancelQueries(queryKeys.notesSearchResults)
     qc.setQueryData<SearchResultsDto>(queryKeys.notesSearchResults, null)
@@ -81,10 +77,6 @@ const NotesSearchBar = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [debouncedSearchQuery]
   )
-
-  useEffect(() => {
-    if (!!searchResults) setLoading(false)
-  }, [searchResults])
 
   const sortedOptions = useMemo(() => {
     if (searchResults?.notes && searchResults?.docs)

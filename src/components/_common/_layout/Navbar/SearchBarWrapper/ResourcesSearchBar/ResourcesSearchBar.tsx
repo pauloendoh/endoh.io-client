@@ -2,6 +2,7 @@ import { Popper } from "@material-ui/core"
 import { Autocomplete } from "@material-ui/lab"
 import { queryKeys } from "hooks/react-query/queryKeys"
 import useResourcesSearchQuery from "hooks/react-query/search/useResourcesSearchQuery"
+import useDebounce from "hooks/utils/useDebounce"
 import React, { useEffect, useMemo, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { useQueryClient } from "react-query"
@@ -66,15 +67,14 @@ const ResourcesSearchBar = ({ editResource }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history.location.search])
 
+  const debouncedSearchQuery = useDebounce(watch("searchQuery"), 250)
+
   useEffect(
     () => {
-      if (getValues("searchQuery").length >= MIN_LENGTH) setLoading(true)
-      else setLoading(false)
-      clearTimeout(throttle)
-      setThrottle(setTimeout(refetch, 500))
+      refetch()
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [watch("searchQuery")]
+    [debouncedSearchQuery]
   )
 
   useEffect(() => {
@@ -95,8 +95,15 @@ const ResourcesSearchBar = ({ editResource }: Props) => {
         loading={loading}
         // if no text, show nothing (don't show 'no resources :(')
         freeSolo={watch("searchQuery").length < MIN_LENGTH}
-        noOptionsText={"No resources :("}
-        options={sortedResources}
+        noOptionsText={
+          watch("searchQuery").length >= MIN_LENGTH &&
+          debouncedSearchQuery === watch("searchQuery")
+            ? "No resources found :("
+            : "Type at least 3 characters"
+        }
+        options={
+          watch("searchQuery").length >= MIN_LENGTH ? sortedResources : []
+        }
         PopperComponent={MyPopper}
         filterOptions={(resources) => resources}
         renderOption={(resource) => (
