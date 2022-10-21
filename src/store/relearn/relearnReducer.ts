@@ -53,16 +53,11 @@ const setEditingResource = (
 }
 
 const removeResource = (state: RelearnState, id: number): RelearnState => {
-  // remove from resources, and from tags
   const resources = [...state.resources].filter(
     (resource) => resource.id !== id
   )
-  const tags = [...state.tags].map((tag) => {
-    tag.resources = tag.resources.filter((resource) => resource.id !== id)
-    return tag
-  })
 
-  return { ...state, resources, tags }
+  return { ...state, resources }
 }
 
 const removeTag = (state: RelearnState, id: number): RelearnState => {
