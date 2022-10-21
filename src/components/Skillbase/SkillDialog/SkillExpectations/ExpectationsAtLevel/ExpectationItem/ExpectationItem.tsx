@@ -31,10 +31,15 @@ const ExpectationItem = ({
 }: Props) => {
   const theme = useTheme()
 
-  const {
+  const [
     setDraggingExpectation,
-    draggingExpectation: storedDraggingExpectation,
-  } = useSkillbaseStore()
+    storedDraggingExpectation,
+    setIsEditingRoadmapItem,
+  ] = useSkillbaseStore((s) => [
+    s.setDraggingExpectation,
+    s.draggingExpectation,
+    s.setIsEditingRoadmapItem,
+  ])
 
   const handleCheck = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -241,6 +246,8 @@ const ExpectationItem = ({
               )
                 editOrRemoveDescription(index, newDescription)
 
+              setIsEditingRoadmapItem(false)
+
               setEditingIndex(null)
             }}
           />
@@ -252,7 +259,11 @@ const ExpectationItem = ({
               paddingTop: theme.spacing(1),
             }}
             onClick={() => {
-              if (!props.disabled) setEditingIndex(index)
+              if (!props.disabled) {
+                setIsEditingRoadmapItem(true)
+
+                setEditingIndex(index)
+              }
             }}
           >
             <Txt>

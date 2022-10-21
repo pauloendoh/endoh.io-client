@@ -39,7 +39,11 @@ const SkillDialog = () => {
   const location = useLocation()
   const submitSaveSkill = useSaveSkill()
 
-  const { setEditingSkill, editingSkill: initialValue } = useSkillbaseStore()
+  const {
+    setEditingSkill,
+    editingSkill: initialValue,
+    isEditingRoadmapItem,
+  } = useSkillbaseStore()
   const { openConfirmDialog } = useDialogsStore()
 
   const [labelDialogOpen, setLabelDialogOpen] = useState(false)
@@ -210,7 +214,7 @@ const SkillDialog = () => {
               />
               <SaveCancelButtons
                 submitButtonId="save-skill-btn"
-                disabled={formik.isSubmitting}
+                disabled={formik.isSubmitting || isEditingRoadmapItem}
                 onCancel={handleClose}
                 onEnabledAndCtrlEnter={() => formik.handleSubmit()}
               />

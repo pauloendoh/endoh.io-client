@@ -1,41 +1,44 @@
-import { ISortSkillBy } from "types/domain/skillbase/ISortSkillBy";
-import { SkillDto } from "types/domain/skillbase/SkillDto";
-import { SkillExpectationDto } from "types/domain/skillbase/SkillExpectationDto";
-import { pushOrRemove } from "utils/array/pushOrRemove";
-import create from "zustand";
-import { devtools } from "zustand/middleware";
+import { ISortSkillBy } from "types/domain/skillbase/ISortSkillBy"
+import { SkillDto } from "types/domain/skillbase/SkillDto"
+import { SkillExpectationDto } from "types/domain/skillbase/SkillExpectationDto"
+import { pushOrRemove } from "utils/array/pushOrRemove"
+import create from "zustand"
+import { devtools } from "zustand/middleware"
 
 interface ISkillbaseStore {
-  skills: SkillDto[];
-  hasFirstLoaded: boolean;
-  sortBy: ISortSkillBy;
-  editingSkill: SkillDto;
+  skills: SkillDto[]
+  hasFirstLoaded: boolean
+  sortBy: ISortSkillBy
+  editingSkill: SkillDto
 
-  setSkills: (skills: SkillDto[]) => void;
-  setEditingSkill: (skill: SkillDto) => void;
-  sortSkill: (sortBy: ISortSkillBy) => void;
-  removeSkills: (ids: number[]) => void;
+  setSkills: (skills: SkillDto[]) => void
+  setEditingSkill: (skill: SkillDto) => void
+  sortSkill: (sortBy: ISortSkillBy) => void
+  removeSkills: (ids: number[]) => void
+
+  isEditingRoadmapItem: boolean
+  setIsEditingRoadmapItem: (value: boolean) => void
 
   // filter
   filter: {
-    byText: string;
-    labelIds: number[];
-    hidingDone: boolean;
-    currentGoal: boolean;
-  };
+    byText: string
+    labelIds: number[]
+    hidingDone: boolean
+    currentGoal: boolean
+  }
 
-  getFilterCount: () => number;
-  filterLabelIds: (ids: number[]) => void;
-  toggleFilterLabelId: (id: number) => void;
-  labelIdIsInFilter: (id: number) => boolean;
+  getFilterCount: () => number
+  filterLabelIds: (ids: number[]) => void
+  toggleFilterLabelId: (id: number) => void
+  labelIdIsInFilter: (id: number) => boolean
 
-  setFilterByText: (text: string) => void;
-  toggleHidingDone: () => void;
-  toggleFilterCurrentGoal: () => void;
+  setFilterByText: (text: string) => void
+  toggleHidingDone: () => void
+  toggleFilterCurrentGoal: () => void
 
   // drag and drop
-  draggingExpectation: SkillExpectationDto;
-  setDraggingExpectation: (expectation: SkillExpectationDto) => void;
+  draggingExpectation: SkillExpectationDto
+  setDraggingExpectation: (expectation: SkillExpectationDto) => void
 }
 
 const useSkillbaseStore = create<ISkillbaseStore>(
@@ -47,13 +50,18 @@ const useSkillbaseStore = create<ISkillbaseStore>(
 
     sidebarIsOpen: false,
     setSkills: (skills) => {
-      set({ skills, hasFirstLoaded: true });
+      set({ skills, hasFirstLoaded: true })
     },
     setEditingSkill: (skill) => {
-      set({ editingSkill: skill });
+      set({ editingSkill: skill })
     },
     sortSkill: (sortBy) => {
-      set({ sortBy });
+      set({ sortBy })
+    },
+
+    isEditingRoadmapItem: false,
+    setIsEditingRoadmapItem: (value) => {
+      set({ isEditingRoadmapItem: value })
     },
     // --------------- FILTER
     filter: {
@@ -65,17 +73,17 @@ const useSkillbaseStore = create<ISkillbaseStore>(
     removeSkills: (idsToRemove) => {
       const skillsToKeep = [...get().skills].filter(
         (skill) => !idsToRemove.includes(skill.id)
-      );
-      set({ skills: skillsToKeep });
+      )
+      set({ skills: skillsToKeep })
     },
 
     getFilterCount: () => {
-      const { labelIds, hidingDone, currentGoal } = get().filter;
-      let count = labelIds.length;
-      if (hidingDone) count++;
-      if (currentGoal) count++;
+      const { labelIds, hidingDone, currentGoal } = get().filter
+      let count = labelIds.length
+      if (hidingDone) count++
+      if (currentGoal) count++
 
-      return count;
+      return count
     },
     filterLabelIds: (ids) => {
       set((prev) => ({
@@ -84,22 +92,22 @@ const useSkillbaseStore = create<ISkillbaseStore>(
           ...prev.filter,
           labelIds: ids,
         },
-      }));
+      }))
     },
     toggleFilterLabelId: (id) => {
-      const { filter } = get();
-      const newLabelIds = pushOrRemove(filter.labelIds, id);
+      const { filter } = get()
+      const newLabelIds = pushOrRemove(filter.labelIds, id)
 
       set({
         filter: {
           ...filter,
           labelIds: newLabelIds,
         },
-      });
+      })
     },
 
     labelIdIsInFilter: (id) => {
-      return get().filter.labelIds.includes(id);
+      return get().filter.labelIds.includes(id)
     },
 
     setFilterByText: (text) => {
@@ -109,41 +117,41 @@ const useSkillbaseStore = create<ISkillbaseStore>(
           ...prev.filter,
           byText: text,
         },
-      }));
+      }))
     },
     toggleHidingDone: () => {
-      const { filter } = get();
+      const { filter } = get()
 
       set({
         filter: {
           ...filter,
           hidingDone: !filter.hidingDone,
         },
-      });
+      })
     },
     toggleFilterCurrentGoal: () => {
-      const { filter } = get();
+      const { filter } = get()
 
       set({
         filter: {
           ...filter,
           currentGoal: !filter.currentGoal,
         },
-      });
+      })
     },
 
     draggingExpectation: null,
     setDraggingExpectation: (expectation) => {
       set({
         draggingExpectation: expectation,
-      });
+      })
     },
   }))
-);
+)
 
-const initialState = useSkillbaseStore.getState();
+const initialState = useSkillbaseStore.getState()
 export const resetSkillbaseStore = () => {
-  useSkillbaseStore.setState(initialState, true);
-};
+  useSkillbaseStore.setState(initialState, true)
+}
 
-export default useSkillbaseStore;
+export default useSkillbaseStore
