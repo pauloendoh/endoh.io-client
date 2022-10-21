@@ -1,39 +1,40 @@
-import { Box, Button, makeStyles, Paper } from "@material-ui/core";
-import React, { useState } from "react";
-import useAuthStore from "store/zustand/useAuthStore";
-import { AuthUserGetDto } from "types/domain/auth/AuthUserGetDto";
-import Icons from "utils/styles/Icons";
-import myAxios from "../../../utils/consts/myAxios";
-import apiUrls from "../../../utils/url/urls/apiUrls";
-import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
-import { MyDivider } from "../../_UI/MyDivider/MyDivider";
-import S from "./AuthFormWrapper.styles";
-import GoogleButton from "./GoogleButton/GoogleButton";
-import LoginForm from "./LoginForm/LoginForm";
-import PasswordResetForm from "./PasswordResetForm/PasswordResetForm";
-import RegisterForm from "./RegisterForm/RegisterForm";
-import { AuthFormType } from "./_types/AuthFormType";
+import { Box, Button, makeStyles, Paper, Tooltip } from "@material-ui/core"
+import { useState } from "react"
+import { MdInfo } from "react-icons/md"
+import useAuthStore from "store/zustand/useAuthStore"
+import { AuthUserGetDto } from "types/domain/auth/AuthUserGetDto"
+import Icons from "utils/styles/Icons"
+import myAxios from "../../../utils/consts/myAxios"
+import apiUrls from "../../../utils/url/urls/apiUrls"
+import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
+import { MyDivider } from "../../_UI/MyDivider/MyDivider"
+import S from "./AuthFormWrapper.styles"
+import GoogleButton from "./GoogleButton/GoogleButton"
+import LoginForm from "./LoginForm/LoginForm"
+import PasswordResetForm from "./PasswordResetForm/PasswordResetForm"
+import RegisterForm from "./RegisterForm/RegisterForm"
+import { AuthFormType } from "./_types/AuthFormType"
 
 const AuthFormWrapper = () => {
-  const { setAuthUser } = useAuthStore();
-  const [currentForm, setCurrentForm] = useState<AuthFormType>("login");
+  const { setAuthUser } = useAuthStore()
+  const [currentForm, setCurrentForm] = useState<AuthFormType>("login")
 
   // PE 2/3 - change to styled-components?
-  const classes = useStyles();
+  const classes = useStyles()
 
   const handleTempSignIn = () => {
     // PE 2/3
     myAxios.get<AuthUserGetDto>(apiUrls.auth.tempUser).then((res) => {
-      setAuthUser(res.data);
-    });
-  };
+      setAuthUser(res.data)
+    })
+  }
 
   return (
     <Paper className={classes.paper}>
       {currentForm === "passwordReset" ? (
         <PasswordResetForm
           onExit={() => {
-            setCurrentForm("login");
+            setCurrentForm("login")
           }}
         />
       ) : (
@@ -67,6 +68,12 @@ const AuthFormWrapper = () => {
                   <S.TemporaryUserText>
                     Test with Temporary User
                   </S.TemporaryUserText>
+
+                  <Tooltip title="Temporary users don't require username or password, and they expire in 30 days">
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <MdInfo fontSize={16} />
+                    </div>
+                  </Tooltip>
                 </FlexVCenter>
               </Button>
             </Box>
@@ -74,8 +81,8 @@ const AuthFormWrapper = () => {
         </Box>
       )}
     </Paper>
-  );
-};
+  )
+}
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -101,6 +108,6 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 7,
     background: theme.palette.grey[800],
   },
-}));
+}))
 
-export default AuthFormWrapper;
+export default AuthFormWrapper
