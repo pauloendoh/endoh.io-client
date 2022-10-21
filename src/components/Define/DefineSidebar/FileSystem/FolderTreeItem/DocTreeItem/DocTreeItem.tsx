@@ -1,10 +1,12 @@
 import { useTheme } from "@material-ui/core"
 import { TreeItem } from "@material-ui/lab"
+import Flex from "components/_UI/Flexboxes/Flex"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import Txt from "components/_UI/Text/Txt"
 import useSaveDocLastOpenedAt from "hooks/react-query/define/useSaveDocLastOpenedAt"
 import { useRef } from "react"
 import { useDrag } from "react-dnd"
+import { MdInsertDriveFile } from "react-icons/md"
 import { Link, useHistory } from "react-router-dom"
 import useFlashnotesStore from "store/zustand/domain/useFlashnotesStore"
 import { DocDto } from "types/domain/define/DocDto"
@@ -53,7 +55,13 @@ export default function DocTreeItem({ doc }: Props) {
           <FlexVCenter
             style={{ justifyContent: "space-between", minHeight: 30 }}
           >
-            <Txt variant="body2">{doc.title}</Txt>
+            <Flex style={{ gap: theme.spacing(1) }}>
+              <MdInsertDriveFile
+                fontSize="small"
+                style={{ minWidth: 16, top: 2, position: "relative" }}
+              />
+              <Txt variant="body2">{doc.title}</Txt>
+            </Flex>
           </FlexVCenter>
         </Link>
       }
