@@ -1,23 +1,22 @@
-import { Box } from "@material-ui/core";
-import Txt from "components/_UI/Text/Txt";
-import React from "react";
-import { SkillExpectationDto } from "../../../../types/domain/skillbase/SkillExpectationDto";
-import ExpectationsAtLevel from "./ExpectationsAtLevel/ExpectationsAtLevel";
+import { Box } from "@material-ui/core"
+import Txt from "components/_UI/Text/Txt"
+import { SkillExpectationDto } from "../../../../types/domain/skillbase/SkillExpectationDto"
+import ExpectationsAtLevel from "./ExpectationsAtLevel/ExpectationsAtLevel"
 
 interface Props {
-  currentLevel: number;
-  expectations: SkillExpectationDto[];
-  disabled?: boolean;
-  onChangeExpectations: (expectations: SkillExpectationDto[]) => void;
+  currentLevel: number
+  expectations: SkillExpectationDto[]
+  disabled?: boolean
+  onChangeExpectations: (expectations: SkillExpectationDto[]) => void
 }
 
 // PE 2/3 - rename to SkillRoadmap?
 const SkillExpectations = (props: Props) => {
-  const levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
   return (
     <Box mt={2} maxHeight={450}>
-      <Txt variant="h5">Next Steps</Txt>
+      <Txt variant="h5">Your roadmap</Txt>
 
       {levels.map((level) => (
         <ExpectationsAtLevel
@@ -30,7 +29,7 @@ const SkillExpectations = (props: Props) => {
         />
       ))}
     </Box>
-  );
-};
+  )
+}
 
-export default SkillExpectations;
+export default SkillExpectations
