@@ -53,6 +53,7 @@ const DocTableRow = (props: Props) => {
           onChange={(e) => changeQuestion(e.target.value)}
           value={localNote.question}
           className={classes.textarea}
+          autoFocus
           ref={questionRef}
         />
       </TableCell>
@@ -62,7 +63,6 @@ const DocTableRow = (props: Props) => {
           onChange={(e) => changeDescription(e.target.value)}
           value={localNote.description}
           className={classes.textarea}
-          autoFocus
         />
       </TableCell>
 
