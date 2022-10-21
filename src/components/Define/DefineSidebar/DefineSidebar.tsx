@@ -8,6 +8,7 @@ import {
   Toolbar,
 } from "@material-ui/core"
 import useSidebarStore from "../../../store/zustand/useSidebarStore"
+import AnsweredQuestionsListItem from "./AnsweredQuestionsListItem/AnsweredQuestionsListItem"
 import FileSystem from "./FileSystem/FileSystem"
 import QuestionsToRefineListItem from "./QuestionsToRefineListItem/QuestionsToRefineListItem"
 import UnansweredQuestionsListItem from "./UnansweredQuestionsListItem/UnansweredQuestionsListItem"
@@ -35,32 +36,7 @@ function DefineSidebar(props: Props) {
         <List disablePadding>
           <UnansweredQuestionsListItem />
           <QuestionsToRefineListItem />
-          {/* <ListItem>
-            <ListItemText>
-              <FlexVCenter justifyContent="space-between">
-                <FlexVCenter>
-                  <Tooltip title="Open random doc">
-                    <IconButton size="small" onClick={openRandomDoc}>
-                      <ShuffleIcon />
-                    </IconButton>
-                  </Tooltip>
-
-                  <Box ml={1} />
-                
-                </FlexVCenter>
-
-                <DocTitleDialog
-                  open={openTitleDialog}
-                  initialValue={{ title: "" }}
-                  onClose={() => setOpenTitleDialog(false)}
-                  afterSave={(doc) => {
-                    history.push(pageUrls.define.docId(doc.id))
-                    setOpenTitleDialog(false)
-                  }}
-                />
-              </FlexVCenter>
-            </ListItemText>
-          </ListItem> */}
+          <AnsweredQuestionsListItem />
         </List>
 
         <FileSystem />

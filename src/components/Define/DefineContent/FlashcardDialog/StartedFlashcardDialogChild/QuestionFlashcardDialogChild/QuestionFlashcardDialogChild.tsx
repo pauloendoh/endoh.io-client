@@ -67,26 +67,26 @@ const QuestionFlashcardDialogChild = (p: {
 
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={handlers} allowChanges>
-      <DialogTitle>
+      <DialogTitle style={{ paddingBottom: 0 }}>
         <FlexVCenter justifyContent="space-between">
-          <Typography>
-            ({p.questionNumber}/{p.totalQuestions}) {p.docTitle}
+          <Typography variant="h6">
+            ({p.questionNumber}/{p.totalQuestions}) {p.question.question}
           </Typography>
+
           <IconButton onClick={p.closeDialog} size="small">
             <Clear />
           </IconButton>
         </FlexVCenter>
       </DialogTitle>
       <DialogContent style={{ height: 300 }}>
-        <Typography variant="h4">{p.question.question}</Typography>
+        <Typography style={{ marginTop: 8, fontStyle: "italic" }}>
+          {p.docTitle}
+        </Typography>
         <Box mt={4} />
 
         {showingAnswer && (
           <Box>
-            <Typography
-              variant="body1"
-              style={{ fontStyle: "italic", whiteSpace: "pre-line" }}
-            >
+            <Typography variant="body1" style={{ whiteSpace: "pre-line" }}>
               {p.question.description}
             </Typography>
             <Box mt={2}>

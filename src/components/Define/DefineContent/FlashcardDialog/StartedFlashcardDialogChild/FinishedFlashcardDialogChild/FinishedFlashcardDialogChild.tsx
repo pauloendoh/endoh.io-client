@@ -9,7 +9,6 @@ import { useState } from "react"
 import { GlobalHotKeys } from "react-hotkeys"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
-import { DocDto } from "../../../../../../types/domain/define/DocDto"
 import { NoteDto } from "../../../../../../types/domain/define/NoteDto"
 import myAxios from "../../../../../../utils/consts/myAxios"
 import apiUrls from "../../../../../../utils/url/urls/apiUrls"
@@ -17,7 +16,6 @@ import DarkButton from "../../../../../_UI/Buttons/DarkButton/DarkButton"
 import S from "./FinishedFlashcardDialogChild.styles"
 
 interface Props {
-  doc: DocDto
   wrongs: number
   halves: number
   corrects: number
@@ -61,7 +59,7 @@ const FinishedFlashcardDialogChild = (props: Props) => {
     <GlobalHotKeys keyMap={keyMap} handlers={handlers} allowChanges>
       <DialogTitle>
         <S.DialogTitleContent justifyContent="space-between">
-          <Typography variant="h6">{props.doc.title} </Typography>
+          <Typography variant="h6">Finished! </Typography>
           <IconButton onClick={props.onFinish} size="small">
             <Clear />
           </IconButton>
