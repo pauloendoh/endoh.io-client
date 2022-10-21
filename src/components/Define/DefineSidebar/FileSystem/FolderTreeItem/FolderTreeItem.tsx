@@ -133,7 +133,7 @@ export default function FolderTreeItem({ folder }: Props) {
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
           >
-            <Flex style={{ gap: theme.spacing(1) }}>
+            <Flex style={{ gap: theme.spacing(1), paddingTop: 8 }}>
               <Icons.Folder fontSize="small" />
               <Txt variant="body2">{folder.name}</Txt>
             </Flex>
