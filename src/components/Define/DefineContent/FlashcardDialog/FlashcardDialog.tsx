@@ -52,8 +52,8 @@ const FlashcardDialog = (props: Props) => {
       )
       setAllQuestions(max)
 
-      if (max.length >= 5) {
-        setQuestionsQty(5)
+      if (max.length >= 10) {
+        setQuestionsQty(10)
         return
       }
       setQuestionsQty(max.length)
