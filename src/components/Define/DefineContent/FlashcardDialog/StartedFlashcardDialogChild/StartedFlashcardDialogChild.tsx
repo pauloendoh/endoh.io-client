@@ -55,9 +55,6 @@ const StartedFlashcardDialogChild = (props: {
   }
 
   const nextQuestion = () => {
-    if (questionIndex === localQuestions.length - 1) {
-      return
-    }
     setQuestionIndex(questionIndex + 1)
   }
 
