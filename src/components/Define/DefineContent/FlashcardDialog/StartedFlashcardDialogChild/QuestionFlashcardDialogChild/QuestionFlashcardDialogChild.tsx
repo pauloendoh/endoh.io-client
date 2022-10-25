@@ -131,10 +131,7 @@ const QuestionFlashcardDialogChild = (props: {
             <DarkButton onClick={() => setShowingAnswer(true)} fullWidth>
               Show Answer (Space, J, K or L)
             </DarkButton>
-            <IconButton
-              style={{ visibility: props.isLast ? "hidden" : undefined }}
-              onClick={props.goNext}
-            >
+            <IconButton onClick={props.goNext}>
               <MdArrowForward />
             </IconButton>
           </FlexVCenter>

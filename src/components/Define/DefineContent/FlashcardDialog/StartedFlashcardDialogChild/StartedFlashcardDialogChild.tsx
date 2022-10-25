@@ -61,7 +61,7 @@ const StartedFlashcardDialogChild = (props: {
     setQuestionIndex(questionIndex + 1)
   }
 
-  const isFinished = useMemo(() => questionIndex >= localQuestions.length - 1, [
+  const isFinished = useMemo(() => questionIndex >= localQuestions.length, [
     questionIndex,
     localQuestions,
   ])
@@ -83,7 +83,7 @@ const StartedFlashcardDialogChild = (props: {
     questionIndex,
   ])
   const currentQuestionDoc = useMemo(
-    () => docs.find((d) => d.id === currentQuestion.docId),
+    () => docs.find((d) => d.id === currentQuestion?.docId),
     [docs, currentQuestion]
   )
 
