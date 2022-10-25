@@ -117,7 +117,7 @@ function DocMoreMenu(props: Props) {
             <IoMdPlayCircle />
           </ListItemIcon>
           <Typography variant="inherit" noWrap>
-            Test yourself
+            Exercise your memory
           </Typography>
         </MenuItem>
 

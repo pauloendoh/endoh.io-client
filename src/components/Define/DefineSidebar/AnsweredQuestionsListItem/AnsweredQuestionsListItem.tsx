@@ -33,7 +33,7 @@ const AnsweredQuestionsListItem = (props: Props) => {
             color="primary"
           >
             <FlexVCenter justifyContent="space-between">
-              Test yourself!
+              Exercise your memory!
             </FlexVCenter>
           </Button>
         </ListItemText>
