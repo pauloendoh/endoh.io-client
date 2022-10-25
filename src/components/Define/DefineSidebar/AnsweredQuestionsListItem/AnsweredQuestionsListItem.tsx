@@ -1,4 +1,4 @@
-import { IconButton, ListItem, ListItemText, Tooltip } from "@material-ui/core"
+import { Button, ListItem, ListItemText } from "@material-ui/core"
 import FlashcardDialog from "components/Define/DefineContent/FlashcardDialog/FlashcardDialog"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import { useMemo, useState } from "react"
@@ -25,16 +25,17 @@ const AnsweredQuestionsListItem = (props: Props) => {
     <>
       <ListItem>
         <ListItemText>
-          <FlexVCenter justifyContent="space-between">
-            {answeredQuestions.length} answered questions
-            {answeredQuestions.length > 0 && (
-              <Tooltip title="Exercise your memory with flashcards">
-                <IconButton size="small" onClick={() => setDialogIsOpen(true)}>
-                  <MdPlayCircleFilled />
-                </IconButton>
-              </Tooltip>
-            )}
-          </FlexVCenter>
+          <Button
+            onClick={() => setDialogIsOpen(true)}
+            startIcon={<MdPlayCircleFilled />}
+            fullWidth
+            variant="contained"
+            color="primary"
+          >
+            <FlexVCenter justifyContent="space-between">
+              Test yourself!
+            </FlexVCenter>
+          </Button>
         </ListItemText>
       </ListItem>
 

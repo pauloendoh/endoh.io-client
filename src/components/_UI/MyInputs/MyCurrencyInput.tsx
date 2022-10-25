@@ -1,9 +1,9 @@
-import TextField from "@material-ui/core/TextField";
-import React from "react";
-import NumberFormat from "react-number-format";
-import MyTextField from "./MyTextField";
+import TextField from "@material-ui/core/TextField"
+import React from "react"
+import NumberFormat from "react-number-format"
+import MyTextField from "./MyTextField"
 
-type Props = React.ComponentProps<typeof TextField>;
+type Props = React.ComponentProps<typeof TextField>
 
 const MyCurrencyInput = (props: Props) => {
   return (
@@ -17,17 +17,17 @@ const MyCurrencyInput = (props: Props) => {
       }}
       {...props}
     />
-  );
-};
+  )
+}
 
 interface NumberFormatCustomProps {
-  inputRef: (instance: NumberFormat | null) => void;
-  onChange: (event: { target: { name: string; value: string } }) => void;
-  name: string;
+  inputRef: (instance: NumberFormat<any> | null) => void
+  onChange: (event: { target: { name: string; value: string } }) => void
+  name: string
 }
 
 const InnerComponent = (props: NumberFormatCustomProps) => {
-  const { inputRef, onChange, ...other } = props;
+  const { inputRef, onChange, ...other } = props
 
   return (
     <NumberFormat
@@ -39,14 +39,14 @@ const InnerComponent = (props: NumberFormatCustomProps) => {
             name: props.name,
             value: values.value,
           },
-        });
+        })
       }}
       thousandSeparator
       isNumericString
       decimalScale={2}
       prefix="$"
     />
-  );
-};
+  )
+}
 
-export default MyCurrencyInput;
+export default MyCurrencyInput

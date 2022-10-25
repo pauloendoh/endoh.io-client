@@ -10,8 +10,9 @@ import {
 import EditIcon from "@material-ui/icons/Edit"
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
 import useDeleteDocMutation from "hooks/react-query/define/doc/useDeleteDocMutation"
-import React, { useState } from "react"
+import React, { useMemo, useState } from "react"
 import { AiOutlineClear } from "react-icons/ai"
+import { IoMdPlayCircle } from "react-icons/io"
 import { MdDelete } from "react-icons/md"
 import { useHistory } from "react-router-dom"
 import useDocsStore from "store/zustand/domain/useDocsStore"
@@ -22,6 +23,7 @@ import myAxios from "utils/consts/myAxios"
 import { urls } from "utils/urls"
 import { DocDto } from "../../../../types/domain/define/DocDto"
 import DocTitleDialog from "../../DocTitleDialog/DocTitleDialog"
+import FlashcardDialog from "../FlashcardDialog/FlashcardDialog"
 
 interface Props {
   doc: DocDto
@@ -31,7 +33,7 @@ interface Props {
 function DocMoreMenu(props: Props) {
   const classes = useStyles()
 
-  const { setNotes } = useDocsStore()
+  const { setNotes, notes } = useDocsStore()
   const { openConfirmDialog } = useDialogsStore()
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
 
@@ -41,6 +43,20 @@ function DocMoreMenu(props: Props) {
   const handleOpenMore = (event: any) => {
     setAnchorEl(event.currentTarget)
   }
+
+  const [flashcardDialog, setFlashcardDialog] = useState(false)
+
+  const availableQuestions = useMemo(
+    () =>
+      notes.filter(
+        (note) =>
+          note.docId === props.doc?.id &&
+          note.question.trim().length > 0 &&
+          note.description.trim().length > 0
+      ),
+
+    [notes, props.doc?.id]
+  )
 
   const handleCloseMore = () => {
     setAnchorEl(null) // avoids error "The `anchorEl` prop provided to the component is invalid"
@@ -91,6 +107,20 @@ function DocMoreMenu(props: Props) {
           handleCloseMore()
         }}
       >
+        <MenuItem
+          onClick={(e) => {
+            setFlashcardDialog(true)
+            handleCloseMore()
+          }}
+        >
+          <ListItemIcon className={classes.listItemIcon}>
+            <IoMdPlayCircle />
+          </ListItemIcon>
+          <Typography variant="inherit" noWrap>
+            Test yourself
+          </Typography>
+        </MenuItem>
+
         <MenuItem
           onClick={(e) => {
             setOpenTitleDialog(true)
@@ -151,6 +181,14 @@ function DocMoreMenu(props: Props) {
         }}
         docId={props.doc.id}
       />
+
+      {flashcardDialog && (
+        <FlashcardDialog
+          availableNotes={availableQuestions}
+          open={flashcardDialog}
+          onClose={() => setFlashcardDialog(false)}
+        />
+      )}
     </React.Fragment>
   )
 }
