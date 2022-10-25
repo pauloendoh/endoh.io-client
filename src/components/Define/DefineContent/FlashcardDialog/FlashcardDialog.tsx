@@ -52,6 +52,10 @@ const FlashcardDialog = (props: Props) => {
       )
       setAllQuestions(max)
 
+      if (max.length >= 5) {
+        setQuestionsQty(5)
+        return
+      }
       setQuestionsQty(max.length)
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
