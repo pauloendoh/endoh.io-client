@@ -18,8 +18,7 @@ import SaveCancelButtons from "../../../../../_UI/Buttons/SaveCancelButtons"
 import MyTextField from "../../../../../_UI/MyInputs/MyTextField"
 import DocSelector from "./DocSelector/DocSelector"
 
-// PE 1/3 - transform into global dialog
-const NoteDialog = () => {
+const QuestionDialog = () => {
   const { isOpen, onClose, onSubmit, initialValue } = useNoteDialogStore()
 
   const { handleSubmit, watch, reset, control, formState, setValue } = useForm({
@@ -156,4 +155,4 @@ const NoteDialog = () => {
   )
 }
 
-export default NoteDialog
+export default QuestionDialog

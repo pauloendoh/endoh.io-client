@@ -1,4 +1,4 @@
-import NoteDialog from "components/Define/DefineContent/FlashcardDialog/StartedFlashcardDialogChild/NoteDialog/NoteDialog"
+import QuestionDialog from "components/Define/DefineContent/FlashcardDialog/StartedFlashcardDialogChild/QuestionDialog/QuestionDialog"
 import FolderDialog from "components/Define/DefineSidebar/FileSystem/FolderDialog/FolderDialog"
 import ResourceDialog from "components/Relearn/Dialogs/ResourceDialog/ResourceDialog"
 import SkillDialog from "components/Skillbase/SkillDialog/SkillDialog"
@@ -14,7 +14,7 @@ const ConfirmationDialog = (props: Props) => {
       <ConfirmDialog />
       <ResourceDialog />
       <SkillDialog />
-      <NoteDialog />
+      <QuestionDialog />
       <FolderDialog />
     </>
   )
