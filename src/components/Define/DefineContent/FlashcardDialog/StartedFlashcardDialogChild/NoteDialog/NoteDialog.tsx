@@ -139,7 +139,7 @@ const NoteDialog = () => {
           </DialogContent>
           <DialogTitle>
             <SaveCancelButtons
-              disabled={formState.isSubmitting}
+              disabled={!formState.isDirty || formState.isSubmitting}
               onCancel={handleConfirmClose}
               onEnabledAndCtrlEnter={() => onSubmit(watch())}
             />
