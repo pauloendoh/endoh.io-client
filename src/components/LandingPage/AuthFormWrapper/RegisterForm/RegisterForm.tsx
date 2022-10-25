@@ -4,23 +4,25 @@ import {
   CircularProgress,
   Link,
   Typography,
-} from "@material-ui/core";
-import { Form, Formik } from "formik";
-import { MouseEvent, useState } from "react";
-import useAuthStore from "store/zustand/useAuthStore";
-import { AuthUserGetDto } from "types/domain/auth/AuthUserGetDto";
-import { urls } from "utils/urls";
-import myAxios from "../../../../utils/consts/myAxios";
-import MyTextField from "../../../_UI/MyInputs/MyTextField";
-import { AuthFormType } from "../_types/AuthFormType";
+} from "@material-ui/core"
+import { Form, Formik } from "formik"
+import { useAxios } from "hooks/utils/useAxios"
+import { MouseEvent, useState } from "react"
+import useAuthStore from "store/zustand/useAuthStore"
+import { AuthUserGetDto } from "types/domain/auth/AuthUserGetDto"
+import { urls } from "utils/urls"
+import MyTextField from "../../../_UI/MyInputs/MyTextField"
+import { AuthFormType } from "../_types/AuthFormType"
 
 type Props = {
-  setFormType: (formType: AuthFormType) => void;
-};
+  setFormType: (formType: AuthFormType) => void
+}
 
 const RegisterForm = ({ setFormType, ...props }: Props) => {
-  const { setAuthUser } = useAuthStore();
-  const [responseErrorMessage, setErrorMessage] = useState("");
+  const { setAuthUser } = useAuthStore()
+  const [responseErrorMessage, setErrorMessage] = useState("")
+
+  const axios = useAxios()
 
   return (
     <Formik
@@ -33,29 +35,28 @@ const RegisterForm = ({ setFormType, ...props }: Props) => {
       // PE 2/3 jogar pra fora
       onSubmit={(values, { setSubmitting }) => {
         if (values.password !== values.password2) {
-          setErrorMessage("Passwords don't match");
-          setSubmitting(false);
-          return;
+          setErrorMessage("Passwords don't match")
+          setSubmitting(false)
+          return
         }
 
         const authData = {
           username: values.username,
           email: values.email,
           password: values.password,
-        };
+        }
 
-        setErrorMessage("");
+        setErrorMessage("")
 
-        myAxios
+        axios
           .post<AuthUserGetDto>(urls.api.register, authData)
           .then((res) => {
-            const authUser = res.data;
-            setAuthUser(authUser);
+            const authUser = res.data
+            setAuthUser(authUser)
           })
           .catch((err: any) => {
-            setErrorMessage(err.response.data.message);
-            setSubmitting(false);
-          });
+            setSubmitting(false)
+          })
       }}
     >
       {({ isSubmitting, handleChange, errors }) => (
@@ -147,9 +148,9 @@ const RegisterForm = ({ setFormType, ...props }: Props) => {
               <Link
                 href="#"
                 onClick={(e: MouseEvent) => {
-                  e.preventDefault();
-                  setErrorMessage("");
-                  setFormType("login");
+                  e.preventDefault()
+                  setErrorMessage("")
+                  setFormType("login")
                 }}
               >
                 Sign in
@@ -159,7 +160,7 @@ const RegisterForm = ({ setFormType, ...props }: Props) => {
         </Form>
       )}
     </Formik>
-  );
-};
+  )
+}
 
-export default RegisterForm;
+export default RegisterForm

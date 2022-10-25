@@ -1,10 +1,10 @@
 import { Box, Button, makeStyles, Paper, Tooltip } from "@material-ui/core"
+import { useAxios } from "hooks/utils/useAxios"
 import { useState } from "react"
 import { MdInfo } from "react-icons/md"
 import useAuthStore from "store/zustand/useAuthStore"
 import { AuthUserGetDto } from "types/domain/auth/AuthUserGetDto"
 import Icons from "utils/styles/Icons"
-import myAxios from "../../../utils/consts/myAxios"
 import apiUrls from "../../../utils/url/urls/apiUrls"
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
 import { MyDivider } from "../../_UI/MyDivider/MyDivider"
@@ -22,9 +22,11 @@ const AuthFormWrapper = () => {
   // PE 2/3 - change to styled-components?
   const classes = useStyles()
 
+  const axios = useAxios()
+
   const handleTempSignIn = () => {
     // PE 2/3
-    myAxios.get<AuthUserGetDto>(apiUrls.auth.tempUser).then((res) => {
+    axios.get<AuthUserGetDto>(apiUrls.auth.tempUser).then((res) => {
       setAuthUser(res.data)
     })
   }

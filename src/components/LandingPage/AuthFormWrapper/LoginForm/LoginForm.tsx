@@ -1,34 +1,28 @@
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Link,
-  Typography,
-} from "@material-ui/core";
-import React, { MouseEvent, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import useAuthStore from "store/zustand/useAuthStore";
-import { AuthUserGetDto } from "types/domain/auth/AuthUserGetDto";
-import { urls } from "utils/urls";
-import MyAxiosError, { MyFieldError } from "../../../../types/MyAxiosError";
-import myAxios from "../../../../utils/consts/myAxios";
-import Flex from "../../../_UI/Flexboxes/Flex";
-import MyTextField from "../../../_UI/MyInputs/MyTextField";
-import { AuthFormType } from "../_types/AuthFormType";
+import { Box, Button, CircularProgress, Link } from "@material-ui/core"
+import { useAxios } from "hooks/utils/useAxios"
+import { MouseEvent } from "react"
+import { Controller, useForm } from "react-hook-form"
+import useAuthStore from "store/zustand/useAuthStore"
+import { AuthUserGetDto } from "types/domain/auth/AuthUserGetDto"
+import { urls } from "utils/urls"
+import Flex from "../../../_UI/Flexboxes/Flex"
+import MyTextField from "../../../_UI/MyInputs/MyTextField"
+import { AuthFormType } from "../_types/AuthFormType"
 
 type Props = {
-  setFormType: (formType: AuthFormType) => void;
-};
+  setFormType: (formType: AuthFormType) => void
+}
 
 interface FormValues {
-  username: string;
-  email: string;
-  password: string; // PE 1/3 - is not used for login?
+  username: string
+  email: string
+  password: string // PE 1/3 - is not used for login?
 }
 
 const LoginForm = ({ setFormType }: Props) => {
-  const { setAuthUser } = useAuthStore();
-  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[]);
+  const { setAuthUser } = useAuthStore()
+
+  const axios = useAxios()
 
   const {
     handleSubmit,
@@ -36,27 +30,23 @@ const LoginForm = ({ setFormType }: Props) => {
     control,
   } = useForm<FormValues>({
     defaultValues: { username: "", email: "", password: "" },
-  });
+  })
 
   const onSubmit = (values: FormValues) => {
     const authData = {
       username: values.username,
       email: values.email,
       password: values.password,
-    };
+    }
 
-    setResponseErrors([]);
-
-    myAxios
+    axios
       .post<AuthUserGetDto>(urls.api.auth.login, authData)
       .then((res) => {
-        const authUser = res.data;
-        setAuthUser(authUser);
+        const authUser = res.data
+        setAuthUser(authUser)
       })
-      .catch((err: MyAxiosError) => {
-        setResponseErrors(err.response.data.errors);
-      });
-  };
+      .catch((e) => {})
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="d-flex flex-column">
@@ -102,7 +92,7 @@ const LoginForm = ({ setFormType }: Props) => {
           <Button
             color="primary"
             onClick={() => {
-              setFormType("passwordReset");
+              setFormType("passwordReset")
             }}
           >
             Forgot your password?
@@ -130,20 +120,14 @@ const LoginForm = ({ setFormType }: Props) => {
         </Button>
       </Box>
 
-      {responseErrors.map((err, i) => (
-        <Box key={i} mt={1}>
-          <Typography color="error">{err.message}</Typography>
-        </Box>
-      ))}
       <Box mt={3}>
         <Box display="flex" alignItems="center" justifyContent="center">
           Don't have an account? &nbsp;
           <Link
             href="#"
             onClick={(e: MouseEvent) => {
-              e.preventDefault();
-              setResponseErrors([]);
-              setFormType("register");
+              e.preventDefault()
+              setFormType("register")
             }}
           >
             Sign up
@@ -151,7 +135,7 @@ const LoginForm = ({ setFormType }: Props) => {
         </Box>
       </Box>
     </form>
-  );
-};
+  )
+}
 
-export default LoginForm;
+export default LoginForm
