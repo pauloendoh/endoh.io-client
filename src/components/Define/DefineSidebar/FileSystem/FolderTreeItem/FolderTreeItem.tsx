@@ -10,7 +10,7 @@ import { useQueryClient } from "react-query"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useFlashnotesStore from "store/zustand/domain/useFlashnotesStore"
 import { DocDto } from "types/domain/define/DocDto"
-import { partialFolderDto } from "types/domain/folder/FolderDto"
+import { buildFolderDto } from "types/domain/folder/FolderDto"
 import FolderWithSubfoldersDto from "types/domain/folder/FolderWithSubfoldersDto"
 import myAxios from "utils/consts/myAxios"
 import Icons from "utils/styles/Icons"
@@ -90,7 +90,7 @@ export default function FolderTreeItem({ folder }: Props) {
 
     drop(draggedFolder: FolderWithSubfoldersDto) {
       saveFolder(
-        partialFolderDto({
+        buildFolderDto({
           id: draggedFolder.id,
           name: draggedFolder.name,
           parentFolderId: folder.id,

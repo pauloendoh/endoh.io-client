@@ -4,44 +4,44 @@ import {
   Menu,
   MenuItem,
   Typography,
-} from "@material-ui/core";
-import useDeleteFolderMutation from "hooks/react-query/folders/useDeleteFolderMutation";
-import { useState } from "react";
-import useFlashnotesStore from "store/zustand/domain/useFlashnotesStore";
-import { useTheme } from "styled-components";
-import FolderWithSubfoldersDto from "types/domain/folder/FolderWithSubfoldersDto";
-import Icons from "utils/styles/Icons";
+} from "@material-ui/core"
+import useDeleteFolderMutation from "hooks/react-query/folders/useDeleteFolderMutation"
+import { useState } from "react"
+import useFolderDialogStore from "store/zustand/dialogs/useFolderDialogStore"
+import useFlashnotesStore from "store/zustand/domain/useFlashnotesStore"
+import { useTheme } from "styled-components"
+import { buildFolderDto } from "types/domain/folder/FolderDto"
+import FolderWithSubfoldersDto from "types/domain/folder/FolderWithSubfoldersDto"
+import Icons from "utils/styles/Icons"
 
 interface Props {
-  folder: FolderWithSubfoldersDto;
+  folder: FolderWithSubfoldersDto
 }
 
 export default function FolderMoreIcon({ folder }: Props) {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const { mutate: deleteFolder } = useDeleteFolderMutation();
+  const [anchorEl, setAnchorEl] = useState(null)
+  const { mutate: deleteFolder } = useDeleteFolderMutation()
 
-  const {
-    setFileDialogParentFolderId,
-    setOpenFolderDialog,
-    setFolderDialogParentFolderId,
-  } = useFlashnotesStore();
+  const { setFileDialogParentFolderId } = useFlashnotesStore()
+
+  const { openDialog: openFolderDialog } = useFolderDialogStore()
 
   const handleOpenMore = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    event.preventDefault();
-    event.stopPropagation();
-    setAnchorEl(event.currentTarget);
-  };
+    event.preventDefault()
+    event.stopPropagation()
+    setAnchorEl(event.currentTarget)
+  }
   const handleCloseMore = (
     event: React.MouseEvent<HTMLLIElement, MouseEvent>
   ) => {
-    event.preventDefault();
-    event.stopPropagation();
-    setAnchorEl(null); // avoids error "The `anchorEl` prop provided to the component is invalid"
-  };
+    event.preventDefault()
+    event.stopPropagation()
+    setAnchorEl(null) // avoids error "The `anchorEl` prop provided to the component is invalid"
+  }
 
-  const theme = useTheme();
+  const theme = useTheme()
 
   return (
     <>
@@ -60,8 +60,8 @@ export default function FolderMoreIcon({ folder }: Props) {
       >
         <MenuItem
           onClick={(e) => {
-            handleCloseMore(e);
-            setFileDialogParentFolderId(folder.id);
+            handleCloseMore(e)
+            setFileDialogParentFolderId(folder.id)
           }}
         >
           <ListItemIcon style={{ width: 16 }}>
@@ -74,9 +74,12 @@ export default function FolderMoreIcon({ folder }: Props) {
 
         <MenuItem
           onClick={(e) => {
-            handleCloseMore(e);
-            setOpenFolderDialog(true);
-            setFolderDialogParentFolderId(folder.id);
+            handleCloseMore(e)
+            openFolderDialog(
+              buildFolderDto({
+                parentFolderId: folder?.id || null,
+              })
+            )
           }}
         >
           <ListItemIcon style={{ width: 16 }}>
@@ -89,10 +92,24 @@ export default function FolderMoreIcon({ folder }: Props) {
 
         <MenuItem
           onClick={(e) => {
-            handleCloseMore(e);
+            handleCloseMore(e)
+            openFolderDialog(folder)
+          }}
+        >
+          <ListItemIcon style={{ width: 16 }}>
+            <Icons.Edit fontSize="small" />
+          </ListItemIcon>
+          <Typography variant="inherit" noWrap>
+            Edit folder
+          </Typography>
+        </MenuItem>
+
+        <MenuItem
+          onClick={(e) => {
+            handleCloseMore(e)
             // eslint-disable-next-line no-restricted-globals
             if (confirm("Delete folder and its docs?")) {
-              deleteFolder(folder.id);
+              deleteFolder(folder.id)
             }
           }}
           style={{ color: theme.palette.error.main }}
@@ -106,5 +123,5 @@ export default function FolderMoreIcon({ folder }: Props) {
         </MenuItem>
       </Menu>
     </>
-  );
+  )
 }

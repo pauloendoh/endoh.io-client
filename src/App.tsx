@@ -1,7 +1,7 @@
 import DateFnsUtils from "@date-io/date-fns"
 import { Box, CssBaseline, MuiThemeProvider } from "@material-ui/core"
 import { MuiPickersUtilsProvider } from "@material-ui/pickers"
-import NoteDialog from "components/Define/DefineContent/FlashcardDialog/StartedFlashcardDialogChild/NoteDialog/NoteDialog"
+import GlobalDialogs from "components/_UI/Dialogs/GlobalDialogs"
 import useCheckAuthOrLogout from "hooks/auth/useCheckAuthOrLogout"
 import { lazy, Suspense, useEffect, useState } from "react"
 import { DndProvider } from "react-dnd"
@@ -22,15 +22,12 @@ import useAuthStore from "store/zustand/useAuthStore"
 import { ThemeProvider } from "styled-components"
 import { urls } from "utils/urls"
 import LandingPage from "./components/LandingPage/LandingPage"
-import ResourceDialog from "./components/Relearn/Dialogs/ResourceDialog/ResourceDialog"
 import ResetPasswordPage from "./components/ResetPassword/ResetPasswordPage"
 import SettingsNavbar from "./components/Settings/SettingsNavbar"
 import SettingsPage from "./components/Settings/SettingsPage"
 import SkillbasePage from "./components/Skillbase/SkillbasePage"
-import SkillDialog from "./components/Skillbase/SkillDialog/SkillDialog"
 import LoadingPage from "./components/_common/LoadingPage/LoadingPage"
 import Navbar from "./components/_common/_layout/Navbar/Navbar"
-import ConfirmDialog from "./components/_UI/Dialogs/ConfirmationDialog"
 import MySnackBar2 from "./components/_UI/SnackBars/Snackbars"
 import { setTags } from "./store/relearn/relearnActions"
 import { UserPreferenceDto } from "./types/domain/auth/AuthUserGetDto"
@@ -198,10 +195,7 @@ const App = (props: Props) => {
           </Suspense>
         </Box>
 
-        <ConfirmDialog />
-        <ResourceDialog />
-        <SkillDialog />
-        <NoteDialog />
+        <GlobalDialogs />
       </Box>
     )
   }

@@ -10,14 +10,14 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import { useDrop } from "react-dnd"
 import { RiFileAddFill } from "react-icons/ri"
 import { useHistory, useParams } from "react-router-dom"
+import useFolderDialogStore from "store/zustand/dialogs/useFolderDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useFlashnotesStore from "store/zustand/domain/useFlashnotesStore"
-import { newFolderDto, partialFolderDto } from "types/domain/folder/FolderDto"
+import { buildFolderDto } from "types/domain/folder/FolderDto"
 import FolderWithSubfoldersDto from "types/domain/folder/FolderWithSubfoldersDto"
 import Icons from "utils/styles/Icons"
 import pageUrls from "utils/url/urls/pageUrls"
 import { S } from "./FileSystem.styles"
-import FolderDialog from "./FolderDialog/FolderDialog"
 import DocTreeItem from "./FolderTreeItem/DocTreeItem/DocTreeItem"
 import FolderTreeItem from "./FolderTreeItem/FolderTreeItem"
 import { spreadFolders } from "./spreadFolders/spreadFolders"
@@ -29,11 +29,9 @@ export default function FileSystem() {
   const {
     fileDialogParentFolderId,
     setFileDialogParentFolderId,
-
-    openFolderDialog,
-    setOpenFolderDialog,
-    folderDialogParentFolderId,
   } = useFlashnotesStore()
+
+  const { openDialog: openFolderDialogStore } = useFolderDialogStore()
 
   const docs = useDocsStore((s) => s.docs)
 
@@ -52,7 +50,7 @@ export default function FileSystem() {
 
     drop(draggedFolder: FolderWithSubfoldersDto) {
       saveFolder(
-        partialFolderDto({
+        buildFolderDto({
           id: draggedFolder.id,
           name: draggedFolder.name,
           parentFolderId: null,
@@ -155,7 +153,11 @@ export default function FileSystem() {
                     onClick={(e) => {
                       // impede o toggle
                       e.stopPropagation()
-                      setOpenFolderDialog(true)
+                      openFolderDialogStore(
+                        buildFolderDto({
+                          parentFolderId: fileDialogParentFolderId,
+                        })
+                      )
                     }}
                   >
                     <Icons.CreateNewFolder fontSize="small" />
@@ -173,12 +175,6 @@ export default function FileSystem() {
           ))}
         </TreeItem>
       </S.TreeView>
-
-      <FolderDialog
-        open={openFolderDialog}
-        initialValue={newFolderDto(folderDialogParentFolderId)}
-        onClose={() => setOpenFolderDialog(false)}
-      />
 
       <DocTitleDialog
         open={!!fileDialogParentFolderId}

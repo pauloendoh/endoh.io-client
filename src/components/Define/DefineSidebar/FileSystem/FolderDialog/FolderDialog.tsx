@@ -1,17 +1,16 @@
-import { Dialog, DialogContent, DialogTitle } from "@material-ui/core";
-import SaveCancelButtons from "components/_UI/Buttons/SaveCancelButtons";
-import MyTextField from "components/_UI/MyInputs/MyTextField";
-import useSaveFolderMutation from "hooks/react-query/folders/useSaveFolderMutation";
-import { useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
-import FolderDto from "types/domain/folder/FolderDto";
+import { Dialog, DialogContent, DialogTitle } from "@material-ui/core"
+import SaveCancelButtons from "components/_UI/Buttons/SaveCancelButtons"
+import MyTextField from "components/_UI/MyInputs/MyTextField"
+import useSaveFolderMutation from "hooks/react-query/folders/useSaveFolderMutation"
+import { useEffect } from "react"
+import { Controller, useForm } from "react-hook-form"
+import useFolderDialogStore from "store/zustand/dialogs/useFolderDialogStore"
+import FolderDto from "types/domain/folder/FolderDto"
 
-const FolderDialog = (props: {
-  open: boolean;
-  initialValue: FolderDto;
-  onClose: () => void;
-}) => {
-  const { mutate, isLoading } = useSaveFolderMutation();
+const FolderDialog = () => {
+  const { mutate, isLoading } = useSaveFolderMutation()
+
+  const { initialValue, isOpen, closeDialog } = useFolderDialogStore()
 
   const {
     handleSubmit,
@@ -20,23 +19,23 @@ const FolderDialog = (props: {
     reset,
     formState: { errors },
   } = useForm<FolderDto>({
-    defaultValues: props.initialValue,
-  });
+    defaultValues: initialValue,
+  })
 
   useEffect(() => {
-    if (props.open && props.initialValue) reset(props.initialValue);
-  }, [props.open, props.initialValue]);
+    if (isOpen && initialValue) reset(initialValue)
+  }, [isOpen, initialValue])
 
   const onSubmit = (formData: FolderDto) => {
     mutate(formData, {
-      onSuccess: props.onClose,
-    });
-  };
+      onSuccess: closeDialog,
+    })
+  }
 
   return (
     <Dialog
-      onClose={props.onClose}
-      open={props.open}
+      onClose={closeDialog}
+      open={isOpen}
       fullWidth
       maxWidth="xs"
       aria-labelledby="folder-dialog"
@@ -64,11 +63,15 @@ const FolderDialog = (props: {
           />
         </DialogContent>
         <DialogTitle>
-          <SaveCancelButtons disabled={isLoading} onCancel={props.onClose} />
+          <SaveCancelButtons
+            onEnabledAndCtrlEnter={handleSubmit(onSubmit)}
+            disabled={isLoading}
+            onCancel={closeDialog}
+          />
         </DialogTitle>
       </form>
     </Dialog>
-  );
-};
+  )
+}
 
-export default FolderDialog;
+export default FolderDialog
