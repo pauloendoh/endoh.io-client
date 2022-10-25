@@ -29,10 +29,7 @@ const pageUrls = {
     index: "/define/",
     docId: (docId: number) => `/define/doc/${docId}`,
   },
-  BigDecisions: {
-    index: "/BigDecisions",
-    decision: (id: number) => `/BigDecisions/${id}`,
-  },
+
   user: {
     index: (username: string) => `/user/${username}`,
     tag: (username: string, listId: number) =>
@@ -42,6 +39,6 @@ const pageUrls = {
   },
   notFound: "/404",
   search: (query: string) => "/search?q=" + query,
-};
+}
 
-export default pageUrls;
+export default pageUrls

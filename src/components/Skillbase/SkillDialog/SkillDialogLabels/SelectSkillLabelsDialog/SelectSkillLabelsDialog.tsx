@@ -4,53 +4,51 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-} from "@material-ui/core";
-import DarkButton from "components/_UI/Buttons/DarkButton/DarkButton";
-import FlexCol from "components/_UI/Flexboxes/FlexCol";
-import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
-import Txt from "components/_UI/Text/Txt";
-import useLabelsQuery from "hooks/react-query/skillbase/labels/useLabelsQuery";
-import React, { useMemo, useState } from "react";
-import { MdClose } from "react-icons/md";
-import { LabelDto, newLabelDto } from "types/domain/skillbase/LabelDto";
-import { pushOrRemove } from "utils/array/pushOrRemove";
-import EditLabelDialog from "./EditLabelDialog/EditLabelDialog";
-import SkillLabelOption from "./SkillLabelOption/SkillLabelOption";
+} from "@material-ui/core"
+import DarkButton from "components/_UI/Buttons/DarkButton/DarkButton"
+import FlexCol from "components/_UI/Flexboxes/FlexCol"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import Txt from "components/_UI/Text/Txt"
+import useLabelsQuery from "hooks/react-query/skillbase/labels/useLabelsQuery"
+import { useMemo, useState } from "react"
+import { MdClose } from "react-icons/md"
+import { LabelDto, newLabelDto } from "types/domain/skillbase/LabelDto"
+import { pushOrRemove } from "utils/array/pushOrRemove"
+import EditLabelDialog from "./EditLabelDialog/EditLabelDialog"
+import SkillLabelOption from "./SkillLabelOption/SkillLabelOption"
 
 interface Props {
-  open: boolean;
-  // initialValue: DecisionDto;
-  skillId: number;
-  selectedLabels: LabelDto[];
-  onChange: (labels: LabelDto[]) => void;
-  onClose: () => void;
-  // afterSave?: (returned: DecisionDto) => void;
+  open: boolean
+  skillId: number
+  selectedLabels: LabelDto[]
+  onChange: (labels: LabelDto[]) => void
+  onClose: () => void
 }
 
 const SelectSkillLabelsDialog = (props: Props) => {
-  const [labelDialogOpen, setLabelDialogOpen] = useState(false);
+  const [labelDialogOpen, setLabelDialogOpen] = useState(false)
   const [labelDialogInitialValue, setLabelDialogInitialValue] = useState(
     newLabelDto()
-  );
-  const { data: labels } = useLabelsQuery();
+  )
+  const { data: labels } = useLabelsQuery()
 
   const sortedLabels = useMemo(() => {
     return labels?.sort((a, b) => {
-      if (a.id < b.id) return -1;
-      if (a.id > b.id) return 1;
-      return 0;
-    });
-  }, [labels]);
+      if (a.id < b.id) return -1
+      if (a.id > b.id) return 1
+      return 0
+    })
+  }, [labels])
 
   // const [selectedLabelIds, setSelectedLabelIds] = useState<number[]>([]);
   const selectedLabelIds = useMemo(
     () => props.selectedLabels?.map((l) => l.id) || [],
     [props.selectedLabels]
-  );
+  )
 
   const handleClose = () => {
-    props.onClose();
-  };
+    props.onClose()
+  }
 
   return (
     <Dialog
@@ -83,12 +81,12 @@ const SelectSkillLabelsDialog = (props: Props) => {
                     props.selectedLabels,
                     label,
                     "id"
-                  );
-                  props.onChange(newSelectedLabels);
+                  )
+                  props.onChange(newSelectedLabels)
                 }}
                 onClickEdit={() => {
-                  setLabelDialogOpen(true);
-                  setLabelDialogInitialValue(label);
+                  setLabelDialogOpen(true)
+                  setLabelDialogInitialValue(label)
                 }}
               />
             ))}
@@ -97,8 +95,8 @@ const SelectSkillLabelsDialog = (props: Props) => {
           <DarkButton
             fullWidth
             onClick={() => {
-              setLabelDialogOpen(true);
-              setLabelDialogInitialValue(newLabelDto());
+              setLabelDialogOpen(true)
+              setLabelDialogInitialValue(newLabelDto())
             }}
             style={{ marginTop: 16 }}
           >
@@ -113,7 +111,7 @@ const SelectSkillLabelsDialog = (props: Props) => {
         onClose={() => setLabelDialogOpen(false)}
       />
     </Dialog>
-  );
-};
+  )
+}
 
-export default SelectSkillLabelsDialog;
+export default SelectSkillLabelsDialog

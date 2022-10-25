@@ -38,12 +38,7 @@ const apiUrls = {
     note: "define/note",
     updateManyNotes: "/define/note/many",
   },
-  BigDecisions: {
-    decision: "v2/BigDecisions/decision",
-    decisionTable: "/BigDecisions/decisionTable",
-    sortProblemsByWeight: `/BigDecisions/decisionTable/sortProblemsByWeight`,
-    decisionTableItem: "/BigDecisions/decisionTableItem",
-  },
+
   user: {
     index: "/user",
     ratedResources: (username: string) =>

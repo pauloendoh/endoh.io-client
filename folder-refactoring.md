@@ -2,10 +2,10 @@
 
 - app 2/3 - must be inside domain ?
 - consts:
+
   - apiUrls and pageUrls 2/3 - must be inside utils/urls ?
   - theme.ts 2/3 - must be inside utils/styles
-  - domain
-    - BigDecisions 2/3 - rename to big-decisions
+
   - feed 2/3 - must be inside domain
   - relearn 2/3 - must be inside domain
   - search 2/3 - must be inside domain

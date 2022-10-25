@@ -26,7 +26,6 @@ interface Props {
   skillId: number
   initialValue: LabelDto
   onClose: () => void
-  // afterSave?: (returned: DecisionDto) => void;
 }
 
 const EditLabelDialog = (props: Props) => {

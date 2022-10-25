@@ -38,12 +38,6 @@ const utils = {
       label: "Questions",
       icon: <NotesIcon />,
     },
-    // {
-    //   id: "decisions-tab",
-    //   to: pageUrls.BigDecisions.index,
-    //   label: "Decisions",
-    //   icon: <FontAwesomeIcon icon={faBalanceScaleRight} />,
-    // },
   ] as ITab[],
 }
 

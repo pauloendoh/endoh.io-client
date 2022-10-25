@@ -50,9 +50,7 @@ const RelearnPage = lazy(() => import("./components/Relearn/RelearnPage"))
 const UserPage = lazy(() => import("./components/User/ProfilePage"))
 const FeedPage = lazy(() => import("./components/Feed/FeedPage"))
 const DefinePage = lazy(() => import("./components/Define/DefinePage"))
-const BigDecisionsPage = lazy(
-  () => import("./components/Decisions/DecisionsPage")
-)
+
 const NotFoundPage = lazy(() => import("./components/NotFound/NotFoundPage"))
 const SearchPage = lazy(() => import("./components/Search/SearchPage"))
 const LearningDiaryPage = lazy(
@@ -175,9 +173,6 @@ const App = (props: Props) => {
 
               <Route path="/define/doc/:docId" component={DefinePage} />
               <Route path="/define" exact component={DefinePage} />
-
-              <Route path="/BigDecisions" exact component={BigDecisionsPage} />
-              <Route path="/BigDecisions/:id" component={BigDecisionsPage} />
 
               <Route path="/user/:username/tag/:tagId" component={UserPage} />
               <Route
