@@ -22,6 +22,7 @@ const DocSelector = (props: Props) => {
       getOptionLabel={(doc) => doc.title}
       onChange={(e, doc) => {
         if (typeof doc === "string") return
+
         props.onChange(doc.id)
       }}
       renderInput={(params) => (

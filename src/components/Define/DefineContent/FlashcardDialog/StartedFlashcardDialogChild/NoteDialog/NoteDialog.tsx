@@ -104,7 +104,9 @@ const NoteDialog = () => {
             <Box mt={4} width={240}>
               <DocSelector
                 docId={watch("docId")}
-                onChange={(docId) => setValue("docId", docId)}
+                onChange={(docId) =>
+                  setValue("docId", docId, { shouldDirty: true })
+                }
               />
             </Box>
 
@@ -113,7 +115,11 @@ const NoteDialog = () => {
                 control={
                   <Checkbox
                     checked={watch("toRefine")}
-                    onChange={() => setValue("toRefine", !watch("toRefine"))}
+                    onChange={() =>
+                      setValue("toRefine", !watch("toRefine"), {
+                        shouldDirty: true,
+                      })
+                    }
                     name="toRefine"
                     color="primary"
                   />
