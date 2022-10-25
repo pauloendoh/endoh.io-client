@@ -1,6 +1,7 @@
 import produce from "immer"
 import React, { useMemo, useState } from "react"
 import useDocsStore from "store/zustand/domain/useDocsStore"
+import { upsert } from "utils/array/upsert"
 import { NoteDto } from "../../../../../types/domain/define/NoteDto"
 import FinishedFlashcardDialogChild from "./FinishedFlashcardDialogChild/FinishedFlashcardDialogChild"
 import QuestionFlashcardDialogChild from "./QuestionFlashcardDialogChild/QuestionFlashcardDialogChild"
@@ -24,7 +25,9 @@ const StartedFlashcardDialogChild = (props: {
     nextQuestion()
 
     const currentNote = localQuestions[questionIndex]
-    setResults([...results, { ...currentNote, weight: currentNote.weight * 4 }])
+    const note = { ...currentNote, weight: currentNote.weight * 4 }
+
+    setResults(upsert(results, note, (r) => r.id === note.id))
   }
 
   const handleHalf = () => {
@@ -32,7 +35,9 @@ const StartedFlashcardDialogChild = (props: {
     nextQuestion()
 
     const currentNote = localQuestions[questionIndex]
-    setResults([...results, { ...currentNote, weight: currentNote.weight * 2 }])
+
+    const note = { ...currentNote, weight: currentNote.weight * 2 }
+    setResults(upsert(results, note, (r) => r.id === note.id))
   }
 
   const handleCorrect = () => {
@@ -40,20 +45,26 @@ const StartedFlashcardDialogChild = (props: {
     nextQuestion()
 
     const currentNote = localQuestions[questionIndex]
-    if (currentNote.weight === 1) {
-      setResults([...results, currentNote])
-      return
+
+    const note = {
+      ...currentNote,
+      weight: currentNote.weight === 1 ? 1 : currentNote.weight / 2,
     }
-    setResults([...results, { ...currentNote, weight: currentNote.weight / 2 }])
+
+    setResults(upsert(results, note, (r) => r.id === note.id))
   }
 
   const nextQuestion = () => {
     if (questionIndex === localQuestions.length - 1) {
       return
-    } else setQuestionIndex(questionIndex + 1)
+    }
+    setQuestionIndex(questionIndex + 1)
   }
 
-  const isFinished = () => results.length === localQuestions.length
+  const isFinished = useMemo(() => questionIndex >= localQuestions.length - 1, [
+    questionIndex,
+    localQuestions,
+  ])
 
   const editQuestion = (newNote: NoteDto) => {
     setLocalQuestions(
@@ -78,7 +89,7 @@ const StartedFlashcardDialogChild = (props: {
 
   return (
     <React.Fragment>
-      {isFinished() ? (
+      {isFinished ? (
         <FinishedFlashcardDialogChild
           wrongs={wrongs}
           halves={halves}
@@ -97,6 +108,14 @@ const StartedFlashcardDialogChild = (props: {
           onWrongAnswer={handleWrong}
           onHalfAnswer={handleHalf}
           onCorrectAnswer={handleCorrect}
+          isFirst={questionIndex === 0}
+          isLast={questionIndex === localQuestions.length - 1}
+          goBack={() => {
+            setQuestionIndex((curr) => curr - 1)
+          }}
+          goNext={() => {
+            setQuestionIndex((curr) => curr + 1)
+          }}
         />
       )}
     </React.Fragment>

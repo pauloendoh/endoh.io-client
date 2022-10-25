@@ -11,13 +11,14 @@ import {
 import { Clear } from "@material-ui/icons"
 import { useEffect, useState } from "react"
 import { GlobalHotKeys } from "react-hotkeys"
+import { MdArrowBack, MdArrowForward } from "react-icons/md"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import { NoteDto } from "../../../../../../types/domain/define/NoteDto"
 import DarkButton from "../../../../../_UI/Buttons/DarkButton/DarkButton"
 import FlexVCenter from "../../../../../_UI/Flexboxes/FlexVCenter"
 
 // PE 2/3
-const QuestionFlashcardDialogChild = (p: {
+const QuestionFlashcardDialogChild = (props: {
   question: NoteDto
   questionNumber: number
   totalQuestions: number
@@ -27,6 +28,10 @@ const QuestionFlashcardDialogChild = (p: {
   onWrongAnswer: () => void
   onHalfAnswer: () => void
   onCorrectAnswer: () => void
+  isFirst: boolean
+  isLast: boolean
+  goBack: () => void
+  goNext: () => void
 }) => {
   const [showingAnswer, setShowingAnswer] = useState(false)
 
@@ -37,7 +42,7 @@ const QuestionFlashcardDialogChild = (p: {
 
   useEffect(() => {
     setShowingAnswer(false)
-  }, [p.questionNumber])
+  }, [props.questionNumber])
 
   const keyMap = {
     onSpacePress: "space",
@@ -51,15 +56,15 @@ const QuestionFlashcardDialogChild = (p: {
     },
     onJPress: async () => {
       if (!showingAnswer) setShowingAnswer(true)
-      if (showingAnswer) p.onWrongAnswer()
+      if (showingAnswer) props.onWrongAnswer()
     },
     onKPress: async () => {
       if (!showingAnswer) setShowingAnswer(true)
-      if (showingAnswer) p.onHalfAnswer()
+      if (showingAnswer) props.onHalfAnswer()
     },
     onLPress: async () => {
       if (!showingAnswer) setShowingAnswer(true)
-      if (showingAnswer) p.onCorrectAnswer()
+      if (showingAnswer) props.onCorrectAnswer()
     },
   }
 
@@ -70,24 +75,25 @@ const QuestionFlashcardDialogChild = (p: {
       <DialogTitle style={{ paddingBottom: 0 }}>
         <FlexVCenter justifyContent="space-between">
           <Typography variant="h6">
-            ({p.questionNumber}/{p.totalQuestions}) {p.question.question}
+            ({props.questionNumber}/{props.totalQuestions}){" "}
+            {props.question.question}
           </Typography>
 
-          <IconButton onClick={p.closeDialog} size="small">
+          <IconButton onClick={props.closeDialog} size="small">
             <Clear />
           </IconButton>
         </FlexVCenter>
       </DialogTitle>
       <DialogContent style={{ height: 300 }}>
         <Typography style={{ marginTop: 8, fontStyle: "italic" }}>
-          {p.docTitle}
+          {props.docTitle}
         </Typography>
         <Box mt={4} />
 
         {showingAnswer && (
           <Box>
             <Typography variant="body1" style={{ whiteSpace: "pre-line" }}>
-              {p.question.description}
+              {props.question.description}
             </Typography>
             <Box mt={2}>
               <Link
@@ -95,9 +101,9 @@ const QuestionFlashcardDialogChild = (p: {
                 onClick={(e: any) => {
                   e.preventDefault()
                   openNoteDialog({
-                    initialValue: p.question,
+                    initialValue: props.question,
                     onSubmit: (value) => {
-                      p.onEditQuestion(value)
+                      props.onEditQuestion(value)
                       closeDialog()
                     },
                   })
@@ -115,25 +121,61 @@ const QuestionFlashcardDialogChild = (p: {
 
       <DialogTitle>
         {showingAnswer === false ? (
-          <DarkButton onClick={() => setShowingAnswer(true)} fullWidth>
-            Show Answer (Space, J, K or L)
-          </DarkButton>
+          <FlexVCenter style={{ gap: 8 }}>
+            <IconButton
+              style={{ visibility: props.isFirst ? "hidden" : undefined }}
+              onClick={props.goBack}
+            >
+              <MdArrowBack />
+            </IconButton>
+            <DarkButton onClick={() => setShowingAnswer(true)} fullWidth>
+              Show Answer (Space, J, K or L)
+            </DarkButton>
+            <IconButton
+              style={{ visibility: props.isLast ? "hidden" : undefined }}
+              onClick={props.goNext}
+            >
+              <MdArrowForward />
+            </IconButton>
+          </FlexVCenter>
         ) : (
-          <FlexVCenter mx="auto" justifyContent="space-between">
-            <Button onClick={p.onWrongAnswer} className={classes.wrongButton}>
+          <FlexVCenter
+            mx="auto"
+            justifyContent="space-between"
+            style={{ gap: 8 }}
+          >
+            <IconButton
+              style={{ visibility: props.isFirst ? "hidden" : undefined }}
+              onClick={props.goBack}
+            >
+              <MdArrowBack />
+            </IconButton>
+
+            <Button
+              onClick={props.onWrongAnswer}
+              className={classes.wrongButton}
+              fullWidth
+            >
               Wrong (J)
             </Button>
-            <DarkButton onClick={p.onHalfAnswer} className={classes.button}>
+            <DarkButton onClick={props.onHalfAnswer} fullWidth>
               Half (K)
             </DarkButton>
             <Button
-              onClick={p.onCorrectAnswer}
+              onClick={props.onCorrectAnswer}
               variant="contained"
               color="primary"
-              className={classes.button}
+              fullWidth
             >
               Correct (L)
             </Button>
+
+            <IconButton
+              style={{ visibility: props.isLast ? "hidden" : undefined }}
+              onClick={props.goNext}
+            >
+              <MdArrowForward />
+            </IconButton>
           </FlexVCenter>
         )}
       </DialogTitle>
@@ -143,12 +185,8 @@ const QuestionFlashcardDialogChild = (p: {
 
 const useStyles = makeStyles((theme) => ({
   wrongButton: {
-    width: 125,
     color: "white",
     background: theme.palette.error.main,
-  },
-  button: {
-    width: 125,
   },
 }))
 

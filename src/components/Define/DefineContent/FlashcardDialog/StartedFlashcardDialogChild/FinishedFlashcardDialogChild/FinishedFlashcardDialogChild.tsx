@@ -5,7 +5,7 @@ import {
   Typography,
 } from "@material-ui/core"
 import { Clear } from "@material-ui/icons"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { GlobalHotKeys } from "react-hotkeys"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
@@ -27,9 +27,9 @@ const FinishedFlashcardDialogChild = (props: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const docsStore = useDocsStore()
 
-  const getScore = () => {
+  const finalScore = useMemo(() => {
     return ((props.halves * 0.5 + props.corrects) * 100) / props.results.length
-  }
+  }, [props.halves, props.corrects, props.results])
 
   const { setSuccessMessage } = useSnackbarStore()
 
@@ -81,7 +81,9 @@ const FinishedFlashcardDialogChild = (props: Props) => {
 
         <S.ScorePercentageWrapper>
           <Typography variant="h3">Score</Typography>
-          <Typography variant="h3">{Math.round(getScore())}%</Typography>
+          <Typography variant="h3">
+            {isNaN(finalScore) ? "-" : `${Math.round(finalScore)}%`}
+          </Typography>
         </S.ScorePercentageWrapper>
       </DialogContent>
 
