@@ -8,9 +8,11 @@ import {
 } from "@material-ui/core"
 import { Clear } from "@material-ui/icons"
 import Flex from "components/_UI/Flexboxes/Flex"
+import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
 import sample from "lodash/sample"
 import { useEffect, useState } from "react"
 import { GlobalHotKeys } from "react-hotkeys"
+import useDialogsStore from "store/zustand/useDialogsStore"
 import { NoteDto } from "../../../../types/domain/define/NoteDto"
 import { shuffleArray } from "../../../../utils/array/shuffleArray"
 import DarkButton from "../../../_UI/Buttons/DarkButton/DarkButton"
@@ -62,9 +64,20 @@ const FlashcardDialog = (props: Props) => {
     [minWeight, props.open, props.availableNotes]
   )
 
-  const handleClose = () => {
-    props.onClose()
+  const openConfirmDialog = useDialogsStore((s) => s.openConfirmDialog)
+  const handleClose = (askForConfirmation = true) => {
+    if (!askForConfirmation || testQuestions.length === 0) {
+      props.onClose()
+      return
+    }
+
+    openConfirmDialog({
+      title: "Close dialog?",
+      onConfirm: props.onClose,
+    })
   }
+
+  useConfirmTabClose(testQuestions.length > 0)
 
   const shuffleQuestionsAndStart = () => {
     if (questionsQty === 0)
@@ -110,7 +123,7 @@ const FlashcardDialog = (props: Props) => {
       {testQuestions.length > 0 ? (
         <StartedFlashcardDialogChild
           questions={testQuestions}
-          onFinish={handleClose}
+          onFinish={() => handleClose(false)}
         />
       ) : (
         <GlobalHotKeys
@@ -119,7 +132,7 @@ const FlashcardDialog = (props: Props) => {
         >
           <Flex justifyContent="space-between" style={{ padding: "16px 24px" }}>
             <Txt variant="h6">Test yourself! </Txt>
-            <IconButton onClick={handleClose} size="small">
+            <IconButton onClick={() => handleClose()} size="small">
               <Clear />
             </IconButton>
           </Flex>
