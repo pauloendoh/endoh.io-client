@@ -173,7 +173,8 @@ function DocMoreMenu(props: Props) {
       <DocTitleDialog
         initialValue={{ title: props.doc.title }}
         open={openTitleDialog}
-        afterSave={() => {
+        afterSave={(doc) => {
+          history.push(urls.pages.defineDoc(doc.id))
           setOpenTitleDialog(false)
         }}
         onClose={() => {

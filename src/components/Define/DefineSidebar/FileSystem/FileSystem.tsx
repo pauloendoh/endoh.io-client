@@ -16,7 +16,7 @@ import useFlashnotesStore from "store/zustand/domain/useFlashnotesStore"
 import { buildFolderDto } from "types/domain/folder/FolderDto"
 import FolderWithSubfoldersDto from "types/domain/folder/FolderWithSubfoldersDto"
 import Icons from "utils/styles/Icons"
-import pageUrls from "utils/url/urls/pageUrls"
+import { urls } from "utils/urls"
 import { S } from "./FileSystem.styles"
 import DocTreeItem from "./FolderTreeItem/DocTreeItem/DocTreeItem"
 import FolderTreeItem from "./FolderTreeItem/FolderTreeItem"
@@ -180,7 +180,11 @@ export default function FileSystem() {
         open={!!fileDialogParentFolderId}
         initialValue={{ title: "", folderId: fileDialogParentFolderId }}
         onClose={() => setFileDialogParentFolderId(null)}
-        afterSave={() => setFileDialogParentFolderId(null)}
+        afterSave={(doc) => {
+          history.push(urls.pages.defineDoc(doc.id))
+
+          setFileDialogParentFolderId(null)
+        }}
       />
 
       <DocTitleDialog
@@ -188,7 +192,7 @@ export default function FileSystem() {
         initialValue={{ title: "" }}
         onClose={() => setOpenTitleDialog(false)}
         afterSave={(doc) => {
-          history.push(pageUrls.define.docId(doc.id))
+          history.push(urls.pages.defineDoc(doc.id))
           setOpenTitleDialog(false)
         }}
       />
