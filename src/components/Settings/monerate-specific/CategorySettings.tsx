@@ -70,7 +70,7 @@ const CategorySettings = (props: Props) => {
                           props.editCategory(category)
                         }}
                         aria-label="edit-category"
-                      >
+                        size="large">
                         <EditIcon fontSize="small" />
                       </IconButton>
                       <IconButton
@@ -78,7 +78,7 @@ const CategorySettings = (props: Props) => {
                           handleDelete(category.id)
                         }}
                         aria-label="delete-category"
-                      >
+                        size="large">
                         <DeleteIcon fontSize="small" />
                       </IconButton>
                     </FlexVCenter>
@@ -90,7 +90,7 @@ const CategorySettings = (props: Props) => {
         </Paper>
       ) : null}
     </Box>
-  )
+  );
 }
 
 const mapStateToProps = (state: ApplicationState) => ({

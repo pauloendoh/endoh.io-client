@@ -1,9 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { AppBar, Tab, Tabs, Toolbar } from "@mui/material"
+import { AppBar, styled, Tab, Tabs, Toolbar } from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import React from "react"
 import { Link } from "react-router-dom"
-import styled from "styled-components"
 import theme from "utils/consts/theme"
 import { mediaQueries } from "utils/styles/mediaQueries"
 

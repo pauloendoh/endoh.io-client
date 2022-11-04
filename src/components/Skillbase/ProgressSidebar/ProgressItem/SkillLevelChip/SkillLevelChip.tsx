@@ -1,5 +1,8 @@
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
-import { Chip, makeStyles } from "@mui/material"
+import { Chip } from "@mui/material"
 import clsx from "clsx"
 import React from "react"
 import FlexVCenter from "../../../../_UI/Flexboxes/FlexVCenter"
@@ -31,7 +34,7 @@ const SkillLevelChip = (props: { currentLevel: number; goalLevel: number }) => {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   root: {
     cursor: "inherit",
     position: "relative",

@@ -1,4 +1,6 @@
-import { makeStyles } from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
 import { useMemo, useState } from "react"
 import { useLocation } from "react-router-dom"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
@@ -56,7 +58,7 @@ function SkillChips() {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   root: {
     flexWrap: "wrap",
   },

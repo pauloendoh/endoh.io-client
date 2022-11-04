@@ -11,6 +11,7 @@ import {
   hoverRatingLabels,
   ratingLabels,
 } from "utils/domain/relearn/resources/ratingLabels"
+import { getColorByRating } from "utils/relearn/getColorByRating"
 import FlexHCenter from "../../_UI/Flexboxes/FlexHCenter"
 import RatingButtonLabel from "./RatingButtonLabel/RatingButtonLabel"
 
@@ -39,7 +40,6 @@ const RatingButton = (props: Props) => {
         }}
         onClose={handleTooltipClose}
         open={open}
-        interactive
         disableFocusListener
         disableHoverListener
         disableTouchListener
@@ -78,6 +78,7 @@ const RatingButton = (props: Props) => {
           variant="outlined"
           style={{
             position: "relative",
+            borderColor: getColorByRating(props.rating),
           }}
           className="rate-button"
         >

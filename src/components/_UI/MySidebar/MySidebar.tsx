@@ -1,11 +1,5 @@
-import {
-  Box,
-  createStyles,
-  Drawer,
-  makeStyles,
-  Theme,
-  Toolbar,
-} from "@mui/material"
+import { Box, createStyles, Drawer, Theme, Toolbar } from "@mui/material"
+import { makeStyles } from "@mui/styles"
 import React from "react"
 import useSidebarStore from "../../../store/zustand/useSidebarStore"
 import S from "./MySidebar.styles"
@@ -32,7 +26,7 @@ const MySidebar = (props: React.ComponentProps<typeof Drawer>) => {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles<Theme>((theme: Theme) =>
   createStyles({
     drawerPaper: {
       width: 300,

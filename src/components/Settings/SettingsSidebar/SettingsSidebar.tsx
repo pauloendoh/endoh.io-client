@@ -1,12 +1,7 @@
-import {
-  Box,
-  createStyles,
-  Drawer,
-  List,
-  makeStyles,
-  Theme,
-  Toolbar,
-} from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
+import { Box, createStyles, Drawer, List, Toolbar } from "@mui/material"
 import GeneralSubmenu from "./GeneralSubmenu/GeneralSubmenu"
 
 // PE 3/3
@@ -32,7 +27,7 @@ function SettingsSidebar() {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles<Theme>((theme: Theme) =>
   createStyles({
     root: {
       width: 200,

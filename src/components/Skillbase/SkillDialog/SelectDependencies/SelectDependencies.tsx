@@ -2,8 +2,9 @@ import {
   Autocomplete,
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
-} from "@mui/lab"
-import { Box, Typography } from "@mui/material"
+  Box,
+  Typography,
+} from "@mui/material"
 import React, { useEffect, useState } from "react"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto"
@@ -46,11 +47,12 @@ const SelectDependencies = (props: Props) => {
         multiple
         value={props.selected}
         options={[...options]}
-        getOptionSelected={(option, value) => {
+        isOptionEqualToValue={(option, value) => {
           return option.id === value.id
         }}
-        renderOption={(option) => (
-          <FlexVCenter>
+        renderOption={(liProps, option) => (
+          <li {...liProps} style={{ display: "flex", alignItems: "center" }}>
+            {" "}
             {option.id ? (
               <FlexVCenter>
                 <Box ml={1}>
@@ -60,9 +62,11 @@ const SelectDependencies = (props: Props) => {
             ) : (
               <FlexHCenter>{option.name}</FlexHCenter>
             )}
-          </FlexVCenter>
+          </li>
         )}
-        getOptionLabel={(option) => option.name}
+        getOptionLabel={(option) =>
+          typeof option === "string" ? option : option.name
+        }
         renderInput={(params) => (
           <MyTextField
             fullWidth

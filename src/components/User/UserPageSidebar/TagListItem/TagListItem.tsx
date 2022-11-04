@@ -1,5 +1,8 @@
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
 import LabelIcon from "@mui/icons-material/Label"
-import { Box, ListItem, makeStyles, Typography } from "@mui/material"
+import { Box, ListItem, Typography } from "@mui/material"
 import ListItemText from "@mui/material/ListItemText"
 import { Link } from "react-router-dom"
 import useProfileStore from "store/zustand/domain/useProfileStore"
@@ -55,7 +58,7 @@ const TagListItem = (props: Props) => {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   resourcesCount: {
     fontSize: 12,
     color: theme.palette.grey[400],

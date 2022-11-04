@@ -8,6 +8,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  useTheme,
 } from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween"
@@ -18,7 +19,6 @@ import {
 } from "generated/graphql"
 import { useEffect, useState } from "react"
 import { MdClose, MdOutlineArrowRightAlt } from "react-icons/md"
-import { useTheme } from "styled-components"
 import buildGraphqlClient from "utils/consts/buildGraphqlClient"
 
 interface Props {
@@ -85,7 +85,7 @@ const SkillbaseProgressDialog = (props: Props) => {
         <DialogTitle id="progress-dialog-title">
           <FlexVCenter justifyContent="space-between">
             <Txt variant="h5">Monthly Progress</Txt>
-            <IconButton onClick={props.onClose}>
+            <IconButton onClick={props.onClose} size="large">
               <MdClose />
             </IconButton>
           </FlexVCenter>

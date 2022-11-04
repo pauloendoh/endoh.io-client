@@ -455,7 +455,9 @@ const ResourceDialog = (props: Props) => {
                     id="tags-autocomplete-input"
                     options={sortedTags}
                     value={values.tag}
-                    getOptionLabel={(option) => option.name}
+                    getOptionLabel={(option) =>
+                      typeof option === "string" ? option : option.name
+                    }
                     filterSelectedOptions
                     onChange={(e, val) => {
                       console.log(val)
@@ -472,8 +474,11 @@ const ResourceDialog = (props: Props) => {
                         helperText={errors?.tag?.id || ""}
                       />
                     )}
-                    renderOption={(option) => (
-                      <FlexVCenter>
+                    renderOption={(liProps, option) => (
+                      <li
+                        {...liProps}
+                        style={{ display: "flex", alignItems: "center" }}
+                      >
                         {option.id ? (
                           <FlexVCenter>
                             <TagIcon tag={option} />
@@ -484,7 +489,7 @@ const ResourceDialog = (props: Props) => {
                         ) : (
                           <FlexHCenter>{option.name}</FlexHCenter>
                         )}
-                      </FlexVCenter>
+                      </li>
                     )}
                   />
                 </Grid>

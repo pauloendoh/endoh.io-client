@@ -1,12 +1,13 @@
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
 import EditIcon from "@mui/icons-material/Edit"
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz"
 import {
   IconButton,
   ListItemIcon,
-  makeStyles,
   Menu,
   MenuItem,
-  Theme,
   Typography,
 } from "@mui/material"
 import useDeleteDocMutation from "hooks/react-query/define/doc/useDeleteDocMutation"
@@ -206,7 +207,7 @@ function DocMoreMenu(props: Props) {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles<Theme>((theme: Theme) => ({
   listItemIcon: {
     width: 16,
   },

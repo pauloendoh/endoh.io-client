@@ -1,4 +1,7 @@
-import { makeStyles, TextField } from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
+import { TextField } from "@mui/material"
 import React from "react"
 
 // PE 2/3
@@ -16,6 +19,7 @@ const SkillDialogTitleTextField = (props: Props) => {
       className={classes.nameTextField}
       placeholder="Untitled skill"
       fullWidth
+      variant="standard"
       InputProps={{
         className: classes.nameInput,
       }}
@@ -30,7 +34,7 @@ const SkillDialogTitleTextField = (props: Props) => {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   nameTextField: {
     background: "transparent",
   },

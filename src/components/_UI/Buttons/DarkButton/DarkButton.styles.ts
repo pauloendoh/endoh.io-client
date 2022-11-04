@@ -1,6 +1,4 @@
-import { Button } from "@mui/material"
-import styled from "styled-components"
-
+import { Button, styled } from "@mui/material"
 const S = {
   RootButton: styled(Button)`
     background: ${({ theme }) => theme.palette.grey[800]};

@@ -4,12 +4,12 @@ import {
   Menu,
   MenuItem,
   Typography,
+  useTheme,
 } from "@mui/material"
 import useDeleteFolderMutation from "hooks/react-query/folders/useDeleteFolderMutation"
 import { useState } from "react"
 import useFolderDialogStore from "store/zustand/dialogs/useFolderDialogStore"
 import useFlashnotesStore from "store/zustand/domain/useFlashnotesStore"
-import { useTheme } from "styled-components"
 import { buildFolderDto } from "types/domain/folder/FolderDto"
 import FolderWithSubfoldersDto from "types/domain/folder/FolderWithSubfoldersDto"
 import Icons from "utils/styles/Icons"
@@ -51,7 +51,6 @@ export default function FolderMoreIcon({ folder }: Props) {
       <Menu
         id="tag-more"
         anchorEl={anchorEl}
-        getContentAnchorEl={null}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
         keepMounted

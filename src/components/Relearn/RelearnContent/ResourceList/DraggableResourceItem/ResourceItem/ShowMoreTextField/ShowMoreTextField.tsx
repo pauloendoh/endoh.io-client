@@ -1,6 +1,5 @@
-import { Paper, Typography } from "@mui/material"
+import { Paper, Typography, useTheme } from "@mui/material"
 import ShowMoreText from "react-show-more-text"
-import { useTheme } from "styled-components"
 import colors from "utils/consts/colors"
 import "./ShowMoreTextField.css"
 

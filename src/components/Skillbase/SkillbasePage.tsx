@@ -1,4 +1,7 @@
-import { Box, makeStyles, Paper } from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
+import { Box, Paper } from "@mui/material"
 import clsx from "clsx"
 import { useEffect, useState } from "react"
 import { connect } from "react-redux"
@@ -88,7 +91,7 @@ const SkillbasePage = (props: Props) => {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),

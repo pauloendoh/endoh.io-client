@@ -1,11 +1,7 @@
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  makeStyles,
-} from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
+import { Box, Button, Dialog, DialogContent, DialogTitle } from "@mui/material"
 import useDialogsStore from "../../../store/zustand/useDialogsStore"
 import Txt from "../Text/Txt"
 import S from "./ConfirmationDialog.styles"
@@ -69,7 +65,7 @@ const ConfirmationDialog = () => {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   dialog: {
     position: "absolute",
     top: 75,

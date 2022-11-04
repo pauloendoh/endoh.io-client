@@ -31,7 +31,7 @@ const KeyboardShortcutsDialog = (props: Props) => {
         <DialogTitle id="keyboard-shorcuts-dialog-title">
           <FlexVCenter justifyContent="space-between">
             <Txt variant="h5">Keyboard shortcuts</Txt>
-            <IconButton onClick={props.onClose}>
+            <IconButton onClick={props.onClose} size="large">
               <MdClose />
             </IconButton>
           </FlexVCenter>
@@ -66,7 +66,7 @@ const KeyboardShortcutsDialog = (props: Props) => {
         </DialogContent>
       </Box>
     </Dialog>
-  )
+  );
 }
 
 export default KeyboardShortcutsDialog

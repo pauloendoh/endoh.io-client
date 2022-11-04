@@ -1,4 +1,8 @@
-import { Button, makeStyles } from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
+import { Button } from "@mui/material"
+
 import React, { useState } from "react"
 import { connect } from "react-redux"
 import { useHistory, useLocation } from "react-router-dom"
@@ -58,7 +62,7 @@ function EditSkillsButton(props: Props) {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   innerChip: {
     background: theme.palette.secondary.main,
     color: "#fff",

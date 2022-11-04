@@ -1,6 +1,9 @@
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
 import { faFire } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Box, makeStyles, Typography } from "@mui/material"
+import { Box, Typography } from "@mui/material"
 import FlexHCenter from "../../_UI/Flexboxes/FlexHCenter"
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
 
@@ -25,12 +28,12 @@ const LandingPageDescription = () => {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   root: {
     [theme.breakpoints.up("xs")]: {
       marginTop: 32,
     },
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       marginTop: 16,
     },
   },

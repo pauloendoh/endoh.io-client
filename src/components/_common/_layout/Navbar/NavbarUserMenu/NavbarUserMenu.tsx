@@ -58,7 +58,6 @@ const NavbarUserMenu = (props: Props) => {
       <Menu
         id="simple-menu"
         anchorEl={anchorEl}
-        getContentAnchorEl={null}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
         keepMounted

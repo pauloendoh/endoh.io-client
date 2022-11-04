@@ -1,4 +1,6 @@
-import { makeStyles, Theme } from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
 import PlaceGetDto from "../../types/domain/monerate/PlaceGetDto"
 import FlexVCenter from "./Flexboxes/FlexVCenter"
 
@@ -11,7 +13,7 @@ const PlaceIcon = (props: Props) => {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles<Theme>((theme: Theme) => ({
   root: {
     background: theme.palette.primary.main,
     justifyContent: "center",

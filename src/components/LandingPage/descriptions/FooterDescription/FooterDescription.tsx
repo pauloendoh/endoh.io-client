@@ -8,9 +8,9 @@ import {
   Hidden,
   IconButton,
   Link,
-  makeStyles,
   Theme,
 } from "@mui/material"
+import { makeStyles } from "@mui/styles"
 import Txt from "components/_UI/Text/Txt"
 import pauloendoh from "static/images/pauloendoh.jpg"
 import S from "./FooterDescription.styles"
@@ -32,7 +32,7 @@ const FooterDescription = () => {
           <Txt>25 years old computer science student from São Paulo</Txt>
         </S.TextWrapper>
 
-        <Hidden xsDown>
+        <Hidden smDown>
           <Txt>
             Endoh.io is developed with ReactJS, Node, PostgreSQL, TypeORM,
             Typescript and MaterialUI.
@@ -80,7 +80,7 @@ const FooterDescription = () => {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles<Theme>((theme: Theme) =>
   createStyles({
     largeAvatar: {
       width: theme.spacing(7),

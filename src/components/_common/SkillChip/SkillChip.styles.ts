@@ -1,7 +1,5 @@
-import { Button } from "@mui/material"
+import { Button, styled } from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
-import styled from "styled-components"
-
 const SkillChipStyles = {
   SkillButton: styled(Button)(({ theme }) => ({
     marginRight: 8,

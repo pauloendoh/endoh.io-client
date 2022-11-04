@@ -40,7 +40,6 @@ const AddManyNotesMenuButton = (props: Props) => {
 
       <Menu
         anchorEl={anchorEl}
-        getContentAnchorEl={null}
         open={Boolean(anchorEl)}
         anchorOrigin={{
           vertical: "top",

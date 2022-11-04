@@ -1,4 +1,7 @@
-import { Box, makeStyles } from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
+import { Box } from "@mui/material"
 import useMultiSelectResource from "hooks/relearn/useMultiSelectResource"
 import { Virtuoso } from "react-virtuoso"
 import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto"
@@ -82,7 +85,7 @@ function ResourceList({
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   resourceItem: {
     cursor: "grab",
   },

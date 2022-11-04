@@ -1,7 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { MenuItem } from "@mui/material"
-import styled from "styled-components"
-
+import { MenuItem, styled } from "@mui/material"
 const S = {
   MenuItem: styled(MenuItem)(({ theme }) => ({
     whiteSpace: "normal",

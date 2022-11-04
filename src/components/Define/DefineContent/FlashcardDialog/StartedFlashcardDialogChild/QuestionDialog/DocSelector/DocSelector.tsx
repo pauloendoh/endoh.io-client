@@ -19,7 +19,7 @@ const DocSelector = (props: Props) => {
     <Autocomplete
       value={selectedDoc}
       options={docs}
-      getOptionLabel={(doc) => doc.title}
+      getOptionLabel={(doc) => (typeof doc === "string" ? doc : doc.title)}
       onChange={(e, doc) => {
         if (typeof doc === "string") return
 

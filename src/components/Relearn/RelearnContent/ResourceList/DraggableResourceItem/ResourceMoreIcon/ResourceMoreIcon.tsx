@@ -1,3 +1,6 @@
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
 import FileCopyIcon from "@mui/icons-material/FileCopy"
@@ -6,7 +9,6 @@ import {
   Box,
   IconButton,
   ListItemIcon,
-  makeStyles,
   Menu,
   MenuItem,
   Typography,
@@ -95,7 +97,6 @@ function ResourceMoreIcon(props: Props) {
         <Menu
           id="tag-more"
           anchorEl={anchorEl}
-          getContentAnchorEl={null}
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           transformOrigin={{ vertical: "top", horizontal: "right" }}
           keepMounted
@@ -155,7 +156,7 @@ function ResourceMoreIcon(props: Props) {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   listItemIcon: {
     width: 16,
   },

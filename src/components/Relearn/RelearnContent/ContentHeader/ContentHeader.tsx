@@ -1,4 +1,7 @@
-import { Box, makeStyles, Tab, Tabs, Typography } from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
+import { Box, Tab, Tabs, Typography } from "@mui/material"
 import React, { useEffect, useRef, useState } from "react"
 import { useDrop } from "react-dnd"
 import { connect } from "react-redux"
@@ -122,7 +125,7 @@ function ContentHeader(props: Props) {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   root: {
     position: "sticky",
     background: theme.palette.background.default,

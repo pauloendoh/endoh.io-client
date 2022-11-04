@@ -1,4 +1,7 @@
-import { Box, makeStyles } from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
+import { Box } from "@mui/material"
 import useMultiSelectResource from "hooks/relearn/useMultiSelectResource"
 import { useRef } from "react"
 import { useDrag, useDrop } from "react-dnd"
@@ -88,7 +91,7 @@ function DraggableResourceItem(props: Props) {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   isDragging: {
     border: "1px dashed rgba(255, 255, 255, 0.2)",
   },

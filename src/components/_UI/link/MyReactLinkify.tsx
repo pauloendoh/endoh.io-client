@@ -1,13 +1,13 @@
-import React from "react";
-import ReactLinkify from "react-linkify";
-import { useTheme } from "styled-components";
+import { useTheme } from "@mui/material"
+import React from "react"
+import ReactLinkify from "react-linkify"
 
 type Props = React.ComponentProps<typeof ReactLinkify> & {
-  openNewTab?: boolean;
-};
+  openNewTab?: boolean
+}
 
 const MyReactLinkify = (props: Props) => {
-  const theme = useTheme();
+  const theme = useTheme()
   const componentDecorator = (href: string, text: string, key: number) => (
     <a
       href={href}
@@ -22,9 +22,9 @@ const MyReactLinkify = (props: Props) => {
     >
       {text}
     </a>
-  );
+  )
 
-  return <ReactLinkify componentDecorator={componentDecorator} {...props} />;
-};
+  return <ReactLinkify componentDecorator={componentDecorator} {...props} />
+}
 
-export default MyReactLinkify;
+export default MyReactLinkify

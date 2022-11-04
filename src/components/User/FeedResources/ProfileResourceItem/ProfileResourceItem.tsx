@@ -1,4 +1,7 @@
-import { Box, Link, makeStyles } from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
+import { Box, Link } from "@mui/material"
 import ResourceCompletedLabel from "components/Relearn/RelearnContent/ResourceList/DraggableResourceItem/ResourceItem/ResourceCompletedLabel/ResourceCompletedLabel"
 import ResourceDurationLabel from "components/Relearn/RelearnContent/ResourceList/DraggableResourceItem/ResourceItem/ResourceDurationLabel/ResourceDurationLabel"
 import RatingButtonLabel from "components/_common/RatingButton/RatingButtonLabel/RatingButtonLabel"
@@ -135,7 +138,7 @@ function ProfileResourceItem(props: Props) {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   link: {
     maxWidth: 400,
     overflow: "hidden",

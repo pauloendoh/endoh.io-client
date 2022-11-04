@@ -1,10 +1,12 @@
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
 import {
   Box,
   Button,
   CircularProgress,
   Container,
   Link,
-  makeStyles,
   Paper,
   Typography,
 } from "@mui/material"
@@ -181,7 +183,7 @@ function ResetPasswordPage() {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   paper: {
     width: 400,
     marginLeft: "auto",

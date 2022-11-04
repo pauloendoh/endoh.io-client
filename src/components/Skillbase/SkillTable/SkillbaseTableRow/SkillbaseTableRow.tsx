@@ -1,12 +1,8 @@
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
 import LabelIcon from "@mui/icons-material/Label"
-import {
-  Box,
-  Checkbox,
-  makeStyles,
-  TableCell,
-  TableRow,
-  useTheme,
-} from "@mui/material"
+import { Box, Checkbox, TableCell, TableRow, useTheme } from "@mui/material"
 import Flex from "components/_UI/Flexboxes/Flex"
 import FlexCol from "components/_UI/Flexboxes/FlexCol"
 import React, { useCallback, useEffect, useMemo, useState } from "react"
@@ -158,7 +154,7 @@ const SkillbaseTableRow = (props: Props) => {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   root: {
     cursor: "pointer",
   },

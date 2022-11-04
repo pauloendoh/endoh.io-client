@@ -303,12 +303,12 @@ const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
           aria-label="close"
           className={classes.closeButton}
           onClick={onClose}
-        >
+          size="large">
           <CloseIcon />
         </IconButton>
       ) : null}
     </MuiDialogTitle>
-  )
+  );
 })
 
 // PE 1/3 ? do I use this? Do I need this?

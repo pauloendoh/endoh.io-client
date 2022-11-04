@@ -1,12 +1,14 @@
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
 import { faLock } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Box, List, ListItem, makeStyles, Typography } from "@mui/material"
+import { Box, List, ListItem, Typography, useTheme } from "@mui/material"
 import ListItemText from "@mui/material/ListItemText"
 import Txt from "components/_UI/Text/Txt"
 import { useEffect, useRef, useState } from "react"
 import { Link, useHistory, useParams } from "react-router-dom"
 import useProfileStore from "store/zustand/domain/useProfileStore"
-import { useTheme } from "styled-components"
 import { newSkillDto, SkillDto } from "types/domain/skillbase/SkillDto"
 import useElementSize from "../../../hooks/utils/useElementSize"
 import pageUrls from "../../../utils/url/urls/pageUrls"
@@ -148,7 +150,7 @@ const UserPageSidebar = () => {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   resourcesCount: {
     fontSize: 12,
     color: theme.palette.grey[400],

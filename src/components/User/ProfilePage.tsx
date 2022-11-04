@@ -111,7 +111,7 @@ const ProfilePage = () => {
           </Grid>
 
           <Grid item lg={4}>
-            <Hidden mdDown>
+            <Hidden lgDown>
               <S.UserSuggestionsWrapper>
                 {userSuggestions?.length > 0 && (
                   <UserSuggestions
@@ -125,7 +125,7 @@ const ProfilePage = () => {
         </Grid>
       )}
     </S.UserPageRoot>
-  )
+  );
 }
 
 export default ProfilePage

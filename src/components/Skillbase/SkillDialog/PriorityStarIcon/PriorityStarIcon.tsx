@@ -1,5 +1,8 @@
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
 import StarIcon from "@mui/icons-material/Star"
-import { IconButton, makeStyles, Tooltip } from "@mui/material"
+import { IconButton, Tooltip } from "@mui/material"
 import clsx from "clsx"
 
 // PE 2/3
@@ -20,7 +23,7 @@ const PriorityStarIcon = (props: Props) => {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   nameTextField: {
     background: "transparent",
   },

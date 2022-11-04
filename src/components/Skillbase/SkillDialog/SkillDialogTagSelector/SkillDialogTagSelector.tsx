@@ -2,8 +2,9 @@ import {
   Autocomplete,
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
-} from "@mui/lab"
-import { Box, Typography } from "@mui/material"
+  Box,
+  Typography,
+} from "@mui/material"
 import TagIcon from "components/_UI/Icon/TagIcon"
 import React, { useEffect, useMemo, useState } from "react"
 import { connect } from "react-redux"
@@ -35,8 +36,8 @@ const SkillDialogTagSelector = (props: Props) => {
     <Autocomplete // PE 1/3 - dry into <TagSelector/> also used at skill dialog
       value={tag}
       options={sortedTags}
-      renderOption={(option) => (
-        <FlexVCenter>
+      renderOption={(liProps, option) => (
+        <li {...liProps} style={{ display: "flex", alignItems: "center" }}>
           {option.id ? (
             <FlexVCenter>
               <TagIcon tag={option} />
@@ -47,9 +48,11 @@ const SkillDialogTagSelector = (props: Props) => {
           ) : (
             <FlexHCenter>{option.name}</FlexHCenter>
           )}
-        </FlexVCenter>
+        </li>
       )}
-      getOptionLabel={(option) => option.name}
+      getOptionLabel={(option) =>
+        typeof option === "string" ? option : option.name
+      }
       renderInput={(params) => (
         <MyTextField
           InputProps={{ id: "skill-dialog-tag-selector" }}

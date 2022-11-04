@@ -2,8 +2,9 @@ import {
   Autocomplete,
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
-} from "@mui/lab"
-import { Box, Typography } from "@mui/material"
+  Box,
+  Typography,
+} from "@mui/material"
 import React, { useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
@@ -43,9 +44,9 @@ const SelectPlaceInput: React.FC<Props> = (props) => {
             updatedAt: "",
           },
         ]}
-        renderOption={(option) => (
+        renderOption={(liProps, option) => (
           // divide into a component?
-          <FlexVCenter>
+          <li {...liProps} style={{ display: "flex", alignItems: "center" }}>
             {option.id ? (
               <FlexVCenter>
                 <Box minWidth={30}>
@@ -58,9 +59,11 @@ const SelectPlaceInput: React.FC<Props> = (props) => {
             ) : (
               <FlexHCenter>{option.name}</FlexHCenter>
             )}
-          </FlexVCenter>
+          </li>
         )}
-        getOptionLabel={(option) => option.name}
+        getOptionLabel={(option) =>
+          typeof option === "string" ? option : option.name
+        }
         style={{ width: 200 }}
         renderInput={(params) => (
           <MyTextField {...params} placeholder="e.g.: Amazon" size="small" />

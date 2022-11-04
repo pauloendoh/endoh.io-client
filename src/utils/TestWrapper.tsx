@@ -1,18 +1,27 @@
-import { CssBaseline, MuiThemeProvider } from "@mui/material"
+import {
+  CssBaseline,
+  StyledEngineProvider,
+  Theme,
+  ThemeProvider,
+} from "@mui/material"
 import Snackbars from "components/_UI/SnackBars/Snackbars"
 import { QueryClientProvider } from "react-query"
 import { Provider } from "react-redux"
 import { BrowserRouter } from "react-router-dom"
 import store from "store/store"
-import { ThemeProvider } from "styled-components"
 import { myQueryClient } from "./consts/myQueryClient"
 import theme from "./consts/theme"
+
+declare module "@mui/styles/defaultTheme" {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
 
 const TestWrapper: React.FC = (props) => {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <MuiThemeProvider theme={theme}>
+        <StyledEngineProvider injectFirst>
           <ThemeProvider theme={theme}>
             <QueryClientProvider client={myQueryClient}>
               <CssBaseline />
@@ -22,7 +31,7 @@ const TestWrapper: React.FC = (props) => {
               <Snackbars />
             </QueryClientProvider>
           </ThemeProvider>
-        </MuiThemeProvider>
+        </StyledEngineProvider>
       </BrowserRouter>
     </Provider>
   )

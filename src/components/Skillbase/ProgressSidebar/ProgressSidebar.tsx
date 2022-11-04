@@ -1,4 +1,7 @@
-import { createStyles, Drawer, makeStyles, Theme, Toolbar } from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
+import { createStyles, Drawer, Toolbar } from "@mui/material"
 import useSidebarStore from "../../../store/zustand/useSidebarStore"
 
 // PE 1/3 - remove?
@@ -22,7 +25,7 @@ function ProgressSidebar() {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles<Theme>((theme: Theme) =>
   createStyles({
     root: {
       flexShrink: 0,

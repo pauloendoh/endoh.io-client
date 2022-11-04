@@ -1,3 +1,6 @@
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
 import { faTimes } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
@@ -5,8 +8,6 @@ import {
   Box,
   Button,
   createStyles,
-  makeStyles,
-  Theme,
   Toolbar,
   Typography,
 } from "@mui/material"
@@ -50,7 +51,7 @@ const SettingsNavbar = () => {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles<Theme>((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,

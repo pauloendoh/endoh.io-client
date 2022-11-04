@@ -1,3 +1,6 @@
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz"
@@ -5,10 +8,8 @@ import {
   createStyles,
   IconButton,
   ListItemIcon,
-  makeStyles,
   Menu,
   MenuItem,
-  Theme,
   Typography,
 } from "@mui/material"
 import React from "react"
@@ -69,7 +70,6 @@ function TagMoreIcon(props: Props) {
       <Menu
         id="tag-more"
         anchorEl={anchorEl}
-        getContentAnchorEl={null}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
         keepMounted
@@ -114,7 +114,7 @@ function TagMoreIcon(props: Props) {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles<Theme>((theme: Theme) =>
   createStyles({
     tagListItem: {
       paddingLeft: theme.spacing(4),

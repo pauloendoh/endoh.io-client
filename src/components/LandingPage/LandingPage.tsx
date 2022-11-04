@@ -1,12 +1,8 @@
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  makeStyles,
-  Typography,
-} from "@mui/material"
+import { Box, Button, Container, Grid, Typography } from "@mui/material"
 import { useEffect } from "react"
 import { Link as ScrollLink } from "react-scroll"
 import AuthFormWrapper from "./AuthFormWrapper/AuthFormWrapper"
@@ -77,12 +73,12 @@ const LandingPage = () => {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   flexGrow: {
     flexGrow: 1,
   },
   checkApplications: {
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       marginTop: 32,
     },
     [theme.breakpoints.up("sm")]: {

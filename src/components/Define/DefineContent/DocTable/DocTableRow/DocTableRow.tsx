@@ -1,9 +1,7 @@
-import {
-  makeStyles,
-  TableCell,
-  TableRow,
-  TextareaAutosize,
-} from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
+import { TableCell, TableRow, TextareaAutosize } from "@mui/material"
 import useDebounce from "hooks/utils/useDebounce"
 import { createRef, useEffect, useState } from "react"
 import { NoteDto } from "../../../../../types/domain/define/NoteDto"
@@ -73,7 +71,7 @@ const DocTableRow = (props: Props) => {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   textareaCell: {
     cursor: "pointer !important",
     verticalAlign: "top",

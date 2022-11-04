@@ -1,4 +1,7 @@
-import { makeStyles, Tab, Tabs } from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
+import { Tab, Tabs } from "@mui/material"
 import { useMemo } from "react"
 import { Link, useLocation } from "react-router-dom"
 import { urls } from "utils/urls"
@@ -43,7 +46,7 @@ const MonerateTabs = (props: Props) => {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   tabs: {
     minHeight: 32,
   },

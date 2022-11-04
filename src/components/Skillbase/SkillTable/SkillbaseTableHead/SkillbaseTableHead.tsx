@@ -1,5 +1,7 @@
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
 import Checkbox from "@mui/material/Checkbox"
-import { makeStyles } from "@mui/material/styles"
 import TableCell from "@mui/material/TableCell"
 import TableHead from "@mui/material/TableHead"
 import TableRow from "@mui/material/TableRow"
@@ -95,7 +97,7 @@ const SkillbaseTableHead = (props: Props) => {
   )
 }
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles<Theme>(() => ({
   th: {
     backgroundColor: "#2B2B2B",
   },

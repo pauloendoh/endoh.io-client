@@ -1,4 +1,8 @@
-import { Box, makeStyles } from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
+import { Box } from "@mui/material"
+
 import clsx from "clsx"
 import { useEffect, useState } from "react"
 import { connect } from "react-redux"
@@ -113,7 +117,7 @@ const SelectSkillLevel = (props: Props) => {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   label: {
     width: 125,
   },

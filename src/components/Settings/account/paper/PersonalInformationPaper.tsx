@@ -1,12 +1,7 @@
-import {
-  Box,
-  Button,
-  Divider,
-  Grid,
-  makeStyles,
-  Paper,
-  Typography,
-} from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
+import { Box, Button, Divider, Grid, Paper, Typography } from "@mui/material"
 import { useState } from "react"
 import useAuthStore from "store/zustand/useAuthStore"
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
@@ -120,7 +115,7 @@ const PersonalInformationPaper = () => {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   leftGrid: {
     width: 100,
   },

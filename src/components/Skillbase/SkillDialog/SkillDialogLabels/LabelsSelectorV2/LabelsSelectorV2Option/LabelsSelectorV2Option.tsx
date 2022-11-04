@@ -6,12 +6,21 @@ import { LabelDto } from "types/domain/skillbase/LabelDto"
 interface Props {
   label: LabelDto
   onClickEdit: (label: LabelDto) => void
+  liProps: React.HTMLAttributes<HTMLLIElement>
 }
 
-const LabelsSelectorV2Option = ({ label, onClickEdit }: Props) => {
+const LabelsSelectorV2Option = ({ label, onClickEdit, liProps }: Props) => {
   if (label.id > 0)
     return (
-      <FlexVCenter key={label.id} justifyContent="space-between" width="100%">
+      <li
+        {...liProps}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          width: "100%",
+        }}
+      >
         <FlexVCenter style={{ gap: 8 }}>
           <MdCircle style={{ color: label.bgColor }} />
           <Typography>{label.name}</Typography>
@@ -26,7 +35,7 @@ const LabelsSelectorV2Option = ({ label, onClickEdit }: Props) => {
         >
           <MdEdit />
         </IconButton>
-      </FlexVCenter>
+      </li>
     )
 
   return <FlexVCenter style={{ gap: 8 }}>+ Add label</FlexVCenter>

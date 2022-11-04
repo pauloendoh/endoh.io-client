@@ -1,3 +1,6 @@
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
 import {
   faEye,
   faEyeSlash,
@@ -5,11 +8,10 @@ import {
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Button, makeStyles, Menu, MenuItem } from "@mui/material"
+import { Button, Menu, MenuItem, useTheme } from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import Txt from "components/_UI/Text/Txt"
 import React from "react"
-import { useTheme } from "styled-components"
 import { FilterSkillChipsBy } from "types/domain/relearn/FilterSkillChipsBy"
 
 interface Props {
@@ -69,7 +71,6 @@ function FilterSkillChipsButton(props: Props) {
       <Menu
         id="filter-skill-chip-menu"
         anchorEl={anchorEl}
-        getContentAnchorEl={null}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
         keepMounted
@@ -100,7 +101,7 @@ function FilterSkillChipsButton(props: Props) {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   editSkillsButton: {
     marginBottom: 8,
   },

@@ -1,6 +1,4 @@
-import { Drawer } from "@mui/material"
-import styled from "styled-components"
-
+import { Drawer, styled } from "@mui/material"
 const S = {
   RootDrawer: styled(Drawer)`
     flex-shrink: 0;

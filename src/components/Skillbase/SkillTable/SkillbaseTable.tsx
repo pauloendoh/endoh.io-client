@@ -1,4 +1,6 @@
-import { makeStyles, Theme } from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
 import Table from "@mui/material/Table"
 import TableBody from "@mui/material/TableBody"
 import TableContainer from "@mui/material/TableContainer"
@@ -209,7 +211,7 @@ const SkillbaseTable = (props: Props) => {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles<Theme>((theme: Theme) => ({
   container: {
     maxHeight: 440,
   },

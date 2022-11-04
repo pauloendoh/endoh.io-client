@@ -1,7 +1,7 @@
-import MuiAlert, { AlertProps } from "@mui/lab/Alert"
-import Snackbar from "@mui/material/Snackbar"
-import { makeStyles, Theme } from "@mui/material/styles"
-import React from "react"
+import { makeStyles } from "@mui/styles"
+
+import { Alert, Snackbar, Theme } from "@mui/material"
+import React, { ComponentProps } from "react"
 import useSnackbarStore from "../../../store/zustand/useSnackbarStore"
 
 const Snackbars = () => {
@@ -38,32 +38,38 @@ const Snackbars = () => {
         id="success-message"
         open={!!successMessage}
         autoHideDuration={3000}
-        onClose={handleCloseSuccess}
+        anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
+        onClose={() => handleCloseSuccess()}
       >
-        <Alert onClose={handleCloseSuccess} severity="success">
-          {successMessage}
-        </Alert>
+        <div>
+          <MyAlert onClose={handleCloseSuccess} severity="success">
+            {successMessage}
+          </MyAlert>
+        </div>
       </Snackbar>
 
       <Snackbar
         id="error-message"
         open={!!errorMessage}
         autoHideDuration={3000}
-        onClose={handleCloseError}
+        anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
+        onClose={() => handleCloseError()}
       >
-        <Alert onClose={handleCloseError} severity="error">
-          {errorMessage}
-        </Alert>
+        <div>
+          <MyAlert onClose={handleCloseError} severity="error">
+            {errorMessage}
+          </MyAlert>
+        </div>
       </Snackbar>
     </div>
   )
 }
 
-function Alert(props: AlertProps) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />
+function MyAlert(props: ComponentProps<typeof Alert>) {
+  return <Alert elevation={6} variant="filled" {...props} />
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   root: {
     width: "100%",
     "& > * + *": {

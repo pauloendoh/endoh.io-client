@@ -1,4 +1,7 @@
-import { makeStyles, TableCell } from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
+import { TableCell } from "@mui/material"
 import clsx from "clsx"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import { MdOutlineArrowRightAlt } from "react-icons/md"
@@ -36,7 +39,7 @@ const SkillLevelTd = (props: Props) => {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   root: {
     color: "black",
     width: 50,

@@ -1,7 +1,7 @@
 import { LocalizationProvider } from "@mui/x-date-pickers"
 import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon"
 
-import { Box, CssBaseline, ThemeProvider } from "@mui/material"
+import { Box, CssBaseline, ThemeProvider, Theme, StyledEngineProvider } from "@mui/material";
 import GlobalDialogs from "components/_UI/Dialogs/GlobalDialogs"
 import useCheckAuthOrLogout from "hooks/auth/useCheckAuthOrLogout"
 import { lazy, Suspense, useEffect, useState } from "react"
@@ -41,6 +41,13 @@ import { myQueryClient } from "./utils/consts/myQueryClient"
 import theme from "./utils/consts/theme"
 import { isValidApplicationPath } from "./utils/domain/app/isValidApplicationPath"
 import apiUrls from "./utils/url/urls/apiUrls"
+
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
 
 const MoneratePage = lazy(() => import("./components/Monerate/MoneratePage"))
 const SimilarExpensesPage = lazy(
@@ -209,22 +216,24 @@ const App = (props: Props) => {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <DndProvider backend={HTML5Backend}>
-        <LocalizationProvider dateAdapter={AdapterLuxon}>
-          <QueryClientProvider client={myQueryClient}>
-            <ReactQueryDevtools initialIsOpen={false} />
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <DndProvider backend={HTML5Backend}>
+          <LocalizationProvider dateAdapter={AdapterLuxon}>
+            <QueryClientProvider client={myQueryClient}>
+              <ReactQueryDevtools initialIsOpen={false} />
 
-            {/* What does this do? */}
-            <CssBaseline />
-            {isLoading ? <LoadingPage /> : routes}
+              {/* What does this do? */}
+              <CssBaseline />
+              {isLoading ? <LoadingPage /> : routes}
 
-            <MySnackBar2 />
-          </QueryClientProvider>
-        </LocalizationProvider>
-      </DndProvider>
-    </ThemeProvider>
-  )
+              <MySnackBar2 />
+            </QueryClientProvider>
+          </LocalizationProvider>
+        </DndProvider>
+      </ThemeProvider>
+    </StyledEngineProvider>
+  );
 }
 
 type Props = ReturnType<typeof mapDispatchToProps> & RouteComponentProps<{}>

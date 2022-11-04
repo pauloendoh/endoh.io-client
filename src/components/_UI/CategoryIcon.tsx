@@ -1,4 +1,6 @@
-import { makeStyles, Theme } from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
 import CategoryGetDto from "../../types/domain/monerate/CategoryGetDto"
 import FlexVCenter from "./Flexboxes/FlexVCenter"
 
@@ -12,7 +14,7 @@ const CategoryIcon = (props: Props) => {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles<Theme>((theme: Theme) => ({
   root: {
     background: theme.palette.secondary.main,
     justifyContent: "center",

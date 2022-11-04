@@ -73,7 +73,7 @@ const ExpenseOverview = (props: Props) => {
   )
 }
 
-const useStyle = makeStyles((theme: Theme) => ({
+const useStyle = makeStyles<Theme>((theme: Theme) => ({
   starIcon: {
     marginLeft: 5,
     marginBottom: 5,

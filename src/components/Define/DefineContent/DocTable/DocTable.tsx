@@ -1,10 +1,7 @@
-import {
-  makeStyles,
-  Paper,
-  Table,
-  TableContainer,
-  Toolbar,
-} from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
+import { Paper, Table, TableContainer, Toolbar } from "@mui/material"
 import { useState } from "react"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useAuthStore from "store/zustand/useAuthStore"
@@ -107,7 +104,7 @@ const DocTable = (props: Props) => {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   container: {
     maxHeight: "calc(100vh - 400px)",
   },

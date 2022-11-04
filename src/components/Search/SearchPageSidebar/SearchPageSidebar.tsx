@@ -1,4 +1,7 @@
-import { Box, List, ListItem, ListItemText, makeStyles } from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
+import { Box, List, ListItem, ListItemText } from "@mui/material"
 import { SearchResultsDto } from "../../../types/domain/utils/SearchResultsDto"
 import Flex from "../../_UI/Flexboxes/Flex"
 import { FilterByType } from "../SearchPage"
@@ -82,7 +85,7 @@ const SearchPageSidebar = (props: Props) => {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   counter: {
     color: theme.palette.grey[400],
   },

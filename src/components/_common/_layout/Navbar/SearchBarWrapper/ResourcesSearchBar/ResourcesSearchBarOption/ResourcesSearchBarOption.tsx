@@ -13,9 +13,14 @@ import { urls } from "utils/urls"
 type Props = {
   resource: ResourceDto
   handleClick: () => void
+  htmlProps: React.HTMLAttributes<HTMLLIElement>
 }
 
-const ResourcesSearchBarOption = ({ resource, handleClick }: Props) => {
+const ResourcesSearchBarOption = ({
+  resource,
+  handleClick,
+  htmlProps,
+}: Props) => {
   const theme = useTheme()
 
   const location = useLocation()
@@ -31,8 +36,14 @@ const ResourcesSearchBarOption = ({ resource, handleClick }: Props) => {
   }, [resource.completedAt])
 
   return (
-    <FlexVCenter
-      style={{ justifyContent: "space-between", width: "100%" }}
+    <li
+      {...htmlProps}
+      style={{
+        justifyContent: "space-between",
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
+      }}
       onClick={handleClick}
       onMouseDown={(e) => {
         if (e.button === 1)
@@ -86,7 +97,7 @@ const ResourcesSearchBarOption = ({ resource, handleClick }: Props) => {
           </FlexVCenter>
         )}
       </FlexVCenter>
-    </FlexVCenter>
+    </li>
   )
 }
 

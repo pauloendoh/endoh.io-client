@@ -41,7 +41,7 @@ const SearchBarWrapper = (props: Props) => {
         <Select
           value={searchType}
           onChange={(e) => setSearchType(e.target.value as SearchType)}
-          style={{ borderRadius: "0px 4px 4px 0px", height: 38 }}
+          style={{ borderRadius: "0px 4px 4px 0px", height: 36 }}
         >
           <MenuItem value={"resources" as SearchType}>
             <FlexVCenter style={{ gap: 4 }}>

@@ -6,6 +6,7 @@ import {
   DialogTitle,
   FormControlLabel,
   Tooltip,
+  useTheme,
 } from "@mui/material"
 import Flex from "components/_UI/Flexboxes/Flex"
 import Txt from "components/_UI/Text/Txt"
@@ -18,7 +19,6 @@ import { useLocation } from "react-router-dom"
 import { scroller } from "react-scroll"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import useDialogsStore from "store/zustand/useDialogsStore"
-import { useTheme } from "styled-components"
 import { newLabelDto } from "types/domain/skillbase/LabelDto"
 import Icons from "utils/styles/Icons"
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto"

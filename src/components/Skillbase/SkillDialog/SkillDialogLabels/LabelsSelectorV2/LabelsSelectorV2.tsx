@@ -35,7 +35,7 @@ const LabelsSelectorV2 = (props: Props) => {
       id="tags-standard"
       options={sortedLabels}
       value={props.selectedLabels}
-      getOptionSelected={(option, value) => option.id === value.id}
+      isOptionEqualToValue={(option, value) => option.id === value.id}
       onChange={(e, values) => {
         if (typeof values === "string") return
         const labels = values as LabelDto[]
@@ -48,12 +48,15 @@ const LabelsSelectorV2 = (props: Props) => {
 
         props.onChange(labels)
       }}
-      getOptionLabel={(option: LabelDto) => option.name}
+      getOptionLabel={(option) =>
+        typeof option === "string" ? option : option.name
+      }
       renderInput={(params) => (
         <MyTextField {...params} label="Labels" size="small" />
       )}
-      renderOption={(label) => (
+      renderOption={(liProps, label) => (
         <LabelsSelectorV2Option
+          liProps={liProps}
           label={label}
           onClickEdit={() => {
             props.setLabelDialogOpen(true)

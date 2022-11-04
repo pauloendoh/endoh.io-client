@@ -1,3 +1,6 @@
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
 import { faFunnelDollar } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { ExpandLess, ExpandMore } from "@mui/icons-material"
@@ -8,8 +11,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  makeStyles,
-  Theme,
 } from "@mui/material"
 import React, { useState } from "react"
 import { Link, useLocation } from "react-router-dom"
@@ -67,7 +68,7 @@ function MonerateSubmenu() {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles<Theme>((theme: Theme) =>
   createStyles({
     nested: {
       paddingLeft: theme.spacing(4),

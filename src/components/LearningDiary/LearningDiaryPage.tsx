@@ -1,5 +1,7 @@
-import { Box, Container, Grid, Theme } from "@mui/material"
+import { Theme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
+
+import { Box, Container, Grid } from "@mui/material"
 import clsx from "clsx"
 import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween"
 import useDaysWithLearnings from "hooks/learning-diary/useDaysWithLearnings"

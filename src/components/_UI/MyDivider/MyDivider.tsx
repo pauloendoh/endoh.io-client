@@ -1,4 +1,6 @@
-import { makeStyles } from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
 import React from "react"
 
 export const MyDivider: React.FC = ({ children }) => {
@@ -12,7 +14,7 @@ export const MyDivider: React.FC = ({ children }) => {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   container: {
     display: "flex",
     alignItems: "center",

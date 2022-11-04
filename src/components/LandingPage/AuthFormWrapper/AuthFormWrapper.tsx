@@ -1,4 +1,7 @@
-import { Box, Button, makeStyles, Paper, Tooltip } from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
+import { Box, Button, Paper, Tooltip } from "@mui/material"
 import { useAxios } from "hooks/utils/useAxios"
 import { useState } from "react"
 import { MdInfo } from "react-icons/md"
@@ -86,15 +89,15 @@ const AuthFormWrapper = () => {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   paper: {
     padding: "2rem",
     marginLeft: "auto",
     marginRight: "auto",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       width: 290,
     },
-    [theme.breakpoints.between("sm", "md")]: {
+    [theme.breakpoints.between("sm", "lg")]: {
       width: 330,
     },
     [theme.breakpoints.up("md")]: {

@@ -94,7 +94,7 @@ const DiaryTable = () => {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   container: {
     maxHeight: 440,
   },

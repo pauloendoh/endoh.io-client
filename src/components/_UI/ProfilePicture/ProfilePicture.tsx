@@ -1,4 +1,7 @@
-import { Avatar, makeStyles, Theme } from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
+import { Avatar } from "@mui/material"
 import React, { FunctionComponent } from "react"
 import { Link } from "react-router-dom"
 import pageUrls from "../../../utils/url/urls/pageUrls"
@@ -48,7 +51,7 @@ const ProfilePicture: FunctionComponent<Props> = (props: Props) => {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles<Theme>((theme: Theme) => ({
   link: {
     textDecoration: "none",
   },

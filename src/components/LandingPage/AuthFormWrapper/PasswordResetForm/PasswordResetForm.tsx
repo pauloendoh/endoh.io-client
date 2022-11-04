@@ -1,11 +1,7 @@
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Link,
-  makeStyles,
-  Typography,
-} from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
+import { Box, Button, CircularProgress, Link, Typography } from "@mui/material"
 import React, { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { connect } from "react-redux"
@@ -137,7 +133,7 @@ const ResetPasswordByEmailForm = (props: Props) => {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   button: {
     paddingTop: 10,
     paddingBottom: 10,

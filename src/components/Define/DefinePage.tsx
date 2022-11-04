@@ -1,4 +1,7 @@
-import { Box, makeStyles } from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
+import { Box } from "@mui/material"
 import classNames from "classnames"
 import React, { useEffect, useState } from "react"
 import { useHistory, useParams } from "react-router-dom"
@@ -100,7 +103,7 @@ const DefinePage = () => {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   content: {
     flexGrow: 1,
 

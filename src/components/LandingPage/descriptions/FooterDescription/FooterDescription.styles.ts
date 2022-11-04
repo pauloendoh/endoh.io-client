@@ -1,6 +1,7 @@
-import styled from "styled-components";
-import theme from "utils/consts/theme";
-import Flex from "../../../_UI/Flexboxes/Flex";
+import { Box } from "@mui/material"
+import styled from "styled-components"
+import theme from "utils/consts/theme"
+import Flex from "../../../_UI/Flexboxes/Flex"
 
 const S = {
   FooterDescription: styled(Flex)``,
@@ -15,7 +16,7 @@ const S = {
     gap: theme.spacing(1),
   }),
 
-  SocialIconsWrapper: styled.div``,
-};
+  SocialIconsWrapper: styled(Box)``,
+}
 
-export default S;
+export default S

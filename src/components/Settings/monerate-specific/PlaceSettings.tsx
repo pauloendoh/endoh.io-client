@@ -70,7 +70,7 @@ const PlaceSettings = (props: Props) => {
                           props.editPlace(place)
                         }}
                         aria-label="edit-place"
-                      >
+                        size="large">
                         <EditIcon fontSize="small" />
                       </IconButton>
                       <IconButton
@@ -78,7 +78,7 @@ const PlaceSettings = (props: Props) => {
                           handleDelete(place.id)
                         }}
                         aria-label="delete-place"
-                      >
+                        size="large">
                         <DeleteIcon fontSize="small" />
                       </IconButton>
                     </FlexVCenter>
@@ -90,7 +90,7 @@ const PlaceSettings = (props: Props) => {
         </Paper>
       ) : null}
     </Box>
-  )
+  );
 }
 
 const mapStateToProps = (state: ApplicationState) => ({

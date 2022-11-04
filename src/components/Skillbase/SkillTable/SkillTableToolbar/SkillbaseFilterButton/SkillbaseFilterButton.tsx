@@ -65,7 +65,6 @@ const SkillbaseFilterButton = () => {
       <Menu
         id="skillbase-filter-menu"
         anchorEl={anchorEl}
-        getContentAnchorEl={null}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
         keepMounted

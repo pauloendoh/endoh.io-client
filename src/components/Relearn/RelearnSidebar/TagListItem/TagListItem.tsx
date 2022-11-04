@@ -50,7 +50,7 @@ function TagListItem(props: Props) {
     <ListItem
       key={props.tag.id}
       className={"tag-item"}
-      style={{ justifyContent: "flex-start" }}
+      style={{ justifyContent: "flex-start", minHeight: 48 }}
       button
       component={Link}
       to={pageUrls.relearn.tag + "/" + props.tag.id}
@@ -78,7 +78,14 @@ function TagListItem(props: Props) {
         />
       ) : (
         <S.ResourcesCountWrapper>
-          <Typography style={{ fontSize: 12, color: theme.palette.grey[400] }}>
+          <Typography
+            style={{
+              fontSize: 12,
+              position: "relative",
+              right: 2,
+              color: theme.palette.grey[400],
+            }}
+          >
             {
               filterTodoResources(
                 props.allResources.filter((r) => r.tag?.id === props.tag.id)

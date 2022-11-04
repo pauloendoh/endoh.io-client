@@ -1,3 +1,6 @@
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
 import { Clear } from "@mui/icons-material"
 import {
   Box,
@@ -6,7 +9,6 @@ import {
   DialogTitle,
   IconButton,
   Link,
-  makeStyles,
   Typography,
 } from "@mui/material"
 import { useEffect, useState } from "react"
@@ -180,7 +182,7 @@ const QuestionFlashcardDialogChild = (props: {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   wrongButton: {
     color: "white",
     background: theme.palette.error.main,

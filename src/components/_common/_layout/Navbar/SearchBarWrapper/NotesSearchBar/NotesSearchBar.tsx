@@ -111,8 +111,9 @@ const NotesSearchBar = () => {
           }
           PopperComponent={MyPopper}
           filterOptions={(notes) => notes} // what this do?
-          renderOption={(docOrNote) => (
+          renderOption={(liProps, docOrNote) => (
             <NotesSearchBarOption
+              liProps={liProps}
               key={docOrNote.id}
               docOrNote={docOrNote}
               handleClick={() => {

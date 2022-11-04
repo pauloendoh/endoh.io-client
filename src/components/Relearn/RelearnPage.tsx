@@ -1,4 +1,7 @@
-import { Box, makeStyles } from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
+import { Box } from "@mui/material"
 import classNames from "classnames"
 import useMultiSelectResource from "hooks/relearn/useMultiSelectResource"
 import { useEffect, useState } from "react"
@@ -151,7 +154,7 @@ const RelearnPage = (props: Props) => {
     </Flex>
   )
 }
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   content: {
     flexGrow: 1,
 

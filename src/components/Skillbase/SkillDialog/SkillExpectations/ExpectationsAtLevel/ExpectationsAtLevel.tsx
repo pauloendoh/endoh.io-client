@@ -1,4 +1,5 @@
-import { Box, Button, Typography, useTheme } from "@mui/material"
+import { Box, Typography, useTheme } from "@mui/material"
+import DarkButton from "components/_UI/Buttons/DarkButton/DarkButton"
 import { useMemo, useRef, useState } from "react"
 import { useDrop } from "react-dnd"
 import { Element } from "react-scroll"
@@ -105,7 +106,7 @@ const ExpectationsAtLevel = (props: Props) => {
 
       <Box mt={0.5} ml={1}>
         {editingIndex === null && !props.disabled && (
-          <Button
+          <DarkButton
             onClick={handleAddExpectation}
             size="small"
             style={{
@@ -115,7 +116,7 @@ const ExpectationsAtLevel = (props: Props) => {
             ref={htmlDropItemRef}
           >
             Add next step
-          </Button>
+          </DarkButton>
         )}
       </Box>
     </Box>

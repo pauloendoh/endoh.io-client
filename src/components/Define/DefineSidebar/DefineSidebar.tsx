@@ -1,12 +1,7 @@
-import {
-  Box,
-  createStyles,
-  Drawer,
-  List,
-  makeStyles,
-  Theme,
-  Toolbar,
-} from "@mui/material"
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
+import { Box, createStyles, Drawer, List, Toolbar } from "@mui/material"
 import useSidebarStore from "../../../store/zustand/useSidebarStore"
 import AnsweredQuestionsListItem from "./AnsweredQuestionsListItem/AnsweredQuestionsListItem"
 import FileSystem from "./FileSystem/FileSystem"
@@ -45,7 +40,7 @@ function DefineSidebar(props: Props) {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles<Theme>((theme: Theme) =>
   createStyles({
     root: {
       flexShrink: 0,

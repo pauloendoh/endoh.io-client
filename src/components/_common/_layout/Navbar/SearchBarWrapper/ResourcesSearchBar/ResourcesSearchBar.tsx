@@ -106,11 +106,12 @@ const ResourcesSearchBar = ({ editResource }: Props) => {
         }
         PopperComponent={MyPopper}
         filterOptions={(resources) => resources}
-        renderOption={(resource) => (
+        renderOption={(htmlProps, resource) => (
           <ResourcesSearchBarOption
             key={resource.id}
             resource={resource}
             handleClick={() => editResource(resource)}
+            htmlProps={htmlProps}
           />
         )}
         // don't change input text when selecting a resource

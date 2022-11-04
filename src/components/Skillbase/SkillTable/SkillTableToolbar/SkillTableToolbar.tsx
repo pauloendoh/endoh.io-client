@@ -1,7 +1,10 @@
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
 import DeleteIcon from "@mui/icons-material/Delete"
 import { Box } from "@mui/material"
 import IconButton from "@mui/material/IconButton"
-import { lighten, makeStyles, Theme } from "@mui/material/styles"
+import { lighten } from "@mui/material/styles"
 import Toolbar from "@mui/material/Toolbar"
 import Tooltip from "@mui/material/Tooltip"
 import Typography from "@mui/material/Typography"
@@ -124,6 +127,7 @@ const SkillTableToolbar = (props: Props) => {
             id="delete-skills-icon"
             onClick={props.onClickDelete}
             aria-label="delete"
+            size="large"
           >
             <DeleteIcon />
           </IconButton>
@@ -133,13 +137,13 @@ const SkillTableToolbar = (props: Props) => {
   )
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles<Theme>((theme: Theme) => ({
   root: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(1),
   },
   highlight:
-    theme.palette.type === "light"
+    theme.palette.mode === "light"
       ? {
           color: theme.palette.secondary.main,
           backgroundColor: lighten(theme.palette.secondary.light, 0.85),

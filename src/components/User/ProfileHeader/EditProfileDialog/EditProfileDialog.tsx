@@ -1,3 +1,6 @@
+import { Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+
 import CameraAltIcon from "@mui/icons-material/CameraAlt"
 import {
   Box,
@@ -5,7 +8,6 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  makeStyles,
   Typography,
 } from "@mui/material"
 import { Form, Formik, FormikErrors } from "formik"
@@ -205,7 +207,7 @@ const EditProfileDialog = (props: Props) => {
   )
 }
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles<Theme>(() => ({
   cameraIcon: {
     position: "absolute",
     left: 56,
