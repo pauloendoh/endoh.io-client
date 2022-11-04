@@ -46,7 +46,7 @@ function DocMoreMenu(props: Props) {
 
   const [flashcardDialog, setFlashcardDialog] = useState(false)
 
-  const availableQuestions = useMemo(
+  const docAvailableQuestions = useMemo(
     () =>
       notes.filter(
         (note) =>
@@ -58,13 +58,25 @@ function DocMoreMenu(props: Props) {
     [notes, props.doc?.id]
   )
 
+  const emptyNotes = useMemo(
+    () =>
+      notes?.filter(
+        (n) =>
+          n.question.trim().length === 0 &&
+          n.description.trim().length === 0 &&
+          n.docId === props.doc?.id
+      ) || [],
+
+    [notes, props.doc?.id]
+  )
+
   const handleCloseMore = () => {
     setAnchorEl(null) // avoids error "The `anchorEl` prop provided to the component is invalid"
   }
 
   const handleClearEmptyNotes = () => {
     openConfirmDialog({
-      title: "Clear empty notes?",
+      title: `Clear ${emptyNotes.length} empty notes?`,
       onConfirm: () => {
         myAxios
           .delete<NoteDto[]>(urls.api.clearEmptyNotes(props.doc.id))
@@ -185,7 +197,7 @@ function DocMoreMenu(props: Props) {
 
       {flashcardDialog && (
         <FlashcardDialog
-          availableNotes={availableQuestions}
+          availableNotes={docAvailableQuestions}
           open={flashcardDialog}
           onClose={() => setFlashcardDialog(false)}
         />
