@@ -33,6 +33,7 @@ import { Dispatch } from "redux"
 import useDialogsStore from "store/zustand/useDialogsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import buildGraphqlClient from "utils/consts/buildGraphqlClient"
+import { shortNumberFormatter } from "utils/math/shortNumberFormatter"
 import linkPng from "../../../../static/images/link.png"
 import * as relearnActions from "../../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../../store/store"
@@ -256,9 +257,9 @@ const ResourceDialog = (props: Props) => {
               if (preview.viewCount > 0 && values.privateNote.length === 0) {
                 setFieldValue(
                   "privateNote",
-                  `${
+                  `${shortNumberFormatter(
                     preview.viewCount
-                  } views - ${new Date().toLocaleDateString()}`
+                  )} views - ${new Date().toDateString()}`
                 )
               }
 
@@ -544,6 +545,7 @@ const ResourceDialog = (props: Props) => {
                 onChange={handleChange}
                 fullWidth
                 maxRows={16}
+                InputLabelProps={{ shrink: true }}
                 label={
                   <FlexVCenter>
                     <FontAwesomeIcon icon={faLock} style={{ marginRight: 4 }} />
