@@ -80,16 +80,7 @@ const NotesSearchBar = () => {
 
   const sortedOptions = useMemo(() => {
     if (searchResults?.notes && searchResults?.docs)
-      return [
-        ...searchResults.docs,
-        ...searchResults.notes
-          .sort((a, b) => {
-            if (b.question.trim().length > 0 && a.question.trim().length === 0)
-              return 1
-            return -1
-          })
-          .slice(0, 25),
-      ]
+      return [...searchResults.docs, ...searchResults.notes.slice(0, 25)]
 
     return []
   }, [searchResults?.notes, searchResults?.docs])

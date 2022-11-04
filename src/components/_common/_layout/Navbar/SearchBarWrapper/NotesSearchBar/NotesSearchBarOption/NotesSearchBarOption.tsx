@@ -5,6 +5,7 @@ import Flex from "components/_UI/Flexboxes/Flex"
 import FlexCol from "components/_UI/Flexboxes/FlexCol"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import { MdInsertDriveFile } from "react-icons/md"
+import { format } from "timeago.js"
 import { DocDto } from "types/domain/define/DocDto"
 import { NoteDto } from "types/domain/define/NoteDto"
 
@@ -48,12 +49,17 @@ const NotesSearchBarOption = ({ docOrNote, handleClick }: Props) => {
               {docOrNote.doc?.title}
             </Typography>
           </Flex>
-          <Typography
-            variant="body2"
-            style={{ fontStyle: "italic", marginLeft: 28 }}
-          >
-            {docOrNote.description}
-          </Typography>
+          <Flex justifyContent="space-between" width="100%">
+            <Typography
+              variant="body2"
+              style={{ fontStyle: "italic", marginLeft: 28 }}
+            >
+              {docOrNote.description}
+            </Typography>
+            <Typography variant="body2">
+              {format(docOrNote.updatedAt)}
+            </Typography>
+          </Flex>
         </FlexCol>
       )}
       {"title" in docOrNote && (
@@ -63,6 +69,9 @@ const NotesSearchBarOption = ({ docOrNote, handleClick }: Props) => {
               <MdInsertDriveFile fontSize={24} />
               <Typography>{docOrNote.title}</Typography>
             </Flex>
+            <Typography variant="body2">
+              {format(docOrNote.updatedAt)}
+            </Typography>
           </Flex>
         </FlexCol>
       )}
