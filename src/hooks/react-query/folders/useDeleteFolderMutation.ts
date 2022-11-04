@@ -6,7 +6,7 @@ import { urls } from "utils/urls"
 import { queryKeys } from "../queryKeys"
 
 export default function useDeleteFolderMutation() {
-  const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
+  const { setSuccessMessage } = useSnackbarStore()
 
   const axios = useAxios()
   const queryClient = useQueryClient()

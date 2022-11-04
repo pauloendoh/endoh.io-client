@@ -1,8 +1,10 @@
 import {
   Box,
+  Checkbox,
   Dialog,
   DialogContent,
   DialogTitle,
+  FormControlLabel,
   IconButton,
   Typography,
 } from "@material-ui/core"
@@ -33,6 +35,11 @@ const FlashcardDialog = (props: Props) => {
   const [questionsQty, setQuestionsQty] = useState(0)
   const [testQuestions, setTestQuestions] = useState<NoteDto[]>([])
 
+  const [
+    isIncludingQuestionsToRefine,
+    setIsIncludingQuestionsToRefine,
+  ] = useState(false)
+
   // reset
   useEffect(() => {
     setMinWeight(1)
@@ -46,22 +53,26 @@ const FlashcardDialog = (props: Props) => {
       console.log({
         minWeight,
       })
-      const max = props.availableNotes.filter(
+      let filteredQuestions = props.availableNotes.filter(
         (note) =>
           note.weight >= minWeight &&
           note.question.trim().length > 0 &&
           note.description.trim().length > 0
       )
-      setAllQuestions(max)
 
-      if (max.length >= 10) {
+      if (!isIncludingQuestionsToRefine)
+        filteredQuestions = filteredQuestions.filter((q) => !q.toRefine)
+
+      setAllQuestions(filteredQuestions)
+
+      if (filteredQuestions.length >= 10) {
         setQuestionsQty(10)
         return
       }
-      setQuestionsQty(max.length)
+      setQuestionsQty(filteredQuestions.length)
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [minWeight, props.open, props.availableNotes]
+    [minWeight, props.open, props.availableNotes, isIncludingQuestionsToRefine]
   )
 
   const openConfirmDialog = useDialogsStore((s) => s.openConfirmDialog)
@@ -137,7 +148,7 @@ const FlashcardDialog = (props: Props) => {
             </IconButton>
           </Flex>
 
-          <DialogContent style={{ height: 300 }}>
+          <DialogContent style={{ height: 340 }}>
             <FlexHCenter>
               <MinWeightInput onChange={setMinWeight} value={minWeight} />
               <Box mt={2} />
@@ -149,8 +160,21 @@ const FlashcardDialog = (props: Props) => {
               />
             </FlexHCenter>
 
-            {/* PE 2/3 */}
             <Box mt={4} />
+            <FormControlLabel
+              label={"Include questions to refine"}
+              control={
+                <Checkbox
+                  color="primary"
+                  checked={isIncludingQuestionsToRefine}
+                  onChange={(e) =>
+                    setIsIncludingQuestionsToRefine(e.currentTarget.checked)
+                  }
+                />
+              }
+            />
+            {/* PE 2/3 */}
+            <Box mt={2} />
             <Typography>
               <b>Rules:</b>
               <ul style={{ paddingLeft: 24 }}>
