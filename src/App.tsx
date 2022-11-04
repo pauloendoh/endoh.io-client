@@ -6,6 +6,7 @@ import useCheckAuthOrLogout from "hooks/auth/useCheckAuthOrLogout"
 import { lazy, Suspense, useEffect, useState } from "react"
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
+import ReactGA from "react-ga"
 import { QueryClientProvider } from "react-query"
 import { ReactQueryDevtools } from "react-query/devtools"
 import { connect } from "react-redux"
@@ -72,6 +73,8 @@ const App = (props: Props) => {
 
   const checkAuthOrLogout = useCheckAuthOrLogout()
 
+  const [gaInitialized, setGaInitialized] = useState(false)
+
   useEffect(() => {
     checkAuthOrLogout()
 
@@ -80,6 +83,16 @@ const App = (props: Props) => {
     }, 500)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    if (!gaInitialized && import.meta.env.PROD) {
+      ReactGA.initialize("UA-248555607-1")
+      setGaInitialized(true)
+    }
+
+    ReactGA.set({ page: location.pathname })
+    ReactGA.pageview(location.pathname)
+  }, [location])
 
   useEffect(
     () => {
