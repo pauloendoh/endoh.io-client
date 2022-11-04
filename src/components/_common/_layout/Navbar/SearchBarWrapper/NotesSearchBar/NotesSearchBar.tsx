@@ -3,8 +3,9 @@ import { Popper } from "@mui/material"
 import { queryKeys } from "hooks/react-query/queryKeys"
 import useNotesSearchQuery from "hooks/react-query/search/useNotesSearchQuery"
 import useDebounce from "hooks/utils/useDebounce"
-import React, { useEffect, useMemo } from "react"
+import React, { useEffect, useMemo, useRef } from "react"
 import { Controller, useForm } from "react-hook-form"
+import { useHotkeys } from "react-hotkeys-hook"
 import { useQueryClient } from "react-query"
 import { useHistory } from "react-router-dom"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
@@ -93,6 +94,13 @@ const NotesSearchBar = () => {
     s.onClose,
   ])
 
+  const inputRef = useRef<HTMLInputElement | null>(null)
+  useHotkeys("f", () => {
+    setTimeout(() => {
+      inputRef?.current.focus()
+    }, 100)
+  })
+
   return (
     <>
       <form onSubmit={handleSubmit(submit)}>
@@ -144,6 +152,7 @@ const NotesSearchBar = () => {
               name="searchQuery"
               render={({ field }) => (
                 <MyTextField
+                  inputRef={inputRef}
                   {...params}
                   {...field}
                   label="Search questions"
