@@ -1,5 +1,5 @@
 import { faFire } from "@fortawesome/free-solid-svg-icons"
-import { Box, IconButton } from "@material-ui/core"
+import { Box, IconButton } from "@mui/material"
 import { useEffect, useState } from "react"
 import { Link as RouterLink, useLocation } from "react-router-dom"
 import pageUrls from "utils/url/urls/pageUrls"

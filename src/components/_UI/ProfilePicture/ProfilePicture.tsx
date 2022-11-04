@@ -1,19 +1,19 @@
-import { Avatar, makeStyles, Theme } from "@material-ui/core";
-import React, { FunctionComponent } from "react";
-import { Link } from "react-router-dom";
-import pageUrls from "../../../utils/url/urls/pageUrls";
+import { Avatar, makeStyles, Theme } from "@mui/material"
+import React, { FunctionComponent } from "react"
+import { Link } from "react-router-dom"
+import pageUrls from "../../../utils/url/urls/pageUrls"
 
 interface Props {
-  pictureUrl: string;
-  username: string;
-  isLink: boolean;
-  onClick?: () => void;
-  size?: number | string;
-  fontSize?: string;
+  pictureUrl: string
+  username: string
+  isLink: boolean
+  onClick?: () => void
+  size?: number | string
+  fontSize?: string
 }
 
 const ProfilePicture: FunctionComponent<Props> = (props: Props) => {
-  const classes = useStyles(props);
+  const classes = useStyles(props)
 
   return (
     <React.Fragment>
@@ -45,14 +45,14 @@ const ProfilePicture: FunctionComponent<Props> = (props: Props) => {
         />
       )}
     </React.Fragment>
-  );
-};
+  )
+}
 
 const useStyles = makeStyles((theme: Theme) => ({
   link: {
     textDecoration: "none",
   },
   avatar: {},
-}));
+}))
 
-export default ProfilePicture;
+export default ProfilePicture

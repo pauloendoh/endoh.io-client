@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogTitle } from "@material-ui/core"
+import { Dialog, DialogContent, DialogTitle } from "@mui/material"
 import SaveCancelButtons from "components/_UI/Buttons/SaveCancelButtons"
 import MyTextField from "components/_UI/MyInputs/MyTextField"
 import useSaveFolderMutation from "hooks/react-query/folders/useSaveFolderMutation"

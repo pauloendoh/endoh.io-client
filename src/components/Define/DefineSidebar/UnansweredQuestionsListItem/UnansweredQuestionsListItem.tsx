@@ -1,4 +1,4 @@
-import { IconButton, ListItem, ListItemText, Tooltip } from "@material-ui/core"
+import { IconButton, ListItem, ListItemText, Tooltip } from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import { useCallback, useMemo } from "react"
 import { MdShuffle } from "react-icons/md"

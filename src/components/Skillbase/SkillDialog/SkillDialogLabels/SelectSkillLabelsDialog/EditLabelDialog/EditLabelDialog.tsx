@@ -5,7 +5,7 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-} from "@material-ui/core"
+} from "@mui/material"
 import SaveCancelButtons from "components/_UI/Buttons/SaveCancelButtons"
 import Flex from "components/_UI/Flexboxes/Flex"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"

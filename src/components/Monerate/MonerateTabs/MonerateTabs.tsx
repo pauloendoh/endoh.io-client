@@ -1,22 +1,22 @@
-import { makeStyles, Tab, Tabs } from "@material-ui/core";
-import { useMemo } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { urls } from "utils/urls";
+import { makeStyles, Tab, Tabs } from "@mui/material"
+import { useMemo } from "react"
+import { Link, useLocation } from "react-router-dom"
+import { urls } from "utils/urls"
 
 interface Props {
-  test?: string;
+  test?: string
 }
 
 const MonerateTabs = (props: Props) => {
-  const classes = useStyles();
+  const classes = useStyles()
 
-  const location = useLocation();
+  const location = useLocation()
 
   const tabValue = useMemo(() => {
-    if (location.pathname === urls.pages.monerate.similarExpenses) return 1;
+    if (location.pathname === urls.pages.monerate.similarExpenses) return 1
 
-    return 0;
-  }, [location.pathname]);
+    return 0
+  }, [location.pathname])
 
   return (
     <Tabs
@@ -40,8 +40,8 @@ const MonerateTabs = (props: Props) => {
         to={urls.pages.monerate.similarExpenses}
       />
     </Tabs>
-  );
-};
+  )
+}
 
 const useStyles = makeStyles((theme) => ({
   tabs: {
@@ -55,6 +55,6 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: 16,
     },
   },
-}));
+}))
 
-export default MonerateTabs;
+export default MonerateTabs

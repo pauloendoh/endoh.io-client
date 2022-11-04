@@ -1,5 +1,7 @@
 import { faGlobeAmericas, faLock } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import HighlightOffIcon from "@mui/icons-material/HighlightOff"
+import { Autocomplete } from "@mui/lab"
 import {
   Box,
   Button,
@@ -11,9 +13,7 @@ import {
   IconButton,
   Typography,
   useTheme,
-} from "@material-ui/core"
-import HighlightOffIcon from "@material-ui/icons/HighlightOff"
-import { Autocomplete } from "@material-ui/lab"
+} from "@mui/material"
 import { AxiosError } from "axios"
 import FlexHCenter from "components/_UI/Flexboxes/FlexHCenter"
 import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween"

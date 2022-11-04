@@ -1,5 +1,5 @@
-import { MenuItem } from "@material-ui/core";
-import styled from "styled-components";
+import { MenuItem } from "@mui/material"
+import styled from "styled-components"
 
 const S = {
   MenuItem: styled(MenuItem)`
@@ -14,6 +14,6 @@ const S = {
     flex-grow: 1;
     min-width: 160px;
   `,
-};
+}
 
-export default S;
+export default S

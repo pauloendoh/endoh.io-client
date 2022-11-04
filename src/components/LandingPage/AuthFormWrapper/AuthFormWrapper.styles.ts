@@ -1,7 +1,7 @@
-import { Box } from "@material-ui/core";
-import styled from "styled-components";
-import theme from "utils/consts/theme";
-import { mediaQueries } from "utils/styles/mediaQueries";
+import { Box } from "@mui/material"
+import styled from "styled-components"
+import theme from "utils/consts/theme"
+import { mediaQueries } from "utils/styles/mediaQueries"
 
 const S = {
   TemporaryUserText: styled(Box)`
@@ -14,6 +14,6 @@ const S = {
       margin-left: 0;
     }
   `,
-};
+}
 
-export default S;
+export default S

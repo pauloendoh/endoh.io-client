@@ -1,5 +1,5 @@
-import { IconButton, Tooltip, useTheme } from "@material-ui/core"
-import { TreeItem } from "@material-ui/lab"
+import { TreeItem } from "@mui/lab"
+import { IconButton, Tooltip, useTheme } from "@mui/material"
 import DocTitleDialog from "components/Define/DocTitleDialog/DocTitleDialog"
 import Flex from "components/_UI/Flexboxes/Flex"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"

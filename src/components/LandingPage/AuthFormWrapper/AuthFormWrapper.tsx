@@ -1,4 +1,4 @@
-import { Box, Button, makeStyles, Paper, Tooltip } from "@material-ui/core"
+import { Box, Button, makeStyles, Paper, Tooltip } from "@mui/material"
 import { useAxios } from "hooks/utils/useAxios"
 import { useState } from "react"
 import { MdInfo } from "react-icons/md"

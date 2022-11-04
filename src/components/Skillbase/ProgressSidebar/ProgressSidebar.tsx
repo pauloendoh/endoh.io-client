@@ -1,18 +1,11 @@
-import {
-  createStyles,
-  Drawer,
-  makeStyles,
-  Theme,
-  Toolbar,
-} from "@material-ui/core";
-import React from "react";
-import useSidebarStore from "../../../store/zustand/useSidebarStore";
+import { createStyles, Drawer, makeStyles, Theme, Toolbar } from "@mui/material"
+import useSidebarStore from "../../../store/zustand/useSidebarStore"
 
 // PE 1/3 - remove?
 function ProgressSidebar() {
-  const classes = useStyles();
+  const classes = useStyles()
 
-  const { sidebarIsOpen } = useSidebarStore();
+  const { sidebarIsOpen } = useSidebarStore()
 
   return (
     <Drawer
@@ -26,7 +19,7 @@ function ProgressSidebar() {
     >
       <Toolbar />
     </Drawer>
-  );
+  )
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -41,6 +34,6 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRight: "1px solid rgba(255, 255, 255, 0.05)",
     },
   })
-);
+)
 
-export default ProgressSidebar;
+export default ProgressSidebar

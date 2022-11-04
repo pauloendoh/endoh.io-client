@@ -1,11 +1,11 @@
-import { Chip, makeStyles } from "@material-ui/core";
-import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
-import clsx from "clsx";
-import React from "react";
-import FlexVCenter from "../../../../_UI/Flexboxes/FlexVCenter";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
+import { Chip, makeStyles } from "@mui/material"
+import clsx from "clsx"
+import React from "react"
+import FlexVCenter from "../../../../_UI/Flexboxes/FlexVCenter"
 
 const SkillLevelChip = (props: { currentLevel: number; goalLevel: number }) => {
-  const classes = useStyles();
+  const classes = useStyles()
   return (
     <Chip
       className={clsx(classes.root, {
@@ -28,8 +28,8 @@ const SkillLevelChip = (props: { currentLevel: number; goalLevel: number }) => {
         </FlexVCenter>
       }
     />
-  );
-};
+  )
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,6 +47,6 @@ const useStyles = makeStyles((theme) => ({
   advancedBg: {
     background: "#C862AC",
   },
-}));
+}))
 
-export default SkillLevelChip;
+export default SkillLevelChip

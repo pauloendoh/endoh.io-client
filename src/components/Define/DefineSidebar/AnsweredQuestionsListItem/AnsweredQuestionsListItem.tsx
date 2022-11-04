@@ -1,4 +1,4 @@
-import { Button, ListItem, ListItemText } from "@material-ui/core"
+import { Button, ListItem, ListItemText } from "@mui/material"
 import FlashcardDialog from "components/Define/DefineContent/FlashcardDialog/FlashcardDialog"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import { useMemo, useState } from "react"

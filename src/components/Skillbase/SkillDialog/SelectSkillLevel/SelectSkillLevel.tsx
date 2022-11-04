@@ -1,18 +1,18 @@
-import { Box, makeStyles } from "@material-ui/core";
-import clsx from "clsx";
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { ApplicationState } from "../../../../store/store";
-import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
+import { Box, makeStyles } from "@mui/material"
+import clsx from "clsx"
+import { useEffect, useState } from "react"
+import { connect } from "react-redux"
+import { Dispatch } from "redux"
+import { ApplicationState } from "../../../../store/store"
+import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
 
 // PE 1/3
 const SelectSkillLevel = (props: Props) => {
-  const classes = useStyles();
+  const classes = useStyles()
 
-  const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-  const [hoverValue, setHoverValue] = useState<number>(null);
+  const [hoverValue, setHoverValue] = useState<number>(null)
 
   const labels: { [index: string]: string } = {
     1: "1 - Basic I",
@@ -25,34 +25,34 @@ const SelectSkillLevel = (props: Props) => {
     8: "8 - Advanced II",
     9: "9 - Advanced III",
     10: "10 - Expert",
-  };
+  }
 
   const getLabel = () => {
-    let text = props.type === "currentLevel" ? "Current Level" : "Goal";
+    let text = props.type === "currentLevel" ? "Current Level" : "Goal"
 
     if (props.value) {
-      text = labels[props.value];
+      text = labels[props.value]
     }
 
     if (hoverValue) {
-      text = labels[hoverValue];
+      text = labels[hoverValue]
     }
 
     if (hoverValue && hoverValue === props.value) {
-      text = "Remove";
+      text = "Remove"
     }
 
-    return text;
-  };
+    return text
+  }
 
-  const [label, setLabel] = useState(getLabel());
+  const [label, setLabel] = useState(getLabel())
   useEffect(
     () => {
-      setLabel(getLabel());
+      setLabel(getLabel())
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [hoverValue]
-  );
+  )
 
   return (
     <Box>
@@ -64,16 +64,16 @@ const SelectSkillLevel = (props: Props) => {
             key={option}
             className={classes.outerBox}
             onMouseEnter={() => {
-              setHoverValue(option);
+              setHoverValue(option)
             }}
             onMouseLeave={() => {
-              setHoverValue(null);
+              setHoverValue(null)
             }}
             onClick={() => {
               if (option === props.value) {
-                props.onChange(null);
+                props.onChange(null)
               } else {
-                props.onChange(option);
+                props.onChange(option)
               }
             }}
           >
@@ -110,8 +110,8 @@ const SelectSkillLevel = (props: Props) => {
         ))}
       </FlexVCenter>
     </Box>
-  );
-};
+  )
+}
 
 const useStyles = makeStyles((theme) => ({
   label: {
@@ -138,20 +138,20 @@ const useStyles = makeStyles((theme) => ({
   advancedBg: {
     background: "#C862AC",
   },
-}));
+}))
 
-const mapStateToProps = (state: ApplicationState) => ({});
+const mapStateToProps = (state: ApplicationState) => ({})
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
+const mapDispatchToProps = (dispatch: Dispatch) => ({})
 
 interface OwnProps {
-  type: "currentLevel" | "goalLevel";
-  value: number;
-  onChange: (newValue: number) => void;
+  type: "currentLevel" | "goalLevel"
+  value: number
+  onChange: (newValue: number) => void
 }
 
 type Props = OwnProps &
   ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps>
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectSkillLevel);
+export default connect(mapStateToProps, mapDispatchToProps)(SelectSkillLevel)

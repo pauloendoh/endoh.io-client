@@ -1,5 +1,5 @@
-import { Popper } from "@material-ui/core"
-import { Autocomplete } from "@material-ui/lab"
+import { Autocomplete } from "@mui/lab"
+import { Popper } from "@mui/material"
 import { queryKeys } from "hooks/react-query/queryKeys"
 import useNotesSearchQuery from "hooks/react-query/search/useNotesSearchQuery"
 import useDebounce from "hooks/utils/useDebounce"

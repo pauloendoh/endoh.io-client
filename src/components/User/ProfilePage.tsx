@@ -1,88 +1,86 @@
-import { Grid, Hidden, Typography } from "@material-ui/core";
-import useUserSuggestionsQuery from "hooks/react-query/feed/useUserSuggestionsQuery";
-import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { Grid, Hidden, Typography } from "@mui/material"
+import useUserSuggestionsQuery from "hooks/react-query/feed/useUserSuggestionsQuery"
+import { useEffect, useState } from "react"
+import { useHistory, useParams } from "react-router-dom"
 import useProfileStore, {
   resetProfileStore,
-} from "store/zustand/domain/useProfileStore";
-import useAuthStore from "store/zustand/useAuthStore";
-import { ResourceDto } from "../../types/domain/relearn/ResourceDto";
-import { TagDto } from "../../types/domain/relearn/TagDto";
-import { UserInfoDto } from "../../types/domain/_common/UserInfoDto";
-import myAxios from "../../utils/consts/myAxios";
-import apiUrls from "../../utils/url/urls/apiUrls";
-import pageUrls from "../../utils/url/urls/pageUrls";
-import LoadingPage from "../_common/LoadingPage/LoadingPage";
-import MinRatingButton from "../_common/MinRatingButton/MinRatingButton";
-import UserSuggestions from "../_common/UserSuggestions/UserSuggestions";
-import ProfileResources from "./FeedResources/ProfileResources";
-import ProfileHeader from "./ProfileHeader/ProfileHeader";
-import S from "./ProfilePage.styles";
-import ResourcesChart from "./ResourcesChart/ResourcesChart";
-import UserPageSidebar from "./UserPageSidebar/UserPageSidebar";
+} from "store/zustand/domain/useProfileStore"
+import useAuthStore from "store/zustand/useAuthStore"
+import { ResourceDto } from "../../types/domain/relearn/ResourceDto"
+import { TagDto } from "../../types/domain/relearn/TagDto"
+import { UserInfoDto } from "../../types/domain/_common/UserInfoDto"
+import myAxios from "../../utils/consts/myAxios"
+import apiUrls from "../../utils/url/urls/apiUrls"
+import pageUrls from "../../utils/url/urls/pageUrls"
+import LoadingPage from "../_common/LoadingPage/LoadingPage"
+import MinRatingButton from "../_common/MinRatingButton/MinRatingButton"
+import UserSuggestions from "../_common/UserSuggestions/UserSuggestions"
+import ProfileResources from "./FeedResources/ProfileResources"
+import ProfileHeader from "./ProfileHeader/ProfileHeader"
+import S from "./ProfilePage.styles"
+import ResourcesChart from "./ResourcesChart/ResourcesChart"
+import UserPageSidebar from "./UserPageSidebar/UserPageSidebar"
 
 // PE 3/3
 const ProfilePage = () => {
-  const history = useHistory();
-  const { followingUsers } = useAuthStore();
+  const history = useHistory()
+  const { followingUsers } = useAuthStore()
 
-  const profileStore = useProfileStore();
+  const profileStore = useProfileStore()
 
   const { username, tagId } = useParams<{
-    username: string;
-    tagId: string;
-  }>();
+    username: string
+    tagId: string
+  }>()
 
-  const [filteredResources, setFilteredResources] = useState<ResourceDto[]>([]);
-  const [minRating, setMinRating] = useState(0);
+  const [filteredResources, setFilteredResources] = useState<ResourceDto[]>([])
+  const [minRating, setMinRating] = useState(0)
 
-  const { data: userSuggestions } = useUserSuggestionsQuery();
+  const { data: userSuggestions } = useUserSuggestionsQuery()
 
-  const [filterByTag, setFilterByTag] = useState<TagDto>(null);
+  const [filterByTag, setFilterByTag] = useState<TagDto>(null)
 
   // filtering resources by min rating
   useEffect(() => {
     const minResources = [...profileStore.resources].filter(
       (r) => r.rating >= minRating
-    );
+    )
 
     const filtered = minResources.filter((r) => {
       if (tagId !== undefined) {
-        const allTags = profileStore.publicTags.concat(
-          profileStore.privateTags
-        );
-        setFilterByTag(allTags.find((t) => t.id === Number(tagId)));
-        return r.tag?.id === Number(tagId);
+        const allTags = profileStore.publicTags.concat(profileStore.privateTags)
+        setFilterByTag(allTags.find((t) => t.id === Number(tagId)))
+        return r.tag?.id === Number(tagId)
       } else {
-        setFilterByTag(null);
-        return true;
+        setFilterByTag(null)
+        return true
       }
-    });
+    })
 
-    setFilteredResources(filtered);
+    setFilteredResources(filtered)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profileStore.resources, minRating, tagId]);
+  }, [profileStore.resources, minRating, tagId])
 
   useEffect(
     () => {
-      document.title = username + " - Endoh.io";
+      document.title = username + " - Endoh.io"
 
-      resetProfileStore();
+      resetProfileStore()
 
       myAxios
         .get<UserInfoDto>(apiUrls.user.userInfo(username))
         .then((res) => {
-          profileStore.setUserInfo(res.data);
+          profileStore.setUserInfo(res.data)
         })
         .catch((err) => {
           if (err.response && err.response.status === 404) {
-            history.push(pageUrls.notFound);
+            history.push(pageUrls.notFound)
           }
-        });
+        })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [username]
-  );
+  )
 
   return (
     <S.UserPageRoot>
@@ -127,7 +125,7 @@ const ProfilePage = () => {
         </Grid>
       )}
     </S.UserPageRoot>
-  );
-};
+  )
+}
 
-export default ProfilePage;
+export default ProfilePage

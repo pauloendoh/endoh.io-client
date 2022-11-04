@@ -1,34 +1,34 @@
-import { Box, Button, Grid, Paper, Typography } from "@material-ui/core";
-import CategoryIcon from "components/_UI/CategoryIcon";
-import Flex from "components/_UI/Flexboxes/Flex";
-import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
-import PlaceIcon from "components/_UI/PlaceIcon";
-import SoloRatingStar from "components/_UI/SoloRatingStar";
-import React from "react";
-import NumberFormat from "react-number-format";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { editExpense } from "store/monerate/monerateActions";
-import ExpenseGetDto from "types/domain/monerate/ExpenseGetDto";
+import { Box, Button, Grid, Paper, Typography } from "@mui/material"
+import CategoryIcon from "components/_UI/CategoryIcon"
+import Flex from "components/_UI/Flexboxes/Flex"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import PlaceIcon from "components/_UI/PlaceIcon"
+import SoloRatingStar from "components/_UI/SoloRatingStar"
+import React from "react"
+import NumberFormat from "react-number-format"
+import { connect } from "react-redux"
+import { Dispatch } from "redux"
+import { editExpense } from "store/monerate/monerateActions"
+import ExpenseGetDto from "types/domain/monerate/ExpenseGetDto"
 
 interface OwnProps {
-  expense: ExpenseGetDto;
+  expense: ExpenseGetDto
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   editExpense: (expense: ExpenseGetDto) => dispatch(editExpense(expense)),
-});
+})
 
 type Props = OwnProps &
   React.ComponentProps<typeof Paper> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps>
 
 const ExpenseListItem = ({ expense, editExpense }: Props) => {
   return (
     <Button
       key={expense.id}
       onClick={() => {
-        editExpense(expense);
+        editExpense(expense)
       }}
       fullWidth
       style={{ textAlign: "inherit", fontWeight: "normal" }}
@@ -79,7 +79,7 @@ const ExpenseListItem = ({ expense, editExpense }: Props) => {
         </Grid>
       </Grid>
     </Button>
-  );
-};
+  )
+}
 
-export default connect(undefined, mapDispatchToProps)(ExpenseListItem);
+export default connect(undefined, mapDispatchToProps)(ExpenseListItem)

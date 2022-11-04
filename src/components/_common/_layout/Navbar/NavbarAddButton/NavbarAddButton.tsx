@@ -1,4 +1,4 @@
-import { Fab, Tooltip } from "@material-ui/core"
+import { Fab, Tooltip } from "@mui/material"
 import { useMemo } from "react"
 import { useHotkeys } from "react-hotkeys-hook"
 import { connect } from "react-redux"

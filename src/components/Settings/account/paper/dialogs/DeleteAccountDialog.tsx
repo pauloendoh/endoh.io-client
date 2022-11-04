@@ -5,35 +5,35 @@ import {
   DialogContent,
   DialogTitle,
   Typography,
-} from "@material-ui/core";
-import { Form, Formik } from "formik";
-import { useLogout } from "hooks/auth/useLogout";
-import React, { useState } from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import useDialogsStore from "store/zustand/useDialogsStore";
-import useSnackbarStore from "store/zustand/useSnackbarStore";
-import { urls } from "utils/urls";
-import { ApplicationState } from "../../../../../store/store";
-import { UserDeleteDto } from "../../../../../types/domain/auth/UserDeleteDto";
-import MyAxiosError, { MyFieldError } from "../../../../../types/MyAxiosError";
-import myAxios from "../../../../../utils/consts/myAxios";
-import Flex from "../../../../_UI/Flexboxes/Flex";
-import FlexHCenter from "../../../../_UI/Flexboxes/FlexHCenter";
-import MyTextField from "../../../../_UI/MyInputs/MyTextField";
+} from "@mui/material"
+import { Form, Formik } from "formik"
+import { useLogout } from "hooks/auth/useLogout"
+import { useState } from "react"
+import { connect } from "react-redux"
+import { Dispatch } from "redux"
+import useDialogsStore from "store/zustand/useDialogsStore"
+import useSnackbarStore from "store/zustand/useSnackbarStore"
+import { urls } from "utils/urls"
+import { ApplicationState } from "../../../../../store/store"
+import { UserDeleteDto } from "../../../../../types/domain/auth/UserDeleteDto"
+import MyAxiosError, { MyFieldError } from "../../../../../types/MyAxiosError"
+import myAxios from "../../../../../utils/consts/myAxios"
+import Flex from "../../../../_UI/Flexboxes/Flex"
+import FlexHCenter from "../../../../_UI/Flexboxes/FlexHCenter"
+import MyTextField from "../../../../_UI/MyInputs/MyTextField"
 
 const DeleteAccountDialog = (props: Props) => {
-  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[]);
+  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[])
 
-  const { setSuccessMessage } = useSnackbarStore();
-  const dialogStore = useDialogsStore();
+  const { setSuccessMessage } = useSnackbarStore()
+  const dialogStore = useDialogsStore()
 
   const handleClose = () => {
-    setResponseErrors([]);
-    props.onClose();
-  };
+    setResponseErrors([])
+    props.onClose()
+  }
 
-  const logout = useLogout(props.dispatch);
+  const logout = useLogout(props.dispatch)
 
   const handleSubmit = (
     values: UserDeleteDto,
@@ -42,9 +42,9 @@ const DeleteAccountDialog = (props: Props) => {
     dialogStore.openConfirmDialog({
       title: "Do you really want to delete your account?",
       onConfirm: () => {
-        setSubmitting(true);
+        setSubmitting(true)
 
-        setResponseErrors([]);
+        setResponseErrors([])
 
         myAxios
           .delete(urls.api.auth.index, {
@@ -52,20 +52,20 @@ const DeleteAccountDialog = (props: Props) => {
             data: values,
           })
           .then((res) => {
-            setSuccessMessage("Account delete successfully! Logging out...");
-            logout();
+            setSuccessMessage("Account delete successfully! Logging out...")
+            logout()
 
             // handleClose()
           })
           .catch((err: MyAxiosError) => {
-            setResponseErrors(err.response.data.errors);
+            setResponseErrors(err.response.data.errors)
           })
           .finally(() => {
-            setSubmitting(false);
-          });
+            setSubmitting(false)
+          })
       },
-    });
-  };
+    })
+  }
 
   return (
     <Dialog
@@ -81,7 +81,7 @@ const DeleteAccountDialog = (props: Props) => {
             password: "",
           }}
           onSubmit={(formikValues, { setSubmitting }) => {
-            handleSubmit(formikValues, setSubmitting);
+            handleSubmit(formikValues, setSubmitting)
           }}
         >
           {({ values, isSubmitting, handleChange }) => (
@@ -133,27 +133,24 @@ const DeleteAccountDialog = (props: Props) => {
         </Formik>
       </Box>
     </Dialog>
-  );
-};
+  )
+}
 
 const mapStateToProps = (state: ApplicationState) => ({
   // editingTag: state.relearn.editingTag,
-});
+})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   dispatch,
-});
+})
 
 interface OwnProps {
-  open: boolean;
-  onClose: () => void;
+  open: boolean
+  onClose: () => void
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
+  OwnProps
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DeleteAccountDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(DeleteAccountDialog)

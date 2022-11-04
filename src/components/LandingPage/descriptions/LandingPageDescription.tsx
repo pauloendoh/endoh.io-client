@@ -1,11 +1,11 @@
-import { faFire } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, makeStyles, Typography } from "@material-ui/core";
-import FlexHCenter from "../../_UI/Flexboxes/FlexHCenter";
-import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
+import { faFire } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Box, makeStyles, Typography } from "@mui/material"
+import FlexHCenter from "../../_UI/Flexboxes/FlexHCenter"
+import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
 
 const LandingPageDescription = () => {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <FlexHCenter mx="auto" maxWidth={350} className={classes.root}>
@@ -22,8 +22,8 @@ const LandingPageDescription = () => {
         </Typography>
       </FlexHCenter>
     </FlexHCenter>
-  );
-};
+  )
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,6 +37,6 @@ const useStyles = makeStyles((theme) => ({
   fireIcon: {
     color: theme.palette.secondary.main,
   },
-}));
+}))
 
-export default LandingPageDescription;
+export default LandingPageDescription

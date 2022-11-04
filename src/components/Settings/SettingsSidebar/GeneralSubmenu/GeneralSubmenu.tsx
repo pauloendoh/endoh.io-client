@@ -1,5 +1,6 @@
-import { faUserAlt } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserAlt } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { ExpandLess, ExpandMore } from "@mui/icons-material"
 import {
   Collapse,
   createStyles,
@@ -9,29 +10,28 @@ import {
   ListItemText,
   makeStyles,
   Theme,
-} from "@material-ui/core";
-import { ExpandLess, ExpandMore } from "@material-ui/icons";
-import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import pageUrls from "../../../../utils/url/urls/pageUrls";
+} from "@mui/material"
+import React, { useState } from "react"
+import { Link, useLocation } from "react-router-dom"
+import pageUrls from "../../../../utils/url/urls/pageUrls"
 
 function GeneralSubmenu() {
-  const classes = useStyles();
+  const classes = useStyles()
 
-  const location = useLocation();
-  const pathName = location.pathname;
+  const location = useLocation()
+  const pathName = location.pathname
 
   const [openGeneral, setOpenGeneral] = useState<boolean>(
     // pathName.startsWith(PATHS.settings.account) // n sei pq não tá funcionando...
     true
-  );
+  )
 
   return (
     <React.Fragment>
       <ListItem
         button
         onClick={() => {
-          setOpenGeneral(!openGeneral);
+          setOpenGeneral(!openGeneral)
         }}
       >
         <ListItemIcon>
@@ -55,7 +55,7 @@ function GeneralSubmenu() {
         </List>
       </Collapse>
     </React.Fragment>
-  );
+  )
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -64,6 +64,6 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingLeft: theme.spacing(4),
     },
   })
-);
+)
 
-export default GeneralSubmenu;
+export default GeneralSubmenu

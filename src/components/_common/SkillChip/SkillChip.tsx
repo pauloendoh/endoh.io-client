@@ -1,5 +1,5 @@
-import { Box } from "@material-ui/core"
-import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt"
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt"
+import { Box } from "@mui/material"
 import { useMemo } from "react"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto"

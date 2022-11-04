@@ -1,30 +1,23 @@
-import {
-  Box,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Link,
-} from "@material-ui/core";
-import React from "react";
-import { Link as RouterLink, useParams } from "react-router-dom";
-import { FollowingUserDto } from "types/domain/feed/FollowingUserDto";
-import pageUrls from "../../../utils/url/urls/pageUrls";
-import Flex from "../../_UI/Flexboxes/Flex";
-import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture";
+import { Box, Dialog, DialogContent, DialogTitle, Link } from "@mui/material"
+import { Link as RouterLink, useParams } from "react-router-dom"
+import { FollowingUserDto } from "types/domain/feed/FollowingUserDto"
+import pageUrls from "../../../utils/url/urls/pageUrls"
+import Flex from "../../_UI/Flexboxes/Flex"
+import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture"
 
 interface Props {
-  followingUsers: FollowingUserDto[];
-  open: boolean;
-  onClose: () => void;
+  followingUsers: FollowingUserDto[]
+  open: boolean
+  onClose: () => void
 }
 
 // PE 2/3
 const FollowingUsersDialog = (props: Props) => {
-  const { username } = useParams<{ username: string }>();
+  const { username } = useParams<{ username: string }>()
 
   const onClose = () => {
-    props.onClose();
-  };
+    props.onClose()
+  }
 
   return (
     <Dialog
@@ -79,7 +72,7 @@ const FollowingUsersDialog = (props: Props) => {
         </DialogContent>
       </Box>
     </Dialog>
-  );
-};
+  )
+}
 
-export default FollowingUsersDialog;
+export default FollowingUsersDialog

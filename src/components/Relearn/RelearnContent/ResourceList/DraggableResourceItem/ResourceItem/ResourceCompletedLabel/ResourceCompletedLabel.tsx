@@ -1,10 +1,9 @@
-import DoneIcon from "@material-ui/icons/Done";
-import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
-import React from "react";
-import TimeAgo from "react-timeago";
+import DoneIcon from "@mui/icons-material/Done"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import TimeAgo from "react-timeago"
 
 interface Props {
-  completedAt: string;
+  completedAt: string
 }
 
 function ResourceCompletedLabel(props: Props) {
@@ -12,7 +11,7 @@ function ResourceCompletedLabel(props: Props) {
     <FlexVCenter>
       <DoneIcon /> <TimeAgo date={props.completedAt} live={false} />
     </FlexVCenter>
-  );
+  )
 }
 
-export default ResourceCompletedLabel;
+export default ResourceCompletedLabel

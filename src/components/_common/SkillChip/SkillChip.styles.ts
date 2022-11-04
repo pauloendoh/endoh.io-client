@@ -1,6 +1,6 @@
-import { Button } from "@material-ui/core";
-import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
-import styled from "styled-components";
+import { Button } from "@mui/material"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import styled from "styled-components"
 
 const SkillChipStyles = {
   SkillButton: styled(Button)(({ theme }) => ({
@@ -14,6 +14,6 @@ const SkillChipStyles = {
     paddingRight: 4,
     borderRadius: 3,
   })),
-};
+}
 
-export default SkillChipStyles;
+export default SkillChipStyles

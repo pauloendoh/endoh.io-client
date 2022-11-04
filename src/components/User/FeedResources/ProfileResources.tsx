@@ -1,11 +1,10 @@
-import { Box } from "@material-ui/core";
-import React from "react";
-import { Virtuoso } from "react-virtuoso";
-import { ResourceDto } from "../../../types/domain/relearn/ResourceDto";
-import ProfileResourceItem from "./ProfileResourceItem/ProfileResourceItem";
+import { Box } from "@mui/material"
+import { Virtuoso } from "react-virtuoso"
+import { ResourceDto } from "../../../types/domain/relearn/ResourceDto"
+import ProfileResourceItem from "./ProfileResourceItem/ProfileResourceItem"
 
 interface Props {
-  resources: ResourceDto[];
+  resources: ResourceDto[]
 }
 
 // PE 3/3
@@ -20,7 +19,7 @@ const ProfileResources = (props: Props) => {
         )}
       />
     </Box>
-  );
-};
+  )
+}
 
-export default ProfileResources;
+export default ProfileResources

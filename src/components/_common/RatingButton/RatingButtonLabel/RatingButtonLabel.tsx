@@ -1,13 +1,12 @@
-import { Box } from "@material-ui/core";
-import StarBorderOutlined from "@material-ui/icons/StarBorderOutlined";
-import StarRateIcon from "@material-ui/icons/StarRate";
-import React from "react";
-import { ratingLabels } from "utils/domain/relearn/resources/ratingLabels";
-import { getColorByRating } from "../../../../utils/relearn/getColorByRating";
-import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
+import StarBorderOutlined from "@mui/icons-material/StarBorderOutlined"
+import StarRateIcon from "@mui/icons-material/StarRate"
+import { Box } from "@mui/material"
+import { ratingLabels } from "utils/domain/relearn/resources/ratingLabels"
+import { getColorByRating } from "../../../../utils/relearn/getColorByRating"
+import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
 
 interface Props {
-  rating: number;
+  rating: number
 }
 
 const RatingButtonLabel = (props: Props) => {
@@ -23,7 +22,7 @@ const RatingButtonLabel = (props: Props) => {
         <Box ml={1}>Rate this resource</Box>
       )}
     </FlexVCenter>
-  );
-};
+  )
+}
 
-export default RatingButtonLabel;
+export default RatingButtonLabel

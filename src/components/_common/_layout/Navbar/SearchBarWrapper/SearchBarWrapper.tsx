@@ -1,6 +1,6 @@
-import NotesIcon from "@material-ui/icons/Notes"
+import NotesIcon from "@mui/icons-material/Notes"
 
-import { FormControl, MenuItem, Select, Typography } from "@material-ui/core"
+import { FormControl, MenuItem, Select, Typography } from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import { useEffect, useState } from "react"
 import { FaLink } from "react-icons/fa"

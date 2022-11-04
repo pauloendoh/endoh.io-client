@@ -1,14 +1,14 @@
-import { Box, Paper } from "@material-ui/core";
-import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
-import Txt from "components/_UI/Text/Txt";
-import useAvgLearnings from "hooks/learning-diary/useAvgLearnings";
+import { Box, Paper } from "@mui/material"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import Txt from "components/_UI/Text/Txt"
+import useAvgLearnings from "hooks/learning-diary/useAvgLearnings"
 
 interface Props {
-  test?: string;
+  test?: string
 }
 
 const AvgLearning = (props: Props) => {
-  const { avg, avg75, avg125, daysQty } = useAvgLearnings();
+  const { avg, avg75, avg125, daysQty } = useAvgLearnings()
   return (
     <Paper style={{ width: "100%" }}>
       <Box width="100%" p={2}>
@@ -24,7 +24,7 @@ const AvgLearning = (props: Props) => {
         </FlexVCenter>
       </Box>
     </Paper>
-  );
-};
+  )
+}
 
-export default AvgLearning;
+export default AvgLearning

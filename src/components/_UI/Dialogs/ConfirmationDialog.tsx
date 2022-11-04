@@ -5,25 +5,24 @@ import {
   DialogContent,
   DialogTitle,
   makeStyles,
-} from "@material-ui/core";
-import React from "react";
-import useDialogsStore from "../../../store/zustand/useDialogsStore";
-import Txt from "../Text/Txt";
-import S from "./ConfirmationDialog.styles";
+} from "@mui/material"
+import useDialogsStore from "../../../store/zustand/useDialogsStore"
+import Txt from "../Text/Txt"
+import S from "./ConfirmationDialog.styles"
 
 const ConfirmationDialog = () => {
   const {
     confirmDialogIsOpen,
     closeConfirmDialog,
     confirmDialogValue: val,
-  } = useDialogsStore();
+  } = useDialogsStore()
 
   const confirmAndClose = () => {
-    closeConfirmDialog();
-    val.onConfirm();
-  };
+    closeConfirmDialog()
+    val.onConfirm()
+  }
 
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <Dialog
@@ -35,7 +34,7 @@ const ConfirmationDialog = () => {
       aria-labelledby="confirm-dialog"
       onKeyPress={(e) => {
         if (e.key === "Enter") {
-          confirmAndClose();
+          confirmAndClose()
         }
       }}
     >
@@ -67,14 +66,14 @@ const ConfirmationDialog = () => {
         </DialogTitle>
       </Box>
     </Dialog>
-  );
-};
+  )
+}
 
 const useStyles = makeStyles((theme) => ({
   dialog: {
     position: "absolute",
     top: 75,
   },
-}));
+}))
 
-export default ConfirmationDialog;
+export default ConfirmationDialog

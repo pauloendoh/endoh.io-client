@@ -1,17 +1,17 @@
-import { Dialog, DialogContent, DialogTitle } from "@material-ui/core";
-import SaveCancelButtons from "components/_UI/Buttons/SaveCancelButtons";
-import MyTextField from "components/_UI/MyInputs/MyTextField";
-import useSaveFileMutation from "hooks/react-query/file/useSaveFileMutation";
-import { useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
-import FileDto from "types/domain/folder/FileDto";
+import { Dialog, DialogContent, DialogTitle } from "@mui/material"
+import SaveCancelButtons from "components/_UI/Buttons/SaveCancelButtons"
+import MyTextField from "components/_UI/MyInputs/MyTextField"
+import useSaveFileMutation from "hooks/react-query/file/useSaveFileMutation"
+import { useEffect } from "react"
+import { Controller, useForm } from "react-hook-form"
+import FileDto from "types/domain/folder/FileDto"
 
 const FileDialog = (props: {
-  open: boolean;
-  initialValue: FileDto;
-  onClose: () => void;
+  open: boolean
+  initialValue: FileDto
+  onClose: () => void
 }) => {
-  const { mutate, isLoading } = useSaveFileMutation();
+  const { mutate, isLoading } = useSaveFileMutation()
 
   const {
     handleSubmit,
@@ -21,19 +21,19 @@ const FileDialog = (props: {
     formState: { errors },
   } = useForm<FileDto>({
     defaultValues: props.initialValue,
-  });
+  })
 
   useEffect(() => {
-    if (props.open && props.initialValue) reset(props.initialValue);
-  }, [props.open, props.initialValue]);
+    if (props.open && props.initialValue) reset(props.initialValue)
+  }, [props.open, props.initialValue])
 
   const onSubmit = (formData: FileDto) => {
-    console.log(formData);
+    console.log(formData)
 
     mutate(formData, {
       onSuccess: props.onClose,
-    });
-  };
+    })
+  }
 
   return (
     <Dialog
@@ -70,7 +70,7 @@ const FileDialog = (props: {
         </DialogTitle>
       </form>
     </Dialog>
-  );
-};
+  )
+}
 
-export default FileDialog;
+export default FileDialog

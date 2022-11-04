@@ -1,21 +1,20 @@
-import { Box, makeStyles } from "@material-ui/core";
-import useMultiSelectResource from "hooks/relearn/useMultiSelectResource";
-import React from "react";
-import { Virtuoso } from "react-virtuoso";
-import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto";
-import DraggableResourceItem from "./DraggableResourceItem/DraggableResourceItem";
-import ResourceItem from "./DraggableResourceItem/ResourceItem/ResourceItem";
+import { Box, makeStyles } from "@mui/material"
+import useMultiSelectResource from "hooks/relearn/useMultiSelectResource"
+import { Virtuoso } from "react-virtuoso"
+import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto"
+import DraggableResourceItem from "./DraggableResourceItem/DraggableResourceItem"
+import ResourceItem from "./DraggableResourceItem/ResourceItem/ResourceItem"
 
 function ResourceList({
   resources,
   isDraggable,
 }: {
-  resources: ResourceDto[];
-  isDraggable: boolean;
+  resources: ResourceDto[]
+  isDraggable: boolean
 }) {
-  const classes = useStyles();
+  const classes = useStyles()
 
-  const { onCtrlClick, idIsSelected, onShiftClick } = useMultiSelectResource();
+  const { onCtrlClick, idIsSelected, onShiftClick } = useMultiSelectResource()
 
   if (isDraggable)
     return (
@@ -25,16 +24,16 @@ function ResourceList({
             key={resource.id}
             onClick={(e) => {
               if (e.ctrlKey) {
-                e.preventDefault();
-                onCtrlClick(resource.id);
+                e.preventDefault()
+                onCtrlClick(resource.id)
               }
 
               if (e.shiftKey) {
-                e.preventDefault();
+                e.preventDefault()
                 onShiftClick(
                   resources.map((r) => r.id),
                   resource.id
-                );
+                )
               }
             }}
           >
@@ -46,7 +45,7 @@ function ResourceList({
           </div>
         ))}
       </>
-    );
+    )
 
   return (
     <Virtuoso
@@ -63,16 +62,16 @@ function ResourceList({
           }}
           onClick={(e) => {
             if (e.ctrlKey) {
-              e.preventDefault();
-              onCtrlClick(resources[index].id);
+              e.preventDefault()
+              onCtrlClick(resources[index].id)
             }
 
             if (e.shiftKey) {
-              e.preventDefault();
+              e.preventDefault()
               onShiftClick(
                 resources.map((r) => r.id),
                 resources[index].id
-              );
+              )
             }
           }}
         >
@@ -80,13 +79,13 @@ function ResourceList({
         </Box>
       )}
     />
-  );
+  )
 }
 
 const useStyles = makeStyles((theme) => ({
   resourceItem: {
     cursor: "grab",
   },
-}));
+}))
 
-export default ResourceList;
+export default ResourceList

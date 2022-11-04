@@ -1,6 +1,6 @@
-import { styled } from "@material-ui/core";
-import Flex from "components/_UI/Flexboxes/Flex";
-import FlexHCenter from "components/_UI/Flexboxes/FlexHCenter";
+import { styled } from "@mui/material"
+import Flex from "components/_UI/Flexboxes/Flex"
+import FlexHCenter from "components/_UI/Flexboxes/FlexHCenter"
 
 const S = {
   IconTitleWrapper: styled(Flex)(({ theme }) => ({
@@ -10,6 +10,6 @@ const S = {
     marginTop: theme.spacing(0.5),
     width: 24,
   })),
-};
+}
 
-export default S;
+export default S

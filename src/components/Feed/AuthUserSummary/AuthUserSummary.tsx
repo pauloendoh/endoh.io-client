@@ -1,20 +1,21 @@
-import { Box, Button, Link } from "@material-ui/core";
-import React, { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
-import useAuthStore from "store/zustand/useAuthStore";
-import pageUrls from "../../../utils/url/urls/pageUrls";
-import FollowersDialog from "../../_common/FollowersDialog/FollowersDialog";
-import FollowingUsersDialog from "../../_common/FollowingUsersDialog/FollowingUsersDialog";
-import Flex from "../../_UI/Flexboxes/Flex";
-import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture";
+import { Box, Button, Link } from "@mui/material"
+import { useState } from "react"
+import { Link as RouterLink } from "react-router-dom"
+import useAuthStore from "store/zustand/useAuthStore"
+import pageUrls from "../../../utils/url/urls/pageUrls"
+import FollowersDialog from "../../_common/FollowersDialog/FollowersDialog"
+import FollowingUsersDialog from "../../_common/FollowingUsersDialog/FollowingUsersDialog"
+import Flex from "../../_UI/Flexboxes/Flex"
+import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture"
 
 // PE 3/3
 const AuthUserSummary = () => {
-  const { authUser, profile, followingUsers, followers } = useAuthStore();
+  const { authUser, profile, followingUsers, followers } = useAuthStore()
 
-  const [openFollowersDialog, setOpenFollowersDialog] = useState(false);
-  const [openFollowingUsersDialog, setOpenFollowingUsersDialog] =
-    useState(false);
+  const [openFollowersDialog, setOpenFollowersDialog] = useState(false)
+  const [openFollowingUsersDialog, setOpenFollowingUsersDialog] = useState(
+    false
+  )
 
   return (
     <Flex>
@@ -65,7 +66,7 @@ const AuthUserSummary = () => {
         </Flex>
       </Box>
     </Flex>
-  );
-};
+  )
+}
 
-export default AuthUserSummary;
+export default AuthUserSummary

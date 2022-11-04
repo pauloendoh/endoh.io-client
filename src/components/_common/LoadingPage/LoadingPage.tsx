@@ -1,6 +1,5 @@
-import { Box, CircularProgress } from "@material-ui/core";
-import React from "react";
-import FlexCenter from "../../_UI/Flexboxes/FlexCenter";
+import { Box, CircularProgress } from "@mui/material"
+import FlexCenter from "../../_UI/Flexboxes/FlexCenter"
 
 // PE 2/3 - should be at shared-components, and change it to /loading/LoadingBox
 function LoadingPage() {
@@ -16,7 +15,7 @@ function LoadingPage() {
         <Box mt={2}>Loading</Box>
       </FlexCenter>
     </Box>
-  );
+  )
 }
 
-export default LoadingPage;
+export default LoadingPage

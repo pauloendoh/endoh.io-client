@@ -1,6 +1,6 @@
-import NotesIcon from "@material-ui/icons/Notes"
+import NotesIcon from "@mui/icons-material/Notes"
 
-import { Typography, useTheme } from "@material-ui/core"
+import { Typography, useTheme } from "@mui/material"
 import Flex from "components/_UI/Flexboxes/Flex"
 import FlexCol from "components/_UI/Flexboxes/FlexCol"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"

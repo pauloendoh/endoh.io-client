@@ -1,6 +1,6 @@
-import Snackbar from "@material-ui/core/Snackbar"
-import { makeStyles, Theme } from "@material-ui/core/styles"
-import MuiAlert, { AlertProps } from "@material-ui/lab/Alert"
+import MuiAlert, { AlertProps } from "@mui/lab/Alert"
+import Snackbar from "@mui/material/Snackbar"
+import { makeStyles, Theme } from "@mui/material/styles"
 import React from "react"
 import useSnackbarStore from "../../../store/zustand/useSnackbarStore"
 

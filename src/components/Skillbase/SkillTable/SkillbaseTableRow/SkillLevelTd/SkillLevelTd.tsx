@@ -1,19 +1,18 @@
-import { makeStyles, TableCell } from "@material-ui/core";
-import clsx from "clsx";
-import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
-import React from "react";
-import { MdOutlineArrowRightAlt } from "react-icons/md";
+import { makeStyles, TableCell } from "@mui/material"
+import clsx from "clsx"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import { MdOutlineArrowRightAlt } from "react-icons/md"
 
 interface Props {
-  value: number;
-  rightValue?: number;
+  value: number
+  rightValue?: number
 }
 
 // PE 2/3 - Not so easy to understand the classes logic
 const SkillLevelTd = (props: Props) => {
-  const classes = useStyles();
+  const classes = useStyles()
 
-  const nullButHasRightValue = !props.value && props.rightValue > 0;
+  const nullButHasRightValue = !props.value && props.rightValue > 0
 
   return (
     <TableCell
@@ -34,8 +33,8 @@ const SkillLevelTd = (props: Props) => {
         props.value
       )}
     </TableCell>
-  );
-};
+  )
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,6 +54,6 @@ const useStyles = makeStyles((theme) => ({
 
     // color: "#C862AC",
   },
-}));
+}))
 
-export default SkillLevelTd;
+export default SkillLevelTd

@@ -1,14 +1,13 @@
-import { Box, Link, Typography, useTheme } from "@material-ui/core";
-import React from "react";
-import { Link as RouterLink } from "react-router-dom";
-import { UserProfileDto } from "../../../types/domain/feed/UserProfileDto";
-import pageUrls from "../../../utils/url/urls/pageUrls";
-import Flex from "../../_UI/Flexboxes/Flex";
-import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture";
+import { Box, Link, Typography, useTheme } from "@mui/material"
+import { Link as RouterLink } from "react-router-dom"
+import { UserProfileDto } from "../../../types/domain/feed/UserProfileDto"
+import pageUrls from "../../../utils/url/urls/pageUrls"
+import Flex from "../../_UI/Flexboxes/Flex"
+import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture"
 
 // PE 3/3
 const UserResults = (props: Props) => {
-  const theme = useTheme();
+  const theme = useTheme()
 
   return (
     <Box>
@@ -50,11 +49,11 @@ const UserResults = (props: Props) => {
         </Flex>
       ))}
     </Box>
-  );
-};
-
-interface Props {
-  userProfiles: UserProfileDto[];
+  )
 }
 
-export default UserResults;
+interface Props {
+  userProfiles: UserProfileDto[]
+}
+
+export default UserResults

@@ -1,44 +1,41 @@
-import { Box, TableCell, Tooltip } from "@material-ui/core";
-import { getLevelDescription } from "components/Skillbase/SkillDialog/SkillExpectations/ExpectationsAtLevel/ExpectationsAtLevel";
-import Flex from "components/_UI/Flexboxes/Flex";
-import React, { useMemo } from "react";
-import { MdCheckBoxOutlineBlank } from "react-icons/md";
-import { SkillDto } from "types/domain/skillbase/SkillDto";
-import { SkillExpectationDto } from "types/domain/skillbase/SkillExpectationDto";
+import { Box, TableCell, Tooltip } from "@mui/material"
+import { getLevelDescription } from "components/Skillbase/SkillDialog/SkillExpectations/ExpectationsAtLevel/ExpectationsAtLevel"
+import Flex from "components/_UI/Flexboxes/Flex"
+import { useMemo } from "react"
+import { MdCheckBoxOutlineBlank } from "react-icons/md"
+import { SkillDto } from "types/domain/skillbase/SkillDto"
+import { SkillExpectationDto } from "types/domain/skillbase/SkillExpectationDto"
 
 type Props = {
-  skill: SkillDto;
-};
+  skill: SkillDto
+}
 
 // PE 3/3
 const ExpectationsTd = ({ skill }: Props) => {
   const checkedExpectations = useMemo(() => {
-    return skill.expectations.filter((expectation) => expectation.checked);
-  }, [skill.expectations]);
+    return skill.expectations.filter((expectation) => expectation.checked)
+  }, [skill.expectations])
 
   const missingExpectations = useMemo(() => {
     return skill.expectations
       .filter((expectation) => !expectation.checked)
       .sort((a, b) => a.index - b.index)
-      .sort((a, b) => a.level - b.level);
-  }, [skill.expectations]);
+      .sort((a, b) => a.level - b.level)
+  }, [skill.expectations])
 
   const missingExpectationsMap = useMemo(() => {
-    const map = new Map();
+    const map = new Map()
 
     for (const expectation of missingExpectations) {
       if (map.get(expectation.level)?.length > 0) {
-        map.set(expectation.level, [
-          ...map.get(expectation.level),
-          expectation,
-        ]);
+        map.set(expectation.level, [...map.get(expectation.level), expectation])
       } else {
-        map.set(expectation.level, [expectation]);
+        map.set(expectation.level, [expectation])
       }
     }
 
-    return map;
-  }, [missingExpectations]);
+    return map
+  }, [missingExpectations])
 
   return (
     <TableCell align="center">
@@ -88,7 +85,7 @@ const ExpectationsTd = ({ skill }: Props) => {
         </Tooltip>
       )}
     </TableCell>
-  );
-};
+  )
+}
 
-export default ExpectationsTd;
+export default ExpectationsTd

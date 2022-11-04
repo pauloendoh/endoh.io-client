@@ -1,4 +1,4 @@
-import { useTheme } from "@material-ui/core"
+import { useTheme } from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import MyImage from "components/_UI/images/MyImage"
 import Txt from "components/_UI/Text/Txt"

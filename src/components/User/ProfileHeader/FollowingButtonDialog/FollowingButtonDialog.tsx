@@ -1,11 +1,11 @@
-import { Box, Button } from "@material-ui/core";
-import React, { useState } from "react";
-import useProfileStore from "store/zustand/domain/useProfileStore";
-import FollowingUsersDialog from "../../../_common/FollowingUsersDialog/FollowingUsersDialog";
+import { Box, Button } from "@mui/material"
+import { useState } from "react"
+import useProfileStore from "store/zustand/domain/useProfileStore"
+import FollowingUsersDialog from "../../../_common/FollowingUsersDialog/FollowingUsersDialog"
 // PE 2/3
 const FollowingButtonDialog = () => {
-  const [openDialog, setOpenDialog] = useState(false);
-  const profileStore = useProfileStore();
+  const [openDialog, setOpenDialog] = useState(false)
+  const profileStore = useProfileStore()
 
   return (
     <Box>
@@ -18,7 +18,7 @@ const FollowingButtonDialog = () => {
         onClose={() => setOpenDialog(false)}
       />
     </Box>
-  );
-};
+  )
+}
 
-export default FollowingButtonDialog;
+export default FollowingButtonDialog

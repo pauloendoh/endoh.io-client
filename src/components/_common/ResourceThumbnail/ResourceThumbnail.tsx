@@ -1,16 +1,15 @@
-import { Box, Link } from "@material-ui/core";
-import React from "react";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css";
-import descriptionPng from "../../../static/images/description.png";
-import linkPng from "../../../static/images/link.png";
+import { Box, Link } from "@mui/material"
+import { LazyLoadImage } from "react-lazy-load-image-component"
+import "react-lazy-load-image-component/src/effects/blur.css"
+import descriptionPng from "../../../static/images/description.png"
+import linkPng from "../../../static/images/link.png"
 
 interface Props {
-  linkable: boolean;
-  width?: number;
+  linkable: boolean
+  width?: number
 
-  thumbnailSrc: string;
-  resourceUrl: string;
+  thumbnailSrc: string
+  resourceUrl: string
 }
 
 // PE 2/3
@@ -18,24 +17,24 @@ function ResourceThumbnail(props: Props) {
   // PE 2/3 - getThumbOrEmptySrc()
   const getThumbnailSrc = (): string => {
     if (props.thumbnailSrc.length > 0) {
-      return props.thumbnailSrc;
+      return props.thumbnailSrc
     }
 
     if (props.resourceUrl.length) {
-      return linkPng;
+      return linkPng
     }
-    return descriptionPng;
-  };
+    return descriptionPng
+  }
 
   // PE 2/3 doesn't need to be a function
   const isLink = () => {
-    return props.resourceUrl.length > 0 && props.linkable !== false;
-  };
+    return props.resourceUrl.length > 0 && props.linkable !== false
+  }
 
   // PE 2/3 doesn't need to be a function
   const getWidth = () => {
-    return props.width ? props.width : 50;
-  };
+    return props.width ? props.width : 50
+  }
 
   return (
     <Box mr={2}>
@@ -45,8 +44,8 @@ function ResourceThumbnail(props: Props) {
             href={props.resourceUrl}
             target="_blank"
             onClick={(e) => {
-              if (e.altKey) return;
-              e.stopPropagation();
+              if (e.altKey) return
+              e.stopPropagation()
             }}
           >
             <LazyLoadImage
@@ -54,8 +53,8 @@ function ResourceThumbnail(props: Props) {
               alt={props.thumbnailSrc}
               src={getThumbnailSrc()}
               onError={(e: any) => {
-                e.target.onerror = null;
-                e.target.src = linkPng;
+                e.target.onerror = null
+                e.target.src = linkPng
               }}
             />
           </Link>
@@ -64,7 +63,7 @@ function ResourceThumbnail(props: Props) {
         )}
       </Box>
     </Box>
-  );
+  )
 }
 
-export default ResourceThumbnail;
+export default ResourceThumbnail

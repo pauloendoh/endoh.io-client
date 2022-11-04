@@ -1,44 +1,44 @@
-import { Box, Typography } from "@material-ui/core";
 import {
   Autocomplete,
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
-} from "@material-ui/lab";
-import React, { useEffect, useState } from "react";
-import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
-import { SkillDto } from "../../../../types/domain/skillbase/SkillDto";
-import FlexHCenter from "../../../_UI/Flexboxes/FlexHCenter";
-import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
-import MyTextField from "../../../_UI/MyInputs/MyTextField";
+} from "@mui/lab"
+import { Box, Typography } from "@mui/material"
+import React, { useEffect, useState } from "react"
+import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
+import { SkillDto } from "../../../../types/domain/skillbase/SkillDto"
+import FlexHCenter from "../../../_UI/Flexboxes/FlexHCenter"
+import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
+import MyTextField from "../../../_UI/MyInputs/MyTextField"
 
 interface Props {
-  parentSkillId: number;
-  selected: SkillDto[];
+  parentSkillId: number
+  selected: SkillDto[]
   onChange?: (
     event: React.ChangeEvent<{}>,
     value: unknown,
     reason: AutocompleteChangeReason,
     details?: AutocompleteChangeDetails<unknown>
-  ) => void;
+  ) => void
 }
 
 const SelectDependencies = (props: Props) => {
-  const { skills: allSkills } = useSkillbaseStore();
+  const { skills: allSkills } = useSkillbaseStore()
 
-  const [options, setOptions] = useState<SkillDto[]>(allSkills);
+  const [options, setOptions] = useState<SkillDto[]>(allSkills)
 
   // filtering options
   useEffect(
     () => {
-      const dontShowTheseIds = [props.parentSkillId];
+      const dontShowTheseIds = [props.parentSkillId]
 
       setOptions(
         allSkills.filter((skill) => !dontShowTheseIds.includes(skill.id))
-      );
+      )
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [allSkills, props.selected]
-  );
+  )
 
   return (
     <Box>
@@ -47,7 +47,7 @@ const SelectDependencies = (props: Props) => {
         value={props.selected}
         options={[...options]}
         getOptionSelected={(option, value) => {
-          return option.id === value.id;
+          return option.id === value.id
         }}
         renderOption={(option) => (
           <FlexVCenter>
@@ -72,14 +72,14 @@ const SelectDependencies = (props: Props) => {
           />
         )}
         onChange={(e, value) => {
-          const skills = value as SkillDto[];
+          const skills = value as SkillDto[]
 
           // setDependencies(skills)
-          props.onChange(e, skills, null);
+          props.onChange(e, skills, null)
         }}
       />
     </Box>
-  );
-};
+  )
+}
 
-export default SelectDependencies;
+export default SelectDependencies

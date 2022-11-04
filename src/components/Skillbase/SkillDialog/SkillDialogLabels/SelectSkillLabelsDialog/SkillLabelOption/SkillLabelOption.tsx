@@ -1,15 +1,14 @@
-import { IconButton } from "@material-ui/core";
-import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
-import Txt from "components/_UI/Text/Txt";
-import React from "react";
-import { MdEdit } from "react-icons/md";
-import { LabelDto } from "types/domain/skillbase/LabelDto";
+import { IconButton } from "@mui/material"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import Txt from "components/_UI/Text/Txt"
+import { MdEdit } from "react-icons/md"
+import { LabelDto } from "types/domain/skillbase/LabelDto"
 
 interface Props {
-  label: LabelDto;
-  isSelected: boolean;
-  onToggle: () => void;
-  onClickEdit: () => void;
+  label: LabelDto
+  isSelected: boolean
+  onToggle: () => void
+  onClickEdit: () => void
 }
 
 const SkillLabelOption = ({
@@ -40,7 +39,7 @@ const SkillLabelOption = ({
         <MdEdit />
       </IconButton>
     </FlexVCenter>
-  );
-};
+  )
+}
 
-export default SkillLabelOption;
+export default SkillLabelOption

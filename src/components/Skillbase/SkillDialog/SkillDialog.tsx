@@ -6,7 +6,7 @@ import {
   DialogTitle,
   FormControlLabel,
   Tooltip,
-} from "@material-ui/core"
+} from "@mui/material"
 import Flex from "components/_UI/Flexboxes/Flex"
 import Txt from "components/_UI/Text/Txt"
 import { useFormik } from "formik"

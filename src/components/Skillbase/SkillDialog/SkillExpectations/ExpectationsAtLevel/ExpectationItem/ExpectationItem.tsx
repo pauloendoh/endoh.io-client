@@ -1,4 +1,4 @@
-import { Box, Checkbox, IconButton, Tooltip, useTheme } from "@material-ui/core"
+import { Box, Checkbox, IconButton, Tooltip, useTheme } from "@mui/material"
 import MyReactLinkify from "components/_UI/link/MyReactLinkify"
 import Txt from "components/_UI/Text/Txt"
 import React, { useEffect, useMemo, useRef } from "react"

@@ -1,42 +1,42 @@
-import { faCog, faSignOutAlt, faUser } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, IconButton, Typography } from "@material-ui/core";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
-import { useLogout } from "hooks/auth/useLogout";
-import React, { useState } from "react";
-import { MdHelpOutline } from "react-icons/md";
-import { connect } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
-import { Dispatch } from "redux";
-import useAuthStore from "store/zustand/useAuthStore";
-import theme from "utils/consts/theme";
-import ProfilePicture from "../../../../_UI/ProfilePicture/ProfilePicture";
-import KeyboardShortcutsDialog from "./KeyboardShortcutsDialog/KeyboardShortcutsDialog";
+import { faCog, faSignOutAlt, faUser } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Box, IconButton, Typography } from "@mui/material"
+import Menu from "@mui/material/Menu"
+import MenuItem from "@mui/material/MenuItem"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import { useLogout } from "hooks/auth/useLogout"
+import { useState } from "react"
+import { MdHelpOutline } from "react-icons/md"
+import { connect } from "react-redux"
+import { Link, useLocation } from "react-router-dom"
+import { Dispatch } from "redux"
+import useAuthStore from "store/zustand/useAuthStore"
+import theme from "utils/consts/theme"
+import ProfilePicture from "../../../../_UI/ProfilePicture/ProfilePicture"
+import KeyboardShortcutsDialog from "./KeyboardShortcutsDialog/KeyboardShortcutsDialog"
 
 // PE 2/3
 const NavbarUserMenu = (props: Props) => {
-  const location = useLocation();
-  const { profile, authUser: user } = useAuthStore();
+  const location = useLocation()
+  const { profile, authUser: user } = useAuthStore()
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [shortcutsDialog, setShortcutsDialog] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [shortcutsDialog, setShortcutsDialog] = useState(false)
 
   const handleOpenMenu = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleCloseMenu = () => {
-    setAnchorEl(null);
-  };
-
-  let settingsHref = "/settings";
-  if (location.pathname.startsWith("/monerate")) {
-    settingsHref = "/settings/monerate/places";
+    setAnchorEl(event.currentTarget)
   }
 
-  const logout = useLogout(props.dispatch);
+  const handleCloseMenu = () => {
+    setAnchorEl(null)
+  }
+
+  let settingsHref = "/settings"
+  if (location.pathname.startsWith("/monerate")) {
+    settingsHref = "/settings/monerate/places"
+  }
+
+  const logout = useLogout(props.dispatch)
 
   return (
     <div>
@@ -79,8 +79,8 @@ const NavbarUserMenu = (props: Props) => {
 
         <MenuItem
           onClick={() => {
-            handleCloseMenu();
-            setShortcutsDialog(true);
+            handleCloseMenu()
+            setShortcutsDialog(true)
           }}
         >
           <FlexVCenter style={{ gap: 16 }}>
@@ -114,13 +114,13 @@ const NavbarUserMenu = (props: Props) => {
         onClose={() => setShortcutsDialog(false)}
       />
     </div>
-  );
-};
+  )
+}
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   dispatch,
-});
+})
 
-type Props = ReturnType<typeof mapDispatchToProps>;
+type Props = ReturnType<typeof mapDispatchToProps>
 
-export default connect(undefined, mapDispatchToProps)(NavbarUserMenu);
+export default connect(undefined, mapDispatchToProps)(NavbarUserMenu)

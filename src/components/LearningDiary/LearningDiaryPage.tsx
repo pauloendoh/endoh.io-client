@@ -1,35 +1,32 @@
-import { parseISO } from "date-fns";
-
-import { Box, Container, Grid, makeStyles } from "@material-ui/core";
-import { Day, KeyboardDatePicker } from "@material-ui/pickers";
-import clsx from "clsx";
-import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween";
-import useDaysWithLearnings from "hooks/learning-diary/useDaysWithLearnings";
-import { DateTime } from "luxon";
-import { useEffect } from "react";
-import useLearningDiaryStore from "store/zustand/domain/useLearningDiaryStore";
-import useSidebarStore from "../../store/zustand/useSidebarStore";
-import Flex from "../_UI/Flexboxes/Flex";
-import AvgLearning from "./AvgLearning/AvgLearning";
-import AvgLearningAtCurrentTime from "./AvgLearningAtCurrentTime/AvgLearningAtCurrentTime";
-import DiaryTable from "./DiaryTable/DiaryTable";
-import LearningDayCounter from "./LearningDayCounter/LearningDayCounter";
+import { Box, Container, Grid, Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+import clsx from "clsx"
+import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween"
+import useDaysWithLearnings from "hooks/learning-diary/useDaysWithLearnings"
+import { useEffect } from "react"
+import useLearningDiaryStore from "store/zustand/domain/useLearningDiaryStore"
+import useSidebarStore from "../../store/zustand/useSidebarStore"
+import Flex from "../_UI/Flexboxes/Flex"
+import AvgLearning from "./AvgLearning/AvgLearning"
+import AvgLearningAtCurrentTime from "./AvgLearningAtCurrentTime/AvgLearningAtCurrentTime"
+import DiaryTable from "./DiaryTable/DiaryTable"
+import LearningDayCounter from "./LearningDayCounter/LearningDayCounter"
 
 const LearningDiaryPage = () => {
-  const classes = useStyles();
+  const classes = useStyles()
 
-  const { selectedDate, setSelectedDate } = useLearningDiaryStore();
-  const { sidebarIsOpen, closeSidebar } = useSidebarStore();
+  const { selectedDate, setSelectedDate } = useLearningDiaryStore()
+  const { sidebarIsOpen, closeSidebar } = useSidebarStore()
 
-  const sortedDays = useDaysWithLearnings();
-
-  useEffect(() => {
-    closeSidebar();
-  }, []);
+  const sortedDays = useDaysWithLearnings()
 
   useEffect(() => {
-    console.log(selectedDate);
-  }, [selectedDate]);
+    closeSidebar()
+  }, [])
+
+  useEffect(() => {
+    console.log(selectedDate)
+  }, [selectedDate])
 
   return (
     <Flex height="100%" pt={5} justifyContent="center">
@@ -43,8 +40,7 @@ const LearningDiaryPage = () => {
             <Grid item xs={9}>
               <FlexVCenterBetween>
                 <LearningDayCounter />
-                <KeyboardDatePicker
-                  disableToolbar
+                {/* <DatePicker
                   variant="inline"
                   format="MM/dd/yyyy"
                   margin="normal"
@@ -56,8 +52,8 @@ const LearningDiaryPage = () => {
                     setSelectedDate(DateTime.fromJSDate(date).toISODate())
                   }
                   renderDay={(day, _, currentMonth) => {
-                    const luxonDay = DateTime.fromJSDate(day);
-                    const isoDay = luxonDay.toISODate();
+                    const luxonDay = DateTime.fromJSDate(day)
+                    const isoDay = luxonDay.toISODate()
                     return (
                       <Day selected={isoDay === selectedDate}>
                         <div
@@ -82,12 +78,12 @@ const LearningDiaryPage = () => {
                           <span>{luxonDay.day}</span>
                         </div>
                       </Day>
-                    );
+                    )
                   }}
                   KeyboardButtonProps={{
                     "aria-label": "change date",
                   }}
-                />
+                /> */}
               </FlexVCenterBetween>
               <DiaryTable />
             </Grid>
@@ -102,10 +98,10 @@ const LearningDiaryPage = () => {
         </Box>
       </Box>
     </Flex>
-  );
-};
+  )
+}
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
@@ -122,6 +118,6 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: 300,
   },
-}));
+}))
 
-export default LearningDiaryPage;
+export default LearningDiaryPage

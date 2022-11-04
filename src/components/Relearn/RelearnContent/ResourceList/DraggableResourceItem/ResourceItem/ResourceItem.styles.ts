@@ -1,6 +1,6 @@
-import { Box, styled } from "@material-ui/core";
-import Flex from "components/_UI/Flexboxes/Flex";
-import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
+import { Box, styled } from "@mui/material"
+import Flex from "components/_UI/Flexboxes/Flex"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 
 // PE 2/3
 const S = {
@@ -34,6 +34,6 @@ const S = {
     marginBottom: theme.spacing(1),
     gap: theme.spacing(1),
   })),
-};
+}
 
-export default S;
+export default S

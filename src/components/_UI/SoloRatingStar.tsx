@@ -1,14 +1,13 @@
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, useTheme } from "@material-ui/core";
-import React from "react";
-import FlexVCenter from "./Flexboxes/FlexVCenter";
+import { faStar } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Box, useTheme } from "@mui/material"
+import FlexVCenter from "./Flexboxes/FlexVCenter"
 
 const SoloRatingStar = (props: Props) => {
-  const theme = useTheme();
-  const fontSize = props.fontSize ? props.fontSize : 40;
+  const theme = useTheme()
+  const fontSize = props.fontSize ? props.fontSize : 40
 
-  // PE 2/3 
+  // PE 2/3
   return (
     <Box>
       {props.value ? (
@@ -31,13 +30,13 @@ const SoloRatingStar = (props: Props) => {
         </Box>
       )}
     </Box>
-  );
-};
-
-interface Props {
-  value: number;
-  color: string;
-  fontSize?: number;
+  )
 }
 
-export default SoloRatingStar;
+interface Props {
+  value: number
+  color: string
+  fontSize?: number
+}
+
+export default SoloRatingStar

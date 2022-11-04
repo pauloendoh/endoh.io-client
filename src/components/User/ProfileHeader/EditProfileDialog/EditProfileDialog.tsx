@@ -1,3 +1,4 @@
+import CameraAltIcon from "@mui/icons-material/CameraAlt"
 import {
   Box,
   Button,
@@ -6,78 +7,77 @@ import {
   DialogTitle,
   makeStyles,
   Typography,
-} from "@material-ui/core";
-import CameraAltIcon from "@material-ui/icons/CameraAlt";
-import { Form, Formik, FormikErrors } from "formik";
-import { useEditProfilePicture } from "hooks/auth/useEditProfilePicture";
-import React, { ChangeEvent, createRef } from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import useProfileStore from "store/zustand/domain/useProfileStore";
-import useSnackbarStore from "store/zustand/useSnackbarStore";
-import { ProfileDto } from "../../../../types/domain/_common/ProfileDto";
-import MyAxiosError from "../../../../types/MyAxiosError";
-import myAxios from "../../../../utils/consts/myAxios";
-import { urlIsValid } from "../../../../utils/url/isValidUrl";
-import apiUrls from "../../../../utils/url/urls/apiUrls";
-import Flex from "../../../_UI/Flexboxes/Flex";
-import MyTextField from "../../../_UI/MyInputs/MyTextField";
-import ProfilePicture from "../../../_UI/ProfilePicture/ProfilePicture";
+} from "@mui/material"
+import { Form, Formik, FormikErrors } from "formik"
+import { useEditProfilePicture } from "hooks/auth/useEditProfilePicture"
+import { ChangeEvent, createRef } from "react"
+import { connect } from "react-redux"
+import { Dispatch } from "redux"
+import useProfileStore from "store/zustand/domain/useProfileStore"
+import useSnackbarStore from "store/zustand/useSnackbarStore"
+import { ProfileDto } from "../../../../types/domain/_common/ProfileDto"
+import MyAxiosError from "../../../../types/MyAxiosError"
+import myAxios from "../../../../utils/consts/myAxios"
+import { urlIsValid } from "../../../../utils/url/isValidUrl"
+import apiUrls from "../../../../utils/url/urls/apiUrls"
+import Flex from "../../../_UI/Flexboxes/Flex"
+import MyTextField from "../../../_UI/MyInputs/MyTextField"
+import ProfilePicture from "../../../_UI/ProfilePicture/ProfilePicture"
 
 // PE 2/3
 const EditProfileDialog = (props: Props) => {
-  const classes = useStyles();
+  const classes = useStyles()
 
-  const fileInput = createRef<HTMLInputElement>();
+  const fileInput = createRef<HTMLInputElement>()
 
-  const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
+  const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
 
-  const profileStore = useProfileStore();
-  const editProfilePicture = useEditProfilePicture(props.dispatch);
+  const profileStore = useProfileStore()
+  const editProfilePicture = useEditProfilePicture(props.dispatch)
 
   const handleSubmit = (sentProfile: ProfileDto) => {
     myAxios
       .put<ProfileDto>(apiUrls.user.profile, sentProfile)
       .then((res) => {
-        profileStore.setProfile(res.data);
-        setSuccessMessage("Profile saved!");
+        profileStore.setProfile(res.data)
+        setSuccessMessage("Profile saved!")
       })
       .catch((err: MyAxiosError) => {
-        setErrorMessage(err.response.data.errors[0].message);
+        setErrorMessage(err.response.data.errors[0].message)
       })
       .finally(() => {
-        props.onClose();
-      });
-  };
+        props.onClose()
+      })
+  }
 
   const handleFileSelection = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files[0];
+    const file = event.target.files[0]
     if (file) {
-      handleFileUpload(file);
+      handleFileUpload(file)
     }
-  };
+  }
 
   const handleFileUpload = (file: File) => {
-    const formData = new FormData();
-    formData.append("file", file, file.name);
+    const formData = new FormData()
+    formData.append("file", file, file.name)
 
     myAxios
       .post<string>(apiUrls.user.picture, formData)
       .then((res) => {
-        setSuccessMessage("Image uploaded!");
-        editProfilePicture(res.data);
+        setSuccessMessage("Image uploaded!")
+        editProfilePicture(res.data)
       })
       .catch((err) => {
         setErrorMessage(
           "Profile picture error: invalid type or image is too heavy (2MB max)"
-        );
-      });
-  };
+        )
+      })
+  }
 
   return (
     <Dialog
       onClose={() => {
-        props.onClose();
+        props.onClose()
       }}
       open={props.open}
       fullWidth
@@ -88,15 +88,15 @@ const EditProfileDialog = (props: Props) => {
         <Formik
           initialValues={profileStore.profile}
           onSubmit={(formikValues, { setSubmitting }) => {
-            handleSubmit(formikValues);
+            handleSubmit(formikValues)
           }}
           validate={(values: ProfileDto) => {
-            let errors: FormikErrors<ProfileDto> = {};
+            let errors: FormikErrors<ProfileDto> = {}
 
             if (values.website.length > 0 && !urlIsValid(values.website)) {
-              errors.website = "Invalid URL";
+              errors.website = "Invalid URL"
             }
-            return errors;
+            return errors
           }}
         >
           {({ errors, values, isSubmitting, setFieldValue, handleChange }) => (
@@ -111,7 +111,7 @@ const EditProfileDialog = (props: Props) => {
                       position="relative"
                       onClick={() => {
                         if (fileInput?.current) {
-                          fileInput.current.click();
+                          fileInput.current.click()
                         }
                       }}
                     >
@@ -202,8 +202,8 @@ const EditProfileDialog = (props: Props) => {
         </Formik>
       </Box>
     </Dialog>
-  );
-};
+  )
+}
 
 const useStyles = makeStyles(() => ({
   cameraIcon: {
@@ -212,17 +212,17 @@ const useStyles = makeStyles(() => ({
     bottom: 48,
     cursor: "pointer",
   },
-}));
+}))
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   dispatch,
-});
+})
 
 interface OwnProps {
-  open: boolean;
-  onClose: () => void;
+  open: boolean
+  onClose: () => void
 }
 
-type Props = ReturnType<typeof mapDispatchToProps> & OwnProps;
+type Props = ReturnType<typeof mapDispatchToProps> & OwnProps
 
-export default connect(undefined, mapDispatchToProps)(EditProfileDialog);
+export default connect(undefined, mapDispatchToProps)(EditProfileDialog)

@@ -7,71 +7,71 @@ import {
   makeStyles,
   Paper,
   Typography,
-} from "@material-ui/core";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { Link as RouterLink, Redirect } from "react-router-dom";
-import { PasswordResetPostDto } from "../../types/domain/auth/PasswordResetPostDto";
-import MyAxiosError, { MyFieldError } from "../../types/MyAxiosError";
-import myAxios from "../../utils/consts/myAxios";
-import { getQueryParam } from "../../utils/url/getQueryParam";
-import apiUrls from "../../utils/url/urls/apiUrls";
-import pageUrls from "../../utils/url/urls/pageUrls";
-import Flex from "../_UI/Flexboxes/Flex";
-import FlexHCenter from "../_UI/Flexboxes/FlexHCenter";
-import FlexVCenter from "../_UI/Flexboxes/FlexVCenter";
-import MyTextField from "../_UI/MyInputs/MyTextField";
-import TextPrimary from "../_UI/Text/TextPrimary";
+} from "@mui/material"
+import { Form, Formik } from "formik"
+import { useEffect, useState } from "react"
+import { Link as RouterLink, Redirect } from "react-router-dom"
+import { PasswordResetPostDto } from "../../types/domain/auth/PasswordResetPostDto"
+import MyAxiosError, { MyFieldError } from "../../types/MyAxiosError"
+import myAxios from "../../utils/consts/myAxios"
+import { getQueryParam } from "../../utils/url/getQueryParam"
+import apiUrls from "../../utils/url/urls/apiUrls"
+import pageUrls from "../../utils/url/urls/pageUrls"
+import Flex from "../_UI/Flexboxes/Flex"
+import FlexHCenter from "../_UI/Flexboxes/FlexHCenter"
+import FlexVCenter from "../_UI/Flexboxes/FlexVCenter"
+import MyTextField from "../_UI/MyInputs/MyTextField"
+import TextPrimary from "../_UI/Text/TextPrimary"
 
 function ResetPasswordPage() {
-  const classes = useStyles();
+  const classes = useStyles()
 
-  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[]);
-  const [success, setSuccess] = useState(false);
+  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[])
+  const [success, setSuccess] = useState(false)
 
-  const token = getQueryParam("token");
-  const userId = Number(getQueryParam("userId"));
+  const token = getQueryParam("token")
+  const userId = Number(getQueryParam("userId"))
 
-  const [redirectTo, setRedirectTo] = useState("");
+  const [redirectTo, setRedirectTo] = useState("")
 
   useEffect(
     () => {
       if (token.length === 0 || !userId) {
-        setRedirectTo(pageUrls.index);
+        setRedirectTo(pageUrls.index)
       }
-      document.title = "Reset Password - Endoh.io";
+      document.title = "Reset Password - Endoh.io"
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
-  );
+  )
 
   const handleSubmit = (
     values: PasswordResetPostDto,
     setSubmitting: (isSubmitting: boolean) => void
   ) => {
-    setSubmitting(true);
+    setSubmitting(true)
 
     if (values.password !== values.password2) {
       setResponseErrors([
         { field: "password", message: "Passwords don't match" },
-      ]);
-      setSubmitting(false);
-      return;
+      ])
+      setSubmitting(false)
+      return
     }
 
-    setResponseErrors([]);
+    setResponseErrors([])
     myAxios
       .post(apiUrls.auth.resetPassword, values)
       .then((res) => {
-        setSuccess(true);
+        setSuccess(true)
       })
       .catch((err: MyAxiosError) => {
-        setResponseErrors(err.response.data.errors);
+        setResponseErrors(err.response.data.errors)
       })
       .finally(() => {
-        setSubmitting(false);
-      });
-  };
+        setSubmitting(false)
+      })
+  }
   return (
     <Container maxWidth="sm">
       {redirectTo.length > 0 ? (
@@ -105,7 +105,7 @@ function ResetPasswordPage() {
                 }
                 // PE 2/3 jogar pra fora
                 onSubmit={(values, { setSubmitting }) => {
-                  handleSubmit(values, setSubmitting);
+                  handleSubmit(values, setSubmitting)
                 }}
               >
                 {({ isSubmitting, handleChange, errors }) => (
@@ -178,7 +178,7 @@ function ResetPasswordPage() {
         </Paper>
       </Box>
     </Container>
-  );
+  )
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -191,6 +191,6 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 10,
     paddingBottom: 10,
   },
-}));
+}))
 
-export default ResetPasswordPage;
+export default ResetPasswordPage

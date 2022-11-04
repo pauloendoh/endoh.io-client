@@ -1,26 +1,26 @@
-import { Box, Typography } from "@material-ui/core";
 import {
   Autocomplete,
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
-} from "@material-ui/lab";
-import React, { useState } from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import * as monerateActions from "../../../../store/monerate/monerateActions";
-import { ApplicationState } from "../../../../store/store";
-import CategoryGetDto from "../../../../types/domain/monerate/CategoryGetDto";
-import CategoryIcon from "../../../_UI/CategoryIcon";
-import FlexHCenter from "../../../_UI/Flexboxes/FlexHCenter";
-import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
-import MyTextField from "../../../_UI/MyInputs/MyTextField";
+} from "@mui/lab"
+import { Box, Typography } from "@mui/material"
+import React, { useState } from "react"
+import { connect } from "react-redux"
+import { Dispatch } from "redux"
+import * as monerateActions from "../../../../store/monerate/monerateActions"
+import { ApplicationState } from "../../../../store/store"
+import CategoryGetDto from "../../../../types/domain/monerate/CategoryGetDto"
+import CategoryIcon from "../../../_UI/CategoryIcon"
+import FlexHCenter from "../../../_UI/Flexboxes/FlexHCenter"
+import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
+import MyTextField from "../../../_UI/MyInputs/MyTextField"
 
 const SelectCategoryInput: React.FC<Props> = (props) => {
   const initialCategory = props.value
     ? props.categories.find((p) => p.id === props.value)
-    : null;
+    : null
 
-  const [value, setValue] = useState<CategoryGetDto>(initialCategory);
+  const [value, setValue] = useState<CategoryGetDto>(initialCategory)
 
   return (
     <Box>
@@ -61,45 +61,42 @@ const SelectCategoryInput: React.FC<Props> = (props) => {
           <MyTextField {...params} placeholder="e.g.: Grocery" size="small" />
         )}
         onChange={(e, value) => {
-          const selectedCategory = value as CategoryGetDto;
+          const selectedCategory = value as CategoryGetDto
           if (selectedCategory && selectedCategory.id === null) {
-            props.startNewCategory();
+            props.startNewCategory()
           } else {
-            setValue(selectedCategory);
-            props.onChange(e, selectedCategory, null);
+            setValue(selectedCategory)
+            props.onChange(e, selectedCategory, null)
           }
         }}
       />
     </Box>
-  );
-};
+  )
+}
 
 const mapStateToProps = (state: ApplicationState) => ({
   categories: state.monerate.categories,
-});
+})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setCategories: (categories: CategoryGetDto[]) =>
     dispatch(monerateActions.setCategories(categories)),
 
   startNewCategory: () => dispatch(monerateActions.startNewCategory()),
-});
+})
 
 interface OwnProps {
-  value: number;
+  value: number
   onChange?: (
     event: React.ChangeEvent<{}>,
     value: unknown,
     reason: AutocompleteChangeReason,
     details?: AutocompleteChangeDetails<unknown>
-  ) => void;
+  ) => void
 }
 
 type Props = OwnProps &
   ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps>
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SelectCategoryInput);
+export default connect(mapStateToProps, mapDispatchToProps)(SelectCategoryInput)

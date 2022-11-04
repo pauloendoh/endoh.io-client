@@ -1,5 +1,5 @@
+import { makeStyles } from "@mui/material"
 import React from "react"
-import { makeStyles } from "@material-ui/core"
 
 export const MyDivider: React.FC = ({ children }) => {
   const classes = useStyles()

@@ -1,4 +1,4 @@
-import { TableBody, TableCell, TableHead, TableRow } from "@material-ui/core"
+import { TableBody, TableCell, TableHead, TableRow } from "@mui/material"
 import React from "react"
 
 // PE 3/3d

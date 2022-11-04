@@ -1,26 +1,26 @@
-import { Box, Button, Link, Typography } from "@material-ui/core";
-import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import useProfileStore from "store/zustand/domain/useProfileStore";
-import useAuthStore from "store/zustand/useAuthStore";
-import { isFollowing } from "../../../utils/feed/isFollowing";
-import Flex from "../../_UI/Flexboxes/Flex";
-import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture";
-import EditProfileDialog from "./EditProfileDialog/EditProfileDialog";
-import FollowDialog from "./FollowDialog/FollowDialog";
-import FollowersButtonDialog from "./FollowersButtonDialog/FollowersButtonDialog";
-import FollowingButtonDialog from "./FollowingButtonDialog/FollowingButtonDialog";
+import { Box, Button, Link, Typography } from "@mui/material"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import { useState } from "react"
+import { useParams } from "react-router-dom"
+import useProfileStore from "store/zustand/domain/useProfileStore"
+import useAuthStore from "store/zustand/useAuthStore"
+import { isFollowing } from "../../../utils/feed/isFollowing"
+import Flex from "../../_UI/Flexboxes/Flex"
+import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture"
+import EditProfileDialog from "./EditProfileDialog/EditProfileDialog"
+import FollowDialog from "./FollowDialog/FollowDialog"
+import FollowersButtonDialog from "./FollowersButtonDialog/FollowersButtonDialog"
+import FollowingButtonDialog from "./FollowingButtonDialog/FollowingButtonDialog"
 
 // PE 2/3
 const ProfileHeader = () => {
-  const { username } = useParams<{ username: string }>();
-  const { authUser, followingTags: authFollowingTags } = useAuthStore();
+  const { username } = useParams<{ username: string }>()
+  const { authUser, followingTags: authFollowingTags } = useAuthStore()
 
-  const [openProfileDialog, setOpenProfileDialog] = useState(false);
-  const [openFollowDialog, setOpenFollowDialog] = useState(false);
+  const [openProfileDialog, setOpenProfileDialog] = useState(false)
+  const [openFollowDialog, setOpenFollowDialog] = useState(false)
 
-  const profileStore = useProfileStore();
+  const profileStore = useProfileStore()
 
   return (
     <Flex>
@@ -114,7 +114,7 @@ const ProfileHeader = () => {
         </Flex>
       </Box>
     </Flex>
-  );
-};
+  )
+}
 
-export default ProfileHeader;
+export default ProfileHeader

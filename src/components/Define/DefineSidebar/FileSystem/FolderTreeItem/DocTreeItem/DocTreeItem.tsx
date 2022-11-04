@@ -1,5 +1,5 @@
-import { useTheme } from "@material-ui/core"
-import { TreeItem } from "@material-ui/lab"
+import { TreeItem } from "@mui/lab"
+import { useTheme } from "@mui/material"
 import Flex from "components/_UI/Flexboxes/Flex"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import Txt from "components/_UI/Text/Txt"

@@ -1,4 +1,4 @@
-import { Box, Dialog, DialogContent, DialogTitle } from "@material-ui/core"
+import { Box, Dialog, DialogContent, DialogTitle } from "@mui/material"
 import { queryKeys } from "hooks/react-query/queryKeys"
 import { useEffect } from "react"
 import { Controller, useForm } from "react-hook-form"

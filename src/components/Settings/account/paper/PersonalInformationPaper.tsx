@@ -6,23 +6,23 @@ import {
   makeStyles,
   Paper,
   Typography,
-} from "@material-ui/core";
-import React, { useState } from "react";
-import useAuthStore from "store/zustand/useAuthStore";
-import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
-import ChangePasswordDialog from "./dialogs/ChangePasswordDialog";
-import DeleteAccountDialog from "./dialogs/DeleteAccountDialog";
-import EditUsernameDialog from "./dialogs/EditUsernameDialog";
+} from "@mui/material"
+import { useState } from "react"
+import useAuthStore from "store/zustand/useAuthStore"
+import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
+import ChangePasswordDialog from "./dialogs/ChangePasswordDialog"
+import DeleteAccountDialog from "./dialogs/DeleteAccountDialog"
+import EditUsernameDialog from "./dialogs/EditUsernameDialog"
 
 // PE 2/3 - Maybe I should separate this into <UsernameRow/>, <EmailRow/>, <PasswordRow/> and <DeleteAccountRow>
 const PersonalInformationPaper = () => {
-  const classes = useStyles();
-  const { authUser } = useAuthStore();
+  const classes = useStyles()
+  const { authUser } = useAuthStore()
 
-  const [editUsernameDialog, setEditUsernameDialog] = useState(false);
-  const [changePasswordDialog, setChangePasswordDialog] = useState(false);
+  const [editUsernameDialog, setEditUsernameDialog] = useState(false)
+  const [changePasswordDialog, setChangePasswordDialog] = useState(false)
 
-  const [deleteAccountDialog, setDeleteAccountDialog] = useState(false);
+  const [deleteAccountDialog, setDeleteAccountDialog] = useState(false)
 
   return (
     <Paper>
@@ -47,7 +47,7 @@ const PersonalInformationPaper = () => {
               <EditUsernameDialog
                 open={editUsernameDialog}
                 onClose={() => {
-                  setEditUsernameDialog(false);
+                  setEditUsernameDialog(false)
                 }}
               />
             </FlexVCenter>
@@ -71,7 +71,7 @@ const PersonalInformationPaper = () => {
             <Button
               variant="outlined"
               onClick={() => {
-                setChangePasswordDialog(true);
+                setChangePasswordDialog(true)
               }}
             >
               Change Password
@@ -80,8 +80,8 @@ const PersonalInformationPaper = () => {
                 onClose={() => {
                   // I need to add an small delay (why, tho?)
                   setTimeout(() => {
-                    setChangePasswordDialog(false);
-                  }, 25);
+                    setChangePasswordDialog(false)
+                  }, 25)
                 }}
               />
             </Button>
@@ -96,7 +96,7 @@ const PersonalInformationPaper = () => {
             variant="outlined"
             color="secondary"
             onClick={() => {
-              setDeleteAccountDialog(true);
+              setDeleteAccountDialog(true)
             }}
           >
             Delete my account
@@ -108,8 +108,8 @@ const PersonalInformationPaper = () => {
               // ???? why is this not working?
 
               setTimeout(() => {
-                setDeleteAccountDialog(false);
-              }, 25);
+                setDeleteAccountDialog(false)
+              }, 25)
             }}
           />
 
@@ -117,13 +117,13 @@ const PersonalInformationPaper = () => {
         </FlexVCenter>
       </Box>
     </Paper>
-  );
-};
+  )
+}
 
 const useStyles = makeStyles((theme) => ({
   leftGrid: {
     width: 100,
   },
-}));
+}))
 
-export default PersonalInformationPaper;
+export default PersonalInformationPaper

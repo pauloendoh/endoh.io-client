@@ -1,29 +1,29 @@
-import { Box, Button, Dialog } from "@material-ui/core";
-import { Form, Formik } from "formik";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import useDialogsStore from "store/zustand/useDialogsStore";
-import myAxios from "utils/consts/myAxios";
-import apiUrls from "utils/url/urls/apiUrls";
-import * as monerateActions from "../../../store/monerate/monerateActions";
-import { ApplicationState } from "../../../store/store";
-import PlaceGetDto from "../../../types/domain/monerate/PlaceGetDto";
-import Flex from "../../_UI/Flexboxes/Flex";
-import MyTextField from "../../_UI/MyInputs/MyTextField";
+import { Box, Button, Dialog } from "@mui/material"
+import { Form, Formik } from "formik"
+import { connect } from "react-redux"
+import { Dispatch } from "redux"
+import useDialogsStore from "store/zustand/useDialogsStore"
+import myAxios from "utils/consts/myAxios"
+import apiUrls from "utils/url/urls/apiUrls"
+import * as monerateActions from "../../../store/monerate/monerateActions"
+import { ApplicationState } from "../../../store/store"
+import PlaceGetDto from "../../../types/domain/monerate/PlaceGetDto"
+import Flex from "../../_UI/Flexboxes/Flex"
+import MyTextField from "../../_UI/MyInputs/MyTextField"
 
 const EditPlaceModal = (props: Props) => {
-  const { openConfirmDialog } = useDialogsStore();
+  const { openConfirmDialog } = useDialogsStore()
 
   const handleSubmit = (place: PlaceGetDto) => {
     myAxios
       .post<PlaceGetDto[]>(apiUrls.monerate.place, place)
       .then((res) => {
-        props.setPlaces(res.data);
+        props.setPlaces(res.data)
       })
       .finally(() => {
-        props.closePlaceModal();
-      });
-  };
+        props.closePlaceModal()
+      })
+  }
 
   const handleDelete = (id: number) => {
     openConfirmDialog({
@@ -32,14 +32,14 @@ const EditPlaceModal = (props: Props) => {
         myAxios
           .delete<PlaceGetDto[]>(`${apiUrls.monerate.place}/${id}`)
           .then((res) => {
-            props.setPlaces(res.data);
+            props.setPlaces(res.data)
           })
           .finally(() => {
-            props.closePlaceModal();
-          });
+            props.closePlaceModal()
+          })
       },
-    });
-  };
+    })
+  }
 
   return (
     <Dialog onClose={() => props.closePlaceModal()} open={!!props.editingPlace}>
@@ -47,7 +47,7 @@ const EditPlaceModal = (props: Props) => {
         <Formik
           initialValues={props.editingPlace}
           onSubmit={(formikValues, { setSubmitting }) => {
-            handleSubmit(formikValues);
+            handleSubmit(formikValues)
           }}
         >
           {({ values, isSubmitting, handleChange }) => (
@@ -76,7 +76,7 @@ const EditPlaceModal = (props: Props) => {
                     <Button
                       variant="outlined"
                       onClick={() => {
-                        handleDelete(values.id);
+                        handleDelete(values.id)
                       }}
                       color="secondary"
                       size="small"
@@ -91,20 +91,20 @@ const EditPlaceModal = (props: Props) => {
         </Formik>
       </Box>
     </Dialog>
-  );
-};
+  )
+}
 
 const mapStateToProps = (state: ApplicationState) => ({
   editingPlace: state.monerate.editingPlace,
-});
+})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   closePlaceModal: () => dispatch(monerateActions.closePlaceModal()),
   setPlaces: (places: PlaceGetDto[]) =>
     dispatch(monerateActions.setPlaces(places)),
-});
+})
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps>
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditPlaceModal);
+export default connect(mapStateToProps, mapDispatchToProps)(EditPlaceModal)

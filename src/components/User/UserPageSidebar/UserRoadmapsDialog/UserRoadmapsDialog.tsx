@@ -1,18 +1,17 @@
-import { Button, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
-import SkillExpectations from "components/Skillbase/SkillDialog/SkillExpectations/SkillExpectations";
-import React from "react";
-import { SkillDto } from "types/domain/skillbase/SkillDto";
+import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material"
+import SkillExpectations from "components/Skillbase/SkillDialog/SkillExpectations/SkillExpectations"
+import { SkillDto } from "types/domain/skillbase/SkillDto"
 
 interface Props {
-  open: boolean;
-  skill: SkillDto;
-  onClose: () => void;
+  open: boolean
+  skill: SkillDto
+  onClose: () => void
 }
 
 const UserRoadmapsDialog = (props: Props) => {
   const handleClose = () => {
-    props.onClose();
-  };
+    props.onClose()
+  }
 
   return (
     <Dialog
@@ -39,7 +38,7 @@ const UserRoadmapsDialog = (props: Props) => {
         </Button>
       </DialogTitle>
     </Dialog>
-  );
-};
+  )
+}
 
-export default UserRoadmapsDialog;
+export default UserRoadmapsDialog

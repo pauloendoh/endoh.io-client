@@ -1,10 +1,10 @@
-import { IconButton } from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
-import React from "react";
-import useSidebarStore from "../../../../../store/zustand/useSidebarStore";
+import MenuIcon from "@mui/icons-material/Menu"
+import { IconButton } from "@mui/material"
+import React from "react"
+import useSidebarStore from "../../../../../store/zustand/useSidebarStore"
 
 const LeftToggleButton = () => {
-  const { toggleSidebar } = useSidebarStore();
+  const { toggleSidebar } = useSidebarStore()
 
   return (
     <React.Fragment>
@@ -17,7 +17,7 @@ const LeftToggleButton = () => {
       </IconButton>
       {/* )} */}
     </React.Fragment>
-  );
-};
+  )
+}
 
-export default LeftToggleButton;
+export default LeftToggleButton

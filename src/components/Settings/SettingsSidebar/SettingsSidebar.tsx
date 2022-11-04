@@ -6,8 +6,7 @@ import {
   makeStyles,
   Theme,
   Toolbar,
-} from "@material-ui/core"
-import React from "react"
+} from "@mui/material"
 import GeneralSubmenu from "./GeneralSubmenu/GeneralSubmenu"
 
 // PE 3/3

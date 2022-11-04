@@ -4,7 +4,7 @@ import {
   Menu,
   MenuItem,
   Typography,
-} from "@material-ui/core"
+} from "@mui/material"
 import useDeleteFolderMutation from "hooks/react-query/folders/useDeleteFolderMutation"
 import { useState } from "react"
 import useFolderDialogStore from "store/zustand/dialogs/useFolderDialogStore"

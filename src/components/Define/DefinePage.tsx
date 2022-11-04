@@ -1,81 +1,81 @@
-import { Box, makeStyles } from "@material-ui/core";
-import classNames from "classnames";
-import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
-import useDocsStore from "store/zustand/domain/useDocsStore";
-import pageUrls from "utils/url/urls/pageUrls";
-import useSidebarStore from "../../store/zustand/useSidebarStore";
-import { DocDto } from "../../types/domain/define/DocDto";
-import { NoteDto } from "../../types/domain/define/NoteDto";
-import myAxios from "../../utils/consts/myAxios";
-import apiUrls from "../../utils/url/urls/apiUrls";
-import LoadingPage from "../_common/LoadingPage/LoadingPage";
-import Flex from "../_UI/Flexboxes/Flex";
-import DefineContent from "./DefineContent/DefineContent";
-import DefineSidebar from "./DefineSidebar/DefineSidebar";
+import { Box, makeStyles } from "@mui/material"
+import classNames from "classnames"
+import React, { useEffect, useState } from "react"
+import { useHistory, useParams } from "react-router-dom"
+import useDocsStore from "store/zustand/domain/useDocsStore"
+import pageUrls from "utils/url/urls/pageUrls"
+import useSidebarStore from "../../store/zustand/useSidebarStore"
+import { DocDto } from "../../types/domain/define/DocDto"
+import { NoteDto } from "../../types/domain/define/NoteDto"
+import myAxios from "../../utils/consts/myAxios"
+import apiUrls from "../../utils/url/urls/apiUrls"
+import LoadingPage from "../_common/LoadingPage/LoadingPage"
+import Flex from "../_UI/Flexboxes/Flex"
+import DefineContent from "./DefineContent/DefineContent"
+import DefineSidebar from "./DefineSidebar/DefineSidebar"
 
 // PE 3/3
 const DefinePage = () => {
-  const history = useHistory();
-  const docsStore = useDocsStore();
-  const { docId: paramDocId } = useParams<{ docId: string }>();
-  const [selectedDocId, setSelectedDocId] = useState<number>(null);
+  const history = useHistory()
+  const docsStore = useDocsStore()
+  const { docId: paramDocId } = useParams<{ docId: string }>()
+  const [selectedDocId, setSelectedDocId] = useState<number>(null)
 
-  const { sidebarIsOpen, openSidebar } = useSidebarStore();
+  const { sidebarIsOpen, openSidebar } = useSidebarStore()
 
   useEffect(
     () => {
-      openSidebar();
+      openSidebar()
 
       myAxios
         .get<DocDto[]>(apiUrls.define.doc)
-        .then((res) => docsStore.setDocs(res.data));
+        .then((res) => docsStore.setDocs(res.data))
 
       myAxios
         .get<NoteDto[]>(apiUrls.define.note)
-        .then((res) => docsStore.setNotes(res.data));
+        .then((res) => docsStore.setNotes(res.data))
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
-  );
+  )
 
   useEffect(() => {
     if (paramDocId && docsStore.hasFirstLoaded) {
-      const docId = Number(paramDocId);
+      const docId = Number(paramDocId)
 
-      const doc = docsStore.docs.find((doc) => doc.id === docId);
+      const doc = docsStore.docs.find((doc) => doc.id === docId)
       if (!doc) {
-        history.push(pageUrls.define.index);
-        return;
+        history.push(pageUrls.define.index)
+        return
       }
-      setSelectedDocId(docId);
-      document.title = doc.title;
+      setSelectedDocId(docId)
+      document.title = doc.title
     } else {
-      setSelectedDocId(null);
+      setSelectedDocId(null)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [paramDocId, docsStore.docs]);
+  }, [paramDocId, docsStore.docs])
 
   useEffect(
     () => {
       // open last opened tag
       if (!paramDocId && docsStore.docs?.length > 0) {
         const sortedByLastOpened = docsStore.docs.sort((a, b) => {
-          if (a.lastOpenedAt === undefined) return -1;
-          if (b.lastOpenedAt === undefined) return 1;
+          if (a.lastOpenedAt === undefined) return -1
+          if (b.lastOpenedAt === undefined) return 1
 
-          return a.lastOpenedAt > b.lastOpenedAt ? -1 : 1;
-        });
+          return a.lastOpenedAt > b.lastOpenedAt ? -1 : 1
+        })
 
-        const docId = sortedByLastOpened[0].id;
-        history.push(pageUrls.define.docId(docId));
+        const docId = sortedByLastOpened[0].id
+        history.push(pageUrls.define.docId(docId))
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [docsStore.docs, paramDocId]
-  );
+  )
 
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <Box p={3}>
@@ -97,8 +97,8 @@ const DefinePage = () => {
         </Box>
       </Flex>
     </Box>
-  );
-};
+  )
+}
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -116,6 +116,6 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: 300,
   },
-}));
+}))
 
-export default DefinePage;
+export default DefinePage

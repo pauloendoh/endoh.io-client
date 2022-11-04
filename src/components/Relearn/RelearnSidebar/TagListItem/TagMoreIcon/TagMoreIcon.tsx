@@ -1,3 +1,6 @@
+import DeleteIcon from "@mui/icons-material/Delete"
+import EditIcon from "@mui/icons-material/Edit"
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz"
 import {
   createStyles,
   IconButton,
@@ -7,34 +10,31 @@ import {
   MenuItem,
   Theme,
   Typography,
-} from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import React from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import useDialogsStore from "store/zustand/useDialogsStore";
-import useSnackbarStore from "store/zustand/useSnackbarStore";
-import * as relearnActions from "../../../../../store/relearn/relearnActions";
-import { TagDto } from "../../../../../types/domain/relearn/TagDto";
-import myAxios from "../../../../../utils/consts/myAxios";
-import apiUrls from "../../../../../utils/url/urls/apiUrls";
+} from "@mui/material"
+import React from "react"
+import { connect } from "react-redux"
+import { Dispatch } from "redux"
+import useDialogsStore from "store/zustand/useDialogsStore"
+import useSnackbarStore from "store/zustand/useSnackbarStore"
+import * as relearnActions from "../../../../../store/relearn/relearnActions"
+import { TagDto } from "../../../../../types/domain/relearn/TagDto"
+import myAxios from "../../../../../utils/consts/myAxios"
+import apiUrls from "../../../../../utils/url/urls/apiUrls"
 
 // PE 2/3 - MenuItem could be shorter?
 function TagMoreIcon(props: Props) {
-  const classes = useStyles();
+  const classes = useStyles()
 
-  const dialogStore = useDialogsStore();
-  const { setSuccessMessage } = useSnackbarStore();
+  const dialogStore = useDialogsStore()
+  const { setSuccessMessage } = useSnackbarStore()
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(null)
   const handleOpenMore = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
   const handleCloseMore = () => {
-    setAnchorEl(null); // avoids error "The `anchorEl` prop provided to the component is invalid"
-  };
+    setAnchorEl(null) // avoids error "The `anchorEl` prop provided to the component is invalid"
+  }
 
   // handleDelete would be better?
   const handleDeleteTag = (id: number) => {
@@ -42,15 +42,15 @@ function TagMoreIcon(props: Props) {
       title: "Confirm delete?",
       onConfirm: () => {
         myAxios.delete(`${apiUrls.relearn.tag}/${id}`).then((res) => {
-          setSuccessMessage("Tag deleted!");
+          setSuccessMessage("Tag deleted!")
 
-          props.afterDelete();
+          props.afterDelete()
 
-          props.removeTag(id);
-        });
+          props.removeTag(id)
+        })
       },
-    });
-  };
+    })
+  }
 
   return (
     <React.Fragment>
@@ -59,8 +59,8 @@ function TagMoreIcon(props: Props) {
         size="small"
         aria-label="tag-more"
         onClick={(e) => {
-          e.preventDefault();
-          handleOpenMore(e);
+          e.preventDefault()
+          handleOpenMore(e)
         }}
       >
         <MoreHorizIcon />
@@ -75,16 +75,16 @@ function TagMoreIcon(props: Props) {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={(e) => {
-          const event = e as any;
-          event.preventDefault();
-          handleCloseMore();
+          const event = e as any
+          event.preventDefault()
+          handleCloseMore()
         }}
       >
         <MenuItem
           onClick={(e) => {
-            e.preventDefault();
-            props.editTag(props.tag);
-            handleCloseMore();
+            e.preventDefault()
+            props.editTag(props.tag)
+            handleCloseMore()
           }}
         >
           <ListItemIcon className={classes.listItemIcon}>
@@ -97,8 +97,8 @@ function TagMoreIcon(props: Props) {
 
         <MenuItem
           onClick={(e) => {
-            e.preventDefault();
-            handleDeleteTag(props.tag.id);
+            e.preventDefault()
+            handleDeleteTag(props.tag.id)
           }}
           id="delete-tag-button"
         >
@@ -111,7 +111,7 @@ function TagMoreIcon(props: Props) {
         </MenuItem>
       </Menu>
     </React.Fragment>
-  );
+  )
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -131,18 +131,18 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 16,
     },
   })
-);
+)
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   editTag: (tag: TagDto) => dispatch(relearnActions.editTag(tag)),
   removeTag: (id: number) => dispatch(relearnActions.removeTag(id)),
-});
+})
 
 interface OwnProps {
-  tag: TagDto;
-  afterDelete?: () => void;
+  tag: TagDto
+  afterDelete?: () => void
 }
 
-type Props = ReturnType<typeof mapDispatchToProps> & OwnProps;
+type Props = ReturnType<typeof mapDispatchToProps> & OwnProps
 
-export default connect(undefined, mapDispatchToProps)(TagMoreIcon);
+export default connect(undefined, mapDispatchToProps)(TagMoreIcon)

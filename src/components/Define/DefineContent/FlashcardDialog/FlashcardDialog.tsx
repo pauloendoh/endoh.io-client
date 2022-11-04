@@ -1,3 +1,4 @@
+import { Clear } from "@mui/icons-material"
 import {
   Box,
   Checkbox,
@@ -7,8 +8,7 @@ import {
   FormControlLabel,
   IconButton,
   Typography,
-} from "@material-ui/core"
-import { Clear } from "@material-ui/icons"
+} from "@mui/material"
 import Flex from "components/_UI/Flexboxes/Flex"
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
 import sample from "lodash/sample"

@@ -5,15 +5,15 @@ import {
   makeStyles,
   Theme,
   Toolbar,
-} from "@material-ui/core";
-import React from "react";
-import useSidebarStore from "../../../store/zustand/useSidebarStore";
-import S from "./MySidebar.styles";
+} from "@mui/material"
+import React from "react"
+import useSidebarStore from "../../../store/zustand/useSidebarStore"
+import S from "./MySidebar.styles"
 
 const MySidebar = (props: React.ComponentProps<typeof Drawer>) => {
-  const { sidebarIsOpen } = useSidebarStore();
+  const { sidebarIsOpen } = useSidebarStore()
 
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <S.RootDrawer
@@ -29,8 +29,8 @@ const MySidebar = (props: React.ComponentProps<typeof Drawer>) => {
       <Toolbar />
       <Box>{props.children}</Box>
     </S.RootDrawer>
-  );
-};
+  )
+}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,6 +40,6 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRight: "1px solid rgba(255, 255, 255, 0.05)",
     },
   })
-);
+)
 
-export default MySidebar;
+export default MySidebar

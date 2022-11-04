@@ -1,13 +1,12 @@
-import LabelIcon from "@material-ui/icons/Label";
-import React from "react";
-import { TagDto } from "../../../types/domain/relearn/TagDto";
+import LabelIcon from "@mui/icons-material/Label"
+import { TagDto } from "../../../types/domain/relearn/TagDto"
 
 const TagIcon = (props: Props) => {
-  return <LabelIcon style={{ color: props.tag.color }} fontSize="inherit" />;
-};
-
-interface Props {
-  tag: TagDto;
+  return <LabelIcon style={{ color: props.tag.color }} fontSize="inherit" />
 }
 
-export default TagIcon;
+interface Props {
+  tag: TagDto
+}
+
+export default TagIcon

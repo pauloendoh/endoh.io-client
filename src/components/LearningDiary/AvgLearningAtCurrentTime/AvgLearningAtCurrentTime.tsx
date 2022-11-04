@@ -1,27 +1,27 @@
-import { Box, Paper } from "@material-ui/core";
-import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
-import Txt from "components/_UI/Text/Txt";
-import useAvgLearningAtCurrentTime from "hooks/learning-diary/useAvgLearningAtCurrentTime";
-import { DateTime } from "luxon";
-import { useEffect, useState } from "react";
+import { Box, Paper } from "@mui/material"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import Txt from "components/_UI/Text/Txt"
+import useAvgLearningAtCurrentTime from "hooks/learning-diary/useAvgLearningAtCurrentTime"
+import { DateTime } from "luxon"
+import { useEffect, useState } from "react"
 
 interface Props {
-  test?: string;
+  test?: string
 }
 
 const AvgLearningAtCurrentTime = (props: Props) => {
-  const { avg, avg75, avg125, daysQty } = useAvgLearningAtCurrentTime();
-  const [time, setTime] = useState(DateTime.now().toFormat("HH:mm'h'"));
+  const { avg, avg75, avg125, daysQty } = useAvgLearningAtCurrentTime()
+  const [time, setTime] = useState(DateTime.now().toFormat("HH:mm'h'"))
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTime(DateTime.now().toFormat("HH:mm"));
-    }, 1000 * 60);
+      setTime(DateTime.now().toFormat("HH:mm"))
+    }, 1000 * 60)
 
     return () => {
-      clearInterval(interval);
-    };
-  }, []);
+      clearInterval(interval)
+    }
+  }, [])
 
   return (
     <Paper style={{ width: "100%" }}>
@@ -38,7 +38,7 @@ const AvgLearningAtCurrentTime = (props: Props) => {
         </FlexVCenter>
       </Box>
     </Paper>
-  );
-};
+  )
+}
 
-export default AvgLearningAtCurrentTime;
+export default AvgLearningAtCurrentTime

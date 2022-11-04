@@ -1,11 +1,11 @@
-import { TextField } from "@material-ui/core";
-import React from "react";
-import Icons from "utils/styles/Icons";
+import { TextField } from "@mui/material"
+import React from "react"
+import Icons from "utils/styles/Icons"
 
 type Props = React.ComponentProps<typeof TextField> & {
-  onCtrlEnter?: (e: React.KeyboardEvent<HTMLDivElement>) => void;
-  onClickClearIcon?: () => void;
-};
+  onCtrlEnter?: (e: React.KeyboardEvent<HTMLDivElement>) => void
+  onClickClearIcon?: () => void
+}
 
 const MyTextField = React.forwardRef<HTMLDivElement, Props>(
   ({ onCtrlEnter = (e) => {}, ...props }, ref) => {
@@ -31,12 +31,12 @@ const MyTextField = React.forwardRef<HTMLDivElement, Props>(
         onKeyDown={(e) => {
           // I had to add a default function for onCtrlEnter to remove console.error
           if (e.key === "Enter" && e.ctrlKey && onCtrlEnter) {
-            onCtrlEnter(e);
-          } else if (props.onKeyDown) props.onKeyDown(e);
+            onCtrlEnter(e)
+          } else if (props.onKeyDown) props.onKeyDown(e)
         }}
       />
-    );
+    )
   }
-);
+)
 
-export default MyTextField;
+export default MyTextField

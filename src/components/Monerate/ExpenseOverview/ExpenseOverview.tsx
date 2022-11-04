@@ -1,5 +1,5 @@
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   Box,
   makeStyles,
@@ -7,23 +7,23 @@ import {
   Theme,
   Typography,
   useTheme,
-} from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import NumberFormat from "react-number-format";
-import ExpenseGetDto from "../../../types/domain/monerate/ExpenseGetDto";
-import FlexYCenter from "../../_UI/Flexboxes/FlexVCenter";
+} from "@mui/material"
+import { useEffect, useState } from "react"
+import NumberFormat from "react-number-format"
+import ExpenseGetDto from "../../../types/domain/monerate/ExpenseGetDto"
+import FlexYCenter from "../../_UI/Flexboxes/FlexVCenter"
 
 const ExpenseOverview = (props: Props) => {
-  const classes = useStyle();
-  const theme = useTheme();
+  const classes = useStyle()
+  const theme = useTheme()
 
   const [overview, setOverview] = useState<IExpenseOverview>(
     getExpensesOverview(props.expenses)
-  );
+  )
 
   useEffect(() => {
-    setOverview(getExpensesOverview(props.expenses));
-  }, [props.expenses]);
+    setOverview(getExpensesOverview(props.expenses))
+  }, [props.expenses])
 
   return (
     <FlexYCenter>
@@ -70,43 +70,43 @@ const ExpenseOverview = (props: Props) => {
         </Box>
       </Paper>
     </FlexYCenter>
-  );
-};
+  )
+}
 
 const useStyle = makeStyles((theme: Theme) => ({
   starIcon: {
     marginLeft: 5,
     marginBottom: 5,
   },
-}));
+}))
 
 interface IExpenseOverview {
-  count: number;
-  totalValue: number;
-  avgRating: number;
+  count: number
+  totalValue: number
+  avgRating: number
 }
 
 const getExpensesOverview = (expenses: ExpenseGetDto[]) => {
-  const ratedExpenses = expenses.filter((e) => e.rating > 0);
+  const ratedExpenses = expenses.filter((e) => e.rating > 0)
   let avg =
     ratedExpenses.reduce((sum, expense) => sum + expense.rating, 0) /
-    ratedExpenses.length;
+    ratedExpenses.length
   if (isNaN(avg)) {
-    avg = 0;
+    avg = 0
   } else {
-    avg = Number(avg.toFixed(1));
+    avg = Number(avg.toFixed(1))
   }
 
   return {
     count: expenses.length,
     totalValue: expenses.reduce((sum, expense) => sum + expense.value, 0),
     avgRating: avg,
-  };
-};
+  }
+}
 
 interface OwnProps {
-  expenses: ExpenseGetDto[];
+  expenses: ExpenseGetDto[]
 }
-type Props = OwnProps;
+type Props = OwnProps
 
-export default ExpenseOverview;
+export default ExpenseOverview

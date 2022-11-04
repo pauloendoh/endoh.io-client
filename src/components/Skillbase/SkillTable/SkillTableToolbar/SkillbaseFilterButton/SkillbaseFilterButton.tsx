@@ -1,18 +1,18 @@
-import { Checkbox, Divider } from "@material-ui/core";
-import Menu from "@material-ui/core/Menu";
-import DarkButton from "components/_UI/Buttons/DarkButton/DarkButton";
-import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
-import useLabelsQuery from "hooks/react-query/skillbase/labels/useLabelsQuery";
-import React, { useMemo, useState } from "react";
-import { MdClose, MdFilterAlt } from "react-icons/md";
-import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
-import S from "./styles";
+import { Checkbox, Divider } from "@mui/material"
+import Menu from "@mui/material/Menu"
+import DarkButton from "components/_UI/Buttons/DarkButton/DarkButton"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import useLabelsQuery from "hooks/react-query/skillbase/labels/useLabelsQuery"
+import { useMemo, useState } from "react"
+import { MdClose, MdFilterAlt } from "react-icons/md"
+import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
+import S from "./styles"
 
 // PE 2/3
 const SkillbaseFilterButton = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null)
 
-  const { data: labels } = useLabelsQuery();
+  const { data: labels } = useLabelsQuery()
   const {
     filter,
     getFilterCount,
@@ -20,23 +20,23 @@ const SkillbaseFilterButton = () => {
     toggleFilterLabelId,
     toggleFilterCurrentGoal,
     toggleHidingDone,
-  } = useSkillbaseStore();
+  } = useSkillbaseStore()
 
   const handleClick = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleClose = () => {
-    setAnchorEl(null);
-  };
+    setAnchorEl(null)
+  }
 
-  const isDisabled = useMemo(() => filter.byText?.length > 0, [filter.byText]);
+  const isDisabled = useMemo(() => filter.byText?.length > 0, [filter.byText])
 
   // PE 1/3 - Check if it's being used in other places
   const sortedLabelsById = useMemo(() => {
-    if (labels === undefined || labels?.length === 0) return [];
-    return labels.sort((a, b) => (a.id > b.id ? 1 : -1));
-  }, [labels]);
+    if (labels === undefined || labels?.length === 0) return []
+    return labels.sort((a, b) => (a.id > b.id ? 1 : -1))
+  }, [labels])
 
   return (
     <>
@@ -102,7 +102,7 @@ const SkillbaseFilterButton = () => {
         ))}
       </Menu>
     </>
-  );
-};
+  )
+}
 
-export default SkillbaseFilterButton;
+export default SkillbaseFilterButton

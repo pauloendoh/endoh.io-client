@@ -5,7 +5,7 @@ import {
   DialogContent,
   DialogTitle,
   Typography,
-} from "@material-ui/core"
+} from "@mui/material"
 import { AxiosError } from "axios"
 import { Form, Formik } from "formik"
 import { useState } from "react"

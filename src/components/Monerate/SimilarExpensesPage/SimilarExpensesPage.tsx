@@ -1,23 +1,23 @@
-import { Container } from "@material-ui/core";
-import MyTextField from "components/_UI/MyInputs/MyTextField";
-import useDebounce from "hooks/utils/useDebounce";
-import { useMemo, useState } from "react";
-import MonerateLayout from "../MonerateLayout/MonerateLayout";
-import SimilarExpenseList from "./SimilarExpenseList/SimilarExpenseList";
+import { Container } from "@mui/material"
+import MyTextField from "components/_UI/MyInputs/MyTextField"
+import useDebounce from "hooks/utils/useDebounce"
+import { useMemo, useState } from "react"
+import MonerateLayout from "../MonerateLayout/MonerateLayout"
+import SimilarExpenseList from "./SimilarExpenseList/SimilarExpenseList"
 
 interface Props {
-  test?: string;
+  test?: string
 }
 
 const SimilarExpensesPage = (props: Props) => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState("")
 
-  const debouncedValue = useDebounce(value, 250);
+  const debouncedValue = useDebounce(value, 250)
 
   const numValue = useMemo(() => {
-    if (isNaN(Number(debouncedValue))) return null;
-    return Number(debouncedValue);
-  }, [debouncedValue]);
+    if (isNaN(Number(debouncedValue))) return null
+    return Number(debouncedValue)
+  }, [debouncedValue])
 
   return (
     <MonerateLayout>
@@ -33,7 +33,7 @@ const SimilarExpensesPage = (props: Props) => {
         {numValue > 0 && <SimilarExpenseList expenseValue={numValue} />}
       </Container>
     </MonerateLayout>
-  );
-};
+  )
+}
 
-export default SimilarExpensesPage;
+export default SimilarExpensesPage

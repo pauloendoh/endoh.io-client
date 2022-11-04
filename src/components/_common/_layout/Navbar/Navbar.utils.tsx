@@ -1,7 +1,7 @@
 import { faChessKnight, faLink } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import NotesIcon from "@material-ui/icons/Notes"
-import TimeLineIcon from "@material-ui/icons/Timeline"
+import NotesIcon from "@mui/icons-material/Notes"
+import TimeLineIcon from "@mui/icons-material/Timeline"
 import { ReactElement, ReactNode } from "react"
 import pageUrls from "../../../../utils/url/urls/pageUrls"
 

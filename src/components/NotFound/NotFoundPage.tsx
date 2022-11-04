@@ -1,5 +1,4 @@
-import { Box, Typography } from "@material-ui/core";
-import React from "react";
+import { Box, Typography } from "@mui/material"
 
 // PE 3/3
 const NotFoundPage = () => {
@@ -7,7 +6,7 @@ const NotFoundPage = () => {
     <Box p={3}>
       <Typography variant="h4">404 - Page not found</Typography>
     </Box>
-  );
-};
+  )
+}
 
-export default NotFoundPage;
+export default NotFoundPage

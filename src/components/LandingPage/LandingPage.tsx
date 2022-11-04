@@ -1,3 +1,4 @@
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import {
   Box,
   Button,
@@ -5,24 +6,23 @@ import {
   Grid,
   makeStyles,
   Typography,
-} from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import React, { useEffect } from "react";
-import { Link as ScrollLink } from "react-scroll";
-import AuthFormWrapper from "./AuthFormWrapper/AuthFormWrapper";
-import FooterDescription from "./descriptions/FooterDescription/FooterDescription";
-import LandingPageDescription from "./descriptions/LandingPageDescription";
-import NotesDescription from "./descriptions/NotesDescription";
-import RelearnDescription from "./descriptions/RelearnDescription";
-import SkillbaseDescription from "./descriptions/SkillbaseDescription";
-import SocialDescription from "./descriptions/SocialDescription";
+} from "@mui/material"
+import { useEffect } from "react"
+import { Link as ScrollLink } from "react-scroll"
+import AuthFormWrapper from "./AuthFormWrapper/AuthFormWrapper"
+import FooterDescription from "./descriptions/FooterDescription/FooterDescription"
+import LandingPageDescription from "./descriptions/LandingPageDescription"
+import NotesDescription from "./descriptions/NotesDescription"
+import RelearnDescription from "./descriptions/RelearnDescription"
+import SkillbaseDescription from "./descriptions/SkillbaseDescription"
+import SocialDescription from "./descriptions/SocialDescription"
 
 const LandingPage = () => {
-  const classes = useStyles();
+  const classes = useStyles()
 
   useEffect(() => {
-    document.title = "Endoh.io";
-  }, []);
+    document.title = "Endoh.io"
+  }, [])
   return (
     <Container maxWidth="md">
       <Box pt={5} />
@@ -74,8 +74,8 @@ const LandingPage = () => {
         <FooterDescription />
       </Box>
     </Container>
-  );
-};
+  )
+}
 
 const useStyles = makeStyles((theme) => ({
   flexGrow: {
@@ -89,6 +89,6 @@ const useStyles = makeStyles((theme) => ({
       marginTop: 160,
     },
   },
-}));
+}))
 
-export default LandingPage;
+export default LandingPage

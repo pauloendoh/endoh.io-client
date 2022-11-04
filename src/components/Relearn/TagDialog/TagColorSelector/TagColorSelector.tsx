@@ -1,10 +1,4 @@
-import {
-  Box,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-} from "@material-ui/core"
+import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material"
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
 import { tagColors } from "./_utils/tagColors"
 

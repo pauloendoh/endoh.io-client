@@ -1,18 +1,11 @@
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemText,
-  makeStyles,
-} from "@material-ui/core";
-import React from "react";
-import { SearchResultsDto } from "../../../types/domain/utils/SearchResultsDto";
-import Flex from "../../_UI/Flexboxes/Flex";
-import { FilterByType } from "../SearchPage";
+import { Box, List, ListItem, ListItemText, makeStyles } from "@mui/material"
+import { SearchResultsDto } from "../../../types/domain/utils/SearchResultsDto"
+import Flex from "../../_UI/Flexboxes/Flex"
+import { FilterByType } from "../SearchPage"
 
 // PE 3/3
 const SearchPageSidebar = (props: Props) => {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <List
@@ -24,7 +17,7 @@ const SearchPageSidebar = (props: Props) => {
         button
         selected={props.value === "all"}
         onClick={() => {
-          props.onChange("all");
+          props.onChange("all")
         }}
       >
         <ListItemText>
@@ -43,7 +36,7 @@ const SearchPageSidebar = (props: Props) => {
         button
         selected={props.value === "resources"}
         onClick={() => {
-          props.onChange("resources");
+          props.onChange("resources")
         }}
       >
         <ListItemText>
@@ -60,7 +53,7 @@ const SearchPageSidebar = (props: Props) => {
         button
         selected={props.value === "users"}
         onClick={() => {
-          props.onChange("users");
+          props.onChange("users")
         }}
       >
         <ListItemText>
@@ -75,7 +68,7 @@ const SearchPageSidebar = (props: Props) => {
         button
         selected={props.value === "skills"}
         onClick={() => {
-          props.onChange("skills");
+          props.onChange("skills")
         }}
       >
         <ListItemText>
@@ -86,19 +79,19 @@ const SearchPageSidebar = (props: Props) => {
         </ListItemText>
       </ListItem>
     </List>
-  );
-};
+  )
+}
 
 const useStyles = makeStyles((theme) => ({
   counter: {
     color: theme.palette.grey[400],
   },
-}));
+}))
 
 interface Props {
-  value: FilterByType;
-  onChange: (filterBy: FilterByType) => void;
-  results: SearchResultsDto;
+  value: FilterByType
+  onChange: (filterBy: FilterByType) => void
+  results: SearchResultsDto
 }
 
-export default SearchPageSidebar;
+export default SearchPageSidebar

@@ -1,3 +1,4 @@
+import LabelIcon from "@mui/icons-material/Label"
 import {
   Box,
   Checkbox,
@@ -5,69 +6,68 @@ import {
   TableCell,
   TableRow,
   useTheme,
-} from "@material-ui/core";
-import LabelIcon from "@material-ui/icons/Label";
-import Flex from "components/_UI/Flexboxes/Flex";
-import FlexCol from "components/_UI/Flexboxes/FlexCol";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { MdCheckCircleOutline } from "react-icons/md";
-import { connect } from "react-redux";
-import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
-import { ApplicationState } from "../../../../store/store";
-import { TagDto } from "../../../../types/domain/relearn/TagDto";
-import { SkillDto } from "../../../../types/domain/skillbase/SkillDto";
-import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
-import SkillLevelTD from "./SkillLevelTd/SkillLevelTd";
+} from "@mui/material"
+import Flex from "components/_UI/Flexboxes/Flex"
+import FlexCol from "components/_UI/Flexboxes/FlexCol"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
+import { MdCheckCircleOutline } from "react-icons/md"
+import { connect } from "react-redux"
+import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
+import { ApplicationState } from "../../../../store/store"
+import { TagDto } from "../../../../types/domain/relearn/TagDto"
+import { SkillDto } from "../../../../types/domain/skillbase/SkillDto"
+import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
+import SkillLevelTD from "./SkillLevelTd/SkillLevelTd"
 // PE 3/3
 const SkillbaseTableRow = (props: Props) => {
-  const theme = useTheme();
-  const classes = useStyles();
-  const { setEditingSkill } = useSkillbaseStore();
+  const theme = useTheme()
+  const classes = useStyles()
+  const { setEditingSkill } = useSkillbaseStore()
 
-  const labelId = `enhanced-table-checkbox-${props.index}`;
+  const labelId = `enhanced-table-checkbox-${props.index}`
 
   const findTagById = (id: number) => {
-    return props.allTags.find((tag) => tag.id === props.skill.tagId);
-  };
+    return props.allTags.find((tag) => tag.id === props.skill.tagId)
+  }
 
-  const [tag, setTag] = useState<TagDto>(findTagById(props.skill.tagId));
+  const [tag, setTag] = useState<TagDto>(findTagById(props.skill.tagId))
 
   const isCompleted = useMemo(() => {
-    if (props.skill.goalLevel === null) return false;
-    return props.skill.currentLevel === props.skill.goalLevel;
-  }, [props.skill]);
+    if (props.skill.goalLevel === null) return false
+    return props.skill.currentLevel === props.skill.goalLevel
+  }, [props.skill])
 
   useEffect(
     () => {
       if (props.skill.tagId) {
-        setTag(findTagById(props.skill.tagId));
+        setTag(findTagById(props.skill.tagId))
       }
 
       return () => {
-        window.removeEventListener("keydown", openDialogShortcutEvent);
-      };
+        window.removeEventListener("keydown", openDialogShortcutEvent)
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
-  );
+  )
 
   useEffect(
     () => {
       if (props.skill.tagId) {
-        setTag(findTagById(props.skill.tagId));
+        setTag(findTagById(props.skill.tagId))
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.skill.tagId, props.allTags]
-  );
+  )
 
   const currentGoalStep = useMemo(() => {
-    return props.skill.expectations?.find((e) => e.isCurrentGoal);
-  }, [props.skill]);
+    return props.skill.expectations?.find((e) => e.isCurrentGoal)
+  }, [props.skill])
 
   const openDialogShortcutEvent = useCallback((e: KeyboardEvent) => {
-    if (e.key === "l") props.openLabelsDialog(props.skill);
-  }, []);
+    if (e.key === "l") props.openLabelsDialog(props.skill)
+  }, [])
 
   return (
     <TableRow
@@ -79,10 +79,10 @@ const SkillbaseTableRow = (props: Props) => {
       selected={props.isSelected}
       className={classes.root}
       onMouseEnter={() => {
-        window.addEventListener("keydown", openDialogShortcutEvent);
+        window.addEventListener("keydown", openDialogShortcutEvent)
       }}
       onMouseLeave={() => {
-        window.removeEventListener("keydown", openDialogShortcutEvent);
+        window.removeEventListener("keydown", openDialogShortcutEvent)
       }}
     >
       <TableCell align="center" width={50}>
@@ -148,15 +148,15 @@ const SkillbaseTableRow = (props: Props) => {
         <Checkbox
           checked={props.isSelected}
           onClick={(event) => {
-            event.stopPropagation();
-            props.onCheck(event, props.skill.id);
+            event.stopPropagation()
+            props.onCheck(event, props.skill.id)
           }}
           inputProps={{ "aria-labelledby": labelId }}
         />
       </TableCell>
     </TableRow>
-  );
-};
+  )
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -175,20 +175,20 @@ const useStyles = makeStyles((theme) => ({
   advancedBg: {
     background: "#C862AC",
   },
-}));
+}))
 
 const mapStateToProps = (state: ApplicationState) => ({
   allTags: state.relearn.tags,
-});
+})
 
 interface OwnProps {
-  skill: SkillDto;
-  index: number;
-  isSelected: boolean;
-  onCheck: (e: React.MouseEvent, skillId: number) => void;
-  openLabelsDialog: (skill: SkillDto) => void;
+  skill: SkillDto
+  index: number
+  isSelected: boolean
+  onCheck: (e: React.MouseEvent, skillId: number) => void
+  openLabelsDialog: (skill: SkillDto) => void
 }
 
-type Props = ReturnType<typeof mapStateToProps> & OwnProps;
+type Props = ReturnType<typeof mapStateToProps> & OwnProps
 
-export default connect(mapStateToProps, undefined)(SkillbaseTableRow);
+export default connect(mapStateToProps, undefined)(SkillbaseTableRow)

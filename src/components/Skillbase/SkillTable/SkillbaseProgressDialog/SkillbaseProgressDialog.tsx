@@ -8,26 +8,26 @@ import {
   InputLabel,
   MenuItem,
   Select,
-} from "@material-ui/core";
-import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
-import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween";
-import Txt from "components/_UI/Text/Txt";
+} from "@mui/material"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween"
+import Txt from "components/_UI/Text/Txt"
 import {
   useSkillProgressesQuery,
   useSkillProgressMonthsQuery as useMonthsQuery,
-} from "generated/graphql";
-import { useEffect, useState } from "react";
-import { MdClose, MdOutlineArrowRightAlt } from "react-icons/md";
-import { useTheme } from "styled-components";
-import buildGraphqlClient from "utils/consts/buildGraphqlClient";
+} from "generated/graphql"
+import { useEffect, useState } from "react"
+import { MdClose, MdOutlineArrowRightAlt } from "react-icons/md"
+import { useTheme } from "styled-components"
+import buildGraphqlClient from "utils/consts/buildGraphqlClient"
 
 interface Props {
-  open: boolean;
-  onClose: () => void;
+  open: boolean
+  onClose: () => void
 }
 
 const SkillbaseProgressDialog = (props: Props) => {
-  const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("")
 
   const {
     data: { skillProgresses } = { skillProgresses: [] },
@@ -35,29 +35,29 @@ const SkillbaseProgressDialog = (props: Props) => {
     refetch,
   } = useSkillProgressesQuery(buildGraphqlClient(), {
     fromYearMonth: selectedMonth,
-  });
+  })
 
-  const { data: monthsData } = useMonthsQuery(buildGraphqlClient());
-
-  useEffect(() => {
-    console.log(monthsData);
-  }, [monthsData]);
+  const { data: monthsData } = useMonthsQuery(buildGraphqlClient())
 
   useEffect(() => {
-    if (props.open) refetch();
+    console.log(monthsData)
+  }, [monthsData])
+
+  useEffect(() => {
+    if (props.open) refetch()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.open]);
+  }, [props.open])
 
   useEffect(() => {
-    refetch();
-  }, [selectedMonth]);
+    refetch()
+  }, [selectedMonth])
 
   useEffect(() => {
     if (monthsData?.skillProgressMonths?.length > 0)
-      setSelectedMonth(monthsData.skillProgressMonths[0]);
-  }, [monthsData]);
+      setSelectedMonth(monthsData.skillProgressMonths[0])
+  }, [monthsData])
 
-  const theme = useTheme();
+  const theme = useTheme()
 
   const ImprovementText = (p: { levelImprovement: number }) => (
     <span
@@ -71,7 +71,7 @@ const SkillbaseProgressDialog = (props: Props) => {
     >
       {p.levelImprovement > 0 ? `+${p.levelImprovement}` : p.levelImprovement}
     </span>
-  );
+  )
 
   return (
     <Dialog
@@ -104,7 +104,7 @@ const SkillbaseProgressDialog = (props: Props) => {
                 labelId="progress-dialog-select-label"
                 value={selectedMonth}
                 onChange={(e, value) => {
-                  setSelectedMonth(e.target.value as string);
+                  setSelectedMonth(e.target.value as string)
                 }}
               >
                 {monthsData?.skillProgressMonths?.map((month) => (
@@ -168,7 +168,7 @@ const SkillbaseProgressDialog = (props: Props) => {
         </DialogContent>
       </Box>
     </Dialog>
-  );
-};
+  )
+}
 
-export default SkillbaseProgressDialog;
+export default SkillbaseProgressDialog

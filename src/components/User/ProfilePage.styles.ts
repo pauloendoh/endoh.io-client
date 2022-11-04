@@ -1,5 +1,5 @@
-import { Box, styled } from "@material-ui/core";
-import Flex from "components/_UI/Flexboxes/Flex";
+import { Box, styled } from "@mui/material"
+import Flex from "components/_UI/Flexboxes/Flex"
 
 const S = {
   UserPageRoot: styled(Box)(({ theme }) => ({
@@ -18,6 +18,6 @@ const S = {
     marginTop: theme.spacing(10),
     position: "fixed",
   })),
-};
+}
 
-export default S;
+export default S

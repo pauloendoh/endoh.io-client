@@ -1,81 +1,79 @@
-import { Link, useTheme } from "@material-ui/core";
-import EventIcon from "@material-ui/icons/Event";
-import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
-import useHover from "hooks/utils/useHover";
-import { DateTime } from "luxon";
-import React from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import useSnackbarStore from "store/zustand/useSnackbarStore";
-import Icons from "utils/styles/Icons";
-import * as relearnActions from "../../../../../../store/relearn/relearnActions";
-import { ApplicationState } from "../../../../../../store/store";
-import { IMoveResource } from "../../../../../../types/domain/relearn/IMoveResource";
-import { ResourceDto } from "../../../../../../types/domain/relearn/ResourceDto";
-import myAxios from "../../../../../../utils/consts/myAxios";
-import apiUrls from "../../../../../../utils/url/urls/apiUrls";
-import RatingButton from "../../../../../_common/RatingButton/RatingButton";
-import ResourceThumbnail from "../../../../../_common/ResourceThumbnail/ResourceThumbnail";
-import Txt from "../../../../../_UI/Text/Txt";
-import ResourceMoreIcon from "../ResourceMoreIcon/ResourceMoreIcon";
-import ResourceCompletedLabel from "./ResourceCompletedLabel/ResourceCompletedLabel";
-import ResourceDurationLabel from "./ResourceDurationLabel/ResourceDurationLabel";
-import S from "./ResourceItem.styles";
-import ResourceItemTaskCheckbox from "./ResourceItemTaskCheckbox/ResourceItemTaskCheckbox";
-import ShowMoreTextField from "./ShowMoreTextField/ShowMoreTextField";
+import EventIcon from "@mui/icons-material/Event"
+import { Link, useTheme } from "@mui/material"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import useHover from "hooks/utils/useHover"
+import { DateTime } from "luxon"
+import { connect } from "react-redux"
+import { Dispatch } from "redux"
+import useSnackbarStore from "store/zustand/useSnackbarStore"
+import Icons from "utils/styles/Icons"
+import * as relearnActions from "../../../../../../store/relearn/relearnActions"
+import { ApplicationState } from "../../../../../../store/store"
+import { IMoveResource } from "../../../../../../types/domain/relearn/IMoveResource"
+import { ResourceDto } from "../../../../../../types/domain/relearn/ResourceDto"
+import myAxios from "../../../../../../utils/consts/myAxios"
+import apiUrls from "../../../../../../utils/url/urls/apiUrls"
+import RatingButton from "../../../../../_common/RatingButton/RatingButton"
+import ResourceThumbnail from "../../../../../_common/ResourceThumbnail/ResourceThumbnail"
+import Txt from "../../../../../_UI/Text/Txt"
+import ResourceMoreIcon from "../ResourceMoreIcon/ResourceMoreIcon"
+import ResourceCompletedLabel from "./ResourceCompletedLabel/ResourceCompletedLabel"
+import ResourceDurationLabel from "./ResourceDurationLabel/ResourceDurationLabel"
+import S from "./ResourceItem.styles"
+import ResourceItemTaskCheckbox from "./ResourceItemTaskCheckbox/ResourceItemTaskCheckbox"
+import ShowMoreTextField from "./ShowMoreTextField/ShowMoreTextField"
 
 // PE 1/3
 function ResourceItem(props: Props) {
-  const { setSuccessMessage } = useSnackbarStore();
-  const { handleMouseEnter, handleMouseLeave, isHovering } = useHover();
+  const { setSuccessMessage } = useSnackbarStore()
+  const { handleMouseEnter, handleMouseLeave, isHovering } = useHover()
 
   const handleSaveRating = (rating: number) => {
-    const resource = { ...props.resource, rating } as ResourceDto;
+    const resource = { ...props.resource, rating } as ResourceDto
     myAxios
       .post<ResourceDto[]>(apiUrls.relearn.resource, resource)
       .then((res) => {
-        props.setResources(res.data);
+        props.setResources(res.data)
 
         if (resource.rating) {
-          setSuccessMessage("Resource rated!");
+          setSuccessMessage("Resource rated!")
         } else {
-          setSuccessMessage("Rating removed!");
+          setSuccessMessage("Rating removed!")
         }
-      });
-  };
+      })
+  }
 
   const onChangeTaskChecked = (checked: boolean) => {
     const resource = {
       ...props.resource,
       completedAt: checked ? new Date().toISOString() : "",
       rating: null,
-    } as ResourceDto;
+    } as ResourceDto
 
     myAxios
       .post<ResourceDto[]>(apiUrls.relearn.resource, resource)
       .then((res) => {
-        props.setResources(res.data);
+        props.setResources(res.data)
 
         if (checked) {
-          setSuccessMessage("Task completed!");
+          setSuccessMessage("Task completed!")
         } else {
-          setSuccessMessage("Task uncompleted!");
+          setSuccessMessage("Task uncompleted!")
         }
-      });
-  };
+      })
+  }
 
   const hasDueDate =
-    props.resource.dueDate.length > 0 &&
-    props.resource.completedAt.length === 0;
+    props.resource.dueDate.length > 0 && props.resource.completedAt.length === 0
 
-  const theme = useTheme();
+  const theme = useTheme()
 
   return (
     <S.ResourceItemRoot
       onClick={(e) => {
         if (e.altKey) {
-          e.preventDefault(); // avoids downloading URL by accident
-          props.editResource(props.resource);
+          e.preventDefault() // avoids downloading URL by accident
+          props.editResource(props.resource)
         }
       }}
       onMouseEnter={handleMouseEnter}
@@ -96,8 +94,8 @@ function ResourceItem(props: Props) {
                 href={props.resource.url}
                 target="_blank"
                 onClick={(e) => {
-                  if (e.altKey) return;
-                  e.stopPropagation();
+                  if (e.altKey) return
+                  e.stopPropagation()
                 }}
                 style={{ maxWidth: 400, overflow: "hidden", marginRight: 16 }}
               >
@@ -182,10 +180,10 @@ function ResourceItem(props: Props) {
         )}
       </S.Content>
     </S.ResourceItemRoot>
-  );
+  )
 }
 
-const mapStateToProps = (state: ApplicationState) => ({});
+const mapStateToProps = (state: ApplicationState) => ({})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   editResource: (resource: ResourceDto) =>
@@ -196,15 +194,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
   setResources: (resources: ResourceDto[]) =>
     dispatch(relearnActions.setResources(resources)),
-});
+})
 
 interface OwnProps {
-  resource: ResourceDto;
-  showTag?: boolean;
+  resource: ResourceDto
+  showTag?: boolean
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
+  OwnProps
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResourceItem);
+export default connect(mapStateToProps, mapDispatchToProps)(ResourceItem)

@@ -4,7 +4,7 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-} from "@material-ui/core"
+} from "@mui/material"
 import DarkButton from "components/_UI/Buttons/DarkButton/DarkButton"
 import FlexCol from "components/_UI/Flexboxes/FlexCol"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"

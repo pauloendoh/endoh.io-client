@@ -1,4 +1,4 @@
-import { Autocomplete } from "@material-ui/lab"
+import { Autocomplete } from "@mui/lab"
 import MyTextField from "components/_UI/MyInputs/MyTextField"
 import { useMemo } from "react"
 import useDocsStore from "store/zustand/domain/useDocsStore"

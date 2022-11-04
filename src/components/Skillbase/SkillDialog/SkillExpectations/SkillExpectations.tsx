@@ -1,4 +1,4 @@
-import { Box } from "@material-ui/core"
+import { Box } from "@mui/material"
 import Txt from "components/_UI/Text/Txt"
 import { SkillExpectationDto } from "../../../../types/domain/skillbase/SkillExpectationDto"
 import ExpectationsAtLevel from "./ExpectationsAtLevel/ExpectationsAtLevel"

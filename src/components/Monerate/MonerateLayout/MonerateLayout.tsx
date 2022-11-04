@@ -1,9 +1,9 @@
-import { Box, Container } from "@material-ui/core";
-import ExpenseButtonDialog from "../Modals/ExpenseButtonDialog";
-import MonerateTabs from "../MonerateTabs/MonerateTabs";
+import { Box, Container } from "@mui/material"
+import ExpenseButtonDialog from "../Modals/ExpenseButtonDialog"
+import MonerateTabs from "../MonerateTabs/MonerateTabs"
 
 interface Props {
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }
 
 const MonerateLayout = (props: Props) => {
@@ -18,7 +18,7 @@ const MonerateLayout = (props: Props) => {
 
       {props.children}
     </Container>
-  );
-};
+  )
+}
 
-export default MonerateLayout;
+export default MonerateLayout

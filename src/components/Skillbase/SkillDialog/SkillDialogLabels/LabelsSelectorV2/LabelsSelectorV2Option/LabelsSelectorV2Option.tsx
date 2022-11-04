@@ -1,11 +1,11 @@
-import { IconButton, Typography } from "@material-ui/core";
-import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
-import { MdCircle, MdEdit } from "react-icons/md";
-import { LabelDto } from "types/domain/skillbase/LabelDto";
+import { IconButton, Typography } from "@mui/material"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import { MdCircle, MdEdit } from "react-icons/md"
+import { LabelDto } from "types/domain/skillbase/LabelDto"
 
 interface Props {
-  label: LabelDto;
-  onClickEdit: (label: LabelDto) => void;
+  label: LabelDto
+  onClickEdit: (label: LabelDto) => void
 }
 
 const LabelsSelectorV2Option = ({ label, onClickEdit }: Props) => {
@@ -19,17 +19,17 @@ const LabelsSelectorV2Option = ({ label, onClickEdit }: Props) => {
         <IconButton
           size="small"
           onClick={(e) => {
-            e.stopPropagation();
+            e.stopPropagation()
 
-            onClickEdit(label);
+            onClickEdit(label)
           }}
         >
           <MdEdit />
         </IconButton>
       </FlexVCenter>
-    );
+    )
 
-  return <FlexVCenter style={{ gap: 8 }}>+ Add label</FlexVCenter>;
-};
+  return <FlexVCenter style={{ gap: 8 }}>+ Add label</FlexVCenter>
+}
 
-export default LabelsSelectorV2Option;
+export default LabelsSelectorV2Option

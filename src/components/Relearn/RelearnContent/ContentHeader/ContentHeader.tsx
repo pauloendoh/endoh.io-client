@@ -1,91 +1,91 @@
-import { Box, makeStyles, Tab, Tabs, Typography } from "@material-ui/core";
-import React, { useEffect, useRef, useState } from "react";
-import { useDrop } from "react-dnd";
-import { connect } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { Dispatch } from "redux";
-import useRelearnStore from "store/zustand/domain/useRelearnStore";
-import { removeTag } from "../../../../store/relearn/relearnActions";
-import { ApplicationState } from "../../../../store/store";
-import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto";
-import { TagDto } from "../../../../types/domain/relearn/TagDto";
-import { SkillDto } from "../../../../types/domain/skillbase/SkillDto";
-import pageUrls from "../../../../utils/url/urls/pageUrls";
-import Flex from "../../../_UI/Flexboxes/Flex";
-import SelectedResourcesOptions from "./SelectedResourcesOptions/SelectedResourcesOptions";
-import SkillChips from "./SkillChips/SkillChips";
+import { Box, makeStyles, Tab, Tabs, Typography } from "@mui/material"
+import React, { useEffect, useRef, useState } from "react"
+import { useDrop } from "react-dnd"
+import { connect } from "react-redux"
+import { useLocation } from "react-router-dom"
+import { Dispatch } from "redux"
+import useRelearnStore from "store/zustand/domain/useRelearnStore"
+import { removeTag } from "../../../../store/relearn/relearnActions"
+import { ApplicationState } from "../../../../store/store"
+import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto"
+import { TagDto } from "../../../../types/domain/relearn/TagDto"
+import { SkillDto } from "../../../../types/domain/skillbase/SkillDto"
+import pageUrls from "../../../../utils/url/urls/pageUrls"
+import Flex from "../../../_UI/Flexboxes/Flex"
+import SelectedResourcesOptions from "./SelectedResourcesOptions/SelectedResourcesOptions"
+import SkillChips from "./SkillChips/SkillChips"
 
 // PE 2/3
 function ContentHeader(props: Props) {
-  const classes = useStyles();
-  const location = useLocation();
-  const { selectedResourceIds } = useRelearnStore();
+  const classes = useStyles()
+  const location = useLocation()
+  const { selectedResourceIds } = useRelearnStore()
 
-  const [tag, setTag] = useState<TagDto>(null);
-  const [height, setHeight] = useState(0);
+  const [tag, setTag] = useState<TagDto>(null)
+  const [height, setHeight] = useState(0)
 
-  const rootRef = useRef<HTMLDivElement>();
+  const rootRef = useRef<HTMLDivElement>()
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    const newHeight = rootRef.current.clientHeight;
+    const newHeight = rootRef.current.clientHeight
     if (height !== newHeight) {
-      setHeight(newHeight);
+      setHeight(newHeight)
     }
-  });
+  })
 
   // PE 2/3
   useEffect(() => {
-    const { pathname } = location;
+    const { pathname } = location
 
     // /relearn
     if (pathname === pageUrls.relearn.index) {
-      setTag(null);
+      setTag(null)
     }
     // /relearn/tag/:id
     else if (pathname.startsWith(pageUrls.relearn.tag)) {
-      const tagId = Number(pathname.split("/").pop());
+      const tagId = Number(pathname.split("/").pop())
 
       if (tagId) {
-        const currentTag = props.allTags.find((t) => t.id === tagId);
+        const currentTag = props.allTags.find((t) => t.id === tagId)
         if (currentTag) {
-          setTag(currentTag);
-          document.title = currentTag.name + " - Endoh.io";
+          setTag(currentTag)
+          document.title = currentTag.name + " - Endoh.io"
         }
       }
     }
 
     // if you click in a tag or if you add/edit a tag
-  }, [location, props.allTags]);
+  }, [location, props.allTags])
 
   // PE 2/3
   const handleChangeTab = (
     event: React.ChangeEvent<{}>,
     newTabIndex: number
   ) => {
-    props.onTabChange(newTabIndex);
-  };
+    props.onTabChange(newTabIndex)
+  }
 
   const [{ isOver }, dropRef] = useDrop(() => ({
     accept: "CARD",
     collect: (monitor) => ({ isOver: monitor.isOver() }),
-  }));
-  dropRef(rootRef);
+  }))
+  dropRef(rootRef)
 
-  const [scrollInterval, setScrollInterval] = useState<NodeJS.Timer>(null);
+  const [scrollInterval, setScrollInterval] = useState<NodeJS.Timer>(null)
 
   useEffect(() => {
     if (isOver) {
       setScrollInterval(
         setInterval(() => {
-          window.scrollBy(0, -10);
+          window.scrollBy(0, -10)
         }, 10)
-      );
+      )
     } else {
-      clearInterval(scrollInterval);
-      setScrollInterval(null);
+      clearInterval(scrollInterval)
+      setScrollInterval(null)
     }
-  }, [isOver]);
+  }, [isOver])
 
   return (
     <div className={classes.root} ref={rootRef}>
@@ -119,7 +119,7 @@ function ContentHeader(props: Props) {
         </Tabs>
       )}
     </div>
-  );
+  )
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -148,26 +148,26 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 2,
     marginRight: 4,
   },
-}));
+}))
 
 const mapStateToProps = (state: ApplicationState) => ({
   allTags: state.relearn.tags,
-});
+})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   removeTag: (id: number) => dispatch(removeTag(id)),
-});
+})
 
 interface OwnProps {
-  onTabChange: (newTabIndex: number) => void;
-  tabIndex: number;
-  todoResources: ResourceDto[];
-  completedResources: ResourceDto[];
-  skills: SkillDto[];
+  onTabChange: (newTabIndex: number) => void
+  tabIndex: number
+  todoResources: ResourceDto[]
+  completedResources: ResourceDto[]
+  skills: SkillDto[]
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
+  OwnProps
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContentHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(ContentHeader)

@@ -1,16 +1,16 @@
-import { faCircle } from "@fortawesome/free-solid-svg-icons";
-import { Box, Typography } from "@material-ui/core";
-import React from "react";
-import ReactTimeago from "react-timeago";
-import { NotificationDto } from "../../../../../../types/domain/utils/NotificationDto";
-import Flex from "../../../../../_UI/Flexboxes/Flex";
-import FlexHCenter from "../../../../../_UI/Flexboxes/FlexHCenter";
-import FlexVCenter from "../../../../../_UI/Flexboxes/FlexVCenter";
-import ProfilePicture from "../../../../../_UI/ProfilePicture/ProfilePicture";
-import S from "./NotificationItem.styles";
+import { faCircle } from "@fortawesome/free-solid-svg-icons"
+import { Box, Typography } from "@mui/material"
+import React from "react"
+import ReactTimeago from "react-timeago"
+import { NotificationDto } from "../../../../../../types/domain/utils/NotificationDto"
+import Flex from "../../../../../_UI/Flexboxes/Flex"
+import FlexHCenter from "../../../../../_UI/Flexboxes/FlexHCenter"
+import FlexVCenter from "../../../../../_UI/Flexboxes/FlexVCenter"
+import ProfilePicture from "../../../../../_UI/ProfilePicture/ProfilePicture"
+import S from "./NotificationItem.styles"
 
 interface Props {
-  notification: NotificationDto;
+  notification: NotificationDto
 }
 
 const NotificationItem = React.forwardRef((props: Props, ref) => {
@@ -41,7 +41,7 @@ const NotificationItem = React.forwardRef((props: Props, ref) => {
         </Box>
       </Flex>
     </S.MenuItem>
-  );
-});
+  )
+})
 
-export default NotificationItem;
+export default NotificationItem

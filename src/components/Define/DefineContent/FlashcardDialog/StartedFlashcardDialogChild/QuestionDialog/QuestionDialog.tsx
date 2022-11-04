@@ -6,7 +6,7 @@ import {
   DialogTitle,
   FormControlLabel,
   Tooltip,
-} from "@material-ui/core"
+} from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
 import { useEffect } from "react"

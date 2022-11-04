@@ -1,4 +1,4 @@
-import { Box, Button } from "@material-ui/core"
+import { Box, Button } from "@mui/material"
 import { useHotkeys } from "react-hotkeys-hook"
 import Flex from "../Flexboxes/Flex"
 

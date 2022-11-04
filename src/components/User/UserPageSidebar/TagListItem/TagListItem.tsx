@@ -1,29 +1,28 @@
-import { Box, ListItem, makeStyles, Typography } from "@material-ui/core";
-import ListItemText from "@material-ui/core/ListItemText";
-import LabelIcon from "@material-ui/icons/Label";
-import React from "react";
-import { Link } from "react-router-dom";
-import useProfileStore from "store/zustand/domain/useProfileStore";
-import { TagDto } from "../../../../types/domain/relearn/TagDto";
-import pageUrls from "../../../../utils/url/urls/pageUrls";
-import Flex from "../../../_UI/Flexboxes/Flex";
-import FlexHCenter from "../../../_UI/Flexboxes/FlexHCenter";
+import LabelIcon from "@mui/icons-material/Label"
+import { Box, ListItem, makeStyles, Typography } from "@mui/material"
+import ListItemText from "@mui/material/ListItemText"
+import { Link } from "react-router-dom"
+import useProfileStore from "store/zustand/domain/useProfileStore"
+import { TagDto } from "../../../../types/domain/relearn/TagDto"
+import pageUrls from "../../../../utils/url/urls/pageUrls"
+import Flex from "../../../_UI/Flexboxes/Flex"
+import FlexHCenter from "../../../_UI/Flexboxes/FlexHCenter"
 
 interface Props {
-  tag: TagDto;
-  width: number;
-  username: string;
-  selectedTagId: string;
+  tag: TagDto
+  width: number
+  username: string
+  selectedTagId: string
 }
 
 // PE 3/3
 const TagListItem = (props: Props) => {
-  const classes = useStyles();
-  const profileStore = useProfileStore();
+  const classes = useStyles()
+  const profileStore = useProfileStore()
 
   const getResourcesFromListId = (listId: number) => {
-    return profileStore.resources.filter((r) => r.tag?.id === listId);
-  };
+    return profileStore.resources.filter((r) => r.tag?.id === listId)
+  }
 
   return (
     <ListItem
@@ -53,14 +52,14 @@ const TagListItem = (props: Props) => {
         </Typography>
       </FlexHCenter>
     </ListItem>
-  );
-};
+  )
+}
 
 const useStyles = makeStyles((theme) => ({
   resourcesCount: {
     fontSize: 12,
     color: theme.palette.grey[400],
   },
-}));
+}))
 
-export default TagListItem;
+export default TagListItem

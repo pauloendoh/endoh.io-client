@@ -1,34 +1,34 @@
+import { Rating } from "@mui/lab"
 import {
   Box,
   Button,
   ClickAwayListener,
   Tooltip,
   Typography,
-} from "@material-ui/core";
-import { Rating } from "@material-ui/lab";
-import React from "react";
+} from "@mui/material"
+import React from "react"
 import {
   hoverRatingLabels,
   ratingLabels,
-} from "utils/domain/relearn/resources/ratingLabels";
-import FlexHCenter from "../../_UI/Flexboxes/FlexHCenter";
-import RatingButtonLabel from "./RatingButtonLabel/RatingButtonLabel";
+} from "utils/domain/relearn/resources/ratingLabels"
+import FlexHCenter from "../../_UI/Flexboxes/FlexHCenter"
+import RatingButtonLabel from "./RatingButtonLabel/RatingButtonLabel"
 
 interface Props {
-  rating: number;
-  onChange: (newRating: number) => void;
+  rating: number
+  onChange: (newRating: number) => void
 }
 
 const RatingButton = (props: Props) => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false)
   const handleTooltipClose = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
   const handleTooltipOpen = () => {
-    setOpen(true);
-  };
+    setOpen(true)
+  }
 
-  const [hover, setHover] = React.useState(-1);
+  const [hover, setHover] = React.useState(-1)
 
   return (
     <ClickAwayListener onClickAway={handleTooltipClose}>
@@ -49,16 +49,16 @@ const RatingButton = (props: Props) => {
               name="rating-input"
               value={props.rating}
               onChange={(event, newValue) => {
-                setOpen(false);
-                props.onChange(newValue);
+                setOpen(false)
+                props.onChange(newValue)
                 // handleSaveRating(newValue)
                 // setValue(newValue)
               }}
               onChangeActive={(event, newHover) => {
                 if (newHover === props.rating) {
-                  setHover(0);
+                  setHover(0)
                 } else {
-                  setHover(newHover);
+                  setHover(newHover)
                 }
               }}
             />
@@ -85,7 +85,7 @@ const RatingButton = (props: Props) => {
         </Button>
       </Tooltip>
     </ClickAwayListener>
-  );
-};
+  )
+}
 
-export default RatingButton;
+export default RatingButton

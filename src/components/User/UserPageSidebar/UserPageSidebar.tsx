@@ -1,55 +1,55 @@
-import { faLock } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, List, ListItem, makeStyles, Typography } from "@material-ui/core";
-import ListItemText from "@material-ui/core/ListItemText";
-import Txt from "components/_UI/Text/Txt";
-import React, { useEffect, useRef, useState } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
-import useProfileStore from "store/zustand/domain/useProfileStore";
-import { useTheme } from "styled-components";
-import { newSkillDto, SkillDto } from "types/domain/skillbase/SkillDto";
-import useElementSize from "../../../hooks/utils/useElementSize";
-import pageUrls from "../../../utils/url/urls/pageUrls";
-import Flex from "../../_UI/Flexboxes/Flex";
-import FlexHCenter from "../../_UI/Flexboxes/FlexHCenter";
-import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
-import TagListItem from "./TagListItem/TagListItem";
-import UserRoadmapsDialog from "./UserRoadmapsDialog/UserRoadmapsDialog";
+import { faLock } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Box, List, ListItem, makeStyles, Typography } from "@mui/material"
+import ListItemText from "@mui/material/ListItemText"
+import Txt from "components/_UI/Text/Txt"
+import { useEffect, useRef, useState } from "react"
+import { Link, useHistory, useParams } from "react-router-dom"
+import useProfileStore from "store/zustand/domain/useProfileStore"
+import { useTheme } from "styled-components"
+import { newSkillDto, SkillDto } from "types/domain/skillbase/SkillDto"
+import useElementSize from "../../../hooks/utils/useElementSize"
+import pageUrls from "../../../utils/url/urls/pageUrls"
+import Flex from "../../_UI/Flexboxes/Flex"
+import FlexHCenter from "../../_UI/Flexboxes/FlexHCenter"
+import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
+import TagListItem from "./TagListItem/TagListItem"
+import UserRoadmapsDialog from "./UserRoadmapsDialog/UserRoadmapsDialog"
 
 // PE 3/3
 const UserPageSidebar = () => {
-  const theme = useTheme();
-  const history = useHistory();
-  const rootRef = useRef<any>(null);
-  const profileStore = useProfileStore();
+  const theme = useTheme()
+  const history = useHistory()
+  const rootRef = useRef<any>(null)
+  const profileStore = useProfileStore()
 
-  const [roadmapsDialog, setRoadmapsDialog] = useState(false);
-  const [selectedSkill, setSelectedSkill] = useState<SkillDto>(newSkillDto());
+  const [roadmapsDialog, setRoadmapsDialog] = useState(false)
+  const [selectedSkill, setSelectedSkill] = useState<SkillDto>(newSkillDto())
 
-  const { width } = useElementSize(rootRef);
+  const { width } = useElementSize(rootRef)
 
-  const classes = useStyles();
+  const classes = useStyles()
   const { username, tagId, skillId: skillIdStr } = useParams<{
-    username: string;
-    tagId: string;
-    skillId: string;
-  }>();
+    username: string
+    tagId: string
+    skillId: string
+  }>()
 
   useEffect(() => {
-    const skillId = Number(skillIdStr);
-    const { publicSkills } = profileStore;
+    const skillId = Number(skillIdStr)
+    const { publicSkills } = profileStore
     if (skillId > 0 && publicSkills.length > 0) {
-      const skill = publicSkills.find((s) => s.id === skillId);
+      const skill = publicSkills.find((s) => s.id === skillId)
       if (skill) {
-        setSelectedSkill(skill);
-        setRoadmapsDialog(true);
-        return;
+        setSelectedSkill(skill)
+        setRoadmapsDialog(true)
+        return
       }
     }
-    setSelectedSkill(newSkillDto());
-    setRoadmapsDialog(false);
+    setSelectedSkill(newSkillDto())
+    setRoadmapsDialog(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [skillIdStr, profileStore.publicSkills]);
+  }, [skillIdStr, profileStore.publicSkills])
 
   return (
     <Box maxWidth={300} {...({ ref: rootRef } as any)}>
@@ -141,18 +141,18 @@ const UserPageSidebar = () => {
         open={roadmapsDialog}
         skill={selectedSkill}
         onClose={() => {
-          history.push(pageUrls.user.index(username));
+          history.push(pageUrls.user.index(username))
         }}
       />
     </Box>
-  );
-};
+  )
+}
 
 const useStyles = makeStyles((theme) => ({
   resourcesCount: {
     fontSize: 12,
     color: theme.palette.grey[400],
   },
-}));
+}))
 
-export default UserPageSidebar;
+export default UserPageSidebar

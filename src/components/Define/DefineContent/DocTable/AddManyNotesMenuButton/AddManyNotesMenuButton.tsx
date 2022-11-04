@@ -1,5 +1,5 @@
-import Menu from "@material-ui/core/Menu"
-import MenuItem from "@material-ui/core/MenuItem"
+import Menu from "@mui/material/Menu"
+import MenuItem from "@mui/material/MenuItem"
 import DarkButton from "components/_UI/Buttons/DarkButton/DarkButton"
 import SaveCancelButtons from "components/_UI/Buttons/SaveCancelButtons"
 import MyTextField from "components/_UI/MyInputs/MyTextField"

@@ -1,77 +1,77 @@
 import {
   IconButton,
-  makeStyles,
   TableCell,
   TableRow,
   TextareaAutosize,
-} from "@material-ui/core";
-import { DateTimePicker } from "@material-ui/pickers";
-import { TD } from "components/_UI/Table/MyTableWrappers";
+  Theme,
+} from "@mui/material"
+import { makeStyles } from "@mui/styles"
+import { TD } from "components/_UI/Table/MyTableWrappers"
 import {
   LearningsQuery,
   useLearningsQuery,
   useUpdateLearningMutation,
-} from "generated/graphql";
-import useDebounce from "hooks/utils/useDebounce";
-import { createRef, useEffect, useState } from "react";
-import { MdStar } from "react-icons/md";
-import { useQueryClient } from "react-query";
-import { pushOrReplace } from "utils/array/pushOrReplace";
-import buildGraphqlClient from "utils/consts/buildGraphqlClient";
-import colors from "utils/consts/colors";
+} from "generated/graphql"
+import useDebounce from "hooks/utils/useDebounce"
+import { createRef, useEffect, useState } from "react"
+import { MdStar } from "react-icons/md"
+import { useQueryClient } from "react-query"
+import { pushOrReplace } from "utils/array/pushOrReplace"
+import buildGraphqlClient from "utils/consts/buildGraphqlClient"
+import colors from "utils/consts/colors"
 
 interface Props {
-  initialValue: LearningsQuery["learnings"][0];
-  index: number;
+  initialValue: LearningsQuery["learnings"][0]
+  index: number
 }
 
 const DiaryTableRow = (props: Props) => {
-  const classes = useStyles();
+  const classes = useStyles()
 
-  const qc = useQueryClient();
-  const { data } = useLearningsQuery(buildGraphqlClient());
+  const qc = useQueryClient()
+  const { data } = useLearningsQuery(buildGraphqlClient())
 
   const {
     mutate: updateLearning,
     isLoading: isUpdating,
   } = useUpdateLearningMutation(buildGraphqlClient(), {
     onSuccess: (res) => {
-      const prevLearnings = [...data.learnings];
+      const prevLearnings = [...data.learnings]
       const newLearnings = pushOrReplace(
         prevLearnings,
         res.updateLearning,
         "id"
-      );
+      )
       qc.setQueryData(useLearningsQuery.getKey(), {
         ...data,
         learnings: newLearnings,
-      });
+      })
     },
-  });
+  })
 
-  const [learning, setLearning] = useState(props.initialValue);
-  const debouncedLearning = useDebounce(learning, 500);
+  const [learning, setLearning] = useState(props.initialValue)
+  const debouncedLearning = useDebounce(learning, 500)
 
   const changeDescription = (newValue: string) => {
     setLearning((prev) => ({
       ...prev,
       description: newValue,
-    }));
-  };
+    }))
+  }
 
   const toggleHighlight = () => {
     setLearning((prev) => ({
       ...prev,
       isHighlight: !prev.isHighlight,
-    }));
-  };
+    }))
+  }
 
   const handleChangeDatetime = (newValue: Date) => {
     setLearning((prev) => ({
       ...prev,
       datetime: newValue.toISOString(),
-    }));
-  };
+    }))
+  }
 
   useEffect(() => {
     if (
@@ -84,13 +84,13 @@ const DiaryTableRow = (props: Props) => {
           description: debouncedLearning.description,
           isHighlight: debouncedLearning.isHighlight,
         },
-      });
+      })
     }
-  }, [debouncedLearning]);
+  }, [debouncedLearning])
 
-  const descriptionRef = createRef<HTMLTextAreaElement>();
+  const descriptionRef = createRef<HTMLTextAreaElement>()
 
-  const focusDescription = () => descriptionRef.current.focus();
+  const focusDescription = () => descriptionRef.current.focus()
   return (
     <TableRow>
       <TableCell className={classes.td} align="center">
@@ -118,16 +118,16 @@ const DiaryTableRow = (props: Props) => {
         </IconButton>
       </TableCell>
       <TD align="center" className={classes.td}>
-        <DateTimePicker
+        {/* <DateTimePicker
           value={new Date(learning.datetime)}
           onChange={handleChangeDatetime}
-        />
+        /> */}
       </TD>
     </TableRow>
-  );
-};
+  )
+}
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   textareaCell: {
     cursor: "pointer !important",
   },
@@ -145,6 +145,6 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     cursor: "pointer",
   },
-}));
+}))
 
-export default DiaryTableRow;
+export default DiaryTableRow

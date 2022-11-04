@@ -5,64 +5,64 @@ import {
   Select,
   Typography,
   useTheme,
-} from "@material-ui/core";
-import React, { ChangeEvent, useEffect, useState } from "react";
-import { connect } from "react-redux";
-import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
-import { ApplicationState } from "../../../../../store/store";
-import { TagDto } from "../../../../../types/domain/relearn/TagDto";
-import FlexHCenter from "../../../../_UI/Flexboxes/FlexHCenter";
-import FlexVCenter from "../../../../_UI/Flexboxes/FlexVCenter";
-import TagIcon from "../../../../_UI/Icon/TagIcon";
+} from "@mui/material"
+import { ChangeEvent, useEffect, useState } from "react"
+import { connect } from "react-redux"
+import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
+import { ApplicationState } from "../../../../../store/store"
+import { TagDto } from "../../../../../types/domain/relearn/TagDto"
+import FlexHCenter from "../../../../_UI/Flexboxes/FlexHCenter"
+import FlexVCenter from "../../../../_UI/Flexboxes/FlexVCenter"
+import TagIcon from "../../../../_UI/Icon/TagIcon"
 
 // PE 2/3 - Not so easy to understand the classes logic
 const SkillbaseTagSelector = (props: Props) => {
-  const theme = useTheme();
+  const theme = useTheme()
 
-  const { skills: allSkills } = useSkillbaseStore();
+  const { skills: allSkills } = useSkillbaseStore()
 
-  const [options, setOptions] = useState<optionTypes[]>([]);
+  const [options, setOptions] = useState<optionTypes[]>([])
   useEffect(() => {
     const sortedTags =
-      props.allTags?.sort((a, b) => (a.id > b.id ? 1 : -1)) || [];
-    const options: optionTypes[] = ["All", ...sortedTags, "Untagged"];
+      props.allTags?.sort((a, b) => (a.id > b.id ? 1 : -1)) || []
+    const options: optionTypes[] = ["All", ...sortedTags, "Untagged"]
 
-    setOptions(options);
-  }, [props.allTags]);
+    setOptions(options)
+  }, [props.allTags])
 
   const getProperValue = (option: optionTypes) => {
-    if (typeof option === "string") return option;
-    if (option === undefined) return "";
-    return option.id;
-  };
+    if (typeof option === "string") return option
+    if (option === undefined) return ""
+    return option.id
+  }
 
   const getLabel = (option: optionTypes) => {
-    if (typeof option === "string") return option;
-    return option.name;
-  };
+    if (typeof option === "string") return option
+    return option.name
+  }
 
   const getSkillCount = (option: optionTypes) => {
-    if (option === "All") return allSkills.length;
+    if (option === "All") return allSkills.length
     if (option === "Untagged")
-      return allSkills.filter((s) => s.tagId === null).length;
+      return allSkills.filter((s) => s.tagId === null).length
 
-    return allSkills.filter((s) => s.tagId === option.id).length;
-  };
+    return allSkills.filter((s) => s.tagId === option.id).length
+  }
 
   const handleChange = (
     e: ChangeEvent<{
-      name?: string;
-      value: unknown;
+      name?: string
+      value: unknown
     }>
   ) => {
     if (typeof e.target.value === "string")
-      props.onChange(e.target.value as optionTypes);
+      props.onChange(e.target.value as optionTypes)
     else {
-      const tagId = e.target.value as number;
-      const tag = props.allTags.find((tag) => tag.id === tagId);
-      props.onChange(tag);
+      const tagId = e.target.value as number
+      const tag = props.allTags.find((tag) => tag.id === tagId)
+      props.onChange(tag)
     }
-  };
+  }
 
   return (
     <FormControl variant="outlined" size="small" style={{ width: 250 }}>
@@ -101,20 +101,20 @@ const SkillbaseTagSelector = (props: Props) => {
         </Select>
       )}
     </FormControl>
-  );
-};
+  )
+}
 
 const mapStateToProps = (state: ApplicationState) => ({
   allTags: state.relearn.tags,
-});
+})
 
-export type optionTypes = TagDto | "All" | "Untagged";
+export type optionTypes = TagDto | "All" | "Untagged"
 
 type OwnProps = {
-  value: optionTypes;
-  onChange: (newValue: optionTypes) => void;
-};
+  value: optionTypes
+  onChange: (newValue: optionTypes) => void
+}
 
-type Props = ReturnType<typeof mapStateToProps> & OwnProps;
+type Props = ReturnType<typeof mapStateToProps> & OwnProps
 
-export default connect(mapStateToProps, undefined)(SkillbaseTagSelector);
+export default connect(mapStateToProps, undefined)(SkillbaseTagSelector)

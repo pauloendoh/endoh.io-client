@@ -1,23 +1,23 @@
-import { Box, Paper, Typography } from "@material-ui/core";
-import Rating from "@material-ui/lab/Rating";
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { ApplicationState } from "store/store";
-import * as monerateActions from "../../../store/monerate/monerateActions";
-import CategoryGetDto from "../../../types/domain/monerate/CategoryGetDto";
-import ExpenseGetDto from "../../../types/domain/monerate/ExpenseGetDto";
-import PlaceGetDto from "../../../types/domain/monerate/PlaceGetDto";
-import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
-import MyTextField from "../../_UI/MyInputs/MyTextField";
-import SelectCategoryInput from "../Inputs/SelectCategoryInput/SelectCategoryInput";
-import SelectPlaceInput from "../Inputs/SelectPlaceInput/SelectPlaceInput";
-import { IExpenseFilter } from "./IExpenseFilter";
+import Rating from "@mui/lab/Rating"
+import { Box, Paper, Typography } from "@mui/material"
+import { useEffect, useState } from "react"
+import { connect } from "react-redux"
+import { Dispatch } from "redux"
+import { ApplicationState } from "store/store"
+import * as monerateActions from "../../../store/monerate/monerateActions"
+import CategoryGetDto from "../../../types/domain/monerate/CategoryGetDto"
+import ExpenseGetDto from "../../../types/domain/monerate/ExpenseGetDto"
+import PlaceGetDto from "../../../types/domain/monerate/PlaceGetDto"
+import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
+import MyTextField from "../../_UI/MyInputs/MyTextField"
+import SelectCategoryInput from "../Inputs/SelectCategoryInput/SelectCategoryInput"
+import SelectPlaceInput from "../Inputs/SelectPlaceInput/SelectPlaceInput"
+import { IExpenseFilter } from "./IExpenseFilter"
 
 const ExpenseFilter = (props: Props) => {
   // PE 3/3
 
-  const [throttle, setThrottle] = useState<NodeJS.Timeout>(null);
+  const [throttle, setThrottle] = useState<NodeJS.Timeout>(null)
   // 0.2s delay to avoid many action calls from slider
 
   const [filter, setFilter] = useState<IExpenseFilter>({
@@ -26,30 +26,30 @@ const ExpenseFilter = (props: Props) => {
     name: "",
     valueRange: [0, 1],
     categoryId: null,
-  });
+  })
 
   useEffect(
     () => {
       setFilter({
         ...filter,
         valueRange: [0, getHighestExpenseValue(props.expenses)],
-      });
+      })
       // Updating the max value for the slider
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.expenses]
-  );
+  )
 
   const handleSetFilter = (filter: IExpenseFilter) => {
-    setFilter(filter);
+    setFilter(filter)
 
-    clearTimeout(throttle);
+    clearTimeout(throttle)
     setThrottle(
       setTimeout(() => {
-        props.setFilter(filter);
+        props.setFilter(filter)
       }, 1000)
-    );
-  };
+    )
+  }
 
   return (
     <Paper>
@@ -62,8 +62,8 @@ const ExpenseFilter = (props: Props) => {
             <SelectPlaceInput
               value={filter.placeId}
               onChange={(e, value) => {
-                const place = value as PlaceGetDto;
-                handleSetFilter({ ...filter, placeId: place?.id });
+                const place = value as PlaceGetDto
+                handleSetFilter({ ...filter, placeId: place?.id })
               }}
             />
           </Box>
@@ -77,7 +77,7 @@ const ExpenseFilter = (props: Props) => {
               placeholder="Expense name or notes"
               InputProps={{ id: "expense-name-inner-input" }}
               onChange={(e) => {
-                handleSetFilter({ ...filter, name: e.target.value });
+                handleSetFilter({ ...filter, name: e.target.value })
               }}
             />
           </Box>
@@ -88,7 +88,7 @@ const ExpenseFilter = (props: Props) => {
               name="min-rating"
               value={filter.minRating}
               onChange={(event, newMinRating) => {
-                handleSetFilter({ ...filter, minRating: newMinRating });
+                handleSetFilter({ ...filter, minRating: newMinRating })
               }}
             />
           </Box>
@@ -97,37 +97,37 @@ const ExpenseFilter = (props: Props) => {
             <SelectCategoryInput
               value={filter.categoryId}
               onChange={(e, value) => {
-                const category = value as CategoryGetDto;
-                handleSetFilter({ ...filter, categoryId: category?.id });
+                const category = value as CategoryGetDto
+                handleSetFilter({ ...filter, categoryId: category?.id })
               }}
             />
           </Box>
         </FlexVCenter>
       </Box>
     </Paper>
-  );
-};
+  )
+}
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps>
 
 const mapStateToProps = (state: ApplicationState) => ({
   expenses: state.monerate.expenses,
-});
+})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setFilter: (filter: IExpenseFilter) =>
     dispatch(monerateActions.setFilter(filter)),
-});
+})
 
 export const getHighestExpenseValue = (expenses: ExpenseGetDto[]): number => {
-  let highest = 1;
+  let highest = 1
   for (const e of expenses) {
     if (e.value > highest) {
-      highest = e.value;
+      highest = e.value
     }
   }
-  return highest;
-};
+  return highest
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExpenseFilter);
+export default connect(mapStateToProps, mapDispatchToProps)(ExpenseFilter)

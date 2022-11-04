@@ -1,16 +1,9 @@
-import {
-  Box,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Link,
-} from "@material-ui/core";
-import React from "react";
-import { Link as RouterLink } from "react-router-dom";
-import { UserSuggestionDto } from "../../../../types/domain/feed/UserSuggestionDto";
-import pageUrls from "../../../../utils/url/urls/pageUrls";
-import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
-import ProfilePicture from "../../../_UI/ProfilePicture/ProfilePicture";
+import { Box, Dialog, DialogContent, DialogTitle, Link } from "@mui/material"
+import { Link as RouterLink } from "react-router-dom"
+import { UserSuggestionDto } from "../../../../types/domain/feed/UserSuggestionDto"
+import pageUrls from "../../../../utils/url/urls/pageUrls"
+import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
+import ProfilePicture from "../../../_UI/ProfilePicture/ProfilePicture"
 // PE 2/3
 const UserSuggestionsDialog = (props: Props) => {
   return (
@@ -50,13 +43,13 @@ const UserSuggestionsDialog = (props: Props) => {
         </DialogContent>
       </Box>
     </Dialog>
-  );
-};
+  )
+}
 
 type Props = {
-  userSuggestions: UserSuggestionDto[];
-  open: boolean;
-  onClose: () => void;
-};
+  userSuggestions: UserSuggestionDto[]
+  open: boolean
+  onClose: () => void
+}
 
-export default UserSuggestionsDialog;
+export default UserSuggestionsDialog

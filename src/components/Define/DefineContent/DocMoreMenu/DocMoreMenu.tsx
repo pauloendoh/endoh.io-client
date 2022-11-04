@@ -1,3 +1,5 @@
+import EditIcon from "@mui/icons-material/Edit"
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz"
 import {
   IconButton,
   ListItemIcon,
@@ -6,9 +8,7 @@ import {
   MenuItem,
   Theme,
   Typography,
-} from "@material-ui/core"
-import EditIcon from "@material-ui/icons/Edit"
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
+} from "@mui/material"
 import useDeleteDocMutation from "hooks/react-query/define/doc/useDeleteDocMutation"
 import React, { useMemo, useState } from "react"
 import { AiOutlineClear } from "react-icons/ai"

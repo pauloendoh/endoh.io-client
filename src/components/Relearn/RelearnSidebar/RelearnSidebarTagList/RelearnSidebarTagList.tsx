@@ -1,5 +1,7 @@
-import { faGlobeAmericas, faLock } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGlobeAmericas, faLock } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { ExpandLess, ExpandMore } from "@mui/icons-material"
+import AddIcon from "@mui/icons-material/Add"
 import {
   Box,
   Collapse,
@@ -7,46 +9,44 @@ import {
   List,
   ListItem,
   ListItemText,
-} from "@material-ui/core";
-import { ExpandLess, ExpandMore } from "@material-ui/icons";
-import AddIcon from "@material-ui/icons/Add";
-import React, { useEffect, useMemo, useState } from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import * as relearnActions from "../../../../store/relearn/relearnActions";
-import { ApplicationState } from "../../../../store/store";
-import { TagDto } from "../../../../types/domain/relearn/TagDto";
-import myAxios from "../../../../utils/consts/myAxios";
-import apiUrls from "../../../../utils/url/urls/apiUrls";
-import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
-import TagListItem from "../TagListItem/TagListItem";
+} from "@mui/material"
+import React, { useEffect, useMemo, useState } from "react"
+import { connect } from "react-redux"
+import { Dispatch } from "redux"
+import * as relearnActions from "../../../../store/relearn/relearnActions"
+import { ApplicationState } from "../../../../store/store"
+import { TagDto } from "../../../../types/domain/relearn/TagDto"
+import myAxios from "../../../../utils/consts/myAxios"
+import apiUrls from "../../../../utils/url/urls/apiUrls"
+import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
+import TagListItem from "../TagListItem/TagListItem"
 
 function RelearnSidebarTagList(props: Props) {
   // PE 2/3 - change to tagsAreOpen
-  const [openTags, setOpenTags] = useState(true);
+  const [openTags, setOpenTags] = useState(true)
   const handleClickTags = () => {
-    setOpenTags(!openTags);
-  };
+    setOpenTags(!openTags)
+  }
 
   // PE 2/3 - melhor deixar o setTags no RelearnPage ? E chamar tudo de uma vez em uma request?
   useEffect(
     () => {
       myAxios.get<TagDto[]>(apiUrls.relearn.tag).then((res) => {
-        props.setTags(res.data);
-      });
+        props.setTags(res.data)
+      })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
-  );
+  )
 
   const handleAddTag = () => {
-    props.startNewTag(props.type === "private");
-  };
+    props.startNewTag(props.type === "private")
+  }
 
   const sortedTags = useMemo(() => {
-    if (props.tags?.length === 0) return [];
-    return props.tags.sort((a, b) => (a.id > b.id ? 1 : -1));
-  }, [props.tags]);
+    if (props.tags?.length === 0) return []
+    return props.tags.sort((a, b) => (a.id > b.id ? 1 : -1))
+  }, [props.tags])
 
   return (
     <React.Fragment>
@@ -65,8 +65,8 @@ function RelearnSidebarTagList(props: Props) {
         </ListItemText>
         <IconButton
           onClick={(e) => {
-            e.stopPropagation();
-            handleAddTag();
+            e.stopPropagation()
+            handleAddTag()
           }}
           size="small"
           id={`add-${props.type}-tag`}
@@ -83,27 +83,27 @@ function RelearnSidebarTagList(props: Props) {
         </List>
       </Collapse>
     </React.Fragment>
-  );
+  )
 }
 
-const mapStateToProps = (state: ApplicationState) => ({});
+const mapStateToProps = (state: ApplicationState) => ({})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setTags: (tags: TagDto[]) => dispatch(relearnActions.setTags(tags)),
   startNewTag: (isPrivate: boolean) =>
     dispatch(relearnActions.startNewTag(isPrivate)),
-});
+})
 
 interface OwnProps {
-  type: "public" | "private";
-  tags: TagDto[];
+  type: "public" | "private"
+  tags: TagDto[]
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  OwnProps;
+  OwnProps
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(RelearnSidebarTagList);
+)(RelearnSidebarTagList)

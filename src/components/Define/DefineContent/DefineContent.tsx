@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from "@material-ui/core"
+import { Box, Container, Typography } from "@mui/material"
 import { useMemo } from "react"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import Flex from "../../_UI/Flexboxes/Flex"

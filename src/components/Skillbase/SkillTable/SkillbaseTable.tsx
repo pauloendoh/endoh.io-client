@@ -1,48 +1,48 @@
-import { makeStyles, Theme } from "@material-ui/core";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableContainer from "@material-ui/core/TableContainer";
-import Toolbar from "@material-ui/core/Toolbar";
-import DarkButton from "components/_UI/Buttons/DarkButton/DarkButton";
-import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween";
-import useSaveSkill from "hooks/skillbase/useSaveSkill";
-import { isEqual } from "lodash";
-import React, { useEffect, useState } from "react";
-import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore";
-import useSnackbarStore from "store/zustand/useSnackbarStore";
-import { TagDto } from "../../../types/domain/relearn/TagDto";
-import { SkillDto } from "../../../types/domain/skillbase/SkillDto";
-import { IdsDto } from "../../../types/domain/_common/IdsDto";
-import myAxios from "../../../utils/consts/myAxios";
-import filterAndSortSkills from "../../../utils/domain/skills/filterAndSortSkills";
-import apiUrls from "../../../utils/url/urls/apiUrls";
-import SelectSkillLabelsDialog from "../SkillDialog/SkillDialogLabels/SelectSkillLabelsDialog/SelectSkillLabelsDialog";
-import AddSkillButton from "./AddSkillButton/AddSkillButton";
-import SkillbaseProgressDialog from "./SkillbaseProgressDialog/SkillbaseProgressDialog";
-import SkillbaseTableHead from "./SkillbaseTableHead/SkillbaseTableHead";
-import SkillbaseTableRow from "./SkillbaseTableRow/SkillbaseTableRow";
-import SkillTableToolbar from "./SkillTableToolbar/SkillTableToolbar";
+import { makeStyles, Theme } from "@mui/material"
+import Table from "@mui/material/Table"
+import TableBody from "@mui/material/TableBody"
+import TableContainer from "@mui/material/TableContainer"
+import Toolbar from "@mui/material/Toolbar"
+import DarkButton from "components/_UI/Buttons/DarkButton/DarkButton"
+import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween"
+import useSaveSkill from "hooks/skillbase/useSaveSkill"
+import { isEqual } from "lodash"
+import React, { useEffect, useState } from "react"
+import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
+import useSnackbarStore from "store/zustand/useSnackbarStore"
+import { TagDto } from "../../../types/domain/relearn/TagDto"
+import { SkillDto } from "../../../types/domain/skillbase/SkillDto"
+import { IdsDto } from "../../../types/domain/_common/IdsDto"
+import myAxios from "../../../utils/consts/myAxios"
+import filterAndSortSkills from "../../../utils/domain/skills/filterAndSortSkills"
+import apiUrls from "../../../utils/url/urls/apiUrls"
+import SelectSkillLabelsDialog from "../SkillDialog/SkillDialogLabels/SelectSkillLabelsDialog/SelectSkillLabelsDialog"
+import AddSkillButton from "./AddSkillButton/AddSkillButton"
+import SkillbaseProgressDialog from "./SkillbaseProgressDialog/SkillbaseProgressDialog"
+import SkillbaseTableHead from "./SkillbaseTableHead/SkillbaseTableHead"
+import SkillbaseTableRow from "./SkillbaseTableRow/SkillbaseTableRow"
+import SkillTableToolbar from "./SkillTableToolbar/SkillTableToolbar"
 
 interface Props {
-  tag: TagDto | "Untagged";
-  fixedTag: TagDto;
+  tag: TagDto | "Untagged"
+  fixedTag: TagDto
 }
 
 const SkillbaseTable = (props: Props) => {
-  const classes = useStyles();
-  const saveSkill = useSaveSkill();
+  const classes = useStyles()
+  const saveSkill = useSaveSkill()
   const {
     filter,
     sortBy,
     skills: allSkills,
     sortSkill,
     removeSkills,
-  } = useSkillbaseStore();
-  const { setSuccessMessage } = useSnackbarStore();
+  } = useSkillbaseStore()
+  const { setSuccessMessage } = useSnackbarStore()
 
-  const [labelsDialogSkill, setLabelsDialogSkill] = useState<SkillDto>(null);
-  const [progressDialog, setProgressDialog] = useState(false);
-  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [labelsDialogSkill, setLabelsDialogSkill] = useState<SkillDto>(null)
+  const [progressDialog, setProgressDialog] = useState(false)
+  const [selectedIds, setSelectedIds] = useState<number[]>([])
 
   // Transform this into a utility hook
   const [visibleSkills, setVisibleSkills] = useState<SkillDto[]>(
@@ -55,7 +55,7 @@ const SkillbaseTable = (props: Props) => {
       filter.byText,
       filter.currentGoal
     )
-  );
+  )
 
   useEffect(
     () => {
@@ -69,7 +69,7 @@ const SkillbaseTable = (props: Props) => {
           filter.byText,
           filter.currentGoal
         )
-      );
+      )
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
@@ -81,34 +81,34 @@ const SkillbaseTable = (props: Props) => {
       filter.byText,
       filter.currentGoal,
     ]
-  );
+  )
 
   const sortByProperty = (property: keyof SkillDto) => {
     // if sorting the same column, order = "asc"
     const order =
-      sortBy.property === property && sortBy.order === "desc" ? "asc" : "desc";
-    sortSkill({ order, property });
-  };
+      sortBy.property === property && sortBy.order === "desc" ? "asc" : "desc"
+    sortSkill({ order, property })
+  }
 
   const checkSelectAll = (checked: boolean) => {
     if (checked) {
-      const skillIds = visibleSkills.map((skill) => skill.id);
-      setSelectedIds(skillIds);
-      return;
+      const skillIds = visibleSkills.map((skill) => skill.id)
+      setSelectedIds(skillIds)
+      return
     }
-    setSelectedIds([]);
-  };
+    setSelectedIds([])
+  }
 
   // PE 1/3
   const changeSkillCheck = (_: React.MouseEvent<unknown>, skillId: number) => {
-    const isSelected = selectedIds.includes(skillId);
+    const isSelected = selectedIds.includes(skillId)
 
     // if already selected, filter out
-    if (isSelected) setSelectedIds(selectedIds.filter((id) => id !== skillId));
-    else setSelectedIds([...selectedIds, skillId]);
-  };
+    if (isSelected) setSelectedIds(selectedIds.filter((id) => id !== skillId))
+    else setSelectedIds([...selectedIds, skillId])
+  }
 
-  const isSelected = (id: number) => selectedIds.indexOf(id) !== -1;
+  const isSelected = (id: number) => selectedIds.indexOf(id) !== -1
 
   const handleDelete = () => {
     if (window.confirm(`Delete ${selectedIds.length} skill(s)?`)) {
@@ -118,12 +118,12 @@ const SkillbaseTable = (props: Props) => {
           data: { ids: selectedIds } as IdsDto,
         })
         .then((res) => {
-          removeSkills(selectedIds);
-          setSuccessMessage("Skills deleted successfully!");
-          setSelectedIds([]);
-        });
+          removeSkills(selectedIds)
+          setSuccessMessage("Skills deleted successfully!")
+          setSelectedIds([])
+        })
     }
-  };
+  }
 
   return (
     <>
@@ -143,10 +143,10 @@ const SkillbaseTable = (props: Props) => {
           <SkillbaseTableHead
             selectedCount={selectedIds.length}
             onClickSelectAll={(e) => {
-              checkSelectAll(e.target.checked);
+              checkSelectAll(e.target.checked)
             }}
             onSort={(headerCellId) => {
-              sortByProperty(headerCellId);
+              sortByProperty(headerCellId)
             }}
             rowCount={allSkills.length}
           />
@@ -160,11 +160,11 @@ const SkillbaseTable = (props: Props) => {
                   isSelected={isSelected(skill.id)}
                   onCheck={changeSkillCheck}
                   openLabelsDialog={() => {
-                    const s = allSkills.find((s) => s.id === skill.id);
-                    setLabelsDialogSkill({ ...s });
+                    const s = allSkills.find((s) => s.id === skill.id)
+                    setLabelsDialogSkill({ ...s })
                   }}
                 />
-              );
+              )
             })}
 
             <SelectSkillLabelsDialog
@@ -177,15 +177,15 @@ const SkillbaseTable = (props: Props) => {
               onClose={() => {
                 const prevSkill = allSkills.find(
                   (s) => s.id === labelsDialogSkill?.id
-                );
-                const prevLabelIds = new Set(prevSkill.labels.map((l) => l.id));
+                )
+                const prevLabelIds = new Set(prevSkill.labels.map((l) => l.id))
                 const newLabelIds = new Set(
                   labelsDialogSkill?.labels.map((l) => l.id)
-                );
+                )
 
                 if (!isEqual(prevLabelIds, newLabelIds))
-                  saveSkill(labelsDialogSkill);
-                setLabelsDialogSkill(null);
+                  saveSkill(labelsDialogSkill)
+                setLabelsDialogSkill(null)
               }}
             />
           </TableBody>
@@ -206,8 +206,8 @@ const SkillbaseTable = (props: Props) => {
         </FlexVCenterBetween>
       </Toolbar>
     </>
-  );
-};
+  )
+}
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -220,6 +220,6 @@ const useStyles = makeStyles((theme: Theme) => ({
       borderBottom: "1px solid rgb(255 255 255 / 0.1)",
     },
   },
-}));
+}))
 
-export default SkillbaseTable;
+export default SkillbaseTable

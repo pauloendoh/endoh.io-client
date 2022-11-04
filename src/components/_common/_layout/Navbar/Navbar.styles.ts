@@ -1,16 +1,16 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { AppBar, Tab, Tabs, Toolbar } from "@material-ui/core";
-import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
-import React from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import theme from "utils/consts/theme";
-import { mediaQueries } from "utils/styles/mediaQueries";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { AppBar, Tab, Tabs, Toolbar } from "@mui/material"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import React from "react"
+import { Link } from "react-router-dom"
+import styled from "styled-components"
+import theme from "utils/consts/theme"
+import { mediaQueries } from "utils/styles/mediaQueries"
 
 type NavbarTabProps = React.ComponentProps<typeof Tab> & {
-  component: typeof Link;
-  to: string;
-};
+  component: typeof Link
+  to: string
+}
 
 const S = {
   AppBarRoot: styled(AppBar)`
@@ -56,6 +56,6 @@ const S = {
   RightButtonsWrapper: styled(FlexVCenter)({
     gap: theme.spacing(2),
   }),
-};
+}
 
-export default S;
+export default S

@@ -6,7 +6,7 @@ import {
   makeStyles,
   Theme,
   Toolbar,
-} from "@material-ui/core"
+} from "@mui/material"
 import useSidebarStore from "../../../store/zustand/useSidebarStore"
 import AnsweredQuestionsListItem from "./AnsweredQuestionsListItem/AnsweredQuestionsListItem"
 import FileSystem from "./FileSystem/FileSystem"

@@ -1,5 +1,5 @@
-import { useTheme } from "@material-ui/core"
-import { TreeItem } from "@material-ui/lab"
+import { TreeItem } from "@mui/lab"
+import { useTheme } from "@mui/material"
 import Flex from "components/_UI/Flexboxes/Flex"
 import Txt from "components/_UI/Text/Txt"
 import useSaveFolderMutation from "hooks/react-query/folders/useSaveFolderMutation"

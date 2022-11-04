@@ -1,29 +1,22 @@
-import {
-  Box,
-  Button,
-  Divider,
-  Grid,
-  Paper,
-  Typography,
-} from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import NumberFormat from "react-number-format";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import * as monerateActions from "../../../store/monerate/monerateActions";
-import ExpenseGetDto from "../../../types/domain/monerate/ExpenseGetDto";
-import CategoryIcon from "../../_UI/CategoryIcon";
-import Flex from "../../_UI/Flexboxes/Flex";
-import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
-import PlaceIcon from "../../_UI/PlaceIcon";
-import SoloRatingStar from "../../_UI/SoloRatingStar";
-import { ExpensesPerDay, getExpensesPerDay } from "./ExpensesPerDay";
+import { Box, Button, Divider, Grid, Paper, Typography } from "@mui/material"
+import React, { useEffect, useState } from "react"
+import NumberFormat from "react-number-format"
+import { connect } from "react-redux"
+import { Dispatch } from "redux"
+import * as monerateActions from "../../../store/monerate/monerateActions"
+import ExpenseGetDto from "../../../types/domain/monerate/ExpenseGetDto"
+import CategoryIcon from "../../_UI/CategoryIcon"
+import Flex from "../../_UI/Flexboxes/Flex"
+import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
+import PlaceIcon from "../../_UI/PlaceIcon"
+import SoloRatingStar from "../../_UI/SoloRatingStar"
+import { ExpensesPerDay, getExpensesPerDay } from "./ExpensesPerDay"
 // PE 3/3
 const ExpenseList = (props: Props) => {
-  const [expensesPerDay, setExpensesPerDay] = useState<ExpensesPerDay[]>([]);
+  const [expensesPerDay, setExpensesPerDay] = useState<ExpensesPerDay[]>([])
   useEffect(() => {
-    setExpensesPerDay(getExpensesPerDay(props.expenses));
-  }, [props.expenses]);
+    setExpensesPerDay(getExpensesPerDay(props.expenses))
+  }, [props.expenses])
 
   if (expensesPerDay.length) {
     return (
@@ -56,7 +49,7 @@ const ExpenseList = (props: Props) => {
                 <Button
                   key={expense.id}
                   onClick={() => {
-                    props.editExpense(expense);
+                    props.editExpense(expense)
                   }}
                   fullWidth
                   style={{ textAlign: "inherit", fontWeight: "normal" }}
@@ -121,23 +114,23 @@ const ExpenseList = (props: Props) => {
           ))}
         </Box>
       </Paper>
-    );
+    )
   } else {
-    return null;
+    return null
   }
-};
+}
 
 interface OwnProps {
-  expenses: ExpenseGetDto[];
+  expenses: ExpenseGetDto[]
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   editExpense: (expense: ExpenseGetDto) =>
     dispatch(monerateActions.editExpense(expense)),
-});
+})
 
 type Props = OwnProps &
   React.ComponentProps<typeof Paper> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps>
 
-export default connect(undefined, mapDispatchToProps)(ExpenseList);
+export default connect(undefined, mapDispatchToProps)(ExpenseList)

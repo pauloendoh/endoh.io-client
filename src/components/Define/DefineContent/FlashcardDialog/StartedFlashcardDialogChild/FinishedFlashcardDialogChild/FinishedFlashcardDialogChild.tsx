@@ -1,10 +1,10 @@
+import { Clear } from "@mui/icons-material"
 import {
   DialogContent,
   DialogTitle,
   IconButton,
   Typography,
-} from "@material-ui/core"
-import { Clear } from "@material-ui/icons"
+} from "@mui/material"
 import { useMemo, useState } from "react"
 import { GlobalHotKeys } from "react-hotkeys"
 import useDocsStore from "store/zustand/domain/useDocsStore"

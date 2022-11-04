@@ -1,6 +1,7 @@
-import DateFnsUtils from "@date-io/date-fns"
-import { Box, CssBaseline, MuiThemeProvider } from "@material-ui/core"
-import { MuiPickersUtilsProvider } from "@material-ui/pickers"
+import { LocalizationProvider } from "@mui/x-date-pickers"
+import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon"
+
+import { Box, CssBaseline, ThemeProvider } from "@mui/material"
 import GlobalDialogs from "components/_UI/Dialogs/GlobalDialogs"
 import useCheckAuthOrLogout from "hooks/auth/useCheckAuthOrLogout"
 import { lazy, Suspense, useEffect, useState } from "react"
@@ -20,7 +21,6 @@ import {
 } from "react-router-dom"
 import { Dispatch } from "redux"
 import useAuthStore from "store/zustand/useAuthStore"
-import { ThemeProvider } from "styled-components"
 import { urls } from "utils/urls"
 import LandingPage from "./components/LandingPage/LandingPage"
 import ResetPasswordPage from "./components/ResetPassword/ResetPasswordPage"
@@ -209,23 +209,21 @@ const App = (props: Props) => {
   }
 
   return (
-    <MuiThemeProvider theme={theme}>
-      <ThemeProvider theme={theme}>
-        <DndProvider backend={HTML5Backend}>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <QueryClientProvider client={myQueryClient}>
-              <ReactQueryDevtools initialIsOpen={false} />
+    <ThemeProvider theme={theme}>
+      <DndProvider backend={HTML5Backend}>
+        <LocalizationProvider dateAdapter={AdapterLuxon}>
+          <QueryClientProvider client={myQueryClient}>
+            <ReactQueryDevtools initialIsOpen={false} />
 
-              {/* What does this do? */}
-              <CssBaseline />
-              {isLoading ? <LoadingPage /> : routes}
+            {/* What does this do? */}
+            <CssBaseline />
+            {isLoading ? <LoadingPage /> : routes}
 
-              <MySnackBar2 />
-            </QueryClientProvider>
-          </MuiPickersUtilsProvider>
-        </DndProvider>
-      </ThemeProvider>
-    </MuiThemeProvider>
+            <MySnackBar2 />
+          </QueryClientProvider>
+        </LocalizationProvider>
+      </DndProvider>
+    </ThemeProvider>
   )
 }
 

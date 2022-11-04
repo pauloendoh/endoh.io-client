@@ -4,7 +4,7 @@ import {
   Table,
   TableContainer,
   Toolbar,
-} from "@material-ui/core"
+} from "@mui/material"
 import { useState } from "react"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useAuthStore from "store/zustand/useAuthStore"

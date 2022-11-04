@@ -1,8 +1,8 @@
-import { createTheme } from "@material-ui/core"
+import { createTheme } from "@mui/material"
 
 const theme = createTheme({
   palette: {
-    type: "dark",
+    mode: "dark",
     background: {
       default: "#1E1E1E",
       paper: "#2B2B2B",
@@ -21,28 +21,36 @@ const theme = createTheme({
       fontWeight: 500,
     },
   },
-  overrides: {
+
+  components: {
     MuiToolbar: {
-      root: {
-        minHeight: "72px !important",
+      styleOverrides: {
+        root: {
+          minHeight: "72px !important",
+        },
       },
     },
     MuiTextField: {
-      root: {
-        background: "#1E1E1E",
+      styleOverrides: {
+        root: {
+          background: "#1E1E1E",
+        },
       },
     },
     MuiSelect: {
-      root: {
-        background: "#1E1E1E",
+      styleOverrides: {
+        select: {
+          background: "#1E1E1E",
+        },
       },
     },
     MuiTooltip: {
-      arrow: { color: "#292929" },
-
-      tooltip: {
-        backgroundColor: "#292929",
-        fontSize: 12,
+      styleOverrides: {
+        arrow: { color: "#292929" },
+        tooltip: {
+          backgroundColor: "#292929",
+          fontSize: 12,
+        },
       },
     },
   },

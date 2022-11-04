@@ -1,5 +1,5 @@
-import { Box } from "@material-ui/core";
-import React from "react";
+import { Box } from "@mui/material"
+import React from "react"
 
 // PE 3/3
 const FlexVCenterBetween = (props: Props) => {
@@ -12,9 +12,9 @@ const FlexVCenterBetween = (props: Props) => {
     >
       {props.children}
     </Box>
-  );
-};
+  )
+}
 
-type Props = React.ComponentProps<typeof Box>;
+type Props = React.ComponentProps<typeof Box>
 
-export default FlexVCenterBetween;
+export default FlexVCenterBetween

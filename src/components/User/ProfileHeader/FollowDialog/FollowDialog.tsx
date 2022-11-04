@@ -1,3 +1,4 @@
+import LabelIcon from "@mui/icons-material/Label"
 import {
   Box,
   Button,
@@ -7,74 +8,73 @@ import {
   List,
   ListItem,
   ListItemText,
-} from "@material-ui/core";
-import LabelIcon from "@material-ui/icons/Label";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import useProfileStore from "store/zustand/domain/useProfileStore";
-import useAuthStore from "store/zustand/useAuthStore";
-import useSnackbarStore from "store/zustand/useSnackbarStore";
-import { FollowingTagDto } from "../../../../types/domain/feed/FollowingTagDto";
-import MyAxiosError from "../../../../types/MyAxiosError";
-import myAxios from "../../../../utils/consts/myAxios";
-import apiUrls from "../../../../utils/url/urls/apiUrls";
-import Flex from "../../../_UI/Flexboxes/Flex";
+} from "@mui/material"
+import { Form, Formik } from "formik"
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
+import useProfileStore from "store/zustand/domain/useProfileStore"
+import useAuthStore from "store/zustand/useAuthStore"
+import useSnackbarStore from "store/zustand/useSnackbarStore"
+import { FollowingTagDto } from "../../../../types/domain/feed/FollowingTagDto"
+import MyAxiosError from "../../../../types/MyAxiosError"
+import myAxios from "../../../../utils/consts/myAxios"
+import apiUrls from "../../../../utils/url/urls/apiUrls"
+import Flex from "../../../_UI/Flexboxes/Flex"
 
 interface Props {
-  open: boolean;
-  onClose: () => void;
+  open: boolean
+  onClose: () => void
 }
 
 // PE 2/3
 const FollowDialog = (props: Props) => {
-  const { username } = useParams<{ username: string }>();
-  const { followingTags, setFollowingTags } = useAuthStore();
+  const { username } = useParams<{ username: string }>()
+  const { followingTags, setFollowingTags } = useAuthStore()
 
-  const profileStore = useProfileStore();
+  const profileStore = useProfileStore()
 
-  const [selectedTagIds, setSelectedTagIds] = useState<number[]>([]);
+  const [selectedTagIds, setSelectedTagIds] = useState<number[]>([])
 
-  const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
+  const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
 
   useEffect(() => {
     if (props.open) {
-      setSelectedTagIds(followingTags.map((t) => t.tagId));
+      setSelectedTagIds(followingTags.map((t) => t.tagId))
     }
-  }, [props.open, followingTags]);
+  }, [props.open, followingTags])
 
   const toggleTagId = (tagId: number) => {
     if (selectedTagIds.includes(tagId)) {
-      setSelectedTagIds(selectedTagIds.filter((id) => id !== tagId));
+      setSelectedTagIds(selectedTagIds.filter((id) => id !== tagId))
     } else {
-      setSelectedTagIds([...selectedTagIds, tagId]);
+      setSelectedTagIds([...selectedTagIds, tagId])
     }
-  };
+  }
 
   const onClose = () => {
-    setSelectedTagIds([]);
-    props.onClose();
-  };
+    setSelectedTagIds([])
+    props.onClose()
+  }
 
   const handleSubmit = () => {
     const data = profileStore.publicTags.map((publicTag) => ({
       tagId: publicTag.id,
       isFollowing: selectedTagIds.includes(publicTag.id),
-    }));
+    }))
 
     myAxios
       .post<FollowingTagDto[]>(apiUrls.user.followingTags(username), data)
       .then((res) => {
-        setFollowingTags(res.data);
-        setSuccessMessage("Saved!");
+        setFollowingTags(res.data)
+        setSuccessMessage("Saved!")
       })
       .catch((err: MyAxiosError) => {
-        setErrorMessage(err.response.data.errors[0].message);
+        setErrorMessage(err.response.data.errors[0].message)
       })
       .finally(() => {
-        onClose();
-      });
-  };
+        onClose()
+      })
+  }
 
   return (
     <Dialog
@@ -88,7 +88,7 @@ const FollowDialog = (props: Props) => {
         <Formik
           initialValues={profileStore.profile}
           onSubmit={(formikValues, { setSubmitting }) => {
-            handleSubmit();
+            handleSubmit()
           }}
         >
           {({ errors, values, isSubmitting, setFieldValue, handleChange }) => (
@@ -151,7 +151,7 @@ const FollowDialog = (props: Props) => {
         </Formik>
       </Box>
     </Dialog>
-  );
-};
+  )
+}
 
-export default FollowDialog;
+export default FollowDialog

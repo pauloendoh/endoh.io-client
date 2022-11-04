@@ -1,15 +1,14 @@
-import { Box, Grid } from "@material-ui/core";
-import useUserSuggestionsQuery from "hooks/react-query/feed/useUserSuggestionsQuery";
-import React from "react";
-import useAuthStore from "store/zustand/useAuthStore";
-import UserSuggestions from "../_common/UserSuggestions/UserSuggestions";
-import AuthUserSummary from "./AuthUserSummary/AuthUserSummary";
-import FeedResources from "./FeedResources/FeedResources";
+import { Box, Grid } from "@mui/material"
+import useUserSuggestionsQuery from "hooks/react-query/feed/useUserSuggestionsQuery"
+import useAuthStore from "store/zustand/useAuthStore"
+import UserSuggestions from "../_common/UserSuggestions/UserSuggestions"
+import AuthUserSummary from "./AuthUserSummary/AuthUserSummary"
+import FeedResources from "./FeedResources/FeedResources"
 
 // PE 3/3
 const FeedPage = () => {
-  const { followingUsers } = useAuthStore();
-  const { data: userSuggestions } = useUserSuggestionsQuery();
+  const { followingUsers } = useAuthStore()
+  const { data: userSuggestions } = useUserSuggestionsQuery()
   return (
     <Box pt={3}>
       <Grid container>
@@ -31,7 +30,7 @@ const FeedPage = () => {
         </Grid>
       </Grid>
     </Box>
-  );
-};
+  )
+}
 
-export default FeedPage;
+export default FeedPage

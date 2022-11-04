@@ -1,4 +1,4 @@
-import { Box, Button, Typography, useTheme } from "@material-ui/core"
+import { Box, Button, Typography, useTheme } from "@mui/material"
 import { useMemo, useRef, useState } from "react"
 import { useDrop } from "react-dnd"
 import { Element } from "react-scroll"

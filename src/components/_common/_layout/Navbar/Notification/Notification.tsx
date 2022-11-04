@@ -1,37 +1,37 @@
-import { Badge, IconButton, Menu } from "@material-ui/core";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import React from "react";
-import useAuthStore from "store/zustand/useAuthStore";
-import { NotificationDto } from "../../../../../types/domain/utils/NotificationDto";
-import myAxios from "../../../../../utils/consts/myAxios";
-import apiUrls from "../../../../../utils/url/urls/apiUrls";
-import NotificationItem from "./NotificationItem/NotificationItem";
+import NotificationsIcon from "@mui/icons-material/Notifications"
+import { Badge, IconButton, Menu } from "@mui/material"
+import React from "react"
+import useAuthStore from "store/zustand/useAuthStore"
+import { NotificationDto } from "../../../../../types/domain/utils/NotificationDto"
+import myAxios from "../../../../../utils/consts/myAxios"
+import apiUrls from "../../../../../utils/url/urls/apiUrls"
+import NotificationItem from "./NotificationItem/NotificationItem"
 
 // PE 2/3 - Change to "NotificationButtonMenu"
 const Notification = () => {
-  const { notifications, setNotifications } = useAuthStore();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const { notifications, setNotifications } = useAuthStore()
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleClose = () => {
     // set notifications.seen = true
     myAxios
       .post<NotificationDto[]>(apiUrls.utils.notificationsSeeAll)
       .then((res) => {
-        setNotifications(res.data);
-      });
+        setNotifications(res.data)
+      })
 
-    setAnchorEl(null);
-  };
+    setAnchorEl(null)
+  }
 
   const getUnseenNotificationsLength = () =>
-    notifications.filter((n) => !n.seen).length;
+    notifications.filter((n) => !n.seen).length
 
   const getBadgeVariant = () =>
-    notifications.filter((n) => !n.seen).length > 0 ? "dot" : "standard";
+    notifications.filter((n) => !n.seen).length > 0 ? "dot" : "standard"
 
   return (
     <React.Fragment>
@@ -70,7 +70,7 @@ const Notification = () => {
         </Menu>
       )}
     </React.Fragment>
-  );
-};
+  )
+}
 
-export default Notification;
+export default Notification

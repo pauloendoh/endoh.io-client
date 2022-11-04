@@ -1,36 +1,36 @@
-import { Box, Link, Paper, Typography } from "@material-ui/core";
-import StarRateIcon from "@material-ui/icons/StarRate";
-import useFeedResourcesQuery from "hooks/react-query/feed/useFeedResourcesQuery";
-import React, { useEffect, useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
-import TimeAgo from "react-timeago";
-import { Virtuoso } from "react-virtuoso";
-import { ratingLabels } from "utils/domain/relearn/resources/ratingLabels";
-import { FeedResourceDto } from "../../../types/domain/feed/FeedResourceDto";
-import { getColorByRating } from "../../../utils/relearn/getColorByRating";
-import pageUrls from "../../../utils/url/urls/pageUrls";
-import MinRatingButton from "../../_common/MinRatingButton/MinRatingButton";
-import ResourceThumbnail from "../../_common/ResourceThumbnail/ResourceThumbnail";
-import Flex from "../../_UI/Flexboxes/Flex";
-import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
-import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture";
-import SaveFeedResourceButton from "./SaveFeedResourceButton/SaveFeedResourceButton";
+import StarRateIcon from "@mui/icons-material/StarRate"
+import { Box, Link, Paper, Typography } from "@mui/material"
+import useFeedResourcesQuery from "hooks/react-query/feed/useFeedResourcesQuery"
+import { useEffect, useState } from "react"
+import { Link as RouterLink } from "react-router-dom"
+import TimeAgo from "react-timeago"
+import { Virtuoso } from "react-virtuoso"
+import { ratingLabels } from "utils/domain/relearn/resources/ratingLabels"
+import { FeedResourceDto } from "../../../types/domain/feed/FeedResourceDto"
+import { getColorByRating } from "../../../utils/relearn/getColorByRating"
+import pageUrls from "../../../utils/url/urls/pageUrls"
+import MinRatingButton from "../../_common/MinRatingButton/MinRatingButton"
+import ResourceThumbnail from "../../_common/ResourceThumbnail/ResourceThumbnail"
+import Flex from "../../_UI/Flexboxes/Flex"
+import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
+import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture"
+import SaveFeedResourceButton from "./SaveFeedResourceButton/SaveFeedResourceButton"
 
 // PE 2/3
 const FeedResources = () => {
   const [filteredResources, setFilteredResources] = useState<FeedResourceDto[]>(
     []
-  );
-  const [minRating, setMinRating] = useState(0);
+  )
+  const [minRating, setMinRating] = useState(0)
 
-  const { data: resources } = useFeedResourcesQuery();
+  const { data: resources } = useFeedResourcesQuery()
 
   useEffect(() => {
     if (resources?.length > 0) {
-      const minResources = resources.filter((r) => r.rating >= minRating);
-      setFilteredResources(minResources);
+      const minResources = resources.filter((r) => r.rating >= minRating)
+      setFilteredResources(minResources)
     }
-  }, [resources, minRating]);
+  }, [resources, minRating])
 
   return (
     <Box pr={4}>
@@ -120,7 +120,7 @@ const FeedResources = () => {
         )}
       />
     </Box>
-  );
-};
+  )
+}
 
-export default FeedResources;
+export default FeedResources

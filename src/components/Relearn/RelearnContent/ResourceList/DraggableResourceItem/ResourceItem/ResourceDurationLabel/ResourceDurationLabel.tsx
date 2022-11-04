@@ -1,7 +1,6 @@
-import ScheduleIcon from "@material-ui/icons/Schedule";
-import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
-import React from "react";
-import { validateEstimatedTime } from "../../../../../../../utils/relearn/validateEstimatedTime";
+import ScheduleIcon from "@mui/icons-material/Schedule"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import { validateEstimatedTime } from "../../../../../../../utils/relearn/validateEstimatedTime"
 
 function ResourceDurationLabel(props: Props) {
   return (
@@ -13,10 +12,10 @@ function ResourceDurationLabel(props: Props) {
         </FlexVCenter>
       )}
     </>
-  );
+  )
 }
 
 type Props = {
-  duration: string;
-};
-export default ResourceDurationLabel;
+  duration: string
+}
+export default ResourceDurationLabel

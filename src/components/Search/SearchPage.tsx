@@ -1,4 +1,4 @@
-import { Box, Grid, Paper, Typography } from "@material-ui/core"
+import { Box, Grid, Paper, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"

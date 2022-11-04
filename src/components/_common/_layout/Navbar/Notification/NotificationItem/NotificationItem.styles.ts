@@ -1,6 +1,6 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { MenuItem } from "@material-ui/core";
-import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { MenuItem } from "@mui/material"
+import styled from "styled-components"
 
 const S = {
   MenuItem: styled(MenuItem)(({ theme }) => ({
@@ -12,6 +12,6 @@ const S = {
     fontSize: 8,
     color: theme.palette.primary.main,
   })),
-};
+}
 
-export default S;
+export default S

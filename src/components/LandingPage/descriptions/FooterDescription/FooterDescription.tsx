@@ -1,3 +1,7 @@
+import GitHubIcon from "@mui/icons-material/GitHub"
+import InstagramIcon from "@mui/icons-material/Instagram"
+import LinkedInIcon from "@mui/icons-material/LinkedIn"
+import TwitterIcon from "@mui/icons-material/Twitter"
 import {
   Avatar,
   createStyles,
@@ -6,19 +10,14 @@ import {
   Link,
   makeStyles,
   Theme,
-} from "@material-ui/core";
-import GitHubIcon from "@material-ui/icons/GitHub";
-import InstagramIcon from "@material-ui/icons/Instagram";
-import LinkedInIcon from "@material-ui/icons/LinkedIn";
-import TwitterIcon from "@material-ui/icons/Twitter";
-import Txt from "components/_UI/Text/Txt";
-import React from "react";
-import pauloendoh from "static/images/pauloendoh.jpg";
-import S from "./FooterDescription.styles";
+} from "@mui/material"
+import Txt from "components/_UI/Text/Txt"
+import pauloendoh from "static/images/pauloendoh.jpg"
+import S from "./FooterDescription.styles"
 
 // PE 2/3 - DRY - separate social links in a const array and map it
 const FooterDescription = () => {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <S.FooterDescription>
@@ -78,8 +77,8 @@ const FooterDescription = () => {
         </Link>
       </S.Content>
     </S.FooterDescription>
-  );
-};
+  )
+}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -88,6 +87,6 @@ const useStyles = makeStyles((theme: Theme) =>
       height: theme.spacing(7),
     },
   })
-);
+)
 
-export default FooterDescription;
+export default FooterDescription

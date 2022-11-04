@@ -1,22 +1,22 @@
-import { Box, Button, Link, Typography } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { Link as RouterLink } from "react-router-dom";
-import { Dispatch } from "redux";
-import useAuthStore from "store/zustand/useAuthStore";
-import { FollowingUserDto } from "types/domain/feed/FollowingUserDto";
-import { UserSuggestionDto } from "../../../types/domain/feed/UserSuggestionDto";
-import pageUrls from "../../../utils/url/urls/pageUrls";
-import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
-import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture";
-import UserSuggestionsDialog from "./UserSuggestionsDialog/UserSuggestionsDialog";
+import { Box, Button, Link, Typography } from "@mui/material"
+import { useEffect, useState } from "react"
+import { connect } from "react-redux"
+import { Link as RouterLink } from "react-router-dom"
+import { Dispatch } from "redux"
+import useAuthStore from "store/zustand/useAuthStore"
+import { FollowingUserDto } from "types/domain/feed/FollowingUserDto"
+import { UserSuggestionDto } from "../../../types/domain/feed/UserSuggestionDto"
+import pageUrls from "../../../utils/url/urls/pageUrls"
+import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
+import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture"
+import UserSuggestionsDialog from "./UserSuggestionsDialog/UserSuggestionsDialog"
 
 // PE 2/3 - Change to UserSuggestionsSection ?
 function UserSuggestions(props: Props) {
-  const { authUser } = useAuthStore();
-  const [dialogIsOpen, setDialogIsOpen] = useState(false);
+  const { authUser } = useAuthStore()
+  const [dialogIsOpen, setDialogIsOpen] = useState(false)
 
-  const [suggestions, setSuggestions] = useState<UserSuggestionDto[]>([]);
+  const [suggestions, setSuggestions] = useState<UserSuggestionDto[]>([])
 
   // PE 2/3
   useEffect(() => {
@@ -25,15 +25,15 @@ function UserSuggestions(props: Props) {
 
     const dontShowIds = props.followingTags.map(
       (fol) => fol.followingUser.userId
-    );
-    dontShowIds.push(authUser.id);
+    )
+    dontShowIds.push(authUser.id)
 
     const filteredSuggestions = props.userSuggestions.filter(
       (suggestion) => dontShowIds.includes(suggestion.suggestedUserId) === false
-    );
-    setSuggestions(filteredSuggestions);
+    )
+    setSuggestions(filteredSuggestions)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.followingTags, props.userSuggestions]);
+  }, [props.followingTags, props.userSuggestions])
 
   return (
     <Box width={250}>
@@ -77,16 +77,16 @@ function UserSuggestions(props: Props) {
         </FlexVCenter>
       ))}
     </Box>
-  );
+  )
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
+const mapDispatchToProps = (dispatch: Dispatch) => ({})
 
 interface OwnProps {
-  userSuggestions: UserSuggestionDto[];
-  followingTags: FollowingUserDto[];
+  userSuggestions: UserSuggestionDto[]
+  followingTags: FollowingUserDto[]
 }
 
-type Props = ReturnType<typeof mapDispatchToProps> & OwnProps;
+type Props = ReturnType<typeof mapDispatchToProps> & OwnProps
 
-export default connect(undefined, mapDispatchToProps)(UserSuggestions);
+export default connect(undefined, mapDispatchToProps)(UserSuggestions)

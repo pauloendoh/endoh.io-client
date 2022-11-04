@@ -1,9 +1,9 @@
-import { Box, Dialog, DialogContent } from "@material-ui/core";
-import React from "react";
-import { connect } from "react-redux";
-import { ApplicationState } from "../../../../../../../store/store";
-import { TagDto } from "../../../../../../../types/domain/relearn/TagDto";
-import SkillbaseTable from "../../../../../../Skillbase/SkillTable/SkillbaseTable";
+import { Box, Dialog, DialogContent } from "@mui/material"
+import React from "react"
+import { connect } from "react-redux"
+import { ApplicationState } from "../../../../../../../store/store"
+import { TagDto } from "../../../../../../../types/domain/relearn/TagDto"
+import SkillbaseTable from "../../../../../../Skillbase/SkillTable/SkillbaseTable"
 
 // PE 2/3
 function EditSkillsDialog(props: Props) {
@@ -25,18 +25,18 @@ function EditSkillsDialog(props: Props) {
         </React.Fragment>
       )}
     </Dialog>
-  );
+  )
 }
 
 const mapStateToProps = (state: ApplicationState) => ({
   allTags: state.relearn.tags,
-});
+})
 
 interface OwnProps {
-  tag: TagDto;
-  onClose: () => void;
+  tag: TagDto
+  onClose: () => void
 }
 
-type Props = ReturnType<typeof mapStateToProps> & OwnProps;
+type Props = ReturnType<typeof mapStateToProps> & OwnProps
 
-export default connect(mapStateToProps, undefined)(EditSkillsDialog);
+export default connect(mapStateToProps, undefined)(EditSkillsDialog)

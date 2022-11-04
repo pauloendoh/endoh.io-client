@@ -1,29 +1,22 @@
-import {
-  Box,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Link,
-} from "@material-ui/core";
-import React from "react";
-import { Link as RouterLink, useParams } from "react-router-dom";
-import { FollowerDto } from "types/domain/feed/FollowerDto";
-import pageUrls from "../../../utils/url/urls/pageUrls";
-import Flex from "../../_UI/Flexboxes/Flex";
-import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture";
+import { Box, Dialog, DialogContent, DialogTitle, Link } from "@mui/material"
+import { Link as RouterLink, useParams } from "react-router-dom"
+import { FollowerDto } from "types/domain/feed/FollowerDto"
+import pageUrls from "../../../utils/url/urls/pageUrls"
+import Flex from "../../_UI/Flexboxes/Flex"
+import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture"
 
 interface Props {
-  open: boolean;
-  onClose: () => void;
-  followers: FollowerDto[];
+  open: boolean
+  onClose: () => void
+  followers: FollowerDto[]
 }
 
 const FollowersDialog = (props: Props) => {
-  const { username } = useParams<{ username: string }>();
+  const { username } = useParams<{ username: string }>()
 
   const onClose = () => {
-    props.onClose();
-  };
+    props.onClose()
+  }
 
   return (
     <Dialog
@@ -75,7 +68,7 @@ const FollowersDialog = (props: Props) => {
         </DialogContent>
       </Box>
     </Dialog>
-  );
-};
+  )
+}
 
-export default FollowersDialog;
+export default FollowersDialog

@@ -1,7 +1,7 @@
-import { Box, Button } from "@material-ui/core";
-import styled from "styled-components";
-import theme from "utils/consts/theme";
-import { mediaQueries } from "utils/styles/mediaQueries";
+import { Box, Button } from "@mui/material"
+import styled from "styled-components"
+import theme from "utils/consts/theme"
+import { mediaQueries } from "utils/styles/mediaQueries"
 
 const S = {
   RootButton: styled(Button)`
@@ -19,6 +19,6 @@ const S = {
       margin-left: 0;
     }
   `,
-};
+}
 
-export default S;
+export default S

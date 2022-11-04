@@ -1,30 +1,29 @@
-import { Box, Button, Dialog } from "@material-ui/core";
-import { Form, Formik } from "formik";
-import React from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import useDialogsStore from "store/zustand/useDialogsStore";
-import * as monerateActions from "../../../store/monerate/monerateActions";
-import { ApplicationState } from "../../../store/store";
-import CategoryGetDto from "../../../types/domain/monerate/CategoryGetDto";
-import myAxios from "../../../utils/consts/myAxios";
-import apiUrls from "../../../utils/url/urls/apiUrls";
-import Flex from "../../_UI/Flexboxes/Flex";
-import MyTextField from "../../_UI/MyInputs/MyTextField";
+import { Box, Button, Dialog } from "@mui/material"
+import { Form, Formik } from "formik"
+import { connect } from "react-redux"
+import { Dispatch } from "redux"
+import useDialogsStore from "store/zustand/useDialogsStore"
+import * as monerateActions from "../../../store/monerate/monerateActions"
+import { ApplicationState } from "../../../store/store"
+import CategoryGetDto from "../../../types/domain/monerate/CategoryGetDto"
+import myAxios from "../../../utils/consts/myAxios"
+import apiUrls from "../../../utils/url/urls/apiUrls"
+import Flex from "../../_UI/Flexboxes/Flex"
+import MyTextField from "../../_UI/MyInputs/MyTextField"
 
 const EditCategoryModal = (props: Props) => {
-  const dialogStore = useDialogsStore();
+  const dialogStore = useDialogsStore()
 
   const handleSubmit = (category: CategoryGetDto) => {
     myAxios
       .post<CategoryGetDto[]>(apiUrls.monerate.category, category)
       .then((res) => {
-        props.setCategories(res.data);
+        props.setCategories(res.data)
       })
       .finally(() => {
-        props.closeCategoryModal();
-      });
-  };
+        props.closeCategoryModal()
+      })
+  }
 
   const handleDelete = (id: number) => {
     dialogStore.openConfirmDialog({
@@ -33,14 +32,14 @@ const EditCategoryModal = (props: Props) => {
         myAxios
           .delete<CategoryGetDto[]>(`${apiUrls.monerate.category}/${id}`)
           .then((res) => {
-            props.setCategories(res.data);
+            props.setCategories(res.data)
           })
           .finally(() => {
-            props.closeCategoryModal();
-          });
+            props.closeCategoryModal()
+          })
       },
-    });
-  };
+    })
+  }
 
   return (
     <Dialog
@@ -51,7 +50,7 @@ const EditCategoryModal = (props: Props) => {
         <Formik
           initialValues={props.editingCategory}
           onSubmit={(formikValues, { setSubmitting }) => {
-            handleSubmit(formikValues);
+            handleSubmit(formikValues)
           }}
         >
           {({ values, isSubmitting, handleChange }) => (
@@ -79,7 +78,7 @@ const EditCategoryModal = (props: Props) => {
                     <Button
                       variant="outlined"
                       onClick={() => {
-                        handleDelete(values.id);
+                        handleDelete(values.id)
                       }}
                       color="secondary"
                       size="small"
@@ -94,20 +93,20 @@ const EditCategoryModal = (props: Props) => {
         </Formik>
       </Box>
     </Dialog>
-  );
-};
+  )
+}
 
 const mapStateToProps = (state: ApplicationState) => ({
   editingCategory: state.monerate.editingCategory,
-});
+})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   closeCategoryModal: () => dispatch(monerateActions.closeCategoryModal()),
   setCategories: (categories: CategoryGetDto[]) =>
     dispatch(monerateActions.setCategories(categories)),
-});
+})
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps>
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditCategoryModal);
+export default connect(mapStateToProps, mapDispatchToProps)(EditCategoryModal)

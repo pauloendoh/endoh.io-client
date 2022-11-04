@@ -1,3 +1,4 @@
+import { Clear } from "@mui/icons-material"
 import {
   Box,
   Button,
@@ -7,8 +8,7 @@ import {
   Link,
   makeStyles,
   Typography,
-} from "@material-ui/core"
-import { Clear } from "@material-ui/icons"
+} from "@mui/material"
 import { useEffect, useState } from "react"
 import { GlobalHotKeys } from "react-hotkeys"
 import { MdArrowBack, MdArrowForward } from "react-icons/md"

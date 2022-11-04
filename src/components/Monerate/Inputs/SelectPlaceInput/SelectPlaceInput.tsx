@@ -1,29 +1,29 @@
-import { Box, Typography } from "@material-ui/core";
 import {
   Autocomplete,
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
-} from "@material-ui/lab";
-import React, { useState } from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { ApplicationState } from "store/store";
-import * as monerateActions from "../../../../store/monerate/monerateActions";
-import PlaceGetDto from "../../../../types/domain/monerate/PlaceGetDto";
-import FlexHCenter from "../../../_UI/Flexboxes/FlexHCenter";
-import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter";
-import MyTextField from "../../../_UI/MyInputs/MyTextField";
-import PlaceIcon from "../../../_UI/PlaceIcon";
+} from "@mui/lab"
+import { Box, Typography } from "@mui/material"
+import React, { useState } from "react"
+import { connect } from "react-redux"
+import { Dispatch } from "redux"
+import { ApplicationState } from "store/store"
+import * as monerateActions from "../../../../store/monerate/monerateActions"
+import PlaceGetDto from "../../../../types/domain/monerate/PlaceGetDto"
+import FlexHCenter from "../../../_UI/Flexboxes/FlexHCenter"
+import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
+import MyTextField from "../../../_UI/MyInputs/MyTextField"
+import PlaceIcon from "../../../_UI/PlaceIcon"
 
 // PE 2/3
 const SelectPlaceInput: React.FC<Props> = (props) => {
   // PE 1/3 20210113
   const initialPlace = props.value
     ? props.places.find((p) => p.id === props.value)
-    : null;
+    : null
 
   // localValue ?
-  const [place, setPlace] = useState<PlaceGetDto>(initialPlace);
+  const [place, setPlace] = useState<PlaceGetDto>(initialPlace)
 
   return (
     <Box>
@@ -67,22 +67,22 @@ const SelectPlaceInput: React.FC<Props> = (props) => {
         )}
         onChange={(e, value) => {
           // create a handleChange method
-          const place = value as PlaceGetDto;
+          const place = value as PlaceGetDto
           if (place && place.id === null) {
-            props.startNewPlace();
+            props.startNewPlace()
           } else {
-            setPlace(place);
-            props.onChange(e, place, null);
+            setPlace(place)
+            props.onChange(e, place, null)
           }
         }}
       />
     </Box>
-  );
-};
+  )
+}
 
 const mapStateToProps = (state: ApplicationState) => ({
   places: state.monerate.places,
-});
+})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   // add place
@@ -90,20 +90,20 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch(monerateActions.setPlaces(places)),
 
   startNewPlace: () => dispatch(monerateActions.startNewPlace()),
-});
+})
 
 interface OwnProps {
-  value: number;
+  value: number
   onChange?: (
     event: React.ChangeEvent<{}>,
     value: unknown,
     reason: AutocompleteChangeReason,
     details?: AutocompleteChangeDetails<unknown>
-  ) => void;
+  ) => void
 }
 
 type Props = OwnProps &
   ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps>
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectPlaceInput);
+export default connect(mapStateToProps, mapDispatchToProps)(SelectPlaceInput)

@@ -1,13 +1,13 @@
-import { Box, Button } from "@material-ui/core";
-import React, { useState } from "react";
-import useProfileStore from "store/zustand/domain/useProfileStore";
-import FollowersDialog from "../../../_common/FollowersDialog/FollowersDialog";
+import { Box, Button } from "@mui/material"
+import { useState } from "react"
+import useProfileStore from "store/zustand/domain/useProfileStore"
+import FollowersDialog from "../../../_common/FollowersDialog/FollowersDialog"
 
 // PE 2/3
 const FollowersButtonDialog = () => {
-  const [openDialog, setOpenDialog] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false)
 
-  const profileStore = useProfileStore();
+  const profileStore = useProfileStore()
 
   return (
     <Box>
@@ -20,7 +20,7 @@ const FollowersButtonDialog = () => {
         onClose={() => setOpenDialog(false)}
       />
     </Box>
-  );
-};
+  )
+}
 
-export default FollowersButtonDialog;
+export default FollowersButtonDialog

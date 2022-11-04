@@ -1,5 +1,5 @@
-import { Box, FormControl, MenuItem, Select } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import { Box, FormControl, MenuItem, Select } from "@mui/material"
+import { useEffect, useState } from "react"
 import {
   Bar,
   BarChart,
@@ -8,37 +8,37 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from "recharts";
-import { ResourceDto } from "../../../types/domain/relearn/ResourceDto";
-import { TagDto } from "../../../types/domain/relearn/TagDto";
-import { getLastWeekResourcesForChart } from "../../../utils/feed/getLastWeekResourcesForChart";
-import { getLastYearResourcesForChart } from "../../../utils/feed/getLastYearResourcesForChart";
+} from "recharts"
+import { ResourceDto } from "../../../types/domain/relearn/ResourceDto"
+import { TagDto } from "../../../types/domain/relearn/TagDto"
+import { getLastWeekResourcesForChart } from "../../../utils/feed/getLastWeekResourcesForChart"
+import { getLastYearResourcesForChart } from "../../../utils/feed/getLastYearResourcesForChart"
 
-type ChartRange = "Last week" | "Last year";
+type ChartRange = "Last week" | "Last year"
 
 interface Props {
-  resources: ResourceDto[];
+  resources: ResourceDto[]
 }
 
 // PE 3/3
 const ResourcesChart = (props: Props) => {
-  const [tags, setTags] = useState<TagDto[]>([]);
-  const [data, setData] = useState([]);
+  const [tags, setTags] = useState<TagDto[]>([])
+  const [data, setData] = useState([])
 
-  const [chartRange, setChartRange] = useState<ChartRange>("Last year");
+  const [chartRange, setChartRange] = useState<ChartRange>("Last year")
 
   // prepare the graphic
   useEffect(() => {
     if (chartRange === "Last week") {
-      const { tags, data } = getLastWeekResourcesForChart(props.resources);
-      setTags(tags);
-      setData(data);
+      const { tags, data } = getLastWeekResourcesForChart(props.resources)
+      setTags(tags)
+      setData(data)
     } else if (chartRange === "Last year") {
-      const { tags, data } = getLastYearResourcesForChart(props.resources);
-      setTags(tags);
-      setData(data);
+      const { tags, data } = getLastYearResourcesForChart(props.resources)
+      setTags(tags)
+      setData(data)
     }
-  }, [props.resources, chartRange]);
+  }, [props.resources, chartRange])
 
   return (
     <Box>
@@ -85,7 +85,7 @@ const ResourcesChart = (props: Props) => {
         ))}
       </BarChart>
     </Box>
-  );
-};
+  )
+}
 
-export default ResourcesChart;
+export default ResourcesChart

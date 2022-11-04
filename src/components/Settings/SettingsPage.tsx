@@ -1,17 +1,17 @@
-import { Box } from "@material-ui/core";
-import React, { useEffect } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
-import pageUrls from "../../utils/url/urls/pageUrls";
-import EditCategoryModal from "../Monerate/Modals/EditCategoryModal";
-import EditPlaceModal from "../Monerate/Modals/EditPlaceModal";
-import Flex from "../_UI/Flexboxes/Flex";
-import PersonalInformationPaper from "./account/paper/PersonalInformationPaper";
-import SettingsSidebar from "./SettingsSidebar/SettingsSidebar";
+import { Box } from "@mui/material"
+import { useEffect } from "react"
+import { Redirect, Route, Switch } from "react-router-dom"
+import pageUrls from "../../utils/url/urls/pageUrls"
+import EditCategoryModal from "../Monerate/Modals/EditCategoryModal"
+import EditPlaceModal from "../Monerate/Modals/EditPlaceModal"
+import Flex from "../_UI/Flexboxes/Flex"
+import PersonalInformationPaper from "./account/paper/PersonalInformationPaper"
+import SettingsSidebar from "./SettingsSidebar/SettingsSidebar"
 
 function SettingsPage() {
   useEffect(() => {
-    document.title = "Settings - Endoh.io";
-  }, []);
+    document.title = "Settings - Endoh.io"
+  }, [])
 
   return (
     <Flex height="100%">
@@ -43,7 +43,7 @@ function SettingsPage() {
       <EditPlaceModal />
       <EditCategoryModal />
     </Flex>
-  );
+  )
 }
 
-export default SettingsPage;
+export default SettingsPage

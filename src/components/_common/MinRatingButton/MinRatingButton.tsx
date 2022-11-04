@@ -1,39 +1,39 @@
+import { Rating } from "@mui/lab"
 import {
   Box,
   Button,
   ClickAwayListener,
   Tooltip,
   Typography,
-} from "@material-ui/core";
-import { Rating } from "@material-ui/lab";
-import React, { useEffect, useState } from "react";
+} from "@mui/material"
+import React, { useEffect, useState } from "react"
 import {
   hoverRatingLabels,
   ratingLabels,
-} from "utils/domain/relearn/resources/ratingLabels";
-import FlexHCenter from "../../_UI/Flexboxes/FlexHCenter";
-import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter";
+} from "utils/domain/relearn/resources/ratingLabels"
+import FlexHCenter from "../../_UI/Flexboxes/FlexHCenter"
+import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
 
 interface Props {
-  value: number;
-  onChange: (newRating: number) => void;
+  value: number
+  onChange: (newRating: number) => void
 }
 
 function MinRatingButton(props: Props) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false)
   const handleTooltipClose = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
   const handleTooltipOpen = () => {
-    setOpen(true);
-  };
+    setOpen(true)
+  }
 
   // const [rating, setRating] = React.useState<number | null>(props.value)
-  const [hover, setHover] = useState(-1);
+  const [hover, setHover] = useState(-1)
 
   useEffect(() => {
-    setHover(-1);
-  }, [props.value]);
+    setHover(-1)
+  }, [props.value])
 
   return (
     <ClickAwayListener onClickAway={handleTooltipClose}>
@@ -55,14 +55,14 @@ function MinRatingButton(props: Props) {
               value={props.value}
               onChange={(event, newValue) => {
                 // setRating(rating)
-                setOpen(false);
-                props.onChange(newValue);
+                setOpen(false)
+                props.onChange(newValue)
               }}
               onChangeActive={(event, newHover) => {
                 if (!newHover || newHover === props.value) {
-                  setHover(0);
+                  setHover(0)
                 } else {
-                  setHover(newHover);
+                  setHover(newHover)
                 }
               }}
             />
@@ -95,7 +95,7 @@ function MinRatingButton(props: Props) {
         </Button>
       </Tooltip>
     </ClickAwayListener>
-  );
+  )
 }
 
-export default MinRatingButton;
+export default MinRatingButton

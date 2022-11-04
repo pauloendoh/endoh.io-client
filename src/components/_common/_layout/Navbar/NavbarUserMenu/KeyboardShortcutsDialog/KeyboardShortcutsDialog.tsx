@@ -4,18 +4,17 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-} from "@material-ui/core";
-import Flex from "components/_UI/Flexboxes/Flex";
-import FlexCol from "components/_UI/Flexboxes/FlexCol";
-import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter";
-import Txt from "components/_UI/Text/Txt";
-import React from "react";
-import { MdClose } from "react-icons/md";
-import shortcutSections from "./KeyboardShortcutsDialog.utils";
+} from "@mui/material"
+import Flex from "components/_UI/Flexboxes/Flex"
+import FlexCol from "components/_UI/Flexboxes/FlexCol"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import Txt from "components/_UI/Text/Txt"
+import { MdClose } from "react-icons/md"
+import shortcutSections from "./KeyboardShortcutsDialog.utils"
 
 interface Props {
-  open: boolean;
-  onClose: () => void;
+  open: boolean
+  onClose: () => void
 }
 
 const KeyboardShortcutsDialog = (props: Props) => {
@@ -67,7 +66,7 @@ const KeyboardShortcutsDialog = (props: Props) => {
         </DialogContent>
       </Box>
     </Dialog>
-  );
-};
+  )
+}
 
-export default KeyboardShortcutsDialog;
+export default KeyboardShortcutsDialog
