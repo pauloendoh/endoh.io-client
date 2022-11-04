@@ -17,7 +17,7 @@ import apiUrls from "utils/url/urls/apiUrls"
 // PE 2/3
 const NavbarAddButton = (props: Props) => {
   const [openNoteDialog, closeNoteDialog] = useNoteDialogStore((s) => [
-    s.onOpen,
+    s.openNoteDialog,
     s.onClose,
   ])
 

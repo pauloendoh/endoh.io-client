@@ -4,7 +4,7 @@ import create from "zustand"
 interface INoteDialogStore {
   isOpen: boolean
   initialValue: NoteDto
-  onOpen: (options: {
+  openNoteDialog: (options: {
     initialValue: NoteDto
     onSubmit: (value: NoteDto) => void
   }) => void
@@ -15,7 +15,7 @@ interface INoteDialogStore {
 const useNoteDialogStore = create<INoteDialogStore>((set, get) => ({
   isOpen: false,
   initialValue: buildNoteDto(),
-  onOpen: (options) =>
+  openNoteDialog: (options) =>
     set({
       isOpen: true,
       initialValue: options.initialValue,
@@ -28,21 +28,3 @@ const useNoteDialogStore = create<INoteDialogStore>((set, get) => ({
 }))
 
 export default useNoteDialogStore
-
-// <NoteDialog
-// initialValue={initialValue}
-// onClose={() => {
-//   setDialogIsOpen(false)
-// }}
-// onSubmit={(updatedNote) => {
-//   myAxios
-//     .post<NoteDto>(apiUrls.define.note, updatedNote)
-//     .then((res) => {
-//       docsStore.pushOrReplaceNote(res.data)
-
-//       setDialogIsOpen(false)
-//       setSuccessMessage("Question saved!")
-//     })
-// }}
-// open={dialogIsOpen}
-// />

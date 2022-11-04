@@ -66,6 +66,7 @@ const QuestionDialog = () => {
                 name="question"
                 render={({ field }) => (
                   <MyTextField
+                    sx={{ mt: 1 }}
                     id="question"
                     name="question"
                     size="small"

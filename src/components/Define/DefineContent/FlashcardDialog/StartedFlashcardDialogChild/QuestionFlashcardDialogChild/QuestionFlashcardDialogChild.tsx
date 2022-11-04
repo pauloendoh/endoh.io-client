@@ -38,7 +38,7 @@ const QuestionFlashcardDialogChild = (props: {
   const [showingAnswer, setShowingAnswer] = useState(false)
 
   const [openNoteDialog, closeDialog] = useNoteDialogStore((s) => [
-    s.onOpen,
+    s.openNoteDialog,
     s.onClose,
   ])
 

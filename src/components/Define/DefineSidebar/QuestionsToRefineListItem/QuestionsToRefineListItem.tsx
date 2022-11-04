@@ -21,7 +21,7 @@ const QuestionsToRefineListItem = (props: Props) => {
   ])
 
   const [openNoteDialog, closeNoteDialog] = useNoteDialogStore((s) => [
-    s.onOpen,
+    s.openNoteDialog,
     s.onClose,
   ])
 

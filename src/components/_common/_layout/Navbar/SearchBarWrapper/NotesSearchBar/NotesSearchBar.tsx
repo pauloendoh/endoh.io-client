@@ -90,7 +90,7 @@ const NotesSearchBar = () => {
   const setSuccessMessage = useSnackbarStore((s) => s.setSuccessMessage)
 
   const [onOpenDialog, closeDialog] = useNoteDialogStore((s) => [
-    s.onOpen,
+    s.openNoteDialog,
     s.onClose,
   ])
 
