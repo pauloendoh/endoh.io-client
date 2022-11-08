@@ -15,7 +15,7 @@ const theme = createTheme({
     // fontFamily: `'Saira', sans-serif;`, // imported at index.css
     fontFamily: `'Noto Sans', sans-serif;`, // imported at index.css
 
-    fontSize: 11,
+    fontSize: 12,
     button: {
       textTransform: "none",
       fontWeight: 500,
