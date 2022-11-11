@@ -8,12 +8,12 @@ import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
 import useRelearnStore from "store/zustand/domain/useRelearnStore"
+import { urls } from "utils/urls"
 import { removeTag } from "../../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../../store/store"
 import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto"
 import { TagDto } from "../../../../types/domain/relearn/TagDto"
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto"
-import pageUrls from "../../../../utils/url/urls/pageUrls"
 import Flex from "../../../_UI/Flexboxes/Flex"
 import SelectedResourcesOptions from "./SelectedResourcesOptions/SelectedResourcesOptions"
 import SkillChips from "./SkillChips/SkillChips"
@@ -42,11 +42,11 @@ function ContentHeader(props: Props) {
     const { pathname } = location
 
     // /relearn
-    if (pathname === pageUrls.relearn.index) {
+    if (pathname === urls.pages.relearn.index) {
       setTag(null)
     }
     // /relearn/tag/:id
-    else if (pathname.startsWith(pageUrls.relearn.tag)) {
+    else if (pathname.startsWith(urls.pages.relearn.tag)) {
       const tagId = Number(pathname.split("/").pop())
 
       if (tagId) {

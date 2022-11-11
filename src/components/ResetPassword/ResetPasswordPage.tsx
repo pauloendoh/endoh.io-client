@@ -13,12 +13,12 @@ import {
 import { Form, Formik } from "formik"
 import { useEffect, useState } from "react"
 import { Link as RouterLink, Redirect } from "react-router-dom"
+import { urls } from "utils/urls"
 import { PasswordResetPostDto } from "../../types/domain/auth/PasswordResetPostDto"
 import MyAxiosError, { MyFieldError } from "../../types/MyAxiosError"
 import myAxios from "../../utils/consts/myAxios"
 import { getQueryParam } from "../../utils/url/getQueryParam"
 import apiUrls from "../../utils/url/urls/apiUrls"
-import pageUrls from "../../utils/url/urls/pageUrls"
 import Flex from "../_UI/Flexboxes/Flex"
 import FlexHCenter from "../_UI/Flexboxes/FlexHCenter"
 import FlexVCenter from "../_UI/Flexboxes/FlexVCenter"
@@ -39,7 +39,7 @@ function ResetPasswordPage() {
   useEffect(
     () => {
       if (token.length === 0 || !userId) {
-        setRedirectTo(pageUrls.index)
+        setRedirectTo(urls.pages.index)
       }
       document.title = "Reset Password - Endoh.io"
     },

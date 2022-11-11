@@ -10,6 +10,7 @@ import { Redirect, useLocation, useParams } from "react-router-dom"
 import { Dispatch } from "redux"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import useWindowFocus from "use-window-focus"
+import { urls } from "utils/urls"
 import * as relearnActions from "../../store/relearn/relearnActions"
 import { ApplicationState } from "../../store/store"
 import useSidebarStore from "../../store/zustand/useSidebarStore"
@@ -17,7 +18,6 @@ import { ResourceDto } from "../../types/domain/relearn/ResourceDto"
 import { SkillDto } from "../../types/domain/skillbase/SkillDto"
 import myAxios from "../../utils/consts/myAxios"
 import apiUrls from "../../utils/url/urls/apiUrls"
-import pageUrls from "../../utils/url/urls/pageUrls"
 import LoadingPage from "../_common/LoadingPage/LoadingPage"
 import Flex from "../_UI/Flexboxes/Flex"
 import RelearnContent from "./RelearnContent/RelearnContent"
@@ -73,12 +73,12 @@ const RelearnPage = (props: Props) => {
       const { pathname } = location
 
       // Filtrando resource por tags. Melhor colocar em outro arquivo?
-      if (pathname === pageUrls.relearn.index) {
+      if (pathname === urls.pages.relearn.index) {
         setFilteredResources(
           props.resources.filter((resource) => resource.tag === null)
         )
         document.title = "Untagged - Endoh.io"
-      } else if (pathname.startsWith(pageUrls.relearn.tag)) {
+      } else if (pathname.startsWith(urls.pages.relearn.tag)) {
         const tagId = Number(pathname.split("/").pop())
         if (tagId) {
           setFilteredResources(
@@ -112,7 +112,7 @@ const RelearnPage = (props: Props) => {
         })[0]
 
         if (!params.tagId) {
-          setRedirectTo(pageUrls.relearn.tagId(lastOpened.id))
+          setRedirectTo(urls.pages.relearn.tagId(lastOpened.id))
           return
         }
 
@@ -120,7 +120,7 @@ const RelearnPage = (props: Props) => {
           (tag) => tag.id === Number(params.tagId)
         )
         if (!foundTag) {
-          setRedirectTo(pageUrls.relearn.tagId(lastOpened.id))
+          setRedirectTo(urls.pages.relearn.tagId(lastOpened.id))
         }
       }
     },

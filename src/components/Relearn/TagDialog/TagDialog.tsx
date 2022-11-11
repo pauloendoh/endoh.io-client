@@ -13,7 +13,7 @@ import { useHistory } from "react-router-dom"
 import { Dispatch } from "redux"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import MyAxiosError from "types/MyAxiosError"
-import pageUrls from "utils/url/urls/pageUrls"
+import { urls } from "utils/urls"
 import * as relearnActions from "../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../store/store"
 import { TagDto } from "../../../types/domain/relearn/TagDto"
@@ -41,7 +41,7 @@ const TagDialog = (props: Props) => {
 
         const savedTagId = returnedTags.find((t) => t.name === sentTag.name).id
 
-        history.push(pageUrls.relearn.tag + "/" + savedTagId)
+        history.push(urls.pages.relearn.tag + "/" + savedTagId)
       })
       .catch((err: MyAxiosError) => {
         setErrorMessage(err.response.data.errors[0].message)

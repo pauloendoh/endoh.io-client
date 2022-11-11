@@ -1,10 +1,11 @@
-import pageUrls from "../../url/urls/pageUrls";
+import { urls } from "utils/urls"
+import pageUrls from "../../url/urls/pageUrls"
 export const isValidApplicationPath = (pathname: string) => {
   return (
-    pathname.startsWith(pageUrls.monerate.index) ||
-    pathname.startsWith(pageUrls.relearn.index) ||
+    pathname.startsWith(urls.pages.monerateIndex) ||
+    pathname.startsWith(urls.pages.relearn.index) ||
     pathname.startsWith(pageUrls.skillbase.index) ||
     pathname.startsWith(pageUrls.feed.index) ||
     pathname.startsWith(pageUrls.define.index)
-  );
-};
+  )
+}

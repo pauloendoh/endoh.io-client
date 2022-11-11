@@ -3,6 +3,7 @@ import { Box, IconButton } from "@mui/material"
 import { useEffect, useState } from "react"
 import { Link as RouterLink, useLocation } from "react-router-dom"
 import pageUrls from "utils/url/urls/pageUrls"
+import { urls } from "utils/urls"
 import Flex from "../../../_UI/Flexboxes/Flex"
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
 import LeftToggleButton from "./LeftToggleButton/LeftToggleButton"
@@ -21,7 +22,7 @@ const Navbar = () => {
 
   useEffect(() => {
     // DRY?
-    if (location.pathname.startsWith(pageUrls.relearn.index)) {
+    if (location.pathname.startsWith(urls.pages.relearn.index)) {
       setTabIndex(0)
     } else if (location.pathname.startsWith(pageUrls.feed.index)) {
       setTabIndex(1)
@@ -40,7 +41,7 @@ const Navbar = () => {
         <FlexVCenter>
           <LeftToggleButton />
           <Box ml={1} />
-          <IconButton component={RouterLink} to={pageUrls.index} size="small">
+          <IconButton component={RouterLink} to={urls.pages.index} size="small">
             <FlexVCenter width={24} height={24} justifyContent="center">
               <S.FireIcon icon={faFire} />
             </FlexVCenter>

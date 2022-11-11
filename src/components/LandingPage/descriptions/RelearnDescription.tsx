@@ -2,7 +2,7 @@ import { faGraduationCap } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Box, Button, Grid, Typography } from "@mui/material"
 import { Link } from "react-router-dom"
-import pageUrls from "../../../utils/url/urls/pageUrls"
+import { urls } from "utils/urls"
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
 
 const RelearnDescription = () => {
@@ -21,7 +21,10 @@ const RelearnDescription = () => {
         </Typography>
 
         <Box mt={2}>
-          <Link to={pageUrls.relearn.index} style={{ textDecoration: "none" }}>
+          <Link
+            to={urls.pages.relearn.index}
+            style={{ textDecoration: "none" }}
+          >
             <Button variant="contained" color="primary">
               Check /relearn
             </Button>

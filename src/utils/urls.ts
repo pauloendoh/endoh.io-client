@@ -1,10 +1,17 @@
 export const urls = {
   pages: {
+    index: "/",
+    monerateIndex: "/monerate",
     openResourceId: (resourceId: number, pathname?: string) =>
       `${pathname}?openResourceId=${resourceId}`,
     monerate: {
       index: "/monerate",
       similarExpenses: "/monerate/similar-expenses",
+    },
+    relearn: {
+      index: "/relearn",
+      tag: "/relearn/tag",
+      tagId: (tagId: number) => `/relearn/tag/${tagId}`,
     },
     defineIndex: `/define`,
     defineDoc: (docId: number) => `/define/doc/${docId}`,

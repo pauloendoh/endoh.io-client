@@ -1,12 +1,6 @@
 // PE 3/3
 const pageUrls = {
-  index: "/",
-  monerate: {
-    index: "/monerate",
-  },
   relearn: {
-    index: "/relearn",
-    tag: "/relearn/tag",
     tagId: (tagId: number) => `/relearn/tag/${tagId}`,
   },
   skillbase: {

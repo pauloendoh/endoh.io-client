@@ -34,6 +34,7 @@ import useDialogsStore from "store/zustand/useDialogsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import buildGraphqlClient from "utils/consts/buildGraphqlClient"
 import { shortNumberFormatter } from "utils/math/shortNumberFormatter"
+import { urls } from "utils/urls"
 import linkPng from "../../../../static/images/link.png"
 import * as relearnActions from "../../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../../store/store"
@@ -42,7 +43,6 @@ import { TagDto } from "../../../../types/domain/relearn/TagDto"
 import myAxios from "../../../../utils/consts/myAxios"
 import { urlIsValid } from "../../../../utils/url/isValidUrl"
 import apiUrls from "../../../../utils/url/urls/apiUrls"
-import pageUrls from "../../../../utils/url/urls/pageUrls"
 import RatingButton from "../../../_common/RatingButton/RatingButton"
 import SaveCancelButtons from "../../../_UI/Buttons/SaveCancelButtons"
 import Flex from "../../../_UI/Flexboxes/Flex"
@@ -107,7 +107,7 @@ const ResourceDialog = (props: Props) => {
   const [isFetchingLinkPreview, setIsFetchingLinkPreview] = useState(false)
 
   const getCurrentTag = (): TagDto => {
-    if (location.pathname.startsWith(pageUrls.relearn.tag)) {
+    if (location.pathname.startsWith(urls.pages.relearn.tag)) {
       const tagId = Number(location.pathname.split("/").pop())
       if (tagId) {
         const currentTag = sortedTags.find((t) => t.id === tagId)

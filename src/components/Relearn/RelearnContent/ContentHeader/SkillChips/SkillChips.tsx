@@ -5,7 +5,7 @@ import { useMemo, useState } from "react"
 import { useLocation } from "react-router-dom"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import { FilterSkillChipsBy } from "types/domain/relearn/FilterSkillChipsBy"
-import pageUrls from "../../../../../utils/url/urls/pageUrls"
+import { urls } from "utils/urls"
 import SkillChip from "../../../../_common/SkillChip/SkillChip"
 import Flex from "../../../../_UI/Flexboxes/Flex"
 import EditSkillsButton from "./EditSkillsButton/EditSkillsButton"
@@ -28,7 +28,7 @@ function SkillChips() {
       )
 
     if (filterBy === "By tag") {
-      if (pathname.startsWith(pageUrls.relearn.tag)) {
+      if (pathname.startsWith(urls.pages.relearn.tag)) {
         const tagId = Number(pathname.split("/").pop())
 
         if (tagId) {

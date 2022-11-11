@@ -6,11 +6,11 @@ import { connect } from "react-redux"
 import { Link, Redirect, useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
 import { pushOrReplace } from "utils/array/pushOrReplace"
+import { urls } from "utils/urls"
 import * as relearnActions from "../../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../../store/store"
 import { TagDto } from "../../../../types/domain/relearn/TagDto"
 import { getTodoResources as filterTodoResources } from "../../../../utils/relearn/getTodoResources"
-import pageUrls from "../../../../utils/url/urls/pageUrls"
 import S from "./TagListItem.styles"
 import TagMoreIcon from "./TagMoreIcon/TagMoreIcon"
 
@@ -53,11 +53,11 @@ function TagListItem(props: Props) {
       style={{ justifyContent: "flex-start", minHeight: 48 }}
       button
       component={Link}
-      to={pageUrls.relearn.tag + "/" + props.tag.id}
+      to={urls.pages.relearn.tag + "/" + props.tag.id}
       onClick={() => handleSaveTagLastOpenedAt(props.tag.id)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      selected={pathName === pageUrls.relearn.tag + "/" + props.tag.id}
+      selected={pathName === urls.pages.relearn.tag + "/" + props.tag.id}
     >
       <ListItemText>
         <S.IconTitleWrapper>
@@ -72,7 +72,7 @@ function TagListItem(props: Props) {
         <TagMoreIcon
           afterDelete={() => {
             if (pathName.endsWith(props.tag.id.toString()))
-              setRedirectTo(pageUrls.relearn.index)
+              setRedirectTo(urls.pages.relearn.index)
           }}
           tag={props.tag}
         />

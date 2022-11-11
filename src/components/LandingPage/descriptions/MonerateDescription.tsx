@@ -2,7 +2,7 @@ import { faFunnelDollar } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Box, Button, Grid, Typography } from "@mui/material"
 import { Link } from "react-router-dom"
-import pageUrls from "../../../utils/url/urls/pageUrls"
+import { urls } from "utils/urls"
 import monerateDemo from "../../static/videos/monerate-demo.mp4"
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
 import TextSecondary from "../../_UI/Text/TextSecondary"
@@ -23,7 +23,10 @@ const MonerateDescription = () => {
         </Typography>
 
         <Box mt={2}>
-          <Link to={pageUrls.monerate.index} style={{ textDecoration: "none" }}>
+          <Link
+            to={urls.pages.monerateIndex}
+            style={{ textDecoration: "none" }}
+          >
             <Button variant="contained" color="primary">
               Check /monerate
             </Button>
