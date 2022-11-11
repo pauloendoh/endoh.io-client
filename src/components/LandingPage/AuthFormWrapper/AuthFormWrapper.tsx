@@ -67,6 +67,7 @@ const AuthFormWrapper = () => {
                 fullWidth
                 className={classes.testUserButton}
                 id="temp-user-btn"
+                sx={(theme) => ({ color: theme.palette.grey[100] })}
               >
                 <FlexVCenter>
                   <Icons.AccessAlarm fontSize="large" />

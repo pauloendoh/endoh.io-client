@@ -7,6 +7,7 @@ const S = {
     padding-top: ${theme.spacing(1)}; // PE 2/3 - use ThemeProps?
     padding-bottom: ${theme.spacing(1)};
     background: ${theme.palette.grey[800]};
+    color: ${theme.palette.grey[100]};
   `,
   TextWrapper: styled(Box)`
     ${mediaQueries.isBiggerThanSm} {

@@ -18,7 +18,7 @@ import KeyboardShortcutsDialog from "./KeyboardShortcutsDialog/KeyboardShortcuts
 // PE 2/3
 const NavbarUserMenu = (props: Props) => {
   const location = useLocation()
-  const { profile, authUser: user } = useAuthStore()
+  const { profile, authUser } = useAuthStore()
 
   const [anchorEl, setAnchorEl] = useState(null)
   const [shortcutsDialog, setShortcutsDialog] = useState(false)
@@ -50,7 +50,7 @@ const NavbarUserMenu = (props: Props) => {
         <ProfilePicture
           isLink={false}
           pictureUrl={profile?.pictureUrl}
-          username={user?.username}
+          username={authUser?.username}
           size="1.875rem"
         />
       </IconButton>
@@ -66,7 +66,7 @@ const NavbarUserMenu = (props: Props) => {
       >
         <MenuItem
           component={Link}
-          to={"/user/" + user.username}
+          to={"/user/" + authUser.username}
           id="profile-user-menu-option"
           onClick={handleCloseMenu}
         >
@@ -88,12 +88,26 @@ const NavbarUserMenu = (props: Props) => {
           </FlexVCenter>
         </MenuItem>
 
-        <MenuItem component={Link} to={settingsHref} id="settings-user-menu">
-          <Box mr={2}>
-            <FontAwesomeIcon icon={faCog} />
-          </Box>
-          Settings
-        </MenuItem>
+        {authUser?.userExpiresAt ? (
+          <MenuItem
+            component={Link}
+            to={settingsHref}
+            id="settings-user-menu"
+            sx={(theme) => ({ color: theme.palette.primary.main })}
+          >
+            <Box mr={2}>
+              <FontAwesomeIcon icon={faCog} />
+            </Box>
+            Keep user
+          </MenuItem>
+        ) : (
+          <MenuItem component={Link} to={settingsHref} id="settings-user-menu">
+            <Box mr={2}>
+              <FontAwesomeIcon icon={faCog} />
+            </Box>
+            Settings
+          </MenuItem>
+        )}
 
         <MenuItem className="logout-option" onClick={logout}>
           <Box mr={2}>

@@ -54,6 +54,7 @@ function FilterSkillChipsButton(props: Props) {
         variant="outlined"
         size="small"
         className={classes.editSkillsButton}
+        color="inherit"
         onClick={(e) => {
           e.preventDefault()
           handleOpenMore(e)

@@ -1,22 +1,22 @@
-import useAuthStore from "store/zustand/useAuthStore";
-import { AuthUserGetDto } from "types/domain/auth/AuthUserGetDto";
-import myAxios from "utils/consts/myAxios";
-import { getQueryParam } from "utils/url/getQueryParam";
-import { urls } from "utils/urls";
-import { useLogout } from "./useLogout";
+import useAuthStore from "store/zustand/useAuthStore"
+import { AuthUserGetDto } from "types/domain/auth/AuthUserGetDto"
+import myAxios from "utils/consts/myAxios"
+import { getQueryParam } from "utils/url/getQueryParam"
+import { urls } from "utils/urls"
+import { useLogout } from "./useLogout"
 
 const useCheckAuthOrLogout = () => {
-  const logout = useLogout();
-  const { setAuthUser } = useAuthStore();
+  const logout = useLogout()
+  const { setAuthUser } = useAuthStore()
 
   const checkAuthOrLogout = () => {
-    const userLocalStorage = localStorage.getItem("user");
+    const userLocalStorage = localStorage.getItem("user")
     // const googleSession = getCookie('endoh_google_session')
 
     if (!userLocalStorage) {
       // Login with google?
-      const oauthToken = getQueryParam("oauthToken");
-      const userId = getQueryParam("userId");
+      const oauthToken = getQueryParam("oauthToken")
+      const userId = getQueryParam("userId")
 
       if (oauthToken?.length && userId?.length) {
         myAxios
@@ -26,22 +26,29 @@ const useCheckAuthOrLogout = () => {
             token: oauthToken,
           })
           .then((res) => {
-            const user = res.data;
-            localStorage.setItem("user", JSON.stringify(user));
-            setAuthUser(user);
-          });
+            const user = res.data
+            localStorage.setItem("user", JSON.stringify(user))
+            setAuthUser(user)
+          })
       }
 
-      return;
+      return
     } else {
       // Regular login
-      const user: AuthUserGetDto = JSON.parse(userLocalStorage);
-      if (new Date(user.expiresAt) <= new Date()) return logout();
-      return setAuthUser(user);
+      const user: AuthUserGetDto = JSON.parse(userLocalStorage)
+
+      if (new Date(user.tokenExpiresAt) <= new Date()) {
+        console.log(
+          "🚀 ~ file: useCheckAuthOrLogout.ts ~ line 43 ~ checkAuthOrLogout ~ logout",
+          logout
+        )
+        return logout()
+      }
+      return setAuthUser(user)
     }
-  };
+  }
 
-  return checkAuthOrLogout;
-};
+  return checkAuthOrLogout
+}
 
-export default useCheckAuthOrLogout;
+export default useCheckAuthOrLogout

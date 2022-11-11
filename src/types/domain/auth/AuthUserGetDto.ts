@@ -1,26 +1,27 @@
 export interface AuthUserGetDto {
-    id: number
-    username: string
-    email: string
-    // preference: UserPreferenceDto
+  id: number
+  username: string
+  email: string
+  // preference: UserPreferenceDto
+  userExpiresAt: string
 
-    token: string
-    expiresAt: string
+  token: string
+  tokenExpiresAt: string
 }
 
 export interface UserPreferenceDto {
-    id: number;
+  id: number
 
-    relearnAutofillURL: boolean
-    relearnLastAccessedRoute: string
+  relearnAutofillURL: boolean
+  relearnLastAccessedRoute: string
 
-    skillbaseSidebarIsOpen: boolean
-    skillbaseSortSkill: {
-        sortBy: string,
-        order: "asc" | "desc"
-    }
-    skillbaseTextFilter: string
+  skillbaseSidebarIsOpen: boolean
+  skillbaseSortSkill: {
+    sortBy: string
+    order: "asc" | "desc"
+  }
+  skillbaseTextFilter: string
 
-    createdAt: string
-    updatedAt: string
+  createdAt: string
+  updatedAt: string
 }

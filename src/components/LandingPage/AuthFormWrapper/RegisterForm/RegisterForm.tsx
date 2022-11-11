@@ -1,4 +1,5 @@
-import { Box, Button, CircularProgress, Link, Typography } from "@mui/material"
+import { LoadingButton } from "@mui/lab"
+import { Box, Link, Typography } from "@mui/material"
 import { Form, Formik } from "formik"
 import { useAxios } from "hooks/utils/useAxios"
 import { MouseEvent, useState } from "react"
@@ -38,6 +39,7 @@ const RegisterForm = ({ setFormType, ...props }: Props) => {
           username: values.username,
           email: values.email,
           password: values.password,
+          password2: values.password2,
         }
 
         setErrorMessage("")
@@ -111,7 +113,8 @@ const RegisterForm = ({ setFormType, ...props }: Props) => {
           </Box>
 
           <Box mt={2}>
-            <Button
+            <LoadingButton
+              loading={isSubmitting}
               id="auth-submit-button"
               type="submit"
               variant="contained"
@@ -126,8 +129,7 @@ const RegisterForm = ({ setFormType, ...props }: Props) => {
               fullWidth
             >
               SIGN UP
-              {isSubmitting && <CircularProgress size={20} className="ml-3" />}
-            </Button>
+            </LoadingButton>
           </Box>
 
           {responseErrorMessage && (

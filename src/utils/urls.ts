@@ -22,6 +22,7 @@ export const urls = {
       index: "/auth",
       login: "/auth/login",
       googleLogin: "/auth/google/login",
+      keepTempUser: "/auth/keep-temp-user",
     },
     register: "/auth/register",
 

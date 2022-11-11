@@ -28,6 +28,7 @@ function SkillChip(props: Props) {
       onClick={() => {
         setEditingSkill(props.skill)
       }}
+      color="inherit"
     >
       <Flex>
         <Box>{props.skill.name}</Box>
