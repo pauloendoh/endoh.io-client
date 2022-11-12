@@ -4,12 +4,18 @@ import { ExpandLess, ExpandMore } from "@mui/icons-material"
 import AddIcon from "@mui/icons-material/Add"
 import {
   Box,
+  Button,
   Collapse,
   IconButton,
   List,
   ListItem,
   ListItemText,
+  Tooltip,
+  useTheme,
 } from "@mui/material"
+import Flex from "components/_UI/Flexboxes/Flex"
+import useGotItMutation from "hooks/react-query/got-it/useGotItMutation"
+import useGotItQuery from "hooks/react-query/got-it/useGotItQuery"
 import React, { useEffect, useMemo, useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
@@ -48,6 +54,18 @@ function RelearnSidebarTagList(props: Props) {
     return props.tags.sort((a, b) => (a.id > b.id ? 1 : -1))
   }, [props.tags])
 
+  const { data: gotIt } = useGotItQuery()
+
+  const shouldShowtooltip = useMemo(() => {
+    if (props.type === "public" || !gotIt || gotIt.createTag) return false
+
+    return true
+  }, [gotIt?.createTag, props.type])
+
+  const theme = useTheme()
+
+  const { mutate: submitGotIt } = useGotItMutation()
+
   return (
     <React.Fragment>
       <ListItem button onClick={handleClickTags}>
@@ -63,21 +81,56 @@ function RelearnSidebarTagList(props: Props) {
             />
           </FlexVCenter>
         </ListItemText>
-        <IconButton
-          onClick={(e) => {
-            e.stopPropagation()
-            handleAddTag()
+        <Tooltip
+          open={shouldShowtooltip}
+          arrow
+          PopperProps={{
+            sx: {
+              "& .MuiTooltip-tooltip": {
+                backgroundColor: theme.palette.grey[800],
+              },
+              "& .MuiTooltip-arrow": {
+                "&::before": {
+                  backgroundColor: theme.palette.grey[800],
+                },
+              },
+            },
           }}
-          size="small"
-          id={`add-${props.type}-tag`}
+          title={
+            <Box p={1}>
+              <Flex>
+                Add a learning tag. E.g.: Programming, data science, design...
+              </Flex>
+              <Flex justifyContent="end">
+                <Button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    submitGotIt("createTag")
+                  }}
+                >
+                  Got it
+                </Button>
+              </Flex>
+            </Box>
+          }
         >
-          <AddIcon />
-        </IconButton>
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation()
+              handleAddTag()
+              submitGotIt("createTag")
+            }}
+            size="small"
+            id={`add-${props.type}-tag`}
+          >
+            <AddIcon />
+          </IconButton>
+        </Tooltip>
       </ListItem>
 
       <Collapse in={openTags} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          {props.tags.map((tag) => (
+          {sortedTags.map((tag) => (
             <TagListItem key={tag.id} tag={tag} />
           ))}
         </List>

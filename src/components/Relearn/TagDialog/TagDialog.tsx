@@ -82,6 +82,7 @@ const TagDialog = (props: Props) => {
                     value={values.name}
                     inputProps={{ "aria-label": "tag-name-input" }}
                     required
+                    sx={{ mt: 1 }}
                     label="Tag Name"
                     onChange={handleChange}
                     fullWidth

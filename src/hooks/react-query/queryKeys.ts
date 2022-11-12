@@ -13,4 +13,5 @@ export const queryKeys = {
   similarExpenses: "/similar-expenses",
 
   folders: "/folders",
+  gotIt: "/got-it",
 }
