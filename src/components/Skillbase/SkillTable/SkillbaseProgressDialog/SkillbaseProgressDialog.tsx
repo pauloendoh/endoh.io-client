@@ -92,7 +92,7 @@ const SkillbaseProgressDialog = (props: Props) => {
         </DialogTitle>
 
         <DialogContent>
-          <FlexVCenterBetween>
+          <FlexVCenterBetween sx={{ mt: 1 }}>
             <FormControl variant="outlined" size="small" style={{ width: 150 }}>
               <InputLabel id="progress-dialog-select-label">
                 From month
@@ -121,49 +121,42 @@ const SkillbaseProgressDialog = (props: Props) => {
           </FlexVCenterBetween>
 
           <Box mt={2}>
-            {isFetching ? (
-              <Txt>Loading...</Txt>
-            ) : (
-              <>
-                {skillProgresses?.length > 0 && (
-                  <Txt variant="h6">Highest improvements</Txt>
-                )}
-
-                <Box mt={2} />
-                {skillProgresses?.map((progress) => (
-                  <FlexVCenter key={progress.skillId}>
-                    <div style={{ width: 150 }}>
-                      {progress.currentName === progress.previousName ? (
-                        <Txt>
-                          {progress.currentName}
-                          <ImprovementText
-                            levelImprovement={progress.levelImprovement}
-                          />
-                        </Txt>
-                      ) : (
-                        <>
-                          <Txt style={{ textDecoration: "line-through" }}>
-                            {progress.previousName}
-                          </Txt>
-                          <Txt>
-                            {progress.currentName}{" "}
-                            <ImprovementText
-                              levelImprovement={progress.levelImprovement}
-                            />
-                          </Txt>
-                        </>
-                      )}
-                    </div>
-
-                    <FlexVCenterBetween style={{ width: 100 }}>
-                      <Txt>{progress.previousLevel || "?"}</Txt>
-                      <MdOutlineArrowRightAlt size="24px" />
-                      <Txt>{progress.currentLevel}</Txt>
-                    </FlexVCenterBetween>
-                  </FlexVCenter>
-                ))}
-              </>
+            {skillProgresses?.length > 0 && (
+              <Txt variant="h6">Highest improvements</Txt>
             )}
+            <Box mt={2} />
+            {skillProgresses?.map((progress) => (
+              <FlexVCenter key={progress.skillId}>
+                <div style={{ width: 150 }}>
+                  {progress.currentName === progress.previousName ? (
+                    <Txt>
+                      {progress.currentName}
+                      <ImprovementText
+                        levelImprovement={progress.levelImprovement}
+                      />
+                    </Txt>
+                  ) : (
+                    <>
+                      <Txt style={{ textDecoration: "line-through" }}>
+                        {progress.previousName}
+                      </Txt>
+                      <Txt>
+                        {progress.currentName}{" "}
+                        <ImprovementText
+                          levelImprovement={progress.levelImprovement}
+                        />
+                      </Txt>
+                    </>
+                  )}
+                </div>
+
+                <FlexVCenterBetween style={{ width: 100 }}>
+                  <Txt>{progress.previousLevel || "?"}</Txt>
+                  <MdOutlineArrowRightAlt size="24px" />
+                  <Txt>{progress.currentLevel}</Txt>
+                </FlexVCenterBetween>
+              </FlexVCenter>
+            ))}
           </Box>
         </DialogContent>
       </Box>
