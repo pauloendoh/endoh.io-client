@@ -97,7 +97,7 @@ const ChangePasswordDialog = (props: Props) => {
                     onChange={handleChange}
                     size="small"
                     label="Current password"
-                    className="mt-3"
+                    sx={{ mt: 1 }}
                     fullWidth
                     required
                     autoFocus

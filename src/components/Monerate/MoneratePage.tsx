@@ -1,9 +1,9 @@
 import { Box } from "@mui/material"
+import { useAxios } from "hooks/utils/useAxios"
 import { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import { ApplicationState } from "store/store"
-import myAxios from "utils/consts/myAxios"
 import * as monerateActions from "../../store/monerate/monerateActions"
 import CategoryGetDto from "../../types/domain/monerate/CategoryGetDto"
 import ExpenseGetDto from "../../types/domain/monerate/ExpenseGetDto"
@@ -20,6 +20,7 @@ import MonerateLayout from "./MonerateLayout/MonerateLayout"
 const MoneratePage = (props: Props) => {
   const [filteredExpenses, setFilteredExpenses] = useState<ExpenseGetDto[]>([])
 
+  const myAxios = useAxios()
   useEffect(
     () => {
       document.title = "Monerate"

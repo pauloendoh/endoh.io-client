@@ -1,9 +1,16 @@
 import { LocalizationProvider } from "@mui/x-date-pickers"
 import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon"
 
-import { Box, CssBaseline, ThemeProvider, Theme, StyledEngineProvider } from "@mui/material";
+import {
+  Box,
+  CssBaseline,
+  StyledEngineProvider,
+  Theme,
+  ThemeProvider,
+} from "@mui/material"
 import GlobalDialogs from "components/_UI/Dialogs/GlobalDialogs"
 import useCheckAuthOrLogout from "hooks/auth/useCheckAuthOrLogout"
+import { useAxios } from "hooks/utils/useAxios"
 import { lazy, Suspense, useEffect, useState } from "react"
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
@@ -36,18 +43,15 @@ import { FollowingTagDto } from "./types/domain/feed/FollowingTagDto"
 import { TagDto } from "./types/domain/relearn/TagDto"
 import { NotificationDto } from "./types/domain/utils/NotificationDto"
 import { UserInfoDto } from "./types/domain/_common/UserInfoDto"
-import myAxios from "./utils/consts/myAxios"
 import { myQueryClient } from "./utils/consts/myQueryClient"
 import theme from "./utils/consts/theme"
 import { isValidApplicationPath } from "./utils/domain/app/isValidApplicationPath"
 import apiUrls from "./utils/url/urls/apiUrls"
 
-
-declare module '@mui/styles/defaultTheme' {
+declare module "@mui/styles/defaultTheme" {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface DefaultTheme extends Theme {}
 }
-
 
 const MoneratePage = lazy(() => import("./components/Monerate/MoneratePage"))
 const SimilarExpensesPage = lazy(
@@ -67,6 +71,7 @@ const LearningDiaryPage = lazy(
 
 // PE 2/3
 const App = (props: Props) => {
+  const axios = useAxios()
   // 0.1s is enough time to check for auth user
   const location = useLocation()
   const [isLoading, setIsLoading] = useState(true)
@@ -110,29 +115,29 @@ const App = (props: Props) => {
           props.history.push(nextUrl)
         }
 
-        myAxios
+        axios
           .get<FollowingTagDto[]>(apiUrls.user.followingTags(authUser.username))
           .then((res) => {
             setFollowingTags(res.data)
           })
 
-        myAxios
+        axios
           .get<UserPreferenceDto>(apiUrls.auth.userPreference)
           .then((res) => {
             setPreference(res.data)
           })
 
-        myAxios.get<TagDto[]>(apiUrls.relearn.tag).then((res) => {
+        axios.get<TagDto[]>(apiUrls.relearn.tag).then((res) => {
           props.setTags(res.data)
         })
 
-        myAxios
+        axios
           .get<UserInfoDto>(apiUrls.user.userInfo(authUser.username))
           .then((res) => {
             setAuthProfile(res.data)
           })
 
-        myAxios
+        axios
           .get<NotificationDto[]>(apiUrls.utils.notifications)
           .then((res) => {
             setNotifications(res.data)
@@ -233,7 +238,7 @@ const App = (props: Props) => {
         </DndProvider>
       </ThemeProvider>
     </StyledEngineProvider>
-  );
+  )
 }
 
 type Props = ReturnType<typeof mapDispatchToProps> & RouteComponentProps<{}>

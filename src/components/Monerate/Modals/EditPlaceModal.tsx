@@ -1,9 +1,9 @@
 import { Box, Button, Dialog } from "@mui/material"
 import { Form, Formik } from "formik"
+import { useAxios } from "hooks/utils/useAxios"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import useDialogsStore from "store/zustand/useDialogsStore"
-import myAxios from "utils/consts/myAxios"
 import apiUrls from "utils/url/urls/apiUrls"
 import * as monerateActions from "../../../store/monerate/monerateActions"
 import { ApplicationState } from "../../../store/store"
@@ -13,6 +13,8 @@ import MyTextField from "../../_UI/MyInputs/MyTextField"
 
 const EditPlaceModal = (props: Props) => {
   const { openConfirmDialog } = useDialogsStore()
+
+  const myAxios = useAxios()
 
   const handleSubmit = (place: PlaceGetDto) => {
     myAxios

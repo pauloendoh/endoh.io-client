@@ -2,11 +2,11 @@ import { Theme, useMediaQuery, useTheme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 
 import { Paper, Table, TableContainer, Toolbar } from "@mui/material"
+import { useAxios } from "hooks/utils/useAxios"
 import { useState } from "react"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useAuthStore from "store/zustand/useAuthStore"
 import { newNoteDto, NoteDto } from "../../../../types/domain/define/NoteDto"
-import myAxios from "../../../../utils/consts/myAxios"
 import apiUrls from "../../../../utils/url/urls/apiUrls"
 import DarkButton from "../../../_UI/Buttons/DarkButton/DarkButton"
 import { TBody, TD, THead, TR } from "../../../_UI/Table/MyTableWrappers"
@@ -16,6 +16,8 @@ import DocTableRow from "./DocTableRow/DocTableRow"
 const DocTable = (props: Props) => {
   const docsStore = useDocsStore()
   const { authUser } = useAuthStore()
+
+  const myAxios = useAxios()
 
   const classes = useStyles()
 

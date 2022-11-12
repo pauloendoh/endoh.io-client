@@ -22,6 +22,7 @@ import Txt from "components/_UI/Text/Txt"
 import { FormikErrors, useFormik } from "formik"
 import { useLinkPreviewQuery } from "generated/graphql"
 import useQueryParams from "hooks/utils/react-router/useQueryParams"
+import { useAxios } from "hooks/utils/useAxios"
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
 import React, { useEffect, useMemo, useState } from "react"
 import { useHotkeys } from "react-hotkeys-hook"
@@ -40,7 +41,6 @@ import * as relearnActions from "../../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../../store/store"
 import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto"
 import { TagDto } from "../../../../types/domain/relearn/TagDto"
-import myAxios from "../../../../utils/consts/myAxios"
 import { urlIsValid } from "../../../../utils/url/isValidUrl"
 import apiUrls from "../../../../utils/url/urls/apiUrls"
 import RatingButton from "../../../_common/RatingButton/RatingButton"
@@ -51,6 +51,7 @@ import MyTextField from "../../../_UI/MyInputs/MyTextField"
 
 // PE 1/3 - tá muito grande
 const ResourceDialog = (props: Props) => {
+  const myAxios = useAxios()
   const theme = useTheme()
   const history = useHistory()
   const location = useLocation()

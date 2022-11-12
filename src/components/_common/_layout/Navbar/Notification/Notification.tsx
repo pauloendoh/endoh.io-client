@@ -1,9 +1,9 @@
 import NotificationsIcon from "@mui/icons-material/Notifications"
 import { Badge, IconButton, Menu } from "@mui/material"
+import { useAxios } from "hooks/utils/useAxios"
 import React from "react"
 import useAuthStore from "store/zustand/useAuthStore"
 import { NotificationDto } from "../../../../../types/domain/utils/NotificationDto"
-import myAxios from "../../../../../utils/consts/myAxios"
 import apiUrls from "../../../../../utils/url/urls/apiUrls"
 import NotificationItem from "./NotificationItem/NotificationItem"
 
@@ -15,6 +15,8 @@ const Notification = () => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget)
   }
+
+  const myAxios = useAxios()
 
   const handleClose = () => {
     // set notifications.seen = true

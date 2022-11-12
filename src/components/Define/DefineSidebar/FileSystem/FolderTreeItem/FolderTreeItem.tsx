@@ -4,6 +4,7 @@ import Flex from "components/_UI/Flexboxes/Flex"
 import Txt from "components/_UI/Text/Txt"
 import useSaveFolderMutation from "hooks/react-query/folders/useSaveFolderMutation"
 import { queryKeys } from "hooks/react-query/queryKeys"
+import { useAxios } from "hooks/utils/useAxios"
 import { useMemo, useRef, useState } from "react"
 import { useDrag, useDrop } from "react-dnd"
 import { useQueryClient } from "react-query"
@@ -12,7 +13,6 @@ import useFlashnotesStore from "store/zustand/domain/useFlashnotesStore"
 import { DocDto } from "types/domain/define/DocDto"
 import { buildFolderDto } from "types/domain/folder/FolderDto"
 import FolderWithSubfoldersDto from "types/domain/folder/FolderWithSubfoldersDto"
-import myAxios from "utils/consts/myAxios"
 import Icons from "utils/styles/Icons"
 import apiUrls from "utils/url/urls/apiUrls"
 import DocTreeItem from "./DocTreeItem/DocTreeItem"
@@ -25,6 +25,7 @@ interface Props {
 export default function FolderTreeItem({ folder }: Props) {
   const [hover, setHover] = useState(false)
 
+  const myAxios = useAxios()
   const { mutate: saveFolder } = useSaveFolderMutation()
   const queryClient = useQueryClient()
 

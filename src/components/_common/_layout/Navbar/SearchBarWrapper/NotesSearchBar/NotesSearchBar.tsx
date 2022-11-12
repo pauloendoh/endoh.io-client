@@ -2,6 +2,7 @@ import { Autocomplete } from "@mui/lab"
 import { Popper } from "@mui/material"
 import { queryKeys } from "hooks/react-query/queryKeys"
 import useNotesSearchQuery from "hooks/react-query/search/useNotesSearchQuery"
+import { useAxios } from "hooks/utils/useAxios"
 import useDebounce from "hooks/utils/useDebounce"
 import React, { useEffect, useMemo, useRef } from "react"
 import { Controller, useForm } from "react-hook-form"
@@ -13,7 +14,6 @@ import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { NoteDto } from "types/domain/define/NoteDto"
 import { SearchResultsDto } from "types/domain/utils/SearchResultsDto"
-import myAxios from "utils/consts/myAxios"
 import apiUrls from "utils/url/urls/apiUrls"
 import { urls } from "utils/urls"
 import pageUrls from "../../../../../../utils/url/urls/pageUrls"
@@ -36,6 +36,8 @@ const MyPopper = function (props: React.ComponentProps<typeof Popper>) {
 
 const NotesSearchBar = () => {
   const MIN_LENGTH = 3
+
+  const myAxios = useAxios()
 
   const history = useHistory()
 

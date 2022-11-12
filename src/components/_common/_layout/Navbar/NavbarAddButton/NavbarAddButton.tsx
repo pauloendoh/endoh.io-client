@@ -1,4 +1,5 @@
 import { Fab, Tooltip } from "@mui/material"
+import { useAxios } from "hooks/utils/useAxios"
 import { useMemo } from "react"
 import { useHotkeys } from "react-hotkeys-hook"
 import { connect } from "react-redux"
@@ -9,7 +10,6 @@ import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { buildNoteDto, NoteDto } from "types/domain/define/NoteDto"
-import myAxios from "utils/consts/myAxios"
 import { sleep } from "utils/sleep"
 import Icons from "utils/styles/Icons"
 import apiUrls from "utils/url/urls/apiUrls"
@@ -20,6 +20,8 @@ const NavbarAddButton = (props: Props) => {
     s.openNoteDialog,
     s.onClose,
   ])
+
+  const myAxios = useAxios()
 
   const location = useLocation()
 

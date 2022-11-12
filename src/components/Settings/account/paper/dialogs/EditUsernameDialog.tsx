@@ -60,6 +60,7 @@ const EditUsernameDialog = (props: Props) => {
                     label="New username"
                     required
                     fullWidth
+                    sx={{ mt: 1 }}
                     InputLabelProps={{ required: false }}
                   />
                 )}

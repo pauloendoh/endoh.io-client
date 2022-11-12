@@ -4,6 +4,7 @@ import { makeStyles } from "@mui/styles"
 import { Box } from "@mui/material"
 import classNames from "classnames"
 import Flex from "components/_UI/Flexboxes/Flex"
+import { useAxios } from "hooks/utils/useAxios"
 import React, { useEffect, useState } from "react"
 import { useHistory, useParams } from "react-router-dom"
 import useDocsStore from "store/zustand/domain/useDocsStore"
@@ -11,7 +12,6 @@ import pageUrls from "utils/url/urls/pageUrls"
 import useSidebarStore from "../../store/zustand/useSidebarStore"
 import { DocDto } from "../../types/domain/define/DocDto"
 import { NoteDto } from "../../types/domain/define/NoteDto"
-import myAxios from "../../utils/consts/myAxios"
 import apiUrls from "../../utils/url/urls/apiUrls"
 import LoadingPage from "../_common/LoadingPage/LoadingPage"
 import DefineContent from "./DefineContent/DefineContent"
@@ -23,6 +23,8 @@ const DefinePage = () => {
   const docsStore = useDocsStore()
   const { docId: paramDocId } = useParams<{ docId: string }>()
   const [selectedDocId, setSelectedDocId] = useState<number>(null)
+
+  const myAxios = useAxios()
 
   const { sidebarIsOpen, openSidebar } = useSidebarStore()
 

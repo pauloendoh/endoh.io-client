@@ -1,21 +1,14 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import CloseIcon from "@mui/icons-material/Close"
 import Rating from "@mui/lab/Rating"
-import { Box, Tooltip } from "@mui/material"
+import { Box, DialogTitle, Tooltip } from "@mui/material"
 import Button from "@mui/material/Button"
 import Dialog from "@mui/material/Dialog"
 import MuiDialogContent from "@mui/material/DialogContent"
-import MuiDialogTitle from "@mui/material/DialogTitle"
-import IconButton from "@mui/material/IconButton"
-import {
-  createStyles,
-  Theme,
-  WithStyles,
-  withStyles,
-} from "@mui/material/styles"
+import { createStyles, Theme } from "@mui/material/styles"
 import Typography from "@mui/material/Typography"
 import { Form, Formik } from "formik"
+import { useAxios } from "hooks/utils/useAxios"
 import React from "react"
 import { GlobalHotKeys } from "react-hotkeys"
 import { connect } from "react-redux"
@@ -27,7 +20,6 @@ import CategoryGetDto from "../../../types/domain/monerate/CategoryGetDto"
 import ExpenseGetDto from "../../../types/domain/monerate/ExpenseGetDto"
 import ExpensePostDto from "../../../types/domain/monerate/ExpensePostDto"
 import PlaceGetDto from "../../../types/domain/monerate/PlaceGetDto"
-import myAxios from "../../../utils/consts/myAxios"
 import apiUrls from "../../../utils/url/urls/apiUrls"
 import Flex from "../../_UI/Flexboxes/Flex"
 import MyCurrencyInput from "../../_UI/MyInputs/MyCurrencyInput"
@@ -60,6 +52,8 @@ const ExpenseButtonDialog = (props: Props) => {
   const handleClose = () => {
     props.closeExpenseModal()
   }
+
+  const myAxios = useAxios()
 
   const handleSubmit = (
     values: ExpensePostDto,
@@ -138,13 +132,15 @@ const ExpenseButtonDialog = (props: Props) => {
             >
               {({ setFieldValue, values, isSubmitting, handleChange }) => (
                 <Form>
-                  <DialogTitle
-                    id="edit-expense-dialog-title"
-                    onClose={handleClose}
-                  >
+                  <DialogTitle id="edit-expense-dialog-title">
                     {values.id ? "Edit expense" : "New expense"}
                   </DialogTitle>
-                  <DialogContent>
+                  <MuiDialogContent
+                    sx={{
+                      px: 2,
+                      pb: 2,
+                    }}
+                  >
                     <Flex>
                       <Box>
                         <Typography component="legend">Place</Typography>
@@ -259,7 +255,7 @@ const ExpenseButtonDialog = (props: Props) => {
                         ) : null}
                       </Flex>
                     </Flex>
-                  </DialogContent>
+                  </MuiDialogContent>
                   {/* <DialogActions>
               
               </DialogActions> */}
@@ -286,39 +282,6 @@ const styles = (theme: Theme) =>
       color: theme.palette.grey[500],
     },
   })
-
-interface DialogTitleProps extends WithStyles<typeof styles> {
-  id: string
-  children: React.ReactNode
-  onClose: () => void
-}
-
-const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
-  const { children, classes, onClose, ...other } = props
-  return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant="h6">{children}</Typography>
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          className={classes.closeButton}
-          onClick={onClose}
-          size="large">
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </MuiDialogTitle>
-  );
-})
-
-// PE 1/3 ? do I use this? Do I need this?
-const DialogContent = withStyles((theme: Theme) => ({
-  root: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
-  },
-}))(MuiDialogContent)
 
 const mapStateToProps = (state: ApplicationState) => ({
   editingExpense: state.monerate.editingExpense,

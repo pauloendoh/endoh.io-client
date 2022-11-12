@@ -11,6 +11,7 @@ import {
   Typography,
 } from "@mui/material"
 import useDeleteDocMutation from "hooks/react-query/define/doc/useDeleteDocMutation"
+import { useAxios } from "hooks/utils/useAxios"
 import React, { useMemo, useState } from "react"
 import { AiOutlineClear } from "react-icons/ai"
 import { IoMdPlayCircle } from "react-icons/io"
@@ -20,7 +21,6 @@ import useDocsStore from "store/zustand/domain/useDocsStore"
 import useDialogsStore from "store/zustand/useDialogsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { NoteDto } from "types/domain/define/NoteDto"
-import myAxios from "utils/consts/myAxios"
 import { urls } from "utils/urls"
 import { DocDto } from "../../../../types/domain/define/DocDto"
 import DocTitleDialog from "../../DocTitleDialog/DocTitleDialog"
@@ -33,6 +33,8 @@ interface Props {
 
 function DocMoreMenu(props: Props) {
   const classes = useStyles()
+
+  const myAxios = useAxios()
 
   const { setNotes, notes } = useDocsStore()
   const { openConfirmDialog } = useDialogsStore()

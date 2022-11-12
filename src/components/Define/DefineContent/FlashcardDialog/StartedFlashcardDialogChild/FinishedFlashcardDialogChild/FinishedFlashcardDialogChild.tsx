@@ -5,12 +5,12 @@ import {
   IconButton,
   Typography,
 } from "@mui/material"
+import { useAxios } from "hooks/utils/useAxios"
 import { useMemo, useState } from "react"
 import { GlobalHotKeys } from "react-hotkeys"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { NoteDto } from "../../../../../../types/domain/define/NoteDto"
-import myAxios from "../../../../../../utils/consts/myAxios"
 import apiUrls from "../../../../../../utils/url/urls/apiUrls"
 import DarkButton from "../../../../../_UI/Buttons/DarkButton/DarkButton"
 import S from "./FinishedFlashcardDialogChild.styles"
@@ -26,6 +26,8 @@ interface Props {
 const FinishedFlashcardDialogChild = (props: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const docsStore = useDocsStore()
+
+  const myAxios = useAxios()
 
   const finalScore = useMemo(() => {
     return ((props.halves * 0.5 + props.corrects) * 100) / props.results.length

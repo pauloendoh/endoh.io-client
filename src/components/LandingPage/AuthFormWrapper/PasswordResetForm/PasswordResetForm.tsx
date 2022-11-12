@@ -2,6 +2,7 @@ import { Theme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 
 import { Box, Button, CircularProgress, Link, Typography } from "@mui/material"
+import { useAxios } from "hooks/utils/useAxios"
 import React, { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { connect } from "react-redux"
@@ -9,8 +10,6 @@ import { Link as RouterLink } from "react-router-dom"
 import { Dispatch } from "redux"
 import { ApplicationState } from "../../../../store/store"
 import { EmailPostDto } from "../../../../types/domain/auth/EmailPostDto"
-import MyAxiosError, { MyFieldError } from "../../../../types/MyAxiosError"
-import myAxios from "../../../../utils/consts/myAxios"
 import apiUrls from "../../../../utils/url/urls/apiUrls"
 import Flex from "../../../_UI/Flexboxes/Flex"
 import MyTextField from "../../../_UI/MyInputs/MyTextField"
@@ -21,29 +20,23 @@ const ResetPasswordByEmailForm = (props: Props) => {
   const classes = useStyles()
 
   const [isOk, setIsOk] = useState(false)
-  const [responseErrors, setResponseErrors] = useState([] as MyFieldError[])
 
   const {
     handleSubmit,
     formState: { isSubmitting },
     control,
-    watch,
-    reset,
   } = useForm<EmailPostDto>({
     defaultValues: {
       email: "",
     },
   })
 
+  const myAxios = useAxios()
+
   const onSubmit = (values: EmailPostDto) => {
-    myAxios
-      .post(apiUrls.utils.passwordResetEmail, values)
-      .then((res) => {
-        setIsOk(true)
-      })
-      .catch((err: MyAxiosError) => {
-        setResponseErrors(err.response.data.errors)
-      })
+    myAxios.post(apiUrls.utils.passwordResetEmail, values).then((res) => {
+      setIsOk(true)
+    })
   }
 
   return (
@@ -105,12 +98,6 @@ const ResetPasswordByEmailForm = (props: Props) => {
                 )}
               </Button>
             </Box>
-
-            {responseErrors.map((err, i) => (
-              <Box key={i} mt={1}>
-                <Typography color="error">{err.message}</Typography>
-              </Box>
-            ))}
           </form>
         </React.Fragment>
       )}

@@ -1,12 +1,12 @@
 import { IconButton, ListItem, ListItemText, Tooltip } from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import { useAxios } from "hooks/utils/useAxios"
 import { useCallback, useMemo } from "react"
 import { MdShuffle } from "react-icons/md"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { NoteDto } from "types/domain/define/NoteDto"
-import myAxios from "utils/consts/myAxios"
 import getRandomIntInclusive from "utils/math/getRandomIntInclusive"
 import apiUrls from "utils/url/urls/apiUrls"
 
@@ -15,6 +15,7 @@ interface Props {
 }
 
 const UnansweredQuestionsListItem = (props: Props) => {
+  const myAxios = useAxios()
   const [allNotes, pushOrReplaceNote] = useDocsStore((s) => [
     s.notes,
     s.pushOrReplaceNote,

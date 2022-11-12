@@ -1,18 +1,20 @@
 import { Box, Button, Dialog } from "@mui/material"
 import { Form, Formik } from "formik"
+import { useAxios } from "hooks/utils/useAxios"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import useDialogsStore from "store/zustand/useDialogsStore"
 import * as monerateActions from "../../../store/monerate/monerateActions"
 import { ApplicationState } from "../../../store/store"
 import CategoryGetDto from "../../../types/domain/monerate/CategoryGetDto"
-import myAxios from "../../../utils/consts/myAxios"
 import apiUrls from "../../../utils/url/urls/apiUrls"
 import Flex from "../../_UI/Flexboxes/Flex"
 import MyTextField from "../../_UI/MyInputs/MyTextField"
 
 const EditCategoryModal = (props: Props) => {
   const dialogStore = useDialogsStore()
+
+  const myAxios = useAxios()
 
   const handleSubmit = (category: CategoryGetDto) => {
     myAxios

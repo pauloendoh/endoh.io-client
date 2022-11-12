@@ -1,12 +1,12 @@
 import { Box, Dialog, DialogContent, DialogTitle } from "@mui/material"
 import { queryKeys } from "hooks/react-query/queryKeys"
+import { useAxios } from "hooks/utils/useAxios"
 import { useEffect } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { useQueryClient } from "react-query"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { DocDto } from "../../../types/domain/define/DocDto"
-import myAxios from "../../../utils/consts/myAxios"
 import apiUrls from "../../../utils/url/urls/apiUrls"
 import SaveCancelButtons from "../../_UI/Buttons/SaveCancelButtons"
 import MyTextField from "../../_UI/MyInputs/MyTextField"
@@ -21,6 +21,8 @@ interface Props {
 
 const DocTitleDialog = (props: Props) => {
   const docsStore = useDocsStore()
+
+  const myAxios = useAxios()
 
   const handleClose = () => {
     props.onClose()
