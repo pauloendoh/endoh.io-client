@@ -4,7 +4,7 @@ import NotesIcon from "@mui/icons-material/Notes"
 import TimeLineIcon from "@mui/icons-material/Timeline"
 import { ReactElement, ReactNode } from "react"
 import { urls } from "utils/urls"
-import pageUrls from "../../../../utils/url/urls/pageUrls"
+import pageUrls from "../../../../../utils/url/urls/pageUrls"
 
 interface ITab {
   id: string

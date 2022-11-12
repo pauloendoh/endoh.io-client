@@ -1,82 +1,97 @@
 import { faFire } from "@fortawesome/free-solid-svg-icons"
-import { Box, IconButton } from "@mui/material"
-import { useEffect, useState } from "react"
-import { Link as RouterLink, useLocation } from "react-router-dom"
-import pageUrls from "utils/url/urls/pageUrls"
+import { Box, IconButton, useMediaQuery, useTheme } from "@mui/material"
+import { useEffect } from "react"
+import { MdArrowBack, MdSearch } from "react-icons/md"
+import { Link as RouterLink } from "react-router-dom"
+import useResponsiveStore from "store/zustand/useResponsiveStore"
+import useSidebarStore from "store/zustand/useSidebarStore"
 import { urls } from "utils/urls"
 import Flex from "../../../_UI/Flexboxes/Flex"
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
 import LeftToggleButton from "./LeftToggleButton/LeftToggleButton"
 import S from "./Navbar.styles"
-import utils from "./Navbar.utils"
 import NavbarAddButton from "./NavbarAddButton/NavbarAddButton"
+import NavbarResponsiveMenu from "./NavbarResponsiveMenu/NavbarResponsiveMenu"
+import NavbarTabs from "./NavbarTabs/NavbarTabs"
 import NavbarUserMenu from "./NavbarUserMenu/NavbarUserMenu"
 import Notification from "./Notification/Notification"
 import SearchBarWrapper from "./SearchBarWrapper/SearchBarWrapper"
 
 // PE 2/3
 const Navbar = () => {
-  const location = useLocation()
+  const theme = useTheme()
+  const isSmMdScreen = useMediaQuery(theme.breakpoints.down("md"))
+  const isXsScreen = useMediaQuery(theme.breakpoints.down("sm"))
 
-  const [tabIndex, setTabIndex] = useState<number | boolean>(false)
+  const [
+    toggleIsResponsiveSearching,
+    isResponsiveSearching,
+    setIsResponsiveSearching,
+  ] = useResponsiveStore((s) => [
+    s.toggleIsResponsiveSearching,
+    s.isResponsiveSearching,
+    s.setIsResponsiveSearching,
+  ])
+
+  const closeSidebar = useSidebarStore((s) => s.closeSidebar)
 
   useEffect(() => {
-    // DRY?
-    if (location.pathname.startsWith(urls.pages.relearn.index)) {
-      setTabIndex(0)
-    } else if (location.pathname.startsWith(pageUrls.feed.index)) {
-      setTabIndex(1)
-    } else if (location.pathname.startsWith(pageUrls.skillbase.index)) {
-      setTabIndex(2)
-    } else if (location.pathname.startsWith(pageUrls.define.index)) {
-      setTabIndex(3)
-    } else {
-      setTabIndex(false)
-    }
-  }, [location])
+    if (!isXsScreen) setIsResponsiveSearching(false)
+  }, [isXsScreen])
 
+  // PE 1/3 - improve
   return (
     <S.AppBarRoot position="fixed" elevation={0}>
       <S.NavbarToolbar>
-        <FlexVCenter>
-          <LeftToggleButton />
-          <Box ml={1} />
-          <IconButton component={RouterLink} to={urls.pages.index} size="small">
-            <FlexVCenter width={24} height={24} justifyContent="center">
-              <S.FireIcon icon={faFire} />
-            </FlexVCenter>
-          </IconButton>
+        {isXsScreen && isResponsiveSearching ? (
+          <FlexVCenter gap={1}>
+            <IconButton onClick={() => setIsResponsiveSearching(false)}>
+              <MdArrowBack />
+            </IconButton>
 
-          <Box ml={2} />
-
-          <SearchBarWrapper />
-        </FlexVCenter>
-
-        <Flex>
-          <S.NavbarTabs
-            value={tabIndex}
-            indicatorColor="primary"
-            textColor="primary"
-            aria-label="disabled tabs example"
-          >
-            {utils.navbarTabs.map((tab) => (
-              <S.NavbarTab
-                id={tab.id}
+            <SearchBarWrapper />
+          </FlexVCenter>
+        ) : (
+          <>
+            <FlexVCenter>
+              <LeftToggleButton />
+              <Box ml={1} />
+              <IconButton
                 component={RouterLink}
-                to={tab.to}
-                key={tab.id}
-                label={tab.label}
-                icon={tab.icon}
-              />
-            ))}
-          </S.NavbarTabs>
-        </Flex>
+                to={urls.pages.index}
+                size="small"
+              >
+                <FlexVCenter width={24} height={24} justifyContent="center">
+                  <S.FireIcon icon={faFire} />
+                </FlexVCenter>
+              </IconButton>
 
-        <S.RightButtonsWrapper>
-          <NavbarAddButton />
-          <Notification />
-          <NavbarUserMenu />
-        </S.RightButtonsWrapper>
+              <Box ml={2} />
+
+              {isXsScreen ? (
+                <IconButton
+                  onClick={() => {
+                    closeSidebar()
+                    setIsResponsiveSearching(true)
+                  }}
+                >
+                  <MdSearch />
+                </IconButton>
+              ) : (
+                <SearchBarWrapper />
+              )}
+            </FlexVCenter>
+
+            <Flex>{!isSmMdScreen && <NavbarTabs />}</Flex>
+
+            <S.RightButtonsWrapper>
+              {isSmMdScreen && <NavbarResponsiveMenu />}
+              <NavbarAddButton />
+              <Notification />
+              <NavbarUserMenu />
+            </S.RightButtonsWrapper>
+          </>
+        )}
       </S.NavbarToolbar>
     </S.AppBarRoot>
   )

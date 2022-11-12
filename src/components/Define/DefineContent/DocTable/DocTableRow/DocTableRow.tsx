@@ -10,6 +10,7 @@ interface Props {
   index: number
   initialValue: NoteDto
   onChange: (newValue: NoteDto) => void
+  isSmallScreen: boolean
 }
 
 const DocTableRow = (props: Props) => {
@@ -42,9 +43,11 @@ const DocTableRow = (props: Props) => {
 
   return (
     <TableRow>
-      <TableCell className={classes.td} align="center">
-        {props.index + 1}
-      </TableCell>
+      {!props.isSmallScreen && (
+        <TableCell className={classes.td} align="center">
+          {props.index + 1}
+        </TableCell>
+      )}
 
       <TableCell className={classes.textareaCell} onClick={focusQuestion}>
         <TextareaAutosize
@@ -64,9 +67,11 @@ const DocTableRow = (props: Props) => {
         />
       </TableCell>
 
-      <TableCell align="center" className={classes.td}>
-        {localNote.weight}
-      </TableCell>
+      {!props.isSmallScreen && (
+        <TableCell align="center" className={classes.td}>
+          {localNote.weight}
+        </TableCell>
+      )}
     </TableRow>
   )
 }
@@ -83,7 +88,7 @@ const useStyles = makeStyles<Theme>((theme) => ({
   textarea: {
     resize: "none",
     border: "none",
-    minWidth: 125,
+    minWidth: 100,
     width: "-webkit-fill-available",
     background: "none",
     fontSize: 13,

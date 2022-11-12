@@ -5,7 +5,9 @@ import {
   DialogContent,
   DialogTitle,
   FormControlLabel,
+  Theme,
   Tooltip,
+  useMediaQuery,
 } from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
@@ -14,6 +16,7 @@ import { Controller, useForm } from "react-hook-form"
 import { MdInfo } from "react-icons/md"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import useDialogsStore from "store/zustand/useDialogsStore"
+import useSidebarStore from "store/zustand/useSidebarStore"
 import SaveCancelButtons from "../../../../../_UI/Buttons/SaveCancelButtons"
 import MyTextField from "../../../../../_UI/MyInputs/MyTextField"
 import DocSelector from "./DocSelector/DocSelector"
@@ -25,8 +28,16 @@ const QuestionDialog = () => {
     defaultValues: initialValue,
   })
 
+  const closeSidebar = useSidebarStore((s) => s.closeSidebar)
+  const isSmallScreen = useMediaQuery<Theme>((theme) =>
+    theme.breakpoints.down("sm")
+  )
+
   useEffect(() => {
     if (isOpen) reset(initialValue)
+
+    if (isOpen && isSmallScreen) closeSidebar()
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen])
 

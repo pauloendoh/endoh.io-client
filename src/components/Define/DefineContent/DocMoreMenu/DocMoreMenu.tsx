@@ -109,7 +109,6 @@ function DocMoreMenu(props: Props) {
       <Menu
         id="doc-title-more"
         anchorEl={anchorEl}
-        getContentAnchorEl={null}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
         keepMounted

@@ -1,8 +1,9 @@
-import { Theme } from "@mui/material"
+import { SxProps, Theme, useMediaQuery, useTheme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 
 import { Box } from "@mui/material"
 import classNames from "classnames"
+import Flex from "components/_UI/Flexboxes/Flex"
 import React, { useEffect, useState } from "react"
 import { useHistory, useParams } from "react-router-dom"
 import useDocsStore from "store/zustand/domain/useDocsStore"
@@ -13,7 +14,6 @@ import { NoteDto } from "../../types/domain/define/NoteDto"
 import myAxios from "../../utils/consts/myAxios"
 import apiUrls from "../../utils/url/urls/apiUrls"
 import LoadingPage from "../_common/LoadingPage/LoadingPage"
-import Flex from "../_UI/Flexboxes/Flex"
 import DefineContent from "./DefineContent/DefineContent"
 import DefineSidebar from "./DefineSidebar/DefineSidebar"
 
@@ -80,15 +80,27 @@ const DefinePage = () => {
 
   const classes = useStyles()
 
+  const theme = useTheme()
+
+  const isSmallScreen = useMediaQuery<Theme>((theme) =>
+    theme.breakpoints.down("sm")
+  )
+  const sx: SxProps<Theme> = {
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: isSmallScreen ? 0 : 300 / 8, // 300px
+  }
+
   return (
     <Box p={3}>
-      <Flex height="100%">
+      <Flex>
         <DefineSidebar selectedDocId={selectedDocId} />
         <Box
-          className={classNames(classes.content, {
-            [classes.contentShift]: sidebarIsOpen,
-          })}
+          className={classNames(classes.content)}
           flexGrow={1}
+          sx={sidebarIsOpen && sx}
         >
           {docsStore.hasFirstLoaded ? (
             <React.Fragment>

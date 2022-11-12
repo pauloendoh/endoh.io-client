@@ -17,6 +17,9 @@ function DefineSidebar(props: Props) {
   const classes = useStyles()
   const { sidebarIsOpen } = useSidebarStore()
 
+  const container =
+    window !== undefined ? () => window.document.body : undefined
+
   return (
     <Drawer
       className={classes.root}
@@ -25,6 +28,7 @@ function DefineSidebar(props: Props) {
       classes={{
         paper: classes.drawerPaper,
       }}
+      container={container}
     >
       <Toolbar />
       <Box paddingBottom={4}>

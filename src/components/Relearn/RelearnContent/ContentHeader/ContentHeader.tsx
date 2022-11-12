@@ -8,6 +8,7 @@ import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
 import useRelearnStore from "store/zustand/domain/useRelearnStore"
+import useResponsiveStore from "store/zustand/useResponsiveStore"
 import { urls } from "utils/urls"
 import { removeTag } from "../../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../../store/store"
@@ -90,8 +91,18 @@ function ContentHeader(props: Props) {
     }
   }, [isOver])
 
+  const isResponsiveSearching = useResponsiveStore(
+    (s) => s.isResponsiveSearching
+  )
+
   return (
-    <div className={classes.root} ref={rootRef}>
+    <div
+      className={classes.root}
+      ref={rootRef}
+      style={{
+        position: isResponsiveSearching ? "unset" : undefined,
+      }}
+    >
       <Flex justifyContent="space-between" width="100%">
         <Typography variant="h5">{tag ? tag.name : "Untagged"}</Typography>
       </Flex>

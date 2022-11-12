@@ -7,14 +7,17 @@ import {
   DialogTitle,
   FormControlLabel,
   IconButton,
+  Theme,
   Typography,
 } from "@mui/material"
+import useMediaQuery from "@mui/material/useMediaQuery"
 import Flex from "components/_UI/Flexboxes/Flex"
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
 import sample from "lodash/sample"
 import { useEffect, useState } from "react"
 import { GlobalHotKeys } from "react-hotkeys"
 import useDialogsStore from "store/zustand/useDialogsStore"
+import useSidebarStore from "store/zustand/useSidebarStore"
 import { NoteDto } from "../../../../types/domain/define/NoteDto"
 import { shuffleArray } from "../../../../utils/array/shuffleArray"
 import DarkButton from "../../../_UI/Buttons/DarkButton/DarkButton"
@@ -23,6 +26,7 @@ import Txt from "../../../_UI/Text/Txt"
 import MinWeightInput from "./MinWeightInput/MinWeightInput"
 import QuestionsQtyInput from "./QuestionsQtyInput/QuestionsQtyInput"
 import StartedFlashcardDialogChild from "./StartedFlashcardDialogChild/StartedFlashcardDialogChild"
+
 interface Props {
   open: boolean
   onClose: () => void
@@ -40,12 +44,23 @@ const FlashcardDialog = (props: Props) => {
     setIsIncludingQuestionsToRefine,
   ] = useState(false)
 
+  const [closeSidebar, openSidebar] = useSidebarStore((s) => [
+    s.closeSidebar,
+    s.openSidebar,
+  ])
+  const isSmallScreen = useMediaQuery<Theme>((theme) =>
+    theme.breakpoints.down("sm")
+  )
+
   // reset
   useEffect(() => {
     setMinWeight(1)
     setAllQuestions([])
     setQuestionsQty(0)
     setTestQuestions([])
+
+    if (props.open && isSmallScreen) closeSidebar()
+    if (!props.open && isSmallScreen) openSidebar()
   }, [props.open])
 
   useEffect(

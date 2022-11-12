@@ -1,4 +1,4 @@
-import { Theme } from "@mui/material"
+import { Theme, useMediaQuery, useTheme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 
 import { Paper, Table, TableContainer, Toolbar } from "@mui/material"
@@ -57,6 +57,9 @@ const DocTable = (props: Props) => {
 
   const [submitting, setSubmitting] = useState(false)
 
+  const theme = useTheme()
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"))
+
   return (
     <Paper>
       <TableContainer className={classes.container}>
@@ -69,14 +72,18 @@ const DocTable = (props: Props) => {
         >
           <THead>
             <TR>
-              <TD className={classes.th} align="center">
-                #
-              </TD>
+              {!isSmallScreen && (
+                <TD className={classes.th} align="center">
+                  #
+                </TD>
+              )}
               <TD className={classes.th}>Question</TD>
               <TD className={classes.th}>Answer</TD>
-              <TD align="center" className={classes.th}>
-                Weight
-              </TD>
+              {!isSmallScreen && (
+                <TD align="center" className={classes.th}>
+                  Weight
+                </TD>
+              )}
             </TR>
           </THead>
 
@@ -87,6 +94,7 @@ const DocTable = (props: Props) => {
                 key={getRowKey(note)}
                 initialValue={note}
                 onChange={handleNoteChange}
+                isSmallScreen={isSmallScreen}
               />
             ))}
           </TBody>
@@ -112,7 +120,7 @@ const useStyles = makeStyles<Theme>((theme) => ({
     background: "#232323",
   },
   table: {
-    minWidth: 500,
+    minWidth: 240,
     "& .MuiTableCell-root": {
       padding: 8,
       borderBottom: "1px solid rgb(255 255 255 / 0.1)",
