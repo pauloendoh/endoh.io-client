@@ -145,7 +145,7 @@ function DocMoreMenu(props: Props) {
             <EditIcon fontSize="small" />
           </ListItemIcon>
           <Typography variant="inherit" noWrap>
-            Edit
+            Edit doc
           </Typography>
         </MenuItem>
 

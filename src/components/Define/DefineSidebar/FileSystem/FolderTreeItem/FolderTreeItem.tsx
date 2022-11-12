@@ -148,7 +148,7 @@ export default function FolderTreeItem({ folder }: Props) {
                   width: 32,
                 }}
               >
-                {hover && <FolderMoreIcon folder={folder} />}
+                {<FolderMoreIcon visible={hover} folder={folder} />}
               </div>
             </Flex>
           </Flex>

@@ -69,7 +69,7 @@ const NavbarAddButton = (props: Props) => {
     (e) => {
       sleep(100).then(() => handleActivateButton())
     },
-    [location.pathname]
+    [location, docs] // if you don't put 'docs', sometimes it will appear unselected
   )
 
   return (

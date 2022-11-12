@@ -55,7 +55,7 @@ const FolderDialog = () => {
                 required
                 size="small"
                 label="Folder name"
-                className="mt-3"
+                sx={{ mt: 1 }}
                 fullWidth
                 autoFocus
               />

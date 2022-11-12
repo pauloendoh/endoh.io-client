@@ -16,9 +16,10 @@ import Icons from "utils/styles/Icons"
 
 interface Props {
   folder: FolderWithSubfoldersDto
+  visible: boolean
 }
 
-export default function FolderMoreIcon({ folder }: Props) {
+export default function FolderMoreIcon({ folder, ...props }: Props) {
   const [anchorEl, setAnchorEl] = useState(null)
   const { mutate: deleteFolder } = useDeleteFolderMutation()
 
@@ -45,7 +46,11 @@ export default function FolderMoreIcon({ folder }: Props) {
 
   return (
     <>
-      <IconButton size="small" onClick={handleOpenMore}>
+      <IconButton
+        sx={{ visibility: props.visible ? "visible" : "hidden" }}
+        size="small"
+        onClick={handleOpenMore}
+      >
         <Icons.MoreHoriz />
       </IconButton>
       <Menu
