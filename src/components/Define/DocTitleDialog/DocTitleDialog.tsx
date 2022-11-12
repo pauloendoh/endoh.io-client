@@ -6,6 +6,7 @@ import { Controller, useForm } from "react-hook-form"
 import { useQueryClient } from "react-query"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
+import { NoteDto } from "types/domain/define/NoteDto"
 import { DocDto } from "../../../types/domain/define/DocDto"
 import apiUrls from "../../../utils/url/urls/apiUrls"
 import SaveCancelButtons from "../../_UI/Buttons/SaveCancelButtons"
@@ -43,6 +44,9 @@ const DocTitleDialog = (props: Props) => {
       setSuccessMessage("Doc saved!")
 
       queryClient.invalidateQueries(queryKeys.folders)
+      myAxios
+        .get<NoteDto[]>(apiUrls.define.note)
+        .then((res) => docsStore.setNotes(res.data))
 
       if (props.afterSave) props.afterSave(res.data)
     })
@@ -84,6 +88,7 @@ const DocTitleDialog = (props: Props) => {
                     fullWidth
                     required
                     autoFocus
+                    sx={{ mt: 1 }}
                     {...field}
                   />
                 )}
