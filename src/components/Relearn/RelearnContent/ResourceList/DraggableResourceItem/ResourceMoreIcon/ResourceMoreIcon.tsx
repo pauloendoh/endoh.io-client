@@ -13,6 +13,7 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material"
+import { useAxios } from "hooks/utils/useAxios"
 import React, { useEffect } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
@@ -61,8 +62,10 @@ function ResourceMoreIcon(props: Props) {
     })
   }
 
+  const axios = useAxios()
+
   const duplicateResource = (resource: ResourceDto) => {
-    myAxios
+    axios
       .post<ResourceDto[]>(
         `${urls.api.relearn.resourceDuplicate}/${resource.id}`
       )
@@ -70,9 +73,6 @@ function ResourceMoreIcon(props: Props) {
         setSuccessMessage("Resource duplicated!")
 
         props.setResources(res.data)
-      })
-      .catch((err) => {
-        setErrorMessage(err.response.data.errors[0].message)
       })
   }
 

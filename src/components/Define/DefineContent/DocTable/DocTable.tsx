@@ -4,9 +4,11 @@ import { makeStyles } from "@mui/styles"
 import { Paper, Table, TableContainer, Toolbar } from "@mui/material"
 import { useAxios } from "hooks/utils/useAxios"
 import { useState } from "react"
+import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useAuthStore from "store/zustand/useAuthStore"
-import { newNoteDto, NoteDto } from "../../../../types/domain/define/NoteDto"
+import useSnackbarStore from "store/zustand/useSnackbarStore"
+import { buildNoteDto, NoteDto } from "../../../../types/domain/define/NoteDto"
 import apiUrls from "../../../../utils/url/urls/apiUrls"
 import DarkButton from "../../../_UI/Buttons/DarkButton/DarkButton"
 import { TBody, TD, THead, TR } from "../../../_UI/Table/MyTableWrappers"
@@ -21,16 +23,10 @@ const DocTable = (props: Props) => {
 
   const classes = useStyles()
 
-  const addNote = () => {
-    setSubmitting(true)
-    const newNote = newNoteDto(sortedNotes().length, props.docId, authUser.id)
-    myAxios
-      .post<NoteDto>(apiUrls.define.note, newNote)
-      .then((res) => {
-        docsStore.pushOrReplaceNote(res.data)
-      })
-      .finally(() => setSubmitting(false))
-  }
+  const [openNoteDialog, onClose] = useNoteDialogStore((s) => [
+    s.openNoteDialog,
+    s.onClose,
+  ])
 
   const sortedNotes = () => {
     const filtered = docsStore.notes.filter(
@@ -58,6 +54,8 @@ const DocTable = (props: Props) => {
   }
 
   const [submitting, setSubmitting] = useState(false)
+
+  const setSuccessMessage = useSnackbarStore((s) => s.setSuccessMessage)
 
   const theme = useTheme()
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"))
@@ -104,8 +102,27 @@ const DocTable = (props: Props) => {
       </TableContainer>
 
       <Toolbar style={{ display: "flex", gap: 16 }}>
-        <DarkButton onClick={addNote} disabled={submitting}>
-          + Add question
+        <DarkButton
+          onClick={() =>
+            openNoteDialog({
+              initialValue: buildNoteDto({
+                docId: props.docId,
+              }),
+              onSubmit: (updatedNote) => {
+                myAxios
+                  .post<NoteDto>(apiUrls.define.note, updatedNote)
+                  .then((res) => {
+                    docsStore.pushOrReplaceNote(res.data)
+
+                    setSuccessMessage("Question saved!")
+                    onClose()
+                  })
+              },
+            })
+          }
+          disabled={submitting}
+        >
+          + Add question (q)
         </DarkButton>
 
         <AddManyNotesMenuButton docId={props.docId} />
