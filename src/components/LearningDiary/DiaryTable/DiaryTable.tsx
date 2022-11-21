@@ -1,10 +1,4 @@
-import {
-  makeStyles,
-  Paper,
-  Table,
-  TableContainer,
-  Toolbar,
-} from "@mui/material"
+import { Paper, Table, TableContainer, Toolbar } from "@mui/material"
 import { useAddLearningMutation, useLearningsQuery } from "generated/graphql"
 import useFilteredLearnings from "hooks/learning-diary/useFilteredLearnings"
 import { DateTime } from "luxon"
@@ -17,7 +11,6 @@ import { TBody, TD, THead, TR } from "../../_UI/Table/MyTableWrappers"
 import DiaryTableRow from "./DiaryTableRow/DiaryTableRow"
 
 const DiaryTable = () => {
-  const classes = useStyles()
   const qc = useQueryClient()
 
   const { selectedDate } = useLearningDiaryStore()
@@ -37,25 +30,37 @@ const DiaryTable = () => {
 
   return (
     <Paper>
-      <TableContainer className={classes.container}>
+      <TableContainer sx={{ maxHeight: 440 }}>
         <Table
           stickyHeader
-          className={classes.table}
+          sx={{
+            minWidth: 500,
+            "& .MuiTableCell-root": {
+              padding: 8,
+              borderBottom: "1px solid rgb(255 255 255 / 0.1)",
+            },
+          }}
           aria-labelledby="tableTitle"
           size="small"
           aria-label="enhanced table"
         >
-          <THead>
+          <THead
+            sx={{
+              th: {
+                background: "#232323",
+              },
+            }}
+          >
             <TR>
-              <TD className={classes.th} align="center" width="64px">
+              <TD align="center" width="64px">
                 #
               </TD>
-              <TD className={classes.th}>Learning</TD>
+              <TD>Learning</TD>
 
-              <TD align="center" className={classes.th} width="100px">
+              <TD align="center" width="100px">
                 Highlight
               </TD>
-              <TD align="center" className={classes.th} width="200px">
+              <TD align="center" width="200px">
                 Time
               </TD>
             </TR>
@@ -93,21 +98,5 @@ const DiaryTable = () => {
     </Paper>
   )
 }
-
-const useStyles = makeStyles<Theme>((theme) => ({
-  container: {
-    maxHeight: 440,
-  },
-  th: {
-    background: "#232323",
-  },
-  table: {
-    minWidth: 500,
-    "& .MuiTableCell-root": {
-      padding: 8,
-      borderBottom: "1px solid rgb(255 255 255 / 0.1)",
-    },
-  },
-}))
 
 export default DiaryTable

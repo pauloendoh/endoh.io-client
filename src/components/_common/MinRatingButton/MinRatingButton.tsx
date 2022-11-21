@@ -1,8 +1,8 @@
-import { Rating } from "@mui/lab"
 import {
   Box,
   Button,
   ClickAwayListener,
+  Rating,
   Tooltip,
   Typography,
 } from "@mui/material"
@@ -44,7 +44,6 @@ function MinRatingButton(props: Props) {
         }}
         onClose={handleTooltipClose}
         open={open}
-        interactive
         disableFocusListener
         disableHoverListener
         disableTouchListener
