@@ -39,7 +39,7 @@ const RelearnPage = (props: Props) => {
   const [skills, setSkills] = useState<SkillDto[]>([])
 
   const fetchResourcesAndSkills = () => {
-    myAxios.get<ResourceDto[]>(apiUrls.relearn.resource).then((res) => {
+    myAxios.get<ResourceDto[]>(urls.api.relearn.resource).then((res) => {
       props.setResources(res.data)
     })
 

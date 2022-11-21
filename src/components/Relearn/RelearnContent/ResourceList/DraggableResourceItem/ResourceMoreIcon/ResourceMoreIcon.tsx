@@ -18,6 +18,7 @@ import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import useDialogsStore from "store/zustand/useDialogsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
+import { urls } from "utils/urls"
 import {
   editResource,
   removeResource,
@@ -26,7 +27,6 @@ import {
 import { ApplicationState } from "../../../../../../store/store"
 import { ResourceDto } from "../../../../../../types/domain/relearn/ResourceDto"
 import myAxios from "../../../../../../utils/consts/myAxios"
-import apiUrls from "../../../../../../utils/url/urls/apiUrls"
 
 // PE 1/3
 function ResourceMoreIcon(props: Props) {
@@ -52,7 +52,7 @@ function ResourceMoreIcon(props: Props) {
     openConfirmDialog({
       title: "Delete resource?",
       onConfirm: () => {
-        myAxios.delete(`${apiUrls.relearn.resource}/${id}`).then((res) => {
+        myAxios.delete(`${urls.api.relearn.resource}/${id}`).then((res) => {
           setSuccessMessage("Resource deleted!")
 
           props.removeResource(id)
@@ -64,7 +64,7 @@ function ResourceMoreIcon(props: Props) {
   const duplicateResource = (resource: ResourceDto) => {
     myAxios
       .post<ResourceDto[]>(
-        `${apiUrls.relearn.resourceDuplicate}/${resource.id}`
+        `${urls.api.relearn.resourceDuplicate}/${resource.id}`
       )
       .then((res) => {
         setSuccessMessage("Resource duplicated!")

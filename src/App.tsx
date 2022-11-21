@@ -122,12 +122,12 @@ const App = (props: Props) => {
           })
 
         axios
-          .get<UserPreferenceDto>(apiUrls.auth.userPreference)
+          .get<UserPreferenceDto>(urls.api.auth.userPreference)
           .then((res) => {
             setPreference(res.data)
           })
 
-        axios.get<TagDto[]>(apiUrls.relearn.tag).then((res) => {
+        axios.get<TagDto[]>(urls.api.relearn.tag).then((res) => {
           props.setTags(res.data)
         })
 

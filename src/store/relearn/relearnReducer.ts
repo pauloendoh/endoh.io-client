@@ -1,8 +1,8 @@
 import { Reducer } from "redux"
+import { urls } from "utils/urls"
 import { IMoveResource } from "../../types/domain/relearn/IMoveResource"
 import { ResourceDto } from "../../types/domain/relearn/ResourceDto"
 import myAxios from "../../utils/consts/myAxios"
-import apiUrls from "../../utils/url/urls/apiUrls"
 import { RelearnActionReturns } from "./relearnActions"
 import { relearnActionTypes, RelearnState } from "./relearnTypes"
 
@@ -113,7 +113,7 @@ const moveResource = (
   clearTimeout(throttle)
   throttle = setTimeout(() => {
     myAxios
-      .post(apiUrls.relearn.resource + "/resources", resources)
+      .post(urls.api.relearn.resource + "/resources", resources)
       .then((res) => {})
       .catch((err) => {
         alert("Error while saving new position.")

@@ -18,7 +18,6 @@ import * as relearnActions from "../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../store/store"
 import { TagDto } from "../../../types/domain/relearn/TagDto"
 import myAxios from "../../../utils/consts/myAxios"
-import apiUrls from "../../../utils/url/urls/apiUrls"
 import Flex from "../../_UI/Flexboxes/Flex"
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
 import MyTextField from "../../_UI/MyInputs/MyTextField"
@@ -32,7 +31,7 @@ const TagDialog = (props: Props) => {
 
   const handleSubmit = (sentTag: TagDto) => {
     myAxios
-      .post<TagDto[]>(apiUrls.relearn.tag, sentTag)
+      .post<TagDto[]>(urls.api.relearn.tag, sentTag)
       .then((res) => {
         setSuccessMessage("Tag saved!")
 

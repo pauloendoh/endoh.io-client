@@ -1,25 +1,11 @@
 // PE 2/3 - slowly mergint to urls.ts
 const apiUrls = {
-  auth: {
-    resetPassword: "/auth/password-reset",
-    authPasswordChange: "/auth/authenticated-password-change",
-    username: "/auth/username",
-    tempUser: "/auth/temp-user",
-    userPreference: "/auth/user-preference",
-    me: "/auth/me",
-  },
   monerate: {
     expense: "/monerate/expense",
     place: "/monerate/place",
     category: "/monerate/category",
   },
-  relearn: {
-    resource: "/relearn/resource",
-    resourceDuplicate: "/relearn/resource/duplicate",
-    resourceMoveToTag: "/v2/resources/many/to-tag",
-    deleteManyResources: "/v2/resources/many/delete",
-    tag: "/relearn/tag",
-  },
+
   skillbase: {
     index: "/skillbase",
     skill: "/skillbase/skill",

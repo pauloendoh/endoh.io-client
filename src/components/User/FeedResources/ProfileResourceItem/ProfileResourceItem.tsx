@@ -11,11 +11,11 @@ import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import useAuthStore from "store/zustand/useAuthStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
+import { urls } from "utils/urls"
 import * as relearnActions from "../../../../store/relearn/relearnActions"
 import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto"
 import myAxios from "../../../../utils/consts/myAxios"
 import { urlIsValid } from "../../../../utils/url/isValidUrl"
-import apiUrls from "../../../../utils/url/urls/apiUrls"
 import ResourceMoreIcon from "../../../Relearn/RelearnContent/ResourceList/DraggableResourceItem/ResourceMoreIcon/ResourceMoreIcon"
 import RatingButton from "../../../_common/RatingButton/RatingButton"
 import ResourceThumbnail from "../../../_common/ResourceThumbnail/ResourceThumbnail"
@@ -42,7 +42,7 @@ function ProfileResourceItem(props: Props) {
   const handleSaveRating = (rating: number) => {
     const resource = { ...props.resource, rating } as ResourceDto
     myAxios
-      .post<ResourceDto[]>(apiUrls.relearn.resource, resource)
+      .post<ResourceDto[]>(urls.api.relearn.resource, resource)
       .then((res) => {
         props.setResources(res.data)
 

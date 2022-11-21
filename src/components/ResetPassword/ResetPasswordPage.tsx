@@ -18,7 +18,6 @@ import { PasswordResetPostDto } from "../../types/domain/auth/PasswordResetPostD
 import MyAxiosError, { MyFieldError } from "../../types/MyAxiosError"
 import myAxios from "../../utils/consts/myAxios"
 import { getQueryParam } from "../../utils/url/getQueryParam"
-import apiUrls from "../../utils/url/urls/apiUrls"
 import Flex from "../_UI/Flexboxes/Flex"
 import FlexHCenter from "../_UI/Flexboxes/FlexHCenter"
 import FlexVCenter from "../_UI/Flexboxes/FlexVCenter"
@@ -63,7 +62,7 @@ function ResetPasswordPage() {
 
     setResponseErrors([])
     myAxios
-      .post(apiUrls.auth.resetPassword, values)
+      .post(urls.api.auth.resetPassword, values)
       .then((res) => {
         setSuccess(true)
       })

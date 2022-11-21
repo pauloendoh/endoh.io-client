@@ -17,10 +17,10 @@ import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import useDialogsStore from "store/zustand/useDialogsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
+import { urls } from "utils/urls"
 import * as relearnActions from "../../../../../store/relearn/relearnActions"
 import { TagDto } from "../../../../../types/domain/relearn/TagDto"
 import myAxios from "../../../../../utils/consts/myAxios"
-import apiUrls from "../../../../../utils/url/urls/apiUrls"
 
 // PE 2/3 - MenuItem could be shorter?
 function TagMoreIcon(props: Props) {
@@ -42,7 +42,7 @@ function TagMoreIcon(props: Props) {
     dialogStore.openConfirmDialog({
       title: "Confirm delete?",
       onConfirm: () => {
-        myAxios.delete(`${apiUrls.relearn.tag}/${id}`).then((res) => {
+        myAxios.delete(`${urls.api.relearn.tag}/${id}`).then((res) => {
           setSuccessMessage("Tag deleted!")
 
           props.afterDelete()

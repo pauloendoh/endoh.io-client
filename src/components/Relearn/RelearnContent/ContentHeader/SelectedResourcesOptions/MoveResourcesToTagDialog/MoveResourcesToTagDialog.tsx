@@ -9,7 +9,7 @@ import { setResources } from "store/relearn/relearnActions"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { ResourceDto } from "types/domain/relearn/ResourceDto"
 import myAxios from "utils/consts/myAxios"
-import apiUrls from "utils/url/urls/apiUrls"
+import { urls } from "utils/urls"
 import { ApplicationState } from "../../../../../../store/store"
 
 // PE 2/3
@@ -22,7 +22,7 @@ const MoveResourcesToTagDialog = (props: Props) => {
   const handleSubmit = () => {
     setSubmitting(true)
     myAxios
-      .put<ResourceDto[]>(apiUrls.relearn.resourceMoveToTag, {
+      .put<ResourceDto[]>(urls.api.relearn.resourceMoveToTag, {
         resourceIds: props.resourceIds,
         toTagId: selectedTagId,
       })

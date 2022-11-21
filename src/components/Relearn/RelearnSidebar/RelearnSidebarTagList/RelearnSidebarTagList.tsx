@@ -19,11 +19,11 @@ import useGotItQuery from "hooks/react-query/got-it/useGotItQuery"
 import React, { useEffect, useMemo, useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
+import { urls } from "utils/urls"
 import * as relearnActions from "../../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../../store/store"
 import { TagDto } from "../../../../types/domain/relearn/TagDto"
 import myAxios from "../../../../utils/consts/myAxios"
-import apiUrls from "../../../../utils/url/urls/apiUrls"
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
 import TagListItem from "../TagListItem/TagListItem"
 
@@ -37,7 +37,7 @@ function RelearnSidebarTagList(props: Props) {
   // PE 2/3 - melhor deixar o setTags no RelearnPage ? E chamar tudo de uma vez em uma request?
   useEffect(
     () => {
-      myAxios.get<TagDto[]>(apiUrls.relearn.tag).then((res) => {
+      myAxios.get<TagDto[]>(urls.api.relearn.tag).then((res) => {
         props.setTags(res.data)
       })
     },

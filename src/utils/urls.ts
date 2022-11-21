@@ -23,12 +23,24 @@ export const urls = {
       login: "/auth/login",
       googleLogin: "/auth/google/login",
       keepTempUser: "/auth/keep-temp-user",
+      resetPassword: "/auth/password-reset",
+      authPasswordChange: "/auth/authenticated-password-change",
+      username: "/auth/username",
+      tempUser: "/auth/temp-user",
+      userPreference: "/auth/user-preference",
     },
     register: "/auth/register",
 
     //TAGS
     saveTagLastOpenedAt: (tagId: number) => `/v2/tag/${tagId}/last-opened-at`,
 
+    relearn: {
+      resource: "/relearn/resource",
+      resourceDuplicate: "/relearn/resource/duplicate",
+      resourceMoveToTag: "/v2/resources/many/to-tag",
+      deleteManyResources: "/v2/resources/many/delete",
+      tag: "/relearn/tag",
+    },
     // Skillbase
     skillbase: {
       label: "/v2/skillbase/label",

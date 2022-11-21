@@ -42,7 +42,6 @@ import { ApplicationState } from "../../../../store/store"
 import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto"
 import { TagDto } from "../../../../types/domain/relearn/TagDto"
 import { urlIsValid } from "../../../../utils/url/isValidUrl"
-import apiUrls from "../../../../utils/url/urls/apiUrls"
 import RatingButton from "../../../_common/RatingButton/RatingButton"
 import SaveCancelButtons from "../../../_UI/Buttons/SaveCancelButtons"
 import Flex from "../../../_UI/Flexboxes/Flex"
@@ -179,13 +178,13 @@ const ResourceDialog = (props: Props) => {
       },
     }
     myAxios
-      .post<ResourceDto[]>(apiUrls.relearn.resource, payload)
+      .post<ResourceDto[]>(urls.api.relearn.resource, payload)
       .then((res) => {
         const resources = [...props.resources]
         props.setResources(res.data)
         setSuccessMessage("Resource saved!")
 
-        myAxios.get<TagDto[]>(apiUrls.relearn.tag).then((res) => {
+        myAxios.get<TagDto[]>(urls.api.relearn.tag).then((res) => {
           props.setTags(res.data)
         })
 
@@ -301,7 +300,7 @@ const ResourceDialog = (props: Props) => {
       title: "Delete resource?",
       onConfirm: () => {
         myAxios
-          .delete(`${apiUrls.relearn.resource}/${values.id}`)
+          .delete(`${urls.api.relearn.resource}/${values.id}`)
           .then((res) => {
             setSuccessMessage("Resource deleted!")
             props.removeResource(values.id)

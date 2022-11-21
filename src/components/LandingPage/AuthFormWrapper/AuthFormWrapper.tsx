@@ -8,7 +8,7 @@ import { MdInfo } from "react-icons/md"
 import useAuthStore from "store/zustand/useAuthStore"
 import { AuthUserGetDto } from "types/domain/auth/AuthUserGetDto"
 import Icons from "utils/styles/Icons"
-import apiUrls from "../../../utils/url/urls/apiUrls"
+import { urls } from "utils/urls"
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
 import { MyDivider } from "../../_UI/MyDivider/MyDivider"
 import S from "./AuthFormWrapper.styles"
@@ -29,7 +29,7 @@ const AuthFormWrapper = () => {
 
   const handleTempSignIn = () => {
     // PE 2/3
-    axios.get<AuthUserGetDto>(apiUrls.auth.tempUser).then((res) => {
+    axios.get<AuthUserGetDto>(urls.api.auth.tempUser).then((res) => {
       setAuthUser(res.data)
     })
   }

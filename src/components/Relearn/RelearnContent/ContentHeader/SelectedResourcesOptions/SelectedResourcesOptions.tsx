@@ -15,7 +15,7 @@ import useDialogsStore from "store/zustand/useDialogsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { ResourceDto } from "types/domain/relearn/ResourceDto"
 import myAxios from "utils/consts/myAxios"
-import apiUrls from "utils/url/urls/apiUrls"
+import { urls } from "utils/urls"
 import MoveResourcesToTagDialog from "./MoveResourcesToTagDialog/MoveResourcesToTagDialog"
 // PE 2/3
 const SelectedResourcesOptions = (props: Props) => {
@@ -30,7 +30,7 @@ const SelectedResourcesOptions = (props: Props) => {
 
   const deleteResources = () => {
     myAxios
-      .delete<ResourceDto[]>(apiUrls.relearn.deleteManyResources, {
+      .delete<ResourceDto[]>(urls.api.relearn.deleteManyResources, {
         data: {
           ids: selectedResourceIds,
         },

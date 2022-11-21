@@ -7,12 +7,12 @@ import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import Icons from "utils/styles/Icons"
+import { urls } from "utils/urls"
 import * as relearnActions from "../../../../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../../../../store/store"
 import { IMoveResource } from "../../../../../../types/domain/relearn/IMoveResource"
 import { ResourceDto } from "../../../../../../types/domain/relearn/ResourceDto"
 import myAxios from "../../../../../../utils/consts/myAxios"
-import apiUrls from "../../../../../../utils/url/urls/apiUrls"
 import RatingButton from "../../../../../_common/RatingButton/RatingButton"
 import ResourceThumbnail from "../../../../../_common/ResourceThumbnail/ResourceThumbnail"
 import Txt from "../../../../../_UI/Text/Txt"
@@ -31,7 +31,7 @@ function ResourceItem(props: Props) {
   const handleSaveRating = (rating: number) => {
     const resource = { ...props.resource, rating } as ResourceDto
     myAxios
-      .post<ResourceDto[]>(apiUrls.relearn.resource, resource)
+      .post<ResourceDto[]>(urls.api.relearn.resource, resource)
       .then((res) => {
         props.setResources(res.data)
 
@@ -51,7 +51,7 @@ function ResourceItem(props: Props) {
     } as ResourceDto
 
     myAxios
-      .post<ResourceDto[]>(apiUrls.relearn.resource, resource)
+      .post<ResourceDto[]>(urls.api.relearn.resource, resource)
       .then((res) => {
         props.setResources(res.data)
 

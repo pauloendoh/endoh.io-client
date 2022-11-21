@@ -10,10 +10,10 @@ import { AxiosError } from "axios"
 import { Form, Formik } from "formik"
 import { useState } from "react"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
+import { urls } from "utils/urls"
 import { AuthChangePasswordPostDto } from "../../../../../types/domain/auth/AuthChangePasswordPostDto"
 import { MyFieldError } from "../../../../../types/MyAxiosError"
 import myAxios from "../../../../../utils/consts/myAxios"
-import apiUrls from "../../../../../utils/url/urls/apiUrls"
 import Flex from "../../../../_UI/Flexboxes/Flex"
 import FlexHCenter from "../../../../_UI/Flexboxes/FlexHCenter"
 import MyTextField from "../../../../_UI/MyInputs/MyTextField"
@@ -48,7 +48,7 @@ const ChangePasswordDialog = (props: Props) => {
     }
 
     myAxios
-      .post(apiUrls.auth.authPasswordChange, values)
+      .post(urls.api.auth.authPasswordChange, values)
       .then((res) => {
         setSuccessMessage("Password changed successfully!")
         handleClose()

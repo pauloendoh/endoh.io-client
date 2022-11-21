@@ -4,7 +4,7 @@ import { Controller, useForm } from "react-hook-form"
 import useAuthStore from "store/zustand/useAuthStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import myAxios from "utils/consts/myAxios"
-import apiUrls from "utils/url/urls/apiUrls"
+import { urls } from "utils/urls"
 import { UsernamePutDto } from "../../../../../types/domain/auth/UsernamePutDto"
 import Flex from "../../../../_UI/Flexboxes/Flex"
 import MyTextField from "../../../../_UI/MyInputs/MyTextField"
@@ -26,7 +26,7 @@ const EditUsernameDialog = (props: Props) => {
 
   const submit = async (formData: UsernamePutDto) => {
     return myAxios
-      .put(apiUrls.auth.username, formData)
+      .put(urls.api.auth.username, formData)
       .then((res) => {
         setSuccessMessage("Username changed!")
         setUsername(formData.newUsername)
