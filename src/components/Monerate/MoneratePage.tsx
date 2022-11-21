@@ -20,20 +20,20 @@ import MonerateLayout from "./MonerateLayout/MonerateLayout"
 const MoneratePage = (props: Props) => {
   const [filteredExpenses, setFilteredExpenses] = useState<ExpenseGetDto[]>([])
 
-  const myAxios = useAxios()
+  const axios = useAxios()
   useEffect(
     () => {
       document.title = "Monerate"
 
-      myAxios.get<ExpenseGetDto[]>("/monerate/expense/").then((res) => {
+      axios.get<ExpenseGetDto[]>("/monerate/expense/").then((res) => {
         props.setExpenses(res.data)
       })
 
-      myAxios.get<PlaceGetDto[]>("/monerate/place").then((res) => {
+      axios.get<PlaceGetDto[]>("/monerate/place").then((res) => {
         props.setPlaces(res.data)
       })
 
-      myAxios.get<CategoryGetDto[]>("/monerate/category").then((res) => {
+      axios.get<CategoryGetDto[]>("/monerate/category").then((res) => {
         props.setCategories(res.data)
       })
     },

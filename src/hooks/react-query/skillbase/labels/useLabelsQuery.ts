@@ -1,11 +1,13 @@
-import { queryKeys } from "hooks/react-query/queryKeys";
-import { useQuery } from "react-query";
-import { LabelDto } from "types/domain/skillbase/LabelDto";
-import { urls } from "utils/urls";
-import myAxios from "../../../../utils/consts/myAxios";
+import { queryKeys } from "hooks/react-query/queryKeys"
+import { useAxios } from "hooks/utils/useAxios"
+import { useQuery } from "react-query"
+import { LabelDto } from "types/domain/skillbase/LabelDto"
+import { urls } from "utils/urls"
 
 export default function useLabelsQuery() {
+  const axios = useAxios()
+
   return useQuery(queryKeys.labels, () =>
-    myAxios.get<LabelDto[]>(urls.api.skillbase.label).then((res) => res.data)
-  );
+    axios.get<LabelDto[]>(urls.api.skillbase.label).then((res) => res.data)
+  )
 }

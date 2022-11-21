@@ -27,14 +27,13 @@ import {
 } from "../../../../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../../../../store/store"
 import { ResourceDto } from "../../../../../../types/domain/relearn/ResourceDto"
-import myAxios from "../../../../../../utils/consts/myAxios"
 
 // PE 1/3
 function ResourceMoreIcon(props: Props) {
   const classes = useStyles()
   const { openConfirmDialog } = useDialogsStore()
 
-  const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
+  const { setSuccessMessage } = useSnackbarStore()
 
   useEffect(() => {
     if (!props.isHovered) setAnchorEl(null)
@@ -49,11 +48,13 @@ function ResourceMoreIcon(props: Props) {
     setAnchorEl(null)
   }
 
+  const axios = useAxios()
+
   const handleDeleteResource = (id: number) => {
     openConfirmDialog({
       title: "Delete resource?",
       onConfirm: () => {
-        myAxios.delete(`${urls.api.relearn.resource}/${id}`).then((res) => {
+        axios.delete(`${urls.api.relearn.resource}/${id}`).then((res) => {
           setSuccessMessage("Resource deleted!")
 
           props.removeResource(id)
@@ -61,8 +62,6 @@ function ResourceMoreIcon(props: Props) {
       },
     })
   }
-
-  const axios = useAxios()
 
   const duplicateResource = (resource: ResourceDto) => {
     axios

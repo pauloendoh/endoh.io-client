@@ -4,6 +4,7 @@ import { makeStyles } from "@mui/styles"
 import { Box } from "@mui/material"
 import classNames from "classnames"
 import useMultiSelectResource from "hooks/relearn/useMultiSelectResource"
+import { useAxios } from "hooks/utils/useAxios"
 import { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Redirect, useLocation, useParams } from "react-router-dom"
@@ -16,7 +17,6 @@ import { ApplicationState } from "../../store/store"
 import useSidebarStore from "../../store/zustand/useSidebarStore"
 import { ResourceDto } from "../../types/domain/relearn/ResourceDto"
 import { SkillDto } from "../../types/domain/skillbase/SkillDto"
-import myAxios from "../../utils/consts/myAxios"
 import apiUrls from "../../utils/url/urls/apiUrls"
 import LoadingPage from "../_common/LoadingPage/LoadingPage"
 import Flex from "../_UI/Flexboxes/Flex"
@@ -38,12 +38,14 @@ const RelearnPage = (props: Props) => {
   // PE 1/3 - why do we need this skills, if we have props.skills ?
   const [skills, setSkills] = useState<SkillDto[]>([])
 
+  const axios = useAxios()
+
   const fetchResourcesAndSkills = () => {
-    myAxios.get<ResourceDto[]>(urls.api.relearn.resource).then((res) => {
+    axios.get<ResourceDto[]>(urls.api.relearn.resource).then((res) => {
       props.setResources(res.data)
     })
 
-    myAxios.get<SkillDto[]>(apiUrls.skillbase.skill).then((res) => {
+    axios.get<SkillDto[]>(apiUrls.skillbase.skill).then((res) => {
       setSkillsStore(res.data)
     })
   }

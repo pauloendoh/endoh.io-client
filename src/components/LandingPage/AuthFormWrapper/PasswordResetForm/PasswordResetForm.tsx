@@ -31,10 +31,10 @@ const ResetPasswordByEmailForm = (props: Props) => {
     },
   })
 
-  const myAxios = useAxios()
+  const axios = useAxios()
 
   const onSubmit = (values: EmailPostDto) => {
-    myAxios.post(apiUrls.utils.passwordResetEmail, values).then((res) => {
+    axios.post(apiUrls.utils.passwordResetEmail, values).then((res) => {
       setIsOk(true)
     })
   }

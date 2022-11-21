@@ -12,6 +12,7 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material"
+import { useAxios } from "hooks/utils/useAxios"
 import React from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
@@ -20,7 +21,6 @@ import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { urls } from "utils/urls"
 import * as relearnActions from "../../../../../store/relearn/relearnActions"
 import { TagDto } from "../../../../../types/domain/relearn/TagDto"
-import myAxios from "../../../../../utils/consts/myAxios"
 
 // PE 2/3 - MenuItem could be shorter?
 function TagMoreIcon(props: Props) {
@@ -37,12 +37,14 @@ function TagMoreIcon(props: Props) {
     setAnchorEl(null) // avoids error "The `anchorEl` prop provided to the component is invalid"
   }
 
+  const axios = useAxios()
+
   // handleDelete would be better?
   const handleDeleteTag = (id: number) => {
     dialogStore.openConfirmDialog({
       title: "Confirm delete?",
       onConfirm: () => {
-        myAxios.delete(`${urls.api.relearn.tag}/${id}`).then((res) => {
+        axios.delete(`${urls.api.relearn.tag}/${id}`).then((res) => {
           setSuccessMessage("Tag deleted!")
 
           props.afterDelete()

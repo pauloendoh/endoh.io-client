@@ -34,13 +34,15 @@ const UnansweredQuestionsListItem = (props: Props) => {
     )
   }, [allNotes])
 
+  const axios = useAxios()
+
   const openRandomUnansweredQuestion = useCallback(() => {
     const randomIndex = getRandomIntInclusive(0, notesWithoutAnswer.length - 1)
 
     openNoteDialog({
       initialValue: notesWithoutAnswer[randomIndex],
       onSubmit: (updatedNote) => {
-        myAxios.post<NoteDto>(apiUrls.define.note, updatedNote).then((res) => {
+        axios.post<NoteDto>(apiUrls.define.note, updatedNote).then((res) => {
           pushOrReplaceNote(res.data)
 
           closeNoteDialog()

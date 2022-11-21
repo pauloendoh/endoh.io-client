@@ -31,13 +31,15 @@ export default function FolderTreeItem({ folder }: Props) {
 
   const pushOrReplaceDoc = useDocsStore((s) => s.pushOrReplaceDoc)
 
+  const axios = useAxios()
+
   const onSubmit = (values: { title: string; docId: number }) => {
     const obj = {
       title: values.title,
       id: values.docId,
       folderId: folder.id,
     }
-    myAxios.post<DocDto>(apiUrls.define.doc, obj).then((res) => {
+    axios.post<DocDto>(apiUrls.define.doc, obj).then((res) => {
       pushOrReplaceDoc(res.data)
       queryClient.invalidateQueries(queryKeys.folders)
     })

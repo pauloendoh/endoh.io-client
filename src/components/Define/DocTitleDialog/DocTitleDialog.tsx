@@ -33,13 +33,15 @@ const DocTitleDialog = (props: Props) => {
 
   const queryClient = useQueryClient()
 
+  const axios = useAxios()
+
   const onSubmit = (values: { title: string }) => {
     const obj = {
       title: values.title,
       id: props.docId,
       folderId: props.initialValue.folderId,
     }
-    myAxios.post<DocDto>(apiUrls.define.doc, obj).then((res) => {
+    axios.post<DocDto>(apiUrls.define.doc, obj).then((res) => {
       docsStore.pushOrReplaceDoc(res.data)
       setSuccessMessage("Doc saved!")
 

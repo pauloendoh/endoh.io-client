@@ -169,6 +169,8 @@ const ResourceDialog = (props: Props) => {
     props.closeResourceDialog()
   }
 
+  const axios = useAxios()
+
   const handleSubmit = (resource: ResourceDto, closeOnSuccess = true) => {
     const payload: ResourceDto = {
       ...resource,
@@ -177,14 +179,14 @@ const ResourceDialog = (props: Props) => {
         resources: undefined,
       },
     }
-    myAxios
+    axios
       .post<ResourceDto[]>(urls.api.relearn.resource, payload)
       .then((res) => {
         const resources = [...props.resources]
         props.setResources(res.data)
         setSuccessMessage("Resource saved!")
 
-        myAxios.get<TagDto[]>(urls.api.relearn.tag).then((res) => {
+        axios.get<TagDto[]>(urls.api.relearn.tag).then((res) => {
           props.setTags(res.data)
         })
 

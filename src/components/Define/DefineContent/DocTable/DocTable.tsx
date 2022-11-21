@@ -38,11 +38,13 @@ const DocTable = (props: Props) => {
 
   const [throttle, setThrottle] = useState<NodeJS.Timeout>(null)
 
+  const axios = useAxios()
+
   const handleNoteChange = (changed: NoteDto) => {
     clearTimeout(throttle)
     setThrottle(
       setTimeout(() => {
-        myAxios.post<NoteDto>(apiUrls.define.note, changed).then((res) => {
+        axios.post<NoteDto>(apiUrls.define.note, changed).then((res) => {
           docsStore.pushOrReplaceNote(res.data)
         })
       }, 500)

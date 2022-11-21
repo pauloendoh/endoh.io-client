@@ -30,6 +30,8 @@ const NavbarAddButton = (props: Props) => {
     s.docs,
   ])
 
+  const axios = useAxios()
+
   const openQuestionDialog = () => {
     const splits = location.pathname.split("/")
     const docId = Number(splits[splits.length - 1])
@@ -40,7 +42,7 @@ const NavbarAddButton = (props: Props) => {
         docId: doc?.id,
       }),
       onSubmit: (updatedNote) => {
-        myAxios.post<NoteDto>(apiUrls.define.note, updatedNote).then((res) => {
+        axios.post<NoteDto>(apiUrls.define.note, updatedNote).then((res) => {
           pushOrReplaceNote(res.data)
 
           setSuccessMessage("Question saved!")

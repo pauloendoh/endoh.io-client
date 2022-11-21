@@ -3,6 +3,7 @@ import { makeStyles } from "@mui/styles"
 
 import { Box, Paper } from "@mui/material"
 import clsx from "clsx"
+import { useAxios } from "hooks/utils/useAxios"
 import { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
@@ -13,7 +14,6 @@ import { ApplicationState } from "../../store/store"
 import useSidebarStore from "../../store/zustand/useSidebarStore"
 import { TagDto } from "../../types/domain/relearn/TagDto"
 import { SkillDto } from "../../types/domain/skillbase/SkillDto"
-import myAxios from "../../utils/consts/myAxios"
 import apiUrls from "../../utils/url/urls/apiUrls"
 import pageUrls from "../../utils/url/urls/pageUrls"
 import LoadingPage from "../_common/LoadingPage/LoadingPage"
@@ -30,8 +30,10 @@ const SkillbasePage = (props: Props) => {
   const { sidebarIsOpen, closeSidebar } = useSidebarStore()
   const [selectedTag, setSelectedTag] = useState<TagDto | "Untagged">()
 
+  const axios = useAxios()
+
   const fetchSkills = () => {
-    myAxios.get<SkillDto[]>(apiUrls.skillbase.skill).then((res) => {
+    axios.get<SkillDto[]>(apiUrls.skillbase.skill).then((res) => {
       setSkills(res.data)
     })
   }
