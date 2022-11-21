@@ -407,19 +407,7 @@ const ResourceDialog = (props: Props) => {
                   )}
                 </Box>
                 <FlexVCenter justifyContent="space-between">
-                  <FlexVCenter mt={1}>
-                    {/* <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={urlAutofillChecked}
-                              onChange={handleCheckAutofill}
-                              name="urlAutofillCheckBox"
-                              color="primary"
-                            />
-                          }
-                          label="Autofill via URL"
-                        /> */}
-                  </FlexVCenter>
+                  <FlexVCenter mt={1}></FlexVCenter>
 
                   <Box>
                     {errors.url && (

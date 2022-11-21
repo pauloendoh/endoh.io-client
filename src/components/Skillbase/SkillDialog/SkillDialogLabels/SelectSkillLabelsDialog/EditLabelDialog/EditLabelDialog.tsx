@@ -99,7 +99,7 @@ const EditLabelDialog = (props: Props) => {
                   name="name"
                   size="small"
                   label="Name"
-                  className="mt-3"
+                  sx={{ mt: 1 }}
                   fullWidth
                   required
                   autoFocus

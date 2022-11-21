@@ -9,7 +9,7 @@ interface Props {
   liProps: React.HTMLAttributes<HTMLLIElement>
 }
 
-const LabelsSelectorV2Option = ({ label, onClickEdit, liProps }: Props) => {
+const LabelSelectorOption = ({ label, onClickEdit, liProps }: Props) => {
   if (label.id > 0)
     return (
       <li
@@ -38,7 +38,11 @@ const LabelsSelectorV2Option = ({ label, onClickEdit, liProps }: Props) => {
       </li>
     )
 
-  return <FlexVCenter style={{ gap: 8 }}>+ Add label</FlexVCenter>
+  return (
+    <li {...liProps}>
+      <FlexVCenter style={{ gap: 8 }}>+ Add label</FlexVCenter>
+    </li>
+  )
 }
 
-export default LabelsSelectorV2Option
+export default LabelSelectorOption

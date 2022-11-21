@@ -4,7 +4,7 @@ import MyTextField from "components/_UI/MyInputs/MyTextField"
 import useLabelsQuery from "hooks/react-query/skillbase/labels/useLabelsQuery"
 import { useMemo } from "react"
 import { LabelDto, newLabelDto } from "types/domain/skillbase/LabelDto"
-import LabelsSelectorV2Option from "./LabelsSelectorV2Option/LabelsSelectorV2Option"
+import LabelSelectorOption from "./LabelSelectorOption/LabelSelectorOption"
 
 interface Props {
   selectedLabels: LabelDto[]
@@ -55,7 +55,7 @@ const LabelsSelectorV2 = (props: Props) => {
         <MyTextField {...params} label="Labels" size="small" />
       )}
       renderOption={(liProps, label) => (
-        <LabelsSelectorV2Option
+        <LabelSelectorOption
           liProps={liProps}
           label={label}
           onClickEdit={() => {

@@ -174,12 +174,14 @@ const SkillDialog = () => {
               height: `calc(100vh - 410px)`,
             }}
           >
-            <TagSelector
-              selectedTagId={formik.values.tagId}
-              onChange={(e, value) => {
-                formik.setFieldValue("tagId", value)
-              }}
-            />
+            <Box mt={1}>
+              <TagSelector
+                selectedTagId={formik.values.tagId}
+                onChange={(e, value) => {
+                  formik.setFieldValue("tagId", value)
+                }}
+              />
+            </Box>
 
             <SkillExpectations
               currentLevel={formik.values.currentLevel}
