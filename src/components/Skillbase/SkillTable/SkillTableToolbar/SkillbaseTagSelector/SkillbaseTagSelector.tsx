@@ -3,10 +3,11 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  SelectChangeEvent,
   Typography,
   useTheme,
 } from "@mui/material"
-import { ChangeEvent, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import { ApplicationState } from "../../../../../store/store"
@@ -30,10 +31,19 @@ const SkillbaseTagSelector = (props: Props) => {
     setOptions(options)
   }, [props.allTags])
 
-  const getProperValue = (option: optionTypes) => {
+  const getOptionValue = (option: optionTypes) => {
     if (typeof option === "string") return option
     if (option === undefined) return ""
     return option.id
+  }
+
+  const getSelectValue = (option: optionTypes) => {
+    if (typeof option === "string") return { value: option, name: option }
+    if (option === undefined) return ""
+    return {
+      value: option.id,
+      name: option.name,
+    }
   }
 
   const getLabel = (option: optionTypes) => {
@@ -49,15 +59,10 @@ const SkillbaseTagSelector = (props: Props) => {
     return allSkills.filter((s) => s.tagId === option.id).length
   }
 
-  const handleChange = (
-    e: ChangeEvent<{
-      name?: string
-      value: unknown
-    }>
-  ) => {
+  const handleChange = (e: SelectChangeEvent<number | "All" | "Untagged">) => {
     if (typeof e.target.value === "string")
       props.onChange(e.target.value as optionTypes)
-    else {
+    if (typeof e.target.value === "number") {
       const tagId = e.target.value as number
       const tag = props.allTags.find((tag) => tag.id === tagId)
       props.onChange(tag)
@@ -73,12 +78,12 @@ const SkillbaseTagSelector = (props: Props) => {
         <Select
           id="tag-selector"
           labelId="tag-selector-label"
-          value={getProperValue(props.value)}
+          value={getOptionValue(props.value)}
           label="Tag"
           onChange={handleChange}
         >
           {options.map((option, index) => (
-            <MenuItem key={index} value={getProperValue(option)}>
+            <MenuItem key={index} value={getOptionValue(option)}>
               <FlexVCenter justifyContent="space-between" width="100%">
                 <FlexVCenter>
                   {typeof option !== "string" && (
