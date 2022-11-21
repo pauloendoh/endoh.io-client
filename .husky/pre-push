@@ -1,4 +1,7 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npm run test --bail --findRelatedTests
+#npm run test --bail --findRelatedTests
+
+npx tsc
+npm run test:once

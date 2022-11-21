@@ -1,20 +1,12 @@
 import { faStar } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import {
-  Box,
-  makeStyles,
-  Paper,
-  Theme,
-  Typography,
-  useTheme,
-} from "@mui/material"
+import { Box, Paper, Typography, useTheme } from "@mui/material"
 import { useEffect, useState } from "react"
 import NumberFormat from "react-number-format"
 import ExpenseGetDto from "../../../types/domain/monerate/ExpenseGetDto"
 import FlexYCenter from "../../_UI/Flexboxes/FlexVCenter"
 
 const ExpenseOverview = (props: Props) => {
-  const classes = useStyle()
   const theme = useTheme()
 
   const [overview, setOverview] = useState<IExpenseOverview>(
@@ -63,7 +55,7 @@ const ExpenseOverview = (props: Props) => {
                 icon={faStar}
                 color={theme.palette.secondary.main}
                 size={"sm"}
-                className={classes.starIcon}
+                style={{ marginLeft: 5, marginBottom: 5 }}
               />
             </FlexYCenter>
           </Typography>
@@ -72,13 +64,6 @@ const ExpenseOverview = (props: Props) => {
     </FlexYCenter>
   )
 }
-
-const useStyle = makeStyles<Theme>((theme: Theme) => ({
-  starIcon: {
-    marginLeft: 5,
-    marginBottom: 5,
-  },
-}))
 
 interface IExpenseOverview {
   count: number

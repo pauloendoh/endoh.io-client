@@ -22,7 +22,7 @@ export const useAxios = (params?: { redirectOn401?: boolean }) => {
     },
     (error) => {
       // unauthenticated -> go to "/"
-      if (error?.response?.status === 401 && redirectOn401) {
+      if (error?.response?.status === 401 && redirectOn401 && window) {
         window.location.reload()
       }
 

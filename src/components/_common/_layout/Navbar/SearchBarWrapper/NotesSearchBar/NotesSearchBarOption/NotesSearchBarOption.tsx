@@ -51,14 +51,18 @@ const NotesSearchBarOption = ({ docOrNote, handleClick, liProps }: Props) => {
               {docOrNote.doc?.title}
             </Typography>
           </Flex>
-          <Flex justifyContent="space-between" width="100%">
+          <Flex
+            justifyContent="space-between"
+            width="100%"
+            alignItems="flex-end"
+          >
             <Typography
               variant="body2"
               style={{ fontStyle: "italic", marginLeft: 28 }}
             >
               {docOrNote.description}
             </Typography>
-            <Typography variant="body2">
+            <Typography variant="body2" minWidth={100}>
               {format(docOrNote.updatedAt)}
             </Typography>
           </Flex>

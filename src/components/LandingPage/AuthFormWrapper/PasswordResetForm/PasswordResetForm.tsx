@@ -104,17 +104,19 @@ const ResetPasswordByEmailForm = (props: Props) => {
 
       {/* PE 2/3 - Must have some easier way to render this... right? */}
       <Flex justifyContent="center" mt={3}>
-        <Typography variant="body2">Return to &nbsp;</Typography>
-        <Link
-          component={RouterLink}
-          to="#"
-          onClick={(e: React.MouseEvent) => {
-            e.preventDefault()
-            props.onExit()
-          }}
-        >
-          sign in
-        </Link>
+        <Typography variant="body2">
+          Return to{" "}
+          <Link
+            component={RouterLink}
+            to="#"
+            onClick={(e: React.MouseEvent) => {
+              e.preventDefault()
+              props.onExit()
+            }}
+          >
+            sign in
+          </Link>
+        </Typography>
       </Flex>
     </Box>
   )

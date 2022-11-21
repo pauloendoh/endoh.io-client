@@ -9,7 +9,7 @@ const S = {
   ResultsCountWrapper: styled(FlexVCenter)(({ theme }) => ({
     marginTop: theme.spacing(3),
     justifyContent: "space-between",
-    width: 350,
+    maxWidth: 350,
     margin: "0 auto",
   })),
   ScorePercentageWrapper: styled(FlexHCenter)(({ theme }) => ({

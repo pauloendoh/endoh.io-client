@@ -11,6 +11,7 @@ import { connect } from "react-redux"
 import { Link, useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
 import useAuthStore from "store/zustand/useAuthStore"
+import useDialogsStore from "store/zustand/useDialogsStore"
 import theme from "utils/consts/theme"
 import ProfilePicture from "../../../../_UI/ProfilePicture/ProfilePicture"
 import KeyboardShortcutsDialog from "./KeyboardShortcutsDialog/KeyboardShortcutsDialog"
@@ -37,6 +38,22 @@ const NavbarUserMenu = (props: Props) => {
   }
 
   const logout = useLogout(props.dispatch)
+
+  const openConfirmDialog = useDialogsStore((s) => s.openConfirmDialog)
+
+  const confirmLogoutTempUser = () => {
+    if (authUser.userExpiresAt) {
+      openConfirmDialog({
+        title: "Logout?",
+        description:
+          "You're currently a temporary user. You won't be able to sign in again.",
+        onConfirm: logout,
+      })
+      return
+    }
+
+    logout()
+  }
 
   return (
     <div>
@@ -109,7 +126,7 @@ const NavbarUserMenu = (props: Props) => {
           </MenuItem>
         )}
 
-        <MenuItem className="logout-option" onClick={logout}>
+        <MenuItem className="logout-option" onClick={confirmLogoutTempUser}>
           <Box mr={2}>
             <FontAwesomeIcon
               icon={faSignOutAlt}
