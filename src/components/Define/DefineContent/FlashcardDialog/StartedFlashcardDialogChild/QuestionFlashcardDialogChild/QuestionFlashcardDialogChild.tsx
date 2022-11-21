@@ -1,4 +1,4 @@
-import { Theme } from "@mui/material"
+import { Theme, useMediaQuery } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 
 import { Clear } from "@mui/icons-material"
@@ -72,6 +72,10 @@ const QuestionFlashcardDialogChild = (props: {
 
   const classes = useStyles()
 
+  const isSmallScreen = useMediaQuery<Theme>((theme) =>
+    theme.breakpoints.down("sm")
+  )
+
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={handlers} allowChanges>
       <DialogTitle style={{ paddingBottom: 0 }}>
@@ -94,7 +98,14 @@ const QuestionFlashcardDialogChild = (props: {
 
         {showingAnswer && (
           <Box>
-            <Typography variant="body1" style={{ whiteSpace: "pre-line" }}>
+            <Typography
+              variant="body1"
+              style={{
+                whiteSpace: "pre-line",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
               {props.question.description}
             </Typography>
             <Box mt={2}>
@@ -131,7 +142,7 @@ const QuestionFlashcardDialogChild = (props: {
               <MdArrowBack />
             </IconButton>
             <DarkButton onClick={() => setShowingAnswer(true)} fullWidth>
-              Show Answer (Space, J, K or L)
+              Show Answer {!isSmallScreen && "(Space, J, K or L)"}
             </DarkButton>
             <IconButton onClick={props.goNext}>
               <MdArrowForward />
@@ -155,10 +166,10 @@ const QuestionFlashcardDialogChild = (props: {
               className={classes.wrongButton}
               fullWidth
             >
-              Wrong (J)
+              Wrong {!isSmallScreen && "(J)"}
             </Button>
             <DarkButton onClick={props.onHalfAnswer} fullWidth>
-              Half (K)
+              Half {!isSmallScreen && "(K)"}
             </DarkButton>
             <Button
               onClick={props.onCorrectAnswer}
@@ -166,7 +177,7 @@ const QuestionFlashcardDialogChild = (props: {
               color="primary"
               fullWidth
             >
-              Correct (L)
+              Correct {!isSmallScreen && "(L)"}
             </Button>
 
             <IconButton
