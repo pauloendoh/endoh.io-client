@@ -560,7 +560,8 @@ const ResourceDialog = (props: Props) => {
             <Box mt={2} />
             <SaveCancelButtons
               submitButtonId="save-resource-button"
-              disabled={isSubmitting || !dirty}
+              isLoading={isSubmitting}
+              disabled={!dirty}
               onEnabledAndCtrlEnter={() => submitForm()}
               onCancel={() => confirmClose(dirty)}
             />
