@@ -71,5 +71,6 @@ export const urls = {
       similarExpenses: (value: number) =>
         `/expenses/similar-expenses?value=${value}`,
     },
+    avgLearningPerHour: "/avg-learning-per-hour",
   },
 }

@@ -12,6 +12,7 @@ import Flex from "../_UI/Flexboxes/Flex"
 import AvgLearning from "./AvgLearning/AvgLearning"
 import AvgLearningAtCurrentTime from "./AvgLearningAtCurrentTime/AvgLearningAtCurrentTime"
 import DiaryTable from "./DiaryTable/DiaryTable"
+import LearningChart from "./LearningChart/LearningChart"
 import LearningDayCounter from "./LearningDayCounter/LearningDayCounter"
 
 const LearningDiaryPage = () => {
@@ -38,6 +39,7 @@ const LearningDiaryPage = () => {
         })}
       >
         <Box width="100%">
+          <LearningChart />
           <Grid container>
             <Grid item xs={9}>
               <FlexVCenterBetween>

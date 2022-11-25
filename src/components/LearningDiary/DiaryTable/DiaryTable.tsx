@@ -36,7 +36,7 @@ const DiaryTable = () => {
           sx={{
             minWidth: 500,
             "& .MuiTableCell-root": {
-              padding: 8,
+              padding: 2,
               borderBottom: "1px solid rgb(255 255 255 / 0.1)",
             },
           }}
