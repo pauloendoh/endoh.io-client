@@ -3,6 +3,7 @@ import useAvgLearningPerHourQuery from "hooks/react-query/progress-diary/useAvgL
 import { DateTime } from "luxon"
 import { useMemo } from "react"
 import { Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts"
+import useWindowFocus from "use-window-focus"
 import { useTodayLearningCount } from "../LearningDayCounter/useTodayLearningCount"
 
 interface Props {
@@ -16,6 +17,8 @@ const LearningChart = (props: Props) => {
 
   const todayCount = useTodayLearningCount()
 
+  const isFocused = useWindowFocus()
+
   const data = useMemo(() => {
     if (!avgLearningPerHours) return []
 
@@ -24,10 +27,17 @@ const LearningChart = (props: Props) => {
     return avgLearningPerHours.map((lp) => {
       return {
         ...lp,
-        nowCount: currentHour === lp.hour ? todayCount : 0,
+        count: lp.count,
+        hour: getCorrectedHour(currentHour),
+        nowCount: getCorrectedHour(currentHour) === lp.hour ? todayCount : 0,
       }
     })
-  }, [avgLearningPerHours, todayCount])
+  }, [avgLearningPerHours, todayCount, isFocused])
+
+  const getCorrectedHour = (hour: number) => {
+    const hourOffset = new Date().getTimezoneOffset() / 60
+    return Math.abs(hour - hourOffset)
+  }
 
   if (isLoading) return null
 
