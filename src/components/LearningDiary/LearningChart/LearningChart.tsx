@@ -35,7 +35,7 @@ const LearningChart = (props: Props) => {
   const data = useMemo(() => {
     if (!avgLearningPerHours) return []
 
-    const currentHour = DateTime.now().hour
+    const currentHour = DateTime.now().hour + 1
 
     return avgLearningPerHours
       .map((lp) => {

@@ -4,4 +4,4 @@
 #npm run test --bail --findRelatedTests
 
 npx tsc
-npm run test:once
+# npm run test:once
