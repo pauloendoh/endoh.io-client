@@ -118,6 +118,7 @@ const DiaryTableRow = (props: Props) => {
         </IconButton>
       </TableCell>
       <TD align="center" className={classes.td}>
+        {new Date(learning.datetime).toLocaleString()}
         {/* <DateTimePicker
           value={new Date(learning.datetime)}
           onChange={handleChangeDatetime}
