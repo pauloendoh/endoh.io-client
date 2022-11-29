@@ -5,7 +5,6 @@ import useAuthStore from "store/zustand/useAuthStore"
 import Flex from "../../_UI/Flexboxes/Flex"
 import DocMoreMenu from "./DocMoreMenu/DocMoreMenu"
 import DocTable from "./DocTable/DocTable"
-import QuestionsTable from "./QuestionsTable/QuestionsTable"
 
 interface Props {
   docId: number
@@ -34,11 +33,13 @@ const DefineContent = (props: Props) => {
       <Box mt={3}></Box>
 
       <Box mt={3}>
-        {authUser?.isAdmin ? (
+        <DocTable docId={props.docId} />
+
+        {/* {authUser?.isAdmin ? (
           <QuestionsTable docId={props.docId} />
         ) : (
           <DocTable docId={props.docId} />
-        )}
+        )} */}
       </Box>
     </Container>
   )

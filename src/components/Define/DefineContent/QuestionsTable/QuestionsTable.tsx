@@ -2,6 +2,7 @@ import Box from "@mui/material/Box"
 import { DataGrid, GridColDef } from "@mui/x-data-grid"
 import { useMemo } from "react"
 import useDocsStore from "store/zustand/domain/useDocsStore"
+import EditTextarea from "./EditTextarea/EditTextarea"
 
 interface Props {
   docId: number
@@ -36,6 +37,8 @@ export default function QuestionsTable(props: Props) {
     },
     {
       field: "answer",
+      type: "string",
+      renderEditCell: (params) => <EditTextarea {...params} />,
       headerName: "Answer",
       editable: true,
       flex: 1,
@@ -49,8 +52,12 @@ export default function QuestionsTable(props: Props) {
         columns={columns}
         checkboxSelection
         disableSelectionOnClick
-        hideFooter
         experimentalFeatures={{ newEditingApi: true }}
+        onCellEditStop={(params, e) => {
+          console.log({
+            data: params.row,
+          })
+        }}
       />
     </Box>
   )
