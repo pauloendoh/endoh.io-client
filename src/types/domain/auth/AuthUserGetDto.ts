@@ -4,6 +4,7 @@ export interface AuthUserGetDto {
   email: string
   // preference: UserPreferenceDto
   userExpiresAt: string
+  isAdmin: boolean
 
   token: string
   tokenExpiresAt: string
