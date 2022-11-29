@@ -1,3 +1,5 @@
+import { urls } from "utils/urls"
+
 import { Fab, Tooltip } from "@mui/material"
 import { useAxios } from "hooks/utils/useAxios"
 import { useMemo } from "react"
@@ -12,7 +14,6 @@ import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { buildNoteDto, NoteDto } from "types/domain/define/NoteDto"
 import { sleep } from "utils/sleep"
 import Icons from "utils/styles/Icons"
-import apiUrls from "utils/url/urls/apiUrls"
 
 // PE 2/3
 const NavbarAddButton = (props: Props) => {
@@ -20,8 +21,6 @@ const NavbarAddButton = (props: Props) => {
     s.openNoteDialog,
     s.onClose,
   ])
-
-  const myAxios = useAxios()
 
   const location = useLocation()
 
@@ -42,7 +41,7 @@ const NavbarAddButton = (props: Props) => {
         docId: doc?.id,
       }),
       onSubmit: (updatedNote) => {
-        axios.post<NoteDto>(apiUrls.define.note, updatedNote).then((res) => {
+        axios.post<NoteDto>(urls.api.define.note, updatedNote).then((res) => {
           pushOrReplaceNote(res.data)
 
           setSuccessMessage("Question saved!")

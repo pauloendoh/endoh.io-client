@@ -8,9 +8,9 @@ import { Controller, useForm } from "react-hook-form"
 import { connect } from "react-redux"
 import { Link as RouterLink } from "react-router-dom"
 import { Dispatch } from "redux"
+import { urls } from "utils/urls"
 import { ApplicationState } from "../../../../store/store"
 import { EmailPostDto } from "../../../../types/domain/auth/EmailPostDto"
-import apiUrls from "../../../../utils/url/urls/apiUrls"
 import Flex from "../../../_UI/Flexboxes/Flex"
 import MyTextField from "../../../_UI/MyInputs/MyTextField"
 import H5 from "../../../_UI/Text/H5"
@@ -34,7 +34,7 @@ const ResetPasswordByEmailForm = (props: Props) => {
   const axios = useAxios()
 
   const onSubmit = (values: EmailPostDto) => {
-    axios.post(apiUrls.utils.passwordResetEmail, values).then((res) => {
+    axios.post(urls.api.utils.passwordResetEmail, values).then((res) => {
       setIsOk(true)
     })
   }

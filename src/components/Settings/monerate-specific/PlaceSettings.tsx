@@ -7,16 +7,16 @@ import { useEffect } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import MY_AXIOS from "utils/consts/myAxios"
+import { urls } from "utils/urls"
 import * as monerateActions from "../../../store/monerate/monerateActions"
 import { ApplicationState } from "../../../store/store"
 import PlaceGetDto from "../../../types/domain/monerate/PlaceGetDto"
-import apiUrls from "../../../utils/url/urls/apiUrls"
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
 import PlaceIcon from "../../_UI/PlaceIcon"
 
 const PlaceSettings = (props: Props) => {
   useEffect(() => {
-    MY_AXIOS.get<PlaceGetDto[]>(apiUrls.monerate.place).then((res) => {
+    MY_AXIOS.get<PlaceGetDto[]>(urls.api.monerate.place).then((res) => {
       props.setPlaces(res.data)
     })
 
@@ -25,7 +25,7 @@ const PlaceSettings = (props: Props) => {
 
   const handleDelete = (id: number) => {
     if (window.confirm("Confirm delete?")) {
-      MY_AXIOS.delete<PlaceGetDto[]>(`${apiUrls.monerate.place}/${id}`).then(
+      MY_AXIOS.delete<PlaceGetDto[]>(`${urls.api.monerate.place}/${id}`).then(
         (res) => {
           props.setPlaces(res.data)
         }
@@ -70,7 +70,8 @@ const PlaceSettings = (props: Props) => {
                           props.editPlace(place)
                         }}
                         aria-label="edit-place"
-                        size="large">
+                        size="large"
+                      >
                         <EditIcon fontSize="small" />
                       </IconButton>
                       <IconButton
@@ -78,7 +79,8 @@ const PlaceSettings = (props: Props) => {
                           handleDelete(place.id)
                         }}
                         aria-label="delete-place"
-                        size="large">
+                        size="large"
+                      >
                         <DeleteIcon fontSize="small" />
                       </IconButton>
                     </FlexVCenter>
@@ -90,7 +92,7 @@ const PlaceSettings = (props: Props) => {
         </Paper>
       ) : null}
     </Box>
-  );
+  )
 }
 
 const mapStateToProps = (state: ApplicationState) => ({

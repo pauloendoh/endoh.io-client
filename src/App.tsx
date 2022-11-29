@@ -1,5 +1,6 @@
 import { LocalizationProvider } from "@mui/x-date-pickers"
 import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon"
+import { urls } from "utils/urls"
 
 import {
   Box,
@@ -28,7 +29,6 @@ import {
 } from "react-router-dom"
 import { Dispatch } from "redux"
 import useAuthStore from "store/zustand/useAuthStore"
-import { urls } from "utils/urls"
 import LandingPage from "./components/LandingPage/LandingPage"
 import ResetPasswordPage from "./components/ResetPassword/ResetPasswordPage"
 import SettingsNavbar from "./components/Settings/SettingsNavbar"
@@ -46,7 +46,6 @@ import { UserInfoDto } from "./types/domain/_common/UserInfoDto"
 import { myQueryClient } from "./utils/consts/myQueryClient"
 import theme from "./utils/consts/theme"
 import { isValidApplicationPath } from "./utils/domain/app/isValidApplicationPath"
-import apiUrls from "./utils/url/urls/apiUrls"
 
 declare module "@mui/styles/defaultTheme" {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -116,7 +115,9 @@ const App = (props: Props) => {
         }
 
         axios
-          .get<FollowingTagDto[]>(apiUrls.user.followingTags(authUser.username))
+          .get<FollowingTagDto[]>(
+            urls.api.user.followingTags(authUser.username)
+          )
           .then((res) => {
             setFollowingTags(res.data)
           })
@@ -132,13 +133,13 @@ const App = (props: Props) => {
         })
 
         axios
-          .get<UserInfoDto>(apiUrls.user.userInfo(authUser.username))
+          .get<UserInfoDto>(urls.api.user.userInfo(authUser.username))
           .then((res) => {
             setAuthProfile(res.data)
           })
 
         axios
-          .get<NotificationDto[]>(apiUrls.utils.notifications)
+          .get<NotificationDto[]>(urls.api.utils.notifications)
           .then((res) => {
             setNotifications(res.data)
           })

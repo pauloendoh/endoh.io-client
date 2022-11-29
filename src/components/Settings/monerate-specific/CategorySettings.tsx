@@ -6,17 +6,17 @@ import { Box, Button, Grid, IconButton, Paper, Typography } from "@mui/material"
 import { useEffect } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
+import { urls } from "utils/urls"
 import * as monerateActions from "../../../store/monerate/monerateActions"
 import { ApplicationState } from "../../../store/store"
 import CategoryGetDto from "../../../types/domain/monerate/CategoryGetDto"
 import MY_AXIOS from "../../../utils/consts/myAxios"
-import apiUrls from "../../../utils/url/urls/apiUrls"
 import CategoryIcon from "../../_UI/CategoryIcon"
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
 
 const CategorySettings = (props: Props) => {
   useEffect(() => {
-    MY_AXIOS.get<CategoryGetDto[]>(apiUrls.monerate.category).then((res) => {
+    MY_AXIOS.get<CategoryGetDto[]>(urls.api.monerate.category).then((res) => {
       props.setCategories(res.data)
     })
 
@@ -26,7 +26,7 @@ const CategorySettings = (props: Props) => {
   const handleDelete = (id: number) => {
     if (window.confirm("Confirm delete?")) {
       MY_AXIOS.delete<CategoryGetDto[]>(
-        `${apiUrls.monerate.category}/${id}`
+        `${urls.api.monerate.category}/${id}`
       ).then((res) => {
         props.setCategories(res.data)
       })
@@ -70,7 +70,8 @@ const CategorySettings = (props: Props) => {
                           props.editCategory(category)
                         }}
                         aria-label="edit-category"
-                        size="large">
+                        size="large"
+                      >
                         <EditIcon fontSize="small" />
                       </IconButton>
                       <IconButton
@@ -78,7 +79,8 @@ const CategorySettings = (props: Props) => {
                           handleDelete(category.id)
                         }}
                         aria-label="delete-category"
-                        size="large">
+                        size="large"
+                      >
                         <DeleteIcon fontSize="small" />
                       </IconButton>
                     </FlexVCenter>
@@ -90,7 +92,7 @@ const CategorySettings = (props: Props) => {
         </Paper>
       ) : null}
     </Box>
-  );
+  )
 }
 
 const mapStateToProps = (state: ApplicationState) => ({

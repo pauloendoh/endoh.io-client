@@ -22,7 +22,6 @@ import { TagDto } from "../../../../types/domain/relearn/TagDto"
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto"
 import { IdsDto } from "../../../../types/domain/_common/IdsDto"
 import myAxios from "../../../../utils/consts/myAxios"
-import apiUrls from "../../../../utils/url/urls/apiUrls"
 
 // PE 2/3 - MenuItem could be shorter?
 function SkillMoreIcon(props: Props) {
@@ -46,7 +45,7 @@ function SkillMoreIcon(props: Props) {
       title: "Confirm delete?",
       onConfirm: () => {
         myAxios
-          .delete<SkillDto[]>(apiUrls.skillbase.skill, {
+          .delete<SkillDto[]>(urls.api.skillbase.skill, {
             headers: {}, // why is this?
             data: { ids: [id] } as IdsDto,
           })

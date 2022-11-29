@@ -17,7 +17,6 @@ import { ApplicationState } from "../../store/store"
 import useSidebarStore from "../../store/zustand/useSidebarStore"
 import { ResourceDto } from "../../types/domain/relearn/ResourceDto"
 import { SkillDto } from "../../types/domain/skillbase/SkillDto"
-import apiUrls from "../../utils/url/urls/apiUrls"
 import LoadingPage from "../_common/LoadingPage/LoadingPage"
 import Flex from "../_UI/Flexboxes/Flex"
 import RelearnContent from "./RelearnContent/RelearnContent"
@@ -45,7 +44,7 @@ const RelearnPage = (props: Props) => {
       props.setResources(res.data)
     })
 
-    axios.get<SkillDto[]>(apiUrls.skillbase.skill).then((res) => {
+    axios.get<SkillDto[]>(urls.api.skillbase.skill).then((res) => {
       setSkillsStore(res.data)
     })
   }

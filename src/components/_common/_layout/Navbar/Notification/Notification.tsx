@@ -3,8 +3,8 @@ import { Badge, IconButton, Menu } from "@mui/material"
 import { useAxios } from "hooks/utils/useAxios"
 import React from "react"
 import useAuthStore from "store/zustand/useAuthStore"
+import { urls } from "utils/urls"
 import { NotificationDto } from "../../../../../types/domain/utils/NotificationDto"
-import apiUrls from "../../../../../utils/url/urls/apiUrls"
 import NotificationItem from "./NotificationItem/NotificationItem"
 
 // PE 2/3 - Change to "NotificationButtonMenu"
@@ -21,7 +21,7 @@ const Notification = () => {
   const handleClose = () => {
     // set notifications.seen = true
     myAxios
-      .post<NotificationDto[]>(apiUrls.utils.notificationsSeeAll)
+      .post<NotificationDto[]>(urls.api.utils.notificationsSeeAll)
       .then((res) => {
         setNotifications(res.data)
       })

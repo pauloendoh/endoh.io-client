@@ -1,3 +1,5 @@
+import { urls } from "utils/urls"
+
 import { TreeItem } from "@mui/lab"
 import { useTheme } from "@mui/material"
 import Flex from "components/_UI/Flexboxes/Flex"
@@ -14,7 +16,6 @@ import { DocDto } from "types/domain/define/DocDto"
 import { buildFolderDto } from "types/domain/folder/FolderDto"
 import FolderWithSubfoldersDto from "types/domain/folder/FolderWithSubfoldersDto"
 import Icons from "utils/styles/Icons"
-import apiUrls from "utils/url/urls/apiUrls"
 import DocTreeItem from "./DocTreeItem/DocTreeItem"
 import FolderMoreIcon from "./FolderMoreIcon/FolderMoreIcon"
 
@@ -39,7 +40,7 @@ export default function FolderTreeItem({ folder }: Props) {
       id: values.docId,
       folderId: folder.id,
     }
-    axios.post<DocDto>(apiUrls.define.doc, obj).then((res) => {
+    axios.post<DocDto>(urls.api.define.doc, obj).then((res) => {
       pushOrReplaceDoc(res.data)
       queryClient.invalidateQueries(queryKeys.folders)
     })

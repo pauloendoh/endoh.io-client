@@ -10,15 +10,14 @@ import {
   ListItemText,
 } from "@mui/material"
 import { Form, Formik } from "formik"
+import { useAxios } from "hooks/utils/useAxios"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import useProfileStore from "store/zustand/domain/useProfileStore"
 import useAuthStore from "store/zustand/useAuthStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
+import { urls } from "utils/urls"
 import { FollowingTagDto } from "../../../../types/domain/feed/FollowingTagDto"
-import MyAxiosError from "../../../../types/MyAxiosError"
-import myAxios from "../../../../utils/consts/myAxios"
-import apiUrls from "../../../../utils/url/urls/apiUrls"
 import Flex from "../../../_UI/Flexboxes/Flex"
 
 interface Props {
@@ -56,20 +55,19 @@ const FollowDialog = (props: Props) => {
     props.onClose()
   }
 
+  const axios = useAxios()
+
   const handleSubmit = () => {
     const data = profileStore.publicTags.map((publicTag) => ({
       tagId: publicTag.id,
       isFollowing: selectedTagIds.includes(publicTag.id),
     }))
 
-    myAxios
-      .post<FollowingTagDto[]>(apiUrls.user.followingTags(username), data)
+    axios
+      .post<FollowingTagDto[]>(urls.api.user.followingTags(username), data)
       .then((res) => {
         setFollowingTags(res.data)
         setSuccessMessage("Saved!")
-      })
-      .catch((err: MyAxiosError) => {
-        setErrorMessage(err.response.data.errors[0].message)
       })
       .finally(() => {
         onClose()

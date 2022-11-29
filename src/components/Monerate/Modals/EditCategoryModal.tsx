@@ -4,10 +4,10 @@ import { useAxios } from "hooks/utils/useAxios"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import useDialogsStore from "store/zustand/useDialogsStore"
+import { urls } from "utils/urls"
 import * as monerateActions from "../../../store/monerate/monerateActions"
 import { ApplicationState } from "../../../store/store"
 import CategoryGetDto from "../../../types/domain/monerate/CategoryGetDto"
-import apiUrls from "../../../utils/url/urls/apiUrls"
 import Flex from "../../_UI/Flexboxes/Flex"
 import MyTextField from "../../_UI/MyInputs/MyTextField"
 
@@ -18,7 +18,7 @@ const EditCategoryModal = (props: Props) => {
 
   const handleSubmit = (category: CategoryGetDto) => {
     myAxios
-      .post<CategoryGetDto[]>(apiUrls.monerate.category, category)
+      .post<CategoryGetDto[]>(urls.api.monerate.category, category)
       .then((res) => {
         props.setCategories(res.data)
       })
@@ -32,7 +32,7 @@ const EditCategoryModal = (props: Props) => {
       title: "Confirm delete?",
       onConfirm: () => {
         myAxios
-          .delete<CategoryGetDto[]>(`${apiUrls.monerate.category}/${id}`)
+          .delete<CategoryGetDto[]>(`${urls.api.monerate.category}/${id}`)
           .then((res) => {
             props.setCategories(res.data)
           })

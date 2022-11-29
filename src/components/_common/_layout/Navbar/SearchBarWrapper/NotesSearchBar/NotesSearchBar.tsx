@@ -14,7 +14,6 @@ import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { NoteDto } from "types/domain/define/NoteDto"
 import { SearchResultsDto } from "types/domain/utils/SearchResultsDto"
-import apiUrls from "utils/url/urls/apiUrls"
 import { urls } from "utils/urls"
 import pageUrls from "../../../../../../utils/url/urls/pageUrls"
 import MyTextField from "../../../../../_UI/MyInputs/MyTextField"
@@ -134,7 +133,7 @@ const NotesSearchBar = () => {
                   initialValue: docOrNote,
                   onSubmit: (value) => {
                     myAxios
-                      .post<NoteDto>(apiUrls.define.note, value)
+                      .post<NoteDto>(urls.api.define.note, value)
                       .then((res) => {
                         pushOrReplaceNote(res.data)
 

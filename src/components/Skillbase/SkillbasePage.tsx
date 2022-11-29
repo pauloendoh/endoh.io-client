@@ -10,11 +10,11 @@ import { useLocation } from "react-router-dom"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import useWindowFocus from "use-window-focus"
 import titles from "utils/titles"
+import { urls } from "utils/urls"
 import { ApplicationState } from "../../store/store"
 import useSidebarStore from "../../store/zustand/useSidebarStore"
 import { TagDto } from "../../types/domain/relearn/TagDto"
 import { SkillDto } from "../../types/domain/skillbase/SkillDto"
-import apiUrls from "../../utils/url/urls/apiUrls"
 import pageUrls from "../../utils/url/urls/pageUrls"
 import LoadingPage from "../_common/LoadingPage/LoadingPage"
 import Flex from "../_UI/Flexboxes/Flex"
@@ -33,7 +33,7 @@ const SkillbasePage = (props: Props) => {
   const axios = useAxios()
 
   const fetchSkills = () => {
-    axios.get<SkillDto[]>(apiUrls.skillbase.skill).then((res) => {
+    axios.get<SkillDto[]>(urls.api.skillbase.skill).then((res) => {
       setSkills(res.data)
     })
   }

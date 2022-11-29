@@ -1,4 +1,4 @@
-import { useTheme } from "@mui/material"
+import { Theme, useMediaQuery, useTheme } from "@mui/material"
 import useAvgLearningPerHourQuery from "hooks/react-query/progress-diary/useAvgLearningPerHourQuery"
 import { DateTime } from "luxon"
 import { useMemo } from "react"
@@ -49,12 +49,28 @@ const LearningChart = (props: Props) => {
       .sort((a, b) => (a.hour < b.hour ? -1 : 1))
   }, [avgLearningPerHours, todayCount, isFocused])
 
+  const isSmallScreen = useMediaQuery<Theme>((theme) =>
+    theme.breakpoints.down("sm")
+  )
+  const chartWidth = useMemo(() => (isSmallScreen ? 400 : 500), [isSmallScreen])
+
   if (isLoading) return null
 
   return (
     <>
-      <LineChart width={500} height={300} data={data}>
-        <XAxis dataKey="hour" />
+      <LineChart
+        width={chartWidth}
+        height={isSmallScreen ? 200 : 300}
+        data={data}
+        style={{ marginLeft: 24 }}
+      >
+        <XAxis
+          dataKey="hour"
+          angle={-45}
+          textAnchor="end"
+          interval={isSmallScreen ? undefined : 0}
+          fontSize={12}
+        />
         <YAxis />
         <Tooltip />
         <Legend />

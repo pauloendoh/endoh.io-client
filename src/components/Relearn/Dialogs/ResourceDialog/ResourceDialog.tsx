@@ -511,7 +511,6 @@ const ResourceDialog = (props: Props) => {
                 onChange={handleChange}
                 fullWidth
                 maxRows={16}
-                InputLabelProps={{ shrink: true }}
                 onCtrlEnter={() => {
                   submitForm()
                 }}
@@ -536,7 +535,6 @@ const ResourceDialog = (props: Props) => {
                 onChange={handleChange}
                 fullWidth
                 maxRows={16}
-                InputLabelProps={{ shrink: true }}
                 label={
                   <FlexVCenter>
                     <FontAwesomeIcon icon={faLock} style={{ marginRight: 4 }} />

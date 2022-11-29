@@ -1,3 +1,5 @@
+import { urls } from "utils/urls"
+
 import { IconButton, ListItem, ListItemText, Tooltip } from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import { useAxios } from "hooks/utils/useAxios"
@@ -8,7 +10,6 @@ import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { NoteDto } from "types/domain/define/NoteDto"
 import getRandomIntInclusive from "utils/math/getRandomIntInclusive"
-import apiUrls from "utils/url/urls/apiUrls"
 
 interface Props {
   test?: string
@@ -41,7 +42,7 @@ const QuestionsToRefineListItem = (props: Props) => {
     openNoteDialog({
       initialValue: questionsToRefine[randomIndex],
       onSubmit: (updatedNote) => {
-        axios.post<NoteDto>(apiUrls.define.note, updatedNote).then((res) => {
+        axios.post<NoteDto>(urls.api.define.note, updatedNote).then((res) => {
           pushOrReplaceNote(res.data)
 
           closeNoteDialog()

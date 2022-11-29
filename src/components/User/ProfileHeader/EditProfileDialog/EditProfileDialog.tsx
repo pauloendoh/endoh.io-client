@@ -1,5 +1,6 @@
 import { Theme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
+import { urls } from "utils/urls"
 
 import CameraAltIcon from "@mui/icons-material/CameraAlt"
 import {
@@ -21,7 +22,6 @@ import { ProfileDto } from "../../../../types/domain/_common/ProfileDto"
 import MyAxiosError from "../../../../types/MyAxiosError"
 import myAxios from "../../../../utils/consts/myAxios"
 import { urlIsValid } from "../../../../utils/url/isValidUrl"
-import apiUrls from "../../../../utils/url/urls/apiUrls"
 import Flex from "../../../_UI/Flexboxes/Flex"
 import MyTextField from "../../../_UI/MyInputs/MyTextField"
 import ProfilePicture from "../../../_UI/ProfilePicture/ProfilePicture"
@@ -39,7 +39,7 @@ const EditProfileDialog = (props: Props) => {
 
   const handleSubmit = (sentProfile: ProfileDto) => {
     myAxios
-      .put<ProfileDto>(apiUrls.user.profile, sentProfile)
+      .put<ProfileDto>(urls.api.user.profile, sentProfile)
       .then((res) => {
         profileStore.setProfile(res.data)
         setSuccessMessage("Profile saved!")
@@ -64,7 +64,7 @@ const EditProfileDialog = (props: Props) => {
     formData.append("file", file, file.name)
 
     myAxios
-      .post<string>(apiUrls.user.picture, formData)
+      .post<string>(urls.api.user.picture, formData)
       .then((res) => {
         setSuccessMessage("Image uploaded!")
         editProfilePicture(res.data)

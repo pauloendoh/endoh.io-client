@@ -32,7 +32,16 @@ const AddManyNotesMenuButton = (props: Props) => {
     [value]
   )
 
-  const { mutate: submitCreation } = useCreateManyNotesMutation()
+  const { mutate: submitCreation, isLoading } = useCreateManyNotesMutation()
+
+  const handleSubmit = () => {
+    submitCreation(
+      { docId: props.docId, notesQuantity: value },
+      {
+        onSuccess: () => handleCloseMenu(),
+      }
+    )
+  }
 
   return (
     <>
@@ -56,8 +65,7 @@ const AddManyNotesMenuButton = (props: Props) => {
             style={{ display: "flex", flexDirection: "column", gap: 16 }}
             onSubmit={(e) => {
               e.preventDefault()
-              submitCreation({ docId: props.docId, notesQuantity: value })
-              handleCloseMenu()
+              handleSubmit()
             }}
           >
             <MyTextField
@@ -65,11 +73,18 @@ const AddManyNotesMenuButton = (props: Props) => {
               required
               type="number"
               label="Notes quantity (max: 25)"
+              autoFocus
               onChange={(e) => {
                 setValue(parseInt(e.currentTarget.value))
               }}
             />
-            <SaveCancelButtons disabled={!canSave} />
+            <SaveCancelButtons
+              disabled={!canSave}
+              isLoading={isLoading}
+              onEnabledAndCtrlEnter={() => {
+                handleSubmit()
+              }}
+            />
           </form>
         </MenuItem>
       </Menu>

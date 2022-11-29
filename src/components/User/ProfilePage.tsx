@@ -6,11 +6,11 @@ import useProfileStore, {
   resetProfileStore,
 } from "store/zustand/domain/useProfileStore"
 import useAuthStore from "store/zustand/useAuthStore"
+import { urls } from "utils/urls"
 import { ResourceDto } from "../../types/domain/relearn/ResourceDto"
 import { TagDto } from "../../types/domain/relearn/TagDto"
 import { UserInfoDto } from "../../types/domain/_common/UserInfoDto"
 import myAxios from "../../utils/consts/myAxios"
-import apiUrls from "../../utils/url/urls/apiUrls"
 import pageUrls from "../../utils/url/urls/pageUrls"
 import LoadingPage from "../_common/LoadingPage/LoadingPage"
 import MinRatingButton from "../_common/MinRatingButton/MinRatingButton"
@@ -68,7 +68,7 @@ const ProfilePage = () => {
       resetProfileStore()
 
       myAxios
-        .get<UserInfoDto>(apiUrls.user.userInfo(username))
+        .get<UserInfoDto>(urls.api.user.userInfo(username))
         .then((res) => {
           profileStore.setUserInfo(res.data)
         })
@@ -125,7 +125,7 @@ const ProfilePage = () => {
         </Grid>
       )}
     </S.UserPageRoot>
-  );
+  )
 }
 
 export default ProfilePage

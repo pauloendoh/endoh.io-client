@@ -1,4 +1,6 @@
 import { Clear } from "@mui/icons-material"
+import { urls } from "utils/urls"
+
 import {
   DialogContent,
   DialogTitle,
@@ -11,7 +13,6 @@ import { GlobalHotKeys } from "react-hotkeys"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { NoteDto } from "../../../../../../types/domain/define/NoteDto"
-import apiUrls from "../../../../../../utils/url/urls/apiUrls"
 import DarkButton from "../../../../../_UI/Buttons/DarkButton/DarkButton"
 import S from "./FinishedFlashcardDialogChild.styles"
 
@@ -39,7 +40,7 @@ const FinishedFlashcardDialogChild = (props: Props) => {
     setIsSubmitting(true)
 
     myAxios
-      .put<NoteDto[]>(apiUrls.define.updateManyNotes, props.results)
+      .put<NoteDto[]>(urls.api.define.updateManyNotes, props.results)
       .then((res) => {
         docsStore.setNotes(res.data)
         setSuccessMessage("Saved!")

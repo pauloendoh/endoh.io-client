@@ -17,7 +17,6 @@ import { SkillDto } from "../../../types/domain/skillbase/SkillDto"
 import { IdsDto } from "../../../types/domain/_common/IdsDto"
 import myAxios from "../../../utils/consts/myAxios"
 import filterAndSortSkills from "../../../utils/domain/skills/filterAndSortSkills"
-import apiUrls from "../../../utils/url/urls/apiUrls"
 import SelectSkillLabelsDialog from "../SkillDialog/SkillDialogLabels/SelectSkillLabelsDialog/SelectSkillLabelsDialog"
 import AddSkillButton from "./AddSkillButton/AddSkillButton"
 import SkillbaseProgressDialog from "./SkillbaseProgressDialog/SkillbaseProgressDialog"
@@ -115,7 +114,7 @@ const SkillbaseTable = (props: Props) => {
   const handleDelete = () => {
     if (window.confirm(`Delete ${selectedIds.length} skill(s)?`)) {
       myAxios
-        .delete<SkillDto[]>(apiUrls.skillbase.skill, {
+        .delete<SkillDto[]>(urls.api.skillbase.skill, {
           headers: {}, // why is this?
           data: { ids: selectedIds } as IdsDto,
         })

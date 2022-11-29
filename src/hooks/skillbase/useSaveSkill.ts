@@ -3,7 +3,7 @@ import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { SkillDto } from "types/domain/skillbase/SkillDto"
 import MyAxiosError from "types/MyAxiosError"
 import myAxios from "utils/consts/myAxios"
-import apiUrls from "utils/url/urls/apiUrls"
+import { urls } from "utils/urls"
 
 const useSaveSkill = () => {
   const {
@@ -26,7 +26,7 @@ const useSaveSkill = () => {
     if ((skill.goalLevel as unknown) === "") skill.goalLevel = null
 
     myAxios
-      .post<SkillDto[]>(apiUrls.skillbase.skill, skill)
+      .post<SkillDto[]>(urls.api.skillbase.skill, skill)
       .then((res) => {
         setSkills(res.data)
         setEditingSkill(null)

@@ -1,8 +1,8 @@
-import apiUrls from "utils/url/urls/apiUrls"
+import { urls } from "utils/urls"
 
 export const queryKeys = {
-  userSuggestions: apiUrls.feed.myUserSuggestions,
-  feedResources: apiUrls.feed.resources,
+  userSuggestions: urls.api.feed.myUserSuggestions,
+  feedResources: urls.api.feed.resources,
   resourceSearchResults: "resourceSearchResults",
   notesSearchResults: "notesSearchResults",
   labels: "labels",

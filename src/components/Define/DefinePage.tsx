@@ -1,3 +1,5 @@
+import { urls } from "utils/urls"
+
 import { SxProps, Theme, useMediaQuery, useTheme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 
@@ -12,7 +14,6 @@ import pageUrls from "utils/url/urls/pageUrls"
 import useSidebarStore from "../../store/zustand/useSidebarStore"
 import { DocDto } from "../../types/domain/define/DocDto"
 import { NoteDto } from "../../types/domain/define/NoteDto"
-import apiUrls from "../../utils/url/urls/apiUrls"
 import LoadingPage from "../_common/LoadingPage/LoadingPage"
 import DefineContent from "./DefineContent/DefineContent"
 import DefineSidebar from "./DefineSidebar/DefineSidebar"
@@ -33,11 +34,11 @@ const DefinePage = () => {
       openSidebar()
 
       myAxios
-        .get<DocDto[]>(apiUrls.define.doc)
+        .get<DocDto[]>(urls.api.define.doc)
         .then((res) => docsStore.setDocs(res.data))
 
       myAxios
-        .get<NoteDto[]>(apiUrls.define.note)
+        .get<NoteDto[]>(urls.api.define.note)
         .then((res) => docsStore.setNotes(res.data))
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

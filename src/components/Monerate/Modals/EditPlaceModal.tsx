@@ -4,7 +4,7 @@ import { useAxios } from "hooks/utils/useAxios"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import useDialogsStore from "store/zustand/useDialogsStore"
-import apiUrls from "utils/url/urls/apiUrls"
+import { urls } from "utils/urls"
 import * as monerateActions from "../../../store/monerate/monerateActions"
 import { ApplicationState } from "../../../store/store"
 import PlaceGetDto from "../../../types/domain/monerate/PlaceGetDto"
@@ -18,7 +18,7 @@ const EditPlaceModal = (props: Props) => {
 
   const handleSubmit = (place: PlaceGetDto) => {
     myAxios
-      .post<PlaceGetDto[]>(apiUrls.monerate.place, place)
+      .post<PlaceGetDto[]>(urls.api.monerate.place, place)
       .then((res) => {
         props.setPlaces(res.data)
       })
@@ -32,7 +32,7 @@ const EditPlaceModal = (props: Props) => {
       title: "Confirm delete?",
       onConfirm: () => {
         myAxios
-          .delete<PlaceGetDto[]>(`${apiUrls.monerate.place}/${id}`)
+          .delete<PlaceGetDto[]>(`${urls.api.monerate.place}/${id}`)
           .then((res) => {
             props.setPlaces(res.data)
           })

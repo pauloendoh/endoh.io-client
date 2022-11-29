@@ -49,9 +49,19 @@ export const urls = {
       progressMonths: `/v2/skillbase/skill-progress/months`,
       progressFrom: (fromYearMonth: string) =>
         `/v2/skillbase/skill-progress?from=${fromYearMonth}`,
+
+      index: "/skillbase",
+      skill: "/skillbase/skill",
+      tag: "/skillbase/tag",
+      progress: "/skillbase/progress",
     },
 
     // DEFINE
+    define: {
+      doc: "define/doc",
+      note: "define/note",
+      updateManyNotes: "/define/note/many",
+    },
     folders: "/playground/folders",
     folderId: (folderId: number) => "/playground/folders/" + folderId,
     files: "/playground/files",
@@ -61,16 +71,41 @@ export const urls = {
     clearEmptyNotes: (docId: number) => `define/doc/${docId}/clear-empty-notes`,
     docId: (docId: number) => `docs/${docId}`,
 
+    user: {
+      index: "/user",
+      ratedResources: (username: string) =>
+        "/user/" + username + "/rated-resources",
+      userInfo: (username: string) => "/user/" + username + "/all",
+      profile: "/user/profile",
+      picture: "/user/picture",
+      followingTags: (username: string) =>
+        "/user/" + username + "/followingTags",
+    },
+
     // UTILS
     resourcesSearch: (query: string) => `/search?q=${query}`,
     notesSearch: (query: string) => `/flashnotes/search?q=${query}`,
     linkPreview: (url: string) => `/v2/utils/link-preview?url=${url}`,
     userGotIt: "/got-it",
 
+    feed: {
+      myUserSuggestions: "v2/feed/my-user-suggestions",
+      resources: "v2/feed/resources",
+    },
+
     monerate: {
       similarExpenses: (value: number) =>
         `/expenses/similar-expenses?value=${value}`,
+      expense: "/monerate/expense",
+      place: "/monerate/place",
+      category: "/monerate/category",
     },
     avgLearningPerHour: "/avg-learning-per-hour",
+
+    utils: {
+      passwordResetEmail: "/utils/passwordResetEmail",
+      notifications: "/utils/notifications",
+      notificationsSeeAll: "/utils/notifications/seeAll",
+    },
   },
 }

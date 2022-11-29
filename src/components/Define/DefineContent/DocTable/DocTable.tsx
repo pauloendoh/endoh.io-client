@@ -8,8 +8,8 @@ import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useAuthStore from "store/zustand/useAuthStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
+import { urls } from "utils/urls"
 import { buildNoteDto, NoteDto } from "../../../../types/domain/define/NoteDto"
-import apiUrls from "../../../../utils/url/urls/apiUrls"
 import DarkButton from "../../../_UI/Buttons/DarkButton/DarkButton"
 import { TBody, TD, THead, TR } from "../../../_UI/Table/MyTableWrappers"
 import AddManyNotesMenuButton from "./AddManyNotesMenuButton/AddManyNotesMenuButton"
@@ -44,7 +44,7 @@ const DocTable = (props: Props) => {
     clearTimeout(throttle)
     setThrottle(
       setTimeout(() => {
-        axios.post<NoteDto>(apiUrls.define.note, changed).then((res) => {
+        axios.post<NoteDto>(urls.api.define.note, changed).then((res) => {
           docsStore.pushOrReplaceNote(res.data)
         })
       }, 500)
@@ -112,7 +112,7 @@ const DocTable = (props: Props) => {
               }),
               onSubmit: (updatedNote) => {
                 myAxios
-                  .post<NoteDto>(apiUrls.define.note, updatedNote)
+                  .post<NoteDto>(urls.api.define.note, updatedNote)
                   .then((res) => {
                     docsStore.pushOrReplaceNote(res.data)
 
@@ -135,7 +135,7 @@ const DocTable = (props: Props) => {
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
-    maxHeight: "calc(100vh - 400px)",
+    maxHeight: "calc(100vh - 260px)",
   },
   th: {
     background: "#232323",

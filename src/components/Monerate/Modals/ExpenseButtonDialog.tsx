@@ -14,13 +14,13 @@ import { GlobalHotKeys } from "react-hotkeys"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import useDialogsStore from "store/zustand/useDialogsStore"
+import { urls } from "utils/urls"
 import * as monerateActions from "../../../store/monerate/monerateActions"
 import { ApplicationState } from "../../../store/store"
 import CategoryGetDto from "../../../types/domain/monerate/CategoryGetDto"
 import ExpenseGetDto from "../../../types/domain/monerate/ExpenseGetDto"
 import ExpensePostDto from "../../../types/domain/monerate/ExpensePostDto"
 import PlaceGetDto from "../../../types/domain/monerate/PlaceGetDto"
-import apiUrls from "../../../utils/url/urls/apiUrls"
 import Flex from "../../_UI/Flexboxes/Flex"
 import MyCurrencyInput from "../../_UI/MyInputs/MyCurrencyInput"
 import MyTextField from "../../_UI/MyInputs/MyTextField"
@@ -79,7 +79,7 @@ const ExpenseButtonDialog = (props: Props) => {
       title: "Delete this expense?",
       onConfirm() {
         myAxios
-          .delete(`${apiUrls.monerate.expense}/${id}`)
+          .delete(`${urls.api.monerate.expense}/${id}`)
           .then((res) => {
             props.removeExpense(id)
           })

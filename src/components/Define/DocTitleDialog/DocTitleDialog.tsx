@@ -7,8 +7,8 @@ import { useQueryClient } from "react-query"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { NoteDto } from "types/domain/define/NoteDto"
+import { urls } from "utils/urls"
 import { DocDto } from "../../../types/domain/define/DocDto"
-import apiUrls from "../../../utils/url/urls/apiUrls"
 import SaveCancelButtons from "../../_UI/Buttons/SaveCancelButtons"
 import MyTextField from "../../_UI/MyInputs/MyTextField"
 
@@ -41,13 +41,13 @@ const DocTitleDialog = (props: Props) => {
       id: props.docId,
       folderId: props.initialValue.folderId,
     }
-    axios.post<DocDto>(apiUrls.define.doc, obj).then((res) => {
+    axios.post<DocDto>(urls.api.define.doc, obj).then((res) => {
       docsStore.pushOrReplaceDoc(res.data)
       setSuccessMessage("Doc saved!")
 
       queryClient.invalidateQueries(queryKeys.folders)
       myAxios
-        .get<NoteDto[]>(apiUrls.define.note)
+        .get<NoteDto[]>(urls.api.define.note)
         .then((res) => docsStore.setNotes(res.data))
 
       if (props.afterSave) props.afterSave(res.data)
