@@ -81,11 +81,11 @@ const DocTable = (props: Props) => {
               )}
               <TD className={classes.th}>Question</TD>
               <TD className={classes.th}>Answer</TD>
-              {!isSmallScreen && (
+              {/* {!isSmallScreen && (
                 <TD align="center" className={classes.th}>
                   Weight
                 </TD>
-              )}
+              )} */}
             </TR>
           </THead>
 

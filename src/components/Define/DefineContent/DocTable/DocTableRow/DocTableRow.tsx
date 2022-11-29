@@ -43,9 +43,6 @@ const DocTableRow = (props: Props) => {
   const focusDescription = () => descriptionRef.current.focus()
   const focusQuestion = () => questionRef.current.focus()
 
-  const [questionHeight, setQuestionHeight] = useState(0)
-  const [answerHeight, setAnswerHeight] = useState(0)
-
   return (
     <TableRow>
       {!props.isSmallScreen && (
@@ -56,8 +53,6 @@ const DocTableRow = (props: Props) => {
 
       <TableCell className={classes.textareaCell} onClick={focusQuestion}>
         <TextareaAutosize
-          onHeightChange={setQuestionHeight}
-          style={{ height: questionHeight }}
           onChange={(e) => changeQuestion(e.target.value)}
           value={localNote.question}
           className={classes.textarea}
@@ -67,8 +62,6 @@ const DocTableRow = (props: Props) => {
       </TableCell>
       <TableCell className={classes.textareaCell} onClick={focusDescription}>
         <TextareaAutosize
-          onHeightChange={setAnswerHeight}
-          style={{ height: answerHeight }}
           ref={descriptionRef}
           onChange={(e) => changeDescription(e.target.value)}
           value={localNote.description}
@@ -76,11 +69,11 @@ const DocTableRow = (props: Props) => {
         />
       </TableCell>
 
-      {!props.isSmallScreen && (
+      {/* {!props.isSmallScreen && (
         <TableCell align="center" className={classes.td}>
           {localNote.weight}
         </TableCell>
-      )}
+      )} */}
     </TableRow>
   )
 }
@@ -99,6 +92,8 @@ const useStyles = makeStyles<Theme>((theme) => ({
     border: "none",
     background: "none",
     fontSize: 13,
+
+    width: "100%",
     fontFamily: theme.typography.fontFamily,
     color: "white",
     cursor: "pointer",
