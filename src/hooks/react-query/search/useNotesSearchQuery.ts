@@ -10,7 +10,6 @@ const useNotesSearchQuery = (query: string, minLength = 1) => {
     async () => {
       if (query.length < minLength) {
         return new Promise<NotesSearchResultsDto>((resolve) => {
-          console.log("resolving null")
           resolve(null)
         })
       }

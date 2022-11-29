@@ -1,7 +1,9 @@
+import TextareaAutosize from "react-textarea-autosize"
+
 import { Theme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 
-import { TableCell, TableRow, TextareaAutosize } from "@mui/material"
+import { TableCell, TableRow } from "@mui/material"
 import useDebounce from "hooks/utils/useDebounce"
 import { createRef, useEffect, useState } from "react"
 import { NoteDto } from "../../../../../types/domain/define/NoteDto"
