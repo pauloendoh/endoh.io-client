@@ -138,7 +138,7 @@ const DocTable = (props: Props) => {
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
-    maxHeight: "calc(100vh - 260px)",
+    maxHeight: "calc(100vh - 340px)",
   },
   th: {
     background: "#232323",

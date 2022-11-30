@@ -106,7 +106,6 @@ const StartedFlashcardDialogChild = (props: {
           onHalfAnswer={handleHalf}
           onCorrectAnswer={handleCorrect}
           isFirst={questionIndex === 0}
-          isLast={questionIndex === localQuestions.length - 1}
           goBack={() => {
             setQuestionIndex((curr) => curr - 1)
           }}

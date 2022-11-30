@@ -31,7 +31,6 @@ const QuestionFlashcardDialogChild = (props: {
   onHalfAnswer: () => void
   onCorrectAnswer: () => void
   isFirst: boolean
-  isLast: boolean
   goBack: () => void
   goNext: () => void
 }) => {
@@ -180,10 +179,7 @@ const QuestionFlashcardDialogChild = (props: {
               Correct {!isSmallScreen && "(L)"}
             </Button>
 
-            <IconButton
-              style={{ visibility: props.isLast ? "hidden" : undefined }}
-              onClick={props.goNext}
-            >
+            <IconButton onClick={props.goNext}>
               <MdArrowForward />
             </IconButton>
           </FlexVCenter>
