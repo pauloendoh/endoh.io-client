@@ -83,12 +83,6 @@ const LearningChart = (props: Props) => {
           stroke="gray"
         />
 
-        <Line
-          dot={false}
-          type="monotone"
-          dataKey="top25PercentDaysAvgCount"
-          stroke="gray"
-        />
         <Line dot={false} type="monotone" dataKey="allAvgCount" stroke="gray" />
 
         <Line
