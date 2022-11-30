@@ -29,7 +29,7 @@ const LearningChart = (props: Props) => {
         return {
           hour: avgLearning.hour,
           allAvgCount: avgLearning.count,
-          top50PercentDaysAvgCount: avgLearning.top50PercentDaysLearningCount,
+          topPercentDaysAvgCount: avgLearning.topPercentDaysLearningCount,
           nowCount: avgLearning.hour === currentHour ? todayCount : 0,
         }
       })
@@ -61,10 +61,11 @@ const LearningChart = (props: Props) => {
         <YAxis />
         <Tooltip />
         <Legend />
+
         <Line
           dot={false}
           type="monotone"
-          dataKey="top50PercentDaysAvgCount"
+          dataKey="topPercentDaysAvgCount"
           stroke="gray"
         />
 

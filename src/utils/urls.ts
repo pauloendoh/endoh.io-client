@@ -102,8 +102,8 @@ export const urls = {
       place: "/monerate/place",
       category: "/monerate/category",
     },
-    avgLearningPerHour: (hourOffset: number) =>
-      `/avg-learning-per-hour?hourOffset=${hourOffset}`,
+    avgLearningPerHour: (hourOffset: number, topPercent: number) =>
+      `/avg-learning-per-hour?hourOffset=${hourOffset}&topPercent=${topPercent}`,
 
     utils: {
       passwordResetEmail: "/utils/passwordResetEmail",
