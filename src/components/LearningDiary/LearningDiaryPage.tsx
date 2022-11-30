@@ -1,7 +1,7 @@
 import { Theme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 
-import { Box, Container, Grid } from "@mui/material"
+import { Box } from "@mui/material"
 import clsx from "clsx"
 import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween"
 import useDaysWithLearnings from "hooks/learning-diary/useDaysWithLearnings"
@@ -9,8 +9,6 @@ import { useEffect } from "react"
 import useLearningDiaryStore from "store/zustand/domain/useLearningDiaryStore"
 import useSidebarStore from "../../store/zustand/useSidebarStore"
 import Flex from "../_UI/Flexboxes/Flex"
-import AvgLearning from "./AvgLearning/AvgLearning"
-import AvgLearningAtCurrentTime from "./AvgLearningAtCurrentTime/AvgLearningAtCurrentTime"
 import DiaryTable from "./DiaryTable/DiaryTable"
 import LearningChart from "./LearningChart/LearningChart"
 import LearningDayCounter from "./LearningDayCounter/LearningDayCounter"
@@ -40,11 +38,9 @@ const LearningDiaryPage = () => {
       >
         <Box width="100%">
           <LearningChart />
-          <Grid container>
-            <Grid item xs={9}>
-              <FlexVCenterBetween>
-                <LearningDayCounter />
-                {/* <DatePicker
+          <FlexVCenterBetween mt={4}>
+            <LearningDayCounter />
+            {/* <DatePicker
                   variant="inline"
                   format="MM/dd/yyyy"
                   margin="normal"
@@ -88,17 +84,10 @@ const LearningDiaryPage = () => {
                     "aria-label": "change date",
                   }}
                 /> */}
-              </FlexVCenterBetween>
-              <DiaryTable />
-            </Grid>
-            <Grid item xs={3}>
-              <Container>
-                <AvgLearning />
-                <Box mt={2} />
-                <AvgLearningAtCurrentTime />
-              </Container>
-            </Grid>
-          </Grid>
+          </FlexVCenterBetween>
+
+          <Box mt={2} />
+          <DiaryTable />
         </Box>
       </Box>
     </Flex>

@@ -39,7 +39,7 @@ const LearningChart = (props: Props) => {
   const isSmallScreen = useMediaQuery<Theme>((theme) =>
     theme.breakpoints.down("sm")
   )
-  const chartWidth = useMemo(() => (isSmallScreen ? 400 : 500), [isSmallScreen])
+  const chartWidth = useMemo(() => (isSmallScreen ? 360 : 500), [isSmallScreen])
 
   if (isLoading) return null
 
@@ -49,7 +49,7 @@ const LearningChart = (props: Props) => {
         width={chartWidth}
         height={isSmallScreen ? 200 : 300}
         data={data}
-        style={{ marginLeft: 24 }}
+        style={{ marginLeft: isSmallScreen ? -16 : 24 }}
       >
         <XAxis
           dataKey="hour"

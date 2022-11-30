@@ -1,6 +1,7 @@
 import { Paper, Table, TableContainer, Toolbar } from "@mui/material"
 import { useAddLearningMutation, useLearningsQuery } from "generated/graphql"
 import useFilteredLearnings from "hooks/learning-diary/useFilteredLearnings"
+import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
 import { DateTime } from "luxon"
 import { useQueryClient } from "react-query"
 import useLearningDiaryStore from "store/zustand/domain/useLearningDiaryStore"
@@ -28,13 +29,15 @@ const DiaryTable = () => {
     },
   })
 
+  const { downSm } = useMyMediaQuery()
+
   return (
     <Paper>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table
           stickyHeader
           sx={{
-            minWidth: 500,
+            minWidth: downSm ? 360 : 500,
             "& .MuiTableCell-root": {
               padding: 2,
               borderBottom: "1px solid rgb(255 255 255 / 0.1)",
@@ -52,9 +55,12 @@ const DiaryTable = () => {
             }}
           >
             <TR>
-              <TD align="center" width="64px">
-                #
-              </TD>
+              {!downSm && (
+                <TD align="center" width="64px">
+                  #
+                </TD>
+              )}
+
               <TD>Learning</TD>
 
               <TD align="center" width="100px">

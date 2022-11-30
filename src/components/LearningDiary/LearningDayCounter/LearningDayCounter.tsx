@@ -34,7 +34,7 @@ const LearningDayCounter = (props: Props) => {
       {counter > 0 && (
         <Txt
           variant="h5"
-          style={{ color: isToday ? colorCurrentTime : colorDay }}
+          // style={{ color: isToday ? colorCurrentTime : colorDay }}
         >
           {counter} learnings {isToday && "today"}
         </Txt>

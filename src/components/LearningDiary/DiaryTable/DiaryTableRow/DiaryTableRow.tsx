@@ -1,27 +1,20 @@
-
-import {
-
-
-  IconButton,
-  TableCell,
-  TableRow,
-  Theme
-} from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import { TD } from "components/_UI/Table/MyTableWrappers";
+import { IconButton, TableCell, TableRow, Theme } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+import { TD } from "components/_UI/Table/MyTableWrappers"
 import {
   LearningsQuery,
   useLearningsQuery,
-  useUpdateLearningMutation
-} from "generated/graphql";
-import useDebounce from "hooks/utils/useDebounce";
-import { createRef, useEffect, useState } from "react";
-import { MdStar } from "react-icons/md";
-import { useQueryClient } from "react-query";
-import TextareaAutosize from 'react-textarea-autosize';
-import { pushOrReplace } from "utils/array/pushOrReplace";
-import buildGraphqlClient from "utils/consts/buildGraphqlClient";
-import colors from "utils/consts/colors";
+  useUpdateLearningMutation,
+} from "generated/graphql"
+import useDebounce from "hooks/utils/useDebounce"
+import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
+import { createRef, useEffect, useState } from "react"
+import { MdStar } from "react-icons/md"
+import { useQueryClient } from "react-query"
+import TextareaAutosize from "react-textarea-autosize"
+import { pushOrReplace } from "utils/array/pushOrReplace"
+import buildGraphqlClient from "utils/consts/buildGraphqlClient"
+import colors from "utils/consts/colors"
 
 interface Props {
   initialValue: LearningsQuery["learnings"][0]
@@ -33,6 +26,8 @@ const DiaryTableRow = (props: Props) => {
 
   const qc = useQueryClient()
   const { data } = useLearningsQuery(buildGraphqlClient())
+
+  const { downSm } = useMyMediaQuery()
 
   const {
     mutate: updateLearning,
@@ -96,9 +91,12 @@ const DiaryTableRow = (props: Props) => {
   const focusDescription = () => descriptionRef.current.focus()
   return (
     <TableRow>
-      <TableCell className={classes.td} align="center">
-        {props.index + 1}
-      </TableCell>
+      {!downSm && (
+        <TableCell className={classes.td} align="center">
+          {props.index + 1}
+        </TableCell>
+      )}
+
       <TableCell className={classes.textareaCell} onClick={focusDescription}>
         <TextareaAutosize
           ref={descriptionRef}
