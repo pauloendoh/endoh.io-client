@@ -15,6 +15,7 @@ const NavbarTabs = (props: Props) => {
 
   const [tabIndex, setTabIndex] = useState<number | boolean>(false)
 
+  // PE 1/3 - tabIndex useMemo
   useEffect(() => {
     // DRY?
     if (location.pathname.startsWith(urls.pages.relearn.index)) {
@@ -25,6 +26,8 @@ const NavbarTabs = (props: Props) => {
       setTabIndex(2)
     } else if (location.pathname.startsWith(pageUrls.questions.index)) {
       setTabIndex(3)
+    } else if (location.pathname.includes(urls.pages.learningDiary)) {
+      setTabIndex(4)
     } else {
       setTabIndex(false)
     }

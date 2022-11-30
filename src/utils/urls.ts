@@ -15,6 +15,8 @@ export const urls = {
     },
     questionsIndex: `/questions`,
     questionsDoc: (docId: number) => `/questions/doc/${docId}`,
+
+    learningDiary: "/LearningDiary",
   },
   graphql: import.meta.env.VITE_API_URL + "graphql",
   api: {

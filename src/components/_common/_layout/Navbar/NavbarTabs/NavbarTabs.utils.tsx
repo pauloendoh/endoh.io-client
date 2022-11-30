@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import NotesIcon from "@mui/icons-material/Notes"
 import TimeLineIcon from "@mui/icons-material/Timeline"
 import { ReactElement, ReactNode } from "react"
+import { BsFillJournalBookmarkFill } from "react-icons/bs"
 import { urls } from "utils/urls"
 import pageUrls from "../../../../../utils/url/urls/pageUrls"
 
@@ -38,6 +39,12 @@ const utils = {
       to: pageUrls.questions.index,
       label: "Questions",
       icon: <NotesIcon />,
+    },
+    {
+      id: "learning-diary-tab",
+      to: urls.pages.learningDiary,
+      label: "Learning Diary",
+      icon: <BsFillJournalBookmarkFill />,
     },
   ] as ITab[],
 }

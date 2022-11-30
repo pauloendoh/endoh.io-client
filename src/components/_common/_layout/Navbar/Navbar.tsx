@@ -20,7 +20,7 @@ import SearchBarWrapper from "./SearchBarWrapper/SearchBarWrapper"
 // PE 2/3
 const Navbar = () => {
   const theme = useTheme()
-  const isSmMdScreen = useMediaQuery(theme.breakpoints.down("md"))
+  const isDownLg = useMediaQuery(theme.breakpoints.down("lg"))
   const isXsScreen = useMediaQuery(theme.breakpoints.down("sm"))
 
   const [
@@ -82,10 +82,10 @@ const Navbar = () => {
               )}
             </FlexVCenter>
 
-            <Flex>{!isSmMdScreen && <NavbarTabs />}</Flex>
+            <Flex>{!isDownLg && <NavbarTabs />}</Flex>
 
             <S.RightButtonsWrapper>
-              {isSmMdScreen && <NavbarResponsiveMenu />}
+              {isDownLg && <NavbarResponsiveMenu />}
               <NavbarAddButton />
               <Notification />
               <NavbarUserMenu />
