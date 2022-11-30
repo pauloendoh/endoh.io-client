@@ -8,7 +8,12 @@ export default function useAvgLearningPerHourQuery() {
   return useQuery(queryKeys.similarExpenses, () =>
     axios
       .get<
-        { hour: number; count: number; top25PercentDaysLearningCount: number }[]
+        {
+          hour: number
+          count: number
+          top25PercentDaysLearningCount: number
+          top50PercentDaysLearningCount: number
+        }[]
       >(urls.api.avgLearningPerHour)
       .then((res) => res.data)
   )
