@@ -100,7 +100,8 @@ export const urls = {
       place: "/monerate/place",
       category: "/monerate/category",
     },
-    avgLearningPerHour: "/avg-learning-per-hour",
+    avgLearningPerHour: (hourOffset: number) =>
+      `/avg-learning-per-hour?hourOffset=${hourOffset}`,
 
     utils: {
       passwordResetEmail: "/utils/passwordResetEmail",

@@ -5,6 +5,9 @@ import { urls } from "utils/urls"
 
 export default function useAvgLearningPerHourQuery() {
   const axios = useAxios()
+
+  const hourOffset = (new Date().getTimezoneOffset() / 60) * -1
+
   return useQuery(queryKeys.similarExpenses, () =>
     axios
       .get<
@@ -14,7 +17,7 @@ export default function useAvgLearningPerHourQuery() {
           top25PercentDaysLearningCount: number
           top50PercentDaysLearningCount: number
         }[]
-      >(urls.api.avgLearningPerHour)
+      >(urls.api.avgLearningPerHour(hourOffset))
       .then((res) => res.data)
   )
 }

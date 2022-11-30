@@ -19,19 +19,6 @@ const LearningChart = (props: Props) => {
 
   const isFocused = useWindowFocus()
 
-  const getCorrectedHour = (hour: number) => {
-    const hourOffset = new Date().getTimezoneOffset() / 60
-    console.log({
-      hour,
-      hourOffset,
-      result: Math.abs(hour - hourOffset),
-    })
-
-    const result = hour - hourOffset
-    if (result < 0) return 24 + result // result is negative
-    return result
-  }
-
   const data = useMemo(() => {
     if (!avgLearningPerHours) return []
 
@@ -40,12 +27,10 @@ const LearningChart = (props: Props) => {
     return avgLearningPerHours
       .map((avgLearning) => {
         return {
-          hour: getCorrectedHour(avgLearning.hour),
+          hour: avgLearning.hour,
           allAvgCount: avgLearning.count,
-          top25PercentDaysAvgCount: avgLearning.top25PercentDaysLearningCount,
           top50PercentDaysAvgCount: avgLearning.top50PercentDaysLearningCount,
-          nowCount:
-            getCorrectedHour(avgLearning.hour) === currentHour ? todayCount : 0,
+          nowCount: avgLearning.hour === currentHour ? todayCount : 0,
         }
       })
       .sort((a, b) => (a.hour < b.hour ? -1 : 1))
