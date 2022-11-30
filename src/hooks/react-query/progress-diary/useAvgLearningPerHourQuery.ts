@@ -16,7 +16,7 @@ export default function useAvgLearningPerHourQuery() {
           count: number
           topPercentDaysLearningCount: number
         }[]
-      >(urls.api.avgLearningPerHour(hourOffset, 25))
+      >(urls.api.avgLearningPerHour(hourOffset, 50))
       .then((res) => res.data)
   )
 }
