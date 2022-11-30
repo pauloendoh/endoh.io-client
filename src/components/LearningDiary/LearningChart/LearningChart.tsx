@@ -38,12 +38,13 @@ const LearningChart = (props: Props) => {
     const currentHour = DateTime.now().hour + 1
 
     return avgLearningPerHours
-      .map((lp) => {
+      .map((avgLearning) => {
         return {
-          ...lp,
-          count: lp.count,
-          hour: getCorrectedHour(lp.hour),
-          nowCount: getCorrectedHour(lp.hour) === currentHour ? todayCount : 0,
+          hour: getCorrectedHour(avgLearning.hour),
+          allAvgCount: avgLearning.count,
+          top25PercentDaysAvgCount: avgLearning.top25PercentDaysLearningCount,
+          nowCount:
+            getCorrectedHour(avgLearning.hour) === currentHour ? todayCount : 0,
         }
       })
       .sort((a, b) => (a.hour < b.hour ? -1 : 1))
@@ -74,7 +75,13 @@ const LearningChart = (props: Props) => {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line dot={false} type="monotone" dataKey="count" stroke="gray" />
+        <Line dot={false} type="monotone" dataKey="allAvgCount" stroke="gray" />
+        <Line
+          dot={false}
+          type="monotone"
+          dataKey="top25PercentDaysAvgCount"
+          stroke="gray"
+        />
         <Line
           dot={false}
           type="monotone"
