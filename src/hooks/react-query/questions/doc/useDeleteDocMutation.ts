@@ -4,7 +4,8 @@ import { useMutation, useQueryClient } from "react-query"
 import { useHistory } from "react-router-dom"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
-import deleteFromArray from "utils/array/deleteFromArray"
+
+import { deleteFromArray } from "endoh-utils"
 import { urls } from "utils/urls"
 
 export default function useDeleteDocMutation() {

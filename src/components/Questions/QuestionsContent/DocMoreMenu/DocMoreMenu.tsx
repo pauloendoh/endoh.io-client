@@ -123,20 +123,6 @@ function DocMoreMenu(props: Props) {
       >
         <MenuItem
           onClick={(e) => {
-            setFlashcardDialog(true)
-            handleCloseMore()
-          }}
-        >
-          <ListItemIcon className={classes.listItemIcon}>
-            <IoMdPlayCircle />
-          </ListItemIcon>
-          <Typography variant="inherit" noWrap>
-            Exercise your memory
-          </Typography>
-        </MenuItem>
-
-        <MenuItem
-          onClick={(e) => {
             setOpenTitleDialog(true)
             handleCloseMore()
           }}
@@ -146,6 +132,20 @@ function DocMoreMenu(props: Props) {
           </ListItemIcon>
           <Typography variant="inherit" noWrap>
             Edit doc
+          </Typography>
+        </MenuItem>
+
+        <MenuItem
+          onClick={(e) => {
+            setFlashcardDialog(true)
+            handleCloseMore()
+          }}
+        >
+          <ListItemIcon className={classes.listItemIcon}>
+            <IoMdPlayCircle />
+          </ListItemIcon>
+          <Typography variant="inherit" noWrap>
+            Exercise your memory
           </Typography>
         </MenuItem>
 
