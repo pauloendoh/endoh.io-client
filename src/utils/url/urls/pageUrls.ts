@@ -19,9 +19,9 @@ const pageUrls = {
   feed: {
     index: "/feed",
   },
-  define: {
-    index: "/define/",
-    docId: (docId: number) => `/define/doc/${docId}`,
+  questions: {
+    index: "/questions/",
+    docId: (docId: number) => `/questions/doc/${docId}`,
   },
 
   user: {

@@ -11,7 +11,7 @@ import { startNewResource } from "store/relearn/relearnActions"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
-import { buildNoteDto, NoteDto } from "types/domain/define/NoteDto"
+import { buildNoteDto, NoteDto } from "types/domain/questions/NoteDto"
 import { sleep } from "utils/sleep"
 import Icons from "utils/styles/Icons"
 
@@ -54,7 +54,7 @@ const NavbarAddButton = (props: Props) => {
   const setSuccessMessage = useSnackbarStore((s) => s.setSuccessMessage)
 
   const isQuestionsPage = useMemo(() => {
-    return location.pathname.includes("define")
+    return location.pathname.includes("questions")
   }, [location.pathname])
 
   const handleActivateButton = () => {

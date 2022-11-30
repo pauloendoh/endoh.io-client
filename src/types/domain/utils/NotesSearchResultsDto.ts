@@ -1,5 +1,5 @@
-import { DocDto } from "../define/DocDto"
-import { NoteDto } from "../define/NoteDto"
+import { DocDto } from "../questions/DocDto"
+import { NoteDto } from "../questions/NoteDto"
 
 export interface NotesSearchResultsDto {
   notes: NoteDto[]

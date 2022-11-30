@@ -6,6 +6,6 @@ export const isValidApplicationPath = (pathname: string) => {
     pathname.startsWith(urls.pages.relearn.index) ||
     pathname.startsWith(pageUrls.skillbase.index) ||
     pathname.startsWith(pageUrls.feed.index) ||
-    pathname.startsWith(pageUrls.define.index)
+    pathname.startsWith(pageUrls.questions.index)
   )
 }

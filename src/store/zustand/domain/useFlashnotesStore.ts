@@ -1,4 +1,4 @@
-import { DocDto } from "types/domain/define/DocDto"
+import { DocDto } from "types/domain/questions/DocDto"
 import create from "zustand"
 import { devtools, NamedSet } from "zustand/middleware"
 

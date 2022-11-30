@@ -60,7 +60,7 @@ const SimilarExpensesPage = lazy(
 const RelearnPage = lazy(() => import("./components/Relearn/RelearnPage"))
 const UserPage = lazy(() => import("./components/User/ProfilePage"))
 const FeedPage = lazy(() => import("./components/Feed/FeedPage"))
-const DefinePage = lazy(() => import("./components/Define/DefinePage"))
+const QuestionsPage = lazy(() => import("./components/Questions/QuestionsPage"))
 
 const NotFoundPage = lazy(() => import("./components/NotFound/NotFoundPage"))
 const SearchPage = lazy(() => import("./components/Search/SearchPage"))
@@ -157,6 +157,10 @@ const App = (props: Props) => {
     window.location.replace(window.location.href.replace("http", "https"))
   }
 
+  if (window.location.href.includes("/define")) {
+    props.history.push(urls.pages.questionsIndex)
+  }
+
   if (isValidApplicationPath(location.pathname)) {
     redirectAfterLogout = `/?next=${location.pathname}`
   }
@@ -197,8 +201,8 @@ const App = (props: Props) => {
               <Route path="/skillbase" component={SkillbasePage} />
               <Route path="/feed" component={FeedPage} />
 
-              <Route path="/define/doc/:docId" component={DefinePage} />
-              <Route path="/define" exact component={DefinePage} />
+              <Route path="/questions/doc/:docId" component={QuestionsPage} />
+              <Route path="/questions" exact component={QuestionsPage} />
 
               <Route path="/user/:username/tag/:tagId" component={UserPage} />
               <Route

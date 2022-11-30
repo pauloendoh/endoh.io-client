@@ -12,7 +12,7 @@ import { useHistory } from "react-router-dom"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
-import { NoteDto } from "types/domain/define/NoteDto"
+import { NoteDto } from "types/domain/questions/NoteDto"
 import { SearchResultsDto } from "types/domain/utils/SearchResultsDto"
 import { urls } from "utils/urls"
 import pageUrls from "../../../../../../utils/url/urls/pageUrls"
@@ -127,7 +127,7 @@ const NotesSearchBar = () => {
               docOrNote={docOrNote}
               handleClick={() => {
                 if ("title" in docOrNote)
-                  return history.push(urls.pages.defineDoc(docOrNote.id))
+                  return history.push(urls.pages.questionsDoc(docOrNote.id))
 
                 return onOpenDialog({
                   initialValue: docOrNote,

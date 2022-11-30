@@ -75,13 +75,14 @@ const LearningChart = (props: Props) => {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line dot={false} type="monotone" dataKey="allAvgCount" stroke="gray" />
         <Line
           dot={false}
           type="monotone"
           dataKey="top25PercentDaysAvgCount"
           stroke="gray"
         />
+        <Line dot={false} type="monotone" dataKey="allAvgCount" stroke="gray" />
+
         <Line
           dot={false}
           type="monotone"

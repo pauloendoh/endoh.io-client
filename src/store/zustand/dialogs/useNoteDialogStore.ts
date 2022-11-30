@@ -1,4 +1,4 @@
-import { buildNoteDto, NoteDto } from "types/domain/define/NoteDto"
+import { buildNoteDto, NoteDto } from "types/domain/questions/NoteDto"
 import create from "zustand"
 
 interface INoteDialogStore {

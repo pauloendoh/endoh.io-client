@@ -19,7 +19,7 @@ const SearchBarWrapper = (props: Props) => {
 
   const location = useLocation()
   useEffect(() => {
-    if (location.pathname.includes("define")) {
+    if (location.pathname.includes("questions")) {
       setSearchType("notes")
       return
     }

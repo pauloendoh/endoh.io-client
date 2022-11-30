@@ -1,18 +1,18 @@
-import { DocDto } from "../define/DocDto";
-import FileDto from "./FileDto";
+import { DocDto } from "../questions/DocDto"
+import FileDto from "./FileDto"
 
 export default interface FolderWithSubfoldersDto {
-  id: number;
+  id: number
 
-  userId: number;
+  userId: number
 
-  name: string;
+  name: string
 
-  subfolders: FolderWithSubfoldersDto[];
+  subfolders: FolderWithSubfoldersDto[]
 
-  parentFolder: FolderWithSubfoldersDto;
-  parentFolderId: number | null;
+  parentFolder: FolderWithSubfoldersDto
+  parentFolderId: number | null
 
-  files: FileDto[];
-  docs: DocDto[];
+  files: FileDto[]
+  docs: DocDto[]
 }

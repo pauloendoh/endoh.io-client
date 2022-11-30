@@ -35,7 +35,7 @@ const utils = {
     },
     {
       id: "notes-tab",
-      to: pageUrls.define.index,
+      to: pageUrls.questions.index,
       label: "Questions",
       icon: <NotesIcon />,
     },

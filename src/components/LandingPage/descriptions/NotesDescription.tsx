@@ -31,7 +31,10 @@ const NotesDescription = () => {
         <Typography variant="subtitle1">Study notes and flashcards </Typography>
 
         <Box mt={2}>
-          <Link to={pageUrls.define.index} style={{ textDecoration: "none" }}>
+          <Link
+            to={pageUrls.questions.index}
+            style={{ textDecoration: "none" }}
+          >
             <Button variant="contained" color="primary">
               Check /define
             </Button>

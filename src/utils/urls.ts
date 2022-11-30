@@ -13,8 +13,8 @@ export const urls = {
       tag: "/relearn/tag",
       tagId: (tagId: number) => `/relearn/tag/${tagId}`,
     },
-    defineIndex: `/define`,
-    defineDoc: (docId: number) => `/define/doc/${docId}`,
+    questionsIndex: `/questions`,
+    questionsDoc: (docId: number) => `/questions/doc/${docId}`,
   },
   graphql: import.meta.env.VITE_API_URL + "graphql",
   api: {

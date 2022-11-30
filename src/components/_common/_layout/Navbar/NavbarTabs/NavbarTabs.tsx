@@ -23,7 +23,7 @@ const NavbarTabs = (props: Props) => {
       setTabIndex(1)
     } else if (location.pathname.startsWith(pageUrls.skillbase.index)) {
       setTabIndex(2)
-    } else if (location.pathname.startsWith(pageUrls.define.index)) {
+    } else if (location.pathname.startsWith(pageUrls.questions.index)) {
       setTabIndex(3)
     } else {
       setTabIndex(false)

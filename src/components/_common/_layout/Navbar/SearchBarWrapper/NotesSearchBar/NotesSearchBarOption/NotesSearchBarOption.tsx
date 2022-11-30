@@ -5,8 +5,8 @@ import Flex from "components/_UI/Flexboxes/Flex"
 import FlexCol from "components/_UI/Flexboxes/FlexCol"
 import { MdInsertDriveFile } from "react-icons/md"
 import { format } from "timeago.js"
-import { DocDto } from "types/domain/define/DocDto"
-import { NoteDto } from "types/domain/define/NoteDto"
+import { DocDto } from "types/domain/questions/DocDto"
+import { NoteDto } from "types/domain/questions/NoteDto"
 
 type Props = {
   docOrNote: NoteDto | DocDto
