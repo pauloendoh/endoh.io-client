@@ -1,5 +1,11 @@
 import { Paper, Table, TableContainer, Toolbar } from "@mui/material"
-import { useAddLearningMutation, useLearningsQuery } from "generated/graphql"
+import { upsert } from "endoh-utils"
+import {
+  Learning,
+  LearningsQuery,
+  useAddLearningMutation,
+  useLearningsQuery,
+} from "generated/graphql"
 import useFilteredLearnings from "hooks/learning-diary/useFilteredLearnings"
 import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
 import { DateTime } from "luxon"
@@ -23,9 +29,19 @@ const DiaryTable = () => {
     mutate: mutateAddLearning,
     isLoading: isAdding,
   } = useAddLearningMutation(buildGraphqlClient(), {
-    onSuccess: () => {
+    onSuccess: (data) => {
       setSuccessMessage("Learning added!")
-      qc.invalidateQueries(useLearningsQuery.getKey())
+      console.log(data)
+      qc.setQueryData<LearningsQuery>(useLearningsQuery.getKey(), (curr) => {
+        return {
+          ...curr,
+          learnings: upsert(
+            curr.learnings,
+            data.addLearning as Learning,
+            (l) => l.id === data.addLearning.id
+          ),
+        }
+      })
     },
   })
 
@@ -66,9 +82,11 @@ const DiaryTable = () => {
               <TD align="center" width="100px">
                 Highlight
               </TD>
-              <TD align="center" width="200px">
-                Time
-              </TD>
+              {!downSm && (
+                <TD align="center" width="200px">
+                  Time
+                </TD>
+              )}
             </TR>
           </THead>
 
@@ -97,7 +115,7 @@ const DiaryTable = () => {
           }
           disabled={isAdding}
         >
-          + Add Note
+          + Add Learning
         </DarkButton>
         {/* <AddSkillButton tag={props.tag} /> */}
       </Toolbar>

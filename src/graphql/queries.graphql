@@ -37,6 +37,7 @@ query LinkPreview($url: String!) {
   }
 }
 
+# PE 1/3 - add shard for graphql
 query Learnings {
   learnings {
     id
