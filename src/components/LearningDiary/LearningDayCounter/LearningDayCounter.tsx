@@ -29,13 +29,13 @@ const LearningDayCounter = (props: Props) => {
   const todayCount = useTodayLearningCount()
   const { data: avgLearningPerHours } = useAvgLearningPerHourQuery()
 
+  const currentHour = DateTime.now().hour + 1
   const currentHourLearning = useMemo(() => {
     if (!avgLearningPerHours) return null
-    const currentHour = DateTime.now().hour + 1
     return avgLearningPerHours.find(
       (avgLearning) => avgLearning.hour === currentHour
     )
-  }, [avgLearningPerHours])
+  }, [avgLearningPerHours, currentHour])
 
   const theme = useTheme()
 
@@ -46,7 +46,7 @@ const LearningDayCounter = (props: Props) => {
       return theme.palette.primary.main
     if (todayCount >= currentHourLearning.count) return "white"
     return theme.palette.error.main
-  }, [avgLearningPerHours, todayCount, currentHourLearning])
+  }, [avgLearningPerHours, todayCount, currentHourLearning, currentHour])
 
   // const colorDay = useCloserColorAvgLearning(learningCount)
   // const colorCurrentTime = useColorAtCurrentTime(learningCount)
