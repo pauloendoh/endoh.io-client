@@ -12,6 +12,7 @@ import Flex from "../_UI/Flexboxes/Flex"
 import DiaryTable from "./DiaryTable/DiaryTable"
 import LearningChart from "./LearningChart/LearningChart"
 import LearningDayCounter from "./LearningDayCounter/LearningDayCounter"
+import TopPercentageInput from "./TopPercentageInput/TopPercentageInput"
 
 const LearningDiaryPage = () => {
   const classes = useStyles()
@@ -40,6 +41,8 @@ const LearningDiaryPage = () => {
           <LearningChart />
           <FlexVCenterBetween mt={4}>
             <LearningDayCounter />
+
+            <TopPercentageInput />
             {/* <DatePicker
                   variant="inline"
                   format="MM/dd/yyyy"

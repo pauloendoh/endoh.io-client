@@ -3,6 +3,7 @@ import useAvgLearningPerHourQuery from "hooks/react-query/progress-diary/useAvgL
 import { DateTime } from "luxon"
 import { useMemo } from "react"
 import { Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts"
+import useLearningDiaryStore from "store/zustand/domain/useLearningDiaryStore"
 import useWindowFocus from "use-window-focus"
 import { useTodayLearningCount } from "../LearningDayCounter/useTodayLearningCount"
 
@@ -13,7 +14,10 @@ interface Props {
 const LearningChart = (props: Props) => {
   const theme = useTheme()
 
-  const { data: avgLearningPerHours, isLoading } = useAvgLearningPerHourQuery()
+  const topPercentage = useLearningDiaryStore((s) => s.topPercentage)
+  const { data: avgLearningPerHours, isLoading } = useAvgLearningPerHourQuery(
+    topPercentage
+  )
 
   const todayCount = useTodayLearningCount()
 

@@ -12,7 +12,7 @@ interface Props {
 }
 
 const LearningDayCounter = (props: Props) => {
-  const { selectedDate } = useLearningDiaryStore()
+  const { selectedDate, topPercentage } = useLearningDiaryStore()
   const learnings = useFilteredLearnings(selectedDate)
 
   const isToday = useMemo(() => selectedDate === DateTime.now().toISODate(), [
@@ -27,7 +27,10 @@ const LearningDayCounter = (props: Props) => {
   }, [learnings])
 
   const todayCount = useTodayLearningCount()
-  const { data: avgLearningPerHours } = useAvgLearningPerHourQuery()
+
+  const { data: avgLearningPerHours } = useAvgLearningPerHourQuery(
+    topPercentage
+  )
 
   const currentHour = DateTime.now().hour + 1
   const currentHourLearning = useMemo(() => {
