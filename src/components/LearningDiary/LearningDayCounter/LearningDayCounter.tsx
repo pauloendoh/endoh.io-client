@@ -55,8 +55,8 @@ const LearningDayCounter = (props: Props) => {
     <Box mr={2}>
       <Txt variant="h5" style={{ color: isToday ? colorCurrentTime : "white" }}>
         {learningCount} learnings {isToday && "today"} |{" "}
-        {currentHourLearning.count} |{" "}
-        {currentHourLearning.topPercentDaysLearningCount}
+        {currentHourLearning?.count} |{" "}
+        {currentHourLearning?.topPercentDaysLearningCount}
       </Txt>
     </Box>
   )
