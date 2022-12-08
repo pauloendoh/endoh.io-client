@@ -1,11 +1,11 @@
-import { Box } from "@mui/material"
+import { Box, useTheme } from "@mui/material"
 import Txt from "components/_UI/Text/Txt"
-import useCloseColorAvgLearningAtCurrentTime from "hooks/learning-diary/useCloseColorAvgLearningAtCurrentTime"
-import useCloserColorAvgLearning from "hooks/learning-diary/useCloserColorAvgLearning"
 import useFilteredLearnings from "hooks/learning-diary/useFilteredLearnings"
+import useAvgLearningPerHourQuery from "hooks/react-query/progress-diary/useAvgLearningPerHourQuery"
 import { DateTime } from "luxon"
 import { useMemo } from "react"
 import useLearningDiaryStore from "store/zustand/domain/useLearningDiaryStore"
+import { useTodayLearningCount } from "./useTodayLearningCount"
 
 interface Props {
   test?: string
@@ -19,26 +19,45 @@ const LearningDayCounter = (props: Props) => {
     selectedDate,
   ])
 
-  const counter = useMemo(() => {
+  const learningCount = useMemo(() => {
     return learnings.reduce(
       (total, learning) => (learning.isHighlight ? total + 2 : total + 1),
       0
     )
   }, [learnings])
 
-  const colorDay = useCloserColorAvgLearning(counter)
-  const colorCurrentTime = useCloseColorAvgLearningAtCurrentTime(counter)
+  const todayCount = useTodayLearningCount()
+  const { data: avgLearningPerHours } = useAvgLearningPerHourQuery()
+
+  const currentHourLearning = useMemo(() => {
+    if (!avgLearningPerHours) return null
+    const currentHour = DateTime.now().hour + 1
+    return avgLearningPerHours.find(
+      (avgLearning) => avgLearning.hour === currentHour
+    )
+  }, [avgLearningPerHours])
+
+  const theme = useTheme()
+
+  const colorCurrentTime = useMemo(() => {
+    if (!avgLearningPerHours || !currentHourLearning) return "white"
+
+    if (todayCount >= currentHourLearning.topPercentDaysLearningCount)
+      return theme.palette.primary.main
+    if (todayCount >= currentHourLearning.count) return "white"
+    return theme.palette.error.main
+  }, [avgLearningPerHours, todayCount, currentHourLearning])
+
+  // const colorDay = useCloserColorAvgLearning(learningCount)
+  // const colorCurrentTime = useColorAtCurrentTime(learningCount)
 
   return (
     <Box mr={2}>
-      {counter > 0 && (
-        <Txt
-          variant="h5"
-          // style={{ color: isToday ? colorCurrentTime : colorDay }}
-        >
-          {counter} learnings {isToday && "today"}
-        </Txt>
-      )}
+      <Txt variant="h5" style={{ color: isToday ? colorCurrentTime : "white" }}>
+        {learningCount} learnings {isToday && "today"} |{" "}
+        {currentHourLearning.count} |{" "}
+        {currentHourLearning.topPercentDaysLearningCount}
+      </Txt>
     </Box>
   )
 }

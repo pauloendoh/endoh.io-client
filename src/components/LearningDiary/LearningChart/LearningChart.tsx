@@ -19,7 +19,7 @@ const LearningChart = (props: Props) => {
 
   const isFocused = useWindowFocus()
 
-  const data = useMemo(() => {
+  const chartData = useMemo(() => {
     if (!avgLearningPerHours) return []
 
     const currentHour = DateTime.now().hour + 1
@@ -48,7 +48,7 @@ const LearningChart = (props: Props) => {
       <LineChart
         width={chartWidth}
         height={isSmallScreen ? 200 : 300}
-        data={data}
+        data={chartData}
         style={{ marginLeft: isSmallScreen ? -16 : 24 }}
       >
         <XAxis
