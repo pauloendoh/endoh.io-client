@@ -1,3 +1,5 @@
+import { FlashnotesSearchType } from "components/_common/_layout/Navbar/SearchBarWrapper/NotesSearchBar/types/FlashnotesSearchType"
+
 export const urls = {
   pages: {
     index: "/",
@@ -86,7 +88,8 @@ export const urls = {
 
     // UTILS
     resourcesSearch: (query: string) => `/search?q=${query}`,
-    notesSearch: (query: string) => `/flashnotes/search?q=${query}`,
+    notesSearch: (query: string, type: FlashnotesSearchType) =>
+      `/flashnotes/search?q=${query}&type=${type}`,
     linkPreview: (url: string) => `/v2/utils/link-preview?url=${url}`,
     userGotIt: "/got-it",
 

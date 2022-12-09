@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import { FaLink } from "react-icons/fa"
 import { useLocation } from "react-router-dom"
 import NotesSearchBar from "./NotesSearchBar/NotesSearchBar"
+import { FlashnotesSearchType } from "./NotesSearchBar/types/FlashnotesSearchType"
 import ResourcesSearchBar from "./ResourcesSearchBar/ResourcesSearchBar"
 
 interface Props {
@@ -13,14 +14,14 @@ interface Props {
 }
 
 const SearchBarWrapper = (props: Props) => {
-  type SearchType = "resources" | "notes"
+  type SearchType = "resources" | FlashnotesSearchType
 
   const [searchType, setSearchType] = useState<SearchType>("resources")
 
   const location = useLocation()
   useEffect(() => {
     if (location.pathname.includes("questions")) {
-      setSearchType("notes")
+      setSearchType("q&a")
       return
     }
     setSearchType("resources")
@@ -29,7 +30,9 @@ const SearchBarWrapper = (props: Props) => {
   return (
     <FlexVCenter>
       {searchType === "resources" && <ResourcesSearchBar />}
-      {searchType === "notes" && <NotesSearchBar />}
+      {(searchType === "q&a" || searchType === "questions") && (
+        <NotesSearchBar type={searchType} />
+      )}
       <FormControl
         variant="outlined"
         size="small"
@@ -49,7 +52,13 @@ const SearchBarWrapper = (props: Props) => {
               <Typography>Resources</Typography>
             </FlexVCenter>
           </MenuItem>
-          <MenuItem value={"notes" as SearchType}>
+          <MenuItem value={"q&a" as SearchType}>
+            <FlexVCenter style={{ gap: 4 }}>
+              <NotesIcon />
+              <Typography>Q&A</Typography>
+            </FlexVCenter>
+          </MenuItem>
+          <MenuItem value={"questions" as SearchType}>
             <FlexVCenter style={{ gap: 4 }}>
               <NotesIcon />
               <Typography>Questions</Typography>

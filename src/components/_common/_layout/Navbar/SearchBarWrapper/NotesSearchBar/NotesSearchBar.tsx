@@ -18,7 +18,11 @@ import { urls } from "utils/urls"
 import pageUrls from "../../../../../../utils/url/urls/pageUrls"
 import MyTextField from "../../../../../_UI/MyInputs/MyTextField"
 import NotesSearchBarOption from "./NotesSearchBarOption/NotesSearchBarOption"
+import { FlashnotesSearchType } from "./types/FlashnotesSearchType"
 
+interface Props {
+  type: FlashnotesSearchType
+}
 interface ISearchForm {
   searchQuery?: string
 }
@@ -33,7 +37,7 @@ const MyPopper = function (props: React.ComponentProps<typeof Popper>) {
   )
 }
 
-const NotesSearchBar = () => {
+const NotesSearchBar = (props: Props) => {
   const MIN_LENGTH = 3
 
   const myAxios = useAxios()
@@ -48,10 +52,11 @@ const NotesSearchBar = () => {
     },
   })
 
-  const { data: searchResults, refetch, isFetching } = useNotesSearchQuery(
-    watch("searchQuery"),
-    MIN_LENGTH
-  )
+  const { data: searchResults, refetch, isFetching } = useNotesSearchQuery({
+    query: watch("searchQuery"),
+    minLength: MIN_LENGTH,
+    type: props.type,
+  })
 
   const submit = (values: ISearchForm) => {}
 
