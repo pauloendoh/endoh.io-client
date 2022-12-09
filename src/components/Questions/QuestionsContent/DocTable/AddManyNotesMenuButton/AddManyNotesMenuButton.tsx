@@ -4,7 +4,7 @@ import DarkButton from "components/_UI/Buttons/DarkButton/DarkButton"
 import SaveCancelButtons from "components/_UI/Buttons/SaveCancelButtons"
 import MyTextField from "components/_UI/MyInputs/MyTextField"
 import useCreateManyNotesMutation from "hooks/react-query/questions/note/useCreateManyNotesMutation"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 
 interface Props {
   docId: number
@@ -13,17 +13,26 @@ interface Props {
 const AddManyNotesMenuButton = (props: Props) => {
   const [anchorEl, setAnchorEl] = useState(null)
 
+  const inputRef = useRef<HTMLInputElement>(null)
+
   const handleOpenMenu = (event: any) => {
     setAnchorEl(event.currentTarget)
+
+    console.log({
+      inputRef,
+    })
+    setTimeout(() => {
+      inputRef.current?.focus()
+    }, 250)
   }
 
   const handleCloseMenu = () => {
     setAnchorEl(null)
   }
 
-  const [value, setValue] = useState(1)
+  const [value, setValue] = useState(10)
   useEffect(() => {
-    if (anchorEl) setValue(1)
+    if (anchorEl) setValue(10)
   }, [anchorEl])
 
   const canSave = useMemo(
@@ -60,7 +69,13 @@ const AddManyNotesMenuButton = (props: Props) => {
         }}
         onClose={handleCloseMenu}
       >
-        <MenuItem id="profile-user-menu-option" disableRipple>
+        <MenuItem
+          id="profile-user-menu-option"
+          disableRipple
+          sx={{
+            backgroundColor: "unset !important",
+          }}
+        >
           <form
             style={{ display: "flex", flexDirection: "column", gap: 16 }}
             onSubmit={(e) => {
@@ -69,11 +84,12 @@ const AddManyNotesMenuButton = (props: Props) => {
             }}
           >
             <MyTextField
+              inputRef={inputRef}
               size="small"
               required
               type="number"
               label="Notes quantity (max: 25)"
-              autoFocus
+              value={value}
               onChange={(e) => {
                 setValue(parseInt(e.currentTarget.value))
               }}
