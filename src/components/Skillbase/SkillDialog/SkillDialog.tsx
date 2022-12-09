@@ -216,9 +216,13 @@ const SkillDialog = () => {
               />
               <SaveCancelButtons
                 submitButtonId="save-skill-btn"
-                disabled={formik.isSubmitting || isEditingRoadmapItem}
+                disabled={isEditingRoadmapItem}
+                isLoading={formik.isSubmitting}
                 onCancel={handleClose}
                 onEnabledAndCtrlEnter={() => formik.handleSubmit()}
+                onEnableAndCtrlS={() => {
+                  submitSaveSkill(formik.values, formik.setSubmitting, false)
+                }}
               />
             </Flex>
           </DialogTitle>

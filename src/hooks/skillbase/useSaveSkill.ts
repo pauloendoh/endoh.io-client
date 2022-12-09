@@ -1,8 +1,8 @@
+import { pushOrReplace } from "endoh-utils"
+import { useAxios } from "hooks/utils/useAxios"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { SkillDto } from "types/domain/skillbase/SkillDto"
-import MyAxiosError from "types/MyAxiosError"
-import myAxios from "utils/consts/myAxios"
 import { urls } from "utils/urls"
 
 const useSaveSkill = () => {
@@ -10,14 +10,18 @@ const useSaveSkill = () => {
     setSkills,
     setEditingSkill,
     editingSkill: initialValue,
+
+    skills: currentSkills,
   } = useSkillbaseStore()
 
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
+  const myAxios = useAxios()
 
   // PE 2/3
-  const handleSubmit = (
+  const handleSubmit = async (
     skill: SkillDto,
-    setSubmitting?: (isSubmitting: boolean) => void
+    setSubmitting?: (isSubmitting: boolean) => void,
+    closeAfterSaving = true
   ) => {
     if (setSubmitting) setSubmitting(true)
 
@@ -26,14 +30,18 @@ const useSaveSkill = () => {
     if ((skill.goalLevel as unknown) === "") skill.goalLevel = null
 
     myAxios
-      .post<SkillDto[]>(urls.api.skillbase.skill, skill)
+      .post<SkillDto>(urls.api.skillbase.skill, skill)
       .then((res) => {
-        setSkills(res.data)
-        setEditingSkill(null)
         setSuccessMessage("Skill saved!")
-      })
-      .catch((err: MyAxiosError) => {
-        setErrorMessage(err.response.data.errors[0].message)
+
+        setSkills(pushOrReplace(currentSkills, res.data, "id"))
+
+        if (closeAfterSaving) {
+          setEditingSkill(null)
+          return
+        }
+
+        setEditingSkill(res.data)
       })
       .finally(() => {
         if (setSubmitting) setSubmitting(false)
