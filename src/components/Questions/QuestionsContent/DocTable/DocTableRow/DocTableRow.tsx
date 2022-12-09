@@ -2,6 +2,7 @@ import { Theme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 
 import { TableCell, TableRow } from "@mui/material"
+import clsx from "clsx"
 import useDebounce from "hooks/utils/useDebounce"
 import { useEffect, useRef, useState } from "react"
 import { NoteDto } from "../../../../../types/domain/questions/NoteDto"
@@ -47,7 +48,7 @@ const DocTableRow = (props: Props) => {
       )}
 
       <TableCell
-        className={classes.textareaCell}
+        className={clsx([classes.textareaCell, classes.td])}
         contentEditable
         suppressContentEditableWarning
         onInput={(e) => {
@@ -58,7 +59,7 @@ const DocTableRow = (props: Props) => {
         {initialQuestion.current}
       </TableCell>
       <TableCell
-        className={classes.textareaCell}
+        className={clsx([classes.textareaCell, classes.td])}
         contentEditable
         suppressContentEditableWarning
         onInput={(e) => {
