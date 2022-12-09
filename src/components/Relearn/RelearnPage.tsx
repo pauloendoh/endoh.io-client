@@ -137,10 +137,18 @@ const RelearnPage = (props: Props) => {
     <Flex height="100%">
       <RelearnSidebar />
       <Box
-        className={classNames(classes.content, {
-          [classes.contentShift]: sidebarIsOpen,
-        })}
+        className={classNames(classes.content)}
         flexGrow={1}
+        sx={(theme) => ({
+          [theme.breakpoints.down("sm")]: {
+            marginLeft: 0,
+          },
+          transition: theme.transitions.create("margin", {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+          }),
+          marginLeft: sidebarIsOpen ? 300 / 8 : 0,
+        })}
       >
         {props.hasFirstLoaded ? (
           <RelearnContent resources={filteredResources} skills={skills} />
@@ -169,7 +177,7 @@ const useStyles = makeStyles<Theme>((theme) => ({
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
-    marginLeft: 300,
+    // marginLeft: 300,
   },
 }))
 

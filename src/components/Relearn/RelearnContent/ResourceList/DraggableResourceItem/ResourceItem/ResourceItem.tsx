@@ -2,6 +2,7 @@ import EventIcon from "@mui/icons-material/Event"
 import { Link, useTheme } from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import useHover from "hooks/utils/useHover"
+import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
 import { DateTime } from "luxon"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
@@ -27,6 +28,8 @@ import ShowMoreTextField from "./ShowMoreTextField/ShowMoreTextField"
 function ResourceItem(props: Props) {
   const { setSuccessMessage } = useSnackbarStore()
   const { handleMouseEnter, handleMouseLeave, isHovering } = useHover()
+
+  const { downSm } = useMyMediaQuery()
 
   const handleSaveRating = (rating: number) => {
     const resource = { ...props.resource, rating } as ResourceDto
@@ -97,7 +100,11 @@ function ResourceItem(props: Props) {
                   if (e.altKey) return
                   e.stopPropagation()
                 }}
-                style={{ maxWidth: 400, overflow: "hidden", marginRight: 16 }}
+                style={{
+                  maxWidth: downSm ? 200 : 400,
+                  overflow: "hidden",
+                  marginRight: 16,
+                }}
               >
                 <Txt noWrap style={{ maxWidth: "inherit" }}>
                   {props.resource.url}

@@ -140,7 +140,7 @@ const useStyles = makeStyles<Theme>((theme) => ({
   root: {
     position: "sticky",
     background: theme.palette.background.default,
-    zIndex: theme.zIndex.appBar,
+    zIndex: theme.zIndex.appBar - 1,
     top: 73,
     paddingTop: 24,
     marginTop: -8,
