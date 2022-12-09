@@ -23,7 +23,7 @@ import FolderTreeItem from "./FolderTreeItem/FolderTreeItem"
 import { spreadFolders } from "./spreadFolders/spreadFolders"
 
 // PE 1/3 - rename?
-export default function FileSystem() {
+export default function QuestionsFileSystem() {
   const history = useHistory()
 
   const {
@@ -77,11 +77,8 @@ export default function FileSystem() {
 
   const { docId } = useParams<{ docId?: string }>()
 
-  const [didFirstExpansion, setDidFirstExpansion] = useState(false)
-
   useEffect(() => {
-    if (docs.length === 0 || sortedFolders.length === 0 || didFirstExpansion)
-      return
+    if (docs.length === 0 || sortedFolders.length === 0) return
 
     let expandNodeIds = ["root"]
     if (docId) {
@@ -100,7 +97,6 @@ export default function FileSystem() {
       }
 
       setExpandedNodes(expandNodeIds)
-      setDidFirstExpansion(true)
     }
   }, [docs, sortedFolders, docId])
 
