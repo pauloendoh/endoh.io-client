@@ -1,11 +1,9 @@
-import TextareaAutosize from "react-textarea-autosize"
-
 import { Theme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 
 import { TableCell, TableRow } from "@mui/material"
 import useDebounce from "hooks/utils/useDebounce"
-import { createRef, useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { NoteDto } from "../../../../../types/domain/questions/NoteDto"
 
 interface Props {
@@ -37,11 +35,8 @@ const DocTableRow = (props: Props) => {
     setLocalNote(changed)
   }
 
-  const descriptionRef = createRef<HTMLTextAreaElement>()
-  const questionRef = createRef<HTMLTextAreaElement>()
-
-  const focusDescription = () => descriptionRef.current.focus()
-  const focusQuestion = () => questionRef.current.focus()
+  const initialQuestion = useRef(props.initialValue.question)
+  const initialDescription = useRef(props.initialValue.description)
 
   return (
     <TableRow>
@@ -51,29 +46,29 @@ const DocTableRow = (props: Props) => {
         </TableCell>
       )}
 
-      <TableCell className={classes.textareaCell} onClick={focusQuestion}>
-        <TextareaAutosize
-          onChange={(e) => changeQuestion(e.target.value)}
-          value={localNote.question}
-          className={classes.textarea}
-          autoFocus
-          ref={questionRef}
-        />
+      <TableCell
+        className={classes.textareaCell}
+        contentEditable
+        suppressContentEditableWarning
+        onInput={(e) => {
+          changeQuestion(e.currentTarget.innerText)
+        }}
+        sx={{ whiteSpace: "pre-wrap", width: "50%" }}
+      >
+        {initialQuestion.current}
       </TableCell>
-      <TableCell className={classes.textareaCell} onClick={focusDescription}>
-        <TextareaAutosize
-          ref={descriptionRef}
-          onChange={(e) => changeDescription(e.target.value)}
-          value={localNote.description}
-          className={classes.textarea}
-        />
+      <TableCell
+        className={classes.textareaCell}
+        contentEditable
+        suppressContentEditableWarning
+        onInput={(e) => {
+          changeDescription(e.currentTarget.textContent)
+        }}
+        sx={{ whiteSpace: "pre-wrap", width: "50%" }}
+      >
+        {initialDescription.current}
       </TableCell>
-
-      {/* {!props.isSmallScreen && (
-        <TableCell align="center" className={classes.td}>
-          {localNote.weight}
-        </TableCell>
-      )} */}
+      <TableCell width="0px" />
     </TableRow>
   )
 }
@@ -86,17 +81,6 @@ const useStyles = makeStyles<Theme>((theme) => ({
   td: {
     fontSize: 13,
     verticalAlign: "top",
-  },
-  textarea: {
-    resize: "none",
-    border: "none",
-    background: "none",
-    fontSize: 13,
-
-    width: "100%",
-    fontFamily: theme.typography.fontFamily,
-    color: "white",
-    cursor: "pointer",
   },
 }))
 
