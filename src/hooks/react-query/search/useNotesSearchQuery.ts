@@ -1,13 +1,14 @@
 import { FlashnotesSearchType } from "components/_common/_layout/Navbar/SearchBarWrapper/NotesSearchBar/types/FlashnotesSearchType"
+import { useAxios } from "hooks/utils/useAxios"
 import { useQuery } from "react-query"
 import { NotesSearchResultsDto } from "types/domain/utils/NotesSearchResultsDto"
-import myAxios from "utils/consts/myAxios"
 import { urls } from "utils/urls"
 import { queryKeys } from "../queryKeys"
 
 type Params = { query: string; minLength: number; type: FlashnotesSearchType }
 
 const useNotesSearchQuery = ({ query, minLength = 1, type }: Params) => {
+  const myAxios = useAxios()
   return useQuery(
     queryKeys.notesSearchResults,
     async () => {
