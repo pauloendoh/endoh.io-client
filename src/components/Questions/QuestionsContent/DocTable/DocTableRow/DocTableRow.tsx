@@ -53,7 +53,7 @@ const DocTableRow = (props: Props) => {
         onInput={(e) => {
           changeQuestion(e.currentTarget.innerText)
         }}
-        sx={{ whiteSpace: "pre-wrap", width: "50%" }}
+        sx={{ whiteSpace: "pre-wrap", width: "50%", overflowWrap: "anywhere" }}
       >
         {initialQuestion.current}
       </TableCell>
@@ -64,7 +64,7 @@ const DocTableRow = (props: Props) => {
         onInput={(e) => {
           changeDescription(e.currentTarget.textContent)
         }}
-        sx={{ whiteSpace: "pre-wrap", width: "50%" }}
+        sx={{ whiteSpace: "pre-wrap", width: "50%", overflowWrap: "anywhere" }}
       >
         {initialDescription.current}
       </TableCell>
