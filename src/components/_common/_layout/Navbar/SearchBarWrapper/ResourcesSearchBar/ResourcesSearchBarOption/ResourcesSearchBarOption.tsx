@@ -6,7 +6,7 @@ import { DateTime } from "luxon"
 import { useMemo } from "react"
 import { useLocation } from "react-router-dom"
 import { ResourceDto } from "types/domain/relearn/ResourceDto"
-import { getColorByRating } from "utils/relearn/getColorByRating"
+import { useGetColorByRating } from "utils/relearn/getColorByRating"
 import Icons from "utils/styles/Icons"
 import { urls } from "utils/urls"
 
@@ -34,6 +34,8 @@ const ResourcesSearchBarOption = ({
     if (days === 0) return "today"
     return `${days}d ago`
   }, [resource.completedAt])
+
+  const color = useGetColorByRating(resource.rating)
 
   return (
     <li
@@ -71,9 +73,7 @@ const ResourcesSearchBarOption = ({
         {resource.rating > 0 ? (
           <FlexVCenter style={{ width: 125, gap: theme.spacing(2) }}>
             <FlexVCenter style={{ gap: theme.spacing(0.5) }}>
-              <Icons.Star
-                style={{ color: getColorByRating(resource.rating) }}
-              />
+              <Icons.Star style={{ color }} />
               <Txt>{resource.rating}</Txt>
             </FlexVCenter>
 

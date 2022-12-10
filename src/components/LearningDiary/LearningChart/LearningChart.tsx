@@ -51,7 +51,7 @@ const LearningChart = (props: Props) => {
     <>
       <LineChart
         width={chartWidth}
-        height={isSmallScreen ? 200 : 300}
+        height={isSmallScreen ? 200 : 200}
         data={chartData}
         style={{ marginLeft: isSmallScreen ? -16 : 24 }}
       >

@@ -137,6 +137,7 @@ const RelearnPage = (props: Props) => {
     <Flex height="100%">
       <RelearnSidebar />
       <Box
+        pb={10}
         className={classNames(classes.content)}
         flexGrow={1}
         sx={(theme) => ({

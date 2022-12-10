@@ -11,7 +11,7 @@ import {
   hoverRatingLabels,
   ratingLabels,
 } from "utils/domain/relearn/resources/ratingLabels"
-import { getColorByRating } from "utils/relearn/getColorByRating"
+import { useGetColorByRating } from "utils/relearn/getColorByRating"
 import FlexHCenter from "../../_UI/Flexboxes/FlexHCenter"
 import RatingButtonLabel from "./RatingButtonLabel/RatingButtonLabel"
 
@@ -78,7 +78,7 @@ const RatingButton = (props: Props) => {
           variant="outlined"
           style={{
             position: "relative",
-            borderColor: getColorByRating(props.rating),
+            borderColor: useGetColorByRating(props.rating),
           }}
           className="rate-button"
         >

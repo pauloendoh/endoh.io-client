@@ -4,9 +4,11 @@ import { Typography, useTheme } from "@mui/material"
 import Flex from "components/_UI/Flexboxes/Flex"
 import FlexCol from "components/_UI/Flexboxes/FlexCol"
 import { MdInsertDriveFile } from "react-icons/md"
+import { Link } from "react-router-dom"
 import { format } from "timeago.js"
 import { DocDto } from "types/domain/questions/DocDto"
 import { NoteDto } from "types/domain/questions/NoteDto"
+import { urls } from "utils/urls"
 
 type Props = {
   docOrNote: NoteDto | DocDto
@@ -25,7 +27,7 @@ const NotesSearchBarOption = ({ docOrNote, handleClick, liProps }: Props) => {
         alignItems: "center",
         justifyContent: "space-between",
         width: "100%",
-        paddingBottom: 8,
+        paddingBottom: 24,
       }}
       onClick={handleClick}
     >
@@ -36,20 +38,25 @@ const NotesSearchBarOption = ({ docOrNote, handleClick, liProps }: Props) => {
               <NotesIcon />
               <Typography>{docOrNote.question}</Typography>
             </Flex>
-            <Typography
-              noWrap
-              title={docOrNote.doc?.title}
-              display="inline"
-              style={{
-                width: 120,
-                padding: "2px 8px 2px 8px",
-                borderRadius: 2,
-                height: "fit-content",
-                background: theme.palette.grey[700],
-              }}
-            >
-              {docOrNote.doc?.title}
-            </Typography>
+
+            {docOrNote.doc?.title && (
+              <Link to={urls.pages.questionsDoc(docOrNote.doc.id)}>
+                <Typography
+                  noWrap
+                  title={docOrNote.doc?.title}
+                  display="inline"
+                  style={{
+                    width: 120,
+                    padding: "2px 8px 2px 8px",
+                    borderRadius: 2,
+                    height: "fit-content",
+                    background: theme.palette.grey[700],
+                  }}
+                >
+                  {docOrNote.doc?.title}
+                </Typography>
+              </Link>
+            )}
           </Flex>
           <Flex
             justifyContent="space-between"

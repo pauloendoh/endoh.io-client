@@ -2,7 +2,7 @@ import StarBorderOutlined from "@mui/icons-material/StarBorderOutlined"
 import StarRateIcon from "@mui/icons-material/StarRate"
 import { Box } from "@mui/material"
 import { ratingLabels } from "utils/domain/relearn/resources/ratingLabels"
-import { getColorByRating } from "../../../../utils/relearn/getColorByRating"
+import { useGetColorByRating } from "../../../../utils/relearn/getColorByRating"
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 
 const RatingButtonLabel = (props: Props) => {
   return (
-    <FlexVCenter style={{ color: getColorByRating(props.rating) }}>
+    <FlexVCenter style={{ color: useGetColorByRating(props.rating) }}>
       {props.rating > 0 ? <StarRateIcon /> : <StarBorderOutlined />}
 
       {props.rating > 0 ? (

@@ -30,7 +30,7 @@ const LearningDiaryPage = () => {
   }, [selectedDate])
 
   return (
-    <Flex height="100%" pt={5} justifyContent="center">
+    <Flex height="100%" justifyContent="center">
       <Box
         className={clsx(classes.content, {
           [classes.contentShift]: sidebarIsOpen,

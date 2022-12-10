@@ -185,7 +185,7 @@ const App = (props: Props) => {
           <Navbar />
         )}
 
-        <Box py={10}>
+        <Box pt={10}>
           <Suspense fallback={<LoadingPage />}>
             <Switch>
               <Route
