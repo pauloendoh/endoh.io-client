@@ -1,7 +1,7 @@
 import { Box, Dialog, DialogContent, DialogTitle, Link } from "@mui/material"
 import { Link as RouterLink } from "react-router-dom"
+import { urls } from "utils/urls"
 import { UserSuggestionDto } from "../../../../types/domain/feed/UserSuggestionDto"
-import pageUrls from "../../../../utils/url/urls/pageUrls"
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
 import ProfilePicture from "../../../_UI/ProfilePicture/ProfilePicture"
 // PE 2/3
@@ -32,7 +32,7 @@ const UserSuggestionsDialog = (props: Props) => {
                   variant="button"
                   color="inherit"
                   component={RouterLink}
-                  to={pageUrls.user.index(userSuggestion.username)}
+                  to={urls.pages.user.index(userSuggestion.username)}
                 >
                   {userSuggestion.username}
                 </Link>

@@ -1,7 +1,7 @@
 import { Box, Dialog, DialogContent, DialogTitle, Link } from "@mui/material"
 import { Link as RouterLink, useParams } from "react-router-dom"
 import { FollowingUserDto } from "types/domain/feed/FollowingUserDto"
-import pageUrls from "../../../utils/url/urls/pageUrls"
+import { urls } from "utils/urls"
 import Flex from "../../_UI/Flexboxes/Flex"
 import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture"
 
@@ -53,7 +53,7 @@ const FollowingUsersDialog = (props: Props) => {
                       component={RouterLink}
                       variant="body1"
                       color="inherit"
-                      to={pageUrls.user.index(
+                      to={urls.pages.user.index(
                         followingUser.followingUser.username
                       )}
                     >

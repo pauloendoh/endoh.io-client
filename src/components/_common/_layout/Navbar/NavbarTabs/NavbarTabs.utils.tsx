@@ -5,7 +5,6 @@ import TimeLineIcon from "@mui/icons-material/Timeline"
 import { ReactElement, ReactNode } from "react"
 import { BsFillJournalBookmarkFill } from "react-icons/bs"
 import { urls } from "utils/urls"
-import pageUrls from "../../../../../utils/url/urls/pageUrls"
 
 interface ITab {
   id: string
@@ -24,19 +23,19 @@ const utils = {
     },
     {
       id: "feed-tab",
-      to: pageUrls.feed.index,
+      to: urls.pages.feed.index,
       label: "Feed",
       icon: <TimeLineIcon />,
     },
     {
       id: "skill-tab",
-      to: pageUrls.skillbase.index,
+      to: urls.pages.skillbase.index,
       label: "Skills",
       icon: <FontAwesomeIcon icon={faChessKnight} />,
     },
     {
       id: "notes-tab",
-      to: pageUrls.questions.index,
+      to: urls.pages.questions.index,
       label: "Questions",
       icon: <NotesIcon />,
     },

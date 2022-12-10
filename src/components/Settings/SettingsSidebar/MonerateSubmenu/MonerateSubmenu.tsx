@@ -14,7 +14,7 @@ import {
 } from "@mui/material"
 import React, { useState } from "react"
 import { Link, useLocation } from "react-router-dom"
-import pageUrls from "../../../../utils/url/urls/pageUrls"
+import { urls } from "utils/urls"
 
 function MonerateSubmenu() {
   const classes = useStyles()
@@ -23,7 +23,7 @@ function MonerateSubmenu() {
   const pathName = location.pathname
 
   const [openMonerate, setOpenMonerate] = useState<boolean>(
-    pathName.startsWith(pageUrls.settings.monerate.index)
+    pathName.startsWith(urls.pages.settings.monerate.index)
   )
 
   return (
@@ -45,9 +45,9 @@ function MonerateSubmenu() {
           <ListItem
             button
             className={classes.nested}
-            selected={pathName.startsWith(pageUrls.settings.monerate.places)}
+            selected={pathName.startsWith(urls.pages.settings.monerate.places)}
             component={Link}
-            to={pageUrls.settings.monerate.places}
+            to={urls.pages.settings.monerate.places}
           >
             <ListItemText primary="Places" />
           </ListItem>
@@ -55,10 +55,10 @@ function MonerateSubmenu() {
             button
             className={classes.nested}
             selected={pathName.startsWith(
-              pageUrls.settings.monerate.categories
+              urls.pages.settings.monerate.categories
             )}
             component={Link}
-            to={pageUrls.settings.monerate.categories}
+            to={urls.pages.settings.monerate.categories}
           >
             <ListItemText primary="Categories" />
           </ListItem>

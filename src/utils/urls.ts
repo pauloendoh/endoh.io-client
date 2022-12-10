@@ -19,6 +19,35 @@ export const urls = {
     questionsDoc: (docId: number) => `/questions/doc/${docId}`,
 
     learningDiary: "/LearningDiary",
+    skillbase: {
+      index: "/skillbase",
+      tag: "/skillbase/tag",
+      untagged: "/skillbase/untagged",
+    },
+    settings: {
+      account: "/settings/account",
+      monerate: {
+        index: "/settings/monerate",
+        places: "/settings/monerate/places",
+        categories: "/settings/monerate/categories",
+      },
+    },
+    feed: {
+      index: "/feed",
+    },
+    questions: {
+      index: "/questions/",
+      docId: (docId: number) => `/questions/doc/${docId}`,
+    },
+    user: {
+      index: (username: string) => `/user/${username}`,
+      tag: (username: string, listId: number) =>
+        `/user/${username}/tag/${listId}`,
+      roadmap: (username: string, skillId: number) =>
+        `/user/${username}/roadmap/${skillId}`,
+    },
+    notFound: "/404",
+    search: (query: string) => "/search?q=" + query,
   },
   graphql: import.meta.env.VITE_API_URL + "graphql",
   api: {

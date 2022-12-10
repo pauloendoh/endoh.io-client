@@ -10,7 +10,6 @@ import { useAxios } from "hooks/utils/useAxios"
 import React, { useEffect, useState } from "react"
 import { useHistory, useParams } from "react-router-dom"
 import useDocsStore from "store/zustand/domain/useDocsStore"
-import pageUrls from "utils/url/urls/pageUrls"
 import useSidebarStore from "../../store/zustand/useSidebarStore"
 import { DocDto } from "../../types/domain/questions/DocDto"
 import { NoteDto } from "../../types/domain/questions/NoteDto"
@@ -51,7 +50,7 @@ const QuestionsPage = () => {
 
       const doc = docsStore.docs.find((doc) => doc.id === docId)
       if (!doc) {
-        history.push(pageUrls.questions.index)
+        history.push(urls.pages.questions.index)
         return
       }
       setSelectedDocId(docId)
@@ -74,7 +73,7 @@ const QuestionsPage = () => {
         })
 
         const docId = sortedByLastOpened[0].id
-        history.push(pageUrls.questions.docId(docId))
+        history.push(urls.pages.questions.docId(docId))
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -2,7 +2,7 @@ import { faUsers } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Box, Button, Grid, Typography } from "@mui/material"
 import { Link } from "react-router-dom"
-import pageUrls from "../../../utils/url/urls/pageUrls"
+import { urls } from "utils/urls"
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
 
 const SkillbaseDescription = () => {
@@ -22,7 +22,7 @@ const SkillbaseDescription = () => {
 
         <Box mt={2}>
           <Link
-            to={pageUrls.skillbase.index}
+            to={urls.pages.skillbase.index}
             style={{ textDecoration: "none" }}
           >
             <Button variant="contained" color="primary">

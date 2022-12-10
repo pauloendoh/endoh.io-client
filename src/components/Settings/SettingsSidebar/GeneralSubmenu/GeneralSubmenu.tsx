@@ -14,7 +14,7 @@ import {
 } from "@mui/material"
 import React, { useState } from "react"
 import { Link, useLocation } from "react-router-dom"
-import pageUrls from "../../../../utils/url/urls/pageUrls"
+import { urls } from "utils/urls"
 
 function GeneralSubmenu() {
   const classes = useStyles()
@@ -46,9 +46,9 @@ function GeneralSubmenu() {
           <ListItem
             button
             className={classes.nested}
-            selected={pathName.startsWith(pageUrls.settings.account)}
+            selected={pathName.startsWith(urls.pages.settings.account)}
             component={Link}
-            to={pageUrls.settings.account}
+            to={urls.pages.settings.account}
             // onClick={() => handleClickSubmenu(PATHS.settings.account)}
           >
             <ListItemText primary="Account" />

@@ -2,7 +2,7 @@ import { Box } from "@mui/material"
 import { useEffect } from "react"
 import { Redirect, Route, Switch } from "react-router-dom"
 import useAuthStore from "store/zustand/useAuthStore"
-import pageUrls from "../../utils/url/urls/pageUrls"
+import { urls } from "utils/urls"
 import EditCategoryModal from "../Monerate/Modals/EditCategoryModal"
 import EditPlaceModal from "../Monerate/Modals/EditPlaceModal"
 import Flex from "../_UI/Flexboxes/Flex"
@@ -24,12 +24,12 @@ function SettingsPage() {
         <Switch>
           {authUser.userExpiresAt ? (
             <Route
-              path={pageUrls.settings.account}
+              path={urls.pages.settings.account}
               component={KeepTempUserPaper}
             />
           ) : (
             <Route
-              path={pageUrls.settings.account}
+              path={urls.pages.settings.account}
               component={PersonalInformationPaper}
             />
           )}
@@ -46,7 +46,7 @@ function SettingsPage() {
           {/* por hora, redirecionar para o settings/monerate/places */}
           <Route
             path="/"
-            render={() => <Redirect to={pageUrls.settings.account} />}
+            render={() => <Redirect to={urls.pages.settings.account} />}
           />
         </Switch>
       </Box>

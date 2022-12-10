@@ -11,7 +11,6 @@ import { ResourceDto } from "../../types/domain/relearn/ResourceDto"
 import { TagDto } from "../../types/domain/relearn/TagDto"
 import { UserInfoDto } from "../../types/domain/_common/UserInfoDto"
 import myAxios from "../../utils/consts/myAxios"
-import pageUrls from "../../utils/url/urls/pageUrls"
 import LoadingPage from "../_common/LoadingPage/LoadingPage"
 import MinRatingButton from "../_common/MinRatingButton/MinRatingButton"
 import UserSuggestions from "../_common/UserSuggestions/UserSuggestions"
@@ -74,7 +73,7 @@ const ProfilePage = () => {
         })
         .catch((err) => {
           if (err.response && err.response.status === 404) {
-            history.push(pageUrls.notFound)
+            history.push(urls.pages.notFound)
           }
         })
     },

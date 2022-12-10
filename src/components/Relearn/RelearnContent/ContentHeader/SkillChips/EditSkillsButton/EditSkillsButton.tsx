@@ -7,9 +7,9 @@ import React, { useState } from "react"
 import { connect } from "react-redux"
 import { useHistory, useLocation } from "react-router-dom"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
+import { urls } from "utils/urls"
 import { ApplicationState } from "../../../../../../store/store"
 import { TagDto } from "../../../../../../types/domain/relearn/TagDto"
-import pageUrls from "../../../../../../utils/url/urls/pageUrls"
 import FlexVCenter from "../../../../../_UI/Flexboxes/FlexVCenter"
 import EditSkillsDialog from "./EditSkillsDialog/EditSkillsDialog"
 
@@ -35,7 +35,7 @@ function EditSkillsButton(props: Props) {
     if (tagId) {
       const currentTag = props.allTags.find((t) => t.id === tagId)
       setTagForDialog(currentTag)
-    } else history.push(pageUrls.skillbase.index)
+    } else history.push(urls.pages.skillbase.index)
   }
 
   const handleCloseDialog = () => {

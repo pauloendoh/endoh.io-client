@@ -10,8 +10,8 @@ import { useEffect, useRef, useState } from "react"
 import { Link, useHistory, useParams } from "react-router-dom"
 import useProfileStore from "store/zustand/domain/useProfileStore"
 import { newSkillDto, SkillDto } from "types/domain/skillbase/SkillDto"
+import { urls } from "utils/urls"
 import useElementSize from "../../../hooks/utils/useElementSize"
-import pageUrls from "../../../utils/url/urls/pageUrls"
 import Flex from "../../_UI/Flexboxes/Flex"
 import FlexHCenter from "../../_UI/Flexboxes/FlexHCenter"
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
@@ -59,7 +59,7 @@ const UserPageSidebar = () => {
         <ListItem
           button
           component={Link}
-          to={pageUrls.user.index(username)}
+          to={urls.pages.user.index(username)}
           selected={tagId === undefined}
         >
           <ListItemText>
@@ -129,7 +129,7 @@ const UserPageSidebar = () => {
                 key={skill.id}
                 button
                 component={Link}
-                to={pageUrls.user.roadmap(username, skill.id)}
+                to={urls.pages.user.roadmap(username, skill.id)}
                 selected={skill.id === Number(skillIdStr)}
               >
                 <ListItemText title={skill.name}>{skill.name}</ListItemText>
@@ -143,7 +143,7 @@ const UserPageSidebar = () => {
         open={roadmapsDialog}
         skill={selectedSkill}
         onClose={() => {
-          history.push(pageUrls.user.index(username))
+          history.push(urls.pages.user.index(username))
         }}
       />
     </Box>

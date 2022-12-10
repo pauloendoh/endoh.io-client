@@ -6,8 +6,8 @@ import { Box, ListItem, Typography } from "@mui/material"
 import ListItemText from "@mui/material/ListItemText"
 import { Link } from "react-router-dom"
 import useProfileStore from "store/zustand/domain/useProfileStore"
+import { urls } from "utils/urls"
 import { TagDto } from "../../../../types/domain/relearn/TagDto"
-import pageUrls from "../../../../utils/url/urls/pageUrls"
 import Flex from "../../../_UI/Flexboxes/Flex"
 import FlexHCenter from "../../../_UI/Flexboxes/FlexHCenter"
 
@@ -31,7 +31,7 @@ const TagListItem = (props: Props) => {
     <ListItem
       button
       component={Link}
-      to={pageUrls.user.tag(props.username, props.tag.id)}
+      to={urls.pages.user.tag(props.username, props.tag.id)}
       selected={Number(props.selectedTagId) === props.tag.id}
     >
       <ListItemText>

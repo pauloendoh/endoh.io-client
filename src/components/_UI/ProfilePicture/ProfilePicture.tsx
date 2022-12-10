@@ -4,7 +4,7 @@ import { makeStyles } from "@mui/styles"
 import { Avatar } from "@mui/material"
 import React, { FunctionComponent } from "react"
 import { Link } from "react-router-dom"
-import pageUrls from "../../../utils/url/urls/pageUrls"
+import { urls } from "utils/urls"
 
 interface Props {
   pictureUrl: string
@@ -21,7 +21,10 @@ const ProfilePicture: FunctionComponent<Props> = (props: Props) => {
   return (
     <React.Fragment>
       {props.isLink ? (
-        <Link to={pageUrls.user.index(props.username)} className={classes.link}>
+        <Link
+          to={urls.pages.user.index(props.username)}
+          className={classes.link}
+        >
           <Avatar
             src={props.pictureUrl}
             className={classes.avatar}

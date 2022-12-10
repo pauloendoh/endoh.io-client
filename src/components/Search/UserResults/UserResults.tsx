@@ -1,7 +1,7 @@
 import { Box, Link, Typography, useTheme } from "@mui/material"
 import { Link as RouterLink } from "react-router-dom"
+import { urls } from "utils/urls"
 import { UserProfileDto } from "../../../types/domain/feed/UserProfileDto"
-import pageUrls from "../../../utils/url/urls/pageUrls"
 import Flex from "../../_UI/Flexboxes/Flex"
 import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture"
 
@@ -32,7 +32,7 @@ const UserResults = (props: Props) => {
               component={RouterLink}
               variant="body1"
               color="inherit"
-              to={pageUrls.user.index(profile.username)}
+              to={urls.pages.user.index(profile.username)}
             >
               <b>{profile.username}</b>
             </Link>

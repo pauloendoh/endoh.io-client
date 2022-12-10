@@ -15,7 +15,6 @@ import { ApplicationState } from "../../store/store"
 import useSidebarStore from "../../store/zustand/useSidebarStore"
 import { TagDto } from "../../types/domain/relearn/TagDto"
 import { SkillDto } from "../../types/domain/skillbase/SkillDto"
-import pageUrls from "../../utils/url/urls/pageUrls"
 import LoadingPage from "../_common/LoadingPage/LoadingPage"
 import Flex from "../_UI/Flexboxes/Flex"
 import ProgressSidebar from "./ProgressSidebar/ProgressSidebar"
@@ -53,9 +52,9 @@ const SkillbasePage = (props: Props) => {
   }, [windowFocused])
 
   useEffect(() => {
-    if (pathname.startsWith(pageUrls.skillbase.untagged)) {
+    if (pathname.startsWith(urls.pages.skillbase.untagged)) {
       setSelectedTag("Untagged")
-    } else if (pathname.startsWith(pageUrls.skillbase.tag + "/")) {
+    } else if (pathname.startsWith(urls.pages.skillbase.tag + "/")) {
       const tagId = Number(pathname.split("/").pop())
       if (tagId) {
         const tag = props.allTags.find((tag) => tag.id === tagId)

@@ -15,7 +15,6 @@ import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { NoteDto } from "types/domain/questions/NoteDto"
 import { SearchResultsDto } from "types/domain/utils/SearchResultsDto"
 import { urls } from "utils/urls"
-import pageUrls from "../../../../../../utils/url/urls/pageUrls"
 import MyTextField from "../../../../../_UI/MyInputs/MyTextField"
 import NotesSearchBarOption from "./NotesSearchBarOption/NotesSearchBarOption"
 import { FlashnotesSearchType } from "./types/FlashnotesSearchType"
@@ -62,7 +61,7 @@ const NotesSearchBar = (props: Props) => {
 
   const ctrlSubmit = (values: ISearchForm) => {
     if (values.searchQuery?.length) {
-      window.open(pageUrls.search(values.searchQuery))
+      window.open(urls.pages.search(values.searchQuery))
     }
   }
 

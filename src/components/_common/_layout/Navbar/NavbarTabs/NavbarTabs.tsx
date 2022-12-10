@@ -1,7 +1,6 @@
 import { Link as RouterLink, useLocation } from "react-router-dom"
 
 import { useEffect, useState } from "react"
-import pageUrls from "utils/url/urls/pageUrls"
 import { urls } from "utils/urls"
 import S from "../Navbar.styles"
 import utils from "./NavbarTabs.utils"
@@ -20,11 +19,11 @@ const NavbarTabs = (props: Props) => {
     // DRY?
     if (location.pathname.startsWith(urls.pages.relearn.index)) {
       setTabIndex(0)
-    } else if (location.pathname.startsWith(pageUrls.feed.index)) {
+    } else if (location.pathname.startsWith(urls.pages.feed.index)) {
       setTabIndex(1)
-    } else if (location.pathname.startsWith(pageUrls.skillbase.index)) {
+    } else if (location.pathname.startsWith(urls.pages.skillbase.index)) {
       setTabIndex(2)
-    } else if (location.pathname.startsWith(pageUrls.questions.index)) {
+    } else if (location.pathname.startsWith(urls.pages.questions.index)) {
       setTabIndex(3)
     } else if (location.pathname.includes(urls.pages.learningDiary)) {
       setTabIndex(4)

@@ -5,8 +5,8 @@ import { Link as RouterLink } from "react-router-dom"
 import { Dispatch } from "redux"
 import useAuthStore from "store/zustand/useAuthStore"
 import { FollowingUserDto } from "types/domain/feed/FollowingUserDto"
+import { urls } from "utils/urls"
 import { UserSuggestionDto } from "../../../types/domain/feed/UserSuggestionDto"
-import pageUrls from "../../../utils/url/urls/pageUrls"
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
 import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture"
 import UserSuggestionsDialog from "./UserSuggestionsDialog/UserSuggestionsDialog"
@@ -68,7 +68,7 @@ function UserSuggestions(props: Props) {
               variant="button"
               color="inherit"
               component={RouterLink}
-              to={pageUrls.user.index(userSuggestion.username)}
+              to={urls.pages.user.index(userSuggestion.username)}
             >
               {userSuggestion.username}
             </Link>

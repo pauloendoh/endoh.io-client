@@ -13,7 +13,7 @@ import { editResource } from "store/relearn/relearnActions"
 import { ApplicationState } from "store/store"
 import { ResourceDto } from "types/domain/relearn/ResourceDto"
 import { SearchResultsDto } from "types/domain/utils/SearchResultsDto"
-import pageUrls from "../../../../../../utils/url/urls/pageUrls"
+import { urls } from "utils/urls"
 import MyTextField from "../../../../../_UI/MyInputs/MyTextField"
 import ResourcesSearchBarOption from "./ResourcesSearchBarOption/ResourcesSearchBarOption"
 
@@ -48,12 +48,12 @@ const ResourcesSearchBar = ({ editResource }: Props) => {
 
   const submit = (values: ISearchForm) => {
     if (values.searchQuery?.length)
-      history.push(pageUrls.search(values.searchQuery))
+      history.push(urls.pages.search(values.searchQuery))
   }
 
   const ctrlSubmit = (values: ISearchForm) => {
     if (values.searchQuery?.length) {
-      window.open(pageUrls.search(values.searchQuery))
+      window.open(urls.pages.search(values.searchQuery))
     }
   }
 

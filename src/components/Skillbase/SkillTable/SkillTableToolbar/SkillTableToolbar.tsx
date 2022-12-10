@@ -19,10 +19,10 @@ import { useHistory, useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
+import { urls } from "utils/urls"
 import { ApplicationState } from "../../../../store/store"
 import { TagDto } from "../../../../types/domain/relearn/TagDto"
 import { getCurrentTag } from "../../../../utils/skillbase/getCurrentTag"
-import pageUrls from "../../../../utils/url/urls/pageUrls"
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
 import TagIcon from "../../../_UI/Icon/TagIcon"
 import SkillbaseFilterButton from "./SkillbaseFilterButton/SkillbaseFilterButton"
@@ -48,23 +48,23 @@ const SkillTableToolbar = (props: Props) => {
 
   const [tagSelectorValue, setTagSelectorValue] = useState<optionTypes>("All")
   const handleTagChange = (value: optionTypes) => {
-    if (value === "All") history.push(pageUrls.skillbase.index)
-    else if (value === "Untagged") history.push(pageUrls.skillbase.untagged)
-    else history.push(pageUrls.skillbase.tag + "/" + value.id)
+    if (value === "All") history.push(urls.pages.skillbase.index)
+    else if (value === "Untagged") history.push(urls.pages.skillbase.untagged)
+    else history.push(urls.pages.skillbase.tag + "/" + value.id)
   }
 
   useEffect(() => {
     const { pathname } = location
-    if (pathname.includes(pageUrls.skillbase.untagged))
+    if (pathname.includes(urls.pages.skillbase.untagged))
       setTagSelectorValue("Untagged")
-    else if (pathname.includes(pageUrls.skillbase.tag)) {
+    else if (pathname.includes(urls.pages.skillbase.tag)) {
       const currentTag = getCurrentTag(pathname, props.allTags)
       if (currentTag) {
         setTagSelectorValue(currentTag)
         return
       }
       setErrorMessage("Could not find tag")
-      history.push(pageUrls.skillbase.index)
+      history.push(urls.pages.skillbase.index)
     } else setTagSelectorValue("All")
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location])

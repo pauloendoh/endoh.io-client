@@ -14,7 +14,6 @@ import {
 import { useEffect, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 import { urls } from "utils/urls"
-import pageUrls from "../../utils/url/urls/pageUrls"
 import FlexVCenter from "../_UI/Flexboxes/FlexVCenter"
 
 const SettingsNavbar = () => {
@@ -24,7 +23,7 @@ const SettingsNavbar = () => {
   const [closeHref, setCloseHref] = useState("/")
 
   useEffect(() => {
-    if (location.pathname.startsWith(pageUrls.settings.monerate.index)) {
+    if (location.pathname.startsWith(urls.pages.settings.monerate.index)) {
       setCloseHref(urls.pages.monerateIndex)
     } else {
       setCloseHref("/")

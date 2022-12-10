@@ -2,7 +2,7 @@ import { Box, Button, Link } from "@mui/material"
 import { useState } from "react"
 import { Link as RouterLink } from "react-router-dom"
 import useAuthStore from "store/zustand/useAuthStore"
-import pageUrls from "../../../utils/url/urls/pageUrls"
+import { urls } from "utils/urls"
 import FollowersDialog from "../../_common/FollowersDialog/FollowersDialog"
 import FollowingUsersDialog from "../../_common/FollowingUsersDialog/FollowingUsersDialog"
 import Flex from "../../_UI/Flexboxes/Flex"
@@ -33,7 +33,7 @@ const AuthUserSummary = () => {
           variant="button"
           color="inherit"
           component={RouterLink}
-          to={pageUrls.user.index(authUser.username)}
+          to={urls.pages.user.index(authUser.username)}
           style={{ marginLeft: 8 }}
         >
           {authUser.username}

@@ -9,7 +9,7 @@ import ReactTimeago from "react-timeago"
 import { FeedResourceDto } from "types/domain/feed/FeedResourceDto"
 import { ratingLabels } from "utils/domain/relearn/resources/ratingLabels"
 import { useGetColorByRating } from "utils/relearn/getColorByRating"
-import pageUrls from "utils/url/urls/pageUrls"
+import { urls } from "utils/urls"
 import SaveFeedResourceButton from "../SaveFeedResourceButton/SaveFeedResourceButton"
 
 interface Props {
@@ -37,7 +37,7 @@ const FeedResourceItem = ({ feedResource, ...props }: Props) => {
             variant="button"
             color="inherit"
             component={RouterLink}
-            to={pageUrls.user.index(feedResource.user.username)}
+            to={urls.pages.user.index(feedResource.user.username)}
           >
             {feedResource.user.username}
           </Link>
