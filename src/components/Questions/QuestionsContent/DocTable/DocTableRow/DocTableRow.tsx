@@ -3,8 +3,13 @@ import { makeStyles } from "@mui/styles"
 
 import { TableCell, TableRow } from "@mui/material"
 import clsx from "clsx"
+import { useAxios } from "hooks/utils/useAxios"
 import useDebounce from "hooks/utils/useDebounce"
 import { useEffect, useRef, useState } from "react"
+import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
+import useDocsStore from "store/zustand/domain/useDocsStore"
+import useSnackbarStore from "store/zustand/useSnackbarStore"
+import { urls } from "utils/urls"
 import { NoteDto } from "../../../../../types/domain/questions/NoteDto"
 
 interface Props {
@@ -39,8 +44,40 @@ const DocTableRow = (props: Props) => {
   const initialQuestion = useRef(props.initialValue.question)
   const initialDescription = useRef(props.initialValue.description)
 
+  const pushOrReplaceNote = useDocsStore((s) => s.pushOrReplaceNote)
+  const [openNoteDialog, closeNoteDialog] = useNoteDialogStore((s) => [
+    s.openNoteDialog,
+    s.onClose,
+  ])
+  const setSuccessMessage = useSnackbarStore((s) => s.setSuccessMessage)
+  const axios = useAxios()
+
   return (
-    <TableRow>
+    <TableRow
+      onClick={(e) => {
+        if (e.altKey) {
+          openNoteDialog({
+            initialValue: props.initialValue,
+
+            onSubmit: (updatedNote) => {
+              axios
+                .post<NoteDto>(urls.api.define.note, updatedNote)
+                .then((res) => {
+                  pushOrReplaceNote(res.data)
+                  setLocalNote(res.data)
+                  initialDescription.current = res.data.description
+                  initialQuestion.current = res.data.question
+                  closeNoteDialog()
+                  setSuccessMessage("Question saved!")
+                })
+            },
+          })
+          e.preventDefault()
+          e.stopPropagation()
+          return
+        }
+      }}
+    >
       {!props.isSmallScreen && (
         <TableCell className={classes.td} align="center">
           {props.index + 1}

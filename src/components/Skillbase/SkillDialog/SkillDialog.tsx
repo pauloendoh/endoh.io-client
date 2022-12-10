@@ -8,7 +8,6 @@ import {
   Tooltip,
   useTheme,
 } from "@mui/material"
-import Flex from "components/_UI/Flexboxes/Flex"
 import Txt from "components/_UI/Text/Txt"
 import { useFormik } from "formik"
 import useSaveSkill from "hooks/skillbase/useSaveSkill"
@@ -191,8 +190,18 @@ const SkillDialog = () => {
               }
             />
           </DialogContent>
-          <DialogTitle id="skill-dialog-footer">
-            <Flex style={{ flexDirection: "column", gap: theme.spacing(2) }}>
+          <DialogTitle id="skill-dialog-footer" sx={{ paddingRight: 0 }}>
+            <FlexVCenter justifyContent={"space-between"}>
+              <SaveCancelButtons
+                submitButtonId="save-skill-btn"
+                disabled={isEditingRoadmapItem}
+                isLoading={formik.isSubmitting}
+                onCancel={handleClose}
+                onEnabledAndCtrlEnter={() => formik.handleSubmit()}
+                onEnableAndCtrlS={() => {
+                  submitSaveSkill(formik.values, formik.setSubmitting, false)
+                }}
+              />
               <FormControlLabel
                 label={
                   <FlexVCenter style={{ gap: theme.spacing(1) }}>
@@ -214,17 +223,7 @@ const SkillDialog = () => {
                   />
                 }
               />
-              <SaveCancelButtons
-                submitButtonId="save-skill-btn"
-                disabled={isEditingRoadmapItem}
-                isLoading={formik.isSubmitting}
-                onCancel={handleClose}
-                onEnabledAndCtrlEnter={() => formik.handleSubmit()}
-                onEnableAndCtrlS={() => {
-                  submitSaveSkill(formik.values, formik.setSubmitting, false)
-                }}
-              />
-            </Flex>
+            </FlexVCenter>
           </DialogTitle>
         </form>
       </Box>

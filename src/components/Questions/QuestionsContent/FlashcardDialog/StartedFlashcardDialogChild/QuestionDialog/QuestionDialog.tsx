@@ -157,6 +157,7 @@ const QuestionDialog = () => {
           <DialogTitle>
             <SaveCancelButtons
               disabled={!formState.isDirty || formState.isSubmitting}
+              isLoading={formState.isSubmitting}
               onCancel={handleConfirmClose}
               onEnabledAndCtrlEnter={() => onSubmit(watch())}
             />

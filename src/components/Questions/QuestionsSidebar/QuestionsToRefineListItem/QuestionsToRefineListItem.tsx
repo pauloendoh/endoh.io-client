@@ -41,6 +41,7 @@ const QuestionsToRefineListItem = (props: Props) => {
 
     openNoteDialog({
       initialValue: questionsToRefine[randomIndex],
+
       onSubmit: (updatedNote) => {
         axios.post<NoteDto>(urls.api.define.note, updatedNote).then((res) => {
           pushOrReplaceNote(res.data)

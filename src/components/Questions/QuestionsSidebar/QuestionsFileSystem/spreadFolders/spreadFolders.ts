@@ -10,8 +10,6 @@ export const spreadFolders = (folders: FolderWithSubfoldersDto[]) => {
   const foldersWithoutSubfolders = folders.map(
     (f) => ({ ...f, subfolders: [] } as FolderWithSubfoldersDto)
   )
-  console.log({
-    foldersWithoutSubfolders,
-  })
+
   return [...foldersWithoutSubfolders, ...subfolders]
 }

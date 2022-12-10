@@ -164,7 +164,7 @@ const NotesSearchBar = (props: Props) => {
                   label="Search questions"
                   size="small"
                   style={{
-                    width: 160,
+                    width: 240,
                   }}
                   InputProps={{
                     ...params.InputProps,

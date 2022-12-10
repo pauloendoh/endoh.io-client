@@ -1,4 +1,5 @@
-import { Button } from "@mui/material"
+import { LoadingButton } from "@mui/lab"
+
 import React from "react"
 import S from "./DarkButton.styles"
 
@@ -11,6 +12,6 @@ const DarkButton = (props: Props) => {
   )
 }
 
-type Props = React.ComponentProps<typeof Button>
+type Props = React.ComponentProps<typeof LoadingButton>
 
 export default DarkButton

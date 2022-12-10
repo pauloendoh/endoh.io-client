@@ -378,6 +378,9 @@ const ResourceDialog = (props: Props) => {
                     onChange={handleChange}
                     fullWidth
                     autoFocus
+                    InputLabelProps={{
+                      shrink: values.title ? true : undefined,
+                    }}
                     onClickClearIcon={() => {
                       setFieldValue("title", "")
                     }}
@@ -535,6 +538,9 @@ const ResourceDialog = (props: Props) => {
                 onChange={handleChange}
                 fullWidth
                 maxRows={16}
+                InputLabelProps={{
+                  shrink: values.privateNote ? true : undefined,
+                }}
                 label={
                   <FlexVCenter>
                     <FontAwesomeIcon icon={faLock} style={{ marginRight: 4 }} />

@@ -138,7 +138,7 @@ const ResourcesSearchBar = ({ editResource }: Props) => {
                 label="Search resources"
                 size="small"
                 style={{
-                  width: 160,
+                  width: 240,
                 }}
                 InputProps={{
                   ...params.InputProps,

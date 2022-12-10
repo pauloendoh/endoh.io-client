@@ -40,7 +40,11 @@ const NotesSearchBarOption = ({ docOrNote, handleClick, liProps }: Props) => {
             </Flex>
 
             {docOrNote.doc?.title && (
-              <Link to={urls.pages.questionsDoc(docOrNote.doc.id)}>
+              <Link
+                to={urls.pages.questionsDoc(docOrNote.doc.id)}
+                onClick={(e) => e.stopPropagation()}
+                style={{ color: "inherit", textDecoration: "none" }}
+              >
                 <Typography
                   noWrap
                   title={docOrNote.doc?.title}

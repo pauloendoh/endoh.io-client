@@ -30,8 +30,6 @@ const DiaryTable = () => {
     isLoading: isAdding,
   } = useAddLearningMutation(buildGraphqlClient(), {
     onSuccess: (data) => {
-      setSuccessMessage("Learning added!")
-      console.log(data)
       qc.setQueryData<LearningsQuery>(useLearningsQuery.getKey(), (curr) => {
         return {
           ...curr,
@@ -113,7 +111,7 @@ const DiaryTable = () => {
               },
             })
           }
-          disabled={isAdding}
+          loading={isAdding}
         >
           + Add Learning
         </DarkButton>
