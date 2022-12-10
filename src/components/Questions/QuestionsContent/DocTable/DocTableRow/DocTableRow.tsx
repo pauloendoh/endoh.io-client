@@ -78,13 +78,14 @@ const DocTableRow = (props: Props) => {
         }
       }}
       sx={{
+        width: "100%",
         "& .MuiTableCell-root": {
           backgroundColor: props.question.toRefine ? "#6e4747" : undefined,
         },
       }}
     >
       {!props.isSmallScreen && (
-        <TableCell className={classes.td} align="center">
+        <TableCell className={classes.td} align="center" width="24px">
           {props.index + 1}
         </TableCell>
       )}
@@ -96,7 +97,11 @@ const DocTableRow = (props: Props) => {
         onInput={(e) => {
           changeQuestion(e.currentTarget.innerText)
         }}
-        sx={{ whiteSpace: "pre-wrap", width: "50%", overflowWrap: "anywhere" }}
+        sx={{
+          whiteSpace: "pre-wrap",
+          width: "calc(50% -12px)",
+          overflowWrap: "anywhere",
+        }}
       >
         {initialQuestion.current}
       </TableCell>
@@ -107,7 +112,11 @@ const DocTableRow = (props: Props) => {
         onInput={(e) => {
           changeDescription(e.currentTarget.textContent)
         }}
-        sx={{ whiteSpace: "pre-wrap", width: "50%", overflowWrap: "anywhere" }}
+        sx={{
+          whiteSpace: "pre-wrap",
+          width: "calc(50% - 12px)",
+          overflowWrap: "anywhere",
+        }}
       >
         {initialDescription.current}
       </TableCell>

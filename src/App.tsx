@@ -15,7 +15,6 @@ import { useAxios } from "hooks/utils/useAxios"
 import { lazy, Suspense, useEffect, useState } from "react"
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
-import ReactGA from "react-ga"
 import { QueryClientProvider } from "react-query"
 import { ReactQueryDevtools } from "react-query/devtools"
 import { connect } from "react-redux"
@@ -101,8 +100,8 @@ const App = (props: Props) => {
       setGaInitialized(true)
     }
 
-    ReactGA.set({ page: location.pathname })
-    ReactGA.pageview(location.pathname)
+    // ReactGA.set({ page: location.pathname })
+    // ReactGA.pageview(location.pathname)
   }, [location])
 
   useEffect(

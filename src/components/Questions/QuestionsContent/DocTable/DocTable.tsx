@@ -84,7 +84,7 @@ const DocTable = (props: Props) => {
               )}
               <TD className={classes.th}>Question</TD>
               <TD className={classes.th}>Answer</TD>
-              <TD width="0px" />
+              <TD width="0px" className={classes.th} />
               {/* {!isSmallScreen && (
                 <TD align="center" className={classes.th}>
                   Weight

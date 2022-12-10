@@ -8,7 +8,7 @@
     "npm": "8.19.2"
   },
   "scripts": {
-    "dev": "vite --port 8007",
+    "dev": "vite --port 8000",
     "build": "vite build",
     "start": "vite preview",
     "preview": "vite preview",
