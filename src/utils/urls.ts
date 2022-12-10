@@ -90,9 +90,8 @@ export const urls = {
     resourcesSearch: (query: string) => `/search?q=${query}`,
     notesSearch: (query: string, type: FlashnotesSearchType) =>
       `/flashnotes/search?q=${query}&type=${type}`,
-    linkPreview: (url: string) => `/v2/utils/link-preview?url=${url}`,
     userGotIt: "/got-it",
-
+    linkPreview: (urls: string) => `/utils/link-preview?url=${urls}`,
     feed: {
       myUserSuggestions: "v2/feed/my-user-suggestions",
       resources: "v2/feed/resources",

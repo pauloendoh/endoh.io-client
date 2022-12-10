@@ -20,11 +20,10 @@ import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween"
 import TagIcon from "components/_UI/Icon/TagIcon"
 import Txt from "components/_UI/Text/Txt"
 import { FormikErrors, useFormik } from "formik"
-import { useLinkPreviewQuery } from "generated/graphql"
 import useQueryParams from "hooks/utils/react-router/useQueryParams"
 import { useAxios } from "hooks/utils/useAxios"
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
-import React, { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useHotkeys } from "react-hotkeys-hook"
 import { MdDeleteForever } from "react-icons/md"
 import ReactInputMask from "react-input-mask"
@@ -33,8 +32,6 @@ import { useHistory, useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
 import useDialogsStore from "store/zustand/useDialogsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
-import buildGraphqlClient from "utils/consts/buildGraphqlClient"
-import { shortNumberFormatter } from "utils/math/shortNumberFormatter"
 import { urls } from "utils/urls"
 import linkPng from "../../../../static/images/link.png"
 import * as relearnActions from "../../../../store/relearn/relearnActions"
@@ -47,10 +44,11 @@ import SaveCancelButtons from "../../../_UI/Buttons/SaveCancelButtons"
 import Flex from "../../../_UI/Flexboxes/Flex"
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
 import MyTextField from "../../../_UI/MyInputs/MyTextField"
+import { useFetchLinkPreview } from "./useFetchLinkPreview/useFetchLinkPreview"
 
 // PE 1/3 - tá muito grande
 const ResourceDialog = (props: Props) => {
-  const myAxios = useAxios()
+  const axios = useAxios()
   const theme = useTheme()
   const history = useHistory()
   const location = useLocation()
@@ -169,8 +167,6 @@ const ResourceDialog = (props: Props) => {
     props.closeResourceDialog()
   }
 
-  const axios = useAxios()
-
   const handleSubmit = (resource: ResourceDto, closeOnSuccess = true) => {
     const payload: ResourceDto = {
       ...resource,
@@ -226,82 +222,20 @@ const ResourceDialog = (props: Props) => {
 
   const [throttle, setThrottle] = useState<NodeJS.Timeout>(null)
 
-  const fetchLinkPreview = (
-    url: string,
-    setFieldValue: (
-      field: string,
-      value: any,
-      shouldValidate?: boolean
-    ) => void,
-    setValues: (
-      values: React.SetStateAction<ResourceDto>,
-      shouldValidate?: boolean
-    ) => void
-  ) => {
-    clearTimeout(throttle)
-    setThrottle(
-      setTimeout(() => {
-        if (urlIsValid(url)) {
-          setIsFetchingLinkPreview(true)
-          setFieldValue("title", "Loading...")
-
-          useLinkPreviewQuery
-            .fetcher(buildGraphqlClient(), {
-              url,
-            })()
-            .then((res) => {
-              const { getLinkPreview: preview } = res
-              if (preview.youtubeVideoLength !== "00:00h")
-                setFieldValue("estimatedTime", preview.youtubeVideoLength)
-              setFieldValue("title", preview.title)
-              setFieldValue("thumbnail", preview.image)
-
-              if (preview.viewCount > 0 && values.privateNote.length === 0) {
-                setFieldValue(
-                  "privateNote",
-                  `${shortNumberFormatter(
-                    preview.viewCount
-                  )} views - ${new Date().toDateString()}`
-                )
-              }
-
-              if (preview.alreadySavedResource) {
-                openConfirmDialog({
-                  title: "You already saved this URL. Open it?",
-                  description: preview.alreadySavedResource.title,
-                  onConfirm: () => {
-                    if (preview.alreadySavedResource?.tagId) {
-                      const tag = props.tags.find(
-                        (t) => t.id === preview.alreadySavedResource.tagId
-                      )
-                      if (tag)
-                        return setValues({
-                          ...preview.alreadySavedResource,
-                          tag,
-                        } as ResourceDto)
-                    }
-                    setValues(preview.alreadySavedResource as ResourceDto)
-                  },
-                })
-              }
-            })
-            .catch(() => {
-              setFieldValue("title", "")
-            })
-            .finally(() => {
-              setIsFetchingLinkPreview(false)
-            })
-        }
-      }, 200)
-    )
-  }
+  const fetchLinkPreview = useFetchLinkPreview({
+    throttle,
+    setThrottle,
+    setIsFetchingLinkPreview,
+    tags: props.tags,
+    values,
+  })
 
   // PE 1/3 - dry with resource more icon?
   const handleDeleteResource = () => {
     openConfirmDialog({
       title: "Delete resource?",
       onConfirm: () => {
-        myAxios
+        axios
           .delete(`${urls.api.relearn.resource}/${values.id}`)
           .then((res) => {
             setSuccessMessage("Resource deleted!")
