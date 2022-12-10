@@ -14,7 +14,7 @@ import { NoteDto } from "../../../../../types/domain/questions/NoteDto"
 
 interface Props {
   index: number
-  initialValue: NoteDto
+  question: NoteDto
   onChange: (newValue: NoteDto) => void
   isSmallScreen: boolean
 }
@@ -22,12 +22,12 @@ interface Props {
 const DocTableRow = (props: Props) => {
   const classes = useStyles()
 
-  const [localNote, setLocalNote] = useState(props.initialValue)
+  const [localNote, setLocalNote] = useState(props.question)
 
   const debouncedLocalNote = useDebounce(localNote, 500)
 
   useEffect(() => {
-    if (debouncedLocalNote !== props.initialValue)
+    if (debouncedLocalNote !== props.question)
       props.onChange(debouncedLocalNote)
   }, [debouncedLocalNote])
 
@@ -41,8 +41,8 @@ const DocTableRow = (props: Props) => {
     setLocalNote(changed)
   }
 
-  const initialQuestion = useRef(props.initialValue.question)
-  const initialDescription = useRef(props.initialValue.description)
+  const initialQuestion = useRef(props.question.question)
+  const initialDescription = useRef(props.question.description)
 
   const pushOrReplaceNote = useDocsStore((s) => s.pushOrReplaceNote)
   const [openNoteDialog, closeNoteDialog] = useNoteDialogStore((s) => [
@@ -57,7 +57,7 @@ const DocTableRow = (props: Props) => {
       onClick={(e) => {
         if (e.altKey) {
           openNoteDialog({
-            initialValue: props.initialValue,
+            initialValue: props.question,
 
             onSubmit: (updatedNote) => {
               axios
@@ -76,6 +76,11 @@ const DocTableRow = (props: Props) => {
           e.stopPropagation()
           return
         }
+      }}
+      sx={{
+        "& .MuiTableCell-root": {
+          backgroundColor: props.question.toRefine ? "#6e4747" : undefined,
+        },
       }}
     >
       {!props.isSmallScreen && (

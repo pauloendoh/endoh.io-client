@@ -98,7 +98,7 @@ const DocTable = (props: Props) => {
               <DocTableRow
                 index={index}
                 key={getRowKey(note)}
-                initialValue={note}
+                question={note}
                 onChange={handleNoteChange}
                 isSmallScreen={isSmallScreen}
               />
