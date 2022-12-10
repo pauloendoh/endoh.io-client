@@ -1,5 +1,6 @@
 {
   "short_name": "Endoh.io",
+
   "name": "Endoh.io",
   "icons": [
     {
@@ -28,14 +29,14 @@
       "short_name": "Questions",
       "description": "Go to questions page",
       "url": "/questions",
-      "icons": [{ "src": "image/png", "sizes": "192x192" }]
+      "icons": [{ "src": "logo512.png", "sizes": "192x192" }]
     },
     {
       "name": "LearningDiary",
       "short_name": "LearningDiary",
       "description": "Go to LearningDiary page",
       "url": "/LearningDiary",
-      "icons": [{ "src": "image/png", "sizes": "192x192" }]
+      "icons": [{ "src": "logo512.png", "sizes": "192x192" }]
     }
   ]
 }
