@@ -97,7 +97,7 @@ const App = (props: Props) => {
 
   useEffect(() => {
     if (!gaInitialized && import.meta.env.PROD) {
-      ReactGA.initialize("UA-248555607-1")
+      // ReactGA.initialize("UA-248555607-1")
       setGaInitialized(true)
     }
 

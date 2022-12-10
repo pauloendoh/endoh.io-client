@@ -8,15 +8,11 @@
     "npm": "8.19.2"
   },
   "scripts": {
-    "dev": "vite --port 8000",
+    "dev": "vite --port 8007",
     "build": "vite build",
-    "preview": "vite preview --port 8000",
-    "react:start": "react-scripts  start",
-    "react:dev": "set PORT=8000 & npm start",
-    "react:build": "react-scripts build",
+    "start": "vite preview",
+    "preview": "vite preview",
     "test:once": "cross-env DEBUG_PRINT_LIMIT=0 vitest run",
-    "test:watch": "react-scripts test",
-    "build:test": "react-scripts build && react-scripts  test",
     "eject": "react-scripts  eject",
     "e2e:headless": "cypress run",
     "prepare": "husky install",
