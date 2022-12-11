@@ -1,4 +1,5 @@
 import { Box, Grid, Paper, Typography } from "@mui/material"
+import { useAxios } from "hooks/utils/useAxios"
 import { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
@@ -7,7 +8,6 @@ import { siteTitles } from "utils/consts/siteTitles"
 import { urls } from "utils/urls"
 import { ApplicationState } from "../../store/store"
 import { SearchResultsDto } from "../../types/domain/utils/SearchResultsDto"
-import myAxios from "../../utils/consts/myAxios"
 import ResourceItem from "../Relearn/RelearnContent/ResourceList/DraggableResourceItem/ResourceItem/ResourceItem"
 import LoadingPage from "../_common/LoadingPage/LoadingPage"
 import SkillChip from "../_common/SkillChip/SkillChip"
@@ -31,6 +31,8 @@ const SearchPage = (props: Props) => {
   const [results, setResults] = useState<SearchResultsDto>(null)
 
   const [filterBy, setFilterBy] = useState<FilterByType>("all")
+
+  const axios = useAxios()
 
   const countAllResults = () => {
     let count = 0
@@ -56,7 +58,7 @@ const SearchPage = (props: Props) => {
 
     document.title = siteTitles.search(q)
 
-    myAxios
+    axios
       .get<SearchResultsDto>(urls.api.resourcesSearch(q))
       .then((res) => {
         setResults(res.data)

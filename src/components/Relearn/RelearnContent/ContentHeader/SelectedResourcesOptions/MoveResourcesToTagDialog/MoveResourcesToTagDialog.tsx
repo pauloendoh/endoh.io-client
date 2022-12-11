@@ -2,13 +2,13 @@ import { Box, Dialog, DialogContent, DialogTitle } from "@mui/material"
 import SkillDialogTagSelector from "components/Skillbase/SkillDialog/SkillDialogTagSelector/SkillDialogTagSelector"
 import SaveCancelButtons from "components/_UI/Buttons/SaveCancelButtons"
 import useMultiSelectResource from "hooks/relearn/useMultiSelectResource"
+import { useAxios } from "hooks/utils/useAxios"
 import { useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import { setResources } from "store/relearn/relearnActions"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { ResourceDto } from "types/domain/relearn/ResourceDto"
-import myAxios from "utils/consts/myAxios"
 import { urls } from "utils/urls"
 import { ApplicationState } from "../../../../../../store/store"
 
@@ -19,9 +19,11 @@ const MoveResourcesToTagDialog = (props: Props) => {
   const [submitting, setSubmitting] = useState(false)
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
 
+  const axios = useAxios()
+
   const handleSubmit = () => {
     setSubmitting(true)
-    myAxios
+    axios
       .put<ResourceDto[]>(urls.api.relearn.resourceMoveToTag, {
         resourceIds: props.resourceIds,
         toTagId: selectedTagId,

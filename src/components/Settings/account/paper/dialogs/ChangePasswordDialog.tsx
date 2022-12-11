@@ -8,12 +8,12 @@ import {
 } from "@mui/material"
 import { AxiosError } from "axios"
 import { Form, Formik } from "formik"
+import { useAxios } from "hooks/utils/useAxios"
 import { useState } from "react"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { urls } from "utils/urls"
 import { AuthChangePasswordPostDto } from "../../../../../types/domain/auth/AuthChangePasswordPostDto"
 import { MyFieldError } from "../../../../../types/MyAxiosError"
-import myAxios from "../../../../../utils/consts/myAxios"
 import Flex from "../../../../_UI/Flexboxes/Flex"
 import FlexHCenter from "../../../../_UI/Flexboxes/FlexHCenter"
 import MyTextField from "../../../../_UI/MyInputs/MyTextField"
@@ -27,6 +27,8 @@ const ChangePasswordDialog = (props: Props) => {
   const { setSuccessMessage } = useSnackbarStore()
 
   const [responseErrors, setResponseErrors] = useState([] as MyFieldError[])
+
+  const axios = useAxios()
 
   const handleClose = () => {
     setResponseErrors([])
@@ -47,7 +49,7 @@ const ChangePasswordDialog = (props: Props) => {
       return
     }
 
-    myAxios
+    axios
       .post(urls.api.auth.authPasswordChange, values)
       .then((res) => {
         setSuccessMessage("Password changed successfully!")

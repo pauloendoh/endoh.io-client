@@ -4,6 +4,7 @@ import { Button, useTheme } from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import Txt from "components/_UI/Text/Txt"
 import useMultiSelectResource from "hooks/relearn/useMultiSelectResource"
+import { useAxios } from "hooks/utils/useAxios"
 import { useState } from "react"
 import { MdDeleteForever } from "react-icons/md"
 import { connect } from "react-redux"
@@ -14,7 +15,6 @@ import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import useDialogsStore from "store/zustand/useDialogsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { ResourceDto } from "types/domain/relearn/ResourceDto"
-import myAxios from "utils/consts/myAxios"
 import { urls } from "utils/urls"
 import MoveResourcesToTagDialog from "./MoveResourcesToTagDialog/MoveResourcesToTagDialog"
 // PE 2/3
@@ -28,8 +28,10 @@ const SelectedResourcesOptions = (props: Props) => {
 
   const [moveToTagDialog, setMoveToTagDialog] = useState(false)
 
+  const axios = useAxios()
+
   const deleteResources = () => {
-    myAxios
+    axios
       .delete<ResourceDto[]>(urls.api.relearn.deleteManyResources, {
         data: {
           ids: selectedResourceIds,

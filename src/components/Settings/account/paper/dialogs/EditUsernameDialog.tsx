@@ -1,9 +1,9 @@
 import { Box, Button, Dialog, DialogContent, DialogTitle } from "@mui/material"
 import { AxiosError } from "axios"
+import { useAxios } from "hooks/utils/useAxios"
 import { Controller, useForm } from "react-hook-form"
 import useAuthStore from "store/zustand/useAuthStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
-import myAxios from "utils/consts/myAxios"
 import { urls } from "utils/urls"
 import { UsernamePutDto } from "../../../../../types/domain/auth/UsernamePutDto"
 import Flex from "../../../../_UI/Flexboxes/Flex"
@@ -24,8 +24,10 @@ const EditUsernameDialog = (props: Props) => {
 
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
 
+  const axios = useAxios()
+
   const submit = async (formData: UsernamePutDto) => {
-    return myAxios
+    return axios
       .put(urls.api.auth.username, formData)
       .then((res) => {
         setSuccessMessage("Username changed!")

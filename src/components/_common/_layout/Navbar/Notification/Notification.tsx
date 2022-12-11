@@ -16,11 +16,11 @@ const Notification = () => {
     setAnchorEl(event.currentTarget)
   }
 
-  const myAxios = useAxios()
+  const axios = useAxios()
 
   const handleClose = () => {
     // set notifications.seen = true
-    myAxios
+    axios
       .post<NotificationDto[]>(urls.api.utils.notificationsSeeAll)
       .then((res) => {
         setNotifications(res.data)

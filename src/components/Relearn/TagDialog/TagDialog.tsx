@@ -8,6 +8,7 @@ import {
   FormControlLabel,
 } from "@mui/material"
 import { Form, Formik } from "formik"
+import { useAxios } from "hooks/utils/useAxios"
 import { connect } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { Dispatch } from "redux"
@@ -17,7 +18,6 @@ import { urls } from "utils/urls"
 import * as relearnActions from "../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../store/store"
 import { TagDto } from "../../../types/domain/relearn/TagDto"
-import myAxios from "../../../utils/consts/myAxios"
 import Flex from "../../_UI/Flexboxes/Flex"
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
 import MyTextField from "../../_UI/MyInputs/MyTextField"
@@ -29,8 +29,9 @@ const TagDialog = (props: Props) => {
 
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
 
+  const axios = useAxios()
   const handleSubmit = (sentTag: TagDto) => {
-    myAxios
+    axios
       .post<TagDto[]>(urls.api.relearn.tag, sentTag)
       .then((res) => {
         setSuccessMessage("Tag saved!")

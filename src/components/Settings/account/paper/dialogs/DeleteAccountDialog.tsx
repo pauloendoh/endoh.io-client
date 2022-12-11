@@ -8,6 +8,7 @@ import {
 } from "@mui/material"
 import { Form, Formik } from "formik"
 import { useLogout } from "hooks/auth/useLogout"
+import { useAxios } from "hooks/utils/useAxios"
 import { useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
@@ -17,7 +18,6 @@ import { urls } from "utils/urls"
 import { ApplicationState } from "../../../../../store/store"
 import { UserDeleteDto } from "../../../../../types/domain/auth/UserDeleteDto"
 import MyAxiosError, { MyFieldError } from "../../../../../types/MyAxiosError"
-import myAxios from "../../../../../utils/consts/myAxios"
 import Flex from "../../../../_UI/Flexboxes/Flex"
 import FlexHCenter from "../../../../_UI/Flexboxes/FlexHCenter"
 import MyTextField from "../../../../_UI/MyInputs/MyTextField"
@@ -35,6 +35,8 @@ const DeleteAccountDialog = (props: Props) => {
 
   const logout = useLogout(props.dispatch)
 
+  const axios = useAxios()
+
   const handleSubmit = (
     values: UserDeleteDto,
     setSubmitting: (isSubmitting: boolean) => void
@@ -46,7 +48,7 @@ const DeleteAccountDialog = (props: Props) => {
 
         setResponseErrors([])
 
-        myAxios
+        axios
           .delete(urls.api.auth.index, {
             headers: {},
             data: values,

@@ -1,6 +1,7 @@
 import EventIcon from "@mui/icons-material/Event"
 import { Link, useTheme } from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import { useAxios } from "hooks/utils/useAxios"
 import useHover from "hooks/utils/useHover"
 import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
 import { DateTime } from "luxon"
@@ -13,7 +14,6 @@ import * as relearnActions from "../../../../../../store/relearn/relearnActions"
 import { ApplicationState } from "../../../../../../store/store"
 import { IMoveResource } from "../../../../../../types/domain/relearn/IMoveResource"
 import { ResourceDto } from "../../../../../../types/domain/relearn/ResourceDto"
-import myAxios from "../../../../../../utils/consts/myAxios"
 import RatingButton from "../../../../../_common/RatingButton/RatingButton"
 import ResourceThumbnail from "../../../../../_common/ResourceThumbnail/ResourceThumbnail"
 import Txt from "../../../../../_UI/Text/Txt"
@@ -31,9 +31,10 @@ function ResourceItem(props: Props) {
 
   const { downSm } = useMyMediaQuery()
 
+  const axios = useAxios()
   const handleSaveRating = (rating: number) => {
     const resource = { ...props.resource, rating } as ResourceDto
-    myAxios
+    axios
       .post<ResourceDto[]>(urls.api.relearn.resource, resource)
       .then((res) => {
         props.setResources(res.data)
@@ -53,7 +54,7 @@ function ResourceItem(props: Props) {
       rating: null,
     } as ResourceDto
 
-    myAxios
+    axios
       .post<ResourceDto[]>(urls.api.relearn.resource, resource)
       .then((res) => {
         props.setResources(res.data)
