@@ -118,7 +118,10 @@ export const urls = {
     // UTILS
     resourcesSearch: (query: string) => `/search?q=${query}`,
     notesSearch: (query: string, type: FlashnotesSearchType) =>
-      `/flashnotes/search?q=${encodeURI(query)}&type=${type}`,
+      `/flashnotes/search?${new URLSearchParams({
+        q: query,
+        type,
+      }).toString()}`,
     userGotIt: "/got-it",
     linkPreview: (urls: string) => `/utils/link-preview?url=${urls}`,
     feed: {
