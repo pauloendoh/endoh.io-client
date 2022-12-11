@@ -47,7 +47,7 @@ export const urls = {
         `/user/${username}/roadmap/${skillId}`,
     },
     notFound: "/404",
-    search: (query: string) => "/search?q=" + query,
+    search: (query: string) => "/search?q=" + encodeURI(query),
   },
   graphql: import.meta.env.VITE_API_URL + "graphql",
   api: {
@@ -118,7 +118,7 @@ export const urls = {
     // UTILS
     resourcesSearch: (query: string) => `/search?q=${query}`,
     notesSearch: (query: string, type: FlashnotesSearchType) =>
-      `/flashnotes/search?q=${query}&type=${type}`,
+      `/flashnotes/search?q=${encodeURI(query)}&type=${type}`,
     userGotIt: "/got-it",
     linkPreview: (urls: string) => `/utils/link-preview?url=${urls}`,
     feed: {
