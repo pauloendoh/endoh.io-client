@@ -8,7 +8,7 @@ interface Props {
   test?: string
 }
 
-const ConfirmationDialog = (props: Props) => {
+const GlobalDialogs = (props: Props) => {
   return (
     <>
       <ConfirmDialog />
@@ -20,4 +20,4 @@ const ConfirmationDialog = (props: Props) => {
   )
 }
 
-export default ConfirmationDialog
+export default GlobalDialogs

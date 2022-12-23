@@ -36,7 +36,7 @@ export const urls = {
       index: "/feed",
     },
     questions: {
-      index: "/questions/",
+      index: "/questions",
       docId: (docId: number) => `/questions/doc/${docId}`,
     },
     user: {
