@@ -1,5 +1,6 @@
 import { Autocomplete } from "@mui/lab"
 import { Popper } from "@mui/material"
+import { useDefaultSubmitQuestion } from "hooks/questions/useDefaultSubmitQuestion"
 import { queryKeys } from "hooks/react-query/queryKeys"
 import useNotesSearchQuery from "hooks/react-query/search/useNotesSearchQuery"
 import { useAxios } from "hooks/utils/useAxios"
@@ -10,9 +11,6 @@ import { useHotkeys } from "react-hotkeys-hook"
 import { useQueryClient } from "react-query"
 import { useHistory } from "react-router-dom"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
-import useDocsStore from "store/zustand/domain/useDocsStore"
-import useSnackbarStore from "store/zustand/useSnackbarStore"
-import { NoteDto } from "types/domain/questions/NoteDto"
 import { SearchResultsDto } from "types/domain/utils/SearchResultsDto"
 import { urls } from "utils/urls"
 import MyTextField from "../../../../../_UI/MyInputs/MyTextField"
@@ -91,10 +89,7 @@ const NotesSearchBar = (props: Props) => {
     return []
   }, [searchResults?.notes, searchResults?.docs])
 
-  const pushOrReplaceNote = useDocsStore((s) => s.pushOrReplaceNote)
-  const setSuccessMessage = useSnackbarStore((s) => s.setSuccessMessage)
-
-  const [onOpenDialog, closeDialog] = useNoteDialogStore((s) => [
+  const [onOpenDialog] = useNoteDialogStore((s) => [
     s.openNoteDialog,
     s.onClose,
   ])
@@ -105,6 +100,8 @@ const NotesSearchBar = (props: Props) => {
       inputRef?.current.focus()
     }, 100)
   })
+
+  const defaultSubmit = useDefaultSubmitQuestion()
 
   return (
     <>
@@ -135,16 +132,7 @@ const NotesSearchBar = (props: Props) => {
 
                 return onOpenDialog({
                   initialValue: docOrNote,
-                  onSubmit: (value) => {
-                    myAxios
-                      .post<NoteDto>(urls.api.define.note, value)
-                      .then((res) => {
-                        pushOrReplaceNote(res.data)
-
-                        setSuccessMessage("Question saved!")
-                        closeDialog()
-                      })
-                  },
+                  onSubmit: defaultSubmit,
                 })
               }}
             />

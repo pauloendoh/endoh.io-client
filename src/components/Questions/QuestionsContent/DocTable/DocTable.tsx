@@ -4,6 +4,7 @@ import { format } from "timeago.js"
 
 import { Paper, Table, TableContainer, Toolbar } from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import { useDefaultSubmitQuestion } from "hooks/questions/useDefaultSubmitQuestion"
 import { useAxios } from "hooks/utils/useAxios"
 import { useMemo, useState } from "react"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
@@ -80,6 +81,8 @@ const DocTable = (props: Props) => {
     return `Updated ${format(lastSaved.updatedAt)}`
   }, [sortedNotes(), isSaving])
 
+  const defaultSubmit = useDefaultSubmitQuestion()
+
   return (
     <Paper>
       <TableContainer className={classes.container}>
@@ -136,16 +139,7 @@ const DocTable = (props: Props) => {
                 initialValue: buildNoteDto({
                   docId: props.docId,
                 }),
-                onSubmit: (updatedNote) => {
-                  myAxios
-                    .post<NoteDto>(urls.api.define.note, updatedNote)
-                    .then((res) => {
-                      docsStore.pushOrReplaceNote(res.data)
-
-                      setSuccessMessage("Question saved!")
-                      onClose()
-                    })
-                },
+                onSubmit: defaultSubmit,
               })
             }
           >

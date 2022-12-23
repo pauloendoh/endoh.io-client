@@ -23,7 +23,8 @@ const SaveCancelButtons = (props: Props) => {
     },
     {
       enableOnTags: ["INPUT", "SELECT", "TEXTAREA"],
-    }
+    },
+    [props]
   )
 
   useHotkeys(
@@ -35,7 +36,8 @@ const SaveCancelButtons = (props: Props) => {
     },
     {
       enableOnTags: ["INPUT", "SELECT", "TEXTAREA"],
-    }
+    },
+    [props]
   )
 
   return (

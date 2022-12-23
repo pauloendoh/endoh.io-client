@@ -1,14 +1,12 @@
-import { urls } from "utils/urls"
-
 import { IconButton, ListItem, ListItemText, Tooltip } from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import { useDefaultSubmitQuestion } from "hooks/questions/useDefaultSubmitQuestion"
 import { useAxios } from "hooks/utils/useAxios"
 import { useCallback, useMemo } from "react"
 import { MdShuffle } from "react-icons/md"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
-import { NoteDto } from "types/domain/questions/NoteDto"
 import getRandomIntInclusive from "utils/math/getRandomIntInclusive"
 
 interface Props {
@@ -36,20 +34,15 @@ const QuestionsToRefineListItem = (props: Props) => {
 
   const axios = useAxios()
 
+  const defaultSubmit = useDefaultSubmitQuestion()
+
   const openRandomQuestionToRefine = useCallback(() => {
     const randomIndex = getRandomIntInclusive(0, questionsToRefine.length - 1)
 
     openNoteDialog({
       initialValue: questionsToRefine[randomIndex],
 
-      onSubmit: (updatedNote) => {
-        axios.post<NoteDto>(urls.api.define.note, updatedNote).then((res) => {
-          pushOrReplaceNote(res.data)
-
-          closeNoteDialog()
-          setSuccessMessage("Question saved!")
-        })
-      },
+      onSubmit: defaultSubmit,
     })
   }, [questionsToRefine])
 

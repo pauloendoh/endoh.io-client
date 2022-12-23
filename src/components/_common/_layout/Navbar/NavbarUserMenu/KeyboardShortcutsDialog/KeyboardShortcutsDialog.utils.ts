@@ -1,11 +1,11 @@
 interface Section {
-  title: string;
-  shortcuts: Shortcut[];
+  title: string
+  shortcuts: Shortcut[]
 }
 
 interface Shortcut {
-  name: string;
-  shortcut: string;
+  name: string
+  shortcut: string
 }
 
 const shortcutSections: Section[] = [
@@ -18,15 +18,17 @@ const shortcutSections: Section[] = [
       { name: "Select range of resources", shortcut: "Shift + Click" },
     ],
   },
-  // {
-  //   title: "Skillbase",
-  //   shortcuts: [
-  //     {
-  //       name: "New skill",
-  //       shortcut: "",
-  //     },
-  //   ],
-  // },
-];
+  {
+    title: "Questions",
+    shortcuts: [
+      { name: "New question", shortcut: "q" },
 
-export default shortcutSections;
+      {
+        name: "Edit question (dialog)",
+        shortcut: "Alt + Click",
+      },
+    ],
+  },
+]
+
+export default shortcutSections

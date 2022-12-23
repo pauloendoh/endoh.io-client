@@ -1,6 +1,5 @@
-import { urls } from "utils/urls"
-
 import { Fab, Tooltip } from "@mui/material"
+import { useDefaultSubmitQuestion } from "hooks/questions/useDefaultSubmitQuestion"
 import { useAxios } from "hooks/utils/useAxios"
 import { useMemo } from "react"
 import { useHotkeys } from "react-hotkeys-hook"
@@ -11,7 +10,7 @@ import { startNewResource } from "store/relearn/relearnActions"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
-import { buildNoteDto, NoteDto } from "types/domain/questions/NoteDto"
+import { buildNoteDto } from "types/domain/questions/NoteDto"
 import { sleep } from "utils/sleep"
 import Icons from "utils/styles/Icons"
 
@@ -31,6 +30,8 @@ const NavbarAddButton = (props: Props) => {
 
   const axios = useAxios()
 
+  const defaultSubmit = useDefaultSubmitQuestion()
+
   const openQuestionDialog = () => {
     const splits = location.pathname.split("/")
     const docId = Number(splits[splits.length - 1])
@@ -40,14 +41,7 @@ const NavbarAddButton = (props: Props) => {
       initialValue: buildNoteDto({
         docId: doc?.id,
       }),
-      onSubmit: (updatedNote) => {
-        axios.post<NoteDto>(urls.api.define.note, updatedNote).then((res) => {
-          pushOrReplaceNote(res.data)
-
-          setSuccessMessage("Question saved!")
-          closeNoteDialog()
-        })
-      },
+      onSubmit: defaultSubmit,
     })
   }
 

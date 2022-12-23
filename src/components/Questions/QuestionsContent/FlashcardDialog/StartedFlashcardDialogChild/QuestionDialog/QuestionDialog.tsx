@@ -22,7 +22,13 @@ import MyTextField from "../../../../../_UI/MyInputs/MyTextField"
 import DocSelector from "./DocSelector/DocSelector"
 
 const QuestionDialog = () => {
-  const { isOpen, onClose, onSubmit, initialValue } = useNoteDialogStore()
+  const {
+    isOpen,
+    onClose,
+    onSubmit,
+    initialValue,
+    isSubmitting,
+  } = useNoteDialogStore()
 
   const { handleSubmit, watch, reset, control, formState, setValue } = useForm({
     defaultValues: initialValue,
@@ -156,10 +162,12 @@ const QuestionDialog = () => {
           </DialogContent>
           <DialogTitle>
             <SaveCancelButtons
-              disabled={!formState.isDirty || formState.isSubmitting}
-              isLoading={formState.isSubmitting}
+              disabled={!formState.isDirty || isSubmitting}
+              isLoading={isSubmitting}
               onCancel={handleConfirmClose}
-              onEnabledAndCtrlEnter={() => onSubmit(watch())}
+              onEnabledAndCtrlEnter={() => {
+                onSubmit(watch())
+              }}
             />
           </DialogTitle>
         </form>

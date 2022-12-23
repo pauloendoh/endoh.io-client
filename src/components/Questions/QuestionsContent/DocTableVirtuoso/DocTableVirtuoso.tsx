@@ -1,9 +1,16 @@
 import { TableVirtuoso } from "react-virtuoso"
 
-import { Paper, Typography, useMediaQuery, useTheme } from "@mui/material"
+import {
+  CircularProgress,
+  Paper,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material"
 import DarkButton from "components/_UI/Buttons/DarkButton/DarkButton"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween"
+import { useDefaultSubmitQuestion } from "hooks/questions/useDefaultSubmitQuestion"
 import { useAxios } from "hooks/utils/useAxios"
 import { useMemo, useState } from "react"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
@@ -23,7 +30,7 @@ interface Props {
 }
 
 const DocTableVirtuoso = (props: Props) => {
-  const docsStore = useDocsStore()
+  const { notes, pushOrReplaceNote, isLoadingNewDoc } = useDocsStore()
   const { authUser } = useAuthStore()
 
   const myAxios = useAxios()
@@ -34,9 +41,7 @@ const DocTableVirtuoso = (props: Props) => {
   ])
 
   const sortedNotes = () => {
-    const filtered = docsStore.notes.filter(
-      (note) => note.docId === props.docId
-    )
+    const filtered = notes.filter((note) => note.docId === props.docId)
     const sorted = filtered.sort((a, b) => a.index - b.index)
     return sorted
   }
@@ -55,7 +60,7 @@ const DocTableVirtuoso = (props: Props) => {
         axios
           .post<NoteDto>(urls.api.define.note, changed)
           .then((res) => {
-            docsStore.pushOrReplaceNote(res.data)
+            pushOrReplaceNote(res.data)
           })
           .finally(() => setIsSaving(false))
       }, 500)
@@ -81,6 +86,8 @@ const DocTableVirtuoso = (props: Props) => {
   }, [sortedNotes(), isSaving])
 
   const thBackgroundColor = theme.palette.grey[900]
+
+  const defaultSubmit = useDefaultSubmitQuestion()
 
   return (
     <Paper
@@ -130,6 +137,12 @@ const DocTableVirtuoso = (props: Props) => {
         )}
       />
 
+      {isLoadingNewDoc && (
+        <FlexVCenter width="100%" p={2} justifyContent="center">
+          <CircularProgress />
+        </FlexVCenter>
+      )}
+
       <FlexVCenterBetween width="100%" p={2}>
         <FlexVCenter gap={2}>
           <DarkButton
@@ -138,16 +151,7 @@ const DocTableVirtuoso = (props: Props) => {
                 initialValue: buildNoteDto({
                   docId: props.docId,
                 }),
-                onSubmit: (updatedNote) => {
-                  myAxios
-                    .post<NoteDto>(urls.api.define.note, updatedNote)
-                    .then((res) => {
-                      docsStore.pushOrReplaceNote(res.data)
-
-                      setSuccessMessage("Question saved!")
-                      onClose()
-                    })
-                },
+                onSubmit: defaultSubmit,
               })
             }
           >

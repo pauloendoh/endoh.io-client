@@ -112,6 +112,14 @@ export default function FolderTreeItem({ folder }: Props) {
 
   return (
     <TreeItem
+      sx={{
+        ".MuiTreeItem-content": {
+          alignItems: "flex-start",
+        },
+        ".MuiTreeItem-iconContainer": {
+          marginTop: 9 / 8,
+        },
+      }}
       nodeId={`folder-${folder.id}`}
       onClick={(e) => {
         e.preventDefault()

@@ -14,6 +14,9 @@ interface IDocsStore {
 
   pushOrReplaceDoc: (doc: DocDto) => void
   pushOrReplaceNote: (note: NoteDto) => void
+
+  isLoadingNewDoc: boolean
+  setIsLoadingNewDoc: (isLoadingNewDoc: boolean) => void
 }
 
 const useDocsStore = create<IDocsStore>(
@@ -38,6 +41,11 @@ const useDocsStore = create<IDocsStore>(
     pushOrReplaceNote: (note) => {
       const { notes } = get()
       set({ notes: pushOrReplace(notes, note, "id") })
+    },
+
+    isLoadingNewDoc: false,
+    setIsLoadingNewDoc: (isLoadingNewDoc) => {
+      set({ isLoadingNewDoc })
     },
   }))
 )

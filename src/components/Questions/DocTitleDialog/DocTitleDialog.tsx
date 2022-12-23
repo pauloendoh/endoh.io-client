@@ -45,10 +45,12 @@ const DocTitleDialog = (props: Props) => {
       docsStore.pushOrReplaceDoc(res.data)
       setSuccessMessage("Doc saved!")
 
+      docsStore.setIsLoadingNewDoc(true)
       queryClient.invalidateQueries(queryKeys.folders)
       myAxios
         .get<NoteDto[]>(urls.api.define.note)
         .then((res) => docsStore.setNotes(res.data))
+        .finally(() => docsStore.setIsLoadingNewDoc(false))
 
       if (props.afterSave) props.afterSave(res.data)
     })

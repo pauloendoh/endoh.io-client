@@ -10,6 +10,9 @@ interface INoteDialogStore {
   }) => void
   onClose: () => void
   onSubmit: (value: NoteDto) => void
+
+  isSubmitting: boolean
+  setIsSubmitting: (value: boolean) => void
 }
 
 const useNoteDialogStore = create<INoteDialogStore>((set, get) => ({
@@ -25,6 +28,9 @@ const useNoteDialogStore = create<INoteDialogStore>((set, get) => ({
   onClose: () => {
     set({ isOpen: false })
   },
+
+  isSubmitting: false,
+  setIsSubmitting: (value) => set({ isSubmitting: value }),
 }))
 
 export default useNoteDialogStore
