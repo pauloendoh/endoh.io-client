@@ -11,7 +11,7 @@ import Flex from "../../../../_UI/Flexboxes/Flex"
 import EditSkillsButton from "./EditSkillsButton/EditSkillsButton"
 import FilterSkillChipsButton from "./FilterSkillChipsButton/FilterSkillChipsButton"
 
-// PE 2/3
+// PE 1/3 - DELETE?
 function SkillChips() {
   const classes = useStyles()
   const location = useLocation()

@@ -27,7 +27,6 @@ import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
 import SelectSkillLevel from "./SelectSkillLevel/SelectSkillLevel"
 import LabelsSelectorV2 from "./SkillDialogLabels/LabelsSelectorV2/LabelsSelectorV2"
 import EditLabelDialog from "./SkillDialogLabels/SelectSkillLabelsDialog/EditLabelDialog/EditLabelDialog"
-import TagSelector from "./SkillDialogTagSelector/SkillDialogTagSelector"
 import TitleTextField from "./SkillDialogTitleTextField/SkillDialogTitleTextField"
 import SkillExpectations from "./SkillExpectations/SkillExpectations"
 import SkillMoreIcon from "./SkillMoreIcon/SkillMoreIcon"
@@ -173,15 +172,6 @@ const SkillDialog = () => {
               height: `calc(100vh - 410px)`,
             }}
           >
-            <Box mt={1}>
-              <TagSelector
-                selectedTagId={formik.values.tagId}
-                onChange={(e, value) => {
-                  formik.setFieldValue("tagId", value)
-                }}
-              />
-            </Box>
-
             <SkillExpectations
               currentLevel={formik.values.currentLevel}
               expectations={formik.values.expectations}

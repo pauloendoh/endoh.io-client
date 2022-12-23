@@ -17,7 +17,6 @@ import { TagDto } from "../../../../types/domain/relearn/TagDto"
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto"
 import Flex from "../../../_UI/Flexboxes/Flex"
 import SelectedResourcesOptions from "./SelectedResourcesOptions/SelectedResourcesOptions"
-import SkillChips from "./SkillChips/SkillChips"
 
 // PE 2/3
 function ContentHeader(props: Props) {
@@ -108,7 +107,6 @@ function ContentHeader(props: Props) {
       </Flex>
 
       <Box mt={2} />
-      <SkillChips />
 
       {selectedResourceIds.length > 0 ? (
         <SelectedResourcesOptions />

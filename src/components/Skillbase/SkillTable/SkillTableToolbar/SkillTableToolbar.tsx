@@ -26,9 +26,7 @@ import { getCurrentTag } from "../../../../utils/skillbase/getCurrentTag"
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
 import TagIcon from "../../../_UI/Icon/TagIcon"
 import SkillbaseFilterButton from "./SkillbaseFilterButton/SkillbaseFilterButton"
-import SkillbaseTagSelector, {
-  optionTypes,
-} from "./SkillbaseTagSelector/SkillbaseTagSelector"
+import { optionTypes } from "./SkillbaseTagSelector/SkillbaseTagSelector"
 
 const SkillTableToolbar = (props: Props) => {
   const classes = useStyles()
@@ -97,10 +95,10 @@ const SkillTableToolbar = (props: Props) => {
           ) : (
             <FlexVCenter justifyContent="space-between" width="100%">
               <FlexVCenter style={{ gap: 24 }}>
-                <SkillbaseTagSelector
+                {/* <SkillbaseTagSelector
                   value={tagSelectorValue}
                   onChange={handleTagChange}
-                />
+                /> */}
 
                 <MyTextField
                   label={
