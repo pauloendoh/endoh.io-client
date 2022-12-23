@@ -1,9 +1,11 @@
-import { Theme, useMediaQuery, useTheme } from "@mui/material"
+import { Theme, Typography, useMediaQuery, useTheme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
+import { format } from "timeago.js"
 
 import { Paper, Table, TableContainer, Toolbar } from "@mui/material"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import { useAxios } from "hooks/utils/useAxios"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useAuthStore from "store/zustand/useAuthStore"
@@ -43,13 +45,19 @@ const DocTable = (props: Props) => {
 
   const axios = useAxios()
 
+  const [isSaving, setIsSaving] = useState(false)
+
   const handleNoteChange = (changed: NoteDto) => {
+    setIsSaving(true)
     clearTimeout(throttle)
     setThrottle(
       setTimeout(() => {
-        axios.post<NoteDto>(urls.api.define.note, changed).then((res) => {
-          docsStore.pushOrReplaceNote(res.data)
-        })
+        axios
+          .post<NoteDto>(urls.api.define.note, changed)
+          .then((res) => {
+            docsStore.pushOrReplaceNote(res.data)
+          })
+          .finally(() => setIsSaving(false))
       }, 500)
     )
   }
@@ -58,12 +66,19 @@ const DocTable = (props: Props) => {
     return `${note.id}-${note.weight}`
   }
 
-  const [submitting, setSubmitting] = useState(false)
-
   const setSuccessMessage = useSnackbarStore((s) => s.setSuccessMessage)
 
   const theme = useTheme()
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"))
+
+  const footerLabel = useMemo(() => {
+    if (isSaving) return "Saving..."
+    if (sortedNotes()?.length === 0) return ""
+    const lastSaved = sortedNotes().sort((a, b) =>
+      b.updatedAt.localeCompare(a.updatedAt)
+    )[0]
+    return `Updated ${format(lastSaved.updatedAt)}`
+  }, [sortedNotes(), isSaving])
 
   return (
     <Paper>
@@ -107,31 +122,40 @@ const DocTable = (props: Props) => {
         </Table>
       </TableContainer>
 
-      <Toolbar style={{ display: "flex", gap: 16 }}>
-        <DarkButton
-          onClick={() =>
-            openNoteDialog({
-              initialValue: buildNoteDto({
-                docId: props.docId,
-              }),
-              onSubmit: (updatedNote) => {
-                myAxios
-                  .post<NoteDto>(urls.api.define.note, updatedNote)
-                  .then((res) => {
-                    docsStore.pushOrReplaceNote(res.data)
+      <Toolbar
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <FlexVCenter gap={2}>
+          <DarkButton
+            onClick={() =>
+              openNoteDialog({
+                initialValue: buildNoteDto({
+                  docId: props.docId,
+                }),
+                onSubmit: (updatedNote) => {
+                  myAxios
+                    .post<NoteDto>(urls.api.define.note, updatedNote)
+                    .then((res) => {
+                      docsStore.pushOrReplaceNote(res.data)
 
-                    setSuccessMessage("Question saved!")
-                    onClose()
-                  })
-              },
-            })
-          }
-          disabled={submitting}
-        >
-          + Add question (q)
-        </DarkButton>
+                      setSuccessMessage("Question saved!")
+                      onClose()
+                    })
+                },
+              })
+            }
+          >
+            + Add question (q)
+          </DarkButton>
 
-        <AddManyNotesMenuButton docId={props.docId} />
+          <AddManyNotesMenuButton docId={props.docId} />
+        </FlexVCenter>
+
+        <Typography>{footerLabel}</Typography>
       </Toolbar>
     </Paper>
   )
