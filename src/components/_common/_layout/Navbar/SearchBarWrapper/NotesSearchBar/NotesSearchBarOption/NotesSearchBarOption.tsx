@@ -14,9 +14,15 @@ type Props = {
   docOrNote: NoteDto | DocDto
   handleClick: () => void
   liProps: React.HTMLAttributes<HTMLLIElement>
+  onClickLink: (e: React.MouseEvent) => void
 }
 
-const NotesSearchBarOption = ({ docOrNote, handleClick, liProps }: Props) => {
+const NotesSearchBarOption = ({
+  docOrNote,
+  handleClick,
+  liProps,
+  ...props
+}: Props) => {
   const theme = useTheme()
 
   return (
@@ -42,7 +48,10 @@ const NotesSearchBarOption = ({ docOrNote, handleClick, liProps }: Props) => {
             {docOrNote.doc?.title && (
               <Link
                 to={urls.pages.questionsDoc(docOrNote.doc.id)}
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  props.onClickLink(e)
+                }}
                 style={{ color: "inherit", textDecoration: "none" }}
               >
                 <Typography

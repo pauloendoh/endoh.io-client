@@ -3,7 +3,6 @@ import { Popper } from "@mui/material"
 import { useDefaultSubmitQuestion } from "hooks/questions/useDefaultSubmitQuestion"
 import { queryKeys } from "hooks/react-query/queryKeys"
 import useNotesSearchQuery from "hooks/react-query/search/useNotesSearchQuery"
-import { useAxios } from "hooks/utils/useAxios"
 import useDebounce from "hooks/utils/useDebounce"
 import React, { useEffect, useMemo, useRef } from "react"
 import { Controller, useForm } from "react-hook-form"
@@ -36,8 +35,6 @@ const MyPopper = function (props: React.ComponentProps<typeof Popper>) {
 
 const NotesSearchBar = (props: Props) => {
   const MIN_LENGTH = 3
-
-  const myAxios = useAxios()
 
   const history = useHistory()
 
@@ -134,6 +131,10 @@ const NotesSearchBar = (props: Props) => {
                   initialValue: docOrNote,
                   onSubmit: defaultSubmit,
                 })
+              }}
+              onClickLink={(e) => {
+                // @ts-expect-error
+                liProps.onClick(e)
               }}
             />
           )}
