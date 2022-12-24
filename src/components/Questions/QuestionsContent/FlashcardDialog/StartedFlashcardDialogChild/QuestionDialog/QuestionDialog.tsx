@@ -140,7 +140,23 @@ const QuestionDialog = () => {
                     shouldDirty: true,
                   })
                 }}
-                sx={{ width: 100 }}
+                sx={{ width: 64 }}
+              />
+
+              <MyTextField
+                size="small"
+                label={"Tested times"}
+                type="number"
+                value={watch("testedTimes")}
+                onChange={(e) => {
+                  const num = parseInt(e.target.value)
+                  if (isNaN(num)) return
+
+                  setValue("testedTimes", num, {
+                    shouldDirty: true,
+                  })
+                }}
+                sx={{ width: 64 }}
               />
             </FlexVCenter>
 

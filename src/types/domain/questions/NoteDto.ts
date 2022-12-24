@@ -12,28 +12,11 @@ export interface NoteDto {
   weight: number
   toRefine: boolean
 
+  testedTimes: number
+
   createdAt: string
   updatedAt: string
 }
-
-export const newNoteDto = (
-  index: number,
-  docId: number,
-  userId: number
-): NoteDto => ({
-  id: null,
-  docId: docId,
-  userId: userId,
-
-  index: index,
-  description: "",
-  question: "",
-  weight: 1,
-  toRefine: false,
-
-  createdAt: new Date().toISOString(),
-  updatedAt: new Date().toISOString(),
-})
 
 export const buildNoteDto = (p?: Partial<NoteDto>): NoteDto => ({
   id: null,
@@ -44,6 +27,8 @@ export const buildNoteDto = (p?: Partial<NoteDto>): NoteDto => ({
   userId: 0,
   weight: 1,
   toRefine: false,
+
+  testedTimes: 0,
 
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
