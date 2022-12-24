@@ -275,10 +275,6 @@ const ExpectationItem = ({
               ) : (
                 <MyReactLinkify openNewTab>
                   {expectation.description}{" "}
-                  {JSON.stringify({
-                    id: expectation.id,
-                    randomId: expectation.randomId,
-                  })}
                 </MyReactLinkify>
               )}
             </Txt>
