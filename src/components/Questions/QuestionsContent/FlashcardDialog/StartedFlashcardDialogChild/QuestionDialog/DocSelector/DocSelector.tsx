@@ -1,6 +1,7 @@
 import { Autocomplete } from "@mui/lab"
 import MyTextField from "components/_UI/MyInputs/MyTextField"
 import { useMemo } from "react"
+import useDocDialogStore from "store/zustand/dialogs/useDocDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 
 interface Props {
@@ -15,20 +16,50 @@ const DocSelector = (props: Props) => {
     docs,
   ])
 
-  return (
-    <Autocomplete
-      value={selectedDoc}
-      options={docs}
-      getOptionLabel={(doc) => (typeof doc === "string" ? doc : doc.title)}
-      onChange={(e, doc) => {
-        if (typeof doc === "string") return
+  const options = useMemo(() => {
+    const sorted =
+      docs?.sort((a, b) => {
+        if (a.id < b.id) return -1
+        if (a.id > b.id) return 1
+        return 0
+      }) || []
 
-        props.onChange(doc.id)
-      }}
-      renderInput={(params) => (
-        <MyTextField {...params} label="Doc" size="small" required />
-      )}
-    />
+    return [{ id: -1, title: "Create new doc" }, ...sorted]
+  }, [docs])
+
+  const { openDocDialog } = useDocDialogStore()
+
+  return (
+    <>
+      <Autocomplete
+        value={selectedDoc}
+        options={options}
+        getOptionLabel={(doc) => (typeof doc === "string" ? doc : doc.title)}
+        onChange={(e, doc) => {
+          if (typeof doc === "string") return
+          if (doc.id === -1) {
+            openDocDialog()
+            return
+          }
+          props.onChange(doc.id)
+        }}
+        renderInput={(params) => (
+          <MyTextField {...params} label="Doc" size="small" required />
+        )}
+        renderOption={(liProps, label) => {
+          if (label.id > 0) return <li {...liProps}>{label.title}</li>
+
+          return (
+            <li
+              {...liProps}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              + Create new doc
+            </li>
+          )
+        }}
+      />
+    </>
   )
 }
 

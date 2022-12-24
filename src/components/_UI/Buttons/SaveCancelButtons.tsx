@@ -15,7 +15,7 @@ interface Props {
 
 const SaveCancelButtons = (props: Props) => {
   useHotkeys(
-    "Ctrl+Enter",
+    "Control + Enter",
     () => {
       if (!props.disabled && !props.isLoading && props.onEnabledAndCtrlEnter) {
         props.onEnabledAndCtrlEnter()
