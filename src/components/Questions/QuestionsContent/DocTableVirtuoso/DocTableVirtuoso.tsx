@@ -104,7 +104,7 @@ const DocTableVirtuoso = (props: Props) => {
       }}
     >
       <TableVirtuoso
-        style={{ height: "calc(100vh - 240px)" }}
+        style={{ height: "calc(100vh - 256px)" }}
         data={sortedNotes()}
         totalCount={sortedNotes().length}
         fixedHeaderContent={() => (
