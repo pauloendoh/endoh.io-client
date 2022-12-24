@@ -46,9 +46,11 @@ const StartedFlashcardDialogChild = (props: {
 
     const currentNote = localQuestions[questionIndex]
 
+    const newWeight = Math.floor(currentNote.weight / 2)
+
     const note = {
       ...currentNote,
-      weight: currentNote.weight === 1 ? 1 : currentNote.weight / 2,
+      weight: newWeight <= 1 ? 1 : newWeight,
     }
 
     setResults(upsert(results, note, (r) => r.id === note.id))

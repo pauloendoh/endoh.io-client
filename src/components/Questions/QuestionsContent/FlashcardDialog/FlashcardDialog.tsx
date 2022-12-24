@@ -35,6 +35,7 @@ interface Props {
 
 const FlashcardDialog = (props: Props) => {
   const [minWeight, setMinWeight] = useState(1)
+  const [maxTestedTimes, setMaxTestedTimes] = useState<number | null>(null)
   const [allQuestions, setAllQuestions] = useState<NoteDto[]>([])
   const [questionsQty, setQuestionsQty] = useState(0)
   const [testQuestions, setTestQuestions] = useState<NoteDto[]>([])
@@ -65,12 +66,14 @@ const FlashcardDialog = (props: Props) => {
 
   useEffect(
     () => {
-      let filteredQuestions = props.availableNotes.filter(
-        (note) =>
+      let filteredQuestions = props.availableNotes.filter((note) => {
+        return (
           note.weight >= minWeight &&
+          (maxTestedTimes === null || note.testedTimes <= maxTestedTimes) &&
           note.question.trim().length > 0 &&
           note.description.trim().length > 0
-      )
+        )
+      })
 
       if (!isIncludingQuestionsToRefine)
         filteredQuestions = filteredQuestions.filter((q) => !q.toRefine)
@@ -84,7 +87,13 @@ const FlashcardDialog = (props: Props) => {
       setQuestionsQty(filteredQuestions.length)
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [minWeight, props.open, props.availableNotes, isIncludingQuestionsToRefine]
+    [
+      minWeight,
+      props.open,
+      props.availableNotes,
+      isIncludingQuestionsToRefine,
+      maxTestedTimes,
+    ]
   )
 
   const openConfirmDialog = useDialogsStore((s) => s.openConfirmDialog)
@@ -161,14 +170,19 @@ const FlashcardDialog = (props: Props) => {
           </Flex>
 
           <DialogContent style={{ height: 340 }}>
-            <FlexHCenter>
-              <MinWeightInput onChange={setMinWeight} value={minWeight} />
-              <Box mt={2} />
-
+            <FlexHCenter gap={2}>
               <QuestionsQtyInput
                 maxValue={allQuestions.length}
                 onChange={setQuestionsQty}
                 value={questionsQty}
+              />
+
+              <MinWeightInput onChange={setMinWeight} value={minWeight} />
+              <MinWeightInput
+                onChange={setMaxTestedTimes}
+                value={maxTestedTimes}
+                allowNull
+                label="max tested times"
               />
             </FlexHCenter>
 
