@@ -110,7 +110,6 @@ const QuestionDialog = () => {
                     label="Answer"
                     multiline
                     minRows={3}
-                    className="mt-3"
                     fullWidth
                     {...field}
                   />
@@ -118,14 +117,32 @@ const QuestionDialog = () => {
               />
             </Box>
 
-            <Box mt={4} width={240}>
-              <DocSelector
-                docId={watch("docId")}
-                onChange={(docId) =>
-                  setValue("docId", docId, { shouldDirty: true })
-                }
+            <FlexVCenter mt={4} gap={2}>
+              <Box width={240}>
+                <DocSelector
+                  docId={watch("docId")}
+                  onChange={(docId) =>
+                    setValue("docId", docId, { shouldDirty: true })
+                  }
+                />
+              </Box>
+
+              <MyTextField
+                size="small"
+                label={"Weight"}
+                type="number"
+                value={watch("weight")}
+                onChange={(e) => {
+                  const num = parseInt(e.target.value)
+                  if (isNaN(num)) return
+
+                  setValue("weight", num, {
+                    shouldDirty: true,
+                  })
+                }}
+                sx={{ width: 100 }}
               />
-            </Box>
+            </FlexVCenter>
 
             <Box mt={2}>
               <FormControlLabel
