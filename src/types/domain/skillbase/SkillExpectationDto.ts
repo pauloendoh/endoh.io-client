@@ -1,27 +1,26 @@
 // PE 2/3
 export interface SkillExpectationDto {
-  id: number;
+  id: number
 
-  level: number;
-  index: number;
-  description: string;
-  checked: boolean;
-  isCurrentGoal: boolean;
+  level: number
+  index: number
+  description: string
+  checked: boolean
+  isCurrentGoal: boolean
 
-  createdAt: string;
-  updatedAt: string;
+  createdAt: string
+  updatedAt: string
 
-  randomId?: number; // for drag and rop purpose
+  randomId?: number // for drag and rop purpose
 }
 
-export const newSkillExpectationDto = (
-  level: number,
-  index: number
+export const buildSkillExpectationDto = (
+  p?: Partial<SkillExpectationDto>
 ): SkillExpectationDto => ({
   id: null,
 
-  level: level,
-  index: index,
+  level: 0,
+  index: 0,
   description: "",
   checked: false,
   isCurrentGoal: false,
@@ -29,5 +28,7 @@ export const newSkillExpectationDto = (
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
 
-  randomId: Math.random(),
-});
+  randomId: new Date().getTime(),
+
+  ...p,
+})

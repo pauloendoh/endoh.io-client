@@ -5,7 +5,7 @@ import { useDrop } from "react-dnd"
 import { Element } from "react-scroll"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import {
-  newSkillExpectationDto,
+  buildSkillExpectationDto,
   SkillExpectationDto,
 } from "../../../../../types/domain/skillbase/SkillExpectationDto"
 import ExpectationItem from "./ExpectationItem/ExpectationItem"
@@ -28,10 +28,10 @@ const ExpectationsAtLevel = (props: Props) => {
   const [editingIndex, setEditingIndex] = useState<number>(null)
 
   const handleAddExpectation = () => {
-    const newExpectation = newSkillExpectationDto(
-      props.level,
-      filteredAndSorted.length
-    )
+    const newExpectation = buildSkillExpectationDto({
+      level: props.level,
+      index: filteredAndSorted.length,
+    })
 
     const expectations = [...props.expectations, newExpectation]
 
@@ -93,6 +93,7 @@ const ExpectationsAtLevel = (props: Props) => {
 
       {filteredAndSorted.map((expectation, index) => (
         <ExpectationItem
+          key={expectation.id || expectation.randomId}
           expectations={props.expectations}
           level={props.level}
           disabled={props.disabled}

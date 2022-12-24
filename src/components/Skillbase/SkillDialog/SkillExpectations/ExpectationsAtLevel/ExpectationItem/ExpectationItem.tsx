@@ -136,7 +136,6 @@ const ExpectationItem = ({
   }, [localIsDragging])
 
   const isDragging = useMemo(() => {
-    console.log({ storedDraggingExpectation, expectation })
     return (
       (storedDraggingExpectation?.id || 0) +
         (storedDraggingExpectation?.randomId || 0) ===
@@ -275,7 +274,11 @@ const ExpectationItem = ({
                 </s>
               ) : (
                 <MyReactLinkify openNewTab>
-                  {expectation.description}
+                  {expectation.description}{" "}
+                  {JSON.stringify({
+                    id: expectation.id,
+                    randomId: expectation.randomId,
+                  })}
                 </MyReactLinkify>
               )}
             </Txt>

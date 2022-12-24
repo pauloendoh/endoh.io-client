@@ -1,47 +1,50 @@
-import { SkillExpectationDto } from "types/domain/skillbase/SkillExpectationDto";
-import { expectationsAtLevel } from "./expectationsAtLevel";
-import { normalizeExpectations } from "./normalizeExpectations";
+import { SkillExpectationDto } from "types/domain/skillbase/SkillExpectationDto"
+import { expectationsAtLevel } from "./expectationsAtLevel"
+import { normalizeExpectations } from "./normalizeExpectations"
 
 const changeExpectationPosition = (
   expectations: SkillExpectationDto[],
   from: SkillExpectationDto,
   to: SkillExpectationDto
 ) => {
-  const toLevelExpectations = expectationsAtLevel(expectations, to.level);
-  const fromLevelExpectations = expectationsAtLevel(expectations, from.level);
+  const expectationsTargetLevel = expectationsAtLevel(expectations, to.level)
+  const expectationsOriginLevel = expectationsAtLevel(expectations, from.level)
   const allOtherItems = expectations.filter(
     (e) => e.level !== to.level && e.level !== from.level
-  );
+  )
 
   // backup item -> remove -> splice (insert) -> normalize
-  const indexToDelete = fromLevelExpectations.findIndex(
-    (e) => e.id === from.id
-  );
-  const draggedExpectation = fromLevelExpectations[indexToDelete];
+  const indexToDelete = expectationsOriginLevel.findIndex((expectation) => {
+    // had to add this since null ids could not be dragged before each other
+    if (expectation.id === null && from.id === null)
+      return expectation.randomId === from.randomId
+    return expectation.id === from.id
+  })
+  const draggedExpectation = expectationsOriginLevel[indexToDelete]
 
   // guarantees "remove" on both situations (same level and different levels)
-  const areSameLevel = from.level === to.level;
-  if (areSameLevel) toLevelExpectations.splice(indexToDelete, 1);
-  else fromLevelExpectations.splice(indexToDelete, 1);
+  const areSameLevel = from.level === to.level
+  if (areSameLevel) expectationsTargetLevel.splice(indexToDelete, 1)
+  else expectationsOriginLevel.splice(indexToDelete, 1)
 
   // inserting
-  toLevelExpectations.splice(to.index, 0, draggedExpectation);
+  expectationsTargetLevel.splice(to.index, 0, draggedExpectation)
 
   const newToLevelExpectations = normalizeExpectations(
-    toLevelExpectations,
+    expectationsTargetLevel,
     to.level
-  );
+  )
 
   // if same level, "ignore" this step by creating an empty array
   const newFromLevelExpectations = areSameLevel
     ? []
-    : normalizeExpectations(fromLevelExpectations, from.level);
+    : normalizeExpectations(expectationsOriginLevel, from.level)
 
   return [
     ...allOtherItems,
     ...newFromLevelExpectations,
     ...newToLevelExpectations,
-  ];
-};
+  ]
+}
 
-export default changeExpectationPosition;
+export default changeExpectationPosition
