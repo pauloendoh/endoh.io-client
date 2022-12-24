@@ -23,6 +23,7 @@ import { FormikErrors, useFormik } from "formik"
 import useQueryParams from "hooks/utils/react-router/useQueryParams"
 import { useAxios } from "hooks/utils/useAxios"
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
+import { DateTime } from "luxon"
 import { useEffect, useMemo, useState } from "react"
 import { useHotkeys } from "react-hotkeys-hook"
 import { MdDeleteForever } from "react-icons/md"
@@ -32,6 +33,7 @@ import { useHistory, useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
 import useDialogsStore from "store/zustand/useDialogsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
+import { format } from "timeago.js"
 import { urls } from "utils/urls"
 import linkPng from "../../../../static/images/link.png"
 import * as relearnActions from "../../../../store/relearn/relearnActions"
@@ -246,6 +248,13 @@ const ResourceDialog = (props: Props) => {
     })
   }
 
+  const completedOverOneDayAgo = useMemo(() => {
+    if (!values.completedAt) return false
+
+    const dt = DateTime.fromISO(values.completedAt)
+    return dt.diffNow().as("days") < -1
+  }, [values.completedAt])
+
   return (
     <Dialog
       onClose={() => confirmClose(dirty)}
@@ -423,7 +432,7 @@ const ResourceDialog = (props: Props) => {
                 </Grid>
               </Grid>
             </Box>
-            <Box mt={2}>
+            <FlexVCenter mt={2} gap={2}>
               <RatingButton
                 rating={values.rating}
                 onChange={(newRating) => {
@@ -436,7 +445,10 @@ const ResourceDialog = (props: Props) => {
                   )
                 }}
               />
-            </Box>
+              <Typography variant="body2">
+                {completedOverOneDayAgo && format(values.completedAt)}
+              </Typography>
+            </FlexVCenter>
 
             {/* public review */}
             <Box mt={2}>
