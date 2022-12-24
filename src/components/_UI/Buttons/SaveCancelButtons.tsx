@@ -22,20 +22,21 @@ const SaveCancelButtons = (props: Props) => {
       }
     },
     {
-      enableOnTags: ["INPUT", "SELECT", "TEXTAREA"],
+      enableOnFormTags: ["INPUT", "SELECT", "TEXTAREA"],
     },
     [props]
   )
 
   useHotkeys(
-    "Ctrl+S",
-    () => {
+    "Control + S",
+    (e) => {
+      e.preventDefault()
       if (!props.disabled && !props.isLoading && props.onEnabledAndCtrlEnter) {
         props.onEnableAndCtrlS()
       }
     },
     {
-      enableOnTags: ["INPUT", "SELECT", "TEXTAREA"],
+      enableOnFormTags: ["INPUT", "SELECT", "TEXTAREA"],
     },
     [props]
   )

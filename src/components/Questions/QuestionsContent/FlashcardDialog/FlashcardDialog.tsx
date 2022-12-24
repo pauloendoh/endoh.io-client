@@ -65,9 +65,6 @@ const FlashcardDialog = (props: Props) => {
 
   useEffect(
     () => {
-      console.log({
-        minWeight,
-      })
       let filteredQuestions = props.availableNotes.filter(
         (note) =>
           note.weight >= minWeight &&

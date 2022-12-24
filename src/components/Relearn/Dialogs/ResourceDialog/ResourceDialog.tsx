@@ -25,7 +25,6 @@ import { useAxios } from "hooks/utils/useAxios"
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
 import { DateTime } from "luxon"
 import { useEffect, useMemo, useState } from "react"
-import { useHotkeys } from "react-hotkeys-hook"
 import { MdDeleteForever } from "react-icons/md"
 import ReactInputMask from "react-input-mask"
 import { connect } from "react-redux"
@@ -151,6 +150,11 @@ const ResourceDialog = (props: Props) => {
     },
   })
 
+  const isDisabled = useMemo(() => !dirty || !props.editingResource, [
+    dirty,
+    props.editingResource,
+  ])
+
   useConfirmTabClose(!!props.editingResource && dirty)
 
   const confirmClose = (isDirty: boolean) => {
@@ -210,17 +214,6 @@ const ResourceDialog = (props: Props) => {
       })
       .finally()
   }
-
-  useHotkeys(
-    "Control+s",
-    (e) => {
-      e.preventDefault()
-      handleSubmit(values, false)
-    },
-    {
-      enableOnTags: ["INPUT", "SELECT", "TEXTAREA"],
-    }
-  )
 
   const [throttle, setThrottle] = useState<NodeJS.Timeout>(null)
 
@@ -500,8 +493,11 @@ const ResourceDialog = (props: Props) => {
             <SaveCancelButtons
               submitButtonId="save-resource-button"
               isLoading={isSubmitting}
-              disabled={!dirty}
+              disabled={isDisabled}
               onEnabledAndCtrlEnter={() => submitForm()}
+              onEnableAndCtrlS={() => {
+                handleSubmit(values, false)
+              }}
               onCancel={() => confirmClose(dirty)}
             />
           </DialogContent>
