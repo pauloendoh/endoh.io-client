@@ -5,7 +5,7 @@ import {
   Paper,
   Typography,
   useMediaQuery,
-  useTheme,
+  useTheme
 } from "@mui/material"
 import DarkButton from "components/_UI/Buttons/DarkButton/DarkButton"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
@@ -21,7 +21,7 @@ import { format } from "timeago.js"
 import { urls } from "utils/urls"
 import {
   buildNoteDto,
-  NoteDto,
+  NoteDto
 } from "../../../../types/domain/questions/NoteDto"
 import AddManyNotesMenuButton from "../DocTable/AddManyNotesMenuButton/AddManyNotesMenuButton"
 import DocRowVirtuoso from "./DocRowVirtuoso/DocRowVirtuoso"
@@ -128,7 +128,7 @@ const DocTableVirtuoso = (props: Props) => {
           <>
             <DocRowVirtuoso
               index={index}
-              key={getRowKey(note)}
+              key={note.id}
               question={note}
               onChange={handleNoteChange}
               isSmallScreen={isSmallScreen}
