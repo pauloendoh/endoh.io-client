@@ -4,7 +4,7 @@ import useDocsStore from "store/zustand/domain/useDocsStore"
 import useAuthStore from "store/zustand/useAuthStore"
 import Flex from "../../_UI/Flexboxes/Flex"
 import DocMoreMenu from "./DocMoreMenu/DocMoreMenu"
-import DocTableVirtuoso from "./DocTableVirtuoso/DocTableVirtuoso"
+import DocTable from "./DocTable/DocTable"
 
 interface Props {
   docId: number
@@ -33,7 +33,8 @@ const QuestionsContent = (props: Props) => {
       <Box mt={3}></Box>
 
       <Box mt={3}>
-        <DocTableVirtuoso docId={props.docId} />
+        {/* <DocTableVirtuoso docId={props.docId} /> */}
+        <DocTable docId={props.docId} />
 
         {/* {authUser?.isAdmin ? (
           <QuestionsTable docId={props.docId} />
