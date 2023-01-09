@@ -53,11 +53,11 @@ function TagListItem(props: Props) {
       style={{ justifyContent: "flex-start", minHeight: 48 }}
       button
       component={Link}
-      to={urls.pages.relearn.tag + "/" + props.tag.id}
+      to={urls.pages.resources.tag + "/" + props.tag.id}
       onClick={() => handleSaveTagLastOpenedAt(props.tag.id)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      selected={pathName === urls.pages.relearn.tag + "/" + props.tag.id}
+      selected={pathName === urls.pages.resources.tag + "/" + props.tag.id}
     >
       <ListItemText>
         <S.IconTitleWrapper>
@@ -72,7 +72,7 @@ function TagListItem(props: Props) {
         <TagMoreIcon
           afterDelete={() => {
             if (pathName.endsWith(props.tag.id.toString()))
-              setRedirectTo(urls.pages.relearn.index)
+              setRedirectTo(urls.pages.resources.index)
           }}
           tag={props.tag}
         />

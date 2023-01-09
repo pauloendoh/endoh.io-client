@@ -74,12 +74,12 @@ const RelearnPage = (props: Props) => {
       const { pathname } = location
 
       // Filtrando resource por tags. Melhor colocar em outro arquivo?
-      if (pathname === urls.pages.relearn.index) {
+      if (pathname === urls.pages.resources.index) {
         setFilteredResources(
           props.resources.filter((resource) => resource.tag === null)
         )
         document.title = "Untagged - Endoh.io"
-      } else if (pathname.startsWith(urls.pages.relearn.tag)) {
+      } else if (pathname.startsWith(urls.pages.resources.tag)) {
         const tagId = Number(pathname.split("/").pop())
         if (tagId) {
           setFilteredResources(
@@ -113,7 +113,7 @@ const RelearnPage = (props: Props) => {
         })[0]
 
         if (!params.tagId) {
-          setRedirectTo(urls.pages.relearn.tagId(lastOpened.id))
+          setRedirectTo(urls.pages.resources.tagId(lastOpened.id))
           return
         }
 
@@ -121,7 +121,7 @@ const RelearnPage = (props: Props) => {
           (tag) => tag.id === Number(params.tagId)
         )
         if (!foundTag) {
-          setRedirectTo(urls.pages.relearn.tagId(lastOpened.id))
+          setRedirectTo(urls.pages.resources.tagId(lastOpened.id))
         }
       }
     },

@@ -12,7 +12,7 @@ const RelearnDescription = () => {
         <Typography variant="h4">
           <FlexVCenter>
             <FontAwesomeIcon icon={faGraduationCap} />
-            <Box ml={1}>Relearn</Box>
+            <Box ml={1}>Resources</Box>
           </FlexVCenter>
         </Typography>
 
@@ -22,11 +22,11 @@ const RelearnDescription = () => {
 
         <Box mt={2}>
           <Link
-            to={urls.pages.relearn.index}
+            to={urls.pages.resources.index}
             style={{ textDecoration: "none" }}
           >
             <Button variant="contained" color="primary">
-              Check /relearn
+              Check /resources
             </Button>
           </Link>
         </Box>

@@ -24,7 +24,7 @@ const NotesDescription = () => {
         <Typography variant="h4">
           <FlexVCenter>
             <FontAwesomeIcon icon={faUsers} />
-            <Box ml={1}>Notes</Box>
+            <Box ml={1}>Flashcards</Box>
           </FlexVCenter>
         </Typography>
 
@@ -36,7 +36,7 @@ const NotesDescription = () => {
             style={{ textDecoration: "none" }}
           >
             <Button variant="contained" color="primary">
-              Check /define
+              Check /questions
             </Button>
           </Link>
         </Box>

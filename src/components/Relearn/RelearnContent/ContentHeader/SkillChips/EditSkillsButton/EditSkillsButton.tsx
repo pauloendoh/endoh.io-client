@@ -35,7 +35,7 @@ function EditSkillsButton(props: Props) {
     if (tagId) {
       const currentTag = props.allTags.find((t) => t.id === tagId)
       setTagForDialog(currentTag)
-    } else history.push(urls.pages.skillbase.index)
+    } else history.push(urls.pages.skills.index)
   }
 
   const handleCloseDialog = () => {

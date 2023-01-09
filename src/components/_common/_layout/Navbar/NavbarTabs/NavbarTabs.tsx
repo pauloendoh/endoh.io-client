@@ -17,11 +17,11 @@ const NavbarTabs = (props: Props) => {
   // PE 1/3 - tabIndex useMemo
   useEffect(() => {
     // DRY?
-    if (location.pathname.startsWith(urls.pages.relearn.index)) {
+    if (location.pathname.startsWith(urls.pages.resources.index)) {
       setTabIndex(0)
     } else if (location.pathname.startsWith(urls.pages.feed.index)) {
       setTabIndex(1)
-    } else if (location.pathname.startsWith(urls.pages.skillbase.index)) {
+    } else if (location.pathname.startsWith(urls.pages.skills.index)) {
       setTabIndex(2)
     } else if (location.pathname.startsWith(urls.pages.questions.index)) {
       setTabIndex(3)

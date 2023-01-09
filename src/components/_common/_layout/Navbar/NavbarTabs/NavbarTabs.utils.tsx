@@ -17,7 +17,7 @@ const utils = {
   navbarTabs: [
     {
       id: "resources-tab",
-      to: urls.pages.relearn.index,
+      to: urls.pages.resources.index,
       label: "Resources",
       icon: <FontAwesomeIcon icon={faLink} />,
     },
@@ -29,7 +29,7 @@ const utils = {
     },
     {
       id: "skill-tab",
-      to: urls.pages.skillbase.index,
+      to: urls.pages.skills.index,
       label: "Skills",
       icon: <FontAwesomeIcon icon={faChessKnight} />,
     },

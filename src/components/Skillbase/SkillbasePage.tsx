@@ -52,9 +52,9 @@ const SkillbasePage = (props: Props) => {
   }, [windowFocused])
 
   useEffect(() => {
-    if (pathname.startsWith(urls.pages.skillbase.untagged)) {
+    if (pathname.startsWith(urls.pages.skills.untagged)) {
       setSelectedTag("Untagged")
-    } else if (pathname.startsWith(urls.pages.skillbase.tag + "/")) {
+    } else if (pathname.startsWith(urls.pages.skills.tag + "/")) {
       const tagId = Number(pathname.split("/").pop())
       if (tagId) {
         const tag = props.allTags.find((tag) => tag.id === tagId)

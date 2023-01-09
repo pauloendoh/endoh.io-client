@@ -106,7 +106,7 @@ const ResourceDialog = (props: Props) => {
   const [isFetchingLinkPreview, setIsFetchingLinkPreview] = useState(false)
 
   const getCurrentTag = (): TagDto => {
-    if (location.pathname.startsWith(urls.pages.relearn.tag)) {
+    if (location.pathname.startsWith(urls.pages.resources.tag)) {
       const tagId = Number(location.pathname.split("/").pop())
       if (tagId) {
         const currentTag = sortedTags.find((t) => t.id === tagId)

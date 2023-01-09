@@ -46,23 +46,23 @@ const SkillTableToolbar = (props: Props) => {
 
   const [tagSelectorValue, setTagSelectorValue] = useState<optionTypes>("All")
   const handleTagChange = (value: optionTypes) => {
-    if (value === "All") history.push(urls.pages.skillbase.index)
-    else if (value === "Untagged") history.push(urls.pages.skillbase.untagged)
-    else history.push(urls.pages.skillbase.tag + "/" + value.id)
+    if (value === "All") history.push(urls.pages.skills.index)
+    else if (value === "Untagged") history.push(urls.pages.skills.untagged)
+    else history.push(urls.pages.skills.tag + "/" + value.id)
   }
 
   useEffect(() => {
     const { pathname } = location
-    if (pathname.includes(urls.pages.skillbase.untagged))
+    if (pathname.includes(urls.pages.skills.untagged))
       setTagSelectorValue("Untagged")
-    else if (pathname.includes(urls.pages.skillbase.tag)) {
+    else if (pathname.includes(urls.pages.skills.tag)) {
       const currentTag = getCurrentTag(pathname, props.allTags)
       if (currentTag) {
         setTagSelectorValue(currentTag)
         return
       }
       setErrorMessage("Could not find tag")
-      history.push(urls.pages.skillbase.index)
+      history.push(urls.pages.skills.index)
     } else setTagSelectorValue("All")
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location])

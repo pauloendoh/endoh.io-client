@@ -28,7 +28,7 @@ function SkillChips() {
       )
 
     if (filterBy === "By tag") {
-      if (pathname.startsWith(urls.pages.relearn.tag)) {
+      if (pathname.startsWith(urls.pages.resources.tag)) {
         const tagId = Number(pathname.split("/").pop())
 
         if (tagId) {

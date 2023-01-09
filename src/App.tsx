@@ -193,11 +193,11 @@ const App = (props: Props) => {
               />
               <Route path="/monerate" component={MoneratePage} />
 
-              <Route path="/relearn/tag/:tagId" component={RelearnPage} />
-              <Route path="/relearn" component={RelearnPage} />
+              <Route path="/resources/tag/:tagId" component={RelearnPage} />
+              <Route path="/resources" component={RelearnPage} />
 
-              <Route path="/skillbase/tag/:tagId" component={SkillbasePage} />
-              <Route path="/skillbase" component={SkillbasePage} />
+              <Route path="/skills/tag/:tagId" component={SkillbasePage} />
+              <Route path="/skills" component={SkillbasePage} />
               <Route path="/feed" component={FeedPage} />
 
               <Route path="/questions/doc/:docId" component={QuestionsPage} />

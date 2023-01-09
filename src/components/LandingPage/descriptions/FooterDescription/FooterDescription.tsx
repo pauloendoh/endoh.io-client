@@ -19,6 +19,19 @@ import S from "./FooterDescription.styles"
 const FooterDescription = () => {
   const classes = useStyles()
 
+  // my birthday is 1995-12-20
+  // get my correct age
+  const getMyAge = () => {
+    const today = new Date()
+    const birthDate = new Date("1995-12-20")
+    let age = today.getFullYear() - birthDate.getFullYear()
+    const m = today.getMonth() - birthDate.getMonth()
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--
+    }
+    return age
+  }
+
   return (
     <S.FooterDescription>
       <Avatar
@@ -29,7 +42,9 @@ const FooterDescription = () => {
       <S.Content>
         <S.TextWrapper>
           <Txt style={{ fontWeight: "bold" }}>Paulo Ricardo Endoh</Txt>
-          <Txt>25 years old computer science student from São Paulo</Txt>
+          <Txt>
+            {getMyAge()} years old computer science student from São Paulo
+          </Txt>
         </S.TextWrapper>
 
         <Hidden smDown>

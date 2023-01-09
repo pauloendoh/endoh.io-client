@@ -12,7 +12,7 @@ const SkillbaseDescription = () => {
         <Typography variant="h4">
           <FlexVCenter>
             <FontAwesomeIcon icon={faUsers} />
-            <Box ml={1}>Skillbase</Box>
+            <Box ml={1}>Skills</Box>
           </FlexVCenter>
         </Typography>
 
@@ -21,12 +21,9 @@ const SkillbaseDescription = () => {
         </Typography>
 
         <Box mt={2}>
-          <Link
-            to={urls.pages.skillbase.index}
-            style={{ textDecoration: "none" }}
-          >
+          <Link to={urls.pages.skills.index} style={{ textDecoration: "none" }}>
             <Button variant="contained" color="primary">
-              Check /skillbase
+              Check /skills
             </Button>
           </Link>
         </Box>

@@ -41,7 +41,7 @@ const TagDialog = (props: Props) => {
 
         const savedTagId = returnedTags.find((t) => t.name === sentTag.name).id
 
-        history.push(urls.pages.relearn.tag + "/" + savedTagId)
+        history.push(urls.pages.resources.tag + "/" + savedTagId)
       })
       .catch((err: MyAxiosError) => {
         setErrorMessage(err.response.data.errors[0].message)

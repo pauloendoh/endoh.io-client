@@ -10,19 +10,19 @@ export const urls = {
       index: "/monerate",
       similarExpenses: "/monerate/similar-expenses",
     },
-    relearn: {
-      index: "/relearn",
-      tag: "/relearn/tag",
-      tagId: (tagId: number) => `/relearn/tag/${tagId}`,
+    resources: {
+      index: "/resources",
+      tag: "/resources/tag",
+      tagId: (tagId: number) => `/resources/tag/${tagId}`,
     },
     questionsIndex: `/questions`,
     questionsDoc: (docId: number) => `/questions/doc/${docId}`,
 
     learningDiary: "/LearningDiary",
-    skillbase: {
-      index: "/skillbase",
-      tag: "/skillbase/tag",
-      untagged: "/skillbase/untagged",
+    skills: {
+      index: "/skills",
+      tag: "/skills/tag",
+      untagged: "/skills/untagged",
     },
     settings: {
       account: "/settings/account",

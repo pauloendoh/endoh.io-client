@@ -42,11 +42,11 @@ function ContentHeader(props: Props) {
     const { pathname } = location
 
     // /relearn
-    if (pathname === urls.pages.relearn.index) {
+    if (pathname === urls.pages.resources.index) {
       setTag(null)
     }
     // /relearn/tag/:id
-    else if (pathname.startsWith(urls.pages.relearn.tag)) {
+    else if (pathname.startsWith(urls.pages.resources.tag)) {
       const tagId = Number(pathname.split("/").pop())
 
       if (tagId) {
