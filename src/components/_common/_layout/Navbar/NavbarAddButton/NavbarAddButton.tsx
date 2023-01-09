@@ -6,6 +6,7 @@ import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
 import { startNewResource } from "store/relearn/relearnActions"
+import { ApplicationState } from "store/store"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import { buildNoteDto } from "types/domain/questions/NoteDto"
@@ -44,9 +45,11 @@ const NavbarAddButton = (props: Props) => {
       openQuestionDialog()
       return
     }
-    props.startNewResource()
+
+    if (!props.editingResource) props.startNewResource()
   }
 
+  // PE 1/3 - put into a hook 'useQHotkey'
   useHotkeys(
     "q",
     (e) => {
@@ -73,10 +76,15 @@ const NavbarAddButton = (props: Props) => {
   )
 }
 
+const mapStateToProps = (state: ApplicationState) => ({
+  editingResource: state.relearn.editingResource,
+})
+
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   startNewResource: () => dispatch(startNewResource()),
 })
 
-type Props = ReturnType<typeof mapDispatchToProps>
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>
 
-export default connect(undefined, mapDispatchToProps)(NavbarAddButton)
+export default connect(mapStateToProps, mapDispatchToProps)(NavbarAddButton)
