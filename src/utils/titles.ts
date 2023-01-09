@@ -1,6 +1,6 @@
 const titles = {
   skillPage: (skillName?: string) =>
-    skillName ? `${skillName} - Skills - Endoh.io` : "Skills - Endoh.io",
-};
+    skillName ? `${skillName} - Skills - Relearn` : "Skills - Relearn",
+}
 
-export default titles;
+export default titles

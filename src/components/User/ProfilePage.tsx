@@ -62,7 +62,7 @@ const ProfilePage = () => {
 
   useEffect(
     () => {
-      document.title = username + " - Endoh.io"
+      document.title = username + " - Relearn"
 
       resetProfileStore()
 

@@ -52,7 +52,7 @@ const ResetPasswordByEmailForm = (props: Props) => {
         <React.Fragment>
           <Box my={3}>
             <Typography variant="body2">
-              Tell us your email associated with endoh.io, and we’ll send a link
+              Tell us your email associated with Relearn, and we’ll send a link
               to reset your password.
             </Typography>
           </Box>

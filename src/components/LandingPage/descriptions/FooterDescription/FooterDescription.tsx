@@ -49,7 +49,7 @@ const FooterDescription = () => {
 
         <Hidden smDown>
           <Txt>
-            Endoh.io is developed with ReactJS, Node, PostgreSQL, TypeORM,
+            Relearn is developed with ReactJS, Node, PostgreSQL, TypeORM,
             Typescript and MaterialUI.
             <br />
             Designed in Figma and hosted in Heroku.

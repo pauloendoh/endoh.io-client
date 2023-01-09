@@ -17,7 +17,7 @@ const LandingPage = () => {
   const classes = useStyles()
 
   useEffect(() => {
-    document.title = "Endoh.io"
+    document.title = "Relearn"
   }, [])
   return (
     <Container maxWidth="md">

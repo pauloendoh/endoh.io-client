@@ -53,7 +53,7 @@ function ContentHeader(props: Props) {
         const currentTag = props.allTags.find((t) => t.id === tagId)
         if (currentTag) {
           setTag(currentTag)
-          document.title = currentTag.name + " - Endoh.io"
+          document.title = currentTag.name + " - Relearn"
         }
       }
     }

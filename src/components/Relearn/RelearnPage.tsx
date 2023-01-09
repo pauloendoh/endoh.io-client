@@ -78,7 +78,7 @@ const RelearnPage = (props: Props) => {
         setFilteredResources(
           props.resources.filter((resource) => resource.tag === null)
         )
-        document.title = "Untagged - Endoh.io"
+        document.title = "Untagged - Relearn"
       } else if (pathname.startsWith(urls.pages.resources.tag)) {
         const tagId = Number(pathname.split("/").pop())
         if (tagId) {

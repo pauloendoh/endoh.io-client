@@ -12,7 +12,7 @@ import SettingsSidebar from "./SettingsSidebar/SettingsSidebar"
 
 function SettingsPage() {
   useEffect(() => {
-    document.title = "Settings - Endoh.io"
+    document.title = "Settings - Relearn"
   }, [])
 
   const authUser = useAuthStore((s) => s.authUser)

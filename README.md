@@ -1,8 +1,8 @@
 # endoh.io-client
 
-https://endoh.io/
+https://relearn.to/
 
-Endoh.io is a platform for self-learners. Here, you can find:
+Relearn is a platform for self-learners. Here, you can find:
 
 ### A to-do list to help you study (you can rate your resources)
 

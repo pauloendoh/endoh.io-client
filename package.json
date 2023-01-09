@@ -2,7 +2,7 @@
   "name": "front",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://endoh.io/",
+  "homepage": "https://relearn.to/",
   "engines": {
     "node": "18.12.0",
     "npm": "8.19.2"

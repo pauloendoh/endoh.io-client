@@ -15,7 +15,7 @@ const LandingPageDescription = () => {
       <Typography variant="h3">
         <FlexVCenter fontWeight={500}>
           <FontAwesomeIcon icon={faFire} className={classes.fireIcon} />
-          <Box ml={1}>endoh.io</Box>
+          <Box ml={1}>Relearn</Box>
         </FlexVCenter>
       </Typography>
       <FlexHCenter mt={1}>

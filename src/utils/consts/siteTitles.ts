@@ -1,3 +1,3 @@
 export const siteTitles = {
-  search: (query: string) => `${query} - Endoh.io`,
+  search: (query: string) => `${query} - Relearn`,
 }

@@ -40,7 +40,7 @@ function ResetPasswordPage() {
       if (token.length === 0 || !userId) {
         setRedirectTo(urls.pages.index)
       }
-      document.title = "Reset Password - Endoh.io"
+      document.title = "Reset Password - Relearn"
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
@@ -84,7 +84,7 @@ function ResetPasswordPage() {
           <Typography variant="h3">
             <Flex>
               {`<`}
-              <TextPrimary>endoh.io</TextPrimary>
+              <TextPrimary>Relearn</TextPrimary>
               {`/>`}
             </Flex>
           </Typography>
@@ -172,7 +172,7 @@ function ResetPasswordPage() {
             <Flex justifyContent="center" mt={3}>
               <Typography variant="body2">Return to &nbsp;</Typography>
               <Link component={RouterLink} to="/">
-                endoh.io
+                Relearn
               </Link>
             </Flex>
           </Box>
