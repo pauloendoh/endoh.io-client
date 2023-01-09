@@ -27,7 +27,7 @@ const GlobalDialogs = (props: Props) => {
         open={docDialogIsOpen}
         afterSave={closeDocDialog}
         onClose={closeDocDialog}
-        initialValue={{ title: "test" }}
+        initialValue={{ title: "" }}
       />
     </>
   )

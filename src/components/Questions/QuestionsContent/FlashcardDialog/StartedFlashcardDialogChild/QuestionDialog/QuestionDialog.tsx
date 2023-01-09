@@ -14,6 +14,7 @@ import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
 import { useEffect } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { MdInfo } from "react-icons/md"
+import useDocDialogStore from "store/zustand/dialogs/useDocDialogStore"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import useDialogsStore from "store/zustand/useDialogsStore"
 import useSidebarStore from "store/zustand/useSidebarStore"
@@ -22,6 +23,7 @@ import MyTextField from "../../../../../_UI/MyInputs/MyTextField"
 import DocSelector from "./DocSelector/DocSelector"
 
 const QuestionDialog = () => {
+  const { isOpen: docDialogIsOpen } = useDocDialogStore()
   const {
     isOpen,
     onClose,
@@ -199,7 +201,9 @@ const QuestionDialog = () => {
               isLoading={isSubmitting}
               onCancel={handleConfirmClose}
               onEnabledAndCtrlEnter={() => {
-                onSubmit(watch())
+                if (!docDialogIsOpen) {
+                  onSubmit(watch())
+                }
               }}
             />
           </DialogTitle>
