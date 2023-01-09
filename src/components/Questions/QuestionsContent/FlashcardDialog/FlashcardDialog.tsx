@@ -177,12 +177,17 @@ const FlashcardDialog = (props: Props) => {
                 value={questionsQty}
               />
 
-              <MinWeightInput onChange={setMinWeight} value={minWeight} />
+              <MinWeightInput
+                onChange={setMinWeight}
+                value={minWeight}
+                min={1}
+              />
               <MinWeightInput
                 onChange={setMaxTestedTimes}
                 value={maxTestedTimes}
                 allowNull
                 label="max tested times"
+                min={0}
               />
             </FlexHCenter>
 

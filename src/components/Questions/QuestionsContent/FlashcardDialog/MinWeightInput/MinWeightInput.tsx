@@ -6,6 +6,7 @@ interface Props {
   allowNull?: boolean
   onChange: (newValue: number) => void
   label?: string
+  min: number
 }
 
 const MinWeightInput = (props: Props) => {
@@ -22,7 +23,7 @@ const MinWeightInput = (props: Props) => {
 
           props.onChange(Number(e.target.value))
         }}
-        min={1}
+        min={props.min}
       />
       <span style={{ marginLeft: 8 }}>{props.label || "min weight"} </span>
     </Txt>
