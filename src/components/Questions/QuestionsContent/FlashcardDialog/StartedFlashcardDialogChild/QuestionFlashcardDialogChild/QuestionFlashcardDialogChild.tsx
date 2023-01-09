@@ -118,6 +118,17 @@ const QuestionFlashcardDialogChild = (props: {
                       props.onEditQuestion(value)
                       closeDialog()
                     },
+                    customOnDelete() {
+                      props.onEditQuestion({
+                        ...props.question,
+                        description: "",
+                        question: "",
+                        weight: 1,
+                        testedTimes: 0,
+                      })
+                      closeDialog()
+                      props.goNext()
+                    },
                   })
                 }}
                 variant="body2"

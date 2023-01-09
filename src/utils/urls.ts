@@ -94,6 +94,7 @@ export const urls = {
       doc: "define/doc",
       note: "define/note",
       updateManyNotes: "/define/note/many",
+      questionId: (questionId: number) => `/question/${questionId}`,
     },
     folders: "/playground/folders",
     folderId: (folderId: number) => "/playground/folders/" + folderId,

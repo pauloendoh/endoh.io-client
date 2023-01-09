@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Checkbox,
   Dialog,
   DialogContent,
@@ -10,6 +11,7 @@ import {
   useMediaQuery,
 } from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween"
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
 import { useEffect } from "react"
 import { Controller, useForm } from "react-hook-form"
@@ -21,6 +23,7 @@ import useSidebarStore from "store/zustand/useSidebarStore"
 import SaveCancelButtons from "../../../../../_UI/Buttons/SaveCancelButtons"
 import MyTextField from "../../../../../_UI/MyInputs/MyTextField"
 import DocSelector from "./DocSelector/DocSelector"
+import { useDefaultDeleteQuestion } from "./useDefaultDeleteQuestion/useDefaultDeleteQuestion"
 
 const QuestionDialog = () => {
   const { isOpen: docDialogIsOpen } = useDocDialogStore()
@@ -30,6 +33,7 @@ const QuestionDialog = () => {
     onSubmit,
     initialValue,
     isSubmitting,
+    customOnDelete,
   } = useNoteDialogStore()
 
   const { handleSubmit, watch, reset, control, formState, setValue } = useForm({
@@ -64,6 +68,8 @@ const QuestionDialog = () => {
       title: "Discard changes?",
     })
   }
+
+  const defaultDeleteQuestion = useDefaultDeleteQuestion()
 
   return (
     <Dialog
@@ -196,21 +202,39 @@ const QuestionDialog = () => {
             </Box>
           </DialogContent>
           <DialogTitle>
-            <SaveCancelButtons
-              disabled={!formState.isDirty || isSubmitting || !isOpen}
-              isLoading={isSubmitting}
-              onCancel={handleConfirmClose}
-              onEnabledAndCtrlEnter={() => {
-                if (!docDialogIsOpen) {
-                  onSubmit(watch())
-                }
-              }}
-              onEnableAndCtrlS={() => {
-                if (!docDialogIsOpen) {
-                  onSubmit(watch())
-                }
-              }}
-            />
+            <FlexVCenterBetween width="100%">
+              <SaveCancelButtons
+                disabled={!formState.isDirty || isSubmitting || !isOpen}
+                isLoading={isSubmitting}
+                onCancel={handleConfirmClose}
+                onEnabledAndCtrlEnter={() => {
+                  if (!docDialogIsOpen) {
+                    onSubmit(watch())
+                  }
+                }}
+                onEnableAndCtrlS={() => {
+                  if (!docDialogIsOpen) {
+                    onSubmit(watch())
+                  }
+                }}
+              />
+
+              {watch("id") && (
+                <Button
+                  color="error"
+                  onClick={async () => {
+                    if (customOnDelete) {
+                      customOnDelete()
+                      return
+                    }
+
+                    defaultDeleteQuestion(watch("id"))
+                  }}
+                >
+                  Delete
+                </Button>
+              )}
+            </FlexVCenterBetween>
           </DialogTitle>
         </form>
       </Box>

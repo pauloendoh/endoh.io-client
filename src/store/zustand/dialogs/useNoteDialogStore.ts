@@ -7,10 +7,11 @@ interface INoteDialogStore {
   openNoteDialog: (options: {
     initialValue: NoteDto
     onSubmit: (value: NoteDto) => void
+    customOnDelete?: () => void
   }) => void
   onClose: () => void
   onSubmit: (value: NoteDto) => void
-
+  customOnDelete?: () => void
   isSubmitting: boolean
   setIsSubmitting: (value: boolean) => void
 }
@@ -23,6 +24,7 @@ const useNoteDialogStore = create<INoteDialogStore>((set, get) => ({
       isOpen: true,
       initialValue: options.initialValue,
       onSubmit: options.onSubmit,
+      customOnDelete: options.customOnDelete,
     }),
   onSubmit: () => {},
   onClose: () => {
