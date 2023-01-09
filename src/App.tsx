@@ -152,9 +152,12 @@ const App = (props: Props) => {
   let redirectAfterLogout = "/"
 
   // Redirecting to HTTPS
-  if (window.location.href.includes("endoh.io")) {
+  if (
+    window.location.href.startsWith("https://endoh.io") ||
+    window.location.href.startsWith("http://endoh.io")
+  ) {
     window.location.replace("https://relearn.to")
-    window.location.replace(window.location.href.replace("http", "https"))
+    // window.location.replace(window.location.href.replace("http", "https"))
   }
 
   if (window.location.href.includes("/define")) {
