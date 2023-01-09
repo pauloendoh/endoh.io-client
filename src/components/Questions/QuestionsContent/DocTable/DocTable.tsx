@@ -143,13 +143,14 @@ const DocTable = (props: Props) => {
               })
             }
           >
-            + Add question (q)
+            + Add question
+            {!isSmallScreen && " (q)"}
           </DarkButton>
 
           <AddManyNotesMenuButton docId={props.docId} />
         </FlexVCenter>
 
-        <Typography>{footerLabel}</Typography>
+        {!isSmallScreen && <Typography>{footerLabel}</Typography>}
       </Toolbar>
     </Paper>
   )

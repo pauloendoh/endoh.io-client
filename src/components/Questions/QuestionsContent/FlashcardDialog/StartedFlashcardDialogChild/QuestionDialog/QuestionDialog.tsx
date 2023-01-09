@@ -10,6 +10,7 @@ import {
   Tooltip,
   useMediaQuery,
 } from "@mui/material"
+import Flex from "components/_UI/Flexboxes/Flex"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween"
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
@@ -125,8 +126,8 @@ const QuestionDialog = () => {
               />
             </Box>
 
-            <FlexVCenter mt={4} gap={2}>
-              <Box width={240}>
+            <Flex mt={4} gap={2} flexWrap="wrap">
+              <Box width={isSmallScreen ? "100%" : 220}>
                 <DocSelector
                   docId={watch("docId")}
                   onChange={(docId) =>
@@ -153,7 +154,7 @@ const QuestionDialog = () => {
 
               <MyTextField
                 size="small"
-                label={"Tested times"}
+                label={"Tested"}
                 type="number"
                 value={watch("testedTimes")}
                 onChange={(e) => {
@@ -166,7 +167,7 @@ const QuestionDialog = () => {
                 }}
                 sx={{ width: 64 }}
               />
-            </FlexVCenter>
+            </Flex>
 
             <Box mt={2}>
               <FormControlLabel

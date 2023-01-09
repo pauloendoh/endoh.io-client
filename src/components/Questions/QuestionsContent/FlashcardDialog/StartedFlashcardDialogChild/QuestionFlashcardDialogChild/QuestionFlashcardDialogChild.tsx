@@ -11,6 +11,7 @@ import {
   Link,
   Typography,
 } from "@mui/material"
+import Flex from "components/_UI/Flexboxes/Flex"
 import { useEffect, useState } from "react"
 import { GlobalHotKeys } from "react-hotkeys"
 import { MdArrowBack, MdArrowForward } from "react-icons/md"
@@ -78,16 +79,18 @@ const QuestionFlashcardDialogChild = (props: {
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={handlers} allowChanges>
       <DialogTitle style={{ paddingBottom: 0 }}>
-        <FlexVCenter justifyContent="space-between">
+        <Flex justifyContent="space-between">
           <Typography variant="h6">
             ({props.questionNumber}/{props.totalQuestions}){" "}
             {props.question.question}
           </Typography>
 
-          <IconButton onClick={props.closeDialog} size="small">
-            <Clear />
-          </IconButton>
-        </FlexVCenter>
+          <Box>
+            <IconButton onClick={props.closeDialog} size="small">
+              <Clear />
+            </IconButton>
+          </Box>
+        </Flex>
       </DialogTitle>
       <DialogContent style={{ height: 300 }}>
         <Typography style={{ marginTop: 8, fontStyle: "italic" }}>

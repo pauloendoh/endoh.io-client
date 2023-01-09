@@ -1,7 +1,7 @@
 import { Box, Dialog, DialogContent, DialogTitle } from "@mui/material"
 import { queryKeys } from "hooks/react-query/queryKeys"
 import { useAxios } from "hooks/utils/useAxios"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { useQueryClient } from "react-query"
 import useDocsStore from "store/zustand/domain/useDocsStore"
@@ -35,25 +35,32 @@ const DocTitleDialog = (props: Props) => {
 
   const axios = useAxios()
 
+  const [isLoading, setIsLoading] = useState(false)
+
   const onSubmit = (values: { title: string }) => {
+    setIsLoading(true)
+
     const obj = {
       title: values.title,
       id: props.docId,
       folderId: props.initialValue.folderId,
     }
-    axios.post<DocDto>(urls.api.define.doc, obj).then((res) => {
-      docsStore.pushOrReplaceDoc(res.data)
-      setSuccessMessage("Doc saved!")
+    axios
+      .post<DocDto>(urls.api.define.doc, obj)
+      .then((res) => {
+        docsStore.pushOrReplaceDoc(res.data)
+        setSuccessMessage("Doc saved!")
 
-      docsStore.setIsLoadingNewDoc(true)
-      queryClient.invalidateQueries(queryKeys.folders)
-      myAxios
-        .get<NoteDto[]>(urls.api.define.note)
-        .then((res) => docsStore.setNotes(res.data))
-        .finally(() => docsStore.setIsLoadingNewDoc(false))
+        docsStore.setIsLoadingNewDoc(true)
+        queryClient.invalidateQueries(queryKeys.folders)
+        myAxios
+          .get<NoteDto[]>(urls.api.define.note)
+          .then((res) => docsStore.setNotes(res.data))
+          .finally(() => docsStore.setIsLoadingNewDoc(false))
 
-      if (props.afterSave) props.afterSave(res.data)
-    })
+        if (props.afterSave) props.afterSave(res.data)
+      })
+      .finally(() => setIsLoading(false))
   }
 
   const { reset, handleSubmit, formState, control, watch } = useForm({
@@ -101,6 +108,7 @@ const DocTitleDialog = (props: Props) => {
           </DialogContent>
           <DialogTitle>
             <SaveCancelButtons
+              isLoading={isLoading}
               disabled={formState.isSubmitting}
               onCancel={handleClose}
               onEnabledAndCtrlEnter={() => {
