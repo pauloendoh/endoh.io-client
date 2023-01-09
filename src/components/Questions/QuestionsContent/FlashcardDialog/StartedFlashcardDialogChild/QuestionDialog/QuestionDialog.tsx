@@ -197,10 +197,15 @@ const QuestionDialog = () => {
           </DialogContent>
           <DialogTitle>
             <SaveCancelButtons
-              disabled={!formState.isDirty || isSubmitting}
+              disabled={!formState.isDirty || isSubmitting || !isOpen}
               isLoading={isSubmitting}
               onCancel={handleConfirmClose}
               onEnabledAndCtrlEnter={() => {
+                if (!docDialogIsOpen) {
+                  onSubmit(watch())
+                }
+              }}
+              onEnableAndCtrlS={() => {
                 if (!docDialogIsOpen) {
                   onSubmit(watch())
                 }

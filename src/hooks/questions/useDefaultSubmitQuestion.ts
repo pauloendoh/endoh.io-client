@@ -6,7 +6,7 @@ import { NoteDto } from "types/domain/questions/NoteDto"
 import { urls } from "utils/urls"
 
 export const useDefaultSubmitQuestion = () => {
-  const { openNoteDialog, onClose, setIsSubmitting } = useNoteDialogStore()
+  const { onClose, setIsSubmitting } = useNoteDialogStore()
 
   const { pushOrReplaceNote } = useDocsStore()
 

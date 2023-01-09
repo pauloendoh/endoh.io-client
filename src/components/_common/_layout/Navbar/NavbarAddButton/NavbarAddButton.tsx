@@ -1,6 +1,5 @@
 import { Fab, Tooltip } from "@mui/material"
 import { useDefaultSubmitQuestion } from "hooks/questions/useDefaultSubmitQuestion"
-import { useAxios } from "hooks/utils/useAxios"
 import { useMemo } from "react"
 import { useHotkeys } from "react-hotkeys-hook"
 import { connect } from "react-redux"
@@ -9,26 +8,17 @@ import { Dispatch } from "redux"
 import { startNewResource } from "store/relearn/relearnActions"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
-import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { buildNoteDto } from "types/domain/questions/NoteDto"
 import { sleep } from "utils/sleep"
 import Icons from "utils/styles/Icons"
 
 // PE 2/3
 const NavbarAddButton = (props: Props) => {
-  const [openNoteDialog, closeNoteDialog] = useNoteDialogStore((s) => [
-    s.openNoteDialog,
-    s.onClose,
-  ])
+  const [openNoteDialog] = useNoteDialogStore((s) => [s.openNoteDialog])
 
   const location = useLocation()
 
-  const [pushOrReplaceNote, docs] = useDocsStore((s) => [
-    s.pushOrReplaceNote,
-    s.docs,
-  ])
-
-  const axios = useAxios()
+  const [docs] = useDocsStore((s) => [s.docs])
 
   const defaultSubmit = useDefaultSubmitQuestion()
 
@@ -44,8 +34,6 @@ const NavbarAddButton = (props: Props) => {
       onSubmit: defaultSubmit,
     })
   }
-
-  const setSuccessMessage = useSnackbarStore((s) => s.setSuccessMessage)
 
   const isQuestionsPage = useMemo(() => {
     return location.pathname.includes("questions")
