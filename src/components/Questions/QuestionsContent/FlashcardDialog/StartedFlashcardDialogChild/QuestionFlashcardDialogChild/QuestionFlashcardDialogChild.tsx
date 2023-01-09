@@ -127,7 +127,6 @@ const QuestionFlashcardDialogChild = (props: {
                         testedTimes: 0,
                       })
                       closeDialog()
-                      props.goNext()
                     },
                   })
                 }}
@@ -147,14 +146,14 @@ const QuestionFlashcardDialogChild = (props: {
           <FlexVCenter style={{ gap: 8 }}>
             <IconButton
               style={{ visibility: props.isFirst ? "hidden" : undefined }}
-              onClick={props.goBack}
+              onClick={() => props.goBack()}
             >
               <MdArrowBack />
             </IconButton>
             <DarkButton onClick={() => setShowingAnswer(true)} fullWidth>
               Show Answer {!isSmallScreen && "(Space, J, K or L)"}
             </DarkButton>
-            <IconButton onClick={props.goNext}>
+            <IconButton onClick={() => props.goNext()}>
               <MdArrowForward />
             </IconButton>
           </FlexVCenter>
@@ -166,7 +165,7 @@ const QuestionFlashcardDialogChild = (props: {
           >
             <IconButton
               style={{ visibility: props.isFirst ? "hidden" : undefined }}
-              onClick={props.goBack}
+              onClick={() => props.goBack()}
             >
               <MdArrowBack />
             </IconButton>
@@ -190,7 +189,7 @@ const QuestionFlashcardDialogChild = (props: {
               Correct {!isSmallScreen && "(L)"}
             </Button>
 
-            <IconButton onClick={props.goNext}>
+            <IconButton onClick={() => props.goNext()}>
               <MdArrowForward />
             </IconButton>
           </FlexVCenter>

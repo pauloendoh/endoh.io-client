@@ -73,6 +73,10 @@ const StartedFlashcardDialogChild = (props: {
         return draftNotes
       })
     )
+
+    setResults((curr) => upsert(curr, newNote, (r) => r.id === newNote.id))
+
+    nextQuestion()
   }
 
   const docs = useDocsStore((s) => s.docs)
