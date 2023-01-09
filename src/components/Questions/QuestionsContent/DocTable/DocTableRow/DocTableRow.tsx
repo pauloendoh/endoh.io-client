@@ -96,6 +96,12 @@ const DocTableRow = (props: Props) => {
         onInput={(e) => {
           changeQuestion(e.currentTarget.innerText)
         }}
+        onPaste={(e) => {
+          //only paste text
+          e.preventDefault()
+          const text = e.clipboardData.getData("text/plain")
+          document.execCommand("insertHTML", false, text)
+        }}
         sx={{ whiteSpace: "pre-wrap", width: "50%", overflowWrap: "anywhere" }}
       >
         {initialQuestion.current}
@@ -108,6 +114,12 @@ const DocTableRow = (props: Props) => {
           changeDescription(e.currentTarget.textContent)
         }}
         sx={{ whiteSpace: "pre-wrap", width: "50%", overflowWrap: "anywhere" }}
+        onPaste={(e) => {
+          //only paste text
+          e.preventDefault()
+          const text = e.clipboardData.getData("text/plain")
+          document.execCommand("insertHTML", false, text)
+        }}
       >
         {initialDescription.current}
       </TableCell>
