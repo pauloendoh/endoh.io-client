@@ -140,6 +140,10 @@ export const urls = {
     avgLearningPerHour: (hourOffset: number, topPercent: number) =>
       `/avg-learning-per-hour?hourOffset=${hourOffset}&topPercent=${topPercent}`,
 
+    learningDiary: {
+      learningsPerDay: "/learnings-per-day",
+    },
+
     utils: {
       passwordResetEmail: "/utils/passwordResetEmail",
       notifications: "/utils/notifications",

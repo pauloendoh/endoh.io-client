@@ -1,4 +1,4 @@
-import { Theme } from "@mui/material"
+import { Button, Theme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 
 import { Box } from "@mui/material"
@@ -6,6 +6,7 @@ import clsx from "clsx"
 import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween"
 import useDaysWithLearnings from "hooks/learning-diary/useDaysWithLearnings"
 import { useEffect } from "react"
+import useLearningsPerDayDialogStore from "store/zustand/dialogs/useLearningsPerDayDialogStore"
 import useLearningDiaryStore from "store/zustand/domain/useLearningDiaryStore"
 import useSidebarStore from "../../store/zustand/useSidebarStore"
 import Flex from "../_UI/Flexboxes/Flex"
@@ -29,6 +30,10 @@ const LearningDiaryPage = () => {
     console.log(selectedDate)
   }, [selectedDate])
 
+  const {
+    openDialog: openLearningsPerDayDialog,
+  } = useLearningsPerDayDialogStore()
+
   return (
     <Flex height="100%" justifyContent="center">
       <Box
@@ -40,6 +45,8 @@ const LearningDiaryPage = () => {
           <LearningChart />
           <FlexVCenterBetween mt={4}>
             <LearningDayCounter />
+
+            <Button onClick={openLearningsPerDayDialog}>Insights</Button>
 
             {/* <TopPercentageInput /> */}
             {/* <DatePicker
