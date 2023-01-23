@@ -127,7 +127,7 @@ const ResourceDialog = (props: Props) => {
   const {
     errors,
     values,
-    isSubmitting,
+
     submitForm,
     handleChange,
     setFieldValue,
@@ -137,7 +137,7 @@ const ResourceDialog = (props: Props) => {
   } = useFormik({
     initialValues: initialValues,
     enableReinitialize: true,
-    onSubmit: (formikValues, { setSubmitting }) => {
+    onSubmit: (formikValues) => {
       handleSubmit(formikValues)
     },
     validate: (newValue: ResourceDto) => {
@@ -173,7 +173,10 @@ const ResourceDialog = (props: Props) => {
     props.closeResourceDialog()
   }
 
+  const [isLoading, setIsLoading] = useState(false)
+
   const handleSubmit = (resource: ResourceDto, closeOnSuccess = true) => {
+    setIsLoading(true)
     const payload: ResourceDto = {
       ...resource,
       tag: {
@@ -212,7 +215,7 @@ const ResourceDialog = (props: Props) => {
       .catch((err: AxiosError) => {
         setErrorMessage(err.message || "Error while saving resource.")
       })
-      .finally()
+      .finally(() => setIsLoading(false))
   }
 
   const [throttle, setThrottle] = useState<NodeJS.Timeout>(null)
@@ -452,7 +455,6 @@ const ResourceDialog = (props: Props) => {
                 multiline
                 onChange={handleChange}
                 fullWidth
-                maxRows={16}
                 onCtrlEnter={() => {
                   submitForm()
                 }}
@@ -476,7 +478,6 @@ const ResourceDialog = (props: Props) => {
                 multiline
                 onChange={handleChange}
                 fullWidth
-                maxRows={16}
                 InputLabelProps={{
                   shrink: values.privateNote ? true : undefined,
                 }}
@@ -492,7 +493,7 @@ const ResourceDialog = (props: Props) => {
             <Box mt={2} />
             <SaveCancelButtons
               submitButtonId="save-resource-button"
-              isLoading={isSubmitting}
+              isLoading={isLoading}
               disabled={isDisabled}
               onEnabledAndCtrlEnter={() => submitForm()}
               onEnableAndCtrlS={() => {

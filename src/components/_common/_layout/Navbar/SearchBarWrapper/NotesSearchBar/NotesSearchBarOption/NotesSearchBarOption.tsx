@@ -4,7 +4,7 @@ import { Typography, useTheme } from "@mui/material"
 import Flex from "components/_UI/Flexboxes/Flex"
 import FlexCol from "components/_UI/Flexboxes/FlexCol"
 import { MdInsertDriveFile } from "react-icons/md"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import { format } from "timeago.js"
 import { DocDto } from "types/domain/questions/DocDto"
 import { NoteDto } from "types/domain/questions/NoteDto"
@@ -12,18 +12,19 @@ import { urls } from "utils/urls"
 
 type Props = {
   docOrNote: NoteDto | DocDto
-  handleClick: () => void
+  onClickQuestion: () => void
   liProps: React.HTMLAttributes<HTMLLIElement>
-  onClickLink: (e: React.MouseEvent) => void
+  onClickDoc: (e: React.MouseEvent) => void
 }
 
 const NotesSearchBarOption = ({
   docOrNote,
-  handleClick,
+  onClickQuestion,
   liProps,
   ...props
 }: Props) => {
   const theme = useTheme()
+  const history = useHistory()
 
   return (
     <li
@@ -35,7 +36,14 @@ const NotesSearchBarOption = ({
         width: "100%",
         paddingBottom: 24,
       }}
-      onClick={handleClick}
+      onClick={(e) => {
+        if ("title" in docOrNote) {
+          history.push(urls.pages.questionsDoc(docOrNote.id))
+          props.onClickDoc(e)
+          return
+        }
+        onClickQuestion()
+      }}
     >
       {"question" in docOrNote && (
         <FlexCol style={{ gap: 4 }} width="100%">
@@ -50,7 +58,7 @@ const NotesSearchBarOption = ({
                 to={urls.pages.questionsDoc(docOrNote.doc.id)}
                 onClick={(e) => {
                   e.stopPropagation()
-                  props.onClickLink(e)
+                  props.onClickDoc(e)
                 }}
                 style={{ color: "inherit", textDecoration: "none" }}
               >

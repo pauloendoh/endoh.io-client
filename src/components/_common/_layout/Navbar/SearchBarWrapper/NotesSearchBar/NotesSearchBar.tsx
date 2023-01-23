@@ -123,16 +123,17 @@ const NotesSearchBar = (props: Props) => {
               liProps={liProps}
               key={docOrNote.id}
               docOrNote={docOrNote}
-              handleClick={() => {
-                if ("title" in docOrNote)
-                  return history.push(urls.pages.questionsDoc(docOrNote.id))
+              onClickQuestion={() => {
+                if ("title" in docOrNote) {
+                  return
+                }
 
                 return onOpenDialog({
                   initialValue: docOrNote,
                   onSubmit: defaultSubmit,
                 })
               }}
-              onClickLink={(e) => {
+              onClickDoc={(e) => {
                 // @ts-expect-error
                 liProps.onClick(e)
               }}
