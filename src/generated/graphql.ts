@@ -17,8 +17,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
-  DateTime: any;
+  DateTime: string;
 };
 
 export type Learning = {
@@ -42,12 +41,12 @@ export type LearningInput = {
 export type LinkPreviewDto = {
   __typename?: 'LinkPreviewDto';
   alreadySavedResource?: Maybe<Resource>;
-  description: Scalars['String'];
-  image: Scalars['String'];
-  title: Scalars['String'];
-  url: Scalars['String'];
-  viewCount: Scalars['Float'];
-  youtubeVideoLength: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  viewCount?: Maybe<Scalars['Float']>;
+  youtubeVideoLength?: Maybe<Scalars['String']>;
 };
 
 export type Month = {
@@ -134,14 +133,21 @@ export type AddLearningMutationVariables = Exact<{
 }>;
 
 
-export type AddLearningMutation = { __typename?: 'Mutation', addLearning: { __typename?: 'Learning', id: number, userId: number, description: string, isHighlight: boolean, datetime: any } };
+export type AddLearningMutation = { __typename?: 'Mutation', addLearning: { __typename?: 'Learning', id: number, userId: number, description: string, isHighlight: boolean, datetime: string } };
 
 export type UpdateLearningMutationVariables = Exact<{
   input: LearningInput;
 }>;
 
 
-export type UpdateLearningMutation = { __typename?: 'Mutation', updateLearning: { __typename?: 'Learning', id: number, userId: number, description: string, isHighlight: boolean, datetime: any, createdAt: any, updatedAt: any } };
+export type UpdateLearningMutation = { __typename?: 'Mutation', updateLearning: { __typename?: 'Learning', id: number, userId: number, description: string, isHighlight: boolean, datetime: string, createdAt: string, updatedAt: string } };
+
+export type AMutationVariables = Exact<{
+  input: LearningInput;
+}>;
+
+
+export type AMutation = { __typename?: 'Mutation', addLearning: { __typename?: 'Learning', id: number } };
 
 export type SkillProgressesQueryVariables = Exact<{
   fromYearMonth: Scalars['String'];
@@ -155,12 +161,12 @@ export type LinkPreviewQueryVariables = Exact<{
 }>;
 
 
-export type LinkPreviewQuery = { __typename?: 'Query', getLinkPreview: { __typename?: 'LinkPreviewDto', title: string, image: string, description: string, url: string, youtubeVideoLength: string, viewCount: number, alreadySavedResource?: { __typename?: 'Resource', id: number, userId: number, title: string, url: string, thumbnail: string, estimatedTime: string, dueDate: string, rating?: number | null, completedAt: string, position?: number | null, publicReview: string, privateNote: string, createdAt: any, updatedAt: any, tagId?: number | null } | null } };
+export type LinkPreviewQuery = { __typename?: 'Query', getLinkPreview: { __typename?: 'LinkPreviewDto', title?: string | null, image?: string | null, description?: string | null, url?: string | null, youtubeVideoLength?: string | null, viewCount?: number | null, alreadySavedResource?: { __typename?: 'Resource', id: number, userId: number, title: string, url: string, thumbnail: string, estimatedTime: string, dueDate: string, rating?: number | null, completedAt: string, position?: number | null, publicReview: string, privateNote: string, createdAt: string, updatedAt: string, tagId?: number | null } | null } };
 
 export type LearningsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LearningsQuery = { __typename?: 'Query', learnings: Array<{ __typename?: 'Learning', id: number, description: string, isHighlight: boolean, datetime: any, createdAt: any, updatedAt: any }> };
+export type LearningsQuery = { __typename?: 'Query', learnings: Array<{ __typename?: 'Learning', id: number, description: string, isHighlight: boolean, datetime: string, createdAt: string, updatedAt: string }> };
 
 
 export const SkillProgressMonthsDocument = `
@@ -239,6 +245,27 @@ export const useUpdateLearningMutation = <
       options
     );
 useUpdateLearningMutation.fetcher = (client: GraphQLClient, variables: UpdateLearningMutationVariables, headers?: RequestInit['headers']) => fetcher<UpdateLearningMutation, UpdateLearningMutationVariables>(client, UpdateLearningDocument, variables, headers);
+export const ADocument = `
+    mutation A($input: LearningInput!) {
+  addLearning(input: $input) {
+    id
+  }
+}
+    `;
+export const useAMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<AMutation, TError, AMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<AMutation, TError, AMutationVariables, TContext>(
+      ['A'],
+      (variables?: AMutationVariables) => fetcher<AMutation, AMutationVariables>(client, ADocument, variables, headers)(),
+      options
+    );
+useAMutation.fetcher = (client: GraphQLClient, variables: AMutationVariables, headers?: RequestInit['headers']) => fetcher<AMutation, AMutationVariables>(client, ADocument, variables, headers);
 export const SkillProgressesDocument = `
     query SkillProgresses($fromYearMonth: String!) {
   skillProgresses(fromYearMonth: $fromYearMonth) {

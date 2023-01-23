@@ -122,10 +122,6 @@ const DiaryTableRow = (props: Props) => {
       {!downSm && (
         <TD align="center" className={classes.td}>
           {new Date(learning.datetime).toLocaleString()}
-          {/* <DateTimePicker
-          value={new Date(learning.datetime)}
-          onChange={handleChangeDatetime}
-        /> */}
         </TD>
       )}
     </TableRow>

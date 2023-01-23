@@ -15,20 +15,20 @@ interface Props {
 
 const SaveCancelButtons = (props: Props) => {
   useHotkeys(
-    "Control + Enter",
+    "ctrl+enter",
     () => {
       if (!props.disabled && !props.isLoading && props.onEnabledAndCtrlEnter) {
         props.onEnabledAndCtrlEnter()
       }
     },
     {
-      enableOnFormTags: ["INPUT", "SELECT", "TEXTAREA"],
+      enableOnTags: ["INPUT", "SELECT", "TEXTAREA"],
     },
     [props]
   )
 
   useHotkeys(
-    "Control + S",
+    "ctrl+s",
     (e) => {
       e.preventDefault()
       if (!props.disabled && !props.isLoading && props.onEnabledAndCtrlEnter) {
@@ -36,7 +36,7 @@ const SaveCancelButtons = (props: Props) => {
       }
     },
     {
-      enableOnFormTags: ["INPUT", "SELECT", "TEXTAREA"],
+      enableOnTags: ["INPUT", "SELECT", "TEXTAREA"],
     },
     [props]
   )

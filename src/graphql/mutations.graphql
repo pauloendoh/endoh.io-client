@@ -19,3 +19,9 @@ mutation UpdateLearning($input: LearningInput!) {
     updatedAt
   }
 }
+
+mutation A($input: LearningInput!) {
+  addLearning(input: $input) {
+    id
+  }
+}

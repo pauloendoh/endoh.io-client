@@ -11,3 +11,6 @@ generates:
       exposeFetcher: true
       exposeQueryKeys: true
       withResultType: true
+      scalars:
+        Date: string
+        DateTime: string
