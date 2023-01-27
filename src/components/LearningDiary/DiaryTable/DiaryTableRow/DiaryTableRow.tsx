@@ -25,27 +25,20 @@ const DiaryTableRow = (props: Props) => {
   const classes = useStyles()
 
   const qc = useQueryClient()
-  const { data } = useLearningsQuery(buildGraphqlClient())
 
   const { downSm } = useMyMediaQuery()
 
-  const {
-    mutate: updateLearning,
-    isLoading: isUpdating,
-  } = useUpdateLearningMutation(buildGraphqlClient(), {
-    onSuccess: (res) => {
-      const prevLearnings = [...data.learnings]
-      const newLearnings = pushOrReplace(
-        prevLearnings,
-        res.updateLearning,
-        "id"
-      )
-      qc.setQueryData(useLearningsQuery.getKey(), {
-        ...data,
-        learnings: newLearnings,
-      })
-    },
-  })
+  const { mutate: updateLearning } = useUpdateLearningMutation(
+    buildGraphqlClient(),
+    {
+      onSuccess: (res) => {
+        qc.setQueryData<LearningsQuery>(useLearningsQuery.getKey(), (curr) => ({
+          ...curr,
+          learnings: pushOrReplace(curr.learnings, res.updateLearning, "id"),
+        }))
+      },
+    }
+  )
 
   const [learning, setLearning] = useState(props.initialValue)
   const debouncedLearning = useDebounce(learning, 500)

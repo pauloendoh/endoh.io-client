@@ -5,7 +5,6 @@ import { Avatar } from "@mui/material"
 import React, { FunctionComponent } from "react"
 import { Link } from "react-router-dom"
 import { urls } from "utils/urls"
-
 interface Props {
   pictureUrl: string
   username: string

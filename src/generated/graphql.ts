@@ -166,9 +166,21 @@ export type LinkPreviewQuery = { __typename?: 'Query', getLinkPreview: { __typen
 export type LearningsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LearningsQuery = { __typename?: 'Query', learnings: Array<{ __typename?: 'Learning', id: number, description: string, isHighlight: boolean, datetime: string, createdAt: string, updatedAt: string }> };
+export type LearningsQuery = { __typename?: 'Query', learnings: Array<{ __typename?: 'Learning', id: number, userId: number, description: string, isHighlight: boolean, datetime: string, createdAt: string, updatedAt: string }> };
 
+export type LearningFragment = { __typename?: 'Learning', id: number, userId: number, description: string, isHighlight: boolean, datetime: string, createdAt: string, updatedAt: string };
 
+export const LearningFragmentDoc = `
+    fragment Learning on Learning {
+  id
+  userId
+  description
+  isHighlight
+  datetime
+  createdAt
+  updatedAt
+}
+    `;
 export const SkillProgressMonthsDocument = `
     query SkillProgressMonths {
   skillProgressMonths
@@ -221,16 +233,10 @@ useAddLearningMutation.fetcher = (client: GraphQLClient, variables: AddLearningM
 export const UpdateLearningDocument = `
     mutation UpdateLearning($input: LearningInput!) {
   updateLearning(input: $input) {
-    id
-    userId
-    description
-    isHighlight
-    datetime
-    createdAt
-    updatedAt
+    ...Learning
   }
 }
-    `;
+    ${LearningFragmentDoc}`;
 export const useUpdateLearningMutation = <
       TError = unknown,
       TContext = unknown
@@ -348,15 +354,10 @@ useLinkPreviewQuery.fetcher = (client: GraphQLClient, variables: LinkPreviewQuer
 export const LearningsDocument = `
     query Learnings {
   learnings {
-    id
-    description
-    isHighlight
-    datetime
-    createdAt
-    updatedAt
+    ...Learning
   }
 }
-    `;
+    ${LearningFragmentDoc}`;
 export const useLearningsQuery = <
       TData = LearningsQuery,
       TError = unknown

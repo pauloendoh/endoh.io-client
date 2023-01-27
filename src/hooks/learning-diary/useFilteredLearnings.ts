@@ -1,10 +1,12 @@
-import { useLearningsQuery } from "generated/graphql";
-import { DateTime } from "luxon";
-import { useMemo } from "react";
-import buildGraphqlClient from "utils/consts/buildGraphqlClient";
+import { useLearningsQuery } from "generated/graphql"
+import { DateTime } from "luxon"
+import { useMemo } from "react"
+import buildGraphqlClient from "utils/consts/buildGraphqlClient"
 
 const useFilteredLearnings = (selectedDate: string) => {
-  const { data } = useLearningsQuery(buildGraphqlClient());
+  const { data } = useLearningsQuery(buildGraphqlClient(), undefined, {
+    keepPreviousData: true,
+  })
 
   const filteredLearnings = useMemo(
     () =>
@@ -14,9 +16,9 @@ const useFilteredLearnings = (selectedDate: string) => {
         )
         .sort((a, b) => a.datetime.localeCompare(b.datetime)) || [],
     [data, selectedDate]
-  );
+  )
 
-  return filteredLearnings;
-};
+  return filteredLearnings
+}
 
-export default useFilteredLearnings;
+export default useFilteredLearnings

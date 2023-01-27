@@ -10,13 +10,7 @@ mutation AddLearning($input: LearningInput!) {
 
 mutation UpdateLearning($input: LearningInput!) {
   updateLearning(input: $input) {
-    id
-    userId
-    description
-    isHighlight
-    datetime
-    createdAt
-    updatedAt
+    ...Learning
   }
 }
 
