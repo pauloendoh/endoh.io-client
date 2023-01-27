@@ -35,6 +35,8 @@ const NotesSearchBarOption = ({
         justifyContent: "space-between",
         width: "100%",
         paddingBottom: 24,
+        backgroundColor:
+          "toRefine" in docOrNote && docOrNote.toRefine ? "#6e4747" : undefined,
       }}
       onClick={(e) => {
         if ("title" in docOrNote) {
