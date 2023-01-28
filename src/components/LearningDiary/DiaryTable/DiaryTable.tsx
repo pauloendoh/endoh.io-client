@@ -1,11 +1,5 @@
 import { Paper, Table, TableContainer, Toolbar } from "@mui/material"
-import { upsert } from "endoh-utils"
-import {
-  Learning,
-  LearningsQuery,
-  useAddLearningMutation,
-  useLearningsQuery,
-} from "generated/graphql"
+import { useAddLearningMutation, useLearningsQuery } from "generated/graphql"
 import useFilteredLearnings from "hooks/learning-diary/useFilteredLearnings"
 import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
 import { DateTime } from "luxon"
@@ -30,16 +24,7 @@ const DiaryTable = () => {
     isLoading: isAdding,
   } = useAddLearningMutation(buildGraphqlClient(), {
     onSuccess: (data) => {
-      qc.setQueryData<LearningsQuery>(useLearningsQuery.getKey(), (curr) => {
-        return {
-          ...curr,
-          learnings: upsert(
-            curr.learnings,
-            data.addLearning as Learning,
-            (l) => l.id === data.addLearning.id
-          ),
-        }
-      })
+      qc.invalidateQueries(useLearningsQuery.getKey())
     },
   })
 
