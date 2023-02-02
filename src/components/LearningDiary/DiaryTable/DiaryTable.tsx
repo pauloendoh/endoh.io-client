@@ -1,18 +1,11 @@
 import { Paper, Table, TableContainer, Toolbar } from "@mui/material"
-import { upsert } from "endoh-utils"
-import {
-  Learning,
-  LearningsQuery,
-  useAddLearningMutation,
-  useLearningsQuery,
-} from "generated/graphql"
 import useFilteredLearnings from "hooks/learning-diary/useFilteredLearnings"
 import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
-import { DateTime } from "luxon"
 import { useQueryClient } from "react-query"
+import useLearningDialogStore from "store/zustand/dialogs/useLearningDialogStore"
 import useLearningDiaryStore from "store/zustand/domain/useLearningDiaryStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
-import buildGraphqlClient from "utils/consts/buildGraphqlClient"
+import { buildLearning } from "utils/builders"
 import DarkButton from "../../_UI/Buttons/DarkButton/DarkButton"
 import { TBody, TD, THead, TR } from "../../_UI/Table/MyTableWrappers"
 import DiaryTableRow from "./DiaryTableRow/DiaryTableRow"
@@ -25,23 +18,7 @@ const DiaryTable = () => {
 
   const filteredLearnings = useFilteredLearnings(selectedDate)
 
-  const {
-    mutate: mutateAddLearning,
-    isLoading: isAdding,
-  } = useAddLearningMutation(buildGraphqlClient(), {
-    onSuccess: (data) => {
-      qc.setQueryData<LearningsQuery>(useLearningsQuery.getKey(), (curr) => {
-        return {
-          ...curr,
-          learnings: upsert(
-            curr.learnings,
-            data.addLearning as Learning,
-            (l) => l.id === data.addLearning.id
-          ),
-        }
-      })
-    },
-  })
+  const { openDialog } = useLearningDialogStore()
 
   const { downSm } = useMyMediaQuery()
 
@@ -101,18 +78,7 @@ const DiaryTable = () => {
       </TableContainer>
 
       <Toolbar>
-        <DarkButton
-          onClick={() =>
-            mutateAddLearning({
-              input: {
-                datetime: DateTime.now().toISO(),
-                description: "",
-                isHighlight: false,
-              },
-            })
-          }
-          loading={isAdding}
-        >
+        <DarkButton onClick={() => openDialog(buildLearning())}>
           + Add Learning
         </DarkButton>
         {/* <AddSkillButton tag={props.tag} /> */}

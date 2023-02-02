@@ -1,4 +1,5 @@
 import DocTitleDialog from "components/Questions/DocTitleDialog/DocTitleDialog"
+import LearningDialog from "components/Questions/LearningDialog/LearningDialog"
 import LearningsPerDayDialog from "components/Questions/LearningsPerDayDialog/LearningsPerDayDialog"
 import QuestionDialog from "components/Questions/QuestionsContent/FlashcardDialog/StartedFlashcardDialogChild/QuestionDialog/QuestionDialog"
 import FolderDialog from "components/Questions/QuestionsSidebar/QuestionsFileSystem/FolderDialog/FolderDialog"
@@ -6,6 +7,7 @@ import ResourceDialog from "components/Relearn/Dialogs/ResourceDialog/ResourceDi
 import SkillDialog from "components/Skillbase/SkillDialog/SkillDialog"
 import ConfirmDialog from "components/_UI/Dialogs/ConfirmationDialog"
 import useDocDialogStore from "store/zustand/dialogs/useDocDialogStore"
+import useLearningDialogStore from "store/zustand/dialogs/useLearningDialogStore"
 import useLearningsPerDayDialogStore from "store/zustand/dialogs/useLearningsPerDayDialogStore"
 
 interface Props {
@@ -13,15 +15,15 @@ interface Props {
 }
 
 const GlobalDialogs = (props: Props) => {
-  const {
-    isOpen: docDialogIsOpen,
-    onClose: closeDocDialog,
-  } = useDocDialogStore()
+  const { isOpen: docDialogIsOpen, onClose: closeDocDialog } =
+    useDocDialogStore()
 
   const {
     isOpen: learningsPerDayDialogIsOpen,
     onClose: closeLearningsPerDayDialog,
   } = useLearningsPerDayDialogStore()
+
+  const learningModal = useLearningDialogStore()
 
   return (
     <>
@@ -41,6 +43,12 @@ const GlobalDialogs = (props: Props) => {
       <LearningsPerDayDialog
         open={learningsPerDayDialogIsOpen}
         onClose={closeLearningsPerDayDialog}
+      />
+
+      <LearningDialog
+        initialValue={learningModal.initialValue}
+        isOpen={learningModal.isOpen}
+        onClose={learningModal.closeDialog}
       />
     </>
   )
