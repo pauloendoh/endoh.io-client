@@ -10,8 +10,8 @@ import { useEffect } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { useQueryClient } from "react-query"
 import buildGraphqlClient from "utils/consts/buildGraphqlClient"
-import SaveCancelButtons from "../../_UI/Buttons/SaveCancelButtons"
-import MyTextField from "../../_UI/MyInputs/MyTextField"
+import SaveCancelButtons from "../../Buttons/SaveCancelButtons"
+import MyTextField from "../../MyInputs/MyTextField"
 
 const ariaLabel = "learning-dialog"
 
