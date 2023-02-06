@@ -15,22 +15,19 @@ const LearningDayCounter = (props: Props) => {
   const { selectedDate, topPercentage } = useLearningDiaryStore()
   const learnings = useFilteredLearnings(selectedDate)
 
-  const isToday = useMemo(() => selectedDate === DateTime.now().toISODate(), [
-    selectedDate,
-  ])
+  const isToday = useMemo(
+    () => selectedDate === DateTime.now().toISODate(),
+    [selectedDate]
+  )
 
   const learningCount = useMemo(() => {
-    return learnings.reduce(
-      (total, learning) => (learning.isHighlight ? total + 2 : total + 1),
-      0
-    )
+    return learnings.reduce((total, learning) => total + learning.points, 0)
   }, [learnings])
 
   const todayCount = useTodayLearningCount()
 
-  const { data: avgLearningPerHours } = useAvgLearningPerHourQuery(
-    topPercentage
-  )
+  const { data: avgLearningPerHours } =
+    useAvgLearningPerHourQuery(topPercentage)
 
   const currentHour = DateTime.now().hour + 1
   const currentHourLearning = useMemo(() => {

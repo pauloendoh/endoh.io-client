@@ -1,4 +1,5 @@
 import { Box, Dialog, DialogContent, DialogTitle } from "@mui/material"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import { upsert } from "endoh-utils"
 import {
   Learning,
@@ -27,9 +28,10 @@ const LearningDialog = (props: Props) => {
     props.onClose()
   }
 
-  const { reset, handleSubmit, formState, control, watch, setFocus } = useForm({
-    defaultValues: props.initialValue,
-  })
+  const { reset, handleSubmit, formState, control, watch, setFocus, setValue } =
+    useForm({
+      defaultValues: props.initialValue,
+    })
 
   useEffect(() => {
     if (props.isOpen) {
@@ -81,7 +83,7 @@ const LearningDialog = (props: Props) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogTitle id={`${ariaLabel}-title`}>Add Learning</DialogTitle>
           <DialogContent>
-            <Box>
+            <FlexVCenter gap={2}>
               <Controller
                 control={control}
                 name="description"
@@ -96,7 +98,23 @@ const LearningDialog = (props: Props) => {
                   />
                 )}
               />
-            </Box>
+              <Controller
+                control={control}
+                name="points"
+                render={({ field: { ref, ...field } }) => (
+                  <MyTextField
+                    size="small"
+                    label="Points"
+                    sx={{ mt: 1, width: 100 }}
+                    type="number"
+                    {...field}
+                    onChange={(e) => {
+                      setValue("points", parseInt(e.target.value) || 0)
+                    }}
+                  />
+                )}
+              />
+            </FlexVCenter>
           </DialogContent>
           <DialogTitle>
             <SaveCancelButtons

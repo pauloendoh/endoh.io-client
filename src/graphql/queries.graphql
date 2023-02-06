@@ -49,6 +49,7 @@ fragment Learning on Learning {
   userId
   description
   isHighlight
+  points
   datetime
   createdAt
   updatedAt

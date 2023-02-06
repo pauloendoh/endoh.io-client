@@ -1,4 +1,4 @@
-import { IconButton, TableCell, TableRow, Theme } from "@mui/material"
+import { TableCell, TableRow, Theme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 import { TD } from "components/_UI/Table/MyTableWrappers"
 import {
@@ -9,12 +9,10 @@ import {
 import useDebounce from "hooks/utils/useDebounce"
 import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
 import { createRef, useEffect, useState } from "react"
-import { MdStar } from "react-icons/md"
 import { useQueryClient } from "react-query"
 import TextareaAutosize from "react-textarea-autosize"
 import { pushOrReplace } from "utils/array/pushOrReplace"
 import buildGraphqlClient from "utils/consts/buildGraphqlClient"
-import colors from "utils/consts/colors"
 
 interface Props {
   initialValue: LearningsQuery["learnings"][0]
@@ -50,17 +48,10 @@ const DiaryTableRow = (props: Props) => {
     }))
   }
 
-  const toggleHighlight = () => {
+  const changePoints = (newValue: number) => {
     setLearning((prev) => ({
       ...prev,
-      isHighlight: !prev.isHighlight,
-    }))
-  }
-
-  const handleChangeDatetime = (newValue: Date) => {
-    setLearning((prev) => ({
-      ...prev,
-      datetime: newValue.toISOString(),
+      points: newValue,
     }))
   }
 
@@ -74,6 +65,7 @@ const DiaryTableRow = (props: Props) => {
           datetime: debouncedLearning.datetime,
           description: debouncedLearning.description,
           isHighlight: debouncedLearning.isHighlight,
+          points: debouncedLearning.points,
         },
       })
     }
@@ -101,7 +93,24 @@ const DiaryTableRow = (props: Props) => {
       </TableCell>
 
       <TableCell align="center" className={classes.td}>
-        <IconButton size="small" onClick={toggleHighlight}>
+        <input
+          type="number"
+          min={1}
+          value={learning.points}
+          onChange={(e) => {
+            changePoints(parseInt(e.target.value))
+          }}
+          style={{
+            background: "none",
+            color: "white",
+            border: "1px solid gray",
+            borderRadius: 4,
+            textAlign: "center",
+            width: 40,
+            padding: 4,
+          }}
+        />
+        {/* <IconButton size="small" onClick={toggleHighlight}>
           <MdStar
             style={{
               color: learning.isHighlight
@@ -109,7 +118,7 @@ const DiaryTableRow = (props: Props) => {
                 : colors.ratingYellow[1],
             }}
           />
-        </IconButton>
+        </IconButton> */}
       </TableCell>
 
       {!downSm && (

@@ -55,7 +55,7 @@ const DiaryTable = () => {
               <TD>Learning</TD>
 
               <TD align="center" width="100px">
-                Highlight
+                Points
               </TD>
               {!downSm && (
                 <TD align="center" width="200px">

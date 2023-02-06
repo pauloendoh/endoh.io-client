@@ -7,10 +7,7 @@ export const useTodayLearningCount = () => {
   const learnings = useFilteredLearnings(today)
 
   const counter = useMemo(() => {
-    return learnings.reduce(
-      (total, learning) => (learning.isHighlight ? total + 2 : total + 1),
-      0
-    )
+    return learnings.reduce((total, learning) => total + learning.points, 0)
   }, [learnings])
 
   return counter

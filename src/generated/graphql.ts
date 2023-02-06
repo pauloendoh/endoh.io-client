@@ -27,6 +27,7 @@ export type Learning = {
   description: Scalars['String'];
   id: Scalars['Float'];
   isHighlight: Scalars['Boolean'];
+  points: Scalars['Float'];
   updatedAt: Scalars['DateTime'];
   userId: Scalars['Float'];
 };
@@ -36,6 +37,7 @@ export type LearningInput = {
   description: Scalars['String'];
   id?: InputMaybe<Scalars['Float']>;
   isHighlight: Scalars['Boolean'];
+  points: Scalars['Float'];
 };
 
 export type LinkPreviewDto = {
@@ -133,14 +135,14 @@ export type AddLearningMutationVariables = Exact<{
 }>;
 
 
-export type AddLearningMutation = { __typename?: 'Mutation', addLearning: { __typename?: 'Learning', id: number, userId: number, description: string, isHighlight: boolean, datetime: string } };
+export type AddLearningMutation = { __typename?: 'Mutation', addLearning: { __typename?: 'Learning', id: number, userId: number, description: string, isHighlight: boolean, points: number, datetime: string, createdAt: string, updatedAt: string } };
 
 export type UpdateLearningMutationVariables = Exact<{
   input: LearningInput;
 }>;
 
 
-export type UpdateLearningMutation = { __typename?: 'Mutation', updateLearning: { __typename?: 'Learning', id: number, userId: number, description: string, isHighlight: boolean, datetime: string, createdAt: string, updatedAt: string } };
+export type UpdateLearningMutation = { __typename?: 'Mutation', updateLearning: { __typename?: 'Learning', id: number, userId: number, description: string, isHighlight: boolean, points: number, datetime: string, createdAt: string, updatedAt: string } };
 
 export type AMutationVariables = Exact<{
   input: LearningInput;
@@ -166,9 +168,9 @@ export type LinkPreviewQuery = { __typename?: 'Query', getLinkPreview: { __typen
 export type LearningsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LearningsQuery = { __typename?: 'Query', learnings: Array<{ __typename?: 'Learning', id: number, userId: number, description: string, isHighlight: boolean, datetime: string, createdAt: string, updatedAt: string }> };
+export type LearningsQuery = { __typename?: 'Query', learnings: Array<{ __typename?: 'Learning', id: number, userId: number, description: string, isHighlight: boolean, points: number, datetime: string, createdAt: string, updatedAt: string }> };
 
-export type LearningFragment = { __typename?: 'Learning', id: number, userId: number, description: string, isHighlight: boolean, datetime: string, createdAt: string, updatedAt: string };
+export type LearningFragment = { __typename?: 'Learning', id: number, userId: number, description: string, isHighlight: boolean, points: number, datetime: string, createdAt: string, updatedAt: string };
 
 export const LearningFragmentDoc = `
     fragment Learning on Learning {
@@ -176,6 +178,7 @@ export const LearningFragmentDoc = `
   userId
   description
   isHighlight
+  points
   datetime
   createdAt
   updatedAt
@@ -208,14 +211,10 @@ useSkillProgressMonthsQuery.fetcher = (client: GraphQLClient, variables?: SkillP
 export const AddLearningDocument = `
     mutation AddLearning($input: LearningInput!) {
   addLearning(input: $input) {
-    id
-    userId
-    description
-    isHighlight
-    datetime
+    ...Learning
   }
 }
-    `;
+    ${LearningFragmentDoc}`;
 export const useAddLearningMutation = <
       TError = unknown,
       TContext = unknown
