@@ -7,6 +7,7 @@ import { useMemo, useState } from "react"
 import { MdClose, MdFilterAlt } from "react-icons/md"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import S from "./styles"
+import { useToggleCurrentGoalHotkey } from "./useToggleCurrentGoalHotkey/useToggleCurrentGoalHotkey"
 
 // PE 2/3
 const SkillbaseFilterButton = () => {
@@ -30,6 +31,8 @@ const SkillbaseFilterButton = () => {
     setAnchorEl(null)
   }
 
+  useToggleCurrentGoalHotkey()
+
   const isDisabled = useMemo(() => filter.byText?.length > 0, [filter.byText])
 
   // PE 1/3 - Check if it's being used in other places
@@ -45,6 +48,10 @@ const SkillbaseFilterButton = () => {
         onClick={handleClick}
         startIcon={<MdFilterAlt />}
         disabled={isDisabled}
+        sx={(theme) => ({
+          background:
+            getFilterCount() > 0 ? theme.palette.secondary.main : undefined,
+        })}
       >
         Filter
         {getFilterCount() > 0 && (
