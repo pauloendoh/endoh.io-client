@@ -1,7 +1,12 @@
-import { Button, IconButton, ListItemIcon, ListItemText } from "@mui/material"
+import {
+  Button,
+  IconButton,
+  ListItemIcon,
+  ListItemText,
+  useMediaQuery,
+} from "@mui/material"
 import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
-import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
 import { useMemo, useState } from "react"
 import { MdArrowDropDown, MdOutlineMoreHoriz } from "react-icons/md"
 import { Link, useLocation } from "react-router-dom"
@@ -11,7 +16,8 @@ import utils from "../NavbarTabs/NavbarTabs.utils"
 const NavbarResponsiveMenu = () => {
   const location = useLocation()
 
-  const { downLg, downMd } = useMyMediaQuery()
+  // down 865px
+  const isSmall = useMediaQuery("(max-width: 865px)")
 
   const [anchorEl, setAnchorEl] = useState(null)
 
@@ -29,7 +35,11 @@ const NavbarResponsiveMenu = () => {
 
   return (
     <div>
-      {downMd ? (
+      {isSmall ? (
+        <IconButton onClick={handleOpenMenu}>
+          <MdOutlineMoreHoriz />
+        </IconButton>
+      ) : (
         <Button
           onClick={handleOpenMenu}
           color="inherit"
@@ -38,10 +48,6 @@ const NavbarResponsiveMenu = () => {
         >
           {selectedTab?.label}
         </Button>
-      ) : (
-        <IconButton onClick={handleOpenMenu}>
-          <MdOutlineMoreHoriz />
-        </IconButton>
       )}
 
       <Menu
