@@ -32,8 +32,7 @@ const NavbarResponsiveMenu = () => {
       {downMd ? (
         <Button
           onClick={handleOpenMenu}
-          variant="contained"
-          color="secondary"
+          color="inherit"
           startIcon={selectedTab?.icon}
           endIcon={<MdArrowDropDown />}
         >
