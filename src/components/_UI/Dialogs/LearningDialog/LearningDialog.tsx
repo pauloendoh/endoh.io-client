@@ -118,7 +118,7 @@ const LearningDialog = (props: Props) => {
           </DialogContent>
           <DialogTitle>
             <SaveCancelButtons
-              // isLoading={isLoading}
+              isLoading={isAdding}
               disabled={formState.isSubmitting}
               onCancel={handleClose}
               onEnabledAndCtrlEnter={() => {

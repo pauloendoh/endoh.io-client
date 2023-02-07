@@ -4,7 +4,6 @@ import { makeStyles } from "@mui/styles"
 import { Box } from "@mui/material"
 import clsx from "clsx"
 import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween"
-import useDaysWithLearnings from "hooks/learning-diary/useDaysWithLearnings"
 import { useEffect } from "react"
 import useLearningsPerDayDialogStore from "store/zustand/dialogs/useLearningsPerDayDialogStore"
 import useLearningDiaryStore from "store/zustand/domain/useLearningDiaryStore"
@@ -20,9 +19,8 @@ const LearningDiaryPage = () => {
   const { selectedDate, setSelectedDate } = useLearningDiaryStore()
   const { sidebarIsOpen, closeSidebar } = useSidebarStore()
 
-  const sortedDays = useDaysWithLearnings()
-
   useEffect(() => {
+    document.title = "Learning Diary"
     closeSidebar()
   }, [])
 
@@ -30,9 +28,8 @@ const LearningDiaryPage = () => {
     console.log(selectedDate)
   }, [selectedDate])
 
-  const {
-    openDialog: openLearningsPerDayDialog,
-  } = useLearningsPerDayDialogStore()
+  const { openDialog: openLearningsPerDayDialog } =
+    useLearningsPerDayDialogStore()
 
   return (
     <Flex height="100%" justifyContent="center">
