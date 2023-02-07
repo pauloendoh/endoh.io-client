@@ -94,11 +94,15 @@ const DiaryTableRow = (props: Props) => {
 
       <TableCell align="center" className={classes.td}>
         <input
-          type="number"
           min={1}
           value={learning.points}
           onChange={(e) => {
-            changePoints(parseInt(e.target.value))
+            const num = parseInt(e.target.value)
+            if (num > 0) {
+              changePoints(num)
+              return
+            }
+            changePoints(0)
           }}
           style={{
             background: "none",
