@@ -1,14 +1,17 @@
-import { IconButton, ListItemIcon, ListItemText } from "@mui/material"
+import { Button, IconButton, ListItemIcon, ListItemText } from "@mui/material"
 import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
-import { useState } from "react"
-import { MdOutlineMoreHoriz } from "react-icons/md"
+import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
+import { useMemo, useState } from "react"
+import { MdArrowDropDown, MdOutlineMoreHoriz } from "react-icons/md"
 import { Link, useLocation } from "react-router-dom"
 import utils from "../NavbarTabs/NavbarTabs.utils"
 
 // PE 2/3
 const NavbarResponsiveMenu = () => {
   const location = useLocation()
+
+  const { downLg, downMd } = useMyMediaQuery()
 
   const [anchorEl, setAnchorEl] = useState(null)
 
@@ -20,11 +23,27 @@ const NavbarResponsiveMenu = () => {
     setAnchorEl(null)
   }
 
+  const selectedTab = useMemo(() => {
+    return utils.navbarTabs.find((tab) => location.pathname.includes(tab.to))
+  }, [location])
+
   return (
     <div>
-      <IconButton onClick={handleOpenMenu}>
-        <MdOutlineMoreHoriz />
-      </IconButton>
+      {downMd ? (
+        <Button
+          onClick={handleOpenMenu}
+          variant="contained"
+          color="secondary"
+          startIcon={selectedTab?.icon}
+          endIcon={<MdArrowDropDown />}
+        >
+          {selectedTab?.label}
+        </Button>
+      ) : (
+        <IconButton onClick={handleOpenMenu}>
+          <MdOutlineMoreHoriz />
+        </IconButton>
+      )}
 
       <Menu
         anchorEl={anchorEl}
