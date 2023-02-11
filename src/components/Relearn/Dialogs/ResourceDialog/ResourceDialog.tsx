@@ -150,10 +150,10 @@ const ResourceDialog = (props: Props) => {
     },
   })
 
-  const isDisabled = useMemo(() => !dirty || !props.editingResource, [
-    dirty,
-    props.editingResource,
-  ])
+  const isDisabled = useMemo(
+    () => !dirty || !props.editingResource,
+    [dirty, props.editingResource]
+  )
 
   useConfirmTabClose(!!props.editingResource && dirty)
 
@@ -259,251 +259,259 @@ const ResourceDialog = (props: Props) => {
       maxWidth="md"
       aria-labelledby="edit-resource-dialog"
     >
-      <Box pb={1} px={1}>
+      <form onSubmit={formikHandleSubmit}>
         <DialogTitle id="edit-resource-dialog-title">
           <FlexVCenterBetween>
             <Txt variant="h5">
               {values.id > 0 ? "Edit Resource" : "Add Resource"}
             </Txt>
-            {values.id > 0 && (
-              <Button
-                onClick={handleDeleteResource}
-                style={{
-                  color: theme.palette.error.main,
+
+            <FlexVCenter>
+              <SaveCancelButtons
+                submitButtonId="save-resource-button"
+                isLoading={isLoading}
+                disabled={isDisabled}
+                onEnabledAndCtrlEnter={() => submitForm()}
+                onEnableAndCtrlS={() => {
+                  handleSubmit(values, false)
                 }}
-                startIcon={<MdDeleteForever />}
-              >
-                Delete
-              </Button>
-            )}
+                onCancel={() => confirmClose(dirty)}
+              />
+              {values.id > 0 && (
+                <Button
+                  onClick={handleDeleteResource}
+                  style={{
+                    color: theme.palette.error.main,
+                  }}
+                  startIcon={<MdDeleteForever />}
+                >
+                  Delete
+                </Button>
+
+                // <ResourceMoreIcon isHovered resource={values} />
+              )}
+            </FlexVCenter>
           </FlexVCenterBetween>
         </DialogTitle>
-        <form onSubmit={formikHandleSubmit}>
-          <DialogContent>
-            <Flex>
-              {values.thumbnail?.length > 0 && (
-                <Box mr={2} position="relative">
-                  <a href={values.url} target="_blank" rel="noreferrer">
-                    <img
-                      style={{ maxHeight: 90, maxWidth: 200 }}
-                      alt="link-preview-thumbnail"
-                      src={values.thumbnail}
-                      onError={(e: any) => {
-                        e.target.onerror = null
-                        e.target.src = linkPng
-                        e.target.alt = "default-link-thumbnail"
-                      }}
-                    />
-                  </a>
-                  <IconButton
-                    onClick={() => setFieldValue("thumbnail", "")}
-                    size="small"
-                    style={{ position: "absolute", right: 0 }}
-                  >
-                    <HighlightOffIcon />
-                  </IconButton>
-                </Box>
-              )}
 
-              <Box flexGrow={1}>
-                <Box position="relative">
-                  <MyTextField
-                    id="title"
-                    name="title"
-                    value={values.title}
-                    inputProps={{ "aria-label": "resource-title-input" }}
-                    label="Title"
-                    required
-                    onChange={handleChange}
-                    fullWidth
-                    autoFocus
-                    InputLabelProps={{
-                      shrink: values.title ? true : undefined,
-                    }}
-                    onClickClearIcon={() => {
-                      setFieldValue("title", "")
+        <DialogContent
+          sx={{
+            maxHeight: "calc(100vh - 200px)",
+            pb: 4,
+          }}
+        >
+          <Flex>
+            {values.thumbnail?.length > 0 && (
+              <Box mr={2} position="relative">
+                <a href={values.url} target="_blank" rel="noreferrer">
+                  <img
+                    style={{ maxHeight: 90, maxWidth: 200 }}
+                    alt="link-preview-thumbnail"
+                    src={values.thumbnail}
+                    onError={(e: any) => {
+                      e.target.onerror = null
+                      e.target.src = linkPng
+                      e.target.alt = "default-link-thumbnail"
                     }}
                   />
-                </Box>
-                <Box mt={2} position="relative">
-                  <MyTextField
-                    id="url"
-                    name="url"
-                    value={values.url}
-                    onChange={(e) => {
-                      handleChange(e)
-                      fetchLinkPreview(e.target.value, setFieldValue, setValues)
-                      // if (urlAutofillChecked) {
-                      //   fetchLinkPreview(e.target.value, setFieldValue)
-                      // }
-                    }}
-                    fullWidth
-                    label="URL"
-                    onClickClearIcon={() => setFieldValue("url", "")}
-                    error={errors?.url?.length > 0}
+                </a>
+                <IconButton
+                  onClick={() => setFieldValue("thumbnail", "")}
+                  size="small"
+                  style={{ position: "absolute", right: 0 }}
+                >
+                  <HighlightOffIcon />
+                </IconButton>
+              </Box>
+            )}
+
+            <Box flexGrow={1}>
+              <Box position="relative">
+                <MyTextField
+                  sx={{ mt: 1 }}
+                  id="title"
+                  name="title"
+                  value={values.title}
+                  inputProps={{ "aria-label": "resource-title-input" }}
+                  label="Title"
+                  required
+                  onChange={handleChange}
+                  fullWidth
+                  autoFocus
+                  InputLabelProps={{
+                    shrink: values.title ? true : undefined,
+                  }}
+                  onClickClearIcon={() => {
+                    setFieldValue("title", "")
+                  }}
+                />
+              </Box>
+              <Box mt={2} position="relative">
+                <MyTextField
+                  id="url"
+                  name="url"
+                  value={values.url}
+                  onChange={(e) => {
+                    handleChange(e)
+                    fetchLinkPreview(e.target.value, setFieldValue, setValues)
+                    // if (urlAutofillChecked) {
+                    //   fetchLinkPreview(e.target.value, setFieldValue)
+                    // }
+                  }}
+                  fullWidth
+                  label="URL"
+                  onClickClearIcon={() => setFieldValue("url", "")}
+                  error={errors?.url?.length > 0}
+                />
+                {isFetchingLinkPreview && (
+                  <CircularProgress
+                    style={{ position: "absolute", right: 12, top: 10 }}
+                    size={16}
                   />
-                  {isFetchingLinkPreview && (
-                    <CircularProgress
-                      style={{ position: "absolute", right: 12, top: 10 }}
-                      size={16}
-                    />
+                )}
+              </Box>
+              <FlexVCenter justifyContent="space-between">
+                <FlexVCenter mt={1}></FlexVCenter>
+
+                <Box>
+                  {errors.url && (
+                    <Typography color="error">{errors.url}</Typography>
                   )}
                 </Box>
-                <FlexVCenter justifyContent="space-between">
-                  <FlexVCenter mt={1}></FlexVCenter>
-
-                  <Box>
-                    {errors.url && (
-                      <Typography color="error">{errors.url}</Typography>
-                    )}
-                  </Box>
-                </FlexVCenter>
-              </Box>
-            </Flex>
-
-            <Box mt={2}>
-              <Grid container spacing={3}>
-                <Grid item xs={6} sm={3}>
-                  {/* <Typography component="legend">Duration</Typography> */}
-                  <ReactInputMask
-                    mask="99:99h"
-                    value={values.estimatedTime}
-                    onChange={handleChange}
-                    maskPlaceholder=" "
-                  >
-                    {() => (
-                      <MyTextField
-                        id="estimatedTime"
-                        name="estimatedTime"
-                        label="Duration"
-                        fullWidth
-                      />
-                    )}
-                  </ReactInputMask>
-                </Grid>
-
-                <Grid item xs={6} sm={9}>
-                  {/* PE 1/3 - dry into <TagSelector/> also used at skill dialog */}
-                  <Autocomplete
-                    id="tags-autocomplete-input"
-                    options={sortedTags}
-                    value={values.tag}
-                    getOptionLabel={(option) =>
-                      typeof option === "string" ? option : option.name
-                    }
-                    filterSelectedOptions
-                    onChange={(e, val) => {
-                      console.log(val)
-                      const selectedTag = val as TagDto
-                      setFieldValue("tag", selectedTag)
-                    }}
-                    renderInput={(params) => (
-                      <MyTextField
-                        {...params}
-                        size="small"
-                        required
-                        label="Tag"
-                        error={!!errors.tag}
-                        helperText={errors?.tag?.id || ""}
-                      />
-                    )}
-                    renderOption={(liProps, option) => (
-                      <li
-                        {...liProps}
-                        style={{ display: "flex", alignItems: "center" }}
-                      >
-                        {option.id ? (
-                          <FlexVCenter>
-                            <TagIcon tag={option} />
-                            <Box ml={1}>
-                              <Typography>{option.name}</Typography>
-                            </Box>
-                          </FlexVCenter>
-                        ) : (
-                          <FlexHCenter>{option.name}</FlexHCenter>
-                        )}
-                      </li>
-                    )}
-                  />
-                </Grid>
-              </Grid>
+              </FlexVCenter>
             </Box>
-            <FlexVCenter mt={2} gap={2}>
-              <RatingButton
-                rating={values.rating}
-                onChange={(newRating) => {
-                  setFieldValue("rating", newRating)
+          </Flex>
 
-                  // If you're adding a rating, set "completedAt"
-                  setFieldValue(
-                    "completedAt",
-                    newRating > 0 ? new Date().toISOString() : ""
-                  )
-                }}
-              />
-              <Typography variant="body2">
-                {completedOverOneDayAgo && format(values.completedAt)}
-              </Typography>
-            </FlexVCenter>
-
-            {/* public review */}
-            <Box mt={2}>
-              <MyTextField
-                id="publicReview"
-                name="publicReview"
-                value={values.publicReview}
-                multiline
-                onChange={handleChange}
-                fullWidth
-                onCtrlEnter={() => {
-                  submitForm()
-                }}
-                label={
-                  <FlexVCenter>
-                    <FontAwesomeIcon
-                      icon={faGlobeAmericas}
-                      style={{ marginRight: 4 }}
+          <Box mt={2}>
+            <Grid container spacing={3}>
+              <Grid item xs={6} sm={3}>
+                {/* <Typography component="legend">Duration</Typography> */}
+                <ReactInputMask
+                  mask="99:99h"
+                  value={values.estimatedTime}
+                  onChange={handleChange}
+                  maskPlaceholder=" "
+                >
+                  {() => (
+                    <MyTextField
+                      id="estimatedTime"
+                      name="estimatedTime"
+                      label="Duration"
+                      fullWidth
                     />
-                    Public Review
-                  </FlexVCenter>
-                }
-              />
-            </Box>
+                  )}
+                </ReactInputMask>
+              </Grid>
 
-            <Box mt={2}>
-              <MyTextField
-                id="privateNote"
-                name="privateNote"
-                value={values.privateNote}
-                multiline
-                onChange={handleChange}
-                fullWidth
-                InputLabelProps={{
-                  shrink: values.privateNote ? true : undefined,
-                }}
-                label={
-                  <FlexVCenter>
-                    <FontAwesomeIcon icon={faLock} style={{ marginRight: 4 }} />
-                    Private Notes
-                  </FlexVCenter>
-                }
-              />
-            </Box>
+              <Grid item xs={6} sm={9}>
+                {/* PE 1/3 - dry into <TagSelector/> also used at skill dialog */}
+                <Autocomplete
+                  id="tags-autocomplete-input"
+                  options={sortedTags}
+                  value={values.tag}
+                  getOptionLabel={(option) =>
+                    typeof option === "string" ? option : option.name
+                  }
+                  filterSelectedOptions
+                  onChange={(e, val) => {
+                    console.log(val)
+                    const selectedTag = val as TagDto
+                    setFieldValue("tag", selectedTag)
+                  }}
+                  renderInput={(params) => (
+                    <MyTextField
+                      {...params}
+                      size="small"
+                      required
+                      label="Tag"
+                      error={!!errors.tag}
+                      helperText={errors?.tag?.id || ""}
+                    />
+                  )}
+                  renderOption={(liProps, option) => (
+                    <li
+                      {...liProps}
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      {option.id ? (
+                        <FlexVCenter>
+                          <TagIcon tag={option} />
+                          <Box ml={1}>
+                            <Typography>{option.name}</Typography>
+                          </Box>
+                        </FlexVCenter>
+                      ) : (
+                        <FlexHCenter>{option.name}</FlexHCenter>
+                      )}
+                    </li>
+                  )}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+          <FlexVCenter mt={2} gap={2}>
+            <RatingButton
+              rating={values.rating}
+              onChange={(newRating) => {
+                setFieldValue("rating", newRating)
 
-            <Box mt={2} />
-            <SaveCancelButtons
-              submitButtonId="save-resource-button"
-              isLoading={isLoading}
-              disabled={isDisabled}
-              onEnabledAndCtrlEnter={() => submitForm()}
-              onEnableAndCtrlS={() => {
-                handleSubmit(values, false)
+                // If you're adding a rating, set "completedAt"
+                setFieldValue(
+                  "completedAt",
+                  newRating > 0 ? new Date().toISOString() : ""
+                )
               }}
-              onCancel={() => confirmClose(dirty)}
             />
-          </DialogContent>
-        </form>
-      </Box>
+            <Typography variant="body2">
+              {completedOverOneDayAgo && format(values.completedAt)}
+            </Typography>
+          </FlexVCenter>
+
+          {/* public review */}
+          <Box mt={2}>
+            <MyTextField
+              id="publicReview"
+              name="publicReview"
+              value={values.publicReview}
+              multiline
+              onChange={handleChange}
+              fullWidth
+              onCtrlEnter={() => {
+                submitForm()
+              }}
+              label={
+                <FlexVCenter>
+                  <FontAwesomeIcon
+                    icon={faGlobeAmericas}
+                    style={{ marginRight: 4 }}
+                  />
+                  Public Review
+                </FlexVCenter>
+              }
+            />
+          </Box>
+
+          <Box mt={2}>
+            <MyTextField
+              id="privateNote"
+              name="privateNote"
+              value={values.privateNote}
+              multiline
+              onChange={handleChange}
+              fullWidth
+              InputLabelProps={{
+                shrink: values.privateNote ? true : undefined,
+              }}
+              label={
+                <FlexVCenter>
+                  <FontAwesomeIcon icon={faLock} style={{ marginRight: 4 }} />
+                  Private Notes
+                </FlexVCenter>
+              }
+            />
+          </Box>
+        </DialogContent>
+      </form>
     </Dialog>
   )
 }
