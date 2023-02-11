@@ -3,6 +3,7 @@ import NotesIcon from "@mui/icons-material/Notes"
 import { Typography, useTheme } from "@mui/material"
 import Flex from "components/_UI/Flexboxes/Flex"
 import FlexCol from "components/_UI/Flexboxes/FlexCol"
+import { useMemo } from "react"
 import { MdInsertDriveFile } from "react-icons/md"
 import { Link, useHistory } from "react-router-dom"
 import { format } from "timeago.js"
@@ -26,6 +27,14 @@ const NotesSearchBarOption = ({
   const theme = useTheme()
   const history = useHistory()
 
+  const backgroundColor = useMemo(() => {
+    return "toRefine" in docOrNote &&
+      (docOrNote.toRefine ||
+        (docOrNote.question.length > 0 && docOrNote.description.length === 0))
+      ? "#6e4747"
+      : undefined
+  }, [docOrNote])
+
   return (
     <li
       {...liProps}
@@ -35,8 +44,7 @@ const NotesSearchBarOption = ({
         justifyContent: "space-between",
         width: "100%",
         paddingBottom: 24,
-        backgroundColor:
-          "toRefine" in docOrNote && docOrNote.toRefine ? "#6e4747" : undefined,
+        backgroundColor,
       }}
       onClick={(e) => {
         if ("title" in docOrNote) {

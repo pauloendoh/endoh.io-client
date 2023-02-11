@@ -5,7 +5,7 @@ import { TableCell, TableRow } from "@mui/material"
 import clsx from "clsx"
 import { useAxios } from "hooks/utils/useAxios"
 import useDebounce from "hooks/utils/useDebounce"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
@@ -52,6 +52,16 @@ const DocTableRow = (props: Props) => {
   const setSuccessMessage = useSnackbarStore((s) => s.setSuccessMessage)
   const axios = useAxios()
 
+  const backgroundColor = useMemo(() => {
+    if (
+      props.question.question.length > 0 &&
+      props.question.description.length === 0
+    ) {
+      return "#6e4747"
+    }
+    return props.question.toRefine ? "#6e4747" : undefined
+  }, [props.question])
+
   return (
     <TableRow
       onClick={(e) => {
@@ -79,7 +89,7 @@ const DocTableRow = (props: Props) => {
       }}
       sx={{
         "& .MuiTableCell-root": {
-          backgroundColor: props.question.toRefine ? "#6e4747" : undefined,
+          backgroundColor,
         },
       }}
     >
