@@ -77,11 +77,17 @@ const DiaryTableRow = (props: Props) => {
   return (
     <TableRow>
       {!downSm && (
-        <TableCell className={classes.td} align="center">
-          {props.index + 1}
-        </TableCell>
+        <TD align="center" className={classes.td}>
+          {
+            // format date to HH:mm without PM or AM
+            new Date(learning.datetime).toLocaleTimeString("en-US", {
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            })
+          }
+        </TD>
       )}
-
       <TableCell className={classes.textareaCell} onClick={focusDescription}>
         <TextareaAutosize
           ref={descriptionRef}
@@ -124,12 +130,6 @@ const DiaryTableRow = (props: Props) => {
           />
         </IconButton> */}
       </TableCell>
-
-      {!downSm && (
-        <TD align="center" className={classes.td}>
-          {new Date(learning.datetime).toLocaleString()}
-        </TD>
-      )}
     </TableRow>
   )
 }

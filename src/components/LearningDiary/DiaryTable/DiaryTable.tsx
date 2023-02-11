@@ -47,8 +47,8 @@ const DiaryTable = () => {
           >
             <TR>
               {!downSm && (
-                <TD align="center" width="64px">
-                  #
+                <TD align="center" width="200px">
+                  Time
                 </TD>
               )}
 
@@ -57,11 +57,6 @@ const DiaryTable = () => {
               <TD align="center" width="100px">
                 Points
               </TD>
-              {!downSm && (
-                <TD align="center" width="200px">
-                  Time
-                </TD>
-              )}
             </TR>
           </THead>
 
