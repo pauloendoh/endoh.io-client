@@ -1,6 +1,7 @@
 import { Typography } from "@mui/material"
 import { upToNDecimals } from "endoh-utils"
 import { useMemo } from "react"
+import { MdArrowRightAlt } from "react-icons/md"
 import { useLearningChartData } from "../LearningChart/useLearningChartData/useLearningChartData"
 import { useCurrentHourLearning } from "../LearningDayCounter/useCurrentHourLearning/useCurrentHourLearning"
 import { useTodayLearningCount } from "../LearningDayCounter/useTodayLearningCount"
@@ -13,8 +14,7 @@ const HoursPointsToAchieve = (props: Props) => {
     return chartData[chartData.length - 1]
   }, [chartData])
 
-  const { colorCurrentTime, currentHourLearning: avgHourLearning } =
-    useCurrentHourLearning()
+  const { colorCurrentTime } = useCurrentHourLearning()
 
   const todayLearningCount = useTodayLearningCount()
 
@@ -28,12 +28,15 @@ const HoursPointsToAchieve = (props: Props) => {
     const diffPointsPerHour = diffPoints / diffHour
 
     return upToNDecimals(diffPointsPerHour, 1)
-  }, [avgHourLearning, todayLearningCount])
+  }, [todayLearningCount, lastData])
 
   if (!lastData) return null
   return (
-    <Typography color={colorCurrentTime}>
-      {hourPointsToAchieve} {"per hour -> "}
+    <Typography
+      color={colorCurrentTime}
+      sx={{ display: "flex", alignItems: "center" }}
+    >
+      {hourPointsToAchieve} {"per hour "} <MdArrowRightAlt />
       {lastData.topPercentDaysAvgCount}
     </Typography>
   )
