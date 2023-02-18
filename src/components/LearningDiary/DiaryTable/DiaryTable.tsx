@@ -1,20 +1,15 @@
 import { Paper, Table, TableContainer, Toolbar } from "@mui/material"
 import useFilteredLearnings from "hooks/learning-diary/useFilteredLearnings"
 import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
-import { useQueryClient } from "react-query"
 import useLearningDialogStore from "store/zustand/dialogs/useLearningDialogStore"
 import useLearningDiaryStore from "store/zustand/domain/useLearningDiaryStore"
-import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { buildLearning } from "utils/builders"
 import DarkButton from "../../_UI/Buttons/DarkButton/DarkButton"
 import { TBody, TD, THead, TR } from "../../_UI/Table/MyTableWrappers"
 import DiaryTableRow from "./DiaryTableRow/DiaryTableRow"
 
 const DiaryTable = () => {
-  const qc = useQueryClient()
-
   const { selectedDate } = useLearningDiaryStore()
-  const { setSuccessMessage } = useSnackbarStore()
 
   const filteredLearnings = useFilteredLearnings(selectedDate)
 

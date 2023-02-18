@@ -1,11 +1,7 @@
 import { Theme, useMediaQuery, useTheme } from "@mui/material"
-import useAvgLearningPerHourQuery from "hooks/react-query/progress-diary/useAvgLearningPerHourQuery"
-import { DateTime } from "luxon"
 import { useMemo } from "react"
 import { Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts"
-import useLearningDiaryStore from "store/zustand/domain/useLearningDiaryStore"
-import useWindowFocus from "use-window-focus"
-import { useTodayLearningCount } from "../LearningDayCounter/useTodayLearningCount"
+import { useLearningChartData } from "./useLearningChartData/useLearningChartData"
 
 interface Props {
   test?: string
@@ -14,31 +10,7 @@ interface Props {
 const LearningChart = (props: Props) => {
   const theme = useTheme()
 
-  const topPercentage = useLearningDiaryStore((s) => s.topPercentage)
-  const { data: avgLearningPerHours, isLoading } = useAvgLearningPerHourQuery(
-    topPercentage
-  )
-
-  const todayCount = useTodayLearningCount()
-
-  const isFocused = useWindowFocus()
-
-  const chartData = useMemo(() => {
-    if (!avgLearningPerHours) return []
-
-    const currentHour = DateTime.now().hour + 1
-
-    return avgLearningPerHours
-      .map((avgLearning) => {
-        return {
-          hour: avgLearning.hour,
-          allAvgCount: avgLearning.count,
-          topPercentDaysAvgCount: avgLearning.topPercentDaysLearningCount,
-          nowCount: avgLearning.hour === currentHour ? todayCount : 0,
-        }
-      })
-      .sort((a, b) => (a.hour < b.hour ? -1 : 1))
-  }, [avgLearningPerHours, todayCount, isFocused])
+  const { chartData, isLoading } = useLearningChartData()
 
   const isSmallScreen = useMediaQuery<Theme>((theme) =>
     theme.breakpoints.down("sm")

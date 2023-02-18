@@ -11,6 +11,7 @@ export const queryKeys = {
   progresses: "progresses",
 
   similarExpenses: "/similar-expenses",
+  avgLearningPerHourQuery: "/avg-learning-per-hour",
 
   folders: "/folders",
   gotIt: "/got-it",

@@ -4,20 +4,24 @@ import { makeStyles } from "@mui/styles"
 import { Box } from "@mui/material"
 import clsx from "clsx"
 import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween"
+import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
 import { useEffect } from "react"
 import useLearningsPerDayDialogStore from "store/zustand/dialogs/useLearningsPerDayDialogStore"
 import useLearningDiaryStore from "store/zustand/domain/useLearningDiaryStore"
 import useSidebarStore from "../../store/zustand/useSidebarStore"
 import Flex from "../_UI/Flexboxes/Flex"
 import DiaryTable from "./DiaryTable/DiaryTable"
+import HoursPointsToAchieve from "./HoursPointsToAchieve/HoursPointsToAchieve"
 import LearningChart from "./LearningChart/LearningChart"
 import LearningDayCounter from "./LearningDayCounter/LearningDayCounter"
 
 const LearningDiaryPage = () => {
   const classes = useStyles()
 
-  const { selectedDate, setSelectedDate } = useLearningDiaryStore()
+  const { selectedDate } = useLearningDiaryStore()
   const { sidebarIsOpen, closeSidebar } = useSidebarStore()
+
+  const { downSm } = useMyMediaQuery()
 
   useEffect(() => {
     document.title = "Learning Diary"
@@ -43,53 +47,16 @@ const LearningDiaryPage = () => {
           <FlexVCenterBetween mt={4}>
             <LearningDayCounter />
 
-            <Button onClick={openLearningsPerDayDialog}>Insights</Button>
+            {!downSm && <HoursPointsToAchieve />}
 
-            {/* <TopPercentageInput /> */}
-            {/* <DatePicker
-                  variant="inline"
-                  format="MM/dd/yyyy"
-                  margin="normal"
-                  id="date-picker-inline"
-                  label="Date picker inline"
-                  value={parseISO(selectedDate)}
-                  autoOk
-                  onChange={(date, val) =>
-                    setSelectedDate(DateTime.fromJSDate(date).toISODate())
-                  }
-                  renderDay={(day, _, currentMonth) => {
-                    const luxonDay = DateTime.fromJSDate(day)
-                    const isoDay = luxonDay.toISODate()
-                    return (
-                      <Day selected={isoDay === selectedDate}>
-                        <div
-                          style={{
-                            color: currentMonth ? "unset" : "grey",
-                            position: "relative",
-                          }}
-                        >
-                          {sortedDays.includes(isoDay) && (
-                            <div
-                              style={{
-                                position: "absolute",
-                                background: "red",
-                                width: 8,
-                                height: 8,
-                                borderRadius: 8,
-                                right: "-8px",
-                                top: "-4px",
-                              }}
-                            />
-                          )}
-                          <span>{luxonDay.day}</span>
-                        </div>
-                      </Day>
-                    )
-                  }}
-                  KeyboardButtonProps={{
-                    "aria-label": "change date",
-                  }}
-                /> */}
+            <Button
+              onClick={openLearningsPerDayDialog}
+              sx={{
+                textDecoration: "underline",
+              }}
+            >
+              Insights
+            </Button>
           </FlexVCenterBetween>
 
           <Box mt={2} />

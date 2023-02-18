@@ -23,9 +23,8 @@ const LearningsPerDayDialog = (props: Props) => {
 
   const { selectedDate, topPercentage } = useLearningDiaryStore()
 
-  const { data: avgLearningPerHours } = useAvgLearningPerHourQuery(
-    topPercentage
-  )
+  const { data: avgLearningPerHours } =
+    useAvgLearningPerHourQuery(topPercentage)
 
   const currentHourLearning = useMemo(() => {
     if (!avgLearningPerHours) return null
@@ -36,7 +35,7 @@ const LearningsPerDayDialog = (props: Props) => {
     if (!currentHourLearning) return "white"
     if (learningCount >= currentHourLearning.topPercentDaysLearningCount)
       return "green"
-    if (learningCount >= currentHourLearning.count) return "white"
+    if (learningCount >= currentHourLearning.avgCount) return "white"
     return "red"
   }
 
