@@ -78,14 +78,11 @@ const DiaryTableRow = (props: Props) => {
     <TableRow>
       {!downSm && (
         <TD align="center" className={classes.td}>
-          {
-            // format date to HH:mm without PM or AM
-            new Date(learning.datetime).toLocaleTimeString("en-US", {
-              hour: "2-digit",
-              minute: "2-digit",
-              hour12: false,
-            })
-          }
+          {new Date(learning.datetime).toLocaleTimeString("en-US", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+          })}
         </TD>
       )}
       <TableCell className={classes.textareaCell} onClick={focusDescription}>

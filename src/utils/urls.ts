@@ -141,7 +141,8 @@ export const urls = {
       `/avg-learning-per-hour?hourOffset=${hourOffset}&topPercent=${topPercent}`,
 
     learningDiary: {
-      learningsPerDay: "/learnings-per-day",
+      learningsPerDay: (hourOffset: number) =>
+        `/learnings-per-day?hourOffset=${hourOffset}`,
     },
 
     utils: {
