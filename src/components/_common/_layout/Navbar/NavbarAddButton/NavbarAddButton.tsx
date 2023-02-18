@@ -2,19 +2,19 @@ import { Fab, Tooltip } from "@mui/material"
 import { useDefaultSubmitQuestion } from "hooks/questions/useDefaultSubmitQuestion"
 import { useMemo } from "react"
 import { useHotkeys } from "react-hotkeys-hook"
-import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
-import { Dispatch } from "redux"
-import { startNewResource } from "store/relearn/relearnActions"
-import { ApplicationState } from "store/store"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
+import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import { buildNoteDto } from "types/domain/questions/NoteDto"
+import { newResourceDto } from "types/domain/relearn/ResourceDto"
 import { sleep } from "utils/sleep"
 import Icons from "utils/styles/Icons"
 
 // PE 2/3
-const NavbarAddButton = (props: Props) => {
+const NavbarAddButton = () => {
+  const { editingResource, setEditingResource } = useRelearnStore()
+
   const [openNoteDialog] = useNoteDialogStore((s) => [s.openNoteDialog])
 
   const location = useLocation()
@@ -46,7 +46,7 @@ const NavbarAddButton = (props: Props) => {
       return
     }
 
-    if (!props.editingResource) props.startNewResource()
+    if (!editingResource) setEditingResource(newResourceDto())
   }
 
   // PE 1/3 - put into a hook 'useQHotkey'
@@ -76,15 +76,4 @@ const NavbarAddButton = (props: Props) => {
   )
 }
 
-const mapStateToProps = (state: ApplicationState) => ({
-  editingResource: state.relearn.editingResource,
-})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  startNewResource: () => dispatch(startNewResource()),
-})
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
-
-export default connect(mapStateToProps, mapDispatchToProps)(NavbarAddButton)
+export default NavbarAddButton

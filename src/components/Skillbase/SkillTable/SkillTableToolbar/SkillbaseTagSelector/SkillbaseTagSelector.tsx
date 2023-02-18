@@ -8,28 +8,35 @@ import {
   useTheme,
 } from "@mui/material"
 import { useEffect, useState } from "react"
-import { connect } from "react-redux"
+import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
-import { ApplicationState } from "../../../../../store/store"
 import { TagDto } from "../../../../../types/domain/relearn/TagDto"
 import FlexHCenter from "../../../../_UI/Flexboxes/FlexHCenter"
 import FlexVCenter from "../../../../_UI/Flexboxes/FlexVCenter"
 import TagIcon from "../../../../_UI/Icon/TagIcon"
 
+export type optionTypes = TagDto | "All" | "Untagged"
+
+type Props = {
+  value: optionTypes
+  onChange: (newValue: optionTypes) => void
+}
+
 // PE 2/3 - Not so easy to understand the classes logic
 const SkillbaseTagSelector = (props: Props) => {
+  const { tags: allTags } = useRelearnStore()
+
   const theme = useTheme()
 
   const { skills: allSkills } = useSkillbaseStore()
 
   const [options, setOptions] = useState<optionTypes[]>([])
   useEffect(() => {
-    const sortedTags =
-      props.allTags?.sort((a, b) => (a.id > b.id ? 1 : -1)) || []
+    const sortedTags = allTags?.sort((a, b) => (a.id > b.id ? 1 : -1)) || []
     const options: optionTypes[] = ["All", ...sortedTags, "Untagged"]
 
     setOptions(options)
-  }, [props.allTags])
+  }, [allTags])
 
   const getOptionValue = (option: optionTypes) => {
     if (typeof option === "string") return option
@@ -64,7 +71,7 @@ const SkillbaseTagSelector = (props: Props) => {
       props.onChange(e.target.value as optionTypes)
     if (typeof e.target.value === "number") {
       const tagId = e.target.value as number
-      const tag = props.allTags.find((tag) => tag.id === tagId)
+      const tag = allTags.find((tag) => tag.id === tagId)
       props.onChange(tag)
     }
   }
@@ -109,17 +116,4 @@ const SkillbaseTagSelector = (props: Props) => {
   )
 }
 
-const mapStateToProps = (state: ApplicationState) => ({
-  allTags: state.relearn.tags,
-})
-
-export type optionTypes = TagDto | "All" | "Untagged"
-
-type OwnProps = {
-  value: optionTypes
-  onChange: (newValue: optionTypes) => void
-}
-
-type Props = ReturnType<typeof mapStateToProps> & OwnProps
-
-export default connect(mapStateToProps, undefined)(SkillbaseTagSelector)
+export default SkillbaseTagSelector

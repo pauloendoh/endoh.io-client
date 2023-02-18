@@ -1,12 +1,10 @@
 import { Box, Grid, Paper, Typography } from "@mui/material"
 import { useAxios } from "hooks/utils/useAxios"
 import { useEffect, useState } from "react"
-import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
-import { Dispatch } from "redux"
+import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import { siteTitles } from "utils/consts/siteTitles"
 import { urls } from "utils/urls"
-import { ApplicationState } from "../../store/store"
 import { SearchResultsDto } from "../../types/domain/utils/SearchResultsDto"
 import ResourceItem from "../Relearn/RelearnContent/ResourceList/DraggableResourceItem/ResourceItem/ResourceItem"
 import LoadingPage from "../_common/LoadingPage/LoadingPage"
@@ -20,7 +18,9 @@ import UserResults from "./UserResults/UserResults"
 export type FilterByType = "all" | "resources" | "users" | "skills"
 
 // PE 3/3
-const SearchPage = (props: Props) => {
+const SearchPage = () => {
+  const { resources } = useRelearnStore()
+
   const location = useLocation()
 
   // PE 2/3 - melhor searchQuery?
@@ -66,7 +66,7 @@ const SearchPage = (props: Props) => {
       .finally(() => {
         setIsLoading(false)
       })
-  }, [location, props.resources])
+  }, [location, resources])
 
   return (
     <Box p={3}>
@@ -200,13 +200,4 @@ const SearchPage = (props: Props) => {
   )
 }
 
-const mapStateToProps = (state: ApplicationState) => ({
-  resources: state.relearn.resources,
-})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
-
-export default connect(mapStateToProps, mapDispatchToProps)(SearchPage)
+export default SearchPage

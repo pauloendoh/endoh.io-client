@@ -12,17 +12,18 @@ import {
   Typography,
 } from "@mui/material"
 import React from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import useDialogsStore from "store/zustand/useDialogsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { urls } from "utils/urls"
-import * as relearnActions from "../../../../store/relearn/relearnActions"
-import { TagDto } from "../../../../types/domain/relearn/TagDto"
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto"
 import { IdsDto } from "../../../../types/domain/_common/IdsDto"
 import myAxios from "../../../../utils/consts/myAxios"
+
+interface Props {
+  skillId: number
+  afterDelete: () => void
+}
 
 // PE 2/3 - MenuItem could be shorter?
 function SkillMoreIcon(props: Props) {
@@ -124,16 +125,4 @@ const useStyles = makeStyles<Theme>((theme: Theme) =>
   })
 )
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  editTag: (tag: TagDto) => dispatch(relearnActions.editTag(tag)),
-  removeTag: (id: number) => dispatch(relearnActions.removeTag(id)),
-})
-
-interface OwnProps {
-  skillId: number
-  afterDelete: () => void
-}
-
-type Props = ReturnType<typeof mapDispatchToProps> & OwnProps
-
-export default connect(undefined, mapDispatchToProps)(SkillMoreIcon)
+export default SkillMoreIcon

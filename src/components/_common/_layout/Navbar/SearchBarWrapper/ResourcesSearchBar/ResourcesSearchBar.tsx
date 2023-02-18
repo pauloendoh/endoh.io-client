@@ -6,12 +6,8 @@ import useDebounce from "hooks/utils/useDebounce"
 import React, { useEffect, useMemo, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { useQueryClient } from "react-query"
-import { connect } from "react-redux"
 import { useHistory } from "react-router-dom"
-import { Dispatch } from "redux"
-import { editResource } from "store/relearn/relearnActions"
-import { ApplicationState } from "store/store"
-import { ResourceDto } from "types/domain/relearn/ResourceDto"
+import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import { SearchResultsDto } from "types/domain/utils/SearchResultsDto"
 import { urls } from "utils/urls"
 import MyTextField from "../../../../../_UI/MyInputs/MyTextField"
@@ -25,7 +21,9 @@ const MyPopper = function (props: React.ComponentProps<typeof Popper>) {
   return <Popper {...props} style={{ width: 700 }} placement="bottom-start" />
 }
 
-const ResourcesSearchBar = ({ editResource }: Props) => {
+const ResourcesSearchBar = () => {
+  const { setEditingResource } = useRelearnStore()
+
   const MIN_LENGTH = 3
 
   const history = useHistory()
@@ -33,13 +31,12 @@ const ResourcesSearchBar = ({ editResource }: Props) => {
 
   const [throttle, setThrottle] = useState<NodeJS.Timeout>(null)
 
-  const { handleSubmit, control, getValues, watch, setValue } = useForm<
-    ISearchForm
-  >({
-    defaultValues: {
-      searchQuery: "",
-    },
-  })
+  const { handleSubmit, control, getValues, watch, setValue } =
+    useForm<ISearchForm>({
+      defaultValues: {
+        searchQuery: "",
+      },
+    })
 
   const { data: searchResults, refetch } = useResourcesSearchQuery(
     watch("searchQuery"),
@@ -110,7 +107,7 @@ const ResourcesSearchBar = ({ editResource }: Props) => {
           <ResourcesSearchBarOption
             key={resource.id}
             resource={resource}
-            handleClick={() => editResource(resource)}
+            handleClick={() => setEditingResource(resource)}
             htmlProps={htmlProps}
           />
         )}
@@ -125,7 +122,7 @@ const ResourcesSearchBar = ({ editResource }: Props) => {
             return
           }
           // setValue("searchQuery", resource?.title || "");
-          editResource(newSelectedResource)
+          setEditingResource(newSelectedResource)
         }}
         renderInput={(params) => (
           <Controller
@@ -158,13 +155,4 @@ const ResourcesSearchBar = ({ editResource }: Props) => {
   )
 }
 
-const mapStateToProps = (state: ApplicationState) => ({})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  editResource: (resource: ResourceDto) => dispatch(editResource(resource)),
-})
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
-
-export default connect(mapStateToProps, mapDispatchToProps)(ResourcesSearchBar)
+export default ResourcesSearchBar

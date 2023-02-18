@@ -9,14 +9,11 @@ import {
 } from "@mui/material"
 import { Form, Formik } from "formik"
 import { useAxios } from "hooks/utils/useAxios"
-import { connect } from "react-redux"
 import { useHistory } from "react-router-dom"
-import { Dispatch } from "redux"
+import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import MyAxiosError from "types/MyAxiosError"
 import { urls } from "utils/urls"
-import * as relearnActions from "../../../store/relearn/relearnActions"
-import { ApplicationState } from "../../../store/store"
 import { TagDto } from "../../../types/domain/relearn/TagDto"
 import Flex from "../../_UI/Flexboxes/Flex"
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
@@ -24,10 +21,11 @@ import MyTextField from "../../_UI/MyInputs/MyTextField"
 import TagColorSelector from "./TagColorSelector/TagColorSelector"
 
 // PE 2/3
-const TagDialog = (props: Props) => {
+const TagDialog = () => {
   const history = useHistory()
 
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
+  const { editingTag, setEditingTag, setTags } = useRelearnStore()
 
   const axios = useAxios()
   const handleSubmit = (sentTag: TagDto) => {
@@ -37,7 +35,7 @@ const TagDialog = (props: Props) => {
         setSuccessMessage("Tag saved!")
 
         const returnedTags = res.data
-        props.setTags(returnedTags)
+        setTags(returnedTags)
 
         const savedTagId = returnedTags.find((t) => t.name === sentTag.name).id
 
@@ -47,23 +45,23 @@ const TagDialog = (props: Props) => {
         setErrorMessage(err.response.data.errors[0].message)
       })
       .finally(() => {
-        props.closeTagDialog()
+        setEditingTag(null)
       })
   }
 
   return (
     <Dialog
       onClose={() => {
-        props.closeTagDialog()
+        setEditingTag(null)
       }}
-      open={!!props.editingTag}
+      open={!!editingTag}
       fullWidth
       maxWidth="xs"
       aria-labelledby="edit-tag-dialog"
     >
       <Box pb={1} px={1}>
         <Formik
-          initialValues={props.editingTag}
+          initialValues={editingTag}
           onSubmit={(formikValues, { setSubmitting }) => {
             handleSubmit(formikValues)
           }}
@@ -127,10 +125,7 @@ const TagDialog = (props: Props) => {
                   </Button>
 
                   <Box ml={1}>
-                    <Button
-                      onClick={() => props.closeTagDialog()}
-                      variant="text"
-                    >
+                    <Button onClick={() => setEditingTag(null)} variant="text">
                       Cancel
                     </Button>
                   </Box>
@@ -144,16 +139,4 @@ const TagDialog = (props: Props) => {
   )
 }
 
-const mapStateToProps = (state: ApplicationState) => ({
-  editingTag: state.relearn.editingTag,
-})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  closeTagDialog: () => dispatch(relearnActions.closeTagDialog()),
-  setTags: (tags: TagDto[]) => dispatch(relearnActions.setTags(tags)),
-})
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
-
-export default connect(mapStateToProps, mapDispatchToProps)(TagDialog)
+export default TagDialog

@@ -1,19 +1,19 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Box, Button } from "@mui/material"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import * as relearnActions from "../../../../store/relearn/relearnActions"
-import { ApplicationState } from "../../../../store/store"
+import useRelearnStore from "store/zustand/domain/useRelearnStore"
+import { newResourceDto } from "types/domain/relearn/ResourceDto"
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
 
 // PE 2/3 - I won't use this in the future, probably.
-function AddResourceButton(props: Props) {
+function AddResourceButton() {
+  const { setEditingResource } = useRelearnStore()
+
   return (
     <Button
       variant="contained"
       color="primary"
-      onClick={props.startNewResource}
+      onClick={() => setEditingResource(newResourceDto())}
       id="add-resource-button"
       style={{ width: 130 }}
     >
@@ -25,13 +25,4 @@ function AddResourceButton(props: Props) {
   )
 }
 
-const mapStateToProps = (state: ApplicationState) => ({})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  startNewResource: () => dispatch(relearnActions.startNewResource()),
-})
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddResourceButton)
+export default AddResourceButton

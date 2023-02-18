@@ -4,17 +4,18 @@ import { makeStyles } from "@mui/styles"
 import { Button } from "@mui/material"
 
 import React, { useState } from "react"
-import { connect } from "react-redux"
 import { useHistory, useLocation } from "react-router-dom"
+import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import { urls } from "utils/urls"
-import { ApplicationState } from "../../../../../../store/store"
 import { TagDto } from "../../../../../../types/domain/relearn/TagDto"
 import FlexVCenter from "../../../../../_UI/Flexboxes/FlexVCenter"
 import EditSkillsDialog from "./EditSkillsDialog/EditSkillsDialog"
 
 // PE 2/3
-function EditSkillsButton(props: Props) {
+function EditSkillsButton() {
+  const { tags: allTags } = useRelearnStore()
+
   const classes = useStyles()
   const history = useHistory()
   const { skills: allSkills } = useSkillbaseStore()
@@ -33,7 +34,7 @@ function EditSkillsButton(props: Props) {
   const handleEditSkillsClick = () => {
     const tagId = Number(pathname.split("/").pop())
     if (tagId) {
-      const currentTag = props.allTags.find((t) => t.id === tagId)
+      const currentTag = allTags.find((t) => t.id === tagId)
       setTagForDialog(currentTag)
     } else history.push(urls.pages.skills.index)
   }
@@ -76,10 +77,4 @@ const useStyles = makeStyles<Theme>((theme) => ({
   },
 }))
 
-const mapStateToProps = (state: ApplicationState) => ({
-  allTags: state.relearn.tags,
-})
-
-type Props = ReturnType<typeof mapStateToProps>
-
-export default connect(mapStateToProps, undefined)(EditSkillsButton)
+export default EditSkillsButton

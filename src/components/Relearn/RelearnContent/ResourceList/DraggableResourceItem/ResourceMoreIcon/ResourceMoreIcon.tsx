@@ -15,18 +15,16 @@ import {
 } from "@mui/material"
 import { useAxios } from "hooks/utils/useAxios"
 import React, { useEffect } from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
+import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import useDialogsStore from "store/zustand/useDialogsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { urls } from "utils/urls"
-import {
-  editResource,
-  removeResource,
-  setResources,
-} from "../../../../../../store/relearn/relearnActions"
-import { ApplicationState } from "../../../../../../store/store"
 import { ResourceDto } from "../../../../../../types/domain/relearn/ResourceDto"
+
+interface Props {
+  resource: ResourceDto
+  isHovered: boolean
+}
 
 // PE 1/3
 function ResourceMoreIcon(props: Props) {
@@ -34,6 +32,8 @@ function ResourceMoreIcon(props: Props) {
   const { openConfirmDialog } = useDialogsStore()
 
   const { setSuccessMessage } = useSnackbarStore()
+
+  const { setEditingResource, removeResource, setResources } = useRelearnStore()
 
   useEffect(() => {
     if (!props.isHovered) setAnchorEl(null)
@@ -57,7 +57,7 @@ function ResourceMoreIcon(props: Props) {
         axios.delete(`${urls.api.relearn.resource}/${id}`).then((res) => {
           setSuccessMessage("Resource deleted!")
 
-          props.removeResource(id)
+          removeResource(id)
         })
       },
     })
@@ -71,7 +71,7 @@ function ResourceMoreIcon(props: Props) {
       .then((res) => {
         setSuccessMessage("Resource duplicated!")
 
-        props.setResources(res.data)
+        setResources(res.data)
       })
   }
 
@@ -109,7 +109,7 @@ function ResourceMoreIcon(props: Props) {
           <MenuItem
             onClick={(e) => {
               handleCloseMore()
-              props.editResource(props.resource)
+              setEditingResource(props.resource)
             }}
           >
             <ListItemIcon className={classes.listItemIcon}>
@@ -165,22 +165,4 @@ const useStyles = makeStyles<Theme>((theme) => ({
   },
 }))
 
-const mapStateToProps = (state: ApplicationState) => ({})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  editResource: (resource: ResourceDto) => dispatch(editResource(resource)),
-  removeResource: (id: number) => dispatch(removeResource(id)),
-
-  setResources: (resources: ResourceDto[]) => dispatch(setResources(resources)),
-})
-
-interface OwnProps {
-  resource: ResourceDto
-  isHovered: boolean
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps
-
-export default connect(mapStateToProps, mapDispatchToProps)(ResourceMoreIcon)
+export default ResourceMoreIcon

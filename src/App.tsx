@@ -17,7 +17,6 @@ import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import { QueryClientProvider } from "react-query"
 import { ReactQueryDevtools } from "react-query/devtools"
-import { connect } from "react-redux"
 import {
   Redirect,
   Route,
@@ -26,7 +25,7 @@ import {
   useLocation,
   withRouter,
 } from "react-router-dom"
-import { Dispatch } from "redux"
+import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import useAuthStore from "store/zustand/useAuthStore"
 import LandingPage from "./components/LandingPage/LandingPage"
 import ResetPasswordPage from "./components/ResetPassword/ResetPasswordPage"
@@ -36,7 +35,6 @@ import SkillbasePage from "./components/Skillbase/SkillbasePage"
 import LoadingPage from "./components/_common/LoadingPage/LoadingPage"
 import Navbar from "./components/_common/_layout/Navbar/Navbar"
 import MySnackBar2 from "./components/_UI/SnackBars/Snackbars"
-import { setTags } from "./store/relearn/relearnActions"
 import { UserPreferenceDto } from "./types/domain/auth/AuthUserGetDto"
 import { FollowingTagDto } from "./types/domain/feed/FollowingTagDto"
 import { TagDto } from "./types/domain/relearn/TagDto"
@@ -68,7 +66,9 @@ const LearningDiaryPage = lazy(
 )
 
 // PE 2/3
-const App = (props: Props) => {
+const App = (props: RouteComponentProps<{}>) => {
+  const { setTags } = useRelearnStore()
+
   const axios = useAxios()
   // 0.1s is enough time to check for auth user
   const location = useLocation()
@@ -128,7 +128,7 @@ const App = (props: Props) => {
           })
 
         axios.get<TagDto[]>(urls.api.relearn.tag).then((res) => {
-          props.setTags(res.data)
+          setTags(res.data)
         })
 
         axios
@@ -250,10 +250,4 @@ const App = (props: Props) => {
   )
 }
 
-type Props = ReturnType<typeof mapDispatchToProps> & RouteComponentProps<{}>
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setTags: (tags: TagDto[]) => dispatch(setTags(tags)),
-})
-
-export default withRouter(connect(undefined, mapDispatchToProps)(App))
+export default withRouter(App)

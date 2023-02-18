@@ -18,14 +18,16 @@ import useGotItMutation from "hooks/react-query/got-it/useGotItMutation"
 import useGotItQuery from "hooks/react-query/got-it/useGotItQuery"
 import { useAxios } from "hooks/utils/useAxios"
 import React, { useEffect, useMemo, useState } from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
+import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import { urls } from "utils/urls"
-import * as relearnActions from "../../../../store/relearn/relearnActions"
-import { ApplicationState } from "../../../../store/store"
-import { TagDto } from "../../../../types/domain/relearn/TagDto"
+import { newTagDto, TagDto } from "../../../../types/domain/relearn/TagDto"
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
 import TagListItem from "../TagListItem/TagListItem"
+
+interface Props {
+  type: "public" | "private"
+  tags: TagDto[]
+}
 
 function RelearnSidebarTagList(props: Props) {
   // PE 2/3 - change to tagsAreOpen
@@ -36,11 +38,13 @@ function RelearnSidebarTagList(props: Props) {
 
   const axios = useAxios()
 
+  const { setTags, setEditingTag } = useRelearnStore()
+
   // PE 2/3 - melhor deixar o setTags no RelearnPage ? E chamar tudo de uma vez em uma request?
   useEffect(
     () => {
       axios.get<TagDto[]>(urls.api.relearn.tag).then((res) => {
-        props.setTags(res.data)
+        setTags(res.data)
       })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,7 +52,9 @@ function RelearnSidebarTagList(props: Props) {
   )
 
   const handleAddTag = () => {
-    props.startNewTag(props.type === "private")
+    const newTag = newTagDto()
+    newTag.isPrivate = props.type === "private"
+    setEditingTag(newTag)
   }
 
   const sortedTags = useMemo(() => {
@@ -141,24 +147,4 @@ function RelearnSidebarTagList(props: Props) {
   )
 }
 
-const mapStateToProps = (state: ApplicationState) => ({})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setTags: (tags: TagDto[]) => dispatch(relearnActions.setTags(tags)),
-  startNewTag: (isPrivate: boolean) =>
-    dispatch(relearnActions.startNewTag(isPrivate)),
-})
-
-interface OwnProps {
-  type: "public" | "private"
-  tags: TagDto[]
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RelearnSidebarTagList)
+export default RelearnSidebarTagList

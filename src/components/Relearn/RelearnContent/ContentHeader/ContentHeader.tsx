@@ -4,22 +4,28 @@ import { makeStyles } from "@mui/styles"
 import { Box, Tab, Tabs, Typography } from "@mui/material"
 import React, { useEffect, useRef, useState } from "react"
 import { useDrop } from "react-dnd"
-import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
-import { Dispatch } from "redux"
 import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import useResponsiveStore from "store/zustand/useResponsiveStore"
 import { urls } from "utils/urls"
-import { removeTag } from "../../../../store/relearn/relearnActions"
-import { ApplicationState } from "../../../../store/store"
 import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto"
 import { TagDto } from "../../../../types/domain/relearn/TagDto"
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto"
 import Flex from "../../../_UI/Flexboxes/Flex"
 import SelectedResourcesOptions from "./SelectedResourcesOptions/SelectedResourcesOptions"
 
+interface Props {
+  onTabChange: (newTabIndex: number) => void
+  tabIndex: number
+  todoResources: ResourceDto[]
+  completedResources: ResourceDto[]
+  skills: SkillDto[]
+}
+
 // PE 2/3
 function ContentHeader(props: Props) {
+  const { tags: allTags, removeTag } = useRelearnStore()
+
   const classes = useStyles()
   const location = useLocation()
   const { selectedResourceIds } = useRelearnStore()
@@ -50,7 +56,7 @@ function ContentHeader(props: Props) {
       const tagId = Number(pathname.split("/").pop())
 
       if (tagId) {
-        const currentTag = props.allTags.find((t) => t.id === tagId)
+        const currentTag = allTags.find((t) => t.id === tagId)
         if (currentTag) {
           setTag(currentTag)
           document.title = currentTag.name + " - Relearn"
@@ -59,7 +65,7 @@ function ContentHeader(props: Props) {
     }
 
     // if you click in a tag or if you add/edit a tag
-  }, [location, props.allTags])
+  }, [location, allTags])
 
   // PE 2/3
   const handleChangeTab = (
@@ -162,24 +168,4 @@ const useStyles = makeStyles<Theme>((theme) => ({
   },
 }))
 
-const mapStateToProps = (state: ApplicationState) => ({
-  allTags: state.relearn.tags,
-})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  removeTag: (id: number) => dispatch(removeTag(id)),
-})
-
-interface OwnProps {
-  onTabChange: (newTabIndex: number) => void
-  tabIndex: number
-  todoResources: ResourceDto[]
-  completedResources: ResourceDto[]
-  skills: SkillDto[]
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContentHeader)
+export default ContentHeader

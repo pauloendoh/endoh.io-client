@@ -4,13 +4,16 @@ import SaveCancelButtons from "components/_UI/Buttons/SaveCancelButtons"
 import useMultiSelectResource from "hooks/relearn/useMultiSelectResource"
 import { useAxios } from "hooks/utils/useAxios"
 import { useState } from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import { setResources } from "store/relearn/relearnActions"
+import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { ResourceDto } from "types/domain/relearn/ResourceDto"
 import { urls } from "utils/urls"
-import { ApplicationState } from "../../../../../../store/store"
+
+type Props = {
+  resourceIds: number[]
+  isOpen: boolean
+  onClose: () => void
+}
 
 // PE 2/3
 const MoveResourcesToTagDialog = (props: Props) => {
@@ -18,6 +21,7 @@ const MoveResourcesToTagDialog = (props: Props) => {
   const { clearSelectedIds } = useMultiSelectResource()
   const [submitting, setSubmitting] = useState(false)
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
+  const { setResources } = useRelearnStore()
 
   const axios = useAxios()
 
@@ -29,7 +33,7 @@ const MoveResourcesToTagDialog = (props: Props) => {
         toTagId: selectedTagId,
       })
       .then((res) => {
-        props.setResources(res.data)
+        setResources(res.data)
         props.onClose()
         clearSelectedIds()
         setSuccessMessage("Resources saved!")
@@ -74,20 +78,4 @@ const MoveResourcesToTagDialog = (props: Props) => {
   )
 }
 
-const mapStateToProps = (state: ApplicationState) => ({})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setResources: (resources: ResourceDto[]) => dispatch(setResources(resources)),
-})
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> & {
-    resourceIds: number[]
-    isOpen: boolean
-    onClose: () => void
-  }
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MoveResourcesToTagDialog)
+export default MoveResourcesToTagDialog

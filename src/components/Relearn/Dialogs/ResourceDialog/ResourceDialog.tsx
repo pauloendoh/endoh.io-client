@@ -27,16 +27,13 @@ import { DateTime } from "luxon"
 import { useEffect, useMemo, useState } from "react"
 import { MdDeleteForever } from "react-icons/md"
 import ReactInputMask from "react-input-mask"
-import { connect } from "react-redux"
 import { useHistory, useLocation } from "react-router-dom"
-import { Dispatch } from "redux"
+import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import useDialogsStore from "store/zustand/useDialogsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { format } from "timeago.js"
 import { urls } from "utils/urls"
 import linkPng from "../../../../static/images/link.png"
-import * as relearnActions from "../../../../store/relearn/relearnActions"
-import { ApplicationState } from "../../../../store/store"
 import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto"
 import { TagDto } from "../../../../types/domain/relearn/TagDto"
 import { urlIsValid } from "../../../../utils/url/isValidUrl"
@@ -47,8 +44,17 @@ import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
 import MyTextField from "../../../_UI/MyInputs/MyTextField"
 import { useFetchLinkPreview } from "./useFetchLinkPreview/useFetchLinkPreview"
 
-// PE 1/3 - tá muito grande
-const ResourceDialog = (props: Props) => {
+const ResourceDialog = () => {
+  const {
+    resources,
+    tags,
+    editingResource,
+    setEditingResource,
+    removeResource,
+    setResources,
+    setTags,
+  } = useRelearnStore()
+
   const axios = useAxios()
   const theme = useTheme()
   const history = useHistory()
@@ -64,8 +70,8 @@ const ResourceDialog = (props: Props) => {
   )
 
   const sortedTags = useMemo(
-    () => props.tags?.sort((a, b) => (a.id > b.id ? 1 : -1)) || [],
-    [props.tags]
+    () => tags?.sort((a, b) => (a.id > b.id ? 1 : -1)) || [],
+    [tags]
   )
 
   const clearOpenResourceId = () => {
@@ -80,11 +86,11 @@ const ResourceDialog = (props: Props) => {
       return
     }
 
-    if (props.resources?.length === 0) return
+    if (resources?.length === 0) return
 
-    const resource = props.resources.find((r) => r.id === openResourceId)
+    const resource = resources.find((r) => r.id === openResourceId)
     if (resource) {
-      props.editResource(resource)
+      setEditingResource(resource)
 
       return
     }
@@ -92,16 +98,16 @@ const ResourceDialog = (props: Props) => {
     clearOpenResourceId()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [openResourceId, props.resources])
+  }, [openResourceId, resources])
 
   useEffect(() => {
-    if (props.editingResource) {
+    if (editingResource) {
       setInitialValues({
-        ...props.editingResource,
-        tag: props.editingResource?.tag || getCurrentTag(),
+        ...editingResource,
+        tag: editingResource?.tag || getCurrentTag(),
       })
     }
-  }, [props.editingResource])
+  }, [editingResource])
 
   const [isFetchingLinkPreview, setIsFetchingLinkPreview] = useState(false)
 
@@ -120,8 +126,8 @@ const ResourceDialog = (props: Props) => {
   }
 
   const [initialValues, setInitialValues] = useState<ResourceDto>({
-    ...props.editingResource,
-    tag: props.editingResource?.tag || getCurrentTag(),
+    ...editingResource,
+    tag: editingResource?.tag || getCurrentTag(),
   })
 
   const {
@@ -151,11 +157,11 @@ const ResourceDialog = (props: Props) => {
   })
 
   const isDisabled = useMemo(
-    () => !dirty || !props.editingResource,
-    [dirty, props.editingResource]
+    () => !dirty || !editingResource,
+    [dirty, editingResource]
   )
 
-  useConfirmTabClose(!!props.editingResource && dirty)
+  useConfirmTabClose(!!editingResource && dirty)
 
   const confirmClose = (isDirty: boolean) => {
     if (isDirty) {
@@ -170,7 +176,7 @@ const ResourceDialog = (props: Props) => {
 
   const closeAndClearQueryParam = () => {
     clearOpenResourceId()
-    props.closeResourceDialog()
+    setEditingResource(null)
   }
 
   const [isLoading, setIsLoading] = useState(false)
@@ -187,12 +193,13 @@ const ResourceDialog = (props: Props) => {
     axios
       .post<ResourceDto[]>(urls.api.relearn.resource, payload)
       .then((res) => {
-        const resources = [...props.resources]
-        props.setResources(res.data)
+        const currentResources = [...resources]
+
+        setResources(res.data)
         setSuccessMessage("Resource saved!")
 
         axios.get<TagDto[]>(urls.api.relearn.tag).then((res) => {
-          props.setTags(res.data)
+          setTags(res.data)
         })
 
         // PE 1/3 - why this?
@@ -203,13 +210,13 @@ const ResourceDialog = (props: Props) => {
 
         let newResource = res.data.find((r) => r.id === resource.id)
         if (!newResource) {
-          const prevResourcesIds = resources.map((r) => r.id)
+          const prevResourcesIds = currentResources.map((r) => r.id)
           newResource = res.data.find((r) => !prevResourcesIds.includes(r.id))
         }
 
         setInitialValues({
           ...newResource,
-          tag: props.editingResource?.tag || getCurrentTag(),
+          tag: editingResource?.tag || getCurrentTag(),
         })
       })
       .catch((err: AxiosError) => {
@@ -224,7 +231,7 @@ const ResourceDialog = (props: Props) => {
     throttle,
     setThrottle,
     setIsFetchingLinkPreview,
-    tags: props.tags,
+    tags,
     values,
   })
 
@@ -237,7 +244,8 @@ const ResourceDialog = (props: Props) => {
           .delete(`${urls.api.relearn.resource}/${values.id}`)
           .then((res) => {
             setSuccessMessage("Resource deleted!")
-            props.removeResource(values.id)
+
+            removeResource(values.id)
             closeAndClearQueryParam()
           })
       },
@@ -254,7 +262,7 @@ const ResourceDialog = (props: Props) => {
   return (
     <Dialog
       onClose={() => confirmClose(dirty)}
-      open={!!props.editingResource}
+      open={!!editingResource}
       fullWidth
       maxWidth="md"
       aria-labelledby="edit-resource-dialog"
@@ -516,24 +524,4 @@ const ResourceDialog = (props: Props) => {
   )
 }
 
-const mapStateToProps = (state: ApplicationState) => ({
-  // editingPlace: state.monerate.editingPlace,
-  resources: state.relearn.resources,
-  tags: state.relearn.tags,
-  editingResource: state.relearn.editingResource,
-})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  editResource: (resource: ResourceDto) =>
-    dispatch(relearnActions.editResource(resource)),
-  closeResourceDialog: () => dispatch(relearnActions.closeResourceDialog()),
-  setResources: (resources: ResourceDto[]) =>
-    dispatch(relearnActions.setResources(resources)),
-  setTags: (tags: TagDto[]) => dispatch(relearnActions.setTags(tags)),
-  removeResource: (id: number) => dispatch(relearnActions.removeResource(id)),
-})
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
-
-export default connect(mapStateToProps, mapDispatchToProps)(ResourceDialog)
+export default ResourceDialog

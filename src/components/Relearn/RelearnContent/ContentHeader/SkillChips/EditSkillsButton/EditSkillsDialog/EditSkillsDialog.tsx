@@ -1,11 +1,13 @@
 import { Box, Dialog, DialogContent } from "@mui/material"
 import React from "react"
-import { connect } from "react-redux"
-import { ApplicationState } from "../../../../../../../store/store"
 import { TagDto } from "../../../../../../../types/domain/relearn/TagDto"
 import SkillbaseTable from "../../../../../../Skillbase/SkillTable/SkillbaseTable"
 
-// PE 2/3
+interface Props {
+  tag: TagDto
+  onClose: () => void
+}
+
 function EditSkillsDialog(props: Props) {
   return (
     <Dialog
@@ -28,15 +30,4 @@ function EditSkillsDialog(props: Props) {
   )
 }
 
-const mapStateToProps = (state: ApplicationState) => ({
-  allTags: state.relearn.tags,
-})
-
-interface OwnProps {
-  tag: TagDto
-  onClose: () => void
-}
-
-type Props = ReturnType<typeof mapStateToProps> & OwnProps
-
-export default connect(mapStateToProps, undefined)(EditSkillsDialog)
+export default EditSkillsDialog

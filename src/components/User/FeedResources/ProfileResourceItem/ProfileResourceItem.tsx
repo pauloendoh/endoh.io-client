@@ -7,12 +7,10 @@ import ResourceDurationLabel from "components/Relearn/RelearnContent/ResourceLis
 import RatingButtonLabel from "components/_common/RatingButton/RatingButtonLabel/RatingButtonLabel"
 import Txt from "components/_UI/Text/Txt"
 import React, { useMemo, useState } from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
+import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import useAuthStore from "store/zustand/useAuthStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { urls } from "utils/urls"
-import * as relearnActions from "../../../../store/relearn/relearnActions"
 import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto"
 import myAxios from "../../../../utils/consts/myAxios"
 import { urlIsValid } from "../../../../utils/url/isValidUrl"
@@ -22,9 +20,16 @@ import ResourceThumbnail from "../../../_common/ResourceThumbnail/ResourceThumbn
 import Flex from "../../../_UI/Flexboxes/Flex"
 import MyTextField from "../../../_UI/MyInputs/MyTextField"
 
+interface Props {
+  resource: ResourceDto
+  style?: React.CSSProperties
+}
+
 // PE 1/3 - DRY with FeedPage's ? ...
 // This is for the user page... for the feed page, look for FeedResource.tsx
 function ProfileResourceItem(props: Props) {
+  const { setResources } = useRelearnStore()
+
   const classes = useStyles()
 
   const { authUser } = useAuthStore()
@@ -44,7 +49,7 @@ function ProfileResourceItem(props: Props) {
     myAxios
       .post<ResourceDto[]>(urls.api.relearn.resource, resource)
       .then((res) => {
-        props.setResources(res.data)
+        setResources(res.data)
 
         if (resource.rating) {
           setSuccessMessage("Resource rated!")
@@ -158,16 +163,4 @@ const useStyles = makeStyles<Theme>((theme) => ({
   },
 }))
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setResources: (resources: ResourceDto[]) =>
-    dispatch(relearnActions.setResources(resources)),
-})
-
-interface OwnProps {
-  resource: ResourceDto
-  style?: React.CSSProperties
-}
-
-type Props = ReturnType<typeof mapDispatchToProps> & OwnProps
-
-export default connect(undefined, mapDispatchToProps)(ProfileResourceItem)
+export default ProfileResourceItem

@@ -5,14 +5,10 @@ import { useAxios } from "hooks/utils/useAxios"
 import useHover from "hooks/utils/useHover"
 import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
 import { DateTime } from "luxon"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
+import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import Icons from "utils/styles/Icons"
 import { urls } from "utils/urls"
-import * as relearnActions from "../../../../../../store/relearn/relearnActions"
-import { ApplicationState } from "../../../../../../store/store"
-import { IMoveResource } from "../../../../../../types/domain/relearn/IMoveResource"
 import { ResourceDto } from "../../../../../../types/domain/relearn/ResourceDto"
 import RatingButton from "../../../../../_common/RatingButton/RatingButton"
 import ResourceThumbnail from "../../../../../_common/ResourceThumbnail/ResourceThumbnail"
@@ -24,6 +20,11 @@ import S from "./ResourceItem.styles"
 import ResourceItemTaskCheckbox from "./ResourceItemTaskCheckbox/ResourceItemTaskCheckbox"
 import ShowMoreTextField from "./ShowMoreTextField/ShowMoreTextField"
 
+interface Props {
+  resource: ResourceDto
+  showTag?: boolean
+}
+
 // PE 1/3
 function ResourceItem(props: Props) {
   const { setSuccessMessage } = useSnackbarStore()
@@ -31,13 +32,15 @@ function ResourceItem(props: Props) {
 
   const { downSm } = useMyMediaQuery()
 
+  const { setResources, setEditingResource } = useRelearnStore()
+
   const axios = useAxios()
   const handleSaveRating = (rating: number) => {
     const resource = { ...props.resource, rating } as ResourceDto
     axios
       .post<ResourceDto[]>(urls.api.relearn.resource, resource)
       .then((res) => {
-        props.setResources(res.data)
+        setResources(res.data)
 
         if (resource.rating) {
           setSuccessMessage("Resource rated!")
@@ -57,7 +60,7 @@ function ResourceItem(props: Props) {
     axios
       .post<ResourceDto[]>(urls.api.relearn.resource, resource)
       .then((res) => {
-        props.setResources(res.data)
+        setResources(res.data)
 
         if (checked) {
           setSuccessMessage("Task completed!")
@@ -77,7 +80,7 @@ function ResourceItem(props: Props) {
       onClick={(e) => {
         if (e.altKey) {
           e.preventDefault() // avoids downloading URL by accident
-          props.editResource(props.resource)
+          setEditingResource(props.resource)
         }
       }}
       onMouseEnter={handleMouseEnter}
@@ -191,26 +194,4 @@ function ResourceItem(props: Props) {
   )
 }
 
-const mapStateToProps = (state: ApplicationState) => ({})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  editResource: (resource: ResourceDto) =>
-    dispatch(relearnActions.editResource(resource)),
-  removeResource: (id: number) => dispatch(relearnActions.removeResource(id)),
-  moveResource: (params: IMoveResource) =>
-    dispatch(relearnActions.moveResource(params)),
-
-  setResources: (resources: ResourceDto[]) =>
-    dispatch(relearnActions.setResources(resources)),
-})
-
-interface OwnProps {
-  resource: ResourceDto
-  showTag?: boolean
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps
-
-export default connect(mapStateToProps, mapDispatchToProps)(ResourceItem)
+export default ResourceItem

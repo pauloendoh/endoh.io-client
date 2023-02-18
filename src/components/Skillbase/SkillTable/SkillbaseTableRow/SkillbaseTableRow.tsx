@@ -7,15 +7,25 @@ import Flex from "components/_UI/Flexboxes/Flex"
 import FlexCol from "components/_UI/Flexboxes/FlexCol"
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { MdCheckCircleOutline } from "react-icons/md"
-import { connect } from "react-redux"
+import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
-import { ApplicationState } from "../../../../store/store"
 import { TagDto } from "../../../../types/domain/relearn/TagDto"
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto"
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
 import SkillLevelTD from "./SkillLevelTd/SkillLevelTd"
+
+interface Props {
+  skill: SkillDto
+  index: number
+  isSelected: boolean
+  onCheck: (e: React.MouseEvent, skillId: number) => void
+  openLabelsDialog: (skill: SkillDto) => void
+}
+
 // PE 3/3
 const SkillbaseTableRow = (props: Props) => {
+  const { tags: allTags } = useRelearnStore()
+
   const theme = useTheme()
   const classes = useStyles()
   const { setEditingSkill } = useSkillbaseStore()
@@ -23,7 +33,7 @@ const SkillbaseTableRow = (props: Props) => {
   const labelId = `enhanced-table-checkbox-${props.index}`
 
   const findTagById = (id: number) => {
-    return props.allTags.find((tag) => tag.id === props.skill.tagId)
+    return allTags.find((tag) => tag.id === props.skill.tagId)
   }
 
   const [tag, setTag] = useState<TagDto>(findTagById(props.skill.tagId))
@@ -54,7 +64,7 @@ const SkillbaseTableRow = (props: Props) => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.skill.tagId, props.allTags]
+    [props.skill.tagId, allTags]
   )
 
   const currentGoalStep = useMemo(() => {
@@ -173,18 +183,4 @@ const useStyles = makeStyles<Theme>((theme) => ({
   },
 }))
 
-const mapStateToProps = (state: ApplicationState) => ({
-  allTags: state.relearn.tags,
-})
-
-interface OwnProps {
-  skill: SkillDto
-  index: number
-  isSelected: boolean
-  onCheck: (e: React.MouseEvent, skillId: number) => void
-  openLabelsDialog: (skill: SkillDto) => void
-}
-
-type Props = ReturnType<typeof mapStateToProps> & OwnProps
-
-export default connect(mapStateToProps, undefined)(SkillbaseTableRow)
+export default SkillbaseTableRow

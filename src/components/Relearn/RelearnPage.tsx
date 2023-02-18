@@ -6,14 +6,11 @@ import classNames from "classnames"
 import useMultiSelectResource from "hooks/relearn/useMultiSelectResource"
 import { useAxios } from "hooks/utils/useAxios"
 import { useEffect, useState } from "react"
-import { connect } from "react-redux"
 import { Redirect, useLocation, useParams } from "react-router-dom"
-import { Dispatch } from "redux"
+import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import useWindowFocus from "use-window-focus"
 import { urls } from "utils/urls"
-import * as relearnActions from "../../store/relearn/relearnActions"
-import { ApplicationState } from "../../store/store"
 import useSidebarStore from "../../store/zustand/useSidebarStore"
 import { ResourceDto } from "../../types/domain/relearn/ResourceDto"
 import { SkillDto } from "../../types/domain/skillbase/SkillDto"
@@ -23,10 +20,17 @@ import RelearnContent from "./RelearnContent/RelearnContent"
 import RelearnSidebar from "./RelearnSidebar/RelearnSidebar"
 import TagDialog from "./TagDialog/TagDialog"
 
-const RelearnPage = (props: Props) => {
+const RelearnPage = () => {
+  const {
+    resources,
+    hasFirstLoaded,
+    tags: allTags,
+    setResources,
+  } = useRelearnStore()
+
   const classes = useStyles()
   const windowFocused = useWindowFocus()
-  const { setSkills: setSkillsStore, skills: allSkills } = useSkillbaseStore()
+  const { setSkills: setSkillsStore } = useSkillbaseStore()
 
   const params = useParams<{ tagId?: string }>()
   const { clearSelectedIds } = useMultiSelectResource()
@@ -41,7 +45,7 @@ const RelearnPage = (props: Props) => {
 
   const fetchResourcesAndSkills = () => {
     axios.get<ResourceDto[]>(urls.api.relearn.resource).then((res) => {
-      props.setResources(res.data)
+      setResources(res.data)
     })
 
     axios.get<SkillDto[]>(urls.api.skillbase.skill).then((res) => {
@@ -76,14 +80,14 @@ const RelearnPage = (props: Props) => {
       // Filtrando resource por tags. Melhor colocar em outro arquivo?
       if (pathname === urls.pages.resources.index) {
         setFilteredResources(
-          props.resources.filter((resource) => resource.tag === null)
+          resources.filter((resource) => resource.tag === null)
         )
         document.title = "Untagged - Relearn"
       } else if (pathname.startsWith(urls.pages.resources.tag)) {
         const tagId = Number(pathname.split("/").pop())
         if (tagId) {
           setFilteredResources(
-            props.resources.filter((resource) => {
+            resources.filter((resource) => {
               return resource.tag?.id === tagId
             })
           )
@@ -93,7 +97,7 @@ const RelearnPage = (props: Props) => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.resources, location]
+    [resources, location]
   )
 
   useEffect(() => {
@@ -104,8 +108,8 @@ const RelearnPage = (props: Props) => {
   useEffect(
     () => {
       // open last opened tag
-      if (props.allTags?.length > 0) {
-        const lastOpened = props.allTags.sort((a, b) => {
+      if (allTags?.length > 0) {
+        const lastOpened = allTags.sort((a, b) => {
           if (a.lastOpenedAt === undefined) return -1
           if (b.lastOpenedAt === undefined) return 1
 
@@ -117,16 +121,14 @@ const RelearnPage = (props: Props) => {
           return
         }
 
-        const foundTag = props.allTags.find(
-          (tag) => tag.id === Number(params.tagId)
-        )
+        const foundTag = allTags.find((tag) => tag.id === Number(params.tagId))
         if (!foundTag) {
           setRedirectTo(urls.pages.resources.tagId(lastOpened.id))
         }
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.allTags, params.tagId]
+    [allTags, params.tagId]
   )
 
   if (redirectTo.length > 0) {
@@ -151,7 +153,7 @@ const RelearnPage = (props: Props) => {
           marginLeft: sidebarIsOpen ? 300 / 8 : 0,
         })}
       >
-        {props.hasFirstLoaded ? (
+        {hasFirstLoaded ? (
           <RelearnContent resources={filteredResources} skills={skills} />
         ) : (
           <div style={{ marginTop: 32 }}>
@@ -182,21 +184,4 @@ const useStyles = makeStyles<Theme>((theme) => ({
   },
 }))
 
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
-
-const mapStateToProps = (state: ApplicationState) => ({
-  resources: state.relearn.resources,
-  hasFirstLoaded: state.relearn.hasFirstLoaded,
-
-  allTags: state.relearn.tags,
-})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setResources: (resources: ResourceDto[]) =>
-    dispatch(relearnActions.setResources(resources)),
-
-  startNewResource: () => dispatch(relearnActions.startNewResource()),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(RelearnPage)
+export default RelearnPage

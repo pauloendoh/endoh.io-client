@@ -14,17 +14,22 @@ import {
 } from "@mui/material"
 import { useAxios } from "hooks/utils/useAxios"
 import React from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
+import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import useDialogsStore from "store/zustand/useDialogsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { urls } from "utils/urls"
-import * as relearnActions from "../../../../../store/relearn/relearnActions"
 import { TagDto } from "../../../../../types/domain/relearn/TagDto"
+
+interface Props {
+  tag: TagDto
+  afterDelete?: () => void
+}
 
 // PE 2/3 - MenuItem could be shorter?
 function TagMoreIcon(props: Props) {
   const classes = useStyles()
+
+  const { setEditingTag, removeTag } = useRelearnStore()
 
   const dialogStore = useDialogsStore()
   const { setSuccessMessage } = useSnackbarStore()
@@ -49,7 +54,8 @@ function TagMoreIcon(props: Props) {
 
           props.afterDelete()
 
-          props.removeTag(id)
+          setEditingTag(null)
+          removeTag(id)
         })
       },
     })
@@ -85,7 +91,7 @@ function TagMoreIcon(props: Props) {
         <MenuItem
           onClick={(e) => {
             e.preventDefault()
-            props.editTag(props.tag)
+            setEditingTag(props.tag)
             handleCloseMore()
           }}
         >
@@ -135,16 +141,4 @@ const useStyles = makeStyles<Theme>((theme: Theme) =>
   })
 )
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  editTag: (tag: TagDto) => dispatch(relearnActions.editTag(tag)),
-  removeTag: (id: number) => dispatch(relearnActions.removeTag(id)),
-})
-
-interface OwnProps {
-  tag: TagDto
-  afterDelete?: () => void
-}
-
-type Props = ReturnType<typeof mapDispatchToProps> & OwnProps
-
-export default connect(undefined, mapDispatchToProps)(TagMoreIcon)
+export default TagMoreIcon

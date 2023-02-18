@@ -5,17 +5,21 @@ import { Box } from "@mui/material"
 import useMultiSelectResource from "hooks/relearn/useMultiSelectResource"
 import { useRef } from "react"
 import { useDrag, useDrop } from "react-dnd"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
+import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
-import * as relearnActions from "../../../../../store/relearn/relearnActions"
-import { ApplicationState } from "../../../../../store/store"
-import { IMoveResource } from "../../../../../types/domain/relearn/IMoveResource"
 import { ResourceDto } from "../../../../../types/domain/relearn/ResourceDto"
 import ResourceItem from "./ResourceItem/ResourceItem"
 
+interface Props {
+  resource: ResourceDto
+  className?: string
+  index: number
+}
+
 // PE 1/3
 function DraggableResourceItem(props: Props) {
+  const { moveResource, setResources } = useRelearnStore()
+
   const classes = useStyles()
   const { idIsSelected } = useMultiSelectResource()
 
@@ -57,7 +61,7 @@ function DraggableResourceItem(props: Props) {
         return
       }
 
-      props.moveResource({
+      moveResource({
         tagId: props.resource.tag ? props.resource.tag.id : null,
         fromIndex: draggedIndex,
         toIndex: targetIndex,
@@ -97,27 +101,4 @@ const useStyles = makeStyles<Theme>((theme) => ({
   },
 }))
 
-const mapStateToProps = (state: ApplicationState) => ({})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  moveResource: (params: IMoveResource) =>
-    dispatch(relearnActions.moveResource(params)),
-
-  setResources: (resources: ResourceDto[]) =>
-    dispatch(relearnActions.setResources(resources)),
-})
-
-interface OwnProps {
-  resource: ResourceDto
-  className?: string
-  index: number
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DraggableResourceItem)
+export default DraggableResourceItem

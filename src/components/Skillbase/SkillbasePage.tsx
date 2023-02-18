@@ -5,13 +5,12 @@ import { Box, Paper } from "@mui/material"
 import clsx from "clsx"
 import { useAxios } from "hooks/utils/useAxios"
 import { useEffect, useState } from "react"
-import { connect } from "react-redux"
 import { useLocation } from "react-router-dom"
+import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import useWindowFocus from "use-window-focus"
 import titles from "utils/titles"
 import { urls } from "utils/urls"
-import { ApplicationState } from "../../store/store"
 import useSidebarStore from "../../store/zustand/useSidebarStore"
 import { TagDto } from "../../types/domain/relearn/TagDto"
 import { SkillDto } from "../../types/domain/skillbase/SkillDto"
@@ -19,7 +18,10 @@ import LoadingPage from "../_common/LoadingPage/LoadingPage"
 import Flex from "../_UI/Flexboxes/Flex"
 import ProgressSidebar from "./ProgressSidebar/ProgressSidebar"
 import SkillbaseTable from "./SkillTable/SkillbaseTable"
-const SkillbasePage = (props: Props) => {
+
+const SkillbasePage = () => {
+  const { tags: allTags } = useRelearnStore()
+
   const classes = useStyles()
   const { pathname } = useLocation()
   const windowFocused = useWindowFocus()
@@ -57,7 +59,7 @@ const SkillbasePage = (props: Props) => {
     } else if (pathname.startsWith(urls.pages.skills.tag + "/")) {
       const tagId = Number(pathname.split("/").pop())
       if (tagId) {
-        const tag = props.allTags.find((tag) => tag.id === tagId)
+        const tag = allTags.find((tag) => tag.id === tagId)
         if (tag) {
           setSelectedTag(tag)
           document.title = titles.skillPage(tag.name)
@@ -67,7 +69,7 @@ const SkillbasePage = (props: Props) => {
       setSelectedTag(null)
       document.title = titles.skillPage()
     }
-  }, [pathname, props.allTags])
+  }, [pathname, allTags])
 
   return (
     <Flex height="100%" pt={5} justifyContent="center">
@@ -115,10 +117,4 @@ const useStyles = makeStyles<Theme>((theme) => ({
   },
 }))
 
-type Props = ReturnType<typeof mapStateToProps>
-
-const mapStateToProps = (state: ApplicationState) => ({
-  allTags: state.relearn.tags,
-})
-
-export default connect(mapStateToProps, undefined)(SkillbasePage)
+export default SkillbasePage

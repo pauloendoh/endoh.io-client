@@ -14,13 +14,11 @@ import Txt from "components/_UI/Text/Txt"
 import useDebounce from "hooks/utils/useDebounce"
 import { useEffect, useState } from "react"
 import { MdSearch } from "react-icons/md"
-import { connect } from "react-redux"
 import { useHistory, useLocation } from "react-router-dom"
-import { Dispatch } from "redux"
+import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { urls } from "utils/urls"
-import { ApplicationState } from "../../../../store/store"
 import { TagDto } from "../../../../types/domain/relearn/TagDto"
 import { getCurrentTag } from "../../../../utils/skillbase/getCurrentTag"
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
@@ -28,7 +26,15 @@ import TagIcon from "../../../_UI/Icon/TagIcon"
 import SkillbaseFilterButton from "./SkillbaseFilterButton/SkillbaseFilterButton"
 import { optionTypes } from "./SkillbaseTagSelector/SkillbaseTagSelector"
 
+type Props = {
+  fixedTag: TagDto
+  numSelected: number
+  onClickDelete: () => void
+}
+
 const SkillTableToolbar = (props: Props) => {
+  const { tags: allTags } = useRelearnStore()
+
   const classes = useStyles()
   const history = useHistory()
   const location = useLocation()
@@ -56,7 +62,7 @@ const SkillTableToolbar = (props: Props) => {
     if (pathname.includes(urls.pages.skills.untagged))
       setTagSelectorValue("Untagged")
     else if (pathname.includes(urls.pages.skills.tag)) {
-      const currentTag = getCurrentTag(pathname, props.allTags)
+      const currentTag = getCurrentTag(pathname, allTags)
       if (currentTag) {
         setTagSelectorValue(currentTag)
         return
@@ -155,17 +161,4 @@ const useStyles = makeStyles<Theme>((theme: Theme) => ({
   },
 }))
 
-type Props = {
-  fixedTag: TagDto
-  numSelected: number
-  onClickDelete: () => void
-} & ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
-
-const mapStateToProps = (state: ApplicationState) => ({
-  allTags: state.relearn.tags,
-})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
-
-export default connect(mapStateToProps, mapDispatchToProps)(SkillTableToolbar)
+export default SkillTableToolbar

@@ -7,9 +7,7 @@ import {
 } from "@mui/material"
 import TagIcon from "components/_UI/Icon/TagIcon"
 import React, { useEffect, useMemo, useState } from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import { ApplicationState } from "../../../../store/store"
+import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import { TagDto } from "../../../../types/domain/relearn/TagDto"
 import FlexHCenter from "../../../_UI/Flexboxes/FlexHCenter"
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
@@ -18,19 +16,21 @@ import MyTextField from "../../../_UI/MyInputs/MyTextField"
 const SkillDialogTagSelector = (props: Props) => {
   const [tag, setTag] = useState<TagDto>(null)
 
+  const { tags: allTags } = useRelearnStore()
+
   useEffect(
     () => {
       if (props.selectedTagId)
-        setTag(props.allTags.find((tag) => tag.id === props.selectedTagId))
+        setTag(allTags.find((tag) => tag.id === props.selectedTagId))
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.selectedTagId]
   )
 
   const sortedTags = useMemo(() => {
-    if (props.allTags?.length === 0) return []
-    return props.allTags.sort((a, b) => (a.id > b.id ? 1 : -1))
-  }, [props.allTags])
+    if (allTags?.length === 0) return []
+    return allTags.sort((a, b) => (a.id > b.id ? 1 : -1))
+  }, [allTags])
 
   return (
     <Autocomplete // PE 1/3 - dry into <TagSelector/> also used at skill dialog
@@ -73,13 +73,7 @@ const SkillDialogTagSelector = (props: Props) => {
   )
 }
 
-const mapStateToProps = (state: ApplicationState) => ({
-  allTags: state.relearn.tags,
-})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
-
-interface OwnProps {
+interface Props {
   selectedTagId: number
   required?: boolean
   onChange?: (
@@ -90,11 +84,4 @@ interface OwnProps {
   ) => void
 }
 
-type Props = OwnProps &
-  ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SkillDialogTagSelector)
+export default SkillDialogTagSelector

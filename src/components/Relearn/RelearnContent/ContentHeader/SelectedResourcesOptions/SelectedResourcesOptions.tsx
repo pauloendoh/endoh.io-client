@@ -7,10 +7,6 @@ import useMultiSelectResource from "hooks/relearn/useMultiSelectResource"
 import { useAxios } from "hooks/utils/useAxios"
 import { useState } from "react"
 import { MdDeleteForever } from "react-icons/md"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
-import { setResources } from "store/relearn/relearnActions"
-import { ApplicationState } from "store/store"
 import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import useDialogsStore from "store/zustand/useDialogsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
@@ -18,8 +14,9 @@ import { ResourceDto } from "types/domain/relearn/ResourceDto"
 import { urls } from "utils/urls"
 import MoveResourcesToTagDialog from "./MoveResourcesToTagDialog/MoveResourcesToTagDialog"
 // PE 2/3
-const SelectedResourcesOptions = (props: Props) => {
+const SelectedResourcesOptions = () => {
   const theme = useTheme()
+  const { setResources } = useRelearnStore()
 
   const { openConfirmDialog } = useDialogsStore()
   const { selectedResourceIds } = useRelearnStore()
@@ -38,7 +35,7 @@ const SelectedResourcesOptions = (props: Props) => {
         },
       })
       .then((res) => {
-        props.setResources(res.data)
+        setResources(res.data)
         clearSelectedIds()
         setSuccessMessage("Resources deleted!")
       })
@@ -89,16 +86,4 @@ const SelectedResourcesOptions = (props: Props) => {
   )
 }
 
-const mapStateToProps = (state: ApplicationState) => ({})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setResources: (resources: ResourceDto[]) => dispatch(setResources(resources)),
-})
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SelectedResourcesOptions)
+export default SelectedResourcesOptions
