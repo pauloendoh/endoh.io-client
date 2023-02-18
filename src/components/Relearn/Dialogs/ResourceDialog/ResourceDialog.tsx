@@ -5,7 +5,6 @@ import { Autocomplete } from "@mui/lab"
 import {
   Backdrop,
   Box,
-  Button,
   CircularProgress,
   Dialog,
   DialogContent,
@@ -26,7 +25,7 @@ import { useAxios } from "hooks/utils/useAxios"
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
 import { DateTime } from "luxon"
 import { useEffect, useMemo, useState } from "react"
-import { MdDeleteForever, MdSave } from "react-icons/md"
+import { MdSave } from "react-icons/md"
 import ReactInputMask from "react-input-mask"
 import { useHistory, useLocation } from "react-router-dom"
 import useRelearnStore from "store/zustand/domain/useRelearnStore"
@@ -43,6 +42,7 @@ import SaveCancelButtons from "../../../_UI/Buttons/SaveCancelButtons"
 import Flex from "../../../_UI/Flexboxes/Flex"
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
 import MyTextField from "../../../_UI/MyInputs/MyTextField"
+import ResourceDialogMoreMenu from "./ResourceDialogMoreMenu/ResourceDialogMoreMenu"
 import { useFetchLinkPreview } from "./useFetchLinkPreview/useFetchLinkPreview"
 
 const ResourceDialog = () => {
@@ -236,7 +236,6 @@ const ResourceDialog = () => {
     values,
   })
 
-  // PE 1/3 - dry with resource more icon?
   const handleDeleteResource = () => {
     openConfirmDialog({
       title: "Delete resource?",
@@ -300,15 +299,10 @@ const ResourceDialog = () => {
                 }
               />
               {values.id > 0 && (
-                <Button
-                  onClick={handleDeleteResource}
-                  style={{
-                    color: theme.palette.error.main,
-                  }}
-                  startIcon={<MdDeleteForever />}
-                >
-                  Delete
-                </Button>
+                <ResourceDialogMoreMenu
+                  resource={values}
+                  onClickDelete={handleDeleteResource}
+                />
 
                 // <ResourceMoreIcon isHovered resource={values} />
               )}
