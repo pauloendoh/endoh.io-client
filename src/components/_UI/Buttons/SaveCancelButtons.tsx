@@ -1,6 +1,8 @@
 import { LoadingButton } from "@mui/lab"
-import { Box, Button } from "@mui/material"
+import { Box, Button, IconButton } from "@mui/material"
+import { ReactNode } from "react"
 import { useHotkeys } from "react-hotkeys-hook"
+import { MdClose } from "react-icons/md"
 import Flex from "../Flexboxes/Flex"
 
 interface Props {
@@ -11,6 +13,8 @@ interface Props {
   onCancel?: () => void
   onEnabledAndCtrlEnter?: () => void
   onEnableAndCtrlS?: () => void
+  showCancelAsIcon?: boolean
+  saveButtonText?: ReactNode
 }
 
 const SaveCancelButtons = (props: Props) => {
@@ -52,13 +56,23 @@ const SaveCancelButtons = (props: Props) => {
         disabled={props.disabled || props.isLoading}
         onClick={props.onSave}
       >
-        Save
+        {props.saveButtonText || "Save"}
       </LoadingButton>
 
       <Box ml={1}>
-        <Button onClick={props.onCancel} color="inherit">
-          Cancel
-        </Button>
+        {props.showCancelAsIcon ? (
+          <IconButton
+            onClick={props.onCancel}
+            color="inherit"
+            sx={{ minWidth: "auto" }}
+          >
+            <MdClose />
+          </IconButton>
+        ) : (
+          <Button onClick={props.onCancel} color="inherit">
+            Cancel
+          </Button>
+        )}
       </Box>
     </Flex>
   )

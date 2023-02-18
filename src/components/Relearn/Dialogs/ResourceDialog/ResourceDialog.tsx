@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import HighlightOffIcon from "@mui/icons-material/HighlightOff"
 import { Autocomplete } from "@mui/lab"
 import {
+  Backdrop,
   Box,
   Button,
   CircularProgress,
@@ -25,7 +26,7 @@ import { useAxios } from "hooks/utils/useAxios"
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
 import { DateTime } from "luxon"
 import { useEffect, useMemo, useState } from "react"
-import { MdDeleteForever } from "react-icons/md"
+import { MdDeleteForever, MdSave } from "react-icons/md"
 import ReactInputMask from "react-input-mask"
 import { useHistory, useLocation } from "react-router-dom"
 import useRelearnStore from "store/zustand/domain/useRelearnStore"
@@ -268,6 +269,12 @@ const ResourceDialog = () => {
       aria-labelledby="edit-resource-dialog"
     >
       <form onSubmit={formikHandleSubmit}>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={isLoading}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
         <DialogTitle id="edit-resource-dialog-title">
           <FlexVCenterBetween>
             <Txt variant="h5">
@@ -284,6 +291,13 @@ const ResourceDialog = () => {
                   handleSubmit(values, false)
                 }}
                 onCancel={() => confirmClose(dirty)}
+                showCancelAsIcon
+                saveButtonText={
+                  <FlexVCenter gap={1}>
+                    <MdSave fontSize={16} />
+                    Save and close
+                  </FlexVCenter>
+                }
               />
               {values.id > 0 && (
                 <Button
