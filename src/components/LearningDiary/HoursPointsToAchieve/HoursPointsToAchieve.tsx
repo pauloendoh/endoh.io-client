@@ -23,7 +23,7 @@ const HoursPointsToAchieve = (props: Props) => {
 
     const diffPoints = lastData.topPercentDaysAvgCount - todayLearningCount
 
-    const currentHour = new Date().getHours() + 1
+    const currentHour = new Date().getHours()
     const diffHour = 24 - currentHour
     const diffPointsPerHour = diffPoints / diffHour
 
