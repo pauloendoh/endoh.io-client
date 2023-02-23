@@ -78,7 +78,8 @@ const DiaryTableRow = (props: Props) => {
     <TableRow>
       {!downSm && (
         <TD align="center" className={classes.td}>
-          {new Date(learning.datetime).toLocaleTimeString("en-US", {
+          {new Date(learning.datetime).toLocaleTimeString("en-GB", {
+            // show 00:01 instead of 24:01
             hour: "2-digit",
             minute: "2-digit",
             hour12: false,
