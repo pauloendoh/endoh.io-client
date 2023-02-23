@@ -85,16 +85,6 @@ const DiaryTableRow = (props: Props) => {
           })}
         </TD>
       )}
-      <TableCell className={classes.textareaCell} onClick={focusDescription}>
-        <TextareaAutosize
-          ref={descriptionRef}
-          onChange={(e) => changeDescription(e.target.value)}
-          value={learning.description}
-          className={classes.textarea}
-          autoFocus
-        />
-      </TableCell>
-
       <TableCell align="center" className={classes.td}>
         <input
           min={1}
@@ -117,15 +107,16 @@ const DiaryTableRow = (props: Props) => {
             padding: 4,
           }}
         />
-        {/* <IconButton size="small" onClick={toggleHighlight}>
-          <MdStar
-            style={{
-              color: learning.isHighlight
-                ? colors.ratingYellow[5]
-                : colors.ratingYellow[1],
-            }}
-          />
-        </IconButton> */}
+      </TableCell>
+
+      <TableCell className={classes.textareaCell} onClick={focusDescription}>
+        <TextareaAutosize
+          ref={descriptionRef}
+          onChange={(e) => changeDescription(e.target.value)}
+          value={learning.description}
+          className={classes.textarea}
+          autoFocus
+        />
       </TableCell>
     </TableRow>
   )

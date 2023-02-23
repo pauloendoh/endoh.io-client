@@ -21,8 +21,9 @@ const LandingPageDescription = () => {
       <FlexHCenter mt={1}>
         {/* TODO: create a utils/SecondaryTxt */}
         <Typography variant="subtitle1">
-          Online tools for self-learners
+          Online tools for self-learners.
         </Typography>
+        <Typography variant="subtitle2">Learn once, keep forever.</Typography>
       </FlexHCenter>
     </FlexHCenter>
   )

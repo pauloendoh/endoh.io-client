@@ -35,7 +35,7 @@ const SaveCancelButtons = (props: Props) => {
     "ctrl+s",
     (e) => {
       e.preventDefault()
-      if (!props.disabled && !props.isLoading && props.onEnabledAndCtrlEnter) {
+      if (!props.disabled && !props.isLoading && props.onEnableAndCtrlS) {
         props.onEnableAndCtrlS()
       }
     },
