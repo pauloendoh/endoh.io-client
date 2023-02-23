@@ -4,7 +4,7 @@ import { TD } from "components/_UI/Table/MyTableWrappers"
 import {
   LearningsQuery,
   useLearningsQuery,
-  useUpdateLearningMutation,
+  useUpdateLearningMutation
 } from "generated/graphql"
 import useDebounce from "hooks/utils/useDebounce"
 import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
