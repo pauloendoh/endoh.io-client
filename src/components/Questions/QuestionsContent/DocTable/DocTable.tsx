@@ -56,7 +56,7 @@ const DocTable = (props: Props) => {
         axios
           .post<NoteDto>(urls.api.define.note, changed)
           .then((res) => {
-            docsStore.pushOrReplaceNote(res.data)
+            // docsStore.pushOrReplaceNote(res.data)
           })
           .finally(() => setIsSaving(false))
       }, 500)
@@ -64,7 +64,7 @@ const DocTable = (props: Props) => {
   }
 
   const getRowKey = (note: NoteDto) => {
-    return `${note.id}-${note.weight}`
+    return `${note.id}-${note.weight}-${note.updatedAt}`
   }
 
   const setSuccessMessage = useSnackbarStore((s) => s.setSuccessMessage)

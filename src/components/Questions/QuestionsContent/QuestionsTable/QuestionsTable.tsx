@@ -8,6 +8,7 @@ interface Props {
   docId: number
 }
 
+// PE 1/3 - delete?
 export default function QuestionsTable(props: Props) {
   const [notes] = useDocsStore((s) => [s.notes])
 
