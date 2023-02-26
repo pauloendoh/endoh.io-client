@@ -1,6 +1,6 @@
 import { Fab, Tooltip } from "@mui/material"
 import { useDefaultSubmitQuestion } from "hooks/questions/useDefaultSubmitQuestion"
-import { useMemo } from "react"
+import { useCallback, useMemo } from "react"
 import { useHotkeys } from "react-hotkeys-hook"
 import { useLocation } from "react-router-dom"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
@@ -40,19 +40,19 @@ const NavbarAddButton = () => {
     return location.pathname.includes("questions")
   }, [location.pathname])
 
-  const handleActivateButton = () => {
+  const handleActivateButton = useCallback(() => {
     if (isQuestionsPage) {
       openQuestionDialog()
       return
     }
 
-    if (!editingResource) setEditingResource(newResourceDto())
-  }
+    setEditingResource(newResourceDto())
+  }, [isQuestionsPage, editingResource])
 
   // PE 1/3 - put into a hook 'useQHotkey'
   useHotkeys(
     "q",
-    (e) => {
+    () => {
       sleep(100).then(() => handleActivateButton())
     },
     [location, docs] // if you don't put 'docs', sometimes it will appear unselected

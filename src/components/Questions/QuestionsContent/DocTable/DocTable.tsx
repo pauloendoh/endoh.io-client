@@ -9,8 +9,6 @@ import { useAxios } from "hooks/utils/useAxios"
 import { useMemo, useState } from "react"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
-import useAuthStore from "store/zustand/useAuthStore"
-import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { urls } from "utils/urls"
 import {
   buildNoteDto,
@@ -23,13 +21,10 @@ import DocTableRow from "./DocTableRow/DocTableRow"
 
 const DocTable = (props: Props) => {
   const docsStore = useDocsStore()
-  const { authUser } = useAuthStore()
-
-  const myAxios = useAxios()
 
   const classes = useStyles()
 
-  const [openNoteDialog, onClose] = useNoteDialogStore((s) => [
+  const [openNoteDialog] = useNoteDialogStore((s) => [
     s.openNoteDialog,
     s.onClose,
   ])
@@ -66,8 +61,6 @@ const DocTable = (props: Props) => {
   const getRowKey = (note: NoteDto) => {
     return `${note.id}-${note.weight}-${note.updatedAt}`
   }
-
-  const setSuccessMessage = useSnackbarStore((s) => s.setSuccessMessage)
 
   const theme = useTheme()
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"))
