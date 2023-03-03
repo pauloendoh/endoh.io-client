@@ -4,7 +4,7 @@ import { TD } from "components/_UI/Table/MyTableWrappers"
 import {
   LearningsQuery,
   useLearningsQuery,
-  useUpdateLearningMutation
+  useUpdateLearningMutation,
 } from "generated/graphql"
 import useDebounce from "hooks/utils/useDebounce"
 import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
@@ -86,6 +86,17 @@ const DiaryTableRow = (props: Props) => {
           })}
         </TD>
       )}
+
+      <TableCell className={classes.textareaCell} onClick={focusDescription}>
+        <TextareaAutosize
+          ref={descriptionRef}
+          onChange={(e) => changeDescription(e.target.value)}
+          value={learning.description}
+          className={classes.textarea}
+          autoFocus
+        />
+      </TableCell>
+
       <TableCell align="center" className={classes.td}>
         <input
           min={1}
@@ -107,16 +118,6 @@ const DiaryTableRow = (props: Props) => {
             width: 40,
             padding: 4,
           }}
-        />
-      </TableCell>
-
-      <TableCell className={classes.textareaCell} onClick={focusDescription}>
-        <TextareaAutosize
-          ref={descriptionRef}
-          onChange={(e) => changeDescription(e.target.value)}
-          value={learning.description}
-          className={classes.textarea}
-          autoFocus
         />
       </TableCell>
     </TableRow>

@@ -47,11 +47,11 @@ const DiaryTable = () => {
                 </TD>
               )}
 
+              <TD>Learning</TD>
+
               <TD align="center" width="100px">
                 Points
               </TD>
-
-              <TD>Learning</TD>
             </TR>
           </THead>
 

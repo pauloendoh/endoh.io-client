@@ -1,9 +1,9 @@
+import { shortNumberFormatter } from "endoh-utils"
 import { LinkPreviewDto } from "generated/graphql"
 import { useAxios } from "hooks/utils/useAxios"
 import useDialogsStore from "store/zustand/useDialogsStore"
 import { ResourceDto } from "types/domain/relearn/ResourceDto"
 import { TagDto } from "types/domain/relearn/TagDto"
-import { shortNumberFormatter } from "utils/math/shortNumberFormatter"
 import { urlIsValid } from "utils/url/isValidUrl"
 import { urls } from "utils/urls"
 
@@ -83,7 +83,8 @@ export const useFetchLinkPreview = ({
                 })
               }
             })
-            .catch(() => {
+            .catch((e) => {
+              console.log(e)
               setFieldValue("title", "")
             })
             .finally(() => {
