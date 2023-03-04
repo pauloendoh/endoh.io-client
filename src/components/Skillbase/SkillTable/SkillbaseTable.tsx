@@ -213,7 +213,7 @@ const SkillbaseTable = (props: Props) => {
 
 const useStyles = makeStyles<Theme>((theme: Theme) => ({
   container: {
-    maxHeight: 440,
+    maxHeight: "calc(100vh - 320px)",
   },
   table: {
     minWidth: 750,

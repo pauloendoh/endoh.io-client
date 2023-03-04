@@ -25,7 +25,7 @@ import { useAxios } from "hooks/utils/useAxios"
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
 import { DateTime } from "luxon"
 import { useEffect, useMemo, useState } from "react"
-import { MdSave } from "react-icons/md"
+import { MdClose, MdSave } from "react-icons/md"
 import ReactInputMask from "react-input-mask"
 import { useHistory, useLocation } from "react-router-dom"
 import useRelearnStore from "store/zustand/domain/useRelearnStore"
@@ -290,7 +290,7 @@ const ResourceDialog = () => {
                   handleSubmit(values, false)
                 }}
                 onCancel={() => confirmClose(dirty)}
-                showCancelAsIcon
+                hideCancelButton
                 saveButtonText={
                   <FlexVCenter gap={1}>
                     <MdSave fontSize={16} />
@@ -303,9 +303,15 @@ const ResourceDialog = () => {
                   resource={values}
                   onClickDelete={handleDeleteResource}
                 />
-
-                // <ResourceMoreIcon isHovered resource={values} />
               )}
+
+              <IconButton
+                onClick={() => confirmClose(dirty)}
+                color="inherit"
+                sx={{ minWidth: "auto" }}
+              >
+                <MdClose />
+              </IconButton>
             </FlexVCenter>
           </FlexVCenterBetween>
         </DialogTitle>
