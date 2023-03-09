@@ -4,6 +4,7 @@ import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { NoteDto } from "types/domain/questions/NoteDto"
 import { urls } from "utils/urls"
+import QuestionSavedMessage from "./QuestionSavedMessage/QuestionSavedMessage"
 
 export const useDefaultSubmitQuestion = () => {
   const { onClose, setIsSubmitting } = useNoteDialogStore()
@@ -22,7 +23,7 @@ export const useDefaultSubmitQuestion = () => {
         pushOrReplaceNote(res.data)
 
         onClose()
-        setSuccessMessage("Question saved!")
+        setSuccessMessage(<QuestionSavedMessage question={res.data} />)
       })
       .finally(() => setIsSubmitting(false))
   }
