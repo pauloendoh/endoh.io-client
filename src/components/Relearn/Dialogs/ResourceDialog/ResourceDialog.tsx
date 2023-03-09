@@ -43,6 +43,7 @@ import Flex from "../../../_UI/Flexboxes/Flex"
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
 import MyTextField from "../../../_UI/MyInputs/MyTextField"
 import ResourceDialogMoreMenu from "./ResourceDialogMoreMenu/ResourceDialogMoreMenu"
+import ResourceSavedMessage from "./ResourceSavedMessage/ResourceSavedMessage"
 import { useFetchLinkPreview } from "./useFetchLinkPreview/useFetchLinkPreview"
 
 const ResourceDialog = () => {
@@ -197,7 +198,7 @@ const ResourceDialog = () => {
         const currentResources = [...resources]
 
         setResources(res.data)
-        setSuccessMessage("Resource saved!")
+        setSuccessMessage(<ResourceSavedMessage allResources={res.data} />)
 
         axios.get<TagDto[]>(urls.api.relearn.tag).then((res) => {
           setTags(res.data)
