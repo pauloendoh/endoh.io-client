@@ -47,7 +47,7 @@ const NavbarAddButton = () => {
     }
 
     setEditingResource(newResourceDto())
-  }, [isQuestionsPage, editingResource])
+  }, [isQuestionsPage, editingResource, location.pathname])
 
   // PE 1/3 - put into a hook 'useQHotkey'
   useHotkeys(
