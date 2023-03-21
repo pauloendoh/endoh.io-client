@@ -6,7 +6,7 @@ import MySidebar from "../../_UI/MySidebar/MySidebar"
 import RelearnSidebarTagList from "./RelearnSidebarTagList/RelearnSidebarTagList"
 
 function RelearnSidebar() {
-  const { tags, resources } = useRelearnStore()
+  const { tags } = useRelearnStore()
 
   const [publicLists, setPublicLists] = useState<TagDto[]>([])
   const [privateLists, setPrivateLists] = useState<TagDto[]>([])

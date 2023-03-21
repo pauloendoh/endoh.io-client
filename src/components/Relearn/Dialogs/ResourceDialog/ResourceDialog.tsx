@@ -72,7 +72,13 @@ const ResourceDialog = () => {
   )
 
   const sortedTags = useMemo(
-    () => tags?.sort((a, b) => (a.id > b.id ? 1 : -1)) || [],
+    () =>
+      tags
+        ?.sort((a, b) => (a.id > b.id ? 1 : -1))
+        .sort((a, b) => {
+          if (!b.isPrivate && a.isPrivate) return 1
+          return -1
+        }) || [],
     [tags]
   )
 
