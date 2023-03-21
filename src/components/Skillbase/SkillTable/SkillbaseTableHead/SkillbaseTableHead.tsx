@@ -82,9 +82,6 @@ const SkillbaseTableHead = (props: Props) => {
         <TableCell padding="checkbox" className={classes.th}>
           <Checkbox
             className={classes.th}
-            indeterminate={
-              props.selectedCount > 0 && props.selectedCount < props.rowCount
-            }
             checked={
               props.rowCount > 0 && props.selectedCount === props.rowCount
             }

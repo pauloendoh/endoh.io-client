@@ -150,7 +150,7 @@ const SkillbaseTable = (props: Props) => {
             onSort={(headerCellId) => {
               sortByProperty(headerCellId)
             }}
-            rowCount={allSkills.length}
+            rowCount={visibleSkills.length}
           />
           <TableBody>
             {visibleSkills.map((skill, index) => {
