@@ -76,8 +76,10 @@ const ResourceDialog = () => {
       tags
         ?.sort((a, b) => (a.id > b.id ? 1 : -1))
         .sort((a, b) => {
-          if (!b.isPrivate && a.isPrivate) return 1
-          return -1
+          // !isPrivate tags first
+          if (a.isPrivate && !b.isPrivate) return 1
+          if (!a.isPrivate && b.isPrivate) return -1
+          return 0
         }) || [],
     [tags]
   )

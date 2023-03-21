@@ -57,10 +57,10 @@ function RelearnSidebarTagList(props: Props) {
     setEditingTag(newTag)
   }
 
-  const sortedTags = useMemo(() => {
-    if (props.tags?.length === 0) return []
-    return props.tags.sort((a, b) => (a.id > b.id ? 1 : -1))
-  }, [props.tags])
+  const sortedTags = useMemo(
+    () => props.tags?.sort((a, b) => (a.id > b.id ? 1 : -1)) || [],
+    [props.tags]
+  )
 
   const { data: gotIt } = useGotItQuery()
 
