@@ -1,3 +1,5 @@
+import { Link } from "@mui/material"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import { pushOrReplace } from "endoh-utils"
 import { useAxios } from "hooks/utils/useAxios"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
@@ -9,7 +11,6 @@ const useSaveSkill = () => {
   const {
     setSkills,
     setEditingSkill,
-    editingSkill: initialValue,
 
     skills: currentSkills,
   } = useSkillbaseStore()
@@ -32,7 +33,21 @@ const useSaveSkill = () => {
     myAxios
       .post<SkillDto>(urls.api.skillbase.skill, skill)
       .then((res) => {
-        setSuccessMessage("Skill saved!")
+        setSuccessMessage(
+          <span>
+            Skill saved!{" "}
+            <b
+              onClick={() => {
+                setEditingSkill(res.data)
+              }}
+              style={{
+                cursor: "pointer",
+              }}
+            >
+              Open it
+            </b>
+          </span>
+        )
 
         setSkills(pushOrReplace(currentSkills, res.data, "id"))
 
