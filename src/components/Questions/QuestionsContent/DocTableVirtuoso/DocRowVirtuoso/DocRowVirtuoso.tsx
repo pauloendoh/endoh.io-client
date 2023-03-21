@@ -14,6 +14,7 @@ interface Props {
   isSmallScreen: boolean
 }
 
+// PE 1/3 - delete?
 const DocRowVirtuoso = (props: Props) => {
   const [localNote, setLocalNote] = useState(props.question)
 

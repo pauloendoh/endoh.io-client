@@ -22,29 +22,29 @@ interface Props {
 const DocTableRow = (props: Props) => {
   const classes = useStyles()
 
-  const [localNote, setLocalNote] = useState(props.question)
+  const [localQuestion, setLocalQuestion] = useState(props.question)
 
-  const debouncedLocalNote = useDebounce(localNote, 500)
+  const debouncedLocalQuestion = useDebounce(localQuestion, 500)
 
   useEffect(() => {
-    if (debouncedLocalNote !== props.question)
-      props.onChange(debouncedLocalNote)
-  }, [debouncedLocalNote])
+    if (debouncedLocalQuestion !== props.question)
+      props.onChange(debouncedLocalQuestion)
+  }, [debouncedLocalQuestion])
 
   const changeDescription = (newValue: string) => {
-    const changed = { ...localNote, description: newValue }
-    setLocalNote(changed)
+    const changed = { ...localQuestion, description: newValue }
+    setLocalQuestion(changed)
   }
 
   const changeQuestion = (newValue: string) => {
-    const changed = { ...localNote, question: newValue }
-    setLocalNote(changed)
+    const changed = { ...localQuestion, question: newValue }
+    setLocalQuestion(changed)
   }
 
   const initialQuestion = useRef(props.question.question)
   const initialDescription = useRef(props.question.description)
 
-  const pushOrReplaceNote = useDocsStore((s) => s.pushOrReplaceNote)
+  const pushOrReplaceQuestion = useDocsStore((s) => s.pushOrReplaceNote)
   const [openNoteDialog, closeNoteDialog] = useNoteDialogStore((s) => [
     s.openNoteDialog,
     s.onClose,
@@ -67,14 +67,13 @@ const DocTableRow = (props: Props) => {
       onClick={(e) => {
         if (e.altKey) {
           openNoteDialog({
-            initialValue: props.question,
-
-            onSubmit: (updatedNote) => {
+            initialValue: localQuestion,
+            onSubmit: (updatedQuestion) => {
               axios
-                .post<NoteDto>(urls.api.define.note, updatedNote)
+                .post<NoteDto>(urls.api.define.note, updatedQuestion)
                 .then((res) => {
-                  pushOrReplaceNote(res.data)
-                  setLocalNote(res.data)
+                  pushOrReplaceQuestion(res.data)
+                  setLocalQuestion(res.data)
                   initialDescription.current = res.data.description
                   initialQuestion.current = res.data.question
                   closeNoteDialog()
