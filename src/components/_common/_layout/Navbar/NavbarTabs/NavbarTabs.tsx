@@ -1,35 +1,21 @@
 import { Link as RouterLink, useLocation } from "react-router-dom"
 
-import { useEffect, useState } from "react"
+import { useMemo } from "react"
 import { urls } from "utils/urls"
 import S from "../Navbar.styles"
 import utils from "./NavbarTabs.utils"
 
-interface Props {
-  test?: string
-}
-
-const NavbarTabs = (props: Props) => {
+const NavbarTabs = () => {
   const location = useLocation()
 
-  const [tabIndex, setTabIndex] = useState<number | boolean>(false)
-
-  // PE 1/3 - tabIndex useMemo
-  useEffect(() => {
-    // DRY?
-    if (location.pathname.startsWith(urls.pages.resources.index)) {
-      setTabIndex(0)
-    } else if (location.pathname.startsWith(urls.pages.feed.index)) {
-      setTabIndex(1)
-    } else if (location.pathname.startsWith(urls.pages.skills.index)) {
-      setTabIndex(2)
-    } else if (location.pathname.startsWith(urls.pages.questions.index)) {
-      setTabIndex(3)
-    } else if (location.pathname.includes(urls.pages.learningDiary)) {
-      setTabIndex(4)
-    } else {
-      setTabIndex(false)
-    }
+  const tabIndex = useMemo(() => {
+    const { pathname } = location
+    if (pathname.startsWith(urls.pages.resources.index)) return 0
+    if (pathname.startsWith(urls.pages.feed.index)) return 1
+    if (pathname.startsWith(urls.pages.skills.index)) return 2
+    if (pathname.startsWith(urls.pages.questions.index)) return 3
+    if (pathname.includes(urls.pages.learningDiary)) return 4
+    return false
   }, [location])
 
   return (

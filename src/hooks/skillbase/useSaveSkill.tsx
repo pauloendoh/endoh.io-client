@@ -15,7 +15,7 @@ const useSaveSkill = () => {
     skills: currentSkills,
   } = useSkillbaseStore()
 
-  const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
+  const { setSuccessMessage } = useSnackbarStore()
   const myAxios = useAxios()
 
   // PE 2/3

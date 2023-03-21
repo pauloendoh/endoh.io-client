@@ -10,6 +10,7 @@ import { buildNoteDto } from "types/domain/questions/NoteDto"
 import { newResourceDto } from "types/domain/relearn/ResourceDto"
 import { sleep } from "utils/sleep"
 import Icons from "utils/styles/Icons"
+import { useQHotkey } from "./useQHotkey"
 
 // PE 2/3
 const NavbarAddButton = () => {
@@ -49,14 +50,11 @@ const NavbarAddButton = () => {
     setEditingResource(newResourceDto())
   }, [isQuestionsPage, editingResource, location.pathname, docs])
 
-  // PE 1/3 - put into a hook 'useQHotkey'
-  useHotkeys(
-    "q",
-    () => {
-      sleep(100).then(() => handleActivateButton())
-    },
-    [location, docs] // if you don't put 'docs', sometimes it will appear unselected
-  )
+  useQHotkey({
+    callback: handleActivateButton,
+    docs,
+    location,
+  })
 
   return (
     <Tooltip title={isQuestionsPage ? "(q) New question" : "(q) New resource"}>

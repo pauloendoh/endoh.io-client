@@ -17,21 +17,14 @@ import NavbarUserMenu from "./NavbarUserMenu/NavbarUserMenu"
 import Notification from "./Notification/Notification"
 import SearchBarWrapper from "./SearchBarWrapper/SearchBarWrapper"
 
-// PE 2/3
 const Navbar = () => {
   const theme = useTheme()
   const isDownLg = useMediaQuery(theme.breakpoints.down("lg"))
   const isXsScreen = useMediaQuery(theme.breakpoints.down("sm"))
 
-  const [
-    toggleIsResponsiveSearching,
-    isResponsiveSearching,
-    setIsResponsiveSearching,
-  ] = useResponsiveStore((s) => [
-    s.toggleIsResponsiveSearching,
-    s.isResponsiveSearching,
-    s.setIsResponsiveSearching,
-  ])
+  const [isResponsiveSearching, setIsResponsiveSearching] = useResponsiveStore(
+    (s) => [s.isResponsiveSearching, s.setIsResponsiveSearching]
+  )
 
   const closeSidebar = useSidebarStore((s) => s.closeSidebar)
 
@@ -39,7 +32,6 @@ const Navbar = () => {
     if (!isXsScreen) setIsResponsiveSearching(false)
   }, [isXsScreen])
 
-  // PE 1/3 - improve
   return (
     <S.AppBarRoot position="fixed" elevation={0}>
       <S.NavbarToolbar>

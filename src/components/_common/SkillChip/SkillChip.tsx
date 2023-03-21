@@ -10,7 +10,6 @@ interface Props {
   skill: SkillDto
 }
 
-// PE 1/3 delete?
 function SkillChip(props: Props) {
   const { setEditingSkill } = useSkillbaseStore()
 
