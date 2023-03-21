@@ -58,7 +58,6 @@ const ResourceDialog = () => {
   } = useRelearnStore()
 
   const axios = useAxios()
-  const theme = useTheme()
   const history = useHistory()
   const location = useLocation()
   const { openConfirmDialog } = useDialogsStore()
@@ -81,7 +80,9 @@ const ResourceDialog = () => {
           if (!a.isPrivate && b.isPrivate) return -1
           return 0
         }) || [],
-    [tags]
+
+    // had to add editingResource because tags were not sorted properly when refreshing page
+    [tags, editingResource]
   )
 
   const clearOpenResourceId = () => {
