@@ -17,7 +17,7 @@ const ResourceSavedMessage = (props: Props) => {
         }}
         onClick={() => {
           const newestResource = props.allResources.sort((a, b) =>
-            b.createdAt.localeCompare(a.createdAt)
+            b.updatedAt.localeCompare(a.updatedAt)
           )[0]
           setEditingResource(
             props.allResources.find((r) => r.id === newestResource.id)
