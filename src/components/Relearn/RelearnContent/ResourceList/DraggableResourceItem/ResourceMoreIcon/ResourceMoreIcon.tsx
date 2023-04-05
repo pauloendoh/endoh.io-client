@@ -83,6 +83,8 @@ function ResourceMoreIcon(props: Props) {
   }
 
   const handleMoveToFirst = () => {
+    handleCloseMore()
+
     axios
       .post<ResourceDto[]>(
         urls.api.relearn.moveResourceToFirst(props.resource.id)
@@ -95,11 +97,12 @@ function ResourceMoreIcon(props: Props) {
           resources = pushOrReplace(resources, resource, "id")
         }
         setResources(resources)
-        handleCloseMore()
       })
   }
 
   const handleMoveToLast = () => {
+    handleCloseMore()
+
     axios
       .post<ResourceDto[]>(
         urls.api.relearn.moveResourceToLast(props.resource.id)
@@ -112,7 +115,6 @@ function ResourceMoreIcon(props: Props) {
           resources = pushOrReplace(resources, resource, "id")
         }
         setResources(resources)
-        handleCloseMore()
       })
   }
 
