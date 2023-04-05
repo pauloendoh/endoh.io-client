@@ -14,12 +14,13 @@ import { urls } from "utils/urls"
 import useSidebarStore from "../../store/zustand/useSidebarStore"
 import { ResourceDto } from "../../types/domain/relearn/ResourceDto"
 import { SkillDto } from "../../types/domain/skillbase/SkillDto"
-import LoadingPage from "../_common/LoadingPage/LoadingPage"
 import Flex from "../_UI/Flexboxes/Flex"
+import LoadingPage from "../_common/LoadingPage/LoadingPage"
 import RelearnContent from "./RelearnContent/RelearnContent"
 import RelearnSidebar from "./RelearnSidebar/RelearnSidebar"
 import TagDialog from "./TagDialog/TagDialog"
 
+// PE 1/3 - rename to ResourcesPage
 const RelearnPage = () => {
   const {
     resources,

@@ -1,5 +1,6 @@
 import { Theme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
+import { pushOrReplace } from "endoh-utils"
 
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
@@ -15,6 +16,7 @@ import {
 } from "@mui/material"
 import { useAxios } from "hooks/utils/useAxios"
 import React, { useEffect } from "react"
+import { MdVerticalAlignBottom, MdVerticalAlignTop } from "react-icons/md"
 import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import useDialogsStore from "store/zustand/useDialogsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
@@ -33,7 +35,12 @@ function ResourceMoreIcon(props: Props) {
 
   const { setSuccessMessage } = useSnackbarStore()
 
-  const { setEditingResource, removeResource, setResources } = useRelearnStore()
+  const {
+    setEditingResource,
+    removeResource,
+    setResources,
+    resources: allResources,
+  } = useRelearnStore()
 
   useEffect(() => {
     if (!props.isHovered) setAnchorEl(null)
@@ -72,6 +79,40 @@ function ResourceMoreIcon(props: Props) {
         setSuccessMessage("Resource duplicated!")
 
         setResources(res.data)
+      })
+  }
+
+  const handleMoveToFirst = () => {
+    axios
+      .post<ResourceDto[]>(
+        urls.api.relearn.moveResourceToFirst(props.resource.id)
+      )
+      .then((res) => {
+        setSuccessMessage("Resource moved to first!")
+
+        let resources = [...allResources]
+        for (const resource of res.data) {
+          resources = pushOrReplace(resources, resource, "id")
+        }
+        setResources(resources)
+        handleCloseMore()
+      })
+  }
+
+  const handleMoveToLast = () => {
+    axios
+      .post<ResourceDto[]>(
+        urls.api.relearn.moveResourceToLast(props.resource.id)
+      )
+      .then((res) => {
+        setSuccessMessage("Resource moved to last!")
+
+        let resources = [...allResources]
+        for (const resource of res.data) {
+          resources = pushOrReplace(resources, resource, "id")
+        }
+        setResources(resources)
+        handleCloseMore()
       })
   }
 
@@ -134,6 +175,26 @@ function ResourceMoreIcon(props: Props) {
               Duplicate
             </Typography>
           </MenuItem>
+          {!props.resource.completedAt && (
+            <MenuItem onClick={handleMoveToFirst}>
+              <ListItemIcon>
+                <MdVerticalAlignTop />
+              </ListItemIcon>
+              <Typography variant="inherit" noWrap>
+                Move to first
+              </Typography>
+            </MenuItem>
+          )}
+          {!props.resource.completedAt && (
+            <MenuItem onClick={handleMoveToLast}>
+              <ListItemIcon>
+                <MdVerticalAlignBottom />
+              </ListItemIcon>
+              <Typography variant="inherit" noWrap>
+                Move to last
+              </Typography>
+            </MenuItem>
+          )}
 
           <MenuItem
             onClick={() => {

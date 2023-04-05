@@ -73,6 +73,10 @@ export const urls = {
       resourceMoveToTag: "/v2/resources/many/to-tag",
       deleteManyResources: "/v2/resources/many/delete",
       tag: "/relearn/tag",
+      moveResourceToFirst: (resourceId: number) =>
+        `/move-resource-to-first/${resourceId}`,
+      moveResourceToLast: (resourceId: number) =>
+        `/move-resource-to-last/${resourceId}`,
     },
     // Skillbase
     skillbase: {
