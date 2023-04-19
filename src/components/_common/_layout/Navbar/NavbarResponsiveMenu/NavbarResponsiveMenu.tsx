@@ -35,6 +35,9 @@ const NavbarResponsiveMenu = () => {
     )
     if (tab) return tab
 
+    if (location.pathname.includes("/user")) {
+      return utils.navbarTabs[1]
+    }
     return utils.navbarTabs[0]
   }, [location])
 

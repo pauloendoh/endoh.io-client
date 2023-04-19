@@ -12,7 +12,6 @@ import {
   Grid,
   IconButton,
   Typography,
-  useTheme,
 } from "@mui/material"
 import { AxiosError } from "axios"
 import FlexHCenter from "components/_UI/Flexboxes/FlexHCenter"
@@ -37,11 +36,11 @@ import linkPng from "../../../../static/images/link.png"
 import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto"
 import { TagDto } from "../../../../types/domain/relearn/TagDto"
 import { urlIsValid } from "../../../../utils/url/isValidUrl"
-import RatingButton from "../../../_common/RatingButton/RatingButton"
 import SaveCancelButtons from "../../../_UI/Buttons/SaveCancelButtons"
 import Flex from "../../../_UI/Flexboxes/Flex"
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
 import MyTextField from "../../../_UI/MyInputs/MyTextField"
+import RatingButton from "../../../_common/RatingButton/RatingButton"
 import ResourceDialogMoreMenu from "./ResourceDialogMoreMenu/ResourceDialogMoreMenu"
 import ResourceSavedMessage from "./ResourceSavedMessage/ResourceSavedMessage"
 import { useFetchLinkPreview } from "./useFetchLinkPreview/useFetchLinkPreview"
@@ -371,7 +370,7 @@ const ResourceDialog = () => {
                   fullWidth
                   autoFocus
                   InputLabelProps={{
-                    shrink: values.title ? true : undefined,
+                    shrink: !!values.title,
                   }}
                   onClickClearIcon={() => {
                     setFieldValue("title", "")

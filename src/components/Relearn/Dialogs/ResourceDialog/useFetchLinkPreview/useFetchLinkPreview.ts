@@ -2,6 +2,7 @@ import { shortNumberFormatter } from "endoh-utils"
 import { LinkPreviewDto } from "generated/graphql"
 import { useAxios } from "hooks/utils/useAxios"
 import useDialogsStore from "store/zustand/useDialogsStore"
+import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { ResourceDto } from "types/domain/relearn/ResourceDto"
 import { TagDto } from "types/domain/relearn/TagDto"
 import { urlIsValid } from "utils/url/isValidUrl"
@@ -25,6 +26,7 @@ export const useFetchLinkPreview = ({
   const { openConfirmDialog } = useDialogsStore()
   const axios = useAxios()
 
+  const { setErrorMessage } = useSnackbarStore()
   const fetchLinkPreview = (
     url: string,
     setFieldValue: (
@@ -51,7 +53,9 @@ export const useFetchLinkPreview = ({
               const preview = res.data
               if (preview.youtubeVideoLength !== "00:00h")
                 setFieldValue("estimatedTime", preview.youtubeVideoLength)
-              setFieldValue("title", preview.title)
+
+              // if preview.title is null, it will bug the shrink label
+              setFieldValue("title", preview.title || "")
               setFieldValue("thumbnail", preview.image)
 
               if (preview.viewCount > 0 && values.privateNote.length === 0) {
@@ -85,6 +89,7 @@ export const useFetchLinkPreview = ({
             })
             .catch((e) => {
               console.log(e)
+              setErrorMessage("Error fetching link preview")
               setFieldValue("title", "")
             })
             .finally(() => {
