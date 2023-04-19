@@ -30,7 +30,12 @@ const NavbarResponsiveMenu = () => {
   }
 
   const selectedTab = useMemo(() => {
-    return utils.navbarTabs.find((tab) => location.pathname.includes(tab.to))
+    const tab = utils.navbarTabs.find((tab) =>
+      location.pathname.includes(tab.to)
+    )
+    if (tab) return tab
+
+    return utils.navbarTabs[0]
   }, [location])
 
   return (
