@@ -4,8 +4,8 @@ import { makeStyles } from "@mui/styles"
 import { Box, Link } from "@mui/material"
 import ResourceCompletedLabel from "components/Relearn/RelearnContent/ResourceList/DraggableResourceItem/ResourceItem/ResourceCompletedLabel/ResourceCompletedLabel"
 import ResourceDurationLabel from "components/Relearn/RelearnContent/ResourceList/DraggableResourceItem/ResourceItem/ResourceDurationLabel/ResourceDurationLabel"
-import RatingButtonLabel from "components/_common/RatingButton/RatingButtonLabel/RatingButtonLabel"
 import Txt from "components/_UI/Text/Txt"
+import RatingButtonLabel from "components/_common/RatingButton/RatingButtonLabel/RatingButtonLabel"
 import React, { useMemo, useState } from "react"
 import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import useAuthStore from "store/zustand/useAuthStore"
@@ -15,10 +15,10 @@ import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto"
 import myAxios from "../../../../utils/consts/myAxios"
 import { urlIsValid } from "../../../../utils/url/isValidUrl"
 import ResourceMoreIcon from "../../../Relearn/RelearnContent/ResourceList/DraggableResourceItem/ResourceMoreIcon/ResourceMoreIcon"
-import RatingButton from "../../../_common/RatingButton/RatingButton"
-import ResourceThumbnail from "../../../_common/ResourceThumbnail/ResourceThumbnail"
 import Flex from "../../../_UI/Flexboxes/Flex"
 import MyTextField from "../../../_UI/MyInputs/MyTextField"
+import RatingButton from "../../../_common/RatingButton/RatingButton"
+import ResourceThumbnail from "../../../_common/ResourceThumbnail/ResourceThumbnail"
 
 interface Props {
   resource: ResourceDto
@@ -124,6 +124,7 @@ function ProfileResourceItem(props: Props) {
               fullWidth
               label="Public Review"
               disabled
+              multiline
             />
           </Box>
         )}
@@ -134,6 +135,7 @@ function ProfileResourceItem(props: Props) {
               value={props.resource.privateNote}
               fullWidth
               label="Private Notes"
+              multiline
               disabled
             />
           </Box>
