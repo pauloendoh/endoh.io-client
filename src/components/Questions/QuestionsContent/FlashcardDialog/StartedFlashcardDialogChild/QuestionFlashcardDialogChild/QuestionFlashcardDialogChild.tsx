@@ -20,7 +20,7 @@ import { NoteDto } from "../../../../../../types/domain/questions/NoteDto"
 import DarkButton from "../../../../../_UI/Buttons/DarkButton/DarkButton"
 import FlexVCenter from "../../../../../_UI/Flexboxes/FlexVCenter"
 
-// PE 2/3
+// PE 1/3 - rename to QuestionFlashcardDialogContent
 const QuestionFlashcardDialogChild = (props: {
   question: NoteDto
   questionNumber: number
@@ -35,6 +35,7 @@ const QuestionFlashcardDialogChild = (props: {
   goBack: () => void
   goNext: () => void
 }) => {
+  // PE 1/3 - isShowingAnswer
   const [showingAnswer, setShowingAnswer] = useState(false)
 
   const [openNoteDialog, closeDialog] = useNoteDialogStore((s) => [
@@ -46,6 +47,7 @@ const QuestionFlashcardDialogChild = (props: {
     setShowingAnswer(false)
   }, [props.questionNumber])
 
+  // PE 1/3 - use hook
   const keyMap = {
     onSpacePress: "space",
     onJPress: "j",
@@ -70,6 +72,7 @@ const QuestionFlashcardDialogChild = (props: {
     },
   }
 
+  // PE 1/3 stop using this '-'
   const classes = useStyles()
 
   const isSmallScreen = useMediaQuery<Theme>((theme) =>
@@ -110,7 +113,7 @@ const QuestionFlashcardDialogChild = (props: {
             >
               {props.question.description}
             </Typography>
-            <Box mt={2}>
+            <FlexVCenter mt={2} gap={3}>
               <Link
                 href="#"
                 onClick={(e: any) => {
@@ -135,9 +138,23 @@ const QuestionFlashcardDialogChild = (props: {
                 }}
                 variant="body2"
               >
-                edit
+                Edit
               </Link>
-            </Box>
+
+              <Link
+                href="#"
+                onClick={(e: any) => {
+                  e.preventDefault()
+                  props.onEditQuestion({
+                    ...props.question,
+                    toRefine: true,
+                  })
+                }}
+                variant="body2"
+              >
+                To refine
+              </Link>
+            </FlexVCenter>
           </Box>
         )}
 
