@@ -3,12 +3,12 @@ import useFeedResourcesQuery from "hooks/react-query/feed/useFeedResourcesQuery"
 import { useEffect, useState } from "react"
 import { Virtuoso } from "react-virtuoso"
 import { FeedResourceDto } from "../../../types/domain/feed/FeedResourceDto"
-import MinRatingButton from "../../_common/MinRatingButton/MinRatingButton"
 import Flex from "../../_UI/Flexboxes/Flex"
+import MinRatingButton from "../../_common/MinRatingButton/MinRatingButton"
 import FeedResourceItem from "./FeedResourceItem/FeedResourceItem"
 
-// PE 2/3
 const FeedResources = () => {
+  // PE 1/3 - useMemo
   const [filteredResources, setFilteredResources] = useState<FeedResourceDto[]>(
     []
   )

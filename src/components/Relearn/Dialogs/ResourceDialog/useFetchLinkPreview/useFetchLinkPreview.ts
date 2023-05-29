@@ -16,6 +16,7 @@ type HookOptions = {
   tags: TagDto[]
 }
 
+// PE 1/3 - params
 export const useFetchLinkPreview = ({
   throttle,
   setThrottle,

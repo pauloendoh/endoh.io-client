@@ -154,5 +154,11 @@ export const urls = {
       notifications: "/utils/notifications",
       notificationsSeeAll: "/utils/notifications/seeAll",
     },
+
+    toggleFollow: (userId: number) => `/user/${userId}/toggle-follow`,
+    myFollowingUsers: `/me/following-users`,
+    mostFollowedUsers: `/follow/most-followed-users`,
+    userFollowingUsers: (userId: number) => `/user/${userId}/following-users`,
+    userFollowers: (userId: number) => `/user/${userId}/followers`,
   },
 }

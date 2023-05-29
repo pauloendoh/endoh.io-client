@@ -9,7 +9,7 @@ import Txt from "components/_UI/Text/Txt"
 import { useEffect, useRef, useState } from "react"
 import { Link, useHistory, useParams } from "react-router-dom"
 import useProfileStore from "store/zustand/domain/useProfileStore"
-import { newSkillDto, SkillDto } from "types/domain/skillbase/SkillDto"
+import { SkillDto, newSkillDto } from "types/domain/skillbase/SkillDto"
 import { urls } from "utils/urls"
 import useElementSize from "../../../hooks/utils/useElementSize"
 import Flex from "../../_UI/Flexboxes/Flex"
@@ -18,7 +18,6 @@ import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
 import TagListItem from "./TagListItem/TagListItem"
 import UserRoadmapsDialog from "./UserRoadmapsDialog/UserRoadmapsDialog"
 
-// PE 3/3
 const UserPageSidebar = () => {
   const theme = useTheme()
   const history = useHistory()
@@ -31,7 +30,11 @@ const UserPageSidebar = () => {
   const { width } = useElementSize(rootRef)
 
   const classes = useStyles()
-  const { username, tagId, skillId: skillIdStr } = useParams<{
+  const {
+    username,
+    tagId,
+    skillId: skillIdStr,
+  } = useParams<{
     username: string
     tagId: string
     skillId: string

@@ -1,21 +1,13 @@
-import { Box, Button, Link } from "@mui/material"
-import { useState } from "react"
+import { Box, Link } from "@mui/material"
+import FollowersFollowingButtons from "components/User/ProfileHeader/FollowersFollowingButtons/FollowersFollowingButtons"
 import { Link as RouterLink } from "react-router-dom"
 import useAuthStore from "store/zustand/useAuthStore"
 import { urls } from "utils/urls"
-import FollowersDialog from "../../_common/FollowersDialog/FollowersDialog"
-import FollowingUsersDialog from "../../_common/FollowingUsersDialog/FollowingUsersDialog"
 import Flex from "../../_UI/Flexboxes/Flex"
 import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture"
 
-// PE 3/3
 const AuthUserSummary = () => {
-  const { authUser, profile, followingUsers, followers } = useAuthStore()
-
-  const [openFollowersDialog, setOpenFollowersDialog] = useState(false)
-  const [openFollowingUsersDialog, setOpenFollowingUsersDialog] = useState(
-    false
-  )
+  const { authUser, profile } = useAuthStore()
 
   return (
     <Flex>
@@ -39,30 +31,7 @@ const AuthUserSummary = () => {
           {authUser.username}
         </Link>
         <Flex>
-          {/* Following */}
-
-          <Box>
-            <Button onClick={() => setOpenFollowingUsersDialog(true)}>
-              {followingUsers.length} Following
-            </Button>
-            <FollowingUsersDialog
-              followingUsers={followingUsers}
-              open={openFollowingUsersDialog}
-              onClose={() => setOpenFollowingUsersDialog(false)}
-            />
-          </Box>
-
-          {/* Followers */}
-          <Box>
-            <Button onClick={() => setOpenFollowersDialog(true)}>
-              {followers.length} Followers
-            </Button>
-            <FollowersDialog
-              followers={followers}
-              open={openFollowersDialog}
-              onClose={() => setOpenFollowersDialog(false)}
-            />
-          </Box>
+          <FollowersFollowingButtons userId={authUser.id} />
         </Flex>
       </Box>
     </Flex>

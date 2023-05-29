@@ -7,9 +7,9 @@ import useProfileStore, {
 } from "store/zustand/domain/useProfileStore"
 import useAuthStore from "store/zustand/useAuthStore"
 import { urls } from "utils/urls"
+import { UserInfoDto } from "../../types/domain/_common/UserInfoDto"
 import { ResourceDto } from "../../types/domain/relearn/ResourceDto"
 import { TagDto } from "../../types/domain/relearn/TagDto"
-import { UserInfoDto } from "../../types/domain/_common/UserInfoDto"
 import myAxios from "../../utils/consts/myAxios"
 import LoadingPage from "../_common/LoadingPage/LoadingPage"
 import MinRatingButton from "../_common/MinRatingButton/MinRatingButton"
@@ -20,7 +20,7 @@ import S from "./ProfilePage.styles"
 import ResourcesChart from "./ResourcesChart/ResourcesChart"
 import UserPageSidebar from "./UserPageSidebar/UserPageSidebar"
 
-// PE 3/3
+// PE 1/3 - renam eto UserProfilePage
 const ProfilePage = () => {
   const history = useHistory()
   const { followingUsers } = useAuthStore()

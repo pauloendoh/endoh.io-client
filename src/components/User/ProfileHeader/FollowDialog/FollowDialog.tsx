@@ -34,7 +34,7 @@ const FollowDialog = (props: Props) => {
 
   const [selectedTagIds, setSelectedTagIds] = useState<number[]>([])
 
-  const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
+  const { setSuccessMessage } = useSnackbarStore()
 
   useEffect(() => {
     if (props.open) {

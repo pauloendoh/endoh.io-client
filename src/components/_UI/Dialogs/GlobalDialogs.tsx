@@ -7,8 +7,10 @@ import SkillDialog from "components/Skillbase/SkillDialog/SkillDialog"
 import ConfirmDialog from "components/_UI/Dialogs/ConfirmationDialog"
 import LearningDialog from "components/_UI/Dialogs/LearningDialog/LearningDialog"
 import useDocDialogStore from "store/zustand/dialogs/useDocDialogStore"
+import useFollowersDialogStore from "store/zustand/dialogs/useFollowersDialogStore"
 import useLearningDialogStore from "store/zustand/dialogs/useLearningDialogStore"
 import useLearningsPerDayDialogStore from "store/zustand/dialogs/useLearningsPerDayDialogStore"
+import FollowersDialogV2 from "./FollowersDialogV2/FollowersDialogV2"
 
 interface Props {
   test?: string
@@ -24,6 +26,7 @@ const GlobalDialogs = (props: Props) => {
   } = useLearningsPerDayDialogStore()
 
   const learningModal = useLearningDialogStore()
+  const followersDialog = useFollowersDialogStore()
 
   return (
     <>
@@ -49,6 +52,12 @@ const GlobalDialogs = (props: Props) => {
         initialValue={learningModal.initialValue}
         isOpen={learningModal.isOpen}
         onClose={learningModal.closeDialog}
+      />
+
+      <FollowersDialogV2
+        initialValue={followersDialog.initialValue}
+        isOpen={followersDialog.isOpen}
+        onClose={followersDialog.closeDialog}
       />
     </>
   )
