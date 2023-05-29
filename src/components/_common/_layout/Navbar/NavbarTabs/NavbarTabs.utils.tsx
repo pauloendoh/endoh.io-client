@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import NotesIcon from "@mui/icons-material/Notes"
 import TimeLineIcon from "@mui/icons-material/Timeline"
 import { ReactElement, ReactNode } from "react"
-import { BsFillJournalBookmarkFill } from "react-icons/bs"
 import { urls } from "utils/urls"
 
 interface ITab {
@@ -39,12 +38,12 @@ const utils = {
       label: "Questions",
       icon: <NotesIcon />,
     },
-    {
-      id: "learning-diary-tab",
-      to: urls.pages.learningDiary,
-      label: "Learning Diary",
-      icon: <BsFillJournalBookmarkFill />,
-    },
+    // {
+    //   id: "learning-diary-tab",
+    //   to: urls.pages.learningDiary,
+    //   label: "Learning Diary",
+    //   icon: <BsFillJournalBookmarkFill />,
+    // },
   ] as ITab[],
 }
 

@@ -14,7 +14,7 @@ const NavbarTabs = () => {
     if (pathname.startsWith(urls.pages.feed.index)) return 1
     if (pathname.startsWith(urls.pages.skills.index)) return 2
     if (pathname.startsWith(urls.pages.questions.index)) return 3
-    if (pathname.includes(urls.pages.learningDiary)) return 4
+    // if (pathname.includes(urls.pages.learningDiary)) return 4
     return false
   }, [location])
 
