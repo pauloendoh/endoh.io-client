@@ -1,9 +1,9 @@
 import StarRateIcon from "@mui/icons-material/StarRate"
 import { Box, Link, Paper, Typography } from "@mui/material"
-import ResourceThumbnail from "components/_common/ResourceThumbnail/ResourceThumbnail"
 import Flex from "components/_UI/Flexboxes/Flex"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import ProfilePicture from "components/_UI/ProfilePicture/ProfilePicture"
+import ResourceThumbnail from "components/_common/ResourceThumbnail/ResourceThumbnail"
 import { Link as RouterLink } from "react-router-dom"
 import ReactTimeago from "react-timeago"
 import { FeedResourceDto } from "types/domain/feed/FeedResourceDto"
@@ -26,7 +26,7 @@ const FeedResourceItem = ({ feedResource, ...props }: Props) => {
     >
       <FlexVCenter>
         <ProfilePicture
-          pictureUrl={feedResource.user.pictureUrl}
+          pictureUrl={feedResource.user.profile.pictureUrl}
           username={feedResource.user.username}
           size={32}
           isLink
