@@ -64,7 +64,7 @@ const FollowersDialogV2 = (props: Props) => {
         </Tabs>
       </DialogTitle>
       <DialogContent>
-        <FlexCol>
+        <FlexCol gap={1}>
           {visibleFollows.map((follow) => {
             const user = tabIndex === 0 ? follow.follower : follow.followedUser
             return (
