@@ -16,7 +16,7 @@ type Props = {
 interface FormValues {
   username: string
   email: string
-  password: string // PE 1/3 - is not used for login?
+  password: string
 }
 
 const LoginForm = ({ setFormType }: Props) => {

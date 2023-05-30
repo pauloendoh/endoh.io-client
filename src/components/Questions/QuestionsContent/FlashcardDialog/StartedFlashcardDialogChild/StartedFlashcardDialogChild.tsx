@@ -4,7 +4,7 @@ import useDocsStore from "store/zustand/domain/useDocsStore"
 import { upsert } from "utils/array/upsert"
 import { NoteDto } from "../../../../../types/domain/questions/NoteDto"
 import FinishedFlashcardDialogChild from "./FinishedFlashcardDialogChild/FinishedFlashcardDialogChild"
-import QuestionFlashcardDialogChild from "./QuestionFlashcardDialogChild/QuestionFlashcardDialogChild"
+import QuestionFlashcardDialogContent from "./QuestionFlashcardDialogContent/QuestionFlashcardDialogContent"
 
 // PE 2/3
 const StartedFlashcardDialogChild = (props: {
@@ -60,10 +60,10 @@ const StartedFlashcardDialogChild = (props: {
     setQuestionIndex(questionIndex + 1)
   }
 
-  const isFinished = useMemo(() => questionIndex >= localQuestions.length, [
-    questionIndex,
-    localQuestions,
-  ])
+  const isFinished = useMemo(
+    () => questionIndex >= localQuestions.length,
+    [questionIndex, localQuestions]
+  )
 
   const editQuestion = (newNote: NoteDto) => {
     setLocalQuestions(
@@ -81,10 +81,10 @@ const StartedFlashcardDialogChild = (props: {
 
   const docs = useDocsStore((s) => s.docs)
 
-  const currentQuestion = useMemo(() => localQuestions[questionIndex], [
-    localQuestions,
-    questionIndex,
-  ])
+  const currentQuestion = useMemo(
+    () => localQuestions[questionIndex],
+    [localQuestions, questionIndex]
+  )
   const currentQuestionDoc = useMemo(
     () => docs.find((d) => d.id === currentQuestion?.docId),
     [docs, currentQuestion]
@@ -101,7 +101,7 @@ const StartedFlashcardDialogChild = (props: {
           onFinish={props.onFinish}
         />
       ) : (
-        <QuestionFlashcardDialogChild
+        <QuestionFlashcardDialogContent
           question={localQuestions[questionIndex]}
           questionNumber={questionIndex + 1}
           totalQuestions={localQuestions.length}

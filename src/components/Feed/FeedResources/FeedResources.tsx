@@ -2,28 +2,21 @@ import { Box } from "@mui/material"
 import useLastSeenResourceQuery from "hooks/react-query/feed/last-seen-resource/useLastSeenResourceQuery"
 import useUpdateLastSeenResourceMutation from "hooks/react-query/feed/last-seen-resource/useUpdateLastSeenResourceMutation"
 import useFeedResourcesQuery from "hooks/react-query/feed/useFeedResourcesQuery"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Virtuoso } from "react-virtuoso"
-import { FeedResourceDto } from "../../../types/domain/feed/FeedResourceDto"
 import Flex from "../../_UI/Flexboxes/Flex"
 import MinRatingButton from "../../_common/MinRatingButton/MinRatingButton"
 import FeedResourceItem from "./FeedResourceItem/FeedResourceItem"
 
 const FeedResources = () => {
-  // PE 1/3 - useMemo
-  const [filteredResources, setFilteredResources] = useState<FeedResourceDto[]>(
-    []
-  )
   const [minRating, setMinRating] = useState(0)
 
   const { data: resources } = useFeedResourcesQuery()
 
-  useEffect(() => {
-    if (resources?.length > 0) {
-      const minResources = resources.filter((r) => r.rating >= minRating)
-      setFilteredResources(minResources)
-    }
-  }, [resources, minRating])
+  const filteredResources = useMemo(
+    () => resources?.filter((r) => r.rating >= minRating) || [],
+    [resources, minRating]
+  )
 
   const { data: lastSeenResource } = useLastSeenResourceQuery()
   const { mutate: updateLastSeenResource } = useUpdateLastSeenResourceMutation()

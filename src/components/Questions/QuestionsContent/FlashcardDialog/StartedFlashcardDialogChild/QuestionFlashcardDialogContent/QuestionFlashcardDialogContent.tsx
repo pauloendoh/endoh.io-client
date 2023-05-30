@@ -1,5 +1,4 @@
 import { Theme, useMediaQuery } from "@mui/material"
-import { makeStyles } from "@mui/styles"
 
 import { Clear } from "@mui/icons-material"
 import {
@@ -12,6 +11,7 @@ import {
   Typography,
 } from "@mui/material"
 import Flex from "components/_UI/Flexboxes/Flex"
+import { useMuiTheme } from "hooks/utils/useMuiTheme"
 import { useEffect, useState } from "react"
 import { GlobalHotKeys } from "react-hotkeys"
 import { MdArrowBack, MdArrowForward } from "react-icons/md"
@@ -20,8 +20,7 @@ import { NoteDto } from "../../../../../../types/domain/questions/NoteDto"
 import DarkButton from "../../../../../_UI/Buttons/DarkButton/DarkButton"
 import FlexVCenter from "../../../../../_UI/Flexboxes/FlexVCenter"
 
-// PE 1/3 - rename to QuestionFlashcardDialogContent
-const QuestionFlashcardDialogChild = (props: {
+const QuestionFlashcardDialogContent = (props: {
   question: NoteDto
   questionNumber: number
   totalQuestions: number
@@ -72,12 +71,11 @@ const QuestionFlashcardDialogChild = (props: {
     },
   }
 
-  // PE 1/3 stop using this '-'
-  const classes = useStyles()
-
   const isSmallScreen = useMediaQuery<Theme>((theme) =>
     theme.breakpoints.down("sm")
   )
+
+  const theme = useMuiTheme()
 
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={handlers} allowChanges>
@@ -192,7 +190,10 @@ const QuestionFlashcardDialogChild = (props: {
 
             <Button
               onClick={props.onWrongAnswer}
-              className={classes.wrongButton}
+              sx={{
+                color: "white",
+                background: theme.palette.error.main,
+              }}
               fullWidth
             >
               Wrong {!isSmallScreen && "(J)"}
@@ -219,11 +220,4 @@ const QuestionFlashcardDialogChild = (props: {
   )
 }
 
-const useStyles = makeStyles<Theme>((theme) => ({
-  wrongButton: {
-    color: "white",
-    background: theme.palette.error.main,
-  },
-}))
-
-export default QuestionFlashcardDialogChild
+export default QuestionFlashcardDialogContent

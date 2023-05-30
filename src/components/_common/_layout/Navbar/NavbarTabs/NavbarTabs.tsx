@@ -7,7 +7,6 @@ import { urls } from "utils/urls"
 import S from "../Navbar.styles"
 import utils from "./NavbarTabs.utils"
 
-// PE 1/3 - NavbarTabsLinks
 const NavbarTabs = () => {
   const location = useLocation()
 

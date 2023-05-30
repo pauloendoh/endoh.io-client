@@ -10,6 +10,7 @@ import Flex from "components/_UI/Flexboxes/Flex"
 import FlexCol from "components/_UI/Flexboxes/FlexCol"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import ProfilePicture from "components/_UI/ProfilePicture/ProfilePicture"
+import MyRouterLink from "components/_UI/link/MyRouterLink"
 import ResourceThumbnail from "components/_common/ResourceThumbnail/ResourceThumbnail"
 import useElementSize from "hooks/utils/useElementSize"
 import { useRef } from "react"
@@ -96,16 +97,11 @@ const FeedResourceItem = ({ feedResource }: Props) => {
                   {format(new Date(feedResource.completedAt))}
                 </Typography>
 
-                {/* PE 1/3 - MyRouterLink */}
-                <RouterLink
+                <MyRouterLink
                   to={urls.pages.user.tag(
                     feedResource.user.username,
                     feedResource.tag.id
                   )}
-                  style={{
-                    textDecoration: "none",
-                    color: "inherit",
-                  }}
                 >
                   <Typography
                     variant="body2"
@@ -122,7 +118,7 @@ const FeedResourceItem = ({ feedResource }: Props) => {
                   >
                     # {feedResource.tag.name}
                   </Typography>
-                </RouterLink>
+                </MyRouterLink>
               </FlexVCenter>
             </FlexCol>
             <ResourceThumbnail
