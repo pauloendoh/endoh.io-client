@@ -9,7 +9,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts"
-import { ResourceDto } from "../../../types/domain/relearn/ResourceDto"
+import { FeedResourceDto } from "types/domain/feed/FeedResourceDto"
 import { TagDto } from "../../../types/domain/relearn/TagDto"
 import { getLastWeekResourcesForChart } from "../../../utils/feed/getLastWeekResourcesForChart"
 import { getLastYearResourcesForChart } from "../../../utils/feed/getLastYearResourcesForChart"
@@ -17,7 +17,7 @@ import { getLastYearResourcesForChart } from "../../../utils/feed/getLastYearRes
 type ChartRange = "Last week" | "Last year"
 
 interface Props {
-  resources: ResourceDto[]
+  resources: FeedResourceDto[]
 }
 
 // PE 3/3

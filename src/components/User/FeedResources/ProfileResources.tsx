@@ -1,10 +1,10 @@
 import { Box } from "@mui/material"
+import FeedResourceItemV2 from "components/Feed/FeedResources/FeedResourceItemV2/FeedResourceItemV2"
 import { Virtuoso } from "react-virtuoso"
-import { ResourceDto } from "../../../types/domain/relearn/ResourceDto"
-import ProfileResourceItem from "./ProfileResourceItem/ProfileResourceItem"
+import { FeedResourceDto } from "types/domain/feed/FeedResourceDto"
 
 interface Props {
-  resources: ResourceDto[]
+  resources: FeedResourceDto[]
 }
 
 // PE 3/3
@@ -12,10 +12,12 @@ const ProfileResources = (props: Props) => {
   return (
     <Box mt={3}>
       <Virtuoso
-        style={{ height: "calc(100vh - 100px)" }}
+        style={{ height: "calc(100vh - 120px)" }}
         totalCount={props.resources.length}
         itemContent={(index) => (
-          <ProfileResourceItem resource={props.resources[index]} />
+          <Box mb={2}>
+            <FeedResourceItemV2 feedResource={props.resources[index]} />
+          </Box>
         )}
       />
     </Box>

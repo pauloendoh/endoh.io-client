@@ -1,4 +1,4 @@
-const colors = {
+const myColors = {
   ratingYellow: {
     1: "#929292",
     2: "#968864",
@@ -7,6 +7,6 @@ const colors = {
     5: "#FFB600",
   },
   border: "1px solid rgba(255, 255, 255, 0.1)",
-};
+}
 
-export default colors;
+export default myColors

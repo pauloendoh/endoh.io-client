@@ -1,29 +1,29 @@
-import { FollowerDto } from "types/domain/feed/FollowerDto";
-import { FollowingUserDto } from "types/domain/feed/FollowingUserDto";
-import { ResourceDto } from "types/domain/relearn/ResourceDto";
-import { TagDto } from "types/domain/relearn/TagDto";
-import { SkillDto } from "types/domain/skillbase/SkillDto";
-import { ProfileDto } from "types/domain/_common/ProfileDto";
-import { UserInfoDto } from "types/domain/_common/UserInfoDto";
-import create, { GetState } from "zustand";
-import { devtools, NamedSet } from "zustand/middleware";
+import { ProfileDto } from "types/domain/_common/ProfileDto"
+import { UserInfoDto } from "types/domain/_common/UserInfoDto"
+import { FeedResourceDto } from "types/domain/feed/FeedResourceDto"
+import { FollowerDto } from "types/domain/feed/FollowerDto"
+import { FollowingUserDto } from "types/domain/feed/FollowingUserDto"
+import { TagDto } from "types/domain/relearn/TagDto"
+import { SkillDto } from "types/domain/skillbase/SkillDto"
+import create, { GetState } from "zustand"
+import { devtools, NamedSet } from "zustand/middleware"
 
 interface IProfileStore {
-  profile: ProfileDto;
-  resources: ResourceDto[];
+  profile: ProfileDto
+  resources: FeedResourceDto[]
 
-  publicTags: TagDto[];
-  privateTags: TagDto[];
+  publicTags: TagDto[]
+  privateTags: TagDto[]
 
-  followingUsers: FollowingUserDto[];
-  followers: FollowerDto[];
+  followingUsers: FollowingUserDto[]
+  followers: FollowerDto[]
 
-  setProfile: (profile: ProfileDto) => void;
+  setProfile: (profile: ProfileDto) => void
 
-  publicSkills: SkillDto[];
+  publicSkills: SkillDto[]
 
-  setUserInfo: (userInfo: UserInfoDto) => void;
-  setProfilePicture: (pictureUrl: string) => void;
+  setUserInfo: (userInfo: UserInfoDto) => void
+  setProfilePicture: (pictureUrl: string) => void
 }
 
 const useProfileStore = create<IProfileStore>(
@@ -40,7 +40,7 @@ const useProfileStore = create<IProfileStore>(
     publicSkills: [],
 
     setProfile: (profile) => {
-      set({ profile }, undefined, "setProfile");
+      set({ profile }, undefined, "setProfile")
     },
 
     setUserInfo: (userInfo) => {
@@ -56,20 +56,20 @@ const useProfileStore = create<IProfileStore>(
         },
         undefined,
         "setUserInfo"
-      );
+      )
     },
 
     setProfilePicture: (pictureUrl) => {
-      const { profile } = get();
-      profile.pictureUrl = pictureUrl;
-      set({ profile }, undefined, "setProfilePicture");
+      const { profile } = get()
+      profile.pictureUrl = pictureUrl
+      set({ profile }, undefined, "setProfilePicture")
     },
   }))
-);
+)
 
-const initialState = useProfileStore.getState();
+const initialState = useProfileStore.getState()
 export const resetProfileStore = () => {
-  useProfileStore.setState(initialState, true);
-};
+  useProfileStore.setState(initialState, true)
+}
 
-export default useProfileStore;
+export default useProfileStore

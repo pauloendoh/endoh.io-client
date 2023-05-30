@@ -1,3 +1,4 @@
+import { TagDto } from "../relearn/TagDto"
 import { UserProfileDto } from "./UserProfileDto"
 
 export interface FeedResourceDto {
@@ -6,11 +7,7 @@ export interface FeedResourceDto {
     username: string
     profile: UserProfileDto
   }
-  tag: {
-    id: number
-    name: string
-    color: string
-  }
+  tag: TagDto
   id: number
   title: string
   url: string

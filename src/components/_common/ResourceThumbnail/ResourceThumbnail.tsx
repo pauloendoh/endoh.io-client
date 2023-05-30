@@ -37,7 +37,7 @@ function ResourceThumbnail(props: Props) {
   }
 
   return (
-    <Box mr={2}>
+    <Box>
       <Box minWidth={getWidth()} width={getWidth()} position="relative">
         {isLink() ? (
           <Link

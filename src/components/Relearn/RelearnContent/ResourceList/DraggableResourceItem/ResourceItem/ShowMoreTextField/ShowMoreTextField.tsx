@@ -1,6 +1,6 @@
 import { Paper, Typography, useTheme } from "@mui/material"
 import ShowMoreText from "react-show-more-text"
-import colors from "utils/consts/colors"
+import myColors from "utils/consts/myColors"
 import "./ShowMoreTextField.css"
 
 interface Props {
@@ -14,7 +14,7 @@ function ShowMoreTextField(props: Props) {
       style={{
         padding: 16,
         background: theme.palette.grey[900],
-        border: colors.border,
+        border: myColors.border,
       }}
     >
       <Typography color="textSecondary" style={{ whiteSpace: "pre-line" }}>

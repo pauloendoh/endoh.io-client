@@ -25,7 +25,7 @@ const SaveFeedResourceButton = (props: Props) => {
   }
 
   return (
-    <Button onClick={handleClick}>
+    <Button onClick={handleClick} color="inherit">
       <FlexVCenter>
         <PlaylistAddIcon />
         <Box ml={1}>Save</Box>

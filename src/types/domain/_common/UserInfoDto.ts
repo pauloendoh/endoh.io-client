@@ -1,6 +1,6 @@
+import { FeedResourceDto } from "../feed/FeedResourceDto"
 import { FollowerDto } from "../feed/FollowerDto"
 import { FollowingUserDto } from "../feed/FollowingUserDto"
-import { ResourceDto } from "../relearn/ResourceDto"
 import { TagDto } from "../relearn/TagDto"
 import { SkillDto } from "../skillbase/SkillDto"
 import { ProfileDto } from "./ProfileDto"
@@ -9,7 +9,7 @@ import { ProfileDto } from "./ProfileDto"
 export interface UserInfoDto {
   username: string
   profile: ProfileDto
-  resources: ResourceDto[]
+  resources: FeedResourceDto[]
 
   // PE 2/3 - change to tags? I don't know if I can, since it comes like this
   publicLists: TagDto[]

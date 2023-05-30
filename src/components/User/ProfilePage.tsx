@@ -1,6 +1,6 @@
 import { Grid, Hidden, Typography } from "@mui/material"
 import useUserSuggestionsQuery from "hooks/react-query/feed/useUserSuggestionsQuery"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useHistory, useParams } from "react-router-dom"
 import useProfileStore, {
   resetProfileStore,
@@ -8,8 +8,6 @@ import useProfileStore, {
 import useAuthStore from "store/zustand/useAuthStore"
 import { urls } from "utils/urls"
 import { UserInfoDto } from "../../types/domain/_common/UserInfoDto"
-import { ResourceDto } from "../../types/domain/relearn/ResourceDto"
-import { TagDto } from "../../types/domain/relearn/TagDto"
 import myAxios from "../../utils/consts/myAxios"
 import LoadingPage from "../_common/LoadingPage/LoadingPage"
 import MinRatingButton from "../_common/MinRatingButton/MinRatingButton"
@@ -25,40 +23,34 @@ const ProfilePage = () => {
   const history = useHistory()
   const { followingUsers } = useAuthStore()
 
-  const profileStore = useProfileStore()
+  const { publicTags, privateTags, resources, profile, setUserInfo } =
+    useProfileStore()
 
   const { username, tagId } = useParams<{
     username: string
     tagId: string
   }>()
 
-  const [filteredResources, setFilteredResources] = useState<ResourceDto[]>([])
   const [minRating, setMinRating] = useState(0)
 
   const { data: userSuggestions } = useUserSuggestionsQuery()
 
-  const [filterByTag, setFilterByTag] = useState<TagDto>(null)
+  const selectedTag = useMemo(() => {
+    const tags = [...publicTags, ...privateTags]
 
-  // filtering resources by min rating
-  useEffect(() => {
-    const minResources = [...profileStore.resources].filter(
-      (r) => r.rating >= minRating
-    )
+    return tags.find((t) => t.id === Number(tagId))
+  }, [publicTags, privateTags, tagId])
 
-    const filtered = minResources.filter((r) => {
-      if (tagId !== undefined) {
-        const allTags = profileStore.publicTags.concat(profileStore.privateTags)
-        setFilterByTag(allTags.find((t) => t.id === Number(tagId)))
-        return r.tag?.id === Number(tagId)
-      } else {
-        setFilterByTag(null)
+  const visibleResources = useMemo(() => {
+    return [...resources]
+      .filter((r) => r.rating >= minRating)
+      .filter((r) => {
+        if (!!tagId) {
+          return r.tag.id === Number(tagId)
+        }
         return true
-      }
-    })
-
-    setFilteredResources(filtered)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profileStore.resources, minRating, tagId])
+      })
+  }, [resources, minRating, tagId])
 
   useEffect(
     () => {
@@ -69,7 +61,7 @@ const ProfilePage = () => {
       myAxios
         .get<UserInfoDto>(urls.api.user.userInfo(username))
         .then((res) => {
-          profileStore.setUserInfo(res.data)
+          setUserInfo(res.data)
         })
         .catch((err) => {
           if (err.response && err.response.status === 404) {
@@ -83,7 +75,7 @@ const ProfilePage = () => {
 
   return (
     <S.UserPageRoot>
-      {profileStore.profile === null ? (
+      {profile === null ? (
         <LoadingPage />
       ) : (
         <Grid container spacing={3}>
@@ -94,19 +86,20 @@ const ProfilePage = () => {
             <ProfileHeader />
 
             <S.ChartWrapper>
-              <ResourcesChart resources={filteredResources} />
+              <ResourcesChart resources={visibleResources} />
             </S.ChartWrapper>
 
             <S.ResourcesContentHeader>
               <Typography variant="h5">
-                {filterByTag === null ? "All resources" : filterByTag.name}{" "}
-                {filteredResources.length > 0 && (
-                  <>· {filteredResources.length}</>
+                {!selectedTag ? "All resources" : selectedTag.name}{" "}
+                {visibleResources.length > 0 && (
+                  <>· {visibleResources.length}</>
                 )}
               </Typography>
               <MinRatingButton onChange={setMinRating} value={minRating} />
             </S.ResourcesContentHeader>
-            <ProfileResources resources={filteredResources} />
+
+            <ProfileResources resources={visibleResources} />
           </Grid>
 
           <Grid item lg={4}>

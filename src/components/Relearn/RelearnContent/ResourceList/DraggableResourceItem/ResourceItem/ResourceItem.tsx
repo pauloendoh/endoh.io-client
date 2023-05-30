@@ -1,5 +1,5 @@
 import EventIcon from "@mui/icons-material/Event"
-import { Link, useTheme } from "@mui/material"
+import { Box, Link, useTheme } from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import { useAxios } from "hooks/utils/useAxios"
 import useHover from "hooks/utils/useHover"
@@ -10,9 +10,9 @@ import useSnackbarStore from "store/zustand/useSnackbarStore"
 import Icons from "utils/styles/Icons"
 import { urls } from "utils/urls"
 import { ResourceDto } from "../../../../../../types/domain/relearn/ResourceDto"
+import Txt from "../../../../../_UI/Text/Txt"
 import RatingButton from "../../../../../_common/RatingButton/RatingButton"
 import ResourceThumbnail from "../../../../../_common/ResourceThumbnail/ResourceThumbnail"
-import Txt from "../../../../../_UI/Text/Txt"
 import ResourceMoreIcon from "../ResourceMoreIcon/ResourceMoreIcon"
 import ResourceCompletedLabel from "./ResourceCompletedLabel/ResourceCompletedLabel"
 import ResourceDurationLabel from "./ResourceDurationLabel/ResourceDurationLabel"
@@ -87,11 +87,14 @@ function ResourceItem(props: Props) {
       onMouseLeave={handleMouseLeave}
       className="resource-item"
     >
-      <ResourceThumbnail
-        resourceUrl={props.resource.url}
-        thumbnailSrc={props.resource.thumbnail}
-        linkable={true}
-      />
+      <Box mr={2}>
+        <ResourceThumbnail
+          resourceUrl={props.resource.url}
+          thumbnailSrc={props.resource.thumbnail}
+          linkable={true}
+        />
+      </Box>
+
       <S.Content>
         <S.TitleLinkMoreWrapper>
           <S.TitleLinkWrapper>

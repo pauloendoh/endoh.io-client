@@ -80,6 +80,7 @@ function MinRatingButton(props: Props) {
           onClick={handleTooltipOpen}
           variant="outlined"
           className="rate-button"
+          color="inherit"
         >
           <FlexVCenter>
             <Box>Min. rating: </Box>

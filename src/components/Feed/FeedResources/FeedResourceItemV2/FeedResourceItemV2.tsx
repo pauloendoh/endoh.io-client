@@ -1,13 +1,22 @@
-import StarRateIcon from "@mui/icons-material/StarRate"
-import { Box, Link, Paper, Typography } from "@mui/material"
+import {
+  Box,
+  Divider,
+  Link as MuiLink,
+  Paper,
+  Typography,
+  useTheme,
+} from "@mui/material"
 import Flex from "components/_UI/Flexboxes/Flex"
+import FlexCol from "components/_UI/Flexboxes/FlexCol"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import ProfilePicture from "components/_UI/ProfilePicture/ProfilePicture"
 import ResourceThumbnail from "components/_common/ResourceThumbnail/ResourceThumbnail"
+import useElementSize from "hooks/utils/useElementSize"
+import { useRef } from "react"
 import { Link as RouterLink } from "react-router-dom"
-import ReactTimeago from "react-timeago"
+import { format } from "timeago.js"
 import { FeedResourceDto } from "types/domain/feed/FeedResourceDto"
-import { ratingLabels } from "utils/domain/relearn/resources/ratingLabels"
+import { hoverRatingLabels } from "utils/domain/relearn/resources/ratingLabels"
 import { useGetColorByRating } from "utils/relearn/getColorByRating"
 import { urls } from "utils/urls"
 import SaveFeedResourceButton from "../SaveFeedResourceButton/SaveFeedResourceButton"
@@ -16,73 +25,125 @@ interface Props {
   feedResource: FeedResourceDto
 }
 
-const FeedResourceItemV2 = ({ feedResource, ...props }: Props) => {
+const FeedResourceItemV2 = ({ feedResource }: Props) => {
   const color = useGetColorByRating(feedResource.rating)
 
+  const paperRef = useRef<HTMLDivElement>(null)
+  const { width: paperWidth } = useElementSize(paperRef)
+
+  const theme = useTheme()
+
   return (
-    <Paper
-      key={feedResource.id}
-      style={{ marginBottom: 16, padding: 16, marginRight: 8 }}
-    >
-      <FlexVCenter>
-        <ProfilePicture
-          pictureUrl={feedResource.user.profile.pictureUrl}
-          username={feedResource.user.username}
-          size={32}
-          isLink
-        />
-
-        <Box ml={1}>
-          <Link
-            variant="button"
-            color="inherit"
-            component={RouterLink}
-            to={urls.pages.user.index(feedResource.user.username)}
-          >
-            {feedResource.user.username}
-          </Link>
-        </Box>
-      </FlexVCenter>
-      <Box mt={1}>
-        <Flex>
-          <ResourceThumbnail
-            linkable={true}
-            resourceUrl={feedResource.url}
-            thumbnailSrc={feedResource.thumbnail}
-            width={75}
+    <Box pl={3} pr={1}>
+      <Paper
+        ref={paperRef}
+        sx={{
+          position: "relative",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            left: -20,
+            top: 8,
+          }}
+        >
+          <ProfilePicture
+            pictureUrl={feedResource.user.profile.pictureUrl}
+            username={feedResource.user.username}
+            size={40}
+            isLink
           />
-
-          <Box ml={1} width="100%">
-            <Typography>{feedResource.title}</Typography>
-            <Box>
-              <Link href={feedResource.url} target="_blank">
-                <Typography variant="inherit">{feedResource.url}</Typography>
-              </Link>
-            </Box>
-            <FlexVCenter mt={1}>
-              <ReactTimeago date={feedResource.completedAt} live={false} />
-              <FlexVCenter ml="auto">
-                <FlexVCenter
-                  style={{
-                    width: 100,
-                    color,
+        </div>
+        <FlexCol p={2} pl={4} gap={1} pb={1}>
+          <FlexVCenter>
+            <RouterLink
+              to={urls.pages.user.index(feedResource.user.username)}
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+                fontWeight: 500,
+              }}
+            >
+              {feedResource.user.username}
+            </RouterLink>
+            &nbsp;rated&nbsp;&nbsp;
+            <span
+              style={{
+                color,
+                fontWeight: 500,
+              }}
+            >
+              {feedResource.rating} - {hoverRatingLabels[feedResource.rating]}
+            </span>
+          </FlexVCenter>
+          <Flex gap={1} justifyContent={"space-between"}>
+            <FlexCol>
+              <Typography>{feedResource.title}</Typography>
+              <MuiLink href={feedResource.url} target="_blank">
+                <Typography
+                  noWrap
+                  sx={{
+                    maxWidth: paperWidth - 200,
                   }}
                 >
-                  <StarRateIcon />
+                  {feedResource.url}
+                </Typography>
+              </MuiLink>
 
-                  <Box>
-                    {feedResource.rating} - {ratingLabels[feedResource.rating]}
-                  </Box>
-                </FlexVCenter>
-                <FlexVCenter>
-                  <SaveFeedResourceButton feedResource={feedResource} />
-                </FlexVCenter>
+              <FlexVCenter mt={1}>
+                <Typography variant="body2">
+                  {format(new Date(feedResource.completedAt))}
+                </Typography>
+
+                {/* PE 1/3 - MyRouterLink */}
+                <RouterLink
+                  to={urls.pages.user.tag(
+                    feedResource.user.username,
+                    feedResource.tag.id
+                  )}
+                  style={{
+                    textDecoration: "none",
+                    color: "inherit",
+                  }}
+                >
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      ml: 1,
+                      background: theme.palette.grey[800],
+                      px: 1,
+                      py: 0.5,
+                      borderRadius: 1,
+                      maxWidth: 160,
+                    }}
+                    noWrap
+                    title={feedResource.tag.name}
+                  >
+                    # {feedResource.tag.name}
+                  </Typography>
+                </RouterLink>
               </FlexVCenter>
-            </FlexVCenter>
-          </Box>
-        </Flex>
-      </Box>
-    </Paper>
+            </FlexCol>
+            <ResourceThumbnail
+              linkable={true}
+              resourceUrl={feedResource.url}
+              thumbnailSrc={feedResource.thumbnail}
+              width={100}
+            />{" "}
+          </Flex>
+          <Divider
+            sx={{
+              mt: 1,
+              borderColor: "#ffffff00",
+            }}
+          />
+          <FlexVCenter>
+            <SaveFeedResourceButton feedResource={feedResource} />
+          </FlexVCenter>
+        </FlexCol>
+      </Paper>
+    </Box>
   )
 }
 
