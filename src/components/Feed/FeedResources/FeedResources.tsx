@@ -1,4 +1,6 @@
 import { Box } from "@mui/material"
+import useLastSeenResourceQuery from "hooks/react-query/feed/last-seen-resource/useLastSeenResourceQuery"
+import useUpdateLastSeenResourceMutation from "hooks/react-query/feed/last-seen-resource/useUpdateLastSeenResourceMutation"
 import useFeedResourcesQuery from "hooks/react-query/feed/useFeedResourcesQuery"
 import { useEffect, useState } from "react"
 import { Virtuoso } from "react-virtuoso"
@@ -22,6 +24,22 @@ const FeedResources = () => {
       setFilteredResources(minResources)
     }
   }, [resources, minRating])
+
+  const { data: lastSeenResource } = useLastSeenResourceQuery()
+  const { mutate: updateLastSeenResource } = useUpdateLastSeenResourceMutation()
+
+  useEffect(() => {
+    const lastResource = resources?.[0]
+    if (lastResource) {
+      if (!lastSeenResource.lastSeenAt) {
+        updateLastSeenResource(lastResource.completedAt)
+        return
+      }
+
+      if (lastResource.completedAt > lastSeenResource.lastSeenAt)
+        updateLastSeenResource(lastResource.completedAt)
+    }
+  }, [resources?.[0], lastSeenResource])
 
   return (
     <Box pr={4}>

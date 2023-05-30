@@ -132,6 +132,8 @@ export const urls = {
     feed: {
       myUserSuggestions: "v2/feed/my-user-suggestions",
       resources: "v2/feed/resources",
+      lastSeenResource: "/feed/last-seen-resource",
+      newResourcesCount: "/feed/new-resources-count",
     },
 
     monerate: {

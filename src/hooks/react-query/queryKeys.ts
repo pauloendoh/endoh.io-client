@@ -16,4 +16,6 @@ export const queryKeys = {
   folders: "/folders",
   gotIt: "/got-it",
   learningsPerDay: "/learnings-per-day",
+  lastSeenResource: urls.api.feed.lastSeenResource,
+  newResourcesCount: urls.api.feed.newResourcesCount,
 }

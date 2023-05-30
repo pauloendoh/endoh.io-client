@@ -1,4 +1,5 @@
 import {
+  Badge,
   Button,
   IconButton,
   ListItemIcon,
@@ -7,6 +8,8 @@ import {
 } from "@mui/material"
 import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
+
+import useNewResourcesCountQuery from "hooks/react-query/feed/last-seen-resource/useNewResourcesCountQuery"
 import { useMemo, useState } from "react"
 import { MdArrowDropDown, MdOutlineMoreHoriz } from "react-icons/md"
 import { Link, useLocation } from "react-router-dom"
@@ -41,6 +44,8 @@ const NavbarResponsiveMenu = () => {
     return utils.navbarTabs[0]
   }, [location])
 
+  const { data: newResourcesCount } = useNewResourcesCountQuery()
+
   return (
     <div>
       {isSmall ? (
@@ -58,27 +63,51 @@ const NavbarResponsiveMenu = () => {
         </Button>
       )}
 
-      <Menu
-        anchorEl={anchorEl}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        transformOrigin={{ vertical: "top", horizontal: "right" }}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleCloseMenu}
+      <Badge
+        color="error"
+        variant={
+          newResourcesCount && newResourcesCount > 0 ? "dot" : "standard"
+        }
+        sx={{
+          "& .MuiBadge-badge": {
+            top: -16,
+          },
+        }}
       >
-        {utils.navbarTabs.map((tab) => (
-          <MenuItem
-            key={tab.id}
-            component={Link}
-            to={tab.to}
-            onClick={handleCloseMenu}
-            selected={location.pathname.includes(tab.to)}
-          >
-            <ListItemIcon>{tab.icon}</ListItemIcon>
-            <ListItemText>{tab.label}</ListItemText>
-          </MenuItem>
-        ))}
-      </Menu>
+        <Menu
+          anchorEl={anchorEl}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          transformOrigin={{ vertical: "top", horizontal: "right" }}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleCloseMenu}
+        >
+          {utils.navbarTabs.map((tab) => (
+            <MenuItem
+              component={Link}
+              to={tab.to}
+              onClick={handleCloseMenu}
+              selected={location.pathname.includes(tab.to)}
+            >
+              <ListItemIcon>{tab.icon}</ListItemIcon>
+              <Badge
+                key={tab.id}
+                badgeContent={
+                  tab.id === "feed-tab" ? newResourcesCount : undefined
+                }
+                color="error"
+                sx={{
+                  "& .MuiBadge-badge": {
+                    right: -24,
+                  },
+                }}
+              >
+                <ListItemText>{tab.label}</ListItemText>
+              </Badge>
+            </MenuItem>
+          ))}
+        </Menu>
+      </Badge>
     </div>
   )
 }

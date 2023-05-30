@@ -1,10 +1,13 @@
 import { Link as RouterLink, useLocation } from "react-router-dom"
 
+import { Badge } from "@mui/material"
+import useNewResourcesCountQuery from "hooks/react-query/feed/last-seen-resource/useNewResourcesCountQuery"
 import { useMemo } from "react"
 import { urls } from "utils/urls"
 import S from "../Navbar.styles"
 import utils from "./NavbarTabs.utils"
 
+// PE 1/3 - NavbarTabsLinks
 const NavbarTabs = () => {
   const location = useLocation()
 
@@ -18,6 +21,8 @@ const NavbarTabs = () => {
     return false
   }, [location])
 
+  const { data: newResourcesCount } = useNewResourcesCountQuery()
+
   return (
     <S.NavbarTabs
       value={tabIndex}
@@ -26,14 +31,27 @@ const NavbarTabs = () => {
       aria-label="disabled tabs example"
     >
       {utils.navbarTabs.map((tab) => (
-        <S.NavbarTab
-          id={tab.id}
-          component={RouterLink}
-          to={tab.to}
+        <Badge
           key={tab.id}
-          label={tab.label}
-          icon={tab.icon}
-        />
+          badgeContent={tab.id === "feed-tab" && newResourcesCount}
+          color="error"
+          invisible={tab.id !== "feed-tab"}
+          sx={{
+            "& .MuiBadge-badge": {
+              right: 16,
+              top: 16,
+            },
+          }}
+        >
+          <S.NavbarTab
+            id={tab.id}
+            component={RouterLink}
+            to={tab.to}
+            key={tab.id}
+            label={tab.label}
+            icon={tab.icon}
+          />
+        </Badge>
       ))}
     </S.NavbarTabs>
   )
