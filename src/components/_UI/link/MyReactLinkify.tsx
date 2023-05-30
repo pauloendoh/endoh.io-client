@@ -4,6 +4,7 @@ import ReactLinkify from "react-linkify"
 
 type Props = React.ComponentProps<typeof ReactLinkify> & {
   openNewTab?: boolean
+  showDomainOnly?: boolean
 }
 
 const MyReactLinkify = (props: Props) => {
@@ -20,7 +21,9 @@ const MyReactLinkify = (props: Props) => {
         textDecoration: "underline",
       }}
     >
-      {text}
+      {props.showDomainOnly
+        ? href.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split("/")[0]
+        : text}
     </a>
   )
 

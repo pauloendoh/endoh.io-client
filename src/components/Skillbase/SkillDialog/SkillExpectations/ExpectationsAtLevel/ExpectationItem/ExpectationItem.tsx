@@ -1,6 +1,6 @@
 import { Box, Checkbox, IconButton, Tooltip, useTheme } from "@mui/material"
-import MyReactLinkify from "components/_UI/link/MyReactLinkify"
 import Txt from "components/_UI/Text/Txt"
+import MyReactLinkify from "components/_UI/link/MyReactLinkify"
 import React, { useEffect, useMemo, useRef } from "react"
 import { useDrag, useDrop } from "react-dnd"
 import { FaFire } from "react-icons/fa"
@@ -268,12 +268,12 @@ const ExpectationItem = ({
             <Txt>
               {expectation.checked && !props.disabled ? (
                 <s>
-                  <MyReactLinkify openNewTab>
+                  <MyReactLinkify openNewTab showDomainOnly>
                     {expectation.description}
                   </MyReactLinkify>
                 </s>
               ) : (
-                <MyReactLinkify openNewTab>
+                <MyReactLinkify openNewTab showDomainOnly>
                   {expectation.description}{" "}
                 </MyReactLinkify>
               )}
