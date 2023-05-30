@@ -31,12 +31,12 @@ const FeedResources = () => {
   useEffect(() => {
     const lastResource = resources?.[0]
     if (lastResource) {
-      if (!lastSeenResource.lastSeenAt) {
+      if (!lastSeenResource?.lastSeenAt) {
         updateLastSeenResource(lastResource.completedAt)
         return
       }
 
-      if (lastResource.completedAt > lastSeenResource.lastSeenAt)
+      if (lastResource.completedAt > lastSeenResource?.lastSeenAt)
         updateLastSeenResource(lastResource.completedAt)
     }
   }, [resources?.[0], lastSeenResource])
