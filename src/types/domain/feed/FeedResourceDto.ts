@@ -16,4 +16,5 @@ export interface FeedResourceDto {
   dueDate: string
   rating: number
   completedAt: string
+  publicReview: string
 }

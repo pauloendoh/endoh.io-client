@@ -132,6 +132,16 @@ const FeedResourceItem = ({ feedResource }: Props) => {
               width={100}
             />{" "}
           </Flex>
+          {!!feedResource.publicReview && (
+            <Typography
+              sx={{
+                mt: 1,
+                whiteSpace: "pre-wrap",
+              }}
+            >
+              {feedResource.publicReview}
+            </Typography>
+          )}
           <Divider
             sx={{
               mt: 1,

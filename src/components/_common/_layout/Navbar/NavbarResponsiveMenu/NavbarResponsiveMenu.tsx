@@ -84,6 +84,7 @@ const NavbarResponsiveMenu = () => {
         >
           {utils.navbarTabs.map((tab) => (
             <MenuItem
+              key={tab.id}
               component={Link}
               to={tab.to}
               onClick={handleCloseMenu}
