@@ -46,7 +46,7 @@ const FeedResourceItem = ({ feedResource }: Props) => {
           style={{
             position: "absolute",
             left: -20,
-            top: 8,
+            top: 16,
           }}
         >
           <ProfilePicture
