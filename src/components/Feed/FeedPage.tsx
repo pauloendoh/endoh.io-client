@@ -12,9 +12,9 @@ const FeedPage = () => {
   return (
     <Box pt={3}>
       <Grid container>
-        <Grid item xs={1} md={2} lg={3}></Grid>
+        <Grid item xs={0} lg={3}></Grid>
 
-        <Grid item xs={7} md={6} lg={5}>
+        <Grid item xs={8} lg={5}>
           <FeedResources />
         </Grid>
 

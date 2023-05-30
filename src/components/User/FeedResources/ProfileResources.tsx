@@ -1,5 +1,5 @@
 import { Box } from "@mui/material"
-import FeedResourceItemV2 from "components/Feed/FeedResources/FeedResourceItemV2/FeedResourceItemV2"
+import FeedResourceItem from "components/Feed/FeedResources/FeedResourceItem/FeedResourceItem"
 import { Virtuoso } from "react-virtuoso"
 import { FeedResourceDto } from "types/domain/feed/FeedResourceDto"
 
@@ -16,7 +16,7 @@ const ProfileResources = (props: Props) => {
         totalCount={props.resources.length}
         itemContent={(index) => (
           <Box mb={2}>
-            <FeedResourceItemV2 feedResource={props.resources[index]} />
+            <FeedResourceItem feedResource={props.resources[index]} />
           </Box>
         )}
       />

@@ -7,7 +7,7 @@ import { Virtuoso } from "react-virtuoso"
 import { FeedResourceDto } from "../../../types/domain/feed/FeedResourceDto"
 import Flex from "../../_UI/Flexboxes/Flex"
 import MinRatingButton from "../../_common/MinRatingButton/MinRatingButton"
-import FeedResourceItemV2 from "./FeedResourceItemV2/FeedResourceItemV2"
+import FeedResourceItem from "./FeedResourceItem/FeedResourceItem"
 
 const FeedResources = () => {
   // PE 1/3 - useMemo
@@ -52,7 +52,7 @@ const FeedResources = () => {
         totalCount={filteredResources.length}
         itemContent={(index) => (
           <Box mb={2}>
-            <FeedResourceItemV2 feedResource={filteredResources[index]} />
+            <FeedResourceItem feedResource={filteredResources[index]} />
           </Box>
         )}
       />
