@@ -138,7 +138,7 @@ const FeedResourceItem = ({ feedResource }: Props) => {
               borderColor: "#ffffff00",
             }}
           />
-          <FlexVCenter>
+          <FlexVCenter justifyContent={"flex-end"}>
             <SaveFeedResourceButton feedResource={feedResource} />
           </FlexVCenter>
         </FlexCol>
