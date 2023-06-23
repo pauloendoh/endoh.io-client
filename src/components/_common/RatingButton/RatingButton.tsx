@@ -32,7 +32,14 @@ const RatingButton = (props: Props) => {
   const [hover, setHover] = React.useState(-1)
 
   return (
-    <ClickAwayListener onClickAway={handleTooltipClose}>
+    <ClickAwayListener
+      onClickAway={(e) => {
+        // if touch event, do not close tooltip
+        if (e.type === "touchend") return
+
+        handleTooltipClose()
+      }}
+    >
       <Tooltip
         arrow
         PopperProps={{
@@ -49,10 +56,8 @@ const RatingButton = (props: Props) => {
               name="rating-input"
               value={props.rating}
               onChange={(event, newValue) => {
-                setOpen(false)
                 props.onChange(newValue)
-                // handleSaveRating(newValue)
-                // setValue(newValue)
+                setOpen(false)
               }}
               onChangeActive={(event, newHover) => {
                 if (newHover === props.rating) {
