@@ -1,58 +1,67 @@
 import { IconButton, ListItem, ListItemText, Tooltip } from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import { useDefaultSubmitQuestion } from "hooks/questions/useDefaultSubmitQuestion"
-import { useAxios } from "hooks/utils/useAxios"
 import { useCallback, useMemo } from "react"
 import { MdShuffle } from "react-icons/md"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
-import useSnackbarStore from "store/zustand/useSnackbarStore"
 import getRandomIntInclusive from "utils/math/getRandomIntInclusive"
 
 interface Props {
-  test?: string
+  type: "to-refine" | "both-types"
 }
 
-const QuestionsToRefineListItem = (props: Props) => {
-  const [allNotes, pushOrReplaceNote] = useDocsStore((s) => [
-    s.notes,
-    s.pushOrReplaceNote,
-  ])
+const QuestionsToRefineListItem = ({ ...props }: Props) => {
+  const [allNotes] = useDocsStore((s) => [s.notes, s.pushOrReplaceNote])
 
-  const myAxios = useAxios()
+  const [openNoteDialog] = useNoteDialogStore((s) => [s.openNoteDialog])
 
-  const [openNoteDialog, closeNoteDialog] = useNoteDialogStore((s) => [
-    s.openNoteDialog,
-    s.onClose,
-  ])
+  const filteredQuestions = useMemo(() => {
+    if (props.type === "to-refine") {
+      return allNotes.filter((n) => n.toRefine)
+    }
 
-  const setSuccessMessage = useSnackbarStore((s) => s.setSuccessMessage)
-
-  const questionsToRefine = useMemo(() => {
-    return allNotes.filter((n) => n.toRefine)
-  }, [allNotes])
-
-  const axios = useAxios()
+    return allNotes.filter(
+      (n) =>
+        n.toRefine &&
+        n.question.trim().length > 0 &&
+        n.description.trim().length === 0
+    )
+  }, [allNotes, props.type])
 
   const defaultSubmit = useDefaultSubmitQuestion()
 
   const openRandomQuestionToRefine = useCallback(() => {
-    const randomIndex = getRandomIntInclusive(0, questionsToRefine.length - 1)
-
+    const randomIndex = getRandomIntInclusive(0, filteredQuestions.length - 1)
     openNoteDialog({
-      initialValue: questionsToRefine[randomIndex],
-
+      initialValue: filteredQuestions[randomIndex],
       onSubmit: defaultSubmit,
     })
-  }, [questionsToRefine])
+  }, [filteredQuestions])
+
+  const label = useMemo(() => {
+    if (props.type === "to-refine") {
+      return "questions to refine"
+    }
+
+    return "both"
+  }, [props.type])
+
+  const tooltipTitle = useMemo(() => {
+    if (props.type === "to-refine") {
+      return "Open random question to refine"
+    }
+
+    return "Open random question to refine or unanswered"
+  }, [props.type])
 
   return (
     <ListItem>
       <ListItemText>
         <FlexVCenter justifyContent="space-between">
-          {questionsToRefine.length} questions to refine
-          {questionsToRefine.length > 0 && (
-            <Tooltip title="Open random question to refine">
+          {filteredQuestions.length} {label}
+          {filteredQuestions.length > 0 && (
+            <Tooltip title={tooltipTitle}>
               <IconButton
                 size="small"
                 onClick={() => openRandomQuestionToRefine()}

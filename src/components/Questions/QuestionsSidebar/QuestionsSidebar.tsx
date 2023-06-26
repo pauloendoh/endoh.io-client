@@ -34,7 +34,8 @@ function QuestionsSidebar(props: Props) {
       <Box paddingBottom={4}>
         <List disablePadding>
           <UnansweredQuestionsListItem />
-          <QuestionsToRefineListItem />
+          <QuestionsToRefineListItem type="to-refine" />
+          <QuestionsToRefineListItem type="both-types" />
           <AnsweredQuestionsListItem />
         </List>
 
