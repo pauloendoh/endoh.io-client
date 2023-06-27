@@ -13,6 +13,7 @@ import { useQueryClient } from "react-query"
 import buildGraphqlClient from "utils/consts/buildGraphqlClient"
 import SaveCancelButtons from "../../Buttons/SaveCancelButtons"
 import MyTextField from "../../MyInputs/MyTextField"
+import { ValidLearningInput } from "./types/ValidLearningInput"
 
 const ariaLabel = "learning-dialog"
 
@@ -29,13 +30,16 @@ const LearningDialog = (props: Props) => {
   }
 
   const { reset, handleSubmit, formState, control, watch, setFocus, setValue } =
-    useForm({
-      defaultValues: props.initialValue,
+    useForm<ValidLearningInput>({
+      defaultValues: {
+        ...props.initialValue,
+        points: String(props.initialValue.points),
+      },
     })
 
   useEffect(() => {
     if (props.isOpen) {
-      reset(props.initialValue)
+      reset()
 
       setTimeout(() => {
         setFocus("description")
@@ -50,10 +54,13 @@ const LearningDialog = (props: Props) => {
   const { mutate: mutateAddLearning, isLoading: isAdding } =
     useAddLearningMutation(buildGraphqlClient(), {})
 
-  const onSubmit = (values: Learning) => {
+  const onSubmit = (values: ValidLearningInput) => {
     mutateAddLearning(
       {
-        input: values,
+        input: {
+          ...values,
+          points: Number(values.points),
+        },
       },
       {
         onSuccess: (data) => {
@@ -106,10 +113,14 @@ const LearningDialog = (props: Props) => {
                     size="small"
                     label="Points"
                     sx={{ mt: 1, width: 100 }}
-                    type="number"
+                    error={!!formState.errors["points"]}
+                    helperText={formState.errors["points"]?.message}
                     {...field}
                     onChange={(e) => {
-                      setValue("points", parseInt(e.target.value) || 0)
+                      const amount = e.target.value
+                      if (!amount || amount.match(/^\d{1,}(\.\d{0,2})?$/)) {
+                        setValue("points", amount)
+                      }
                     }}
                   />
                 )}
