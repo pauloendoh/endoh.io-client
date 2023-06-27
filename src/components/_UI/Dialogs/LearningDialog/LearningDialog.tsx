@@ -33,7 +33,7 @@ const LearningDialog = (props: Props) => {
     useForm<ValidLearningInput>({
       defaultValues: {
         ...props.initialValue,
-        points: String(props.initialValue.points),
+        points: String(props.initialValue?.points),
       },
     })
 
