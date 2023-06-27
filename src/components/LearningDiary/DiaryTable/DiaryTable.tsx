@@ -19,7 +19,10 @@ const DiaryTable = () => {
 
   return (
     <Paper>
-      <TableContainer sx={{ maxHeight: downSm ? "calc(100vh - 480px)" : 440 }}>
+      <TableContainer
+        id="learning-table-container"
+        sx={{ maxHeight: downSm ? "calc(100vh - 480px)" : 440 }}
+      >
         <Table
           stickyHeader
           sx={{

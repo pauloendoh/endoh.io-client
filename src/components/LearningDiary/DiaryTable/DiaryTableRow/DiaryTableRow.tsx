@@ -1,18 +1,9 @@
 import { TableCell, TableRow, Theme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 import { TD } from "components/_UI/Table/MyTableWrappers"
-import {
-  LearningsQuery,
-  useLearningsQuery,
-  useUpdateLearningMutation,
-} from "generated/graphql"
-import useDebounce from "hooks/utils/useDebounce"
+import { LearningsQuery } from "generated/graphql"
 import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
-import { createRef, useEffect, useState } from "react"
-import { useQueryClient } from "react-query"
-import TextareaAutosize from "react-textarea-autosize"
-import { pushOrReplace } from "utils/array/pushOrReplace"
-import buildGraphqlClient from "utils/consts/buildGraphqlClient"
+import useLearningDialogStore from "store/zustand/dialogs/useLearningDialogStore"
 
 interface Props {
   initialValue: LearningsQuery["learnings"][0]
@@ -22,63 +13,23 @@ interface Props {
 const DiaryTableRow = (props: Props) => {
   const classes = useStyles()
 
-  const qc = useQueryClient()
-
   const { downSm } = useMyMediaQuery()
 
-  const { mutate: updateLearning } = useUpdateLearningMutation(
-    buildGraphqlClient(),
-    {
-      onSuccess: (res) => {
-        qc.setQueryData<LearningsQuery>(useLearningsQuery.getKey(), (curr) => ({
-          ...curr,
-          learnings: pushOrReplace(curr.learnings, res.updateLearning, "id"),
-        }))
-      },
-    }
-  )
+  const { openDialog } = useLearningDialogStore()
 
-  const [learning, setLearning] = useState(props.initialValue)
-  const debouncedLearning = useDebounce(learning, 500)
-
-  const changeDescription = (newValue: string) => {
-    setLearning((prev) => ({
-      ...prev,
-      description: newValue,
-    }))
-  }
-
-  const changePoints = (newValue: number) => {
-    setLearning((prev) => ({
-      ...prev,
-      points: newValue,
-    }))
-  }
-
-  useEffect(() => {
-    if (
-      JSON.stringify(props.initialValue) !== JSON.stringify(debouncedLearning)
-    ) {
-      updateLearning({
-        input: {
-          id: debouncedLearning.id,
-          datetime: debouncedLearning.datetime,
-          description: debouncedLearning.description,
-          isHighlight: debouncedLearning.isHighlight,
-          points: debouncedLearning.points,
-        },
-      })
-    }
-  }, [debouncedLearning])
-
-  const descriptionRef = createRef<HTMLTextAreaElement>()
-
-  const focusDescription = () => descriptionRef.current.focus()
   return (
-    <TableRow>
+    <TableRow
+      sx={{
+        cursor: "pointer",
+        "&:hover": {
+          backgroundColor: "rgba(255, 255, 255, 0.05)",
+        },
+      }}
+      onClick={() => openDialog(props.initialValue)}
+    >
       {!downSm && (
         <TD align="center" className={classes.td}>
-          {new Date(learning.datetime).toLocaleTimeString("en-GB", {
+          {new Date(props.initialValue.datetime).toLocaleTimeString("en-GB", {
             // show 00:01 instead of 24:01
             hour: "2-digit",
             minute: "2-digit",
@@ -87,38 +38,10 @@ const DiaryTableRow = (props: Props) => {
         </TD>
       )}
 
-      <TableCell className={classes.textareaCell} onClick={focusDescription}>
-        <TextareaAutosize
-          ref={descriptionRef}
-          onChange={(e) => changeDescription(e.target.value)}
-          value={learning.description}
-          className={classes.textarea}
-          autoFocus
-        />
-      </TableCell>
+      <TableCell>{props.initialValue.description}</TableCell>
 
       <TableCell align="center" className={classes.td}>
-        <input
-          min={1}
-          value={learning.points}
-          onChange={(e) => {
-            const num = parseInt(e.target.value)
-            if (num > 0) {
-              changePoints(num)
-              return
-            }
-            changePoints(0)
-          }}
-          style={{
-            background: "none",
-            color: "white",
-            border: "1px solid gray",
-            borderRadius: 4,
-            textAlign: "center",
-            width: 40,
-            padding: 4,
-          }}
-        />
+        {props.initialValue.points}
       </TableCell>
     </TableRow>
   )
