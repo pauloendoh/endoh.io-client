@@ -1,4 +1,6 @@
 import { Box, Link } from "@mui/material"
+import Span from "components/_UI/Text/Span"
+import { useMemo } from "react"
 import { LazyLoadImage } from "react-lazy-load-image-component"
 import "react-lazy-load-image-component/src/effects/blur.css"
 import descriptionPng from "../../../static/images/description.png"
@@ -7,9 +9,9 @@ import linkPng from "../../../static/images/link.png"
 interface Props {
   linkable: boolean
   width?: number
-
   thumbnailSrc: string
   resourceUrl: string
+  estimatedTime?: string
 }
 
 // PE 2/3
@@ -32,13 +34,13 @@ function ResourceThumbnail(props: Props) {
   }
 
   // PE 2/3 doesn't need to be a function
-  const getWidth = () => {
+  const width = useMemo(() => {
     return props.width ? props.width : 50
-  }
+  }, [props.width])
 
   return (
-    <Box>
-      <Box minWidth={getWidth()} width={getWidth()} position="relative">
+    <Box position={"relative"}>
+      <Box minWidth={width} width={width} position="relative">
         {isLink() ? (
           <Link
             href={props.resourceUrl}
@@ -62,6 +64,19 @@ function ResourceThumbnail(props: Props) {
           <LazyLoadImage style={{ width: "100%" }} src={getThumbnailSrc()} />
         )}
       </Box>
+      {!!props.estimatedTime && (
+        <Span
+          position="absolute"
+          bottom={16}
+          right={0}
+          bgcolor="rgba(0,0,0,0.5)"
+          color="white"
+          px={1}
+          fontSize={"0.7rem"}
+        >
+          {props.estimatedTime}
+        </Span>
+      )}
     </Box>
   )
 }

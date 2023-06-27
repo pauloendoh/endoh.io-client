@@ -11,9 +11,10 @@ const ResourceSavedMessage = (props: Props) => {
   return (
     <Typography>
       Resource saved!{" "}
-      <b
+      <span
         style={{
           cursor: "pointer",
+          fontWeight: 500,
         }}
         onClick={() => {
           const newestResource = props.allResources.sort((a, b) =>
@@ -24,8 +25,8 @@ const ResourceSavedMessage = (props: Props) => {
           )
         }}
       >
-        Open it?
-      </b>
+        Open
+      </span>
     </Typography>
   )
 }

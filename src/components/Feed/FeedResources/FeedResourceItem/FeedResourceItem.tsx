@@ -126,6 +126,7 @@ const FeedResourceItem = ({ feedResource }: Props) => {
               resourceUrl={feedResource.url}
               thumbnailSrc={feedResource.thumbnail}
               width={100}
+              estimatedTime={feedResource.estimatedTime}
             />{" "}
           </Flex>
           {!!feedResource.publicReview && (

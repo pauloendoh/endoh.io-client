@@ -4,7 +4,6 @@ const S = {
   MenuItem: styled(MenuItem)(({ theme }) => ({
     whiteSpace: "normal",
     width: 450,
-    paddingLeft: 8,
   })),
   Dot: styled(FontAwesomeIcon)(({ theme }) => ({
     fontSize: 8,
