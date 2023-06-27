@@ -155,6 +155,12 @@ const LearningDialog = (props: Props) => {
                     {...field}
                     onChange={(e) => {
                       const amount = e.target.value
+
+                      if (amount.trim() === ".") {
+                        setValue("points", "0.")
+                        return
+                      }
+
                       if (!amount || amount.match(/^\d{1,}(\.\d{0,2})?$/)) {
                         setValue("points", amount)
                       }
