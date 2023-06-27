@@ -39,7 +39,10 @@ const LearningDialog = (props: Props) => {
 
   useEffect(() => {
     if (props.isOpen) {
-      reset()
+      reset({
+        ...props.initialValue,
+        points: String(props.initialValue?.points),
+      })
 
       setTimeout(() => {
         setFocus("description")
