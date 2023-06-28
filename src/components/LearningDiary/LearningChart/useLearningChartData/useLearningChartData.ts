@@ -1,5 +1,5 @@
 import { useTodayLearningCount } from "components/LearningDiary/LearningDayCounter/useTodayLearningCount"
-import useAvgLearningPerHourQuery from "hooks/react-query/progress-diary/useAvgLearningPerHourQuery"
+import useAvgLearningPerHourQuery from "hooks/react-query/learning-diary/useAvgLearningPerHourQuery"
 import { DateTime } from "luxon"
 import { useMemo } from "react"
 import useLearningDiaryStore from "store/zustand/domain/useLearningDiaryStore"

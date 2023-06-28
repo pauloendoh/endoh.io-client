@@ -10,7 +10,9 @@ import useDocDialogStore from "store/zustand/dialogs/useDocDialogStore"
 import useFollowersDialogStore from "store/zustand/dialogs/useFollowersDialogStore"
 import useLearningDialogStore from "store/zustand/dialogs/useLearningDialogStore"
 import useLearningsPerDayDialogStore from "store/zustand/dialogs/useLearningsPerDayDialogStore"
+import useRecurrentLearningDialogStore from "store/zustand/dialogs/useRecurrentLearningDialogStore"
 import FollowersDialogV2 from "./FollowersDialogV2/FollowersDialogV2"
+import RecurrentLearningDialog from "./RecurrentLearningDialog/RecurrentLearningDialog"
 
 interface Props {
   test?: string
@@ -27,6 +29,7 @@ const GlobalDialogs = (props: Props) => {
 
   const learningModal = useLearningDialogStore()
   const followersDialog = useFollowersDialogStore()
+  const recurrentLearningDialog = useRecurrentLearningDialogStore()
 
   return (
     <>
@@ -52,6 +55,12 @@ const GlobalDialogs = (props: Props) => {
         initialValue={learningModal.initialValue}
         isOpen={learningModal.isOpen}
         onClose={learningModal.closeDialog}
+      />
+
+      <RecurrentLearningDialog
+        initialValue={recurrentLearningDialog.initialValue}
+        isOpen={recurrentLearningDialog.isOpen}
+        onClose={recurrentLearningDialog.closeDialog}
       />
 
       <FollowersDialogV2

@@ -18,4 +18,5 @@ export const queryKeys = {
   learningsPerDay: "/learnings-per-day",
   lastSeenResource: urls.api.feed.lastSeenResource,
   newResourcesCount: urls.api.feed.newResourcesCount,
+  recurrentLearnings: "/recurrent-learnings",
 }

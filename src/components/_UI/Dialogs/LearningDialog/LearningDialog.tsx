@@ -1,6 +1,6 @@
 import { Box, Dialog, DialogContent, DialogTitle } from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
-import { upsert } from "endoh-utils"
+import { upToNDecimals, upsert } from "endoh-utils"
 import {
   Learning,
   LearningsQuery,
@@ -15,6 +15,7 @@ import useSnackbarStore from "store/zustand/useSnackbarStore"
 import buildGraphqlClient from "utils/consts/buildGraphqlClient"
 import SaveCancelButtons from "../../Buttons/SaveCancelButtons"
 import MyTextField from "../../MyInputs/MyTextField"
+import LearningDescriptionAutocomplete from "./LearningDescriptionAutocomplete/LearningDescriptionAutocomplete"
 import { ValidLearningInput } from "./types/ValidLearningInput"
 
 const ariaLabel = "learning-dialog"
@@ -128,20 +129,16 @@ const LearningDialog = (props: Props) => {
           </DialogTitle>
           <DialogContent>
             <FlexVCenter gap={2}>
-              <Controller
-                control={control}
-                name="description"
-                render={({ field: { ref, ...field } }) => (
-                  <MyTextField
-                    size="small"
-                    label="Description"
-                    fullWidth
-                    inputRef={ref}
-                    sx={{ mt: 1 }}
-                    {...field}
-                  />
-                )}
+              <LearningDescriptionAutocomplete
+                onChangeStringValue={(value) => {
+                  setValue("description", value)
+                }}
+                onChangePoints={(value) => {
+                  setValue("points", String(upToNDecimals(value)))
+                }}
+                stringValue={watch("description")}
               />
+
               <Controller
                 control={control}
                 name="points"

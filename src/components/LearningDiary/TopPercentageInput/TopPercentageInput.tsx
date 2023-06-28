@@ -1,6 +1,6 @@
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import MyTextField from "components/_UI/MyInputs/MyTextField"
-import useAvgLearningPerHourQuery from "hooks/react-query/progress-diary/useAvgLearningPerHourQuery"
+import useAvgLearningPerHourQuery from "hooks/react-query/learning-diary/useAvgLearningPerHourQuery"
 import useDebounce from "hooks/utils/useDebounce"
 import { useEffect } from "react"
 import useLearningDiaryStore from "store/zustand/domain/useLearningDiaryStore"

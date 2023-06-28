@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogTitle, Typography } from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
-import useAvgLearningPerHourQuery from "hooks/react-query/progress-diary/useAvgLearningPerHourQuery"
-import useLearningsPerDayQuery from "hooks/react-query/progress-diary/useLearningsPerDayQuery"
+import useAvgLearningPerHourQuery from "hooks/react-query/learning-diary/useAvgLearningPerHourQuery"
+import useLearningsPerDayQuery from "hooks/react-query/learning-diary/useLearningsPerDayQuery"
 import { useMemo, useState } from "react"
 import useLearningDiaryStore from "store/zustand/domain/useLearningDiaryStore"
 
