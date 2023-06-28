@@ -15,6 +15,7 @@ type Props = {
   stringValue: string
   onChangeStringValue: (value: string) => void
   onChangePoints: (value: number) => void
+  inputRef: React.Ref<HTMLInputElement>
 }
 
 const LearningDescriptionAutocomplete = ({ ...props }: Props) => {
@@ -44,6 +45,7 @@ const LearningDescriptionAutocomplete = ({ ...props }: Props) => {
     <Autocomplete
       options={[...(data || []), buildRecurrentLearningDto()]}
       clearOnBlur={false}
+      value={props.stringValue}
       filterOptions={(options, state) => {
         return options
           .filter((option) => {
@@ -91,6 +93,7 @@ const LearningDescriptionAutocomplete = ({ ...props }: Props) => {
           label="Description"
           fullWidth
           sx={{ mt: 1 }}
+          inputRef={props.inputRef}
           {...params}
           value={props.stringValue}
           onChange={(e) => {

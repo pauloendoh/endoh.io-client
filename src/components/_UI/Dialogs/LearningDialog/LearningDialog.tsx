@@ -8,7 +8,7 @@ import {
   useLearningsQuery,
   useUpdateLearningMutation,
 } from "generated/graphql"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { useQueryClient } from "react-query"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
@@ -47,7 +47,9 @@ const LearningDialog = (props: Props) => {
       })
 
       setTimeout(() => {
-        setFocus("description")
+        if (inputRef.current) {
+          inputRef.current.focus()
+        }
       }, 100)
     }
 
@@ -120,6 +122,8 @@ const LearningDialog = (props: Props) => {
     }
   }
 
+  const inputRef = useRef<HTMLInputElement>(null)
+
   return (
     <Dialog onClose={handleClose} open={props.isOpen} fullWidth maxWidth="xs">
       <Box pb={1}>
@@ -137,6 +141,7 @@ const LearningDialog = (props: Props) => {
                   setValue("points", String(upToNDecimals(value)))
                 }}
                 stringValue={watch("description")}
+                inputRef={inputRef}
               />
 
               <Controller
