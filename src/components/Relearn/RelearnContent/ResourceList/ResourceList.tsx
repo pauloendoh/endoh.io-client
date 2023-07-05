@@ -52,7 +52,7 @@ function ResourceList({
 
   return (
     <Virtuoso
-      style={{ height: "calc(100vh - 284px)" }}
+      useWindowScroll
       totalCount={resources.length}
       itemContent={(index) => (
         <Box

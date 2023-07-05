@@ -35,13 +35,13 @@ const FeedResources = () => {
   }, [resources?.[0], lastSeenResource])
 
   return (
-    <Box pr={4} pl={1}>
+    <Box pr={4} pl={1} mb={10}>
       <Flex justifyContent="flex-end" mb={2}>
         <MinRatingButton onChange={setMinRating} value={minRating} />
       </Flex>
 
       <Virtuoso
-        style={{ height: "calc(100vh - 180px)" }}
+        useWindowScroll
         totalCount={filteredResources.length}
         itemContent={(index) => (
           <Box mb={2}>

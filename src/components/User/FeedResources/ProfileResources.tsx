@@ -12,7 +12,7 @@ const ProfileResources = (props: Props) => {
   return (
     <Box mt={3}>
       <Virtuoso
-        style={{ height: "calc(100vh - 120px)" }}
+        useWindowScroll
         totalCount={props.resources.length}
         itemContent={(index) => (
           <Box mb={2}>

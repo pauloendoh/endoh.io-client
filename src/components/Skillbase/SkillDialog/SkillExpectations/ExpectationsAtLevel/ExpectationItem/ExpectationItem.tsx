@@ -268,12 +268,12 @@ const ExpectationItem = ({
             <Txt>
               {expectation.checked && !props.disabled ? (
                 <s>
-                  <MyReactLinkify openNewTab showDomainOnly>
+                  <MyReactLinkify openNewTab>
                     {expectation.description}
                   </MyReactLinkify>
                 </s>
               ) : (
-                <MyReactLinkify openNewTab showDomainOnly>
+                <MyReactLinkify openNewTab>
                   {expectation.description}{" "}
                 </MyReactLinkify>
               )}
