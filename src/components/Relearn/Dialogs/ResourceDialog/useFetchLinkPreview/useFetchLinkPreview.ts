@@ -58,6 +58,9 @@ export const useFetchLinkPreview = ({
               // if preview.title is null, it will bug the shrink label
               setFieldValue("title", preview.title || "")
               setFieldValue("thumbnail", preview.image)
+              if (preview.url) {
+                setFieldValue("url", preview.url)
+              }
 
               if (preview.viewCount > 0 && values.privateNote.length === 0) {
                 setFieldValue(
