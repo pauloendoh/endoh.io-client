@@ -1,5 +1,5 @@
+import { useQuery } from "@tanstack/react-query"
 import { AxiosError } from "axios"
-import { useQuery } from "react-query"
 import { UserInfoDto } from "types/domain/_common/UserInfoDto"
 import { urls } from "../../../utils/urls"
 

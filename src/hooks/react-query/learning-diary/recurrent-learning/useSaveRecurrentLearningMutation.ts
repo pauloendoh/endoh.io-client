@@ -1,7 +1,7 @@
+import { useMutation } from "@tanstack/react-query"
 import { upsert } from "endoh-utils"
 import { queryKeys } from "hooks/react-query/queryKeys"
 import { useAxios } from "hooks/utils/useAxios"
-import { useMutation } from "react-query"
 import { urls } from "utils/urls"
 import useSnackbarStore from "../../../../store/zustand/useSnackbarStore"
 import { myQueryClient } from "../../../../utils/consts/myQueryClient"
@@ -19,7 +19,7 @@ export function useSaveRecurrentLearningMutation() {
     {
       onSuccess: (saved) => {
         myQueryClient.setQueryData<RecurrentLearningDto[]>(
-          queryKeys.recurrentLearnings,
+          [queryKeys.recurrentLearnings],
           (curr) => upsert(curr, saved, (item) => item.id === saved.id)
         )
 

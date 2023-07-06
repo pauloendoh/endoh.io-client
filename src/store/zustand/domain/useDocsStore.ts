@@ -1,8 +1,7 @@
 import { DocDto } from "types/domain/questions/DocDto"
 import { NoteDto } from "types/domain/questions/NoteDto"
 import { pushOrReplace } from "utils/array/pushOrReplace"
-import create, { GetState } from "zustand"
-import { devtools, NamedSet } from "zustand/middleware"
+import { create } from "zustand"
 
 interface IDocsStore {
   docs: DocDto[]
@@ -19,36 +18,34 @@ interface IDocsStore {
   setIsLoadingNewDoc: (isLoadingNewDoc: boolean) => void
 }
 
-const useDocsStore = create<IDocsStore>(
-  devtools((set: NamedSet<IDocsStore>, get: GetState<IDocsStore>) => ({
-    docs: [],
-    notes: [],
-    hasFirstLoaded: false,
+const useDocsStore = create<IDocsStore>((set, get) => ({
+  docs: [],
+  notes: [],
+  hasFirstLoaded: false,
 
-    setDocs: (docs) => {
-      set({ docs, hasFirstLoaded: true })
-    },
+  setDocs: (docs) => {
+    set({ docs, hasFirstLoaded: true })
+  },
 
-    setNotes: (notes) => {
-      set({ notes })
-    },
+  setNotes: (notes) => {
+    set({ notes })
+  },
 
-    pushOrReplaceDoc: (doc) => {
-      const { docs } = get()
-      set({ docs: pushOrReplace(docs, doc, "id") })
-    },
+  pushOrReplaceDoc: (doc) => {
+    const { docs } = get()
+    set({ docs: pushOrReplace(docs, doc, "id") })
+  },
 
-    pushOrReplaceNote: (note) => {
-      const { notes } = get()
-      set({ notes: pushOrReplace(notes, note, "id") })
-    },
+  pushOrReplaceNote: (note) => {
+    const { notes } = get()
+    set({ notes: pushOrReplace(notes, note, "id") })
+  },
 
-    isLoadingNewDoc: false,
-    setIsLoadingNewDoc: (isLoadingNewDoc) => {
-      set({ isLoadingNewDoc })
-    },
-  }))
-)
+  isLoadingNewDoc: false,
+  setIsLoadingNewDoc: (isLoadingNewDoc) => {
+    set({ isLoadingNewDoc })
+  },
+}))
 
 const initialState = useDocsStore.getState()
 export const resetDocsStore = () => {

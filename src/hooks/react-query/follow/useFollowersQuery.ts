@@ -1,6 +1,6 @@
+import { useQuery } from "@tanstack/react-query"
 import { AxiosError } from "axios"
 import { useAxios } from "hooks/utils/useAxios"
-import { useQuery } from "react-query"
 import { urls } from "../../../utils/urls"
 import { FollowDto } from "./types/FollowDto"
 

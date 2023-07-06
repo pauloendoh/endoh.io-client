@@ -2,7 +2,7 @@ import { InputBase, InputBaseProps, Paper, Popper } from "@mui/material"
 import { GridRenderEditCellParams, useGridApiContext } from "@mui/x-data-grid"
 import React from "react"
 
-const EditTextarea = (props: GridRenderEditCellParams<string>) => {
+const EditTextarea = (props: GridRenderEditCellParams) => {
   const { id, field, value, colDef } = props
   const [valueState, setValueState] = React.useState(value)
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>()

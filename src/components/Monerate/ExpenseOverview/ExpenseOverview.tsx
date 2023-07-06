@@ -2,7 +2,7 @@ import { faStar } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Box, Paper, Typography, useTheme } from "@mui/material"
 import { useEffect, useState } from "react"
-import NumberFormat from "react-number-format"
+import { NumericFormat } from "react-number-format"
 import ExpenseGetDto from "../../../types/domain/monerate/ExpenseGetDto"
 import FlexYCenter from "../../_UI/Flexboxes/FlexVCenter"
 
@@ -31,7 +31,7 @@ const ExpenseOverview = (props: Props) => {
           <Box p={2}>
             <Typography variant="h6">Total Cost</Typography>
             <Typography variant="h4">
-              <NumberFormat
+              <NumericFormat
                 value={overview.totalValue}
                 thousandSeparator
                 displayType="text"

@@ -45,7 +45,7 @@ const LearningDescriptionAutocomplete = ({ ...props }: Props) => {
     <Autocomplete
       options={[...(data || []), buildRecurrentLearningDto()]}
       clearOnBlur={false}
-      value={props.stringValue}
+      // value={props.stringValue}
       filterOptions={(options, state) => {
         return options
           .filter((option) => {

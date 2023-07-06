@@ -1,6 +1,6 @@
 import { Box, Button, Divider, Grid, Paper, Typography } from "@mui/material"
 import React, { useEffect, useState } from "react"
-import NumberFormat from "react-number-format"
+import { NumericFormat } from "react-number-format"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import * as monerateActions from "../../../store/monerate/monerateActions"
@@ -31,7 +31,7 @@ const ExpenseList = (props: Props) => {
                 <Grid item xs={2}></Grid>
                 <Grid item xs={2}>
                   <Typography variant="h6">
-                    <NumberFormat
+                    <NumericFormat
                       value={day.totalValue}
                       thousandSeparator
                       displayType="text"
@@ -70,7 +70,7 @@ const ExpenseList = (props: Props) => {
 
                     <Grid item xs={2}>
                       <Typography color="error">
-                        <NumberFormat
+                        <NumericFormat
                           value={expense.value}
                           thousandSeparator
                           displayType="text"

@@ -1,5 +1,5 @@
 import { Learning } from "generated/graphql"
-import create from "zustand"
+import { create } from "zustand"
 
 interface IStore {
   isOpen: boolean

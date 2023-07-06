@@ -9,14 +9,13 @@ import {
   Theme,
   ThemeProvider,
 } from "@mui/material"
+import { QueryClientProvider } from "@tanstack/react-query"
 import GlobalDialogs from "components/_UI/Dialogs/GlobalDialogs"
 import useCheckAuthOrLogout from "hooks/auth/useCheckAuthOrLogout"
 import { useAxios } from "hooks/utils/useAxios"
-import { lazy, Suspense, useEffect, useState } from "react"
+import { Suspense, lazy, useEffect, useState } from "react"
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
-import { QueryClientProvider } from "react-query"
-import { ReactQueryDevtools } from "react-query/devtools"
 import {
   Redirect,
   Route,
@@ -32,14 +31,14 @@ import ResetPasswordPage from "./components/ResetPassword/ResetPasswordPage"
 import SettingsNavbar from "./components/Settings/SettingsNavbar"
 import SettingsPage from "./components/Settings/SettingsPage"
 import SkillbasePage from "./components/Skillbase/SkillbasePage"
+import MySnackBar2 from "./components/_UI/SnackBars/Snackbars"
 import LoadingPage from "./components/_common/LoadingPage/LoadingPage"
 import Navbar from "./components/_common/_layout/Navbar/Navbar"
-import MySnackBar2 from "./components/_UI/SnackBars/Snackbars"
+import { UserInfoDto } from "./types/domain/_common/UserInfoDto"
 import { UserPreferenceDto } from "./types/domain/auth/AuthUserGetDto"
 import { FollowingTagDto } from "./types/domain/feed/FollowingTagDto"
 import { TagDto } from "./types/domain/relearn/TagDto"
 import { NotificationDto } from "./types/domain/utils/NotificationDto"
-import { UserInfoDto } from "./types/domain/_common/UserInfoDto"
 import { myQueryClient } from "./utils/consts/myQueryClient"
 import theme from "./utils/consts/theme"
 import { isValidApplicationPath } from "./utils/domain/app/isValidApplicationPath"
@@ -230,23 +229,21 @@ const App = (props: RouteComponentProps<{}>) => {
   }
 
   return (
-    <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={theme}>
-        <DndProvider backend={HTML5Backend}>
-          <LocalizationProvider dateAdapter={AdapterLuxon}>
-            <QueryClientProvider client={myQueryClient}>
-              <ReactQueryDevtools initialIsOpen={false} />
-
+    <QueryClientProvider client={myQueryClient}>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <DndProvider backend={HTML5Backend}>
+            <LocalizationProvider dateAdapter={AdapterLuxon}>
               {/* What does this do? */}
               <CssBaseline />
               {isLoading ? <LoadingPage /> : routes}
 
               <MySnackBar2 />
-            </QueryClientProvider>
-          </LocalizationProvider>
-        </DndProvider>
-      </ThemeProvider>
-    </StyledEngineProvider>
+            </LocalizationProvider>
+          </DndProvider>
+        </ThemeProvider>
+      </StyledEngineProvider>
+    </QueryClientProvider>
   )
 }
 

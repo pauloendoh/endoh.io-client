@@ -1,4 +1,4 @@
-import create, { GetState, SetState } from "zustand"
+import { create } from "zustand"
 
 interface ISidebarStore {
   sidebarIsOpen: boolean
@@ -7,19 +7,17 @@ interface ISidebarStore {
   toggleSidebar: () => void
 }
 
-const useSidebarStore = create<ISidebarStore>(
-  (set: SetState<ISidebarStore>, get: GetState<ISidebarStore>) => ({
-    sidebarIsOpen: true,
-    openSidebar: () => {
-      set((state) => ({ sidebarIsOpen: true }))
-    },
-    closeSidebar: () => {
-      set((state) => ({ sidebarIsOpen: false }))
-    },
-    toggleSidebar: () => {
-      set((state) => ({ sidebarIsOpen: !state.sidebarIsOpen }))
-    },
-  })
-)
+const useSidebarStore = create<ISidebarStore>((set, get) => ({
+  sidebarIsOpen: true,
+  openSidebar: () => {
+    set((state) => ({ sidebarIsOpen: true }))
+  },
+  closeSidebar: () => {
+    set((state) => ({ sidebarIsOpen: false }))
+  },
+  toggleSidebar: () => {
+    set((state) => ({ sidebarIsOpen: !state.sidebarIsOpen }))
+  },
+}))
 
 export default useSidebarStore

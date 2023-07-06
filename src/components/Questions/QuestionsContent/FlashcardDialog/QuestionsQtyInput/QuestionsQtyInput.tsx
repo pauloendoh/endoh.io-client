@@ -1,11 +1,11 @@
-import React from "react";
-import Txt from "../../../../_UI/Text/Txt";
-import S from "./QuestionsQtyInput.styles";
+import React from "react"
+import Txt from "../../../../_UI/Text/Txt"
+import S from "./QuestionsQtyInput.styles"
 
 interface Props {
-  value: number;
-  maxValue: number;
-  onChange: (newValue: number) => void;
+  value: number
+  maxValue: number
+  onChange: (newValue: number) => void
 }
 
 const QuestionsQtyInput = (props: Props) => {
@@ -14,13 +14,15 @@ const QuestionsQtyInput = (props: Props) => {
       <S.Input
         type="number"
         value={props.value}
-        onChange={(e) => props.onChange(Number(e.target.value))}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          props.onChange(Number(e.target.value))
+        }
         min={0}
         max={props.maxValue}
       />
       <span>/ {props.maxValue} flashcards</span>
     </Txt>
-  );
-};
+  )
+}
 
-export default QuestionsQtyInput;
+export default QuestionsQtyInput

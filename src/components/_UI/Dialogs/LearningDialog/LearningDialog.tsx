@@ -10,7 +10,7 @@ import {
 } from "generated/graphql"
 import { useEffect, useRef } from "react"
 import { Controller, useForm } from "react-hook-form"
-import { useQueryClient } from "react-query"
+import { useQueryClient } from "@tanstack/react-query"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import buildGraphqlClient from "utils/consts/buildGraphqlClient"
 import SaveCancelButtons from "../../Buttons/SaveCancelButtons"

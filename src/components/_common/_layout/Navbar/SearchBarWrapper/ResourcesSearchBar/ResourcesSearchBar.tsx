@@ -1,11 +1,10 @@
-import { Autocomplete } from "@mui/lab"
-import { Popper } from "@mui/material"
+import { Autocomplete, Popper } from "@mui/material"
+import { useQueryClient } from "@tanstack/react-query"
 import { queryKeys } from "hooks/react-query/queryKeys"
 import useResourcesSearchQuery from "hooks/react-query/search/useResourcesSearchQuery"
 import useDebounce from "hooks/utils/useDebounce"
 import React, { useEffect, useMemo, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
-import { useQueryClient } from "react-query"
 import { useHistory } from "react-router-dom"
 import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import { SearchResultsDto } from "types/domain/utils/SearchResultsDto"
@@ -59,8 +58,8 @@ const ResourcesSearchBar = () => {
   useEffect(() => {
     setLoading(false)
     setValue("searchQuery", "")
-    qc.cancelQueries(queryKeys.resourceSearchResults)
-    qc.setQueryData<SearchResultsDto>(queryKeys.resourceSearchResults, null)
+    qc.cancelQueries([queryKeys.resourceSearchResults])
+    qc.setQueryData<SearchResultsDto>([queryKeys.resourceSearchResults], null)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history.location.search])
 

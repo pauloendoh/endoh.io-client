@@ -15,7 +15,7 @@ const MinWeightInput = (props: Props) => {
       <S.Input
         type="number"
         value={props.value}
-        onChange={(e) => {
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           if (e.target.value === "" && props.allowNull) {
             props.onChange(null)
             return

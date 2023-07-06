@@ -1,6 +1,6 @@
 import { useLogout } from "hooks/auth/useLogout"
 import { useAxios } from "hooks/utils/useAxios"
-import { useMutation } from "react-query"
+import { useMutation } from "@tanstack/react-query"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { AuthUserGetDto } from "types/domain/auth/AuthUserGetDto"
 import { RegisterDto } from "types/domain/auth/RegisterDto"

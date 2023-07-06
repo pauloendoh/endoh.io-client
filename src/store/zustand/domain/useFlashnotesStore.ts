@@ -1,8 +1,7 @@
 import { DocDto } from "types/domain/questions/DocDto"
-import create from "zustand"
-import { devtools, NamedSet } from "zustand/middleware"
+import { create } from "zustand"
 
-interface IFlashnotesStore {
+interface IStore {
   fileDialogParentFolderId: number
   setFileDialogParentFolderId: (parentFolderId: number) => void
 
@@ -14,40 +13,35 @@ interface IFlashnotesStore {
   setExpandedNodes: (nodeIds: string[]) => void
 }
 
-const useFlashnotesStore = create<IFlashnotesStore>(
-  devtools(
-    (set: NamedSet<IFlashnotesStore>, get) => ({
-      fileDialogParentFolderId: null,
-      setFileDialogParentFolderId: (parentFolderId) => {
-        set({ fileDialogParentFolderId: parentFolderId })
-      },
+const useFlashnotesStore = create<IStore>((set, get) => ({
+  fileDialogParentFolderId: null,
+  setFileDialogParentFolderId: (parentFolderId) => {
+    set({ fileDialogParentFolderId: parentFolderId })
+  },
 
-      selectedDoc: null,
-      setSelectedDoc: (selectedDoc) => {
-        set({ selectedDoc })
-      },
+  selectedDoc: null,
+  setSelectedDoc: (selectedDoc) => {
+    set({ selectedDoc })
+  },
 
-      expandedNodes: [],
-      toggleNode: (nodeId) => {
-        const { expandedNodes } = get()
-        if (expandedNodes.includes(nodeId))
-          // remove
-          set({
-            expandedNodes: expandedNodes.filter(
-              (expandedNodeId) => expandedNodeId !== nodeId
-            ),
-          })
-        else {
-          // add
-          set({ expandedNodes: [...expandedNodes, nodeId] })
-        }
-      },
-      setExpandedNodes: (nodeIds: string[]) => {
-        set({ expandedNodes: nodeIds })
-      },
-    }),
-    "@FileSystemStore"
-  )
-)
+  expandedNodes: [],
+  toggleNode: (nodeId) => {
+    const { expandedNodes } = get()
+    if (expandedNodes.includes(nodeId))
+      // remove
+      set({
+        expandedNodes: expandedNodes.filter(
+          (expandedNodeId) => expandedNodeId !== nodeId
+        ),
+      })
+    else {
+      // add
+      set({ expandedNodes: [...expandedNodes, nodeId] })
+    }
+  },
+  setExpandedNodes: (nodeIds: string[]) => {
+    set({ expandedNodes: nodeIds })
+  },
+}))
 
 export default useFlashnotesStore

@@ -1,6 +1,6 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { queryKeys } from "hooks/react-query/queryKeys"
 import { useAxios } from "hooks/utils/useAxios"
-import { useMutation, useQueryClient } from "react-query"
 import { useHistory } from "react-router-dom"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
@@ -25,7 +25,7 @@ export default function useDeleteDocMutation() {
       onSuccess: (_, docId) => {
         history.push(urls.pages.questionsIndex)
 
-        queryClient.invalidateQueries(queryKeys.folders)
+        queryClient.invalidateQueries([queryKeys.folders])
 
         // PE 1/3 - create a useDocsQuery
         setDocs(deleteFromArray(docs, (d) => d.id === docId))

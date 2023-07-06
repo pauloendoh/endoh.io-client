@@ -3,7 +3,7 @@ import { ResourceDto } from "types/domain/relearn/ResourceDto"
 import { TagDto } from "types/domain/relearn/TagDto"
 import myAxios from "utils/consts/myAxios"
 import { urls } from "utils/urls"
-import create from "zustand"
+import { create } from "zustand"
 
 interface IStore {
   resources: ResourceDto[]

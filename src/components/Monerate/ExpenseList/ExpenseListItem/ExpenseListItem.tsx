@@ -5,7 +5,7 @@ import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import PlaceIcon from "components/_UI/PlaceIcon"
 import SoloRatingStar from "components/_UI/SoloRatingStar"
 import React from "react"
-import NumberFormat from "react-number-format"
+import { NumericFormat } from "react-number-format"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import { editExpense } from "store/monerate/monerateActions"
@@ -49,7 +49,7 @@ const ExpenseListItem = ({ expense, editExpense }: Props) => {
 
         <Grid item xs={2}>
           <Typography color="error">
-            <NumberFormat
+            <NumericFormat
               value={expense.value}
               thousandSeparator
               displayType="text"

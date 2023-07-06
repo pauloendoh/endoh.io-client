@@ -5,10 +5,9 @@ import { FollowerDto } from "types/domain/feed/FollowerDto"
 import { FollowingUserDto } from "types/domain/feed/FollowingUserDto"
 import { TagDto } from "types/domain/relearn/TagDto"
 import { SkillDto } from "types/domain/skillbase/SkillDto"
-import create, { GetState } from "zustand"
-import { devtools, NamedSet } from "zustand/middleware"
+import { create } from "zustand"
 
-interface IProfileStore {
+interface IStore {
   profile: ProfileDto
   resources: FeedResourceDto[]
 
@@ -26,46 +25,40 @@ interface IProfileStore {
   setProfilePicture: (pictureUrl: string) => void
 }
 
-const useProfileStore = create<IProfileStore>(
-  devtools((set: NamedSet<IProfileStore>, get: GetState<IProfileStore>) => ({
-    profile: null,
-    resources: [],
+const useProfileStore = create<IStore>((set, get) => ({
+  profile: null,
+  resources: [],
 
-    publicTags: [],
-    privateTags: [],
+  publicTags: [],
+  privateTags: [],
 
-    followingUsers: [],
-    followers: [],
+  followingUsers: [],
+  followers: [],
 
-    publicSkills: [],
+  publicSkills: [],
 
-    setProfile: (profile) => {
-      set({ profile }, undefined, "setProfile")
-    },
+  setProfile: (profile) => {
+    set({ profile })
+  },
 
-    setUserInfo: (userInfo) => {
-      set(
-        {
-          profile: userInfo.profile,
-          resources: userInfo.resources,
-          publicTags: userInfo.publicLists,
-          privateTags: userInfo.privateLists,
-          followingUsers: userInfo.followingUsers,
-          followers: userInfo.followers,
-          publicSkills: userInfo.publicSkills,
-        },
-        undefined,
-        "setUserInfo"
-      )
-    },
+  setUserInfo: (userInfo) => {
+    set({
+      profile: userInfo.profile,
+      resources: userInfo.resources,
+      publicTags: userInfo.publicLists,
+      privateTags: userInfo.privateLists,
+      followingUsers: userInfo.followingUsers,
+      followers: userInfo.followers,
+      publicSkills: userInfo.publicSkills,
+    })
+  },
 
-    setProfilePicture: (pictureUrl) => {
-      const { profile } = get()
-      profile.pictureUrl = pictureUrl
-      set({ profile }, undefined, "setProfilePicture")
-    },
-  }))
-)
+  setProfilePicture: (pictureUrl) => {
+    const { profile } = get()
+    profile.pictureUrl = pictureUrl
+    set({ profile })
+  },
+}))
 
 const initialState = useProfileStore.getState()
 export const resetProfileStore = () => {

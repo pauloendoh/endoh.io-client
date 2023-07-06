@@ -1,4 +1,4 @@
-import { useMutation } from "react-query"
+import { useMutation } from "@tanstack/react-query"
 import { DocDto } from "../../../types/domain/questions/DocDto"
 import myAxios from "../../../utils/consts/myAxios"
 import { urls } from "../../../utils/urls"

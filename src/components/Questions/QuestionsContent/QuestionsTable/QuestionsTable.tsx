@@ -52,8 +52,6 @@ export default function QuestionsTable(props: Props) {
         rows={sortedNotes}
         columns={columns}
         checkboxSelection
-        disableSelectionOnClick
-        experimentalFeatures={{ newEditingApi: true }}
         onCellEditStop={(params, e) => {
           console.log({
             data: params.row,

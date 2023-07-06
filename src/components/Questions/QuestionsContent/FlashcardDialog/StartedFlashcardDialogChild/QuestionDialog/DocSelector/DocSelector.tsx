@@ -1,4 +1,4 @@
-import { Autocomplete } from "@mui/lab"
+import { Autocomplete } from "@mui/material"
 import MyTextField from "components/_UI/MyInputs/MyTextField"
 import { useMemo } from "react"
 import useDocDialogStore from "store/zustand/dialogs/useDocDialogStore"
@@ -11,10 +11,10 @@ interface Props {
 
 const DocSelector = (props: Props) => {
   const docs = useDocsStore((s) => s.docs)
-  const selectedDoc = useMemo(() => docs.find((d) => d.id === props.docId), [
-    props.docId,
-    docs,
-  ])
+  const selectedDoc = useMemo(
+    () => docs.find((d) => d.id === props.docId),
+    [props.docId, docs]
+  )
 
   const options = useMemo(() => {
     const sorted =

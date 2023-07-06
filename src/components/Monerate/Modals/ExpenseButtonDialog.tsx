@@ -5,8 +5,8 @@ import { Box, DialogTitle, Tooltip } from "@mui/material"
 import Button from "@mui/material/Button"
 import Dialog from "@mui/material/Dialog"
 import MuiDialogContent from "@mui/material/DialogContent"
-import { createStyles, Theme } from "@mui/material/styles"
 import Typography from "@mui/material/Typography"
+import { Theme, createStyles } from "@mui/material/styles"
 import { Form, Formik } from "formik"
 import { useAxios } from "hooks/utils/useAxios"
 import React from "react"
@@ -22,7 +22,6 @@ import ExpenseGetDto from "../../../types/domain/monerate/ExpenseGetDto"
 import ExpensePostDto from "../../../types/domain/monerate/ExpensePostDto"
 import PlaceGetDto from "../../../types/domain/monerate/PlaceGetDto"
 import Flex from "../../_UI/Flexboxes/Flex"
-import MyCurrencyInput from "../../_UI/MyInputs/MyCurrencyInput"
 import MyTextField from "../../_UI/MyInputs/MyTextField"
 import SelectCategoryInput from "../Inputs/SelectCategoryInput/SelectCategoryInput"
 import SelectPlaceInput from "../Inputs/SelectPlaceInput/SelectPlaceInput"
@@ -167,7 +166,7 @@ const ExpenseButtonDialog = (props: Props) => {
 
                       <Box ml={2} width={125}>
                         <Typography component="legend">Value ($)</Typography>
-                        <MyCurrencyInput
+                        {/* <MyCurrencyInput
                           id="value"
                           name="value"
                           value={values.value}
@@ -179,7 +178,7 @@ const ExpenseButtonDialog = (props: Props) => {
                             handleChange(e)
                           }}
                           size="small"
-                        />
+                        /> */}
                       </Box>
 
                       <Box ml={2}>

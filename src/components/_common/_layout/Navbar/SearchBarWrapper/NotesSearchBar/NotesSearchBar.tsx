@@ -1,5 +1,5 @@
-import { Autocomplete } from "@mui/lab"
-import { Popper } from "@mui/material"
+import { Autocomplete, Popper } from "@mui/material"
+import { useQueryClient } from "@tanstack/react-query"
 import { useDefaultSubmitQuestion } from "hooks/questions/useDefaultSubmitQuestion"
 import { queryKeys } from "hooks/react-query/queryKeys"
 import useNotesSearchQuery from "hooks/react-query/search/useNotesSearchQuery"
@@ -7,7 +7,6 @@ import useDebounce from "hooks/utils/useDebounce"
 import React, { useEffect, useMemo, useRef } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { useHotkeys } from "react-hotkeys-hook"
-import { useQueryClient } from "react-query"
 import { useHistory } from "react-router-dom"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import { SearchResultsDto } from "types/domain/utils/SearchResultsDto"
@@ -38,15 +37,18 @@ const NotesSearchBar = (props: Props) => {
 
   const history = useHistory()
 
-  const { handleSubmit, control, getValues, watch, setValue } = useForm<
-    ISearchForm
-  >({
-    defaultValues: {
-      searchQuery: "",
-    },
-  })
+  const { handleSubmit, control, getValues, watch, setValue } =
+    useForm<ISearchForm>({
+      defaultValues: {
+        searchQuery: "",
+      },
+    })
 
-  const { data: searchResults, refetch, isFetching } = useNotesSearchQuery({
+  const {
+    data: searchResults,
+    refetch,
+    isFetching,
+  } = useNotesSearchQuery({
     query: watch("searchQuery"),
     minLength: MIN_LENGTH,
     type: props.type,
@@ -64,8 +66,8 @@ const NotesSearchBar = (props: Props) => {
 
   useEffect(() => {
     setValue("searchQuery", "")
-    qc.cancelQueries(queryKeys.notesSearchResults)
-    qc.setQueryData<SearchResultsDto>(queryKeys.notesSearchResults, null)
+    qc.cancelQueries([queryKeys.notesSearchResults])
+    qc.setQueryData<SearchResultsDto>([queryKeys.notesSearchResults], null)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history.location.search])
 

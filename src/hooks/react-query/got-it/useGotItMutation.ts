@@ -1,5 +1,5 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useAxios } from "hooks/utils/useAxios"
-import { useMutation, useQueryClient } from "react-query"
 import { urls } from "utils/urls"
 import { queryKeys } from "../queryKeys"
 import { GotItDto } from "./types/GotItDto"
@@ -11,7 +11,7 @@ export default function useGotItMutation() {
 
   return useMutation(
     (key: keyof GotItDto) => {
-      const currentGotIt = queryClient.getQueryData<GotItDto>(queryKeys.gotIt)
+      const currentGotIt = queryClient.getQueryData<GotItDto>([queryKeys.gotIt])
 
       if (typeof currentGotIt[key] === "boolean") {
         // @ts-expect-error
@@ -23,7 +23,7 @@ export default function useGotItMutation() {
     },
     {
       onSuccess: (savedDto) => {
-        queryClient.setQueryData(queryKeys.gotIt, savedDto)
+        queryClient.setQueryData([queryKeys.gotIt], savedDto)
       },
     }
   )

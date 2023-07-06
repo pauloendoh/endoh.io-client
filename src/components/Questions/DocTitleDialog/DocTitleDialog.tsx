@@ -1,9 +1,9 @@
 import { Box, Dialog, DialogContent, DialogTitle } from "@mui/material"
+import { useQueryClient } from "@tanstack/react-query"
 import { queryKeys } from "hooks/react-query/queryKeys"
 import { useAxios } from "hooks/utils/useAxios"
 import { useEffect, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
-import { useQueryClient } from "react-query"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { NoteDto } from "types/domain/questions/NoteDto"
@@ -52,7 +52,7 @@ const DocTitleDialog = (props: Props) => {
         setSuccessMessage("Doc saved!")
 
         docsStore.setIsLoadingNewDoc(true)
-        queryClient.invalidateQueries(queryKeys.folders)
+        queryClient.invalidateQueries([queryKeys.folders])
         myAxios
           .get<NoteDto[]>(urls.api.define.note)
           .then((res) => docsStore.setNotes(res.data))

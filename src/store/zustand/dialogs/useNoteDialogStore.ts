@@ -1,5 +1,5 @@
 import { buildNoteDto, NoteDto } from "types/domain/questions/NoteDto"
-import create from "zustand"
+import { create } from "zustand"
 
 interface INoteDialogStore {
   isOpen: boolean

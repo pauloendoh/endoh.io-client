@@ -1,5 +1,5 @@
+import { useMutation } from "@tanstack/react-query"
 import { queryKeys } from "hooks/react-query/queryKeys"
-import { useMutation } from "react-query"
 import { LabelDto } from "types/domain/skillbase/LabelDto"
 import SkillLabelDto from "types/domain/skillbase/SkillLabelDto"
 import { urls } from "utils/urls"
@@ -17,11 +17,13 @@ export default function useDeleteLabelMutation() {
         .then((res) => res.data),
     {
       onSuccess: (_, payload) => {
-        const labels = myQueryClient.getQueryData<LabelDto[]>(queryKeys.labels)
+        const labels = myQueryClient.getQueryData<LabelDto[]>([
+          queryKeys.labels,
+        ])
         const newLabels = [...labels].filter(
           (label) => label.id !== payload.labelId
         )
-        myQueryClient.setQueryData(queryKeys.labels, newLabels)
+        myQueryClient.setQueryData([queryKeys.labels], newLabels)
 
         setSuccessMessage("Label deleted!")
       },

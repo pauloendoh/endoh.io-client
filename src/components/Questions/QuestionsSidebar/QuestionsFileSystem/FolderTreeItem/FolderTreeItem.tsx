@@ -2,6 +2,7 @@ import { urls } from "utils/urls"
 
 import { TreeItem } from "@mui/lab"
 import { useTheme } from "@mui/material"
+import { useQueryClient } from "@tanstack/react-query"
 import Flex from "components/_UI/Flexboxes/Flex"
 import Txt from "components/_UI/Text/Txt"
 import useSaveFolderMutation from "hooks/react-query/folders/useSaveFolderMutation"
@@ -9,7 +10,6 @@ import { queryKeys } from "hooks/react-query/queryKeys"
 import { useAxios } from "hooks/utils/useAxios"
 import { useMemo, useRef, useState } from "react"
 import { useDrag, useDrop } from "react-dnd"
-import { useQueryClient } from "react-query"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useFlashnotesStore from "store/zustand/domain/useFlashnotesStore"
 import { buildFolderDto } from "types/domain/folder/FolderDto"
@@ -42,7 +42,7 @@ export default function FolderTreeItem({ folder }: Props) {
     }
     axios.post<DocDto>(urls.api.define.doc, obj).then((res) => {
       pushOrReplaceDoc(res.data)
-      queryClient.invalidateQueries(queryKeys.folders)
+      queryClient.invalidateQueries([queryKeys.folders])
     })
   }
 

@@ -1,5 +1,5 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useAxios } from "hooks/utils/useAxios"
-import { useMutation, useQueryClient } from "react-query"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import FolderWithSubfoldersDto from "types/domain/folder/FolderWithSubfoldersDto"
 import { urls } from "utils/urls"
@@ -18,7 +18,7 @@ export default function useDeleteFolderMutation() {
         .then((res) => res.data),
     {
       onSuccess: (folders) => {
-        queryClient.setQueryData(queryKeys.folders, folders)
+        queryClient.setQueryData([queryKeys.folders], folders)
         setSuccessMessage("Folder deleted!")
       },
     }

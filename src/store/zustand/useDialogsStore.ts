@@ -1,4 +1,4 @@
-import create, { GetState, SetState } from "zustand"
+import { create } from "zustand"
 
 interface IDialogHandlers {
   confirmDialogValue: IConfirmDialog
@@ -7,16 +7,14 @@ interface IDialogHandlers {
   closeConfirmDialog: () => void
 }
 
-const useDialogsStore = create<IDialogHandlers>(
-  (set: SetState<IDialogHandlers>, get: GetState<IDialogHandlers>) => ({
-    confirmDialogValue: { title: "", onConfirm: null },
-    confirmDialogIsOpen: false,
-    openConfirmDialog: (val) => {
-      set({ confirmDialogValue: val, confirmDialogIsOpen: true })
-    },
-    closeConfirmDialog: () => set({ confirmDialogIsOpen: false }),
-  })
-)
+const useDialogsStore = create<IDialogHandlers>((set, get) => ({
+  confirmDialogValue: { title: "", onConfirm: null },
+  confirmDialogIsOpen: false,
+  openConfirmDialog: (val) => {
+    set({ confirmDialogValue: val, confirmDialogIsOpen: true })
+  },
+  closeConfirmDialog: () => set({ confirmDialogIsOpen: false }),
+}))
 
 interface IConfirmDialog {
   title: string

@@ -1,5 +1,5 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useAxios } from "hooks/utils/useAxios"
-import { useMutation, useQueryClient } from "react-query"
 import { urls } from "utils/urls"
 import { queryKeys } from "../../queryKeys"
 
@@ -16,9 +16,9 @@ export default function useUpdateLastSeenResourceMutation() {
         .then((res) => res.data),
     {
       onSuccess: (data) => {
-        queryClient.setQueryData(queryKeys.lastSeenResource, data)
+        queryClient.setQueryData([queryKeys.lastSeenResource], data)
 
-        queryClient.invalidateQueries(queryKeys.newResourcesCount)
+        queryClient.invalidateQueries([queryKeys.newResourcesCount])
       },
     }
   )

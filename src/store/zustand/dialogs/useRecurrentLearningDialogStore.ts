@@ -1,5 +1,5 @@
 import { RecurrentLearningDto } from "hooks/react-query/learning-diary/recurrent-learning/types/RecurrentLearningDto"
-import create from "zustand"
+import { create } from "zustand"
 
 interface IStore {
   isOpen: boolean

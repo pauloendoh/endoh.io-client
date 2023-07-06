@@ -1,8 +1,8 @@
 import { faGlobeAmericas, faLock } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import HighlightOffIcon from "@mui/icons-material/HighlightOff"
-import { Autocomplete } from "@mui/lab"
 import {
+  Autocomplete,
   Backdrop,
   Box,
   CircularProgress,
@@ -25,7 +25,6 @@ import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
 import { DateTime } from "luxon"
 import { useEffect, useMemo, useState } from "react"
 import { MdClose, MdSave } from "react-icons/md"
-import ReactInputMask from "react-input-mask"
 import { useHistory, useLocation } from "react-router-dom"
 import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import useDialogsStore from "store/zustand/useDialogsStore"
@@ -417,21 +416,33 @@ const ResourceDialog = () => {
             <Grid container spacing={3}>
               <Grid item xs={6} sm={3}>
                 {/* <Typography component="legend">Duration</Typography> */}
-                <ReactInputMask
+                {/* <ReactInputMask
                   mask="99:99h"
                   value={values.estimatedTime}
                   onChange={handleChange}
                   maskPlaceholder=" "
                 >
-                  {() => (
-                    <MyTextField
-                      id="estimatedTime"
-                      name="estimatedTime"
-                      label="Duration"
-                      fullWidth
-                    />
-                  )}
-                </ReactInputMask>
+                  {(p) => (
+                    <>
+                      <MyTextField
+                        id="estimatedTime"
+                        name="estimatedTime"
+                        label="Duration"
+                        fullWidth
+                        {...p}
+                      />
+                    </>
+                  )} */}
+                {/* </ReactInputMask> */}
+
+                <MyTextField
+                  id="estimatedTime"
+                  name="estimatedTime"
+                  label="Duration"
+                  fullWidth
+                  value={values.estimatedTime}
+                  onChange={handleChange}
+                />
               </Grid>
 
               <Grid item xs={6} sm={9}>

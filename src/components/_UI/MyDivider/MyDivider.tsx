@@ -3,7 +3,11 @@ import { makeStyles } from "@mui/styles"
 
 import React from "react"
 
-export const MyDivider: React.FC = ({ children }) => {
+type Props = {
+  children: React.ReactNode
+}
+
+export const MyDivider = ({ children }: Props) => {
   const classes = useStyles()
   return (
     <div className={classes.container}>

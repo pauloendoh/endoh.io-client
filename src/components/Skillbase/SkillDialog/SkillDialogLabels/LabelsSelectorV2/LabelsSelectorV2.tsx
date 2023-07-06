@@ -1,5 +1,4 @@
-import { Autocomplete } from "@mui/lab"
-import { Chip } from "@mui/material"
+import { Autocomplete, Chip } from "@mui/material"
 import MyTextField from "components/_UI/MyInputs/MyTextField"
 import useLabelsQuery from "hooks/react-query/skillbase/labels/useLabelsQuery"
 import { useMemo } from "react"

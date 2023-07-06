@@ -1,15 +1,15 @@
-import { useMutation, useQueryClient } from "react-query";
-import useSnackbarStore from "store/zustand/useSnackbarStore";
-import FileDto from "types/domain/folder/FileDto";
-import FolderWithSubfoldersDto from "types/domain/folder/FolderWithSubfoldersDto";
-import myAxios from "utils/consts/myAxios";
-import { urls } from "utils/urls";
-import { queryKeys } from "../queryKeys";
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import useSnackbarStore from "store/zustand/useSnackbarStore"
+import FileDto from "types/domain/folder/FileDto"
+import FolderWithSubfoldersDto from "types/domain/folder/FolderWithSubfoldersDto"
+import myAxios from "utils/consts/myAxios"
+import { urls } from "utils/urls"
+import { queryKeys } from "../queryKeys"
 
 export default function useSaveFileMutation() {
-  const { setSuccessMessage, setErrorMessage } = useSnackbarStore();
+  const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
 
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   return useMutation(
     (sent: FileDto) =>
@@ -22,13 +22,13 @@ export default function useSaveFileMutation() {
         .then((res) => res.data),
     {
       onSuccess: (folders) => {
-        queryClient.setQueryData(queryKeys.folders, folders);
+        queryClient.setQueryData([queryKeys.folders], folders)
 
-        setSuccessMessage("File saved!");
+        setSuccessMessage("File saved!")
       },
       onError: (err) => {
-        setErrorMessage(JSON.stringify(err));
+        setErrorMessage(JSON.stringify(err))
       },
     }
-  );
+  )
 }

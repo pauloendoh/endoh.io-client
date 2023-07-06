@@ -4,8 +4,8 @@ import {
   Theme,
   ThemeProvider,
 } from "@mui/material"
+import { QueryClientProvider } from "@tanstack/react-query"
 import Snackbars from "components/_UI/SnackBars/Snackbars"
-import { QueryClientProvider } from "react-query"
 import { Provider } from "react-redux"
 import { BrowserRouter } from "react-router-dom"
 import store from "store/store"
@@ -17,7 +17,11 @@ declare module "@mui/styles/defaultTheme" {
   interface DefaultTheme extends Theme {}
 }
 
-const TestWrapper: React.FC = (props) => {
+type Props = {
+  children: React.ReactNode
+}
+
+const TestWrapper = (props: Props) => {
   return (
     <Provider store={store}>
       <BrowserRouter>

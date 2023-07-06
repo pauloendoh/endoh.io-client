@@ -1,6 +1,6 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { deleteFromArray, upsert } from "endoh-utils"
 import { useAxios } from "hooks/utils/useAxios"
-import { useMutation, useQueryClient } from "react-query"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { urls } from "utils/urls"
 import { FollowDto } from "./types/FollowDto"

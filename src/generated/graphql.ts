@@ -1,59 +1,60 @@
 import { GraphQLClient } from 'graphql-request';
 import { RequestInit } from 'graphql-request/dist/types.dom';
-import { useQuery, useMutation, UseQueryOptions, UseMutationOptions } from 'react-query';
+import { useQuery, useMutation, UseQueryOptions, UseMutationOptions } from '@tanstack/react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 
-function fetcher<TData, TVariables>(client: GraphQLClient, query: string, variables?: TVariables, headers?: RequestInit['headers']) {
-  return async (): Promise<TData> => client.request<TData, TVariables>(query, variables, headers);
+function fetcher<TData, TVariables extends { [key: string]: any }>(client: GraphQLClient, query: string, variables?: TVariables, requestHeaders?: RequestInit['headers']) {
+  return async (): Promise<TData> => client.request({
+    document: query,
+    variables,
+    requestHeaders
+  });
 }
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-  DateTime: string;
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  DateTime: { input: string; output: string; }
 };
 
 export type Learning = {
   __typename?: 'Learning';
-  createdAt: Scalars['DateTime'];
-  datetime: Scalars['DateTime'];
-  description: Scalars['String'];
-  id: Scalars['Float'];
-  isHighlight: Scalars['Boolean'];
-  points: Scalars['Float'];
-  updatedAt: Scalars['DateTime'];
-  userId: Scalars['Float'];
+  createdAt: Scalars['DateTime']['output'];
+  datetime: Scalars['DateTime']['output'];
+  description: Scalars['String']['output'];
+  id: Scalars['Float']['output'];
+  isHighlight: Scalars['Boolean']['output'];
+  points: Scalars['Float']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+  userId: Scalars['Float']['output'];
 };
 
 export type LearningInput = {
-  datetime: Scalars['String'];
-  description: Scalars['String'];
-  id?: InputMaybe<Scalars['Float']>;
-  isHighlight: Scalars['Boolean'];
-  points: Scalars['Float'];
+  datetime: Scalars['String']['input'];
+  description: Scalars['String']['input'];
+  id?: InputMaybe<Scalars['Float']['input']>;
+  isHighlight: Scalars['Boolean']['input'];
+  points: Scalars['Float']['input'];
 };
 
 export type LinkPreviewDto = {
   __typename?: 'LinkPreviewDto';
   alreadySavedResource?: Maybe<Resource>;
-  description?: Maybe<Scalars['String']>;
-  image?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  url?: Maybe<Scalars['String']>;
-  viewCount?: Maybe<Scalars['Float']>;
-  youtubeVideoLength?: Maybe<Scalars['String']>;
-};
-
-export type Month = {
-  __typename?: 'Month';
-  month?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']['output']>;
+  image?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  url?: Maybe<Scalars['String']['output']>;
+  viewCount?: Maybe<Scalars['Float']['output']>;
+  youtubeVideoLength?: Maybe<Scalars['String']['output']>;
 };
 
 export type Mutation = {
@@ -77,52 +78,52 @@ export type Query = {
   findResources: Array<Resource>;
   getLinkPreview: LinkPreviewDto;
   learnings: Array<Learning>;
-  skillProgressMonths: Array<Scalars['String']>;
+  skillProgressMonths: Array<Scalars['String']['output']>;
   skillProgresses: Array<SkillProgressDto>;
 };
 
 
 export type QueryFindResourcesArgs = {
-  userId?: InputMaybe<Scalars['Float']>;
+  userId?: InputMaybe<Scalars['Float']['input']>;
 };
 
 
 export type QueryGetLinkPreviewArgs = {
-  url: Scalars['String'];
+  url: Scalars['String']['input'];
 };
 
 
 export type QuerySkillProgressesArgs = {
-  fromYearMonth: Scalars['String'];
+  fromYearMonth: Scalars['String']['input'];
 };
 
 export type Resource = {
   __typename?: 'Resource';
-  completedAt: Scalars['String'];
-  createdAt: Scalars['DateTime'];
-  dueDate: Scalars['String'];
-  estimatedTime: Scalars['String'];
-  id: Scalars['Float'];
-  position?: Maybe<Scalars['Float']>;
-  privateNote: Scalars['String'];
-  publicReview: Scalars['String'];
-  rating?: Maybe<Scalars['Float']>;
-  tagId?: Maybe<Scalars['Float']>;
-  thumbnail: Scalars['String'];
-  title: Scalars['String'];
-  updatedAt: Scalars['DateTime'];
-  url: Scalars['String'];
-  userId: Scalars['Float'];
+  completedAt: Scalars['String']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  dueDate: Scalars['String']['output'];
+  estimatedTime: Scalars['String']['output'];
+  id: Scalars['Float']['output'];
+  position?: Maybe<Scalars['Float']['output']>;
+  privateNote: Scalars['String']['output'];
+  publicReview: Scalars['String']['output'];
+  rating?: Maybe<Scalars['Float']['output']>;
+  tagId?: Maybe<Scalars['Float']['output']>;
+  thumbnail: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+  url: Scalars['String']['output'];
+  userId: Scalars['Float']['output'];
 };
 
 export type SkillProgressDto = {
   __typename?: 'SkillProgressDto';
-  currentLevel: Scalars['Float'];
-  currentName: Scalars['String'];
-  levelImprovement: Scalars['Float'];
-  previousLevel?: Maybe<Scalars['Float']>;
-  previousName: Scalars['String'];
-  skillId: Scalars['Float'];
+  currentLevel: Scalars['Float']['output'];
+  currentName: Scalars['String']['output'];
+  levelImprovement: Scalars['Float']['output'];
+  previousLevel?: Maybe<Scalars['Float']['output']>;
+  previousName: Scalars['String']['output'];
+  skillId: Scalars['Float']['output'];
 };
 
 export type SkillProgressMonthsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -152,14 +153,14 @@ export type AMutationVariables = Exact<{
 export type AMutation = { __typename?: 'Mutation', addLearning: { __typename?: 'Learning', id: number } };
 
 export type SkillProgressesQueryVariables = Exact<{
-  fromYearMonth: Scalars['String'];
+  fromYearMonth: Scalars['String']['input'];
 }>;
 
 
 export type SkillProgressesQuery = { __typename?: 'Query', skillProgresses: Array<{ __typename?: 'SkillProgressDto', skillId: number, previousName: string, currentName: string, previousLevel?: number | null, currentLevel: number, levelImprovement: number }> };
 
 export type LinkPreviewQueryVariables = Exact<{
-  url: Scalars['String'];
+  url: Scalars['String']['input'];
 }>;
 
 

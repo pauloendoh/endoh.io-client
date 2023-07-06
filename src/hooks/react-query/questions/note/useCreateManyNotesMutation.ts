@@ -1,4 +1,4 @@
-import { useMutation } from "react-query"
+import { useMutation } from "@tanstack/react-query"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { NoteDto } from "types/domain/questions/NoteDto"

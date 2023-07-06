@@ -1,5 +1,5 @@
 import FolderDto, { buildFolderDto } from "types/domain/folder/FolderDto"
-import create from "zustand"
+import { create } from "zustand"
 
 interface IDialogStore {
   isOpen: boolean

@@ -1,4 +1,4 @@
-import produce from "immer"
+import { produce } from "immer"
 import React, { useMemo, useState } from "react"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import { upsert } from "utils/array/upsert"
