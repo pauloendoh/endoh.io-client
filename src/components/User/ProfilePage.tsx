@@ -12,6 +12,7 @@ import myAxios from "../../utils/consts/myAxios"
 import LoadingPage from "../_common/LoadingPage/LoadingPage"
 import MinRatingButton from "../_common/MinRatingButton/MinRatingButton"
 import UserSuggestions from "../_common/UserSuggestions/UserSuggestions"
+import CompletedBookmarkedTabs from "./CompletedBookmarkedTabs/CompletedBookmarkedTabs"
 import ProfileResources from "./FeedResources/ProfileResources"
 import ProfileHeader from "./ProfileHeader/ProfileHeader"
 import S from "./ProfilePage.styles"
@@ -41,6 +42,19 @@ const ProfilePage = () => {
     return tags.find((t) => t.id === Number(tagId))
   }, [publicTags, privateTags, tagId])
 
+  const tagResources = useMemo(() => {
+    return [...resources].filter((r) => {
+      if (!!selectedTag) {
+        return r.tag.id === selectedTag.id
+      }
+      return true
+    })
+  }, [resources, selectedTag])
+
+  const [selectedTab, setTabValue] = useState<"completed" | "bookmarked">(
+    "completed"
+  )
+
   const visibleResources = useMemo(() => {
     return [...resources]
       .filter((r) => r.rating >= minRating)
@@ -50,7 +64,13 @@ const ProfilePage = () => {
         }
         return true
       })
-  }, [resources, minRating, tagId])
+      .filter((r) => {
+        if (selectedTab === "completed") {
+          return !!r.rating
+        }
+        return !r.rating
+      })
+  }, [tagResources, minRating, selectedTab])
 
   useEffect(
     () => {
@@ -86,16 +106,20 @@ const ProfilePage = () => {
             <ProfileHeader />
 
             <S.ChartWrapper>
-              <ResourcesChart resources={visibleResources} />
+              <ResourcesChart resources={tagResources} />
             </S.ChartWrapper>
 
-            <S.ResourcesContentHeader>
+            <S.ResourcesContentHeader alignItems={"center"}>
               <Typography variant="h5">
                 {!selectedTag ? "All resources" : selectedTag.name}{" "}
-                {visibleResources.length > 0 && (
-                  <>· {visibleResources.length}</>
-                )}
               </Typography>
+
+              <CompletedBookmarkedTabs
+                value={selectedTab}
+                onChange={setTabValue}
+                resources={tagResources}
+              />
+
               <MinRatingButton onChange={setMinRating} value={minRating} />
             </S.ResourcesContentHeader>
 

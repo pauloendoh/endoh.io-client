@@ -1,9 +1,10 @@
-import { Theme } from "@mui/material"
+import { ListItemButton, Theme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 
 import LabelIcon from "@mui/icons-material/Label"
-import { Box, ListItem, Typography } from "@mui/material"
+import { Box, Typography } from "@mui/material"
 import ListItemText from "@mui/material/ListItemText"
+import { useMemo } from "react"
 import { Link } from "react-router-dom"
 import useProfileStore from "store/zustand/domain/useProfileStore"
 import { urls } from "utils/urls"
@@ -18,18 +19,18 @@ interface Props {
   selectedTagId: string
 }
 
-// PE 3/3
 const TagListItem = (props: Props) => {
   const classes = useStyles()
   const profileStore = useProfileStore()
 
-  const getResourcesFromListId = (listId: number) => {
-    return profileStore.resources.filter((r) => r.tag?.id === listId)
-  }
+  const resourcesCount = useMemo(() => {
+    return profileStore.resources
+      .filter((r) => r.tag?.id === props.tag.id)
+      .filter((r) => r.rating > 0).length
+  }, [profileStore.resources])
 
   return (
-    <ListItem
-      button
+    <ListItemButton
       component={Link}
       to={urls.pages.user.tag(props.username, props.tag.id)}
       selected={Number(props.selectedTagId) === props.tag.id}
@@ -51,10 +52,10 @@ const TagListItem = (props: Props) => {
 
       <FlexHCenter mt={0.5} width={24}>
         <Typography className={classes.resourcesCount}>
-          {getResourcesFromListId(props.tag.id).length}
+          {resourcesCount}
         </Typography>
       </FlexHCenter>
-    </ListItem>
+    </ListItemButton>
   )
 }
 

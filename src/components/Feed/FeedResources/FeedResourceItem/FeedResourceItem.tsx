@@ -13,7 +13,7 @@ import ProfilePicture from "components/_UI/ProfilePicture/ProfilePicture"
 import MyRouterLink from "components/_UI/link/MyRouterLink"
 import ResourceThumbnail from "components/_common/ResourceThumbnail/ResourceThumbnail"
 import useElementSize from "hooks/utils/useElementSize"
-import { useRef } from "react"
+import { useMemo, useRef } from "react"
 import { Link as RouterLink } from "react-router-dom"
 import { format } from "timeago.js"
 import { FeedResourceDto } from "types/domain/feed/FeedResourceDto"
@@ -33,6 +33,14 @@ const FeedResourceItem = ({ feedResource }: Props) => {
   const { width: paperWidth } = useElementSize(paperRef)
 
   const theme = useTheme()
+
+  const verb = useMemo(() => {
+    if (!!feedResource.rating) {
+      return "rated"
+    }
+
+    return "bookmarked"
+  }, [feedResource.rating])
 
   return (
     <Box pl={3} pr={1}>
@@ -63,20 +71,22 @@ const FeedResourceItem = ({ feedResource }: Props) => {
               style={{
                 textDecoration: "none",
                 color: "inherit",
-                fontWeight: 500,
+                fontWeight: 600,
               }}
             >
               {feedResource.user.username}
             </RouterLink>
-            &nbsp;rated&nbsp;&nbsp;
-            <span
-              style={{
-                color,
-                fontWeight: 500,
-              }}
-            >
-              {feedResource.rating} - {hoverRatingLabels[feedResource.rating]}
-            </span>
+            &nbsp;{verb}&nbsp;&nbsp;
+            {!!feedResource.rating && (
+              <span
+                style={{
+                  color,
+                  fontWeight: 500,
+                }}
+              >
+                {feedResource.rating} - {hoverRatingLabels[feedResource.rating]}
+              </span>
+            )}
           </FlexVCenter>
           <Flex gap={1} justifyContent={"space-between"}>
             <FlexCol>

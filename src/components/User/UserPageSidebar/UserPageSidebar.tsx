@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Box, List, ListItem, Typography, useTheme } from "@mui/material"
 import ListItemText from "@mui/material/ListItemText"
 import Txt from "components/_UI/Text/Txt"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { Link, useHistory, useParams } from "react-router-dom"
 import useProfileStore from "store/zustand/domain/useProfileStore"
 import { SkillDto, newSkillDto } from "types/domain/skillbase/SkillDto"
@@ -56,6 +56,10 @@ const UserPageSidebar = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [skillIdStr, profileStore.publicSkills])
 
+  const ratedResourcesCount = useMemo(() => {
+    return profileStore.resources.filter((r) => r.rating > 0).length
+  }, [profileStore.resources])
+
   return (
     <Box maxWidth={300} {...({ ref: rootRef } as any)}>
       <List component="nav" aria-label="User resource lists">
@@ -77,7 +81,7 @@ const UserPageSidebar = () => {
 
           <FlexHCenter mt={0.5} width={24}>
             <Typography className={classes.resourcesCount}>
-              {profileStore.resources.length}
+              {ratedResourcesCount}
             </Typography>
           </FlexHCenter>
         </ListItem>
