@@ -3,5 +3,6 @@
 
 #npm run test --bail --findRelatedTests
 
+ECHO "[HUSKY] npx tsc"
 npx tsc
 # npm run test:once
