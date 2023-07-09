@@ -27,7 +27,7 @@ import { useEffect, useMemo, useState } from "react"
 import { MdClose, MdSave } from "react-icons/md"
 import { useHistory, useLocation } from "react-router-dom"
 import useRelearnStore from "store/zustand/domain/useRelearnStore"
-import useDialogsStore from "store/zustand/useDialogsStore"
+import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { format } from "timeago.js"
 import { urls } from "utils/urls"
@@ -58,7 +58,7 @@ const ResourceDialog = () => {
   const axios = useAxios()
   const history = useHistory()
   const location = useLocation()
-  const { openConfirmDialog } = useDialogsStore()
+  const { openConfirmDialog } = useConfirmDialogStore()
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
   const queryParams = useQueryParams()
 

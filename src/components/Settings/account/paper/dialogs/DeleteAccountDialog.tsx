@@ -12,12 +12,12 @@ import { useAxios } from "hooks/utils/useAxios"
 import { useState } from "react"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
-import useDialogsStore from "store/zustand/useDialogsStore"
+import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { urls } from "utils/urls"
 import { ApplicationState } from "../../../../../store/store"
-import { UserDeleteDto } from "../../../../../types/domain/auth/UserDeleteDto"
 import MyAxiosError, { MyFieldError } from "../../../../../types/MyAxiosError"
+import { UserDeleteDto } from "../../../../../types/domain/auth/UserDeleteDto"
 import Flex from "../../../../_UI/Flexboxes/Flex"
 import FlexHCenter from "../../../../_UI/Flexboxes/FlexHCenter"
 import MyTextField from "../../../../_UI/MyInputs/MyTextField"
@@ -26,7 +26,7 @@ const DeleteAccountDialog = (props: Props) => {
   const [responseErrors, setResponseErrors] = useState([] as MyFieldError[])
 
   const { setSuccessMessage } = useSnackbarStore()
-  const dialogStore = useDialogsStore()
+  const dialogStore = useConfirmDialogStore()
 
   const handleClose = () => {
     setResponseErrors([])

@@ -1,7 +1,7 @@
 import { useAxios } from "hooks/utils/useAxios"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
-import useDialogsStore from "store/zustand/useDialogsStore"
+import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { urls } from "utils/urls"
 
@@ -13,7 +13,7 @@ export const useDefaultDeleteQuestion = () => {
   const { setSuccessMessage } = useSnackbarStore()
   const axios = useAxios()
 
-  const { openConfirmDialog } = useDialogsStore()
+  const { openConfirmDialog } = useConfirmDialogStore()
 
   const defaultDeleteQuestion = async (questionId: number) => {
     openConfirmDialog({

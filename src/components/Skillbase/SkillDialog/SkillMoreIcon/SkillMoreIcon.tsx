@@ -13,11 +13,11 @@ import {
 } from "@mui/material"
 import React from "react"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
-import useDialogsStore from "store/zustand/useDialogsStore"
+import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { urls } from "utils/urls"
-import { SkillDto } from "../../../../types/domain/skillbase/SkillDto"
 import { IdsDto } from "../../../../types/domain/_common/IdsDto"
+import { SkillDto } from "../../../../types/domain/skillbase/SkillDto"
 import myAxios from "../../../../utils/consts/myAxios"
 
 interface Props {
@@ -31,7 +31,7 @@ function SkillMoreIcon(props: Props) {
 
   const { removeSkills } = useSkillbaseStore()
   const { setSuccessMessage } = useSnackbarStore()
-  const { openConfirmDialog } = useDialogsStore()
+  const { openConfirmDialog } = useConfirmDialogStore()
 
   const [anchorEl, setAnchorEl] = React.useState(null)
   const handleOpenMore = (event: any) => {

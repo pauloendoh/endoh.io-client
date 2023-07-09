@@ -11,7 +11,7 @@ import { connect } from "react-redux"
 import { Link, useLocation } from "react-router-dom"
 import { Dispatch } from "redux"
 import useAuthStore from "store/zustand/useAuthStore"
-import useDialogsStore from "store/zustand/useDialogsStore"
+import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import theme from "utils/consts/theme"
 import ProfilePicture from "../../../../_UI/ProfilePicture/ProfilePicture"
 import KeyboardShortcutsDialog from "./KeyboardShortcutsDialog/KeyboardShortcutsDialog"
@@ -39,7 +39,7 @@ const NavbarUserMenu = (props: Props) => {
 
   const logout = useLogout(props.dispatch)
 
-  const openConfirmDialog = useDialogsStore((s) => s.openConfirmDialog)
+  const openConfirmDialog = useConfirmDialogStore((s) => s.openConfirmDialog)
 
   const confirmLogoutTempUser = () => {
     if (authUser.userExpiresAt) {

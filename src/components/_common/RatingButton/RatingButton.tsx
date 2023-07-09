@@ -1,11 +1,6 @@
-import { Rating } from "@mui/lab"
-import {
-  Box,
-  Button,
-  ClickAwayListener,
-  Tooltip,
-  Typography,
-} from "@mui/material"
+import { LoadingButton, Rating } from "@mui/lab"
+import { Box, ClickAwayListener, Tooltip, Typography } from "@mui/material"
+import { useMuiTheme } from "hooks/utils/useMuiTheme"
 import React from "react"
 import {
   hoverRatingLabels,
@@ -18,6 +13,7 @@ import RatingButtonLabel from "./RatingButtonLabel/RatingButtonLabel"
 interface Props {
   rating: number
   onChange: (newRating: number) => void
+  isLoading?: boolean
 }
 
 const RatingButton = (props: Props) => {
@@ -30,6 +26,11 @@ const RatingButton = (props: Props) => {
   }
 
   const [hover, setHover] = React.useState(-1)
+
+  const ratingColor = useGetColorByRating(props.rating)
+
+  const theme = useMuiTheme()
+  const loadingColor = theme.palette.grey[700]
 
   return (
     <ClickAwayListener
@@ -77,18 +78,20 @@ const RatingButton = (props: Props) => {
           </Box>
         }
       >
-        <Button
+        <LoadingButton
+          loading={props.isLoading}
           size="small"
           onClick={handleTooltipOpen}
           variant="outlined"
           style={{
             position: "relative",
-            borderColor: useGetColorByRating(props.rating),
+            borderColor: props.isLoading ? loadingColor : ratingColor,
+            backgroundColor: props.isLoading ? loadingColor : undefined,
           }}
           className="rate-button"
         >
           <RatingButtonLabel rating={props.rating} />
-        </Button>
+        </LoadingButton>
       </Tooltip>
     </ClickAwayListener>
   )

@@ -17,7 +17,7 @@ import { MdOutlineArrowRightAlt } from "react-icons/md"
 import { useLocation } from "react-router-dom"
 import { scroller } from "react-scroll"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
-import useDialogsStore from "store/zustand/useDialogsStore"
+import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import { newLabelDto } from "types/domain/skillbase/LabelDto"
 import Icons from "utils/styles/Icons"
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto"
@@ -42,7 +42,7 @@ const SkillDialog = () => {
     editingSkill: initialValue,
     isEditingRoadmapItem,
   } = useSkillbaseStore()
-  const { openConfirmDialog } = useDialogsStore()
+  const { openConfirmDialog } = useConfirmDialogStore()
 
   const [labelDialogOpen, setLabelDialogOpen] = useState(false)
   const [labelDialogInitialValue, setLabelDialogInitialValue] = useState(

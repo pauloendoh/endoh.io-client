@@ -5,6 +5,7 @@ import { useAxios } from "hooks/utils/useAxios"
 import useHover from "hooks/utils/useHover"
 import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
 import { DateTime } from "luxon"
+import { useState } from "react"
 import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import Icons from "utils/styles/Icons"
@@ -35,8 +36,12 @@ function ResourceItem(props: Props) {
   const { setResources, setEditingResource } = useRelearnStore()
 
   const axios = useAxios()
+
+  const [isSaving, setIsSaving] = useState(false)
   const handleSaveRating = (rating: number) => {
     const resource = { ...props.resource, rating } as ResourceDto
+
+    setIsSaving(true)
     axios
       .post<ResourceDto[]>(urls.api.relearn.resource, resource)
       .then((res) => {
@@ -47,6 +52,9 @@ function ResourceItem(props: Props) {
         } else {
           setSuccessMessage("Rating removed!")
         }
+      })
+      .finally(() => {
+        setIsSaving(false)
       })
   }
 
@@ -153,6 +161,7 @@ function ResourceItem(props: Props) {
             <RatingButton
               rating={props.resource.rating}
               onChange={handleSaveRating}
+              isLoading={isSaving}
             />
           ) : (
             <ResourceItemTaskCheckbox

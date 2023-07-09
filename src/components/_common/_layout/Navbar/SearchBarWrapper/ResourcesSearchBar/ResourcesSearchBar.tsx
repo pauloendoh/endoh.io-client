@@ -131,7 +131,7 @@ const ResourcesSearchBar = () => {
               <MyTextField
                 {...params}
                 {...field}
-                label="Search resources"
+                label="Search your resources"
                 size="small"
                 style={{
                   width: 240,

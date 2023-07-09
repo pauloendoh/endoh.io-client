@@ -2,7 +2,7 @@ import { Theme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 
 import { Box, Button, Dialog, DialogContent, DialogTitle } from "@mui/material"
-import useDialogsStore from "../../../store/zustand/useDialogsStore"
+import useConfirmDialogStore from "../../../store/zustand/useConfirmDialogStore"
 import Txt from "../Text/Txt"
 import S from "./ConfirmationDialog.styles"
 
@@ -11,7 +11,7 @@ const ConfirmationDialog = () => {
     confirmDialogIsOpen,
     closeConfirmDialog,
     confirmDialogValue: val,
-  } = useDialogsStore()
+  } = useConfirmDialogStore()
 
   const confirmAndClose = () => {
     closeConfirmDialog()

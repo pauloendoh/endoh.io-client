@@ -13,7 +13,7 @@ import React from "react"
 import { GlobalHotKeys } from "react-hotkeys"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
-import useDialogsStore from "store/zustand/useDialogsStore"
+import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import { urls } from "utils/urls"
 import * as monerateActions from "../../../store/monerate/monerateActions"
 import { ApplicationState } from "../../../store/store"
@@ -31,7 +31,7 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 // PE 1/3
 const ExpenseButtonDialog = (props: Props) => {
-  const { openConfirmDialog } = useDialogsStore()
+  const { openConfirmDialog } = useConfirmDialogStore()
 
   // 20201215 - Actually, I can change rating inside formik values, using setFieldValue
   const [rating, setRating] = React.useState(0)

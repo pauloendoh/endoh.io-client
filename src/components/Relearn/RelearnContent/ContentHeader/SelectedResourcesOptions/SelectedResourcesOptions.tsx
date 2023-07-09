@@ -8,7 +8,7 @@ import { useAxios } from "hooks/utils/useAxios"
 import { useState } from "react"
 import { MdDeleteForever } from "react-icons/md"
 import useRelearnStore from "store/zustand/domain/useRelearnStore"
-import useDialogsStore from "store/zustand/useDialogsStore"
+import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { ResourceDto } from "types/domain/relearn/ResourceDto"
 import { urls } from "utils/urls"
@@ -18,7 +18,7 @@ const SelectedResourcesOptions = () => {
   const theme = useTheme()
   const { setResources } = useRelearnStore()
 
-  const { openConfirmDialog } = useDialogsStore()
+  const { openConfirmDialog } = useConfirmDialogStore()
   const { selectedResourceIds } = useRelearnStore()
   const { clearSelectedIds } = useMultiSelectResource()
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore()

@@ -18,7 +18,7 @@ import { useAxios } from "hooks/utils/useAxios"
 import React, { useEffect } from "react"
 import { MdVerticalAlignBottom, MdVerticalAlignTop } from "react-icons/md"
 import useRelearnStore from "store/zustand/domain/useRelearnStore"
-import useDialogsStore from "store/zustand/useDialogsStore"
+import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { urls } from "utils/urls"
 import { ResourceDto } from "../../../../../../types/domain/relearn/ResourceDto"
@@ -31,7 +31,7 @@ interface Props {
 // PE 1/3
 function ResourceMoreIcon(props: Props) {
   const classes = useStyles()
-  const { openConfirmDialog } = useDialogsStore()
+  const { openConfirmDialog } = useConfirmDialogStore()
 
   const { setSuccessMessage } = useSnackbarStore()
 

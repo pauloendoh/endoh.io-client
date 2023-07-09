@@ -19,7 +19,7 @@ import { Controller, useForm } from "react-hook-form"
 import { MdInfo } from "react-icons/md"
 import useDocDialogStore from "store/zustand/dialogs/useDocDialogStore"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
-import useDialogsStore from "store/zustand/useDialogsStore"
+import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import useSidebarStore from "store/zustand/useSidebarStore"
 import SaveCancelButtons from "../../../../../_UI/Buttons/SaveCancelButtons"
 import MyTextField from "../../../../../_UI/MyInputs/MyTextField"
@@ -56,7 +56,7 @@ const QuestionDialog = () => {
 
   useConfirmTabClose(isOpen && formState.isDirty)
 
-  const openConfirmDialog = useDialogsStore((s) => s.openConfirmDialog)
+  const openConfirmDialog = useConfirmDialogStore((s) => s.openConfirmDialog)
 
   const handleConfirmClose = () => {
     if (!formState.isDirty) {

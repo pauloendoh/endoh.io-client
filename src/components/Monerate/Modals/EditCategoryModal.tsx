@@ -3,7 +3,7 @@ import { Form, Formik } from "formik"
 import { useAxios } from "hooks/utils/useAxios"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
-import useDialogsStore from "store/zustand/useDialogsStore"
+import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import { urls } from "utils/urls"
 import * as monerateActions from "../../../store/monerate/monerateActions"
 import { ApplicationState } from "../../../store/store"
@@ -12,7 +12,7 @@ import Flex from "../../_UI/Flexboxes/Flex"
 import MyTextField from "../../_UI/MyInputs/MyTextField"
 
 const EditCategoryModal = (props: Props) => {
-  const dialogStore = useDialogsStore()
+  const dialogStore = useConfirmDialogStore()
 
   const myAxios = useAxios()
 

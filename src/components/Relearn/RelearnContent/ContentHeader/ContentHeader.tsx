@@ -24,7 +24,7 @@ interface Props {
 
 // PE 2/3
 function ContentHeader(props: Props) {
-  const { tags: allTags, removeTag } = useRelearnStore()
+  const { tags: allTags } = useRelearnStore()
 
   const classes = useStyles()
   const location = useLocation()
@@ -145,7 +145,7 @@ const useStyles = makeStyles<Theme>((theme) => ({
     position: "sticky",
     background: theme.palette.background.default,
     zIndex: theme.zIndex.appBar - 1,
-    top: 73,
+    top: 72,
     paddingTop: 24,
     marginTop: -8,
   },

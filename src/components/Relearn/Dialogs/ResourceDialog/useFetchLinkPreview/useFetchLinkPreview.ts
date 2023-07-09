@@ -1,7 +1,7 @@
 import { shortNumberFormatter } from "endoh-utils"
 import { LinkPreviewDto } from "generated/graphql"
 import { useAxios } from "hooks/utils/useAxios"
-import useDialogsStore from "store/zustand/useDialogsStore"
+import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { ResourceDto } from "types/domain/relearn/ResourceDto"
 import { TagDto } from "types/domain/relearn/TagDto"
@@ -24,7 +24,7 @@ export const useFetchLinkPreview = ({
   values,
   tags,
 }: HookOptions) => {
-  const { openConfirmDialog } = useDialogsStore()
+  const { openConfirmDialog } = useConfirmDialogStore()
   const axios = useAxios()
 
   const { setErrorMessage } = useSnackbarStore()

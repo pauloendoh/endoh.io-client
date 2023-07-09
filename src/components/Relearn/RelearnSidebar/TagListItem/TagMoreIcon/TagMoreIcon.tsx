@@ -15,7 +15,7 @@ import {
 import { useAxios } from "hooks/utils/useAxios"
 import React from "react"
 import useRelearnStore from "store/zustand/domain/useRelearnStore"
-import useDialogsStore from "store/zustand/useDialogsStore"
+import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { urls } from "utils/urls"
 import { TagDto } from "../../../../../types/domain/relearn/TagDto"
@@ -31,7 +31,7 @@ function TagMoreIcon(props: Props) {
 
   const { setEditingTag, removeTag } = useRelearnStore()
 
-  const dialogStore = useDialogsStore()
+  const dialogStore = useConfirmDialogStore()
   const { setSuccessMessage } = useSnackbarStore()
 
   const [anchorEl, setAnchorEl] = React.useState(null)

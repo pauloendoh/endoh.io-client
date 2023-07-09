@@ -18,7 +18,7 @@ import { IoMdPlayCircle } from "react-icons/io"
 import { MdDelete } from "react-icons/md"
 import { useHistory } from "react-router-dom"
 import useDocsStore from "store/zustand/domain/useDocsStore"
-import useDialogsStore from "store/zustand/useDialogsStore"
+import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { NoteDto } from "types/domain/questions/NoteDto"
 import { urls } from "utils/urls"
@@ -37,7 +37,7 @@ function DocMoreMenu(props: Props) {
   const myAxios = useAxios()
 
   const { setNotes, notes } = useDocsStore()
-  const { openConfirmDialog } = useDialogsStore()
+  const { openConfirmDialog } = useConfirmDialogStore()
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
 
   const [anchorEl, setAnchorEl] = React.useState(null)

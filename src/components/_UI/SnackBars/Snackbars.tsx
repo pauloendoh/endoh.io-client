@@ -7,12 +7,8 @@ import useSnackbarStore from "../../../store/zustand/useSnackbarStore"
 const Snackbars = () => {
   const classes = useStyles()
 
-  const {
-    successMessage,
-    setSuccessMessage,
-    errorMessage,
-    setErrorMessage,
-  } = useSnackbarStore()
+  const { successMessage, setSuccessMessage, errorMessage, setErrorMessage } =
+    useSnackbarStore()
 
   const handleCloseSuccess = (
     event?: React.SyntheticEvent,
@@ -42,7 +38,13 @@ const Snackbars = () => {
         onClose={() => handleCloseSuccess()}
       >
         <div>
-          <MyAlert onClose={handleCloseSuccess} severity="success">
+          <MyAlert
+            onClose={handleCloseSuccess}
+            severity="success"
+            sx={{
+              color: "white",
+            }}
+          >
             {successMessage}
           </MyAlert>
         </div>
@@ -56,7 +58,13 @@ const Snackbars = () => {
         onClose={() => handleCloseError()}
       >
         <div>
-          <MyAlert onClose={handleCloseError} severity="error">
+          <MyAlert
+            onClose={handleCloseError}
+            severity="error"
+            sx={{
+              color: "white",
+            }}
+          >
             {errorMessage}
           </MyAlert>
         </div>

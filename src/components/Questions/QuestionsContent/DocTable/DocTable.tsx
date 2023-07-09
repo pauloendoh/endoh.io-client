@@ -6,13 +6,14 @@ import { Paper, Table, TableContainer, Toolbar } from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import { useDefaultSubmitQuestion } from "hooks/questions/useDefaultSubmitQuestion"
 import { useAxios } from "hooks/utils/useAxios"
-import { useMemo, useState } from "react"
+import useElementSize from "hooks/utils/useElementSize"
+import { useMemo, useRef, useState } from "react"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import { urls } from "utils/urls"
 import {
-  buildNoteDto,
   NoteDto,
+  buildNoteDto,
 } from "../../../../types/domain/questions/NoteDto"
 import DarkButton from "../../../_UI/Buttons/DarkButton/DarkButton"
 import { TBody, TD, THead, TR } from "../../../_UI/Table/MyTableWrappers"
@@ -76,6 +77,9 @@ const DocTable = (props: Props) => {
 
   const defaultSubmit = useDefaultSubmitQuestion()
 
+  const toolbarRef = useRef<HTMLDivElement>(null)
+  const { width: toolbarWidth } = useElementSize(toolbarRef)
+
   return (
     <Paper>
       <TableContainer className={classes.container}>
@@ -119,6 +123,7 @@ const DocTable = (props: Props) => {
       </TableContainer>
 
       <Toolbar
+        ref={toolbarRef}
         sx={{
           display: "flex",
           alignItems: "center",
@@ -137,13 +142,13 @@ const DocTable = (props: Props) => {
             }
           >
             + Add question
-            {!isSmallScreen && " (q)"}
+            {toolbarWidth > 500 && " (q)"}
           </DarkButton>
 
           <AddManyNotesMenuButton docId={props.docId} />
         </FlexVCenter>
 
-        {!isSmallScreen && <Typography>{footerLabel}</Typography>}
+        {toolbarWidth > 440 && <Typography>{footerLabel}</Typography>}
       </Toolbar>
     </Paper>
   )

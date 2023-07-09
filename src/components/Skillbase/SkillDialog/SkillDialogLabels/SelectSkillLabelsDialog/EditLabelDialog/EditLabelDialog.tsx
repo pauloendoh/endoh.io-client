@@ -16,7 +16,7 @@ import useSaveLabelMutation from "hooks/react-query/skillbase/labels/useSaveLabe
 import { useEffect } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { MdClose, MdDelete } from "react-icons/md"
-import useDialogsStore from "store/zustand/useDialogsStore"
+import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import { LabelDto } from "types/domain/skillbase/LabelDto"
 import useSkillbaseStore from "../../../../../../store/zustand/domain/useSkillbaseStore"
 import labelColors from "./labelColors"
@@ -33,7 +33,7 @@ const EditLabelDialog = (props: Props) => {
     props.onClose()
   }
 
-  const { openConfirmDialog } = useDialogsStore()
+  const { openConfirmDialog } = useConfirmDialogStore()
   const { mutate: saveLabel, isLoading } = useSaveLabelMutation()
   const { mutate: deleteLabel } = useDeleteLabelMutation()
 

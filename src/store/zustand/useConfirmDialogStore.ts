@@ -1,13 +1,20 @@
 import { create } from "zustand"
 
-interface IDialogHandlers {
+interface IConfirmDialog {
+  title: string
+  description?: string
+  confirmText?: string
+  onConfirm: () => void
+}
+
+interface IStore {
   confirmDialogValue: IConfirmDialog
   confirmDialogIsOpen: boolean
   openConfirmDialog: (confirmDialog: IConfirmDialog) => void
   closeConfirmDialog: () => void
 }
 
-const useDialogsStore = create<IDialogHandlers>((set, get) => ({
+const useConfirmDialogStore = create<IStore>((set, get) => ({
   confirmDialogValue: { title: "", onConfirm: null },
   confirmDialogIsOpen: false,
   openConfirmDialog: (val) => {
@@ -16,11 +23,4 @@ const useDialogsStore = create<IDialogHandlers>((set, get) => ({
   closeConfirmDialog: () => set({ confirmDialogIsOpen: false }),
 }))
 
-interface IConfirmDialog {
-  title: string
-  description?: string
-  confirmText?: string
-  onConfirm: () => void
-}
-
-export default useDialogsStore
+export default useConfirmDialogStore

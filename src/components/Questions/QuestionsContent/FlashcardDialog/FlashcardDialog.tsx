@@ -16,7 +16,7 @@ import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
 import sample from "lodash/sample"
 import { useEffect, useState } from "react"
 import { GlobalHotKeys } from "react-hotkeys"
-import useDialogsStore from "store/zustand/useDialogsStore"
+import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import useSidebarStore from "store/zustand/useSidebarStore"
 import { NoteDto } from "../../../../types/domain/questions/NoteDto"
 import { shuffleArray } from "../../../../utils/array/shuffleArray"
@@ -96,7 +96,7 @@ const FlashcardDialog = (props: Props) => {
     ]
   )
 
-  const openConfirmDialog = useDialogsStore((s) => s.openConfirmDialog)
+  const openConfirmDialog = useConfirmDialogStore((s) => s.openConfirmDialog)
   const handleClose = (askForConfirmation = true) => {
     if (!askForConfirmation || testQuestions.length === 0) {
       props.onClose()
