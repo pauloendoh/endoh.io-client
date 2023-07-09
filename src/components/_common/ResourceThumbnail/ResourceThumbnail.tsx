@@ -64,7 +64,7 @@ function ResourceThumbnail(props: Props) {
           <LazyLoadImage style={{ width: "100%" }} src={getThumbnailSrc()} />
         )}
       </Box>
-      {!!props.estimatedTime && (
+      {!!props.estimatedTime && props.estimatedTime !== "00:00h" && (
         <Span
           position="absolute"
           bottom={16}

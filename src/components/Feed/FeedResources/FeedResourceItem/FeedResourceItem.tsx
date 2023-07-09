@@ -34,7 +34,7 @@ const FeedResourceItem = ({ feedResource }: Props) => {
 
   const theme = useTheme()
 
-  const verb = useMemo(() => {
+  const verb = useMemo<"rated" | "bookmarked">(() => {
     if (!!feedResource.rating) {
       return "rated"
     }
@@ -104,7 +104,13 @@ const FeedResourceItem = ({ feedResource }: Props) => {
 
               <FlexVCenter mt={1}>
                 <Typography variant="body2">
-                  {format(new Date(feedResource.completedAt))}
+                  {format(
+                    new Date(
+                      verb === "bookmarked"
+                        ? feedResource.createdAt
+                        : feedResource.completedAt
+                    )
+                  )}
                 </Typography>
 
                 <MyRouterLink
