@@ -70,6 +70,13 @@ const ProfilePage = () => {
         }
         return !r.rating
       })
+      .sort((a, b) => {
+        if (selectedTab === "completed") {
+          return b.completedAt.localeCompare(a.completedAt)
+        }
+
+        return b.createdAt.localeCompare(a.createdAt)
+      })
   }, [tagResources, minRating, selectedTab])
 
   useEffect(
