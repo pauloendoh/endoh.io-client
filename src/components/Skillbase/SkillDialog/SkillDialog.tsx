@@ -151,12 +151,8 @@ const SkillDialog = () => {
 
             {initialValue && (
               <Box mt={2}>
-                {/* <SkillDialogLabels
-                  skill={formik.values}
-                  onOpenLabelsDialog={() => setLabelsDialog(true)}
-                /> */}
                 <LabelsSelectorV2
-                  selectedLabels={formik.values.labels}
+                  selectedLabels={formik.values.labels || []}
                   onChange={(labels) => formik.setFieldValue("labels", labels)}
                   skillId={getInitialValues().id}
                   setLabelDialogOpen={setLabelDialogOpen}
