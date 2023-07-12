@@ -14,7 +14,7 @@ interface Props {
   setLabelDialogInitialValue: (label: LabelDto) => void
 }
 
-const LabelsSelectorV2 = (props: Props) => {
+const LabelsSelector = (props: Props) => {
   const { data: labels } = useLabelsQuery()
 
   const sortedLabels = useMemo(() => {
@@ -77,4 +77,4 @@ const LabelsSelectorV2 = (props: Props) => {
   )
 }
 
-export default LabelsSelectorV2
+export default LabelsSelector

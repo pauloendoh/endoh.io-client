@@ -1,5 +1,6 @@
 import { Theme, Typography, useMediaQuery, useTheme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
+import { useVirtual } from "react-virtual"
 import { format } from "timeago.js"
 
 import { Paper, Table, TableContainer, Toolbar } from "@mui/material"
@@ -30,6 +31,8 @@ const DocTable = (props: Props) => {
     s.onClose,
   ])
 
+  // for some reason, useMemo does not work very well here
+  // I won't bother to fix it now
   const sortedNotes = () => {
     const filtered = docsStore.notes.filter(
       (note) => note.docId === props.docId
@@ -80,9 +83,23 @@ const DocTable = (props: Props) => {
   const toolbarRef = useRef<HTMLDivElement>(null)
   const { width: toolbarWidth } = useElementSize(toolbarRef)
 
+  const tableContainerRef = useRef<HTMLDivElement>(null)
+  const rowVirtualizer = useVirtual({
+    parentRef: tableContainerRef,
+    size: sortedNotes().length,
+    overscan: 10,
+  })
+
+  const { virtualItems: virtualRows, totalSize } = rowVirtualizer
+  const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0
+  const paddingBottom =
+    virtualRows.length > 0
+      ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0)
+      : 0
+
   return (
     <Paper>
-      <TableContainer className={classes.container}>
+      <TableContainer className={classes.container} ref={tableContainerRef}>
         <Table
           stickyHeader
           className={classes.table}
@@ -109,7 +126,30 @@ const DocTable = (props: Props) => {
           </THead>
 
           <TBody>
-            {sortedNotes().map((note, index) => (
+            {paddingTop > 0 && (
+              <TR>
+                <TD
+                  sx={{
+                    height: `${paddingTop}px`,
+                  }}
+                />
+              </TR>
+            )}
+            {virtualRows.map((virtualRow) => {
+              const index = virtualRow.index
+              const note = sortedNotes()[index]
+
+              return (
+                <DocTableRow
+                  index={index}
+                  key={getRowKey(note)}
+                  question={note}
+                  onChange={handleNoteChange}
+                  isSmallScreen={isSmallScreen}
+                />
+              )
+            })}
+            {/* {sortedNotes().map((note, index) => (
               <DocTableRow
                 index={index}
                 key={getRowKey(note)}
@@ -117,7 +157,12 @@ const DocTable = (props: Props) => {
                 onChange={handleNoteChange}
                 isSmallScreen={isSmallScreen}
               />
-            ))}
+            ))} */}
+            {paddingBottom > 0 && (
+              <tr>
+                <td style={{ height: `${paddingBottom}px` }} />
+              </tr>
+            )}
           </TBody>
         </Table>
       </TableContainer>

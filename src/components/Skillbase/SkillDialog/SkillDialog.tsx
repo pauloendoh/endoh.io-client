@@ -25,7 +25,7 @@ import { getCurrentTagId } from "../../../utils/skillbase/getCurrentTagId"
 import SaveCancelButtons from "../../_UI/Buttons/SaveCancelButtons"
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
 import SelectSkillLevel from "./SelectSkillLevel/SelectSkillLevel"
-import LabelsSelectorV2 from "./SkillDialogLabels/LabelsSelectorV2/LabelsSelectorV2"
+import LabelsSelector from "./SkillDialogLabels/LabelsSelector/LabelsSelector"
 import EditLabelDialog from "./SkillDialogLabels/SelectSkillLabelsDialog/EditLabelDialog/EditLabelDialog"
 import TitleTextField from "./SkillDialogTitleTextField/SkillDialogTitleTextField"
 import SkillExpectations from "./SkillExpectations/SkillExpectations"
@@ -151,7 +151,7 @@ const SkillDialog = () => {
 
             {initialValue && (
               <Box mt={2}>
-                <LabelsSelectorV2
+                <LabelsSelector
                   selectedLabels={formik.values.labels || []}
                   onChange={(labels) => formik.setFieldValue("labels", labels)}
                   skillId={getInitialValues().id}
