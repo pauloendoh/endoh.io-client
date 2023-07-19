@@ -13,8 +13,8 @@ const MyReactLinkify = (props: Props) => {
     <a
       href={href}
       key={key}
-      target={props.openNewTab && "_blank"}
-      rel={props.openNewTab && "noopener noreferrer"}
+      target={props.openNewTab ? "_blank" : undefined}
+      rel={props.openNewTab ? "noopener noreferrer" : undefined}
       style={{
         color: theme.palette.primary.main,
         fontWeight: "inherit",

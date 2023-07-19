@@ -44,12 +44,17 @@ const NotesSearchBar = (props: Props) => {
       },
     })
 
+  const searchQuery = useMemo(
+    () => watch("searchQuery") || "",
+    [watch("searchQuery")]
+  )
+
   const {
     data: searchResults,
     refetch,
     isFetching,
   } = useNotesSearchQuery({
-    query: watch("searchQuery"),
+    query: searchQuery,
     minLength: MIN_LENGTH,
     type: props.type,
   })
@@ -67,7 +72,7 @@ const NotesSearchBar = (props: Props) => {
   useEffect(() => {
     setValue("searchQuery", "")
     qc.cancelQueries([queryKeys.notesSearchResults])
-    qc.setQueryData<SearchResultsDto>([queryKeys.notesSearchResults], null)
+    qc.setQueryData<SearchResultsDto>([queryKeys.notesSearchResults], undefined)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history.location.search])
 
@@ -96,7 +101,7 @@ const NotesSearchBar = (props: Props) => {
   const inputRef = useRef<HTMLInputElement | null>(null)
   useHotkeys("f", () => {
     setTimeout(() => {
-      inputRef?.current.focus()
+      inputRef?.current?.focus()
     }, 100)
   })
 
@@ -110,14 +115,12 @@ const NotesSearchBar = (props: Props) => {
           // if no text, show nothing (don't show 'no resources :(')
 
           noOptionsText={
-            watch("searchQuery").length >= MIN_LENGTH &&
+            searchQuery.length >= MIN_LENGTH &&
             debouncedSearchQuery === watch("searchQuery")
               ? "No questions or docs found :("
               : "Type at least 3 characters"
           }
-          options={
-            watch("searchQuery").length >= MIN_LENGTH ? sortedOptions : []
-          }
+          options={searchQuery.length >= MIN_LENGTH ? sortedOptions : []}
           PopperComponent={MyPopper}
           filterOptions={(notes) => notes} // what this do?
           renderOption={(liProps, docOrNote) => (
@@ -141,7 +144,7 @@ const NotesSearchBar = (props: Props) => {
               }}
             />
           )}
-          getOptionLabel={() => watch("searchQuery")}
+          getOptionLabel={() => searchQuery}
           clearOnBlur={false}
           renderInput={(params) => (
             <Controller

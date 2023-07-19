@@ -16,7 +16,7 @@ import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
 
 interface Props {
   value: number
-  onChange: (newRating: number) => void
+  onChange: (newRating: number | null) => void
 }
 
 function MinRatingButton(props: Props) {

@@ -26,7 +26,9 @@ function UserSuggestions(props: Props) {
     const dontShowIds = props.followingTags.map(
       (fol) => fol.followingUser.userId
     )
-    dontShowIds.push(authUser.id)
+    if (authUser) {
+      dontShowIds.push(authUser.id)
+    }
 
     const filteredSuggestions = props.userSuggestions.filter(
       (suggestion) => dontShowIds.includes(suggestion.suggestedUserId) === false

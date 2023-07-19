@@ -42,7 +42,7 @@ const NavbarUserMenu = (props: Props) => {
   const openConfirmDialog = useConfirmDialogStore((s) => s.openConfirmDialog)
 
   const confirmLogoutTempUser = () => {
-    if (authUser.userExpiresAt) {
+    if (authUser?.userExpiresAt) {
       openConfirmDialog({
         title: "Logout?",
         description:
@@ -64,12 +64,14 @@ const NavbarUserMenu = (props: Props) => {
         aria-controls="simple-menu"
         aria-haspopup="true"
       >
-        <ProfilePicture
-          isLink={false}
-          pictureUrl={profile?.pictureUrl}
-          username={authUser?.username}
-          size="1.875rem"
-        />
+        {profile && authUser && (
+          <ProfilePicture
+            isLink={false}
+            pictureUrl={profile?.pictureUrl}
+            username={authUser?.username}
+            size="1.875rem"
+          />
+        )}
       </IconButton>
 
       <Menu
@@ -81,17 +83,19 @@ const NavbarUserMenu = (props: Props) => {
         open={Boolean(anchorEl)}
         onClose={handleCloseMenu}
       >
-        <MenuItem
-          component={Link}
-          to={"/user/" + authUser.username}
-          id="profile-user-menu-option"
-          onClick={handleCloseMenu}
-        >
-          <Box mr={2}>
-            <FontAwesomeIcon icon={faUser} />
-          </Box>
-          Profile
-        </MenuItem>
+        {authUser && (
+          <MenuItem
+            component={Link}
+            to={"/user/" + authUser.username}
+            id="profile-user-menu-option"
+            onClick={handleCloseMenu}
+          >
+            <Box mr={2}>
+              <FontAwesomeIcon icon={faUser} />
+            </Box>
+            Profile
+          </MenuItem>
+        )}
 
         <MenuItem
           onClick={() => {

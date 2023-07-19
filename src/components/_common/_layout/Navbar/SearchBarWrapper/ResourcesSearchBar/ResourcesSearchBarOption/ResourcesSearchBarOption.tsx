@@ -48,13 +48,13 @@ const ResourcesSearchBarOption = ({
       }}
       onClick={handleClick}
       onMouseDown={(e) => {
-        if (e.button === 1)
+        if (e.button === 1 && resource.id)
           window
-            .open(
+            ?.open(
               urls.pages.openResourceId(resource.id, location.pathname),
               "_blank"
             )
-            .focus()
+            ?.focus()
       }}
     >
       {resource.thumbnail?.length ? (
@@ -70,7 +70,7 @@ const ResourcesSearchBarOption = ({
         {resource.title}
       </Txt>
       <FlexVCenter style={{ gap: theme.spacing(2) }}>
-        {resource.rating > 0 ? (
+        {resource.rating && resource.rating > 0 ? (
           <FlexVCenter style={{ width: 125, gap: theme.spacing(2) }}>
             <FlexVCenter style={{ gap: theme.spacing(0.5) }}>
               <Icons.Star style={{ color }} />

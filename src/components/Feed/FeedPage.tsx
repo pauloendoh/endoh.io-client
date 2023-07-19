@@ -21,7 +21,7 @@ const FeedPage = () => {
         <Grid item xs={4}>
           <AuthUserSummary />
           <Box mt={2} />
-          {userSuggestions?.length > 0 && (
+          {!!userSuggestions?.length && (
             <UserSuggestions
               userSuggestions={userSuggestions}
               followingTags={followingUsers}

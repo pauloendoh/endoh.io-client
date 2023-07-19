@@ -48,11 +48,6 @@ declare module "@mui/styles/defaultTheme" {
   interface DefaultTheme extends Theme {}
 }
 
-const MoneratePage = lazy(() => import("./components/Monerate/MoneratePage"))
-const SimilarExpensesPage = lazy(
-  () => import("./components/Monerate/SimilarExpensesPage/SimilarExpensesPage")
-)
-
 const RelearnPage = lazy(() => import("./components/Relearn/RelearnPage"))
 const UserPage = lazy(() => import("./components/User/ProfilePage"))
 const FeedPage = lazy(() => import("./components/Feed/FeedPage"))
@@ -191,12 +186,6 @@ const App = (props: RouteComponentProps<{}>) => {
         <Box pt={10}>
           <Suspense fallback={<LoadingPage />}>
             <Switch>
-              <Route
-                path={urls.pages.monerate.similarExpenses}
-                component={SimilarExpensesPage}
-              />
-              <Route path="/monerate" component={MoneratePage} />
-
               <Route path="/resources/tag/:tagId" component={RelearnPage} />
               <Route path="/resources" component={RelearnPage} />
 

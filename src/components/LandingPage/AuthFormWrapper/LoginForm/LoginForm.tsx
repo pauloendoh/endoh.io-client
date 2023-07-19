@@ -57,7 +57,6 @@ const LoginForm = ({ setFormType }: Props) => {
           render={({ field }) => (
             <MyTextField
               id="email"
-              name="email"
               type={"text"}
               label={"Email or username"}
               fullWidth

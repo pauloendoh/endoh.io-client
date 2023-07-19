@@ -3,8 +3,6 @@ import { useEffect } from "react"
 import { Redirect, Route, Switch } from "react-router-dom"
 import useAuthStore from "store/zustand/useAuthStore"
 import { urls } from "utils/urls"
-import EditCategoryModal from "../Monerate/Modals/EditCategoryModal"
-import EditPlaceModal from "../Monerate/Modals/EditPlaceModal"
 import Flex from "../_UI/Flexboxes/Flex"
 import SettingsSidebar from "./SettingsSidebar/SettingsSidebar"
 import KeepTempUserPaper from "./account/paper/KeepTempUserPaper/KeepTempUserPaper"
@@ -34,25 +32,12 @@ function SettingsPage() {
             />
           )}
 
-          {/* <Route
-            path={PATHS.settings.monerate.places}
-            component={PlaceSettings}
-          />
-          <Route
-            path={PATHS.settings.monerate.categories}
-            component={CategorySettings}
-          /> */}
-
-          {/* por hora, redirecionar para o settings/monerate/places */}
           <Route
             path="/"
             render={() => <Redirect to={urls.pages.settings.account} />}
           />
         </Switch>
       </Box>
-
-      <EditPlaceModal />
-      <EditCategoryModal />
     </Flex>
   )
 }

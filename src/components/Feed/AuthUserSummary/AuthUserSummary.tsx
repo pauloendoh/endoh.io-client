@@ -9,6 +9,8 @@ import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture"
 const AuthUserSummary = () => {
   const { authUser, profile } = useAuthStore()
 
+  if (!authUser) return null
+
   return (
     <Flex>
       {profile && (

@@ -85,13 +85,13 @@ const LearningDescriptionAutocomplete = ({ ...props }: Props) => {
       }}
       size="small"
       onChange={(e, value) => {
-        handleSelect(value)
+        if (value) {
+          handleSelect(value)
+        }
       }}
       renderInput={(params) => (
         <MyTextField
-          size="small"
           label="Description"
-          fullWidth
           sx={{ mt: 1 }}
           inputRef={props.inputRef}
           {...params}

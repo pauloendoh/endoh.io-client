@@ -49,7 +49,7 @@ const LearningsPerDayDialog = (props: Props) => {
     >
       <DialogTitle>Learnings Per Day</DialogTitle>
       <DialogContent>
-        {learnings.map((d) => (
+        {learnings?.map((d) => (
           <FlexVCenter key={d.date}>
             <Typography width={100}>{d.date.slice(0, 10)}</Typography>
             <Typography

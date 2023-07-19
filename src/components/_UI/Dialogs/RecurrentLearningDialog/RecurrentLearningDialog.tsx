@@ -2,7 +2,10 @@ import { classValidatorResolver } from "@hookform/resolvers/class-validator"
 
 import { Box, Dialog, DialogContent, DialogTitle } from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
-import { RecurrentLearningDto } from "hooks/react-query/learning-diary/recurrent-learning/types/RecurrentLearningDto"
+import {
+  RecurrentLearningDto,
+  buildRecurrentLearningDto,
+} from "hooks/react-query/learning-diary/recurrent-learning/types/RecurrentLearningDto"
 import { useSaveRecurrentLearningMutation } from "hooks/react-query/learning-diary/recurrent-learning/useSaveRecurrentLearningMutation"
 import { useEffect, useMemo, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
@@ -29,7 +32,7 @@ const RecurrentLearningDialog = (props: Props) => {
 
   const resolver = classValidatorResolver(RecurrentLearningDto)
   const { reset, handleSubmit, formState, control, watch, setFocus } = useForm({
-    defaultValues: props.initialValue,
+    defaultValues: props.initialValue || buildRecurrentLearningDto(),
     resolver,
   })
 

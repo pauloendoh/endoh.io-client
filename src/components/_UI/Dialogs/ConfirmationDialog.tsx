@@ -38,7 +38,7 @@ const ConfirmationDialog = () => {
         <DialogTitle id="confirm-dialog-title">
           <Txt variant="h5">{val.title}</Txt>
         </DialogTitle>
-        {val.description?.length > 0 && (
+        {!!val.description?.length && (
           <DialogContent>
             <Txt>{val.description}</Txt>
           </DialogContent>
@@ -53,7 +53,7 @@ const ConfirmationDialog = () => {
               size="small"
               onClick={confirmAndClose}
             >
-              {val.confirmText?.length > 0 ? val.confirmText : "Yes"}
+              {!!val.confirmText?.length ? val.confirmText : "Yes"}
             </Button>
             <Button size="small" onClick={closeConfirmDialog}>
               Cancel

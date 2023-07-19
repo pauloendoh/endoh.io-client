@@ -37,7 +37,10 @@ const FeedResources = () => {
   return (
     <Box pr={4} pl={1} mb={10}>
       <Flex justifyContent="flex-end" mb={2}>
-        <MinRatingButton onChange={setMinRating} value={minRating} />
+        <MinRatingButton
+          onChange={(val) => setMinRating(val || 0)}
+          value={minRating}
+        />
       </Flex>
 
       <Virtuoso

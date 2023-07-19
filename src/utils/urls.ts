@@ -41,8 +41,8 @@ export const urls = {
     },
     user: {
       index: (username: string) => `/user/${username}`,
-      tag: (username: string, listId: number) =>
-        `/user/${username}/tag/${listId}`,
+      tag: (username: string, listId: number | null) =>
+        `/user/${username}/tag/${listId ?? ""}`,
       roadmap: (username: string, skillId: number) =>
         `/user/${username}/roadmap/${skillId}`,
     },

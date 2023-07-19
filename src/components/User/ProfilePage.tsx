@@ -57,7 +57,7 @@ const ProfilePage = () => {
 
   const visibleResources = useMemo(() => {
     return [...resources]
-      .filter((r) => r.rating >= minRating)
+      .filter((r) => r.rating >= (minRating || 0))
       .filter((r) => {
         if (!!tagId) {
           return r.tag.id === Number(tagId)
@@ -127,7 +127,10 @@ const ProfilePage = () => {
                 resources={tagResources}
               />
 
-              <MinRatingButton onChange={setMinRating} value={minRating} />
+              <MinRatingButton
+                onChange={(val) => setMinRating(val || 0)}
+                value={minRating}
+              />
             </S.ResourcesContentHeader>
 
             <ProfileResources resources={visibleResources} />

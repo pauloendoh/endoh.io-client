@@ -3,7 +3,7 @@ import { DateTime } from "luxon"
 import { useMemo } from "react"
 import buildGraphqlClient from "utils/consts/buildGraphqlClient"
 
-const useFilteredLearnings = (selectedDate: string) => {
+const useFilteredLearnings = (selectedDate: string | null) => {
   const { data } = useLearningsQuery(buildGraphqlClient(), undefined, {
     keepPreviousData: true,
   })

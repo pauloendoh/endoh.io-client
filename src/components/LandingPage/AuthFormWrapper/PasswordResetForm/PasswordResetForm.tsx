@@ -68,7 +68,6 @@ const ResetPasswordByEmailForm = (props: Props) => {
                 render={({ field }) => (
                   <MyTextField
                     id="email"
-                    name="email"
                     type="email"
                     label="Email"
                     fullWidth

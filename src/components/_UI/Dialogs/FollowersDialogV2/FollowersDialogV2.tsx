@@ -69,21 +69,25 @@ const FollowersDialogV2 = (props: Props) => {
             const user = tabIndex === 0 ? follow.follower : follow.followedUser
             return (
               <FlexVCenter key={follow.id} gap={1}>
-                <ProfilePicture
-                  pictureUrl={user.profile.pictureUrl}
-                  isLink
-                  username={user.username}
-                />
-                <Link
-                  to={urls.pages.user.index(user.username)}
-                  style={{
-                    textDecoration: "none",
-                    color: "inherit",
-                  }}
-                  onClick={handleClose}
-                >
-                  <Typography>{user.username}</Typography>
-                </Link>
+                {user && (
+                  <>
+                    <ProfilePicture
+                      pictureUrl={user.profile.pictureUrl}
+                      isLink
+                      username={user.username}
+                    />
+                    <Link
+                      to={urls.pages.user.index(user.username)}
+                      style={{
+                        textDecoration: "none",
+                        color: "inherit",
+                      }}
+                      onClick={handleClose}
+                    >
+                      <Typography>{user.username}</Typography>
+                    </Link>
+                  </>
+                )}
               </FlexVCenter>
             )
           })}

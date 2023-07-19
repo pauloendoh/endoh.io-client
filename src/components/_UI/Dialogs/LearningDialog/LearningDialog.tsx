@@ -1,4 +1,5 @@
 import { Box, Dialog, DialogContent, DialogTitle } from "@mui/material"
+import { useQueryClient } from "@tanstack/react-query"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import { upToNDecimals, upsert } from "endoh-utils"
 import {
@@ -10,7 +11,6 @@ import {
 } from "generated/graphql"
 import { useEffect, useRef } from "react"
 import { Controller, useForm } from "react-hook-form"
-import { useQueryClient } from "@tanstack/react-query"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import buildGraphqlClient from "utils/consts/buildGraphqlClient"
 import SaveCancelButtons from "../../Buttons/SaveCancelButtons"
@@ -80,7 +80,7 @@ const LearningDialog = (props: Props) => {
         return {
           ...curr,
           learnings: upsert(
-            curr.learnings,
+            curr?.learnings,
             data as Learning,
             (l) => l.id === data.id
           ),

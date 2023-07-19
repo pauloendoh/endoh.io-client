@@ -28,7 +28,7 @@ const ResourcesSearchBar = () => {
   const history = useHistory()
   const [loading, setLoading] = useState(false)
 
-  const [throttle, setThrottle] = useState<NodeJS.Timeout>(null)
+  const [throttle, setThrottle] = useState<NodeJS.Timeout | null>(null)
 
   const { handleSubmit, control, getValues, watch, setValue } =
     useForm<ISearchForm>({
@@ -38,7 +38,7 @@ const ResourcesSearchBar = () => {
     })
 
   const { data: searchResults, refetch } = useResourcesSearchQuery(
-    watch("searchQuery"),
+    watch("searchQuery") || "",
     MIN_LENGTH
   )
 
@@ -59,7 +59,10 @@ const ResourcesSearchBar = () => {
     setLoading(false)
     setValue("searchQuery", "")
     qc.cancelQueries([queryKeys.resourceSearchResults])
-    qc.setQueryData<SearchResultsDto>([queryKeys.resourceSearchResults], null)
+    qc.setQueryData<SearchResultsDto>(
+      [queryKeys.resourceSearchResults],
+      undefined
+    )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history.location.search])
 
@@ -80,26 +83,41 @@ const ResourcesSearchBar = () => {
   const sortedResources = useMemo(() => {
     if (searchResults?.resources)
       return searchResults.resources
-        .sort((a, b) => b.rating - a.rating)
+        .sort((a, b) => (b.rating || 0) - (a.rating || 0))
         .slice(0, 25)
     return []
   }, [searchResults?.resources])
+
+  const freeSolo = useMemo(() => {
+    const searchQuery = watch("searchQuery")
+    return Boolean(searchQuery && searchQuery.length < MIN_LENGTH)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watch("searchQuery")])
+
+  const noOptionsText = useMemo(() => {
+    const searchQuery = watch("searchQuery")
+    return searchQuery && searchQuery.length >= MIN_LENGTH
+      ? "No resources found :("
+      : "Type at least 3 characters"
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watch("searchQuery"), debouncedSearchQuery])
+
+  const options = useMemo(() => {
+    const searchQuery = watch("searchQuery")
+    return searchQuery && searchQuery.length >= MIN_LENGTH
+      ? sortedResources
+      : []
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sortedResources, watch("searchQuery")])
 
   return (
     <form onSubmit={handleSubmit(submit)}>
       <Autocomplete
         loading={loading}
         // if no text, show nothing (don't show 'no resources :(')
-        freeSolo={watch("searchQuery").length < MIN_LENGTH}
-        noOptionsText={
-          watch("searchQuery").length >= MIN_LENGTH &&
-          debouncedSearchQuery === watch("searchQuery")
-            ? "No resources found :("
-            : "Type at least 3 characters"
-        }
-        options={
-          watch("searchQuery").length >= MIN_LENGTH ? sortedResources : []
-        }
+        freeSolo={freeSolo}
+        noOptionsText={noOptionsText}
+        options={options}
         PopperComponent={MyPopper}
         filterOptions={(resources) => resources}
         renderOption={(htmlProps, resource) => (
@@ -111,7 +129,7 @@ const ResourcesSearchBar = () => {
           />
         )}
         // don't change input text when selecting a resource
-        getOptionLabel={() => watch("searchQuery")}
+        getOptionLabel={() => watch("searchQuery") || ""}
         // getOptionLabel={(resource) => "resource.title"}
 
         clearOnBlur={false}
