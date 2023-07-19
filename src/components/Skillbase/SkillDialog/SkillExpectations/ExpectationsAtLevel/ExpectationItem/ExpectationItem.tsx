@@ -18,7 +18,7 @@ interface Props {
   expectation: SkillExpectationDto
   index: number
 
-  editingIndex: number
+  editingIndex: number | null
   setEditingIndex: (index: number | null) => void
 }
 
@@ -250,7 +250,7 @@ const ExpectationItem = ({
 
               setIsEditingRoadmapItem(false)
 
-              setEditingIndex(null)
+              setEditingIndex(-1)
             }}
           />
         ) : (

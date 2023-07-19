@@ -98,7 +98,7 @@ const ExpectationsAtLevel = (props: Props) => {
           onChangeExpectations={props.onChangeExpectations}
           expectation={expectation}
           index={index}
-          editingIndex={Number(editingIndex)}
+          editingIndex={editingIndex}
           setEditingIndex={setEditingIndex}
         />
       ))}
