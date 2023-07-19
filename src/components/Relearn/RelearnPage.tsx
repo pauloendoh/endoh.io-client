@@ -5,6 +5,7 @@ import { Box } from "@mui/material"
 import classNames from "classnames"
 import useMultiSelectResource from "hooks/relearn/useMultiSelectResource"
 import { useAxios } from "hooks/utils/useAxios"
+import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
 import { useEffect, useState } from "react"
 import { Redirect, useLocation, useParams } from "react-router-dom"
 import useRelearnStore from "store/zustand/domain/useRelearnStore"
@@ -36,7 +37,7 @@ const RelearnPage = () => {
   const params = useParams<{ tagId?: string }>()
   const { clearSelectedIds } = useMultiSelectResource()
 
-  const { sidebarIsOpen, openSidebar } = useSidebarStore()
+  const { sidebarIsOpen, openSidebar, closeSidebar } = useSidebarStore()
 
   const [redirectTo, setRedirectTo] = useState("")
   // PE 1/3 - why do we need this skills, if we have props.skills ?
@@ -54,9 +55,15 @@ const RelearnPage = () => {
     })
   }
 
+  const { downSm } = useMyMediaQuery()
+
   useEffect(() => {
     setRedirectTo("")
-    openSidebar()
+
+    if (downSm) {
+      closeSidebar()
+    }
+
     fetchResourcesAndSkills()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

@@ -22,6 +22,7 @@ import { FormikErrors, useFormik } from "formik"
 import useQueryParams from "hooks/utils/react-router/useQueryParams"
 import { useAxios } from "hooks/utils/useAxios"
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
+import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
 import { DateTime } from "luxon"
 import { useEffect, useMemo, useState } from "react"
 import { MdClose, MdSave } from "react-icons/md"
@@ -275,6 +276,8 @@ const ResourceDialog = () => {
     return dt.diffNow().as("days") < -1
   }, [values.completedAt])
 
+  const { isMobile } = useMyMediaQuery()
+
   return (
     <Dialog
       onClose={() => confirmClose(dirty)}
@@ -292,11 +295,22 @@ const ResourceDialog = () => {
         </Backdrop>
         <DialogTitle id="edit-resource-dialog-title">
           <FlexVCenterBetween>
-            <Txt variant="h5">
-              {!!values.id ? "Edit Resource" : "Add Resource"}
-            </Txt>
+            {!isMobile && (
+              <Txt variant="h5">
+                {!!values.id ? "Edit Resource" : "Add Resource"}
+              </Txt>
+            )}
 
-            <FlexVCenter>
+            <FlexVCenter
+              sx={
+                isMobile
+                  ? {
+                      justifyContent: "space-between",
+                      flexGrow: 1,
+                    }
+                  : undefined
+              }
+            >
               <SaveCancelButtons
                 submitButtonId="save-resource-button"
                 isLoading={isLoading}
@@ -422,27 +436,7 @@ const ResourceDialog = () => {
 
           <Box mt={2}>
             <Grid container spacing={3}>
-              <Grid item xs={6} sm={3}>
-                {/* <Typography component="legend">Duration</Typography> */}
-                {/* <ReactInputMask
-                  mask="99:99h"
-                  value={values.estimatedTime}
-                  onChange={handleChange}
-                  maskPlaceholder=" "
-                >
-                  {(p) => (
-                    <>
-                      <MyTextField
-                        id="estimatedTime"
-                        name="estimatedTime"
-                        label="Duration"
-                        fullWidth
-                        {...p}
-                      />
-                    </>
-                  )} */}
-                {/* </ReactInputMask> */}
-
+              <Grid item xs={5} sm={3}>
                 <MyTextField
                   id="estimatedTime"
                   name="estimatedTime"
@@ -453,7 +447,7 @@ const ResourceDialog = () => {
                 />
               </Grid>
 
-              <Grid item xs={6} sm={9}>
+              <Grid item xs={7} sm={9}>
                 {/* PE 1/3 - dry into <TagSelector/> also used at skill dialog */}
                 <Autocomplete
                   id="tags-autocomplete-input"

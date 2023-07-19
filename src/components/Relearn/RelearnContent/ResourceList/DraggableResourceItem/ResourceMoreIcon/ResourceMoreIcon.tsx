@@ -15,6 +15,7 @@ import {
   Typography,
 } from "@mui/material"
 import { useAxios } from "hooks/utils/useAxios"
+import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
 import React, { useEffect } from "react"
 import { MdVerticalAlignBottom, MdVerticalAlignTop } from "react-icons/md"
 import useRelearnStore from "store/zustand/domain/useRelearnStore"
@@ -118,11 +119,22 @@ function ResourceMoreIcon(props: Props) {
       })
   }
 
+  const { isMobile } = useMyMediaQuery()
+
   return (
     <React.Fragment>
       {/* 'More' icon - PE 1/3 - can be a specific component */}
       <div>
-        <Box className={classes.moreButtonBox}>
+        <Box
+          sx={
+            isMobile
+              ? undefined
+              : {
+                  width: 32,
+                  minWidth: 32,
+                }
+          }
+        >
           {props.isHovered && (
             <IconButton
               size="small"
@@ -131,6 +143,13 @@ function ResourceMoreIcon(props: Props) {
               onClick={(e) => {
                 handleOpenMore(e)
               }}
+              sx={
+                isMobile
+                  ? {
+                      padding: 0,
+                    }
+                  : undefined
+              }
             >
               <MoreHorizIcon />
             </IconButton>
@@ -221,10 +240,6 @@ function ResourceMoreIcon(props: Props) {
 const useStyles = makeStyles<Theme>((theme) => ({
   listItemIcon: {
     width: 16,
-  },
-  moreButtonBox: {
-    width: 32,
-    minWidth: 32,
   },
 }))
 

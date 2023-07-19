@@ -31,7 +31,7 @@ function ResourceItem(props: Props) {
   const { setSuccessMessage } = useSnackbarStore()
   const { handleMouseEnter, handleMouseLeave, isHovering } = useHover()
 
-  const { downSm } = useMyMediaQuery()
+  const { isMobile } = useMyMediaQuery()
 
   const { setResources, setEditingResource } = useRelearnStore()
 
@@ -116,7 +116,7 @@ function ResourceItem(props: Props) {
                   e.stopPropagation()
                 }}
                 style={{
-                  maxWidth: downSm ? 200 : 400,
+                  maxWidth: isMobile ? 200 : 400,
                   overflow: "hidden",
                   marginRight: 16,
                 }}
@@ -127,7 +127,10 @@ function ResourceItem(props: Props) {
               </Link>
             )}
           </S.TitleLinkWrapper>
-          <ResourceMoreIcon resource={props.resource} isHovered={isHovering} />
+          <ResourceMoreIcon
+            resource={props.resource}
+            isHovered={isHovering || isMobile}
+          />
         </S.TitleLinkMoreWrapper>
 
         <S.IconsRow>
