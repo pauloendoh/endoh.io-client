@@ -1,5 +1,4 @@
 import multiwordSearch from "endoh-utils/dist/text/multiwordSearch"
-import textContainsWords from "utils/text/textContainsWords"
 import { TagDto } from "../../../types/domain/relearn/TagDto"
 import { ISortSkillBy } from "../../../types/domain/skillbase/ISortSkillBy"
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto"
@@ -42,9 +41,9 @@ export default function filterAndSortSkills(
       }
     } else if (property === "currentLevel" || property === "goalLevel") {
       if (order === "asc") {
-        skills = skills.sort((a, b) => a[property] - b[property])
+        skills = skills.sort((a, b) => (a[property] || 0) - (b[property] || 0))
       } else {
-        skills = skills.sort((a, b) => b[property] - a[property])
+        skills = skills.sort((a, b) => (b[property] || 0) - (a[property] || 0))
       }
     } else if (property === "dependencies") {
       if (order === "asc") {
@@ -58,9 +57,9 @@ export default function filterAndSortSkills(
       }
     } else if (property === "tagId") {
       if (order === "asc") {
-        skills = skills.sort((a, b) => a.tagId - b.tagId)
+        skills = skills.sort((a, b) => (a.tagId || 0) - (b.tagId || 0))
       } else {
-        skills = skills.sort((a, b) => b.tagId - a.tagId)
+        skills = skills.sort((a, b) => (b.tagId || 0) - (a.tagId || 0))
       }
     } else if (property === "expectations") {
       if (order === "asc")
@@ -90,7 +89,7 @@ export default function filterAndSortSkills(
 
   if (labelIds.length > 0)
     skills = skills.filter((skill) => {
-      const skillLabelIds = skill.labels.map((l) => l.id)
+      const skillLabelIds = skill.labels?.map((l) => l.id) || []
       return labelIds.every((labelId) => skillLabelIds.includes(labelId))
     })
 

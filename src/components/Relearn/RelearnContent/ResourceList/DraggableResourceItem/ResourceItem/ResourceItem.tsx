@@ -38,7 +38,7 @@ function ResourceItem(props: Props) {
   const axios = useAxios()
 
   const [isSaving, setIsSaving] = useState(false)
-  const handleSaveRating = (rating: number) => {
+  const handleSaveRating = (rating: number | null) => {
     const resource = { ...props.resource, rating } as ResourceDto
 
     setIsSaving(true)
@@ -159,7 +159,7 @@ function ResourceItem(props: Props) {
 
           {props.resource.url?.length > 0 ? (
             <RatingButton
-              rating={props.resource.rating}
+              rating={props.resource.rating || 0}
               onChange={handleSaveRating}
               isLoading={isSaving}
             />

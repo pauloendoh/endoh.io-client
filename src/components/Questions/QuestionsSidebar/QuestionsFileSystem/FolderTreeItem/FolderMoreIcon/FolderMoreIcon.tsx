@@ -20,7 +20,7 @@ interface Props {
 }
 
 export default function FolderMoreIcon({ folder, ...props }: Props) {
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
   const { mutate: deleteFolder } = useDeleteFolderMutation()
 
   const { setFileDialogParentFolderId } = useFlashnotesStore()

@@ -12,10 +12,10 @@ import {
 } from "@mui/material"
 import { Form, Formik } from "formik"
 import { useEffect, useState } from "react"
-import { Link as RouterLink, Redirect } from "react-router-dom"
+import { Redirect, Link as RouterLink } from "react-router-dom"
 import { urls } from "utils/urls"
-import { PasswordResetPostDto } from "../../types/domain/auth/PasswordResetPostDto"
 import MyAxiosError, { MyFieldError } from "../../types/MyAxiosError"
+import { PasswordResetPostDto } from "../../types/domain/auth/PasswordResetPostDto"
 import myAxios from "../../utils/consts/myAxios"
 import { getQueryParam } from "../../utils/url/getQueryParam"
 import Flex from "../_UI/Flexboxes/Flex"
@@ -30,7 +30,7 @@ function ResetPasswordPage() {
   const [responseErrors, setResponseErrors] = useState([] as MyFieldError[])
   const [success, setSuccess] = useState(false)
 
-  const token = getQueryParam("token")
+  const token = getQueryParam("token") || ""
   const userId = Number(getQueryParam("userId"))
 
   const [redirectTo, setRedirectTo] = useState("")
@@ -67,7 +67,7 @@ function ResetPasswordPage() {
         setSuccess(true)
       })
       .catch((err: MyAxiosError) => {
-        setResponseErrors(err.response.data.errors)
+        setResponseErrors(err.response?.data.errors || [])
       })
       .finally(() => {
         setSubmitting(false)

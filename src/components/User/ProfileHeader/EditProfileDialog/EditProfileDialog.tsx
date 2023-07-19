@@ -18,8 +18,8 @@ import { connect } from "react-redux"
 import { Dispatch } from "redux"
 import useProfileStore from "store/zustand/domain/useProfileStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
-import { ProfileDto } from "../../../../types/domain/_common/ProfileDto"
 import MyAxiosError from "../../../../types/MyAxiosError"
+import { ProfileDto } from "../../../../types/domain/_common/ProfileDto"
 import myAxios from "../../../../utils/consts/myAxios"
 import { urlIsValid } from "../../../../utils/url/isValidUrl"
 import Flex from "../../../_UI/Flexboxes/Flex"
@@ -45,7 +45,7 @@ const EditProfileDialog = (props: Props) => {
         setSuccessMessage("Profile saved!")
       })
       .catch((err: MyAxiosError) => {
-        setErrorMessage(err.response.data.errors[0].message)
+        setErrorMessage(err.response?.data.errors[0].message)
       })
       .finally(() => {
         props.onClose()
@@ -53,7 +53,7 @@ const EditProfileDialog = (props: Props) => {
   }
 
   const handleFileSelection = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files[0]
+    const file = event.target.files?.[0]
     if (file) {
       handleFileUpload(file)
     }
@@ -87,121 +87,132 @@ const EditProfileDialog = (props: Props) => {
       aria-labelledby="edit-profile-dialog"
     >
       <Box pb={1} px={1}>
-        <Formik
-          initialValues={profileStore.profile}
-          onSubmit={(formikValues, { setSubmitting }) => {
-            handleSubmit(formikValues)
-          }}
-          validate={(values: ProfileDto) => {
-            let errors: FormikErrors<ProfileDto> = {}
+        {profileStore.profile && (
+          <Formik
+            initialValues={profileStore.profile}
+            onSubmit={(formikValues, { setSubmitting }) => {
+              handleSubmit(formikValues)
+            }}
+            validate={(values: ProfileDto) => {
+              let errors: FormikErrors<ProfileDto> = {}
 
-            if (values.website.length > 0 && !urlIsValid(values.website)) {
-              errors.website = "Invalid URL"
-            }
-            return errors
-          }}
-        >
-          {({ errors, values, isSubmitting, setFieldValue, handleChange }) => (
-            <Form>
-              <DialogTitle id="edit-profile-dialog-title">
-                Edit Profile
-              </DialogTitle>
-              <DialogContent>
-                <Flex>
-                  <Box>
-                    <Box
-                      position="relative"
-                      onClick={() => {
-                        if (fileInput?.current) {
-                          fileInput.current.click()
-                        }
-                      }}
-                    >
-                      <ProfilePicture
-                        isLink={false}
-                        pictureUrl={profileStore.profile.pictureUrl}
-                        username=""
-                        size={120}
-                        onClick={() => {}}
-                      />
-                      <CameraAltIcon className={classes.cameraIcon} />
-                    </Box>
-                  </Box>
-                  <Box ml={3} flexGrow={1}>
+              if (values.website.length > 0 && !urlIsValid(values.website)) {
+                errors.website = "Invalid URL"
+              }
+              return errors
+            }}
+          >
+            {({
+              errors,
+              values,
+              isSubmitting,
+              setFieldValue,
+              handleChange,
+            }) => (
+              <Form>
+                <DialogTitle id="edit-profile-dialog-title">
+                  Edit Profile
+                </DialogTitle>
+                <DialogContent>
+                  <Flex>
                     <Box>
-                      <input
-                        style={{ display: "none" }}
-                        type="file"
-                        onChange={handleFileSelection}
-                        ref={fileInput}
-                      />
-                    </Box>
-                    <Box mt={2}>
-                      <MyTextField
-                        id="fullName"
-                        name="fullName"
-                        value={values.fullName}
-                        label="Full Name"
-                        onChange={handleChange}
-                        fullWidth
-                        autoFocus
-                      />
-                    </Box>
-
-                    <Box mt={2}>
-                      <MyTextField
-                        id="bio"
-                        name="bio"
-                        value={values.bio}
-                        label="Bio"
-                        multiline
-                        onChange={handleChange}
-                        fullWidth
-                      />
-                    </Box>
-
-                    <Box mt={2}>
-                      <MyTextField
-                        id="website"
-                        name="website"
-                        value={values.website}
-                        label="Website"
-                        onChange={handleChange}
-                        fullWidth
-                      />
-                      <Box>
-                        {errors.website && (
-                          <Typography color="error">
-                            {errors.website}
-                          </Typography>
+                      <Box
+                        position="relative"
+                        onClick={() => {
+                          if (fileInput?.current) {
+                            fileInput.current.click()
+                          }
+                        }}
+                      >
+                        {profileStore.profile && (
+                          <ProfilePicture
+                            isLink={false}
+                            pictureUrl={profileStore.profile.pictureUrl}
+                            username=""
+                            size={120}
+                            onClick={() => {}}
+                          />
                         )}
+
+                        <CameraAltIcon className={classes.cameraIcon} />
                       </Box>
                     </Box>
-                  </Box>
-                </Flex>
+                    <Box ml={3} flexGrow={1}>
+                      <Box>
+                        <input
+                          style={{ display: "none" }}
+                          type="file"
+                          onChange={handleFileSelection}
+                          ref={fileInput}
+                        />
+                      </Box>
+                      <Box mt={2}>
+                        <MyTextField
+                          id="fullName"
+                          name="fullName"
+                          value={values.fullName}
+                          label="Full Name"
+                          onChange={handleChange}
+                          fullWidth
+                          autoFocus
+                        />
+                      </Box>
 
-                {/* trocar por save cancel button? */}
-                <Flex mt={4}>
-                  <Button
-                    disabled={isSubmitting}
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    id="save-profile-button"
-                  >
-                    Save
-                  </Button>
+                      <Box mt={2}>
+                        <MyTextField
+                          id="bio"
+                          name="bio"
+                          value={values.bio}
+                          label="Bio"
+                          multiline
+                          onChange={handleChange}
+                          fullWidth
+                        />
+                      </Box>
 
-                  <Box ml={1}>
-                    <Button onClick={() => props.onClose()} variant="text">
-                      Cancel
+                      <Box mt={2}>
+                        <MyTextField
+                          id="website"
+                          name="website"
+                          value={values.website}
+                          label="Website"
+                          onChange={handleChange}
+                          fullWidth
+                        />
+                        <Box>
+                          {errors.website && (
+                            <Typography color="error">
+                              {errors.website}
+                            </Typography>
+                          )}
+                        </Box>
+                      </Box>
+                    </Box>
+                  </Flex>
+
+                  {/* trocar por save cancel button? */}
+                  <Flex mt={4}>
+                    <Button
+                      disabled={isSubmitting}
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      id="save-profile-button"
+                    >
+                      Save
                     </Button>
-                  </Box>
-                </Flex>
-              </DialogContent>
-            </Form>
-          )}
-        </Formik>
+
+                    <Box ml={1}>
+                      <Button onClick={() => props.onClose()} variant="text">
+                        Cancel
+                      </Button>
+                    </Box>
+                  </Flex>
+                </DialogContent>
+              </Form>
+            )}
+          </Formik>
+        )}
       </Box>
     </Dialog>
   )

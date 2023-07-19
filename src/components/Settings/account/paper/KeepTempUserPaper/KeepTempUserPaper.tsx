@@ -6,7 +6,7 @@ import { useMemo } from "react"
 import { Controller, useForm } from "react-hook-form"
 import useAuthStore from "store/zustand/useAuthStore"
 import { format } from "timeago.js"
-import { buildRegisterDto, RegisterDto } from "types/domain/auth/RegisterDto"
+import { RegisterDto, buildRegisterDto } from "types/domain/auth/RegisterDto"
 
 interface Props {
   test?: string
@@ -15,7 +15,10 @@ interface Props {
 const KeepTempUserPaper = (props: Props) => {
   const authUser = useAuthStore((s) => s.authUser)
 
-  const expiresAt = useMemo(() => format(authUser.userExpiresAt), [authUser])
+  const expiresAt = useMemo(() => {
+    if (!authUser) return ""
+    return format(authUser.userExpiresAt)
+  }, [authUser])
 
   const { control, handleSubmit } = useForm<RegisterDto>({
     defaultValues: buildRegisterDto(),

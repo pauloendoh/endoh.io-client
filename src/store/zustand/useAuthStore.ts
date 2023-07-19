@@ -11,10 +11,10 @@ import { NotificationDto } from "types/domain/utils/NotificationDto"
 import { create } from "zustand"
 
 interface IStore {
-  authUser: AuthUserGetDto
+  authUser: AuthUserGetDto | null
   followingTags: FollowingTagDto[]
-  preference: UserPreferenceDto
-  profile: ProfileDto
+  preference: UserPreferenceDto | null
+  profile: ProfileDto | null
   followingUsers: FollowingUserDto[]
   followers: FollowerDto[]
   notifications: NotificationDto[]
@@ -48,10 +48,12 @@ const useAuthStore = create<IStore>((set, get) => ({
   },
   setUsername: (newUsername) => {
     const { authUser } = get()
+    const storedUser = localStorage.getItem("user")
+    if (!authUser || !storedUser) return
     authUser.username = newUsername
 
     // Updating username at local storage
-    const userStored: AuthUserGetDto = JSON.parse(localStorage.getItem("user"))
+    const userStored: AuthUserGetDto = JSON.parse(storedUser)
     userStored.username = newUsername
     localStorage.setItem("user", JSON.stringify(userStored))
     set({ authUser })
@@ -68,6 +70,7 @@ const useAuthStore = create<IStore>((set, get) => ({
   },
   setProfilePicture: (pictureUrl) => {
     const { profile } = get()
+    if (!profile) return
     profile.pictureUrl = pictureUrl
     set({ profile })
   },

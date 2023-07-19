@@ -76,7 +76,7 @@ const CategorySettings = (props: Props) => {
                       </IconButton>
                       <IconButton
                         onClick={() => {
-                          handleDelete(category.id)
+                          handleDelete(category.id || 0)
                         }}
                         aria-label="delete-category"
                         size="large"

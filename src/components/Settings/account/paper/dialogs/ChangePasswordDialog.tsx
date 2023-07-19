@@ -12,8 +12,8 @@ import { useAxios } from "hooks/utils/useAxios"
 import { useState } from "react"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { urls } from "utils/urls"
-import { AuthChangePasswordPostDto } from "../../../../../types/domain/auth/AuthChangePasswordPostDto"
 import { MyFieldError } from "../../../../../types/MyAxiosError"
+import { AuthChangePasswordPostDto } from "../../../../../types/domain/auth/AuthChangePasswordPostDto"
 import Flex from "../../../../_UI/Flexboxes/Flex"
 import FlexHCenter from "../../../../_UI/Flexboxes/FlexHCenter"
 import MyTextField from "../../../../_UI/MyInputs/MyTextField"
@@ -57,7 +57,7 @@ const ChangePasswordDialog = (props: Props) => {
       })
       .catch((err: AxiosError<{ message: string }>) => {
         setResponseErrors([
-          { field: "password", message: err.response.data.message },
+          { field: "password", message: err.response?.data.message || "" },
         ])
       })
       .finally(() => {

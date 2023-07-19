@@ -21,7 +21,7 @@ function EditSkillsButton() {
   const { skills: allSkills } = useSkillbaseStore()
   const { pathname } = useLocation()
 
-  const [tagForDialog, setTagForDialog] = useState<TagDto>(null)
+  const [tagForDialog, setTagForDialog] = useState<TagDto | null>(null)
 
   const getSkillsFromCurrentTag = () => {
     const tagId = Number(pathname.split("/").pop())
@@ -35,7 +35,7 @@ function EditSkillsButton() {
     const tagId = Number(pathname.split("/").pop())
     if (tagId) {
       const currentTag = allTags.find((t) => t.id === tagId)
-      setTagForDialog(currentTag)
+      setTagForDialog(currentTag || null)
     } else history.push(urls.pages.skills.index)
   }
 

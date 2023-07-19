@@ -1,6 +1,6 @@
 import { useTheme } from "@mui/material"
 
-export const useGetColorByRating = (rating: number) => {
+export const useGetColorByRating = (rating: number | null) => {
   const theme = useTheme()
 
   switch (rating) {

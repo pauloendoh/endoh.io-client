@@ -26,7 +26,7 @@ function ResourceList({
           <div
             key={resource.id}
             onClick={(e) => {
-              if (e.ctrlKey) {
+              if (e.ctrlKey && resource.id) {
                 e.preventDefault()
                 onCtrlClick(resource.id)
               }
@@ -34,8 +34,8 @@ function ResourceList({
               if (e.shiftKey) {
                 e.preventDefault()
                 onShiftClick(
-                  resources.map((r) => r.id),
-                  resource.id
+                  resources.map((r) => r.id || 0),
+                  resource.id || 0
                 )
               }
             }}
@@ -59,21 +59,21 @@ function ResourceList({
           p={1}
           borderBottom="1px solid rgb(255 255 255 / 0.1)"
           style={{
-            background: idIsSelected(resources[index].id)
+            background: idIsSelected(resources[index].id || 0)
               ? "rgb(255 255 255 / 0.1)"
               : "unset",
           }}
           onClick={(e) => {
             if (e.ctrlKey) {
               e.preventDefault()
-              onCtrlClick(resources[index].id)
+              onCtrlClick(resources[index].id || 0)
             }
 
             if (e.shiftKey) {
               e.preventDefault()
               onShiftClick(
-                resources.map((r) => r.id),
-                resources[index].id
+                resources.map((r) => r.id || 0),
+                resources[index].id || 0
               )
             }
           }}

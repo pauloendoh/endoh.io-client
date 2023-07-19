@@ -13,7 +13,7 @@ export default function useGotItMutation() {
     (key: keyof GotItDto) => {
       const currentGotIt = queryClient.getQueryData<GotItDto>([queryKeys.gotIt])
 
-      if (typeof currentGotIt[key] === "boolean") {
+      if (currentGotIt && typeof currentGotIt[key] === "boolean") {
         // @ts-expect-error
         currentGotIt[key] = true
       }

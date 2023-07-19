@@ -15,7 +15,7 @@ export const getLastYearResourcesForChart = (resources: FeedResourceDto[]) => {
   const tags: TagDto[] = []
   const tagIds: number[] = []
   for (const resource of recentResources) {
-    if (resource.tag && !tagIds.includes(resource.tag.id)) {
+    if (resource.tag.id && !tagIds.includes(resource.tag.id)) {
       tagIds.push(resource.tag.id)
       tags.push(resource.tag)
     }

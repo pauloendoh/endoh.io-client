@@ -76,7 +76,7 @@ const PlaceSettings = (props: Props) => {
                       </IconButton>
                       <IconButton
                         onClick={() => {
-                          handleDelete(place.id)
+                          handleDelete(place.id || 0)
                         }}
                         aria-label="delete-place"
                         size="large"

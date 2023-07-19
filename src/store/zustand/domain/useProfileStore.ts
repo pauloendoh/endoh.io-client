@@ -8,7 +8,7 @@ import { SkillDto } from "types/domain/skillbase/SkillDto"
 import { create } from "zustand"
 
 interface IStore {
-  profile: ProfileDto
+  profile: ProfileDto | null
   resources: FeedResourceDto[]
 
   publicTags: TagDto[]
@@ -55,6 +55,7 @@ const useProfileStore = create<IStore>((set, get) => ({
 
   setProfilePicture: (pictureUrl) => {
     const { profile } = get()
+    if (!profile) return
     profile.pictureUrl = pictureUrl
     set({ profile })
   },

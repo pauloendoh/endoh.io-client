@@ -20,7 +20,7 @@ export default function useSaveLabelMutation() {
         const labels = myQueryClient.getQueryData<LabelDto[]>([
           queryKeys.labels,
         ])
-        const newLabels = pushOrReplace(labels, returned, "id")
+        const newLabels = pushOrReplace(labels || [], returned, "id")
         myQueryClient.setQueryData([queryKeys.labels], newLabels)
 
         setSuccessMessage("Label saved!")

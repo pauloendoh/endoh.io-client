@@ -5,8 +5,8 @@ import { useDrop } from "react-dnd"
 import { Element } from "react-scroll"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import {
-  buildSkillExpectationDto,
   SkillExpectationDto,
+  buildSkillExpectationDto,
 } from "../../../../../types/domain/skillbase/SkillExpectationDto"
 import ExpectationItem from "./ExpectationItem/ExpectationItem"
 import changeExpectationPosition from "./ExpectationItem/utils/changeExpectationPosition"
@@ -21,11 +21,9 @@ interface Props {
 
 const ExpectationsAtLevel = (props: Props) => {
   const theme = useTheme()
-  const {
-    setDraggingExpectation,
-    setIsEditingRoadmapItem,
-  } = useSkillbaseStore()
-  const [editingIndex, setEditingIndex] = useState<number>(null)
+  const { setDraggingExpectation, setIsEditingRoadmapItem } =
+    useSkillbaseStore()
+  const [editingIndex, setEditingIndex] = useState<number | null>(null)
 
   const handleAddExpectation = () => {
     const newExpectation = buildSkillExpectationDto({
@@ -77,7 +75,7 @@ const ExpectationsAtLevel = (props: Props) => {
     },
   })
 
-  const htmlDropItemRef = useRef<HTMLButtonElement>()
+  const htmlDropItemRef = useRef<HTMLButtonElement>(null)
   dropItemRef(htmlDropItemRef)
 
   return (
@@ -100,7 +98,7 @@ const ExpectationsAtLevel = (props: Props) => {
           onChangeExpectations={props.onChangeExpectations}
           expectation={expectation}
           index={index}
-          editingIndex={editingIndex}
+          editingIndex={Number(editingIndex)}
           setEditingIndex={setEditingIndex}
         />
       ))}

@@ -1,6 +1,6 @@
 // PE 2/3
 export interface SkillExpectationDto {
-  id: number
+  id: number | null
 
   level: number
   index: number
@@ -29,6 +29,5 @@ export const buildSkillExpectationDto = (
   updatedAt: new Date().toISOString(),
 
   randomId: new Date().getTime(),
-
   ...p,
 })

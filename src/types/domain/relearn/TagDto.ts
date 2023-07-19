@@ -1,16 +1,16 @@
-import { ResourceDto } from "./ResourceDto";
+import { ResourceDto } from "./ResourceDto"
 
 export interface TagDto {
-  id: number;
-  userId: number;
-  name: string;
-  position: number;
-  color: string;
-  isPrivate: boolean;
-  createdAt: string;
-  updatedAt: string;
-  lastOpenedAt: string;
-  resources: ResourceDto[];
+  id: number | null
+  userId: number | null
+  name: string
+  position: number | null
+  color: string
+  isPrivate: boolean
+  createdAt: string
+  updatedAt: string
+  lastOpenedAt: string | null
+  resources: ResourceDto[]
 }
 
 export const newTagDto = (): TagDto => ({
@@ -24,4 +24,4 @@ export const newTagDto = (): TagDto => ({
   updatedAt: new Date().toISOString(),
   lastOpenedAt: null,
   resources: [],
-});
+})

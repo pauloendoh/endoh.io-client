@@ -31,7 +31,7 @@ function DraggableResourceItem(props: Props) {
     collect: (monitor) => ({ isDragging: monitor.isDragging() }),
   })
 
-  const ref = useRef<HTMLDivElement>()
+  const ref = useRef<HTMLDivElement>(null)
 
   const [, dropRef] = useDrop({
     accept: "CARD",
@@ -42,11 +42,12 @@ function DraggableResourceItem(props: Props) {
 
       if (draggedIndex === targetIndex) return
 
-      const targetSize = ref.current.getBoundingClientRect()
-      const targetCenter = (targetSize.bottom - targetSize.top) / 2
+      const targetSize = ref.current?.getBoundingClientRect()
+      const targetCenter =
+        ((targetSize?.bottom || 0) - (targetSize?.top || 0)) / 2
 
       const draggedOffSet = monitor.getClientOffset()
-      const draggedTop = draggedOffSet.y - targetSize.top
+      const draggedTop = (draggedOffSet?.y || 0) - (targetSize?.top || 0)
 
       if (draggedIndex < targetIndex && draggedTop < targetCenter) {
         return // ex: tentar arrastar o primeiro antes do segundo
@@ -62,7 +63,7 @@ function DraggableResourceItem(props: Props) {
       }
 
       moveResource({
-        tagId: props.resource.tag ? props.resource.tag.id : null,
+        tagId: props.resource.tag?.id ? props.resource.tag.id : 0,
         fromIndex: draggedIndex,
         toIndex: targetIndex,
       })
@@ -84,7 +85,7 @@ function DraggableResourceItem(props: Props) {
           (collected.isDragging ? classes.isDragging : "")
         }
         style={{
-          background: idIsSelected(props.resource.id)
+          background: idIsSelected(props.resource.id || 0)
             ? "rgb(255 255 255 / 0.1)"
             : "unset",
         }}

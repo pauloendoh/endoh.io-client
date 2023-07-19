@@ -10,7 +10,7 @@ interface Props {
 }
 
 const LabelSelectorOption = ({ label, onClickEdit, liProps }: Props) => {
-  if (label.id > 0)
+  if (Number(label.id) > 0)
     return (
       <li
         {...liProps}

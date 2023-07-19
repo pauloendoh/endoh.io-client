@@ -32,7 +32,8 @@ const SkillbaseTagSelector = (props: Props) => {
 
   const [options, setOptions] = useState<optionTypes[]>([])
   useEffect(() => {
-    const sortedTags = allTags?.sort((a, b) => (a.id > b.id ? 1 : -1)) || []
+    const sortedTags =
+      allTags?.sort((a, b) => (Number(a.id) > Number(b.id) ? 1 : -1)) || []
     const options: optionTypes[] = ["All", ...sortedTags, "Untagged"]
 
     setOptions(options)
@@ -42,15 +43,6 @@ const SkillbaseTagSelector = (props: Props) => {
     if (typeof option === "string") return option
     if (option === undefined) return ""
     return option.id
-  }
-
-  const getSelectValue = (option: optionTypes) => {
-    if (typeof option === "string") return { value: option, name: option }
-    if (option === undefined) return ""
-    return {
-      value: option.id,
-      name: option.name,
-    }
   }
 
   const getLabel = (option: optionTypes) => {
@@ -72,7 +64,9 @@ const SkillbaseTagSelector = (props: Props) => {
     if (typeof e.target.value === "number") {
       const tagId = e.target.value as number
       const tag = allTags.find((tag) => tag.id === tagId)
-      props.onChange(tag)
+      if (tag) {
+        props.onChange(tag)
+      }
     }
   }
 
@@ -85,12 +79,12 @@ const SkillbaseTagSelector = (props: Props) => {
         <Select
           id="tag-selector"
           labelId="tag-selector-label"
-          value={getOptionValue(props.value)}
+          value={getOptionValue(props.value) || undefined}
           label="Tag"
           onChange={handleChange}
         >
           {options.map((option, index) => (
-            <MenuItem key={index} value={getOptionValue(option)}>
+            <MenuItem key={index} value={getOptionValue(option) || undefined}>
               <FlexVCenter justifyContent="space-between" width="100%">
                 <FlexVCenter>
                   {typeof option !== "string" && (

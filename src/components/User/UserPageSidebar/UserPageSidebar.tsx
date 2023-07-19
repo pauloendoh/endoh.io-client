@@ -9,7 +9,7 @@ import Txt from "components/_UI/Text/Txt"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { Link, useHistory, useParams } from "react-router-dom"
 import useProfileStore from "store/zustand/domain/useProfileStore"
-import { SkillDto, newSkillDto } from "types/domain/skillbase/SkillDto"
+import { SkillDto, buildSkillDto } from "types/domain/skillbase/SkillDto"
 import { urls } from "utils/urls"
 import useElementSize from "../../../hooks/utils/useElementSize"
 import Flex from "../../_UI/Flexboxes/Flex"
@@ -25,7 +25,7 @@ const UserPageSidebar = () => {
   const profileStore = useProfileStore()
 
   const [roadmapsDialog, setRoadmapsDialog] = useState(false)
-  const [selectedSkill, setSelectedSkill] = useState<SkillDto>(newSkillDto())
+  const [selectedSkill, setSelectedSkill] = useState<SkillDto>(buildSkillDto())
 
   const { width } = useElementSize(rootRef)
 
@@ -51,7 +51,7 @@ const UserPageSidebar = () => {
         return
       }
     }
-    setSelectedSkill(newSkillDto())
+    setSelectedSkill(buildSkillDto())
     setRoadmapsDialog(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [skillIdStr, profileStore.publicSkills])
@@ -136,7 +136,7 @@ const UserPageSidebar = () => {
                 key={skill.id}
                 button
                 component={Link}
-                to={urls.pages.user.roadmap(username, skill.id)}
+                to={urls.pages.user.roadmap(username, Number(skill.id))}
                 selected={skill.id === Number(skillIdStr)}
               >
                 <ListItemText title={skill.name}>{skill.name}</ListItemText>

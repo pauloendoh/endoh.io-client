@@ -9,8 +9,8 @@ import { urlIsValid } from "utils/url/isValidUrl"
 import { urls } from "utils/urls"
 
 type HookOptions = {
-  throttle: NodeJS.Timeout
-  setThrottle: React.Dispatch<React.SetStateAction<NodeJS.Timeout>>
+  throttle: NodeJS.Timeout | null
+  setThrottle: React.Dispatch<React.SetStateAction<NodeJS.Timeout | null>>
   setIsFetchingLinkPreview: React.Dispatch<React.SetStateAction<boolean>>
   values: ResourceDto
   tags: TagDto[]
@@ -40,7 +40,9 @@ export const useFetchLinkPreview = ({
       shouldValidate?: boolean
     ) => void
   ) => {
-    clearTimeout(throttle)
+    if (throttle) {
+      clearTimeout(throttle)
+    }
     setThrottle(
       setTimeout(() => {
         if (urlIsValid(url)) {
@@ -62,7 +64,11 @@ export const useFetchLinkPreview = ({
                 setFieldValue("url", preview.url)
               }
 
-              if (preview.viewCount > 0 && values.privateNote.length === 0) {
+              if (
+                preview.viewCount &&
+                preview.viewCount > 0 &&
+                values.privateNote.length === 0
+              ) {
                 setFieldValue(
                   "privateNote",
                   `${shortNumberFormatter(
@@ -78,7 +84,7 @@ export const useFetchLinkPreview = ({
                   onConfirm: () => {
                     if (preview.alreadySavedResource?.tagId) {
                       const tag = tags.find(
-                        (t) => t.id === preview.alreadySavedResource.tagId
+                        (t) => t.id === preview.alreadySavedResource?.tagId
                       )
                       if (tag)
                         return setValues({

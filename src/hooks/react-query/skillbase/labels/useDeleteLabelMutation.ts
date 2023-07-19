@@ -17,9 +17,8 @@ export default function useDeleteLabelMutation() {
         .then((res) => res.data),
     {
       onSuccess: (_, payload) => {
-        const labels = myQueryClient.getQueryData<LabelDto[]>([
-          queryKeys.labels,
-        ])
+        const labels =
+          myQueryClient.getQueryData<LabelDto[]>([queryKeys.labels]) || []
         const newLabels = [...labels].filter(
           (label) => label.id !== payload.labelId
         )

@@ -1,7 +1,7 @@
 import { DocDto } from "./DocDto"
 
 export interface NoteDto {
-  id: number
+  id: number | null
   userId: number
   docId: number
   doc?: DocDto

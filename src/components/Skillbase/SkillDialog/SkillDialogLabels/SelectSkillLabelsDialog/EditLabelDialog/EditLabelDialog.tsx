@@ -65,7 +65,7 @@ const EditLabelDialog = (props: Props) => {
 
   const skills = useSkillbaseStore((s) => s.skills)
   const getLabelSkills = (labelId: number) =>
-    skills.filter((s) => s.labels.some((l) => l.id === labelId))
+    skills.filter((s) => s.labels?.some((l) => l.id === labelId)) || []
 
   return (
     <Dialog
@@ -96,7 +96,6 @@ const EditLabelDialog = (props: Props) => {
               render={({ field }) => (
                 <MyTextField
                   id="name"
-                  name="name"
                   size="small"
                   label="Name"
                   sx={{ mt: 1 }}
@@ -104,6 +103,7 @@ const EditLabelDialog = (props: Props) => {
                   required
                   autoFocus
                   {...field}
+                  name="name"
                 />
               )}
             />
@@ -145,11 +145,11 @@ const EditLabelDialog = (props: Props) => {
                     openConfirmDialog({
                       title: "Delete Label",
                       description: `There are ${
-                        getLabelSkills(watch("id")).length
+                        getLabelSkills(watch("id") || 0).length
                       } skills with this label. They won't be deleted.`,
                       onConfirm: () => {
                         deleteLabel(
-                          { labelId: watch("id"), skillId: props.skillId },
+                          { labelId: watch("id") || 0, skillId: props.skillId },
                           { onSuccess: props.onClose }
                         )
                       },

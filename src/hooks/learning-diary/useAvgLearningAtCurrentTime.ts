@@ -25,8 +25,11 @@ const useAvgLearningAtCurrentTime = () => {
 
   const lastDays = useMemo(
     () =>
-      filteredLearnings.reduce((days: string[], l) => {
+      filteredLearnings.reduce<string[]>((days, l) => {
         const d = DateTime.fromISO(l.datetime).toISODate()
+        if (!d) {
+          return days
+        }
         return days.includes(d) ? days : [...days, d]
       }, []),
     [filteredLearnings]

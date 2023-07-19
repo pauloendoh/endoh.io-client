@@ -14,14 +14,14 @@ import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
 import MyTextField from "../../../_UI/MyInputs/MyTextField"
 
 const SkillDialogTagSelector = (props: Props) => {
-  const [tag, setTag] = useState<TagDto>(null)
+  const [tag, setTag] = useState<TagDto | null>(null)
 
   const { tags: allTags } = useRelearnStore()
 
   useEffect(
     () => {
       if (props.selectedTagId)
-        setTag(allTags.find((tag) => tag.id === props.selectedTagId))
+        setTag(allTags.find((tag) => tag.id === props.selectedTagId) || null)
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.selectedTagId]
@@ -29,7 +29,7 @@ const SkillDialogTagSelector = (props: Props) => {
 
   const sortedTags = useMemo(() => {
     if (allTags?.length === 0) return []
-    return allTags.sort((a, b) => (a.id > b.id ? 1 : -1))
+    return allTags.sort((a, b) => (Number(a.id) > Number(b.id) ? 1 : -1))
   }, [allTags])
 
   return (
@@ -55,17 +55,18 @@ const SkillDialogTagSelector = (props: Props) => {
       }
       renderInput={(params) => (
         <MyTextField
-          InputProps={{ id: "skill-dialog-tag-selector" }}
-          fullWidth
           label="Tag"
           required={props.required}
           {...params}
+          fullWidth
+          InputProps={{ id: "skill-dialog-tag-selector" }}
           size="small"
         />
       )}
       onChange={(e, value) => {
         const tag = value as TagDto
-        if (tag) return props.onChange(e, tag.id, null)
+        if (!props.onChange) return
+        if (tag) return props.onChange(e, Number(tag.id), null)
 
         return props.onChange(e, null, null)
       }}
@@ -74,12 +75,12 @@ const SkillDialogTagSelector = (props: Props) => {
 }
 
 interface Props {
-  selectedTagId: number
+  selectedTagId: number | null
   required?: boolean
   onChange?: (
     event: React.ChangeEvent<{}>,
-    value: number,
-    reason: AutocompleteChangeReason,
+    value: number | null,
+    reason: AutocompleteChangeReason | null,
     details?: AutocompleteChangeDetails<unknown>
   ) => void
 }

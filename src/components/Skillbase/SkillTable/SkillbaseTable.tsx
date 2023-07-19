@@ -13,21 +13,21 @@ import React, { useEffect, useState } from "react"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { urls } from "utils/urls"
+import { IdsDto } from "../../../types/domain/_common/IdsDto"
 import { TagDto } from "../../../types/domain/relearn/TagDto"
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto"
-import { IdsDto } from "../../../types/domain/_common/IdsDto"
 import myAxios from "../../../utils/consts/myAxios"
 import filterAndSortSkills from "../../../utils/domain/skills/filterAndSortSkills"
 import SelectSkillLabelsDialog from "../SkillDialog/SkillDialogLabels/SelectSkillLabelsDialog/SelectSkillLabelsDialog"
 import AddSkillButton from "./AddSkillButton/AddSkillButton"
+import SkillTableToolbar from "./SkillTableToolbar/SkillTableToolbar"
 import SkillbaseProgressDialog from "./SkillbaseProgressDialog/SkillbaseProgressDialog"
 import SkillbaseTableHead from "./SkillbaseTableHead/SkillbaseTableHead"
 import SkillbaseTableRow from "./SkillbaseTableRow/SkillbaseTableRow"
-import SkillTableToolbar from "./SkillTableToolbar/SkillTableToolbar"
 
 interface Props {
   tag: TagDto | "Untagged"
-  fixedTag: TagDto
+  fixedTag: TagDto | null
 }
 
 const SkillbaseTable = (props: Props) => {
@@ -42,7 +42,7 @@ const SkillbaseTable = (props: Props) => {
   } = useSkillbaseStore()
   const { setSuccessMessage } = useSnackbarStore()
 
-  const [labelsDialogSkill, setLabelsDialogSkill] = useState<SkillDto>(null)
+  const [labelsDialogSkill, setLabelsDialogSkill] = useState<SkillDto>()
   const [progressDialog, setProgressDialog] = useState(false)
   const [selectedIds, setSelectedIds] = useState<number[]>([])
 
@@ -94,7 +94,7 @@ const SkillbaseTable = (props: Props) => {
 
   const checkSelectAll = (checked: boolean) => {
     if (checked) {
-      const skillIds = visibleSkills.map((skill) => skill.id)
+      const skillIds = visibleSkills.map((skill) => Number(skill.id))
       setSelectedIds(skillIds)
       return
     }
@@ -159,11 +159,15 @@ const SkillbaseTable = (props: Props) => {
                   key={JSON.stringify(skill)}
                   skill={skill}
                   index={index}
-                  isSelected={isSelected(skill.id)}
+                  isSelected={isSelected(Number(skill.id))}
                   onCheck={changeSkillCheck}
                   openLabelsDialog={() => {
                     const s = allSkills.find((s) => s.id === skill.id)
-                    setLabelsDialogSkill({ ...s })
+                    if (s) {
+                      setLabelsDialogSkill({ ...s })
+                      return
+                    }
+                    setLabelsDialogSkill(undefined)
                   }}
                 />
               )
@@ -171,23 +175,30 @@ const SkillbaseTable = (props: Props) => {
 
             <SelectSkillLabelsDialog
               open={!!labelsDialogSkill}
-              skillId={labelsDialogSkill?.id}
-              selectedLabels={labelsDialogSkill?.labels}
-              onChange={(labels) =>
-                setLabelsDialogSkill((prev) => ({ ...prev, labels }))
-              }
+              skillId={Number(labelsDialogSkill?.id)}
+              selectedLabels={labelsDialogSkill?.labels || []}
+              onChange={(labels) => {
+                if (labelsDialogSkill) {
+                  setLabelsDialogSkill({
+                    ...labelsDialogSkill,
+                    labels,
+                  })
+                }
+              }}
               onClose={() => {
                 const prevSkill = allSkills.find(
                   (s) => s.id === labelsDialogSkill?.id
                 )
-                const prevLabelIds = new Set(prevSkill.labels.map((l) => l.id))
+                const prevLabelIds = new Set(
+                  prevSkill?.labels?.map((l) => Number(l.id))
+                )
                 const newLabelIds = new Set(
-                  labelsDialogSkill?.labels.map((l) => l.id)
+                  labelsDialogSkill?.labels?.map((l) => l.id)
                 )
 
-                if (!isEqual(prevLabelIds, newLabelIds))
+                if (!isEqual(prevLabelIds, newLabelIds) && labelsDialogSkill)
                   saveSkill(labelsDialogSkill)
-                setLabelsDialogSkill(null)
+                setLabelsDialogSkill(undefined)
               }}
             />
           </TableBody>

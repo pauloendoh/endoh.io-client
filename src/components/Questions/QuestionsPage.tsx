@@ -22,7 +22,7 @@ const QuestionsPage = () => {
   const history = useHistory()
   const docsStore = useDocsStore()
   const { docId: paramDocId } = useParams<{ docId: string }>()
-  const [selectedDocId, setSelectedDocId] = useState<number>(null)
+  const [selectedDocId, setSelectedDocId] = useState<number | null>(null)
 
   const myAxios = useAxios()
 
@@ -102,7 +102,7 @@ const QuestionsPage = () => {
         <Box
           className={classNames(classes.content)}
           flexGrow={1}
-          sx={sidebarIsOpen && sx}
+          sx={sidebarIsOpen ? sx : undefined}
         >
           {docsStore.hasFirstLoaded ? (
             <React.Fragment>

@@ -44,7 +44,7 @@ function ProfileResourceItem(props: Props) {
 
   const { setSuccessMessage } = useSnackbarStore()
 
-  const handleSaveRating = (rating: number) => {
+  const handleSaveRating = (rating: number | null) => {
     const resource = { ...props.resource, rating } as ResourceDto
     myAxios
       .post<ResourceDto[]>(urls.api.relearn.resource, resource)
@@ -60,7 +60,7 @@ function ProfileResourceItem(props: Props) {
   }
 
   const isOwner = useMemo(() => {
-    return authUser.id === props.resource.userId
+    return authUser?.id === props.resource.userId
   }, [authUser, props.resource])
 
   return (
@@ -70,7 +70,7 @@ function ProfileResourceItem(props: Props) {
       py={2}
       pr={2}
       borderBottom="1px solid rgb(255 255 255 / 0.1)" // Could be a const?
-      style={props.style ? props.style : null}
+      style={props.style ? props.style : undefined}
     >
       <ResourceThumbnail
         resourceUrl={props.resource.url}
@@ -109,11 +109,13 @@ function ProfileResourceItem(props: Props) {
 
           {isOwner ? (
             <RatingButton
-              rating={props.resource.rating}
-              onChange={handleSaveRating}
+              rating={Number(props.resource.rating)}
+              onChange={(val) => {
+                handleSaveRating(val)
+              }}
             />
           ) : (
-            <RatingButtonLabel rating={props.resource.rating} />
+            <RatingButtonLabel rating={Number(props.resource.rating)} />
           )}
         </Flex>
 

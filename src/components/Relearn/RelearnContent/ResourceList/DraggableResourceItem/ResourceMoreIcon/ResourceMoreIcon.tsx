@@ -87,7 +87,7 @@ function ResourceMoreIcon(props: Props) {
 
     axios
       .post<ResourceDto[]>(
-        urls.api.relearn.moveResourceToFirst(props.resource.id)
+        urls.api.relearn.moveResourceToFirst(props.resource.id || 0)
       )
       .then((res) => {
         setSuccessMessage("Resource moved to first!")
@@ -105,7 +105,7 @@ function ResourceMoreIcon(props: Props) {
 
     axios
       .post<ResourceDto[]>(
-        urls.api.relearn.moveResourceToLast(props.resource.id)
+        urls.api.relearn.moveResourceToLast(props.resource.id || 0)
       )
       .then((res) => {
         setSuccessMessage("Resource moved to last!")
@@ -201,7 +201,7 @@ function ResourceMoreIcon(props: Props) {
           <MenuItem
             onClick={() => {
               handleCloseMore()
-              handleDeleteResource(props.resource.id)
+              handleDeleteResource(props.resource.id || 0)
             }}
             id="delete-resource-button"
           >

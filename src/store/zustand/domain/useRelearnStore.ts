@@ -9,16 +9,16 @@ interface IStore {
   resources: ResourceDto[]
   hasFirstLoaded: boolean
   tags: TagDto[]
-  editingResource: ResourceDto
-  editingTag: TagDto
+  editingResource: ResourceDto | null
+  editingTag: TagDto | null
 
   setResources: (resources: ResourceDto[]) => void
   setTags: (tags: TagDto[]) => void
   removeResource: (id: number) => void
   removeTag: (id: number) => void
 
-  setEditingResource: (resource: ResourceDto) => void
-  setEditingTag: (tag: TagDto) => void
+  setEditingResource: (resource: ResourceDto | null) => void
+  setEditingTag: (tag: TagDto | null) => void
   moveResource: (data: IMoveResource) => void
 
   selectedResourceIds: number[]
@@ -68,7 +68,7 @@ export const resetRelearnStore = () => {
 
 export default useRelearnStore
 
-let throttle: NodeJS.Timeout = null
+let throttle: NodeJS.Timeout | null = null
 
 const _moveResource = (
   initialResources: ResourceDto[],
@@ -84,7 +84,8 @@ const _moveResource = (
 
   // sort them by position
   resources = resources.sort(
-    (resourceA, resourceB) => resourceA.position - resourceB.position
+    (resourceA, resourceB) =>
+      Number(resourceA.position) - Number(resourceB.position)
   )
 
   // give each position its index
@@ -105,7 +106,7 @@ const _moveResource = (
   })
 
   // Saving changes at database (1s throttle)
-  clearTimeout(throttle)
+  if (throttle !== null) clearTimeout(throttle)
   throttle = setTimeout(() => {
     myAxios
       .post(urls.api.relearn.resource + "/resources", resources)

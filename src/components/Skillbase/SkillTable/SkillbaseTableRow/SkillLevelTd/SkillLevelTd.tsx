@@ -15,7 +15,7 @@ interface Props {
 const SkillLevelTd = (props: Props) => {
   const classes = useStyles()
 
-  const nullButHasRightValue = !props.value && props.rightValue > 0
+  const nullButHasRightValue = !props.value && Number(props.rightValue) > 0
 
   return (
     <TableCell

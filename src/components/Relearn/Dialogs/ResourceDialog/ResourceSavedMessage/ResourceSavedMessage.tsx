@@ -21,7 +21,7 @@ const ResourceSavedMessage = (props: Props) => {
             b.updatedAt.localeCompare(a.updatedAt)
           )[0]
           setEditingResource(
-            props.allResources.find((r) => r.id === newestResource.id)
+            props.allResources.find((r) => r.id === newestResource.id) || null
           )
         }}
       >

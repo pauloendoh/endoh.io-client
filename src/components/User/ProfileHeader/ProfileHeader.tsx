@@ -14,14 +14,14 @@ import FollowersFollowingButtons from "./FollowersFollowingButtons/FollowersFoll
 // PE 2/3
 const ProfileHeader = () => {
   const { username } = useParams<{ username: string }>()
-  const { authUser, followingTags: authFollowingTags } = useAuthStore()
+  const { authUser } = useAuthStore()
 
   const [openProfileDialog, setOpenProfileDialog] = useState(false)
   const [openFollowDialog, setOpenFollowDialog] = useState(false)
 
   const { profile } = useProfileStore()
 
-  const profileStore = useProfileStore()
+  if (!profile) return null
 
   return (
     <Flex>
@@ -36,7 +36,7 @@ const ProfileHeader = () => {
       <Box ml={2}>
         <FlexVCenter>
           <div style={{ marginRight: 16 }}>
-            {profile?.fullName.length > 0 && (
+            {profile.fullName.length > 0 && (
               <Box mr={3}>
                 <Typography variant="h5">{profile.fullName}</Typography>
               </Box>
@@ -46,7 +46,7 @@ const ProfileHeader = () => {
             </Box>
           </div>
 
-          {profile?.userId === authUser.id ? (
+          {profile?.userId === authUser?.id ? (
             <Box>
               <Button
                 size="small"

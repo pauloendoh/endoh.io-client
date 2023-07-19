@@ -1,7 +1,7 @@
-import { IExpenseFilter } from "components/Monerate/ExpenseFilter/IExpenseFilter";
-import CategoryGetDto from "../../types/domain/monerate/CategoryGetDto";
-import ExpenseGetDto from "../../types/domain/monerate/ExpenseGetDto";
-import PlaceGetDto from "../../types/domain/monerate/PlaceGetDto";
+import { IExpenseFilter } from "components/Monerate/ExpenseFilter/IExpenseFilter"
+import CategoryGetDto from "../../types/domain/monerate/CategoryGetDto"
+import ExpenseGetDto from "../../types/domain/monerate/ExpenseGetDto"
+import PlaceGetDto from "../../types/domain/monerate/PlaceGetDto"
 
 export enum monerateActionTypes {
   SET_EXPENSES = "@monerate/SET_EXPENSES",
@@ -21,13 +21,13 @@ export enum monerateActionTypes {
 }
 
 export interface MonerateState {
-  expenses: ExpenseGetDto[];
-  filter: IExpenseFilter;
+  expenses: ExpenseGetDto[]
+  filter: IExpenseFilter
 
-  places: PlaceGetDto[];
-  categories: CategoryGetDto[];
+  places: PlaceGetDto[]
+  categories: CategoryGetDto[]
 
-  editingExpense: ExpenseGetDto;
-  editingPlace: PlaceGetDto;
-  editingCategory: CategoryGetDto;
+  editingExpense: ExpenseGetDto | null
+  editingPlace: PlaceGetDto | null
+  editingCategory: CategoryGetDto | null
 }

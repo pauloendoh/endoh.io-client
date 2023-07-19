@@ -20,7 +20,10 @@ import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import { newLabelDto } from "types/domain/skillbase/LabelDto"
 import Icons from "utils/styles/Icons"
-import { SkillDto } from "../../../types/domain/skillbase/SkillDto"
+import {
+  SkillDto,
+  buildSkillDto,
+} from "../../../types/domain/skillbase/SkillDto"
 import { getCurrentTagId } from "../../../utils/skillbase/getCurrentTagId"
 import SaveCancelButtons from "../../_UI/Buttons/SaveCancelButtons"
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
@@ -50,12 +53,14 @@ const SkillDialog = () => {
   )
 
   useEffect(() => {
-    if (initialValue?.currentLevel > 0) scrollToNextLevel()
+    if (initialValue?.currentLevel && initialValue?.currentLevel > 0)
+      scrollToNextLevel()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialValue])
 
   const getInitialValues = (): SkillDto => {
+    if (!initialValue) return buildSkillDto()
     return {
       ...initialValue,
       tagId: initialValue?.tagId // why not use simply props.skill.tagId ?
@@ -118,7 +123,7 @@ const SkillDialog = () => {
                 />
               </FlexVCenter>
 
-              {formik.values.id > 0 && (
+              {!!formik.values.id && (
                 <SkillMoreIcon
                   skillId={formik.values.id}
                   afterDelete={() => setEditingSkill(null)}
@@ -130,8 +135,8 @@ const SkillDialog = () => {
             <FlexVCenter mt={3} style={{ fontSize: 14, fontWeight: "normal" }}>
               <SelectSkillLevel
                 type="currentLevel"
-                value={formik.values.currentLevel}
-                onChange={(newValue: number) => {
+                value={formik.values.currentLevel || 0}
+                onChange={(newValue: number | null) => {
                   formik.setFieldValue("currentLevel", newValue)
                 }}
               />
@@ -142,8 +147,8 @@ const SkillDialog = () => {
 
               <SelectSkillLevel
                 type="goalLevel"
-                value={formik.values.goalLevel}
-                onChange={(newValue: number) => {
+                value={formik.values.goalLevel || 0}
+                onChange={(newValue: number | null) => {
                   formik.setFieldValue("goalLevel", newValue)
                 }}
               />
@@ -154,7 +159,7 @@ const SkillDialog = () => {
                 <LabelsSelector
                   selectedLabels={formik.values.labels || []}
                   onChange={(labels) => formik.setFieldValue("labels", labels)}
-                  skillId={getInitialValues().id}
+                  skillId={getInitialValues().id || 0}
                   setLabelDialogOpen={setLabelDialogOpen}
                   setLabelDialogInitialValue={setLabelDialogInitialValue}
                 />
@@ -169,7 +174,7 @@ const SkillDialog = () => {
             }}
           >
             <SkillExpectations
-              currentLevel={formik.values.currentLevel}
+              currentLevel={formik.values.currentLevel || 0}
               expectations={formik.values.expectations}
               onChangeExpectations={(expectations) =>
                 formik.setFieldValue("expectations", expectations)
@@ -224,7 +229,7 @@ const SkillDialog = () => {
 
       <EditLabelDialog
         open={labelDialogOpen}
-        skillId={getInitialValues().id}
+        skillId={getInitialValues().id || 0}
         initialValue={labelDialogInitialValue}
         onClose={() => setLabelDialogOpen(false)}
       />

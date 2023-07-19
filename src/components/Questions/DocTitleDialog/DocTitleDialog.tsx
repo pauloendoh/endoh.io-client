@@ -92,7 +92,6 @@ const DocTitleDialog = (props: Props) => {
                 render={({ field }) => (
                   <MyTextField
                     id="title"
-                    name="title"
                     size="small"
                     label="Title"
                     className="mt-3"

@@ -60,7 +60,7 @@ const DeleteAccountDialog = (props: Props) => {
             // handleClose()
           })
           .catch((err: MyAxiosError) => {
-            setResponseErrors(err.response.data.errors)
+            setResponseErrors(err.response?.data.errors || [])
           })
           .finally(() => {
             setSubmitting(false)

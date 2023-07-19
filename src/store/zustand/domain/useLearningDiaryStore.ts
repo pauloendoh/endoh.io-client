@@ -2,7 +2,7 @@ import { DateTime } from "luxon"
 import { create } from "zustand"
 
 interface IStore {
-  selectedDate: string
+  selectedDate: string | null
   setSelectedDate: (newValue: string) => void
 
   topPercentage: number

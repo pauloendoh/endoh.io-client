@@ -14,8 +14,8 @@ import { urls } from "utils/urls"
 import useSidebarStore from "../../store/zustand/useSidebarStore"
 import { TagDto } from "../../types/domain/relearn/TagDto"
 import { SkillDto } from "../../types/domain/skillbase/SkillDto"
-import LoadingPage from "../_common/LoadingPage/LoadingPage"
 import Flex from "../_UI/Flexboxes/Flex"
+import LoadingPage from "../_common/LoadingPage/LoadingPage"
 import ProgressSidebar from "./ProgressSidebar/ProgressSidebar"
 import SkillbaseTable from "./SkillTable/SkillbaseTable"
 
@@ -66,7 +66,7 @@ const SkillbasePage = () => {
         }
       }
     } else {
-      setSelectedTag(null)
+      setSelectedTag(undefined)
       document.title = titles.skillPage()
     }
   }, [pathname, allTags])
@@ -83,7 +83,7 @@ const SkillbasePage = () => {
         <Box width="100%">
           {hasFirstLoaded ? (
             <Paper className={classes.paper}>
-              <SkillbaseTable tag={selectedTag} fixedTag={null} />
+              <SkillbaseTable tag={selectedTag || "Untagged"} fixedTag={null} />
             </Paper>
           ) : (
             <LoadingPage />

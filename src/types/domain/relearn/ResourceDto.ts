@@ -1,24 +1,24 @@
-import { TagDto } from "./TagDto";
+import { TagDto } from "./TagDto"
 
 export interface ResourceDto {
-  id: number;
-  userId: number;
-  title: string;
-  url: string;
-  thumbnail: string;
-  estimatedTime: string;
-  dueDate: string;
-  rating: number;
-  completedAt: string;
-  position: number;
-  publicReview: string;
-  privateNote: string;
+  id: number | null
+  userId: number | null
+  title: string
+  url: string
+  thumbnail: string
+  estimatedTime: string
+  dueDate: string
+  rating: number | null
+  completedAt: string
+  position: number | null
+  publicReview: string
+  privateNote: string
 
-  fromResourceId: number;
+  fromResourceId: number | null
 
-  createdAt: string;
-  updatedAt: string;
-  tag: TagDto;
+  createdAt: string
+  updatedAt: string
+  tag: TagDto | null
 }
 
 export const newResourceDto = (
@@ -44,4 +44,4 @@ export const newResourceDto = (
   tag: null,
 
   ...partial,
-});
+})

@@ -60,7 +60,7 @@ const FollowDialog = (props: Props) => {
   const handleSubmit = () => {
     const data = profileStore.publicTags.map((publicTag) => ({
       tagId: publicTag.id,
-      isFollowing: selectedTagIds.includes(publicTag.id),
+      isFollowing: selectedTagIds.includes(Number(publicTag.id)),
     }))
 
     axios
@@ -83,70 +83,78 @@ const FollowDialog = (props: Props) => {
       aria-labelledby="follow-dialog"
     >
       <Box pb={1} px={1}>
-        <Formik
-          initialValues={profileStore.profile}
-          onSubmit={(formikValues, { setSubmitting }) => {
-            handleSubmit()
-          }}
-        >
-          {({ errors, values, isSubmitting, setFieldValue, handleChange }) => (
-            <Form>
-              <DialogTitle id="follow-dialog-title">
-                Select tags to follow
-              </DialogTitle>
-              <DialogContent>
-                <Box>
-                  <List component="nav" aria-label="User resource lists">
-                    {profileStore.publicTags.map((tag) => (
-                      <ListItem
-                        button
-                        key={tag.id}
-                        onClick={() => toggleTagId(tag.id)}
-                        selected={selectedTagIds.includes(tag.id)}
-                        // selected={Number(tagId) === tag.id}
-                      >
-                        <ListItemText>
-                          <Flex>
-                            <LabelIcon style={{ color: tag.color }} />
-                            <Box ml={1}>
-                              {tag.name}
-                              {/* <Typography
+        {profileStore.profile && (
+          <Formik
+            initialValues={profileStore.profile}
+            onSubmit={(formikValues, { setSubmitting }) => {
+              handleSubmit()
+            }}
+          >
+            {({
+              errors,
+              values,
+              isSubmitting,
+              setFieldValue,
+              handleChange,
+            }) => (
+              <Form>
+                <DialogTitle id="follow-dialog-title">
+                  Select tags to follow
+                </DialogTitle>
+                <DialogContent>
+                  <Box>
+                    <List component="nav" aria-label="User resource lists">
+                      {profileStore.publicTags.map((tag) => (
+                        <ListItem
+                          button
+                          key={tag.id}
+                          onClick={() => toggleTagId(Number(tag.id))}
+                          selected={selectedTagIds.includes(Number(tag.id))}
+                          // selected={Number(tagId) === tag.id}
+                        >
+                          <ListItemText>
+                            <Flex>
+                              <LabelIcon style={{ color: tag.color }} />
+                              <Box ml={1}>
+                                {tag.name}
+                                {/* <Typography
                                 variant="inherit"
                                 className={classes.resourcesCount}
                               >
                                 {getResourcesFromListId(tag.id).length}
                               </Typography> */}
-                            </Box>
-                          </Flex>
-                        </ListItemText>
-                      </ListItem>
-                    ))}
-                  </List>
-                </Box>
-
-                <Box mt={2}></Box>
-
-                <Flex mt={4}>
-                  <Button
-                    disabled={isSubmitting}
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    id="save-follow-button"
-                  >
-                    Save
-                  </Button>
-
-                  <Box ml={1}>
-                    <Button onClick={() => onClose()} variant="text">
-                      Cancel
-                    </Button>
+                              </Box>
+                            </Flex>
+                          </ListItemText>
+                        </ListItem>
+                      ))}
+                    </List>
                   </Box>
-                </Flex>
-              </DialogContent>
-            </Form>
-          )}
-        </Formik>
+
+                  <Box mt={2}></Box>
+
+                  <Flex mt={4}>
+                    <Button
+                      disabled={isSubmitting}
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      id="save-follow-button"
+                    >
+                      Save
+                    </Button>
+
+                    <Box ml={1}>
+                      <Button onClick={() => onClose()} variant="text">
+                        Cancel
+                      </Button>
+                    </Box>
+                  </Flex>
+                </DialogContent>
+              </Form>
+            )}
+          </Formik>
+        )}
       </Box>
     </Dialog>
   )

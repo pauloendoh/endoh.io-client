@@ -1,28 +1,28 @@
-import { LabelDto } from "./LabelDto";
-import { SkillExpectationDto } from "./SkillExpectationDto";
+import { LabelDto } from "./LabelDto"
+import { SkillExpectationDto } from "./SkillExpectationDto"
 
 export interface SkillDto {
-  id: number;
-  userId: number;
-  tagId: number;
+  id: number | null
+  userId: number | null
+  tagId: number | null
 
-  dependencies: SkillDto[];
-  expectations: SkillExpectationDto[];
+  dependencies: SkillDto[]
+  expectations: SkillExpectationDto[]
 
-  labels?: LabelDto[];
+  labels?: LabelDto[]
 
-  isPriority: boolean;
-  name: string;
-  currentLevel: number;
-  goalLevel: number;
+  isPriority: boolean
+  name: string
+  currentLevel: number | null
+  goalLevel: number | null
 
-  isPublic: boolean;
+  isPublic: boolean
 
-  createdAt: string;
-  updatedAt: string;
+  createdAt: string
+  updatedAt: string
 }
 
-export const newSkillDto = (tagId: number = null): SkillDto => ({
+export const buildSkillDto = (tagId: number | null = null): SkillDto => ({
   id: null,
   userId: null,
   tagId,
@@ -41,4 +41,4 @@ export const newSkillDto = (tagId: number = null): SkillDto => ({
 
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
-});
+})

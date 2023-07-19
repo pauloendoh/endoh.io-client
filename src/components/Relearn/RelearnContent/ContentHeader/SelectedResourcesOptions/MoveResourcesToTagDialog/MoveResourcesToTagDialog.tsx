@@ -17,7 +17,7 @@ type Props = {
 
 // PE 2/3
 const MoveResourcesToTagDialog = (props: Props) => {
-  const [selectedTagId, setSelectedTagId] = useState<number>(null)
+  const [selectedTagId, setSelectedTagId] = useState<number | null>(null)
   const { clearSelectedIds } = useMultiSelectResource()
   const [submitting, setSubmitting] = useState(false)
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore()

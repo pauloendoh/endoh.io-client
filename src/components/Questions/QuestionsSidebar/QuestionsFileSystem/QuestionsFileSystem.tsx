@@ -26,10 +26,8 @@ import { spreadFolders } from "./spreadFolders/spreadFolders"
 export default function QuestionsFileSystem() {
   const history = useHistory()
 
-  const {
-    fileDialogParentFolderId,
-    setFileDialogParentFolderId,
-  } = useFlashnotesStore()
+  const { fileDialogParentFolderId, setFileDialogParentFolderId } =
+    useFlashnotesStore()
 
   const { openDialog: openFolderDialogStore } = useFolderDialogStore()
 
@@ -38,7 +36,7 @@ export default function QuestionsFileSystem() {
   const { data: userFolders } = useFoldersQuery()
 
   const sortedFolders = useMemo(() => {
-    if (userFolders?.length > 0) {
+    if (!!userFolders?.length) {
       return userFolders.sort((a, b) => a.name.localeCompare(b.name))
     }
     return []
@@ -62,7 +60,7 @@ export default function QuestionsFileSystem() {
     }),
   })
 
-  const htmlDropRef = useRef<HTMLDivElement>()
+  const htmlDropRef = useRef<HTMLDivElement>(null)
   dropFolderRef(htmlDropRef)
 
   const { expandedNodes, toggleNode, setExpandedNodes } = useFlashnotesStore()
@@ -92,8 +90,8 @@ export default function QuestionsFileSystem() {
       while (folderId) {
         expandNodeIds.push(`folder-${folderId}`)
 
-        let folder = allFolders.find((f) => f.id === folderId)
-        folderId = folder?.parentFolderId
+        const folder = allFolders.find((f) => f.id === folderId)
+        folderId = folder?.parentFolderId || null
       }
 
       setExpandedNodes(expandNodeIds)
@@ -174,7 +172,10 @@ export default function QuestionsFileSystem() {
 
       <DocTitleDialog
         open={!!fileDialogParentFolderId}
-        initialValue={{ title: "", folderId: fileDialogParentFolderId }}
+        initialValue={{
+          title: "",
+          folderId: fileDialogParentFolderId || undefined,
+        }}
         onClose={() => setFileDialogParentFolderId(null)}
         afterSave={(doc) => {
           history.push(urls.pages.questionsDoc(doc.id))

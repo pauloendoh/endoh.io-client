@@ -4,10 +4,10 @@ import { makeStyles } from "@mui/styles"
 import DeleteIcon from "@mui/icons-material/Delete"
 import { Box } from "@mui/material"
 import IconButton from "@mui/material/IconButton"
-import { lighten } from "@mui/material/styles"
 import Toolbar from "@mui/material/Toolbar"
 import Tooltip from "@mui/material/Tooltip"
 import Typography from "@mui/material/Typography"
+import { lighten } from "@mui/material/styles"
 import clsx from "clsx"
 import MyTextField from "components/_UI/MyInputs/MyTextField"
 import Txt from "components/_UI/Text/Txt"
@@ -27,7 +27,7 @@ import SkillbaseFilterButton from "./SkillbaseFilterButton/SkillbaseFilterButton
 import { optionTypes } from "./SkillbaseTagSelector/SkillbaseTagSelector"
 
 type Props = {
-  fixedTag: TagDto
+  fixedTag: TagDto | null
   numSelected: number
   onClickDelete: () => void
 }

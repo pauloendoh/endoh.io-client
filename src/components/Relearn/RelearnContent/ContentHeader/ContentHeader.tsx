@@ -30,14 +30,14 @@ function ContentHeader(props: Props) {
   const location = useLocation()
   const { selectedResourceIds } = useRelearnStore()
 
-  const [tag, setTag] = useState<TagDto>(null)
+  const [tag, setTag] = useState<TagDto | null>(null)
   const [height, setHeight] = useState(0)
 
-  const rootRef = useRef<HTMLDivElement>()
+  const rootRef = useRef<HTMLDivElement>(null)
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    const newHeight = rootRef.current.clientHeight
+    const newHeight = rootRef.current?.clientHeight || 0
     if (height !== newHeight) {
       setHeight(newHeight)
     }
@@ -81,7 +81,9 @@ function ContentHeader(props: Props) {
   }))
   dropRef(rootRef)
 
-  const [scrollInterval, setScrollInterval] = useState<NodeJS.Timer>(null)
+  const [scrollInterval, setScrollInterval] = useState<NodeJS.Timer | null>(
+    null
+  )
 
   useEffect(() => {
     if (isOver) {
@@ -91,8 +93,10 @@ function ContentHeader(props: Props) {
         }, 10)
       )
     } else {
-      clearInterval(scrollInterval)
-      setScrollInterval(null)
+      if (scrollInterval) {
+        clearInterval(scrollInterval)
+        setScrollInterval(null)
+      }
     }
   }, [isOver])
 

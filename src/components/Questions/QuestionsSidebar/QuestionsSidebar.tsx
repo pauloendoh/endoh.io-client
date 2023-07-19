@@ -9,7 +9,7 @@ import QuestionsToRefineListItem from "./QuestionsToRefineListItem/QuestionsToRe
 import UnansweredQuestionsListItem from "./UnansweredQuestionsListItem/UnansweredQuestionsListItem"
 
 interface Props {
-  selectedDocId: number
+  selectedDocId: number | null
 }
 
 function QuestionsSidebar(props: Props) {

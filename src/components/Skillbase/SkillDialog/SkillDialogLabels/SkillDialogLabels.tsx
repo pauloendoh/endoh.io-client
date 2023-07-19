@@ -17,7 +17,11 @@ const SkillDialogLabels = (props: Props) => {
 
   const sortedLabels = useMemo(() => {
     if (!props.skill) return []
-    return props.skill.labels.sort((a, b) => (a.id > b.id ? 1 : -1))
+    return (
+      props.skill.labels?.sort((a, b) =>
+        Number(a.id) > Number(b.id) ? 1 : -1
+      ) || []
+    )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(props.skill)])
 

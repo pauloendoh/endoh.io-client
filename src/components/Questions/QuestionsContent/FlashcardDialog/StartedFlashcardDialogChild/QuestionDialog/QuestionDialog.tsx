@@ -94,7 +94,6 @@ const QuestionDialog = () => {
                   <MyTextField
                     sx={{ mt: 1 }}
                     id="question"
-                    name="question"
                     size="small"
                     label="Question"
                     multiline
@@ -114,7 +113,6 @@ const QuestionDialog = () => {
                 render={({ field }) => (
                   <MyTextField
                     id="description"
-                    name="description"
                     size="small"
                     label="Answer"
                     multiline
@@ -229,7 +227,10 @@ const QuestionDialog = () => {
                       return
                     }
 
-                    defaultDeleteQuestion(watch("id"))
+                    const id = watch("id")
+                    if (id) {
+                      defaultDeleteQuestion(id)
+                    }
                   }}
                 >
                   Delete

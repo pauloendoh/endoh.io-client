@@ -63,7 +63,11 @@ function TagListItem(props: Props) {
       button
       component={Link}
       to={urls.pages.resources.tag + "/" + props.tag.id}
-      onClick={() => handleSaveTagLastOpenedAt(props.tag.id)}
+      onClick={() => {
+        if (props.tag.id) {
+          handleSaveTagLastOpenedAt(props.tag.id)
+        }
+      }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       selected={pathName === urls.pages.resources.tag + "/" + props.tag.id}
@@ -80,7 +84,7 @@ function TagListItem(props: Props) {
       {isHovered ? (
         <TagMoreIcon
           afterDelete={() => {
-            if (pathName.endsWith(props.tag.id.toString()))
+            if (props.tag.id && pathName.endsWith(props.tag.id.toString()))
               setRedirectTo(urls.pages.resources.index)
           }}
           tag={props.tag}

@@ -52,7 +52,9 @@ function TagMoreIcon(props: Props) {
         axios.delete(`${urls.api.relearn.tag}/${id}`).then((res) => {
           setSuccessMessage("Tag deleted!")
 
-          props.afterDelete()
+          if (props.afterDelete) {
+            props.afterDelete()
+          }
 
           setEditingTag(null)
           removeTag(id)
@@ -106,7 +108,9 @@ function TagMoreIcon(props: Props) {
         <MenuItem
           onClick={(e) => {
             e.preventDefault()
-            handleDeleteTag(props.tag.id)
+            if (props.tag.id) {
+              handleDeleteTag(props.tag.id)
+            }
           }}
           id="delete-tag-button"
         >

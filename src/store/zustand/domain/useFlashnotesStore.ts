@@ -2,10 +2,10 @@ import { DocDto } from "types/domain/questions/DocDto"
 import { create } from "zustand"
 
 interface IStore {
-  fileDialogParentFolderId: number
-  setFileDialogParentFolderId: (parentFolderId: number) => void
+  fileDialogParentFolderId: number | null
+  setFileDialogParentFolderId: (parentFolderId: number | null) => void
 
-  selectedDoc: DocDto
+  selectedDoc: DocDto | null
   setSelectedDoc: (file: DocDto) => void
 
   expandedNodes: string[]

@@ -15,7 +15,7 @@ interface IStore {
 }
 
 const useConfirmDialogStore = create<IStore>((set, get) => ({
-  confirmDialogValue: { title: "", onConfirm: null },
+  confirmDialogValue: { title: "", onConfirm: () => {} },
   confirmDialogIsOpen: false,
   openConfirmDialog: (val) => {
     set({ confirmDialogValue: val, confirmDialogIsOpen: true })

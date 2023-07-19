@@ -9,7 +9,7 @@ const useResourcesSearchQuery = (query: string, minLength = 1) => {
     [queryKeys.resourceSearchResults],
     async () => {
       if (query.length < minLength) {
-        return new Promise<SearchResultsDto>((resolve) => {
+        return new Promise<SearchResultsDto | null>((resolve) => {
           resolve(null)
         })
       }

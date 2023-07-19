@@ -32,7 +32,7 @@ const TagListItem = (props: Props) => {
   return (
     <ListItemButton
       component={Link}
-      to={urls.pages.user.tag(props.username, props.tag.id)}
+      to={urls.pages.user.tag(props.username, Number(props.tag.id))}
       selected={Number(props.selectedTagId) === props.tag.id}
     >
       <ListItemText>

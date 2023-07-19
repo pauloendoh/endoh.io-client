@@ -1,14 +1,16 @@
 import FileDto from "./FileDto"
 
 export default interface FolderDto {
-  id: number
-  userId: number
+  id: number | null
+  userId: number | null
   name: string
-  parentFolderId: number
+  parentFolderId: number | null
   files?: FileDto[]
 }
 
-export const newFolderDto = (parentFolderId: number = null): FolderDto => ({
+export const newFolderDto = (
+  parentFolderId: number | null = null
+): FolderDto => ({
   id: null,
   userId: null,
   name: "",

@@ -20,7 +20,7 @@ import { useAxios } from "hooks/utils/useAxios"
 import React, { useEffect, useMemo, useState } from "react"
 import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import { urls } from "utils/urls"
-import { newTagDto, TagDto } from "../../../../types/domain/relearn/TagDto"
+import { TagDto, newTagDto } from "../../../../types/domain/relearn/TagDto"
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
 import TagListItem from "../TagListItem/TagListItem"
 
@@ -58,7 +58,8 @@ function RelearnSidebarTagList(props: Props) {
   }
 
   const sortedTags = useMemo(
-    () => props.tags?.sort((a, b) => (a.id > b.id ? 1 : -1)) || [],
+    () =>
+      props.tags?.sort((a, b) => ((a.id || 0) > (b.id || 0) ? 1 : -1)) || [],
     [props.tags]
   )
 

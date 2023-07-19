@@ -19,7 +19,7 @@ interface Props {
   index: number
 
   editingIndex: number
-  setEditingIndex: (index: number) => void
+  setEditingIndex: (index: number | null) => void
 }
 
 const ExpectationItem = ({
@@ -113,7 +113,9 @@ const ExpectationItem = ({
       expectation = expectations.find(
         (e) => e.level === level && e.index === index
       )
-      expectation.isCurrentGoal = true
+      if (expectation) {
+        expectation.isCurrentGoal = true
+      }
     }
 
     props.onChangeExpectations(expectations)
@@ -154,11 +156,12 @@ const ExpectationItem = ({
         )
           return
 
-        const targetSize = htmlDropRef.current.getBoundingClientRect()
-        const targetCenterY = (targetSize.bottom - targetSize.top) / 2
+        const targetSize = htmlDropRef.current?.getBoundingClientRect()
+        const targetCenterY =
+          (Number(targetSize?.bottom) - Number(targetSize?.top)) / 2
 
         const cursorCoord = monitor.getClientOffset()
-        const cursorYInTarget = cursorCoord.y - targetSize.top
+        const cursorYInTarget = Number(cursorCoord?.y) - Number(targetSize?.top)
 
         // some utility booleans
         const areSameLevel = fromExpectation.level === toExpectation.level
@@ -205,17 +208,17 @@ const ExpectationItem = ({
     }
   )
 
-  const htmlDragRef = useRef<HTMLDivElement>()
+  const htmlDragRef = useRef<HTMLDivElement>(null)
   dragExpectationRef(htmlDragRef)
 
-  const htmlDropRef = useRef<HTMLDivElement>()
+  const htmlDropRef = useRef<HTMLDivElement>(null)
   dropExpectationRef(htmlDropRef)
 
   return (
     <div
       style={{
         display: "flex",
-        background: isDragging && "#4d4d4d",
+        background: isDragging ? "#4d4d4d" : undefined,
         borderRadius: 4,
       }}
       key={index}

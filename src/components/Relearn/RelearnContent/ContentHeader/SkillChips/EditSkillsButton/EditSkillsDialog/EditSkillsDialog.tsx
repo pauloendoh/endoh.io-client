@@ -4,7 +4,7 @@ import { TagDto } from "../../../../../../../types/domain/relearn/TagDto"
 import SkillbaseTable from "../../../../../../Skillbase/SkillTable/SkillbaseTable"
 
 interface Props {
-  tag: TagDto
+  tag: TagDto | null
   onClose: () => void
 }
 

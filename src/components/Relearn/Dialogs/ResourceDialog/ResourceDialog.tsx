@@ -71,7 +71,7 @@ const ResourceDialog = () => {
   const sortedTags = useMemo(
     () =>
       tags
-        ?.sort((a, b) => (a.id > b.id ? 1 : -1))
+        ?.sort((a, b) => ((a.id || 0) > (b.id || 0) ? 1 : -1))
         .sort((a, b) => {
           // !isPrivate tags first
           if (a.isPrivate && !b.isPrivate) return 1
@@ -120,13 +120,13 @@ const ResourceDialog = () => {
 
   const [isFetchingLinkPreview, setIsFetchingLinkPreview] = useState(false)
 
-  const getCurrentTag = (): TagDto => {
+  const getCurrentTag = (): TagDto | null => {
     if (location.pathname.startsWith(urls.pages.resources.tag)) {
       const tagId = Number(location.pathname.split("/").pop())
       if (tagId) {
         const currentTag = sortedTags.find((t) => t.id === tagId)
         if (currentTag) {
-          currentTag.resources = undefined
+          currentTag.resources = []
           return currentTag
         }
       }
@@ -135,7 +135,7 @@ const ResourceDialog = () => {
   }
 
   const [initialValues, setInitialValues] = useState<ResourceDto>({
-    ...editingResource,
+    ...editingResource!,
     tag: editingResource?.tag || getCurrentTag(),
   })
 
@@ -195,8 +195,8 @@ const ResourceDialog = () => {
     const payload: ResourceDto = {
       ...resource,
       tag: {
-        ...resource.tag,
-        resources: undefined,
+        ...resource.tag!,
+        resources: [],
       },
     }
     axios
@@ -219,14 +219,21 @@ const ResourceDialog = () => {
 
         let newResource = res.data.find((r) => r.id === resource.id)
         if (!newResource) {
+          // Why should this happen?
+          alert("Resource not found")
           const prevResourcesIds = currentResources.map((r) => r.id)
           newResource = res.data.find((r) => !prevResourcesIds.includes(r.id))
         }
 
-        setInitialValues({
-          ...newResource,
-          tag: editingResource?.tag || getCurrentTag(),
-        })
+        if (newResource) {
+          const tag = editingResource?.tag || getCurrentTag()!
+          setInitialValues({
+            ...newResource,
+            tag: {
+              ...tag,
+            },
+          })
+        }
       })
       .catch((err: AxiosError) => {
         setErrorMessage(err.message || "Error while saving resource.")
@@ -234,7 +241,7 @@ const ResourceDialog = () => {
       .finally(() => setIsLoading(false))
   }
 
-  const [throttle, setThrottle] = useState<NodeJS.Timeout>(null)
+  const [throttle, setThrottle] = useState<NodeJS.Timeout | null>(null)
 
   const fetchLinkPreview = useFetchLinkPreview({
     throttle,
@@ -251,10 +258,11 @@ const ResourceDialog = () => {
         axios
           .delete(`${urls.api.relearn.resource}/${values.id}`)
           .then((res) => {
-            setSuccessMessage("Resource deleted!")
-
-            removeResource(values.id)
-            closeAndClearQueryParam()
+            if (values.id) {
+              setSuccessMessage("Resource deleted!")
+              removeResource(values.id)
+              closeAndClearQueryParam()
+            }
           })
       },
     })
@@ -285,7 +293,7 @@ const ResourceDialog = () => {
         <DialogTitle id="edit-resource-dialog-title">
           <FlexVCenterBetween>
             <Txt variant="h5">
-              {values.id > 0 ? "Edit Resource" : "Add Resource"}
+              {!!values.id ? "Edit Resource" : "Add Resource"}
             </Txt>
 
             <FlexVCenter>
@@ -306,7 +314,7 @@ const ResourceDialog = () => {
                   </FlexVCenter>
                 }
               />
-              {values.id > 0 && (
+              {!!values.id && (
                 <ResourceDialogMoreMenu
                   resource={values}
                   onClickDelete={handleDeleteResource}
@@ -391,7 +399,7 @@ const ResourceDialog = () => {
                   fullWidth
                   label="URL"
                   onClickClearIcon={() => setFieldValue("url", "")}
-                  error={errors?.url?.length > 0}
+                  error={!!errors?.url?.length}
                 />
                 {isFetchingLinkPreview && (
                   <CircularProgress
@@ -467,7 +475,7 @@ const ResourceDialog = () => {
                       required
                       label="Tag"
                       error={!!errors.tag}
-                      helperText={errors?.tag?.id || ""}
+                      helperText={errors?.tag || ""}
                     />
                   )}
                   renderOption={(liProps, option) => (
@@ -500,7 +508,7 @@ const ResourceDialog = () => {
                 // If you're adding a rating, set "completedAt"
                 setFieldValue(
                   "completedAt",
-                  newRating > 0 ? new Date().toISOString() : ""
+                  !!newRating ? new Date().toISOString() : ""
                 )
               }}
             />

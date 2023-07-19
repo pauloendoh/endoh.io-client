@@ -23,7 +23,7 @@ interface Props {
 // PE 3/3
 const ResourcesChart = (props: Props) => {
   const [tags, setTags] = useState<TagDto[]>([])
-  const [data, setData] = useState([])
+  const [data, setData] = useState<any[]>([])
 
   const [chartRange, setChartRange] = useState<ChartRange>("Last year")
 

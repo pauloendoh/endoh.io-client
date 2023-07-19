@@ -31,7 +31,7 @@ const PersonalInformationPaper = () => {
           </Grid>
           <Grid item>
             <FlexVCenter>
-              <Box mr={2}>{authUser.username}</Box>
+              <Box mr={2}>{authUser?.username}</Box>
               <Button
                 id="edit-username-btn"
                 color="primary"
@@ -54,7 +54,7 @@ const PersonalInformationPaper = () => {
           <Grid item className={classes.leftGrid}>
             Email
           </Grid>
-          <Grid item>{authUser.email}</Grid>
+          <Grid item>{authUser?.email}</Grid>
         </Grid>
 
         <Box pt={1} />

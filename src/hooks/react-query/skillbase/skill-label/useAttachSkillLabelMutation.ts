@@ -18,7 +18,7 @@ export default function useAttachSkillLabelMutation() {
     {
       onSuccess: (returnedSkill, payload) => {
         myQueryClient.setQueryData(
-          [queryKeys.skillId(returnedSkill.id)],
+          [queryKeys.skillId(Number(returnedSkill.id))],
           returnedSkill
         )
       },

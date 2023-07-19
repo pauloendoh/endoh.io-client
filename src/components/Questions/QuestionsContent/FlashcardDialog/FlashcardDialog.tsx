@@ -34,16 +34,14 @@ interface Props {
 }
 
 const FlashcardDialog = (props: Props) => {
-  const [minWeight, setMinWeight] = useState(1)
+  const [minWeight, setMinWeight] = useState<number | null>(1)
   const [maxTestedTimes, setMaxTestedTimes] = useState<number | null>(null)
   const [allQuestions, setAllQuestions] = useState<NoteDto[]>([])
   const [questionsQty, setQuestionsQty] = useState(0)
   const [testQuestions, setTestQuestions] = useState<NoteDto[]>([])
 
-  const [
-    isIncludingQuestionsToRefine,
-    setIsIncludingQuestionsToRefine,
-  ] = useState(false)
+  const [isIncludingQuestionsToRefine, setIsIncludingQuestionsToRefine] =
+    useState(false)
 
   const [closeSidebar, openSidebar] = useSidebarStore((s) => [
     s.closeSidebar,
@@ -68,7 +66,7 @@ const FlashcardDialog = (props: Props) => {
     () => {
       let filteredQuestions = props.availableNotes.filter((note) => {
         return (
-          note.weight >= minWeight &&
+          note.weight >= (minWeight || 0) &&
           (maxTestedTimes === null || note.testedTimes <= maxTestedTimes) &&
           note.question.trim().length > 0 &&
           note.description.trim().length > 0
@@ -97,8 +95,8 @@ const FlashcardDialog = (props: Props) => {
   )
 
   const openConfirmDialog = useConfirmDialogStore((s) => s.openConfirmDialog)
-  const handleClose = (askForConfirmation = true) => {
-    if (!askForConfirmation || testQuestions.length === 0) {
+  const handleClose = (options?: { askForConfirmation?: boolean }) => {
+    if (!options?.askForConfirmation || testQuestions.length === 0) {
       props.onClose()
       return
     }
@@ -134,7 +132,12 @@ const FlashcardDialog = (props: Props) => {
       const randomId = sample(ids) as number
       ids = ids.filter((id) => id !== randomId)
 
-      playNotes.push(props.availableNotes.find((note) => note.id === randomId))
+      const foundNote = props.availableNotes.find(
+        (note) => note.id === randomId
+      )
+      if (foundNote) {
+        playNotes.push(foundNote)
+      }
     }
 
     setTestQuestions(playNotes)
@@ -146,7 +149,7 @@ const FlashcardDialog = (props: Props) => {
 
   return (
     <Dialog
-      onClose={handleClose}
+      onClose={() => handleClose()}
       open={props.open}
       fullWidth
       maxWidth="xs"
@@ -155,7 +158,7 @@ const FlashcardDialog = (props: Props) => {
       {testQuestions.length > 0 ? (
         <StartedFlashcardDialogChild
           questions={testQuestions}
-          onFinish={() => handleClose(false)}
+          onFinish={() => handleClose({ askForConfirmation: false })}
         />
       ) : (
         <GlobalHotKeys

@@ -16,7 +16,7 @@ const SelectSkillLevel = (props: Props) => {
 
   const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-  const [hoverValue, setHoverValue] = useState<number>(null)
+  const [hoverValue, setHoverValue] = useState<number | null>(null)
 
   const labels: { [index: string]: string } = {
     1: "1 - Basic I",
@@ -151,7 +151,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({})
 interface OwnProps {
   type: "currentLevel" | "goalLevel"
   value: number
-  onChange: (newValue: number) => void
+  onChange: (newValue: number | null) => void
 }
 
 type Props = OwnProps &

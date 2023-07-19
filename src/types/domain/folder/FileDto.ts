@@ -1,9 +1,9 @@
 export default interface FileDto {
-  id: number;
-  userId: number;
-  parentFolderId: number;
+  id: number | null
+  userId: number | null
+  parentFolderId: number
 
-  name: string;
+  name: string
 }
 
 export const newFileDto = (parentFolderId: number): FileDto => ({
@@ -11,4 +11,4 @@ export const newFileDto = (parentFolderId: number): FileDto => ({
   userId: null,
   parentFolderId,
   name: "",
-});
+})

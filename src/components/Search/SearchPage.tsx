@@ -7,11 +7,11 @@ import { siteTitles } from "utils/consts/siteTitles"
 import { urls } from "utils/urls"
 import { SearchResultsDto } from "../../types/domain/utils/SearchResultsDto"
 import ResourceItem from "../Relearn/RelearnContent/ResourceList/DraggableResourceItem/ResourceItem/ResourceItem"
-import LoadingPage from "../_common/LoadingPage/LoadingPage"
-import SkillChip from "../_common/SkillChip/SkillChip"
 import DarkButton from "../_UI/Buttons/DarkButton/DarkButton"
 import Flex from "../_UI/Flexboxes/Flex"
 import FlexVCenter from "../_UI/Flexboxes/FlexVCenter"
+import LoadingPage from "../_common/LoadingPage/LoadingPage"
+import SkillChip from "../_common/SkillChip/SkillChip"
 import SearchPageSidebar from "./SearchPageSidebar/SearchPageSidebar"
 import UserResults from "./UserResults/UserResults"
 
@@ -28,7 +28,7 @@ const SearchPage = () => {
 
   const [isLoading, setIsLoading] = useState(true)
 
-  const [results, setResults] = useState<SearchResultsDto>(null)
+  const [results, setResults] = useState<SearchResultsDto | null>(null)
 
   const [filterBy, setFilterBy] = useState<FilterByType>("all")
 
@@ -45,15 +45,21 @@ const SearchPage = () => {
   }
 
   const filterResources = () => {
-    return filterBy === "resources"
-      ? results.resources
-      : results.resources.slice(0, 3)
+    if (!results || !results.resources || !results.resources.length) {
+      return []
+    }
+
+    if (filterBy === "resources") {
+      return results.resources
+    }
+
+    return results.resources.slice(0, 3)
   }
 
   useEffect(() => {
     setIsLoading(true)
     const searchParams = new URLSearchParams(location.search)
-    const q = searchParams.get("q")
+    const q = searchParams.get("q") || ""
     setQ(q)
 
     document.title = siteTitles.search(q)
@@ -70,18 +76,19 @@ const SearchPage = () => {
 
   return (
     <Box p={3}>
-      {isLoading ? (
-        <LoadingPage />
-      ) : (
+      {isLoading && <LoadingPage />}
+      {results && (
         <Box>
           {countAllResults() ? (
             <Grid container>
               <Grid item xs={3}>
-                <SearchPageSidebar
-                  value={filterBy}
-                  onChange={setFilterBy}
-                  results={results}
-                />
+                {results && (
+                  <SearchPageSidebar
+                    value={filterBy}
+                    onChange={setFilterBy}
+                    results={results}
+                  />
+                )}
               </Grid>
               <Grid item xs={9}>
                 <Box pt={2}>
@@ -91,7 +98,8 @@ const SearchPage = () => {
                 </Box>
 
                 <Box maxWidth={600} mt={3}>
-                  {results.resources.length > 0 &&
+                  {results &&
+                    results.resources.length > 0 &&
                     (filterBy === "all" || filterBy === "resources") && (
                       <Box mb={4}>
                         <Paper>

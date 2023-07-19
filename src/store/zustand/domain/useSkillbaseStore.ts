@@ -8,10 +8,10 @@ interface ISkillbaseStore {
   skills: SkillDto[]
   hasFirstLoaded: boolean
   sortBy: ISortSkillBy
-  editingSkill: SkillDto
+  editingSkill: SkillDto | null
 
   setSkills: (skills: SkillDto[]) => void
-  setEditingSkill: (skill: SkillDto) => void
+  setEditingSkill: (skill: SkillDto | null) => void
   sortSkill: (sortBy: ISortSkillBy) => void
   removeSkills: (ids: number[]) => void
 
@@ -36,8 +36,8 @@ interface ISkillbaseStore {
   toggleFilterCurrentGoal: () => void
 
   // drag and drop
-  draggingExpectation: SkillExpectationDto
-  setDraggingExpectation: (expectation: SkillExpectationDto) => void
+  draggingExpectation: SkillExpectationDto | null
+  setDraggingExpectation: (expectation: SkillExpectationDto | null) => void
 }
 
 const useSkillbaseStore = create<ISkillbaseStore>((set, get) => ({
@@ -70,7 +70,7 @@ const useSkillbaseStore = create<ISkillbaseStore>((set, get) => ({
   },
   removeSkills: (idsToRemove) => {
     const skillsToKeep = [...get().skills].filter(
-      (skill) => !idsToRemove.includes(skill.id)
+      (skill) => !idsToRemove.includes(Number(skill?.id))
     )
     set({ skills: skillsToKeep })
   },

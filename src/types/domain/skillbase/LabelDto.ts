@@ -1,12 +1,12 @@
 export interface LabelDto {
-  id: number;
-  userId: number;
+  id: number | null
+  userId: number | null
 
-  name: string;
-  bgColor: string;
+  name: string
+  bgColor: string
 
-  createdAt: string;
-  updatedAt: string;
+  createdAt: string
+  updatedAt: string
 }
 
 export const newLabelDto = (p?: Partial<LabelDto>): LabelDto => ({
@@ -19,4 +19,4 @@ export const newLabelDto = (p?: Partial<LabelDto>): LabelDto => ({
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
   ...p,
-});
+})

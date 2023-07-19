@@ -18,7 +18,7 @@ interface Props {
   onChange?: (
     event: React.ChangeEvent<{}>,
     value: unknown,
-    reason: AutocompleteChangeReason,
+    reason: AutocompleteChangeReason | null,
     details?: AutocompleteChangeDetails<unknown>
   ) => void
 }
@@ -34,7 +34,7 @@ const SelectDependencies = (props: Props) => {
       const dontShowTheseIds = [props.parentSkillId]
 
       setOptions(
-        allSkills.filter((skill) => !dontShowTheseIds.includes(skill.id))
+        allSkills.filter((skill) => !dontShowTheseIds.includes(skill.id || 0))
       )
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -69,17 +69,18 @@ const SelectDependencies = (props: Props) => {
         }
         renderInput={(params) => (
           <MyTextField
-            fullWidth
             label="Dependencies"
             {...params}
             size="small"
+            fullWidth
           />
         )}
         onChange={(e, value) => {
           const skills = value as SkillDto[]
 
-          // setDependencies(skills)
-          props.onChange(e, skills, null)
+          if (props.onChange) {
+            props.onChange(e, skills, null)
+          }
         }}
       />
     </Box>

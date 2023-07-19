@@ -11,8 +11,8 @@ import FlexHCenter from "../../_UI/Flexboxes/FlexHCenter"
 import RatingButtonLabel from "./RatingButtonLabel/RatingButtonLabel"
 
 interface Props {
-  rating: number
-  onChange: (newRating: number) => void
+  rating: number | null
+  onChange: (newRating: number | null) => void
   isLoading?: boolean
 }
 
@@ -72,7 +72,7 @@ const RatingButton = (props: Props) => {
               <Typography>
                 {hover !== -1
                   ? hoverRatingLabels[hover]
-                  : ratingLabels[props.rating]}
+                  : ratingLabels[props.rating || 0]}
               </Typography>
             </FlexHCenter>
           </Box>
@@ -90,7 +90,7 @@ const RatingButton = (props: Props) => {
           }}
           className="rate-button"
         >
-          <RatingButtonLabel rating={props.rating} />
+          <RatingButtonLabel rating={props.rating || 0} />
         </LoadingButton>
       </Tooltip>
     </ClickAwayListener>

@@ -20,8 +20,8 @@ const LabelsSelector = (props: Props) => {
   const sortedLabels = useMemo(() => {
     const sorted =
       labels?.sort((a, b) => {
-        if (a.id < b.id) return -1
-        if (a.id > b.id) return 1
+        if (Number(a.id) < Number(b.id)) return -1
+        if (Number(a.id) > Number(b.id)) return 1
         return 0
       }) || []
 

@@ -106,7 +106,7 @@ export default function FolderTreeItem({ folder }: Props) {
     }),
   })
 
-  const htmlDropDocRef = useRef<HTMLDivElement>()
+  const htmlDropDocRef = useRef<HTMLDivElement>(null)
 
   dropFolderRef(dragFolderRef(dropDocRef(htmlDropDocRef)))
 

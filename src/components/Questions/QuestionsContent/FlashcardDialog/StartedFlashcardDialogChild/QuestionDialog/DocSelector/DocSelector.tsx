@@ -36,7 +36,7 @@ const DocSelector = (props: Props) => {
         options={options}
         getOptionLabel={(doc) => (typeof doc === "string" ? doc : doc.title)}
         onChange={(e, doc) => {
-          if (typeof doc === "string") return
+          if (typeof doc === "string" || !doc) return
           if (doc.id === -1) {
             openDocDialog()
             return

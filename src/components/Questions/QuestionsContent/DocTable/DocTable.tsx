@@ -41,7 +41,7 @@ const DocTable = (props: Props) => {
     return sorted
   }
 
-  const [throttle, setThrottle] = useState<NodeJS.Timeout>(null)
+  const [throttle, setThrottle] = useState<NodeJS.Timeout>()
 
   const axios = useAxios()
 

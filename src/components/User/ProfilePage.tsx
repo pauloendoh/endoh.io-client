@@ -136,7 +136,7 @@ const ProfilePage = () => {
           <Grid item lg={4}>
             <Hidden lgDown>
               <S.UserSuggestionsWrapper>
-                {userSuggestions?.length > 0 && (
+                {userSuggestions && userSuggestions.length > 0 && (
                   <UserSuggestions
                     userSuggestions={userSuggestions}
                     followingTags={followingUsers}

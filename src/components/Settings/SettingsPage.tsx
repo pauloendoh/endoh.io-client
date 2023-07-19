@@ -6,9 +6,9 @@ import { urls } from "utils/urls"
 import EditCategoryModal from "../Monerate/Modals/EditCategoryModal"
 import EditPlaceModal from "../Monerate/Modals/EditPlaceModal"
 import Flex from "../_UI/Flexboxes/Flex"
+import SettingsSidebar from "./SettingsSidebar/SettingsSidebar"
 import KeepTempUserPaper from "./account/paper/KeepTempUserPaper/KeepTempUserPaper"
 import PersonalInformationPaper from "./account/paper/PersonalInformationPaper"
-import SettingsSidebar from "./SettingsSidebar/SettingsSidebar"
 
 function SettingsPage() {
   useEffect(() => {
@@ -22,7 +22,7 @@ function SettingsPage() {
       <SettingsSidebar />
       <Box pt={1} px={4} flexGrow={1}>
         <Switch>
-          {authUser.userExpiresAt ? (
+          {authUser?.userExpiresAt ? (
             <Route
               path={urls.pages.settings.account}
               component={KeepTempUserPaper}

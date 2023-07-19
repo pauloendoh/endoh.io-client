@@ -30,14 +30,16 @@ function RelearnContent(props: {
     }
 
     const todo = filterTodo(props.resources).sort(
-      (a, b) => a.position - b.position
+      (a, b) => (a.position || 0) - (b.position || 0)
     )
 
     setTodo(todo)
 
     const completed = props.resources
       .filter(
-        (resource) => resource.rating > 0 || resource.completedAt.length > 0
+        (resource) =>
+          resource.rating &&
+          (resource.rating > 0 || resource.completedAt.length > 0)
       )
       .sort((resourceA, resourceB) =>
         resourceB.completedAt.localeCompare(resourceA.completedAt)

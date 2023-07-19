@@ -17,6 +17,8 @@ const QuestionsContent = (props: Props) => {
     [docs, props.docId]
   )
 
+  if (!currentDoc) return null
+
   return (
     <Container>
       {/* Header */}

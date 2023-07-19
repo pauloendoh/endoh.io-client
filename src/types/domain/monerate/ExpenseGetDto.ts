@@ -1,20 +1,20 @@
-import CategoryGetDto from "./CategoryGetDto";
-import PlaceGetDto from "./PlaceGetDto";
+import CategoryGetDto from "./CategoryGetDto"
+import PlaceGetDto from "./PlaceGetDto"
 
 export default interface ExpenseGetDto {
-  id: number;
-  userId: number;
+  id: number | null
+  userId: number | null
 
-  name: string;
-  value: number;
-  rating: number;
+  name: string
+  value: number | null
+  rating: number | null
 
-  place: PlaceGetDto;
-  description: string;
-  category: CategoryGetDto;
+  place: PlaceGetDto | null
+  description: string
+  category: CategoryGetDto | null
 
-  createdAt: string;
-  updatedAt: string;
+  createdAt: string
+  updatedAt: string
 }
 
 export const newExpenseDto: ExpenseGetDto = {
@@ -31,4 +31,4 @@ export const newExpenseDto: ExpenseGetDto = {
 
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
-};
+}

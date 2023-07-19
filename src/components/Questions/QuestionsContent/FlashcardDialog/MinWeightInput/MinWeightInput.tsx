@@ -4,7 +4,7 @@ import S from "./MinWeightInput.styles"
 interface Props {
   value: number | null
   allowNull?: boolean
-  onChange: (newValue: number) => void
+  onChange: (newValue: number | null) => void
   label?: string
   min: number
 }
@@ -14,7 +14,7 @@ const MinWeightInput = (props: Props) => {
     <Txt variant="h5">
       <S.Input
         type="number"
-        value={props.value}
+        value={props.value || ""}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           if (e.target.value === "" && props.allowNull) {
             props.onChange(null)

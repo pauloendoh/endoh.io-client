@@ -35,7 +35,7 @@ const EditUsernameDialog = (props: Props) => {
         props.onClose()
       })
       .catch((err: AxiosError<{ message: string }>) => {
-        setErrorMessage(err.response.data.message)
+        setErrorMessage(err.response?.data.message)
       })
   }
 

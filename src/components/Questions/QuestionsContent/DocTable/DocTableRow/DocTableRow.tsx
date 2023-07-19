@@ -120,7 +120,7 @@ const DocTableRow = (props: Props) => {
         contentEditable
         suppressContentEditableWarning
         onInput={(e) => {
-          changeDescription(e.currentTarget.textContent)
+          changeDescription(e.currentTarget.textContent || "")
         }}
         sx={{ whiteSpace: "pre-wrap", width: "50%", overflowWrap: "anywhere" }}
         onPaste={(e) => {

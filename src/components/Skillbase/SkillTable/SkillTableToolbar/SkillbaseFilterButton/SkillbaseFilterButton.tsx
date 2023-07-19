@@ -38,7 +38,7 @@ const SkillbaseFilterButton = () => {
   // PE 1/3 - Check if it's being used in other places
   const sortedLabelsById = useMemo(() => {
     if (labels === undefined || labels?.length === 0) return []
-    return labels.sort((a, b) => (a.id > b.id ? 1 : -1))
+    return labels.sort((a, b) => (Number(a.id) > Number(b.id) ? 1 : -1))
   }, [labels])
 
   return (
@@ -92,9 +92,12 @@ const SkillbaseFilterButton = () => {
         {sortedLabelsById.map((label) => (
           <S.MenuItem
             key={label.id}
-            onClick={() => toggleFilterLabelId(label.id)}
+            onClick={() => toggleFilterLabelId(Number(label.id))}
           >
-            <Checkbox checked={labelIdIsInFilter(label.id)} name={label.name} />
+            <Checkbox
+              checked={labelIdIsInFilter(Number(label.id))}
+              name={label.name}
+            />
 
             <S.CheckboxLabel
               style={{

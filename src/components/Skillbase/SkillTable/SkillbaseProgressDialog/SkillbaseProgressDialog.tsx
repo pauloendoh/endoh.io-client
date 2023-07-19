@@ -14,8 +14,8 @@ import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween"
 import Txt from "components/_UI/Text/Txt"
 import {
-  useSkillProgressesQuery,
   useSkillProgressMonthsQuery as useMonthsQuery,
+  useSkillProgressesQuery,
 } from "generated/graphql"
 import { useEffect, useState } from "react"
 import { MdClose, MdOutlineArrowRightAlt } from "react-icons/md"
@@ -53,7 +53,7 @@ const SkillbaseProgressDialog = (props: Props) => {
   }, [selectedMonth])
 
   useEffect(() => {
-    if (monthsData?.skillProgressMonths?.length > 0)
+    if (!!monthsData?.skillProgressMonths?.length)
       setSelectedMonth(monthsData.skillProgressMonths[0])
   }, [monthsData])
 

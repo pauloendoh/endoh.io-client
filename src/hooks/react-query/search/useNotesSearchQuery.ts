@@ -13,7 +13,7 @@ const useNotesSearchQuery = ({ query, minLength = 1, type }: Params) => {
     [queryKeys.notesSearchResults],
     async () => {
       if (query.length < minLength) {
-        return new Promise<NotesSearchResultsDto>((resolve) => {
+        return new Promise<NotesSearchResultsDto | null>((resolve) => {
           resolve(null)
         })
       }

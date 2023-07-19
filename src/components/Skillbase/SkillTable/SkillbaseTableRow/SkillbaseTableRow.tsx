@@ -36,7 +36,9 @@ const SkillbaseTableRow = (props: Props) => {
     return allTags.find((tag) => tag.id === props.skill.tagId)
   }
 
-  const [tag, setTag] = useState<TagDto>(findTagById(props.skill.tagId))
+  const [tag, setTag] = useState<TagDto | undefined>(
+    findTagById(Number(props.skill.tagId))
+  )
 
   const isCompleted = useMemo(() => {
     if (props.skill.goalLevel === null) return false
@@ -97,7 +99,7 @@ const SkillbaseTableRow = (props: Props) => {
 
       <TableCell width={280}>
         <FlexCol style={{ gap: 8 }}>
-          {props.skill?.labels?.length > 0 && (
+          {!!props.skill?.labels?.length && (
             <Flex style={{ flexWrap: "wrap", gap: 4 }}>
               {props.skill.labels.map((label) => (
                 <div
@@ -136,10 +138,10 @@ const SkillbaseTableRow = (props: Props) => {
       </TableCell>
 
       <SkillLevelTD
-        value={props.skill.currentLevel}
+        value={Number(props.skill.currentLevel)}
         rightValue={currentGoalStep?.level}
       />
-      <SkillLevelTD value={props.skill.goalLevel} />
+      <SkillLevelTD value={Number(props.skill.goalLevel)} />
 
       <TableCell>
         {tag ? (
@@ -155,7 +157,7 @@ const SkillbaseTableRow = (props: Props) => {
           checked={props.isSelected}
           onClick={(event) => {
             event.stopPropagation()
-            props.onCheck(event, props.skill.id)
+            props.onCheck(event, Number(props.skill.id))
           }}
           inputProps={{ "aria-labelledby": labelId }}
         />

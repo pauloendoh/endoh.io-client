@@ -111,20 +111,20 @@ const RelearnPage = () => {
       // open last opened tag
       if (allTags?.length > 0) {
         const lastOpened = allTags.sort((a, b) => {
-          if (a.lastOpenedAt === undefined) return -1
-          if (b.lastOpenedAt === undefined) return 1
+          if (a.lastOpenedAt === (undefined || null)) return -1
+          if (b.lastOpenedAt === (undefined || null)) return 1
 
           return a.lastOpenedAt > b.lastOpenedAt ? -1 : 1
         })[0]
 
         if (!params.tagId) {
-          setRedirectTo(urls.pages.resources.tagId(lastOpened.id))
+          setRedirectTo(urls.pages.resources.tagId(lastOpened.id || 0))
           return
         }
 
         const foundTag = allTags.find((tag) => tag.id === Number(params.tagId))
         if (!foundTag) {
-          setRedirectTo(urls.pages.resources.tagId(lastOpened.id))
+          setRedirectTo(urls.pages.resources.tagId(lastOpened.id || 0))
         }
       }
     },

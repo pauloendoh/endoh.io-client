@@ -7,7 +7,7 @@ import "./index.css"
 import store from "./store/store"
 
 const container = document.getElementById("root")
-const root = createRoot(container)
+const root = createRoot(container!)
 
 root.render(
   <React.Fragment>

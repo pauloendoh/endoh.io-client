@@ -11,7 +11,11 @@ const TagColorSelector = (props: OwnProps) => {
         labelId="demo-simple-select-outlined-label"
         id="demo-simple-select-outlined"
         value={props.value}
-        onChange={(e) => props.onChange(e.target.value as string)}
+        onChange={(e) => {
+          if (props.onChange) {
+            props.onChange(e.target.value as string)
+          }
+        }}
         label="Color"
       >
         {tagColors.map((color) => (
