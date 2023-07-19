@@ -7,6 +7,7 @@ import {
   DialogTitle,
   FormControlLabel,
 } from "@mui/material"
+import { upsert } from "endoh-utils"
 import { Form, Formik } from "formik"
 import { useAxios } from "hooks/utils/useAxios"
 import { useHistory } from "react-router-dom"
@@ -25,21 +26,22 @@ const TagDialog = () => {
   const history = useHistory()
 
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
-  const { editingTag, setEditingTag, setTags } = useRelearnStore()
+  const { editingTag, setEditingTag, setTags, tags } = useRelearnStore()
 
   const axios = useAxios()
   const handleSubmit = (sentTag: TagDto) => {
     axios
-      .post<TagDto[]>(urls.api.relearn.tag, sentTag)
+      .post<TagDto>(urls.api.relearn.tag, sentTag)
       .then((res) => {
         setSuccessMessage("Tag saved!")
-
-        const returnedTags = res.data
-        setTags(returnedTags)
-
-        const savedTagId = returnedTags.find((t) => t.name === sentTag.name)?.id
-
-        history.push(urls.pages.resources.tag + "/" + savedTagId)
+        const savedTag = res.data
+        const updatedTags = upsert(
+          tags,
+          res.data,
+          (tag) => tag.id === savedTag.id
+        )
+        setTags(updatedTags)
+        history.push(urls.pages.resources.tag + "/" + savedTag.id)
       })
       .catch((err: MyAxiosError) => {
         setErrorMessage(err.response?.data.errors[0].message)
