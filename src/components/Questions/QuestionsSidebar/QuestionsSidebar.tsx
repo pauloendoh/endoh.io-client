@@ -4,7 +4,7 @@ import { makeStyles } from "@mui/styles"
 import { Box, createStyles, Drawer, List, Toolbar } from "@mui/material"
 import useSidebarStore from "../../../store/zustand/useSidebarStore"
 import AnsweredQuestionsListItem from "./AnsweredQuestionsListItem/AnsweredQuestionsListItem"
-import QuestionsFileSystem from "./QuestionsFileSystem/QuestionsFileSystem"
+import DocsFolderSystem from "./DocsFolderSystem/DocsFolderSystem"
 import QuestionsToRefineListItem from "./QuestionsToRefineListItem/QuestionsToRefineListItem"
 import UnansweredQuestionsListItem from "./UnansweredQuestionsListItem/UnansweredQuestionsListItem"
 
@@ -39,7 +39,7 @@ function QuestionsSidebar(props: Props) {
           <AnsweredQuestionsListItem />
         </List>
 
-        <QuestionsFileSystem />
+        <DocsFolderSystem />
       </Box>
     </Drawer>
   )

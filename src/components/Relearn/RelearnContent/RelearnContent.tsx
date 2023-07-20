@@ -3,16 +3,12 @@ import Flex from "components/_UI/Flexboxes/Flex"
 import { useEffect, useRef, useState } from "react"
 import { useLocation } from "react-router-dom"
 import { ResourceDto } from "../../../types/domain/relearn/ResourceDto"
-import { SkillDto } from "../../../types/domain/skillbase/SkillDto"
 import { getTodoResources as filterTodo } from "../../../utils/relearn/getTodoResources"
 import AddResourceButton from "./AddResourceButton/AddResourceButton"
 import ContentHeader from "./ContentHeader/ContentHeader"
 import ResourceList from "./ResourceList/ResourceList"
 
-function RelearnContent(props: {
-  resources: ResourceDto[]
-  skills: SkillDto[]
-}) {
+function RelearnContent(props: { resources: ResourceDto[] }) {
   const [tabIndex, setTabIndex] = useState(0)
 
   const [todo, setTodo] = useState<ResourceDto[]>([])
@@ -56,7 +52,6 @@ function RelearnContent(props: {
         tabIndex={tabIndex}
         todoResources={todo}
         completedResources={completed}
-        skills={props.skills}
       />
 
       <Box mt={2}>

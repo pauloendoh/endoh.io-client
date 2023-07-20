@@ -191,7 +191,7 @@ const ResourceDialog = () => {
 
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleSubmit = (resource: ResourceDto, closeOnSuccess = true) => {
+  const handleSubmit = (resource: ResourceDto, closeAfterSaving = true) => {
     setIsLoading(true)
     const payload: ResourceDto = {
       ...resource,
@@ -212,8 +212,7 @@ const ResourceDialog = () => {
           setTags(res.data)
         })
 
-        // PE 1/3 - why this?
-        if (closeOnSuccess) {
+        if (closeAfterSaving) {
           closeAndClearQueryParam()
           return
         }

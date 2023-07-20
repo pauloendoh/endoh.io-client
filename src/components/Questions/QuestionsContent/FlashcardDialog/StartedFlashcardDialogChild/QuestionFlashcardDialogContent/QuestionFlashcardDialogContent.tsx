@@ -34,8 +34,7 @@ const QuestionFlashcardDialogContent = (props: {
   goBack: () => void
   goNext: () => void
 }) => {
-  // PE 1/3 - isShowingAnswer
-  const [showingAnswer, setShowingAnswer] = useState(false)
+  const [isShowingAnswer, setIsShowingAnswer] = useState(false)
 
   const [openNoteDialog, closeDialog] = useNoteDialogStore((s) => [
     s.openNoteDialog,
@@ -43,10 +42,9 @@ const QuestionFlashcardDialogContent = (props: {
   ])
 
   useEffect(() => {
-    setShowingAnswer(false)
+    setIsShowingAnswer(false)
   }, [props.questionNumber])
 
-  // PE 1/3 - use hook
   const keyMap = {
     onSpacePress: "space",
     onJPress: "j",
@@ -55,19 +53,19 @@ const QuestionFlashcardDialogContent = (props: {
   }
   const handlers = {
     onSpacePress: async () => {
-      if (!showingAnswer) setShowingAnswer(true)
+      if (!isShowingAnswer) setIsShowingAnswer(true)
     },
     onJPress: async () => {
-      if (!showingAnswer) setShowingAnswer(true)
-      if (showingAnswer) props.onWrongAnswer()
+      if (!isShowingAnswer) setIsShowingAnswer(true)
+      if (isShowingAnswer) props.onWrongAnswer()
     },
     onKPress: async () => {
-      if (!showingAnswer) setShowingAnswer(true)
-      if (showingAnswer) props.onHalfAnswer()
+      if (!isShowingAnswer) setIsShowingAnswer(true)
+      if (isShowingAnswer) props.onHalfAnswer()
     },
     onLPress: async () => {
-      if (!showingAnswer) setShowingAnswer(true)
-      if (showingAnswer) props.onCorrectAnswer()
+      if (!isShowingAnswer) setIsShowingAnswer(true)
+      if (isShowingAnswer) props.onCorrectAnswer()
     },
   }
 
@@ -99,7 +97,7 @@ const QuestionFlashcardDialogContent = (props: {
         </Typography>
         <Box mt={4} />
 
-        {showingAnswer && (
+        {isShowingAnswer && (
           <Box>
             <Typography
               variant="body1"
@@ -160,7 +158,7 @@ const QuestionFlashcardDialogContent = (props: {
       </DialogContent>
 
       <DialogTitle>
-        {showingAnswer === false ? (
+        {isShowingAnswer === false ? (
           <FlexVCenter style={{ gap: 8 }}>
             <IconButton
               style={{ visibility: props.isFirst ? "hidden" : undefined }}
@@ -168,7 +166,7 @@ const QuestionFlashcardDialogContent = (props: {
             >
               <MdArrowBack />
             </IconButton>
-            <DarkButton onClick={() => setShowingAnswer(true)} fullWidth>
+            <DarkButton onClick={() => setIsShowingAnswer(true)} fullWidth>
               Show Answer {!isSmallScreen && "(Space, J, K or L)"}
             </DarkButton>
             <IconButton onClick={() => props.goNext()}>

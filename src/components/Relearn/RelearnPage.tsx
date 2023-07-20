@@ -21,7 +21,6 @@ import RelearnContent from "./RelearnContent/RelearnContent"
 import RelearnSidebar from "./RelearnSidebar/RelearnSidebar"
 import TagDialog from "./TagDialog/TagDialog"
 
-// PE 1/3 - rename to ResourcesPage
 const RelearnPage = () => {
   const {
     resources,
@@ -37,11 +36,9 @@ const RelearnPage = () => {
   const params = useParams<{ tagId?: string }>()
   const { clearSelectedIds } = useMultiSelectResource()
 
-  const { sidebarIsOpen, openSidebar, closeSidebar } = useSidebarStore()
+  const { sidebarIsOpen, closeSidebar } = useSidebarStore()
 
   const [redirectTo, setRedirectTo] = useState("")
-  // PE 1/3 - why do we need this skills, if we have props.skills ?
-  const [skills, setSkills] = useState<SkillDto[]>([])
 
   const axios = useAxios()
 
@@ -162,7 +159,7 @@ const RelearnPage = () => {
         })}
       >
         {hasFirstLoaded ? (
-          <RelearnContent resources={filteredResources} skills={skills} />
+          <RelearnContent resources={filteredResources} />
         ) : (
           <div style={{ marginTop: 32 }}>
             <LoadingPage />

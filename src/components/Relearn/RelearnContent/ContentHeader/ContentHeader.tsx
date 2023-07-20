@@ -10,7 +10,6 @@ import useResponsiveStore from "store/zustand/useResponsiveStore"
 import { urls } from "utils/urls"
 import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto"
 import { TagDto } from "../../../../types/domain/relearn/TagDto"
-import { SkillDto } from "../../../../types/domain/skillbase/SkillDto"
 import Flex from "../../../_UI/Flexboxes/Flex"
 import SelectedResourcesOptions from "./SelectedResourcesOptions/SelectedResourcesOptions"
 
@@ -19,7 +18,6 @@ interface Props {
   tabIndex: number
   todoResources: ResourceDto[]
   completedResources: ResourceDto[]
-  skills: SkillDto[]
 }
 
 // PE 2/3

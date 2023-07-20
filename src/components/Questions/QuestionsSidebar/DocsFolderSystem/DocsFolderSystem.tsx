@@ -17,13 +17,12 @@ import { buildFolderDto } from "types/domain/folder/FolderDto"
 import FolderWithSubfoldersDto from "types/domain/folder/FolderWithSubfoldersDto"
 import Icons from "utils/styles/Icons"
 import { urls } from "utils/urls"
-import { S } from "./FileSystem.styles"
+import { S } from "./DocsFolderSystem.styles"
 import DocTreeItem from "./FolderTreeItem/DocTreeItem/DocTreeItem"
 import FolderTreeItem from "./FolderTreeItem/FolderTreeItem"
 import { spreadFolders } from "./spreadFolders/spreadFolders"
 
-// PE 1/3 - rename?
-export default function QuestionsFileSystem() {
+export default function DocsFolderSystem() {
   const history = useHistory()
 
   const { fileDialogParentFolderId, setFileDialogParentFolderId } =

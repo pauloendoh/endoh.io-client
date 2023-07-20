@@ -23,10 +23,9 @@ interface Props {
   folder: FolderWithSubfoldersDto
 }
 
-export default function FolderTreeItem({ folder }: Props) {
+function FolderTreeItem({ folder }: Props) {
   const [hover, setHover] = useState(false)
 
-  const myAxios = useAxios()
   const { mutate: saveFolder } = useSaveFolderMutation()
   const queryClient = useQueryClient()
 
@@ -179,3 +178,5 @@ export default function FolderTreeItem({ folder }: Props) {
     </TreeItem>
   )
 }
+
+export default FolderTreeItem
