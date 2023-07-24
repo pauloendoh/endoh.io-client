@@ -14,7 +14,7 @@ import {
 } from "@mui/material"
 import { useAxios } from "hooks/utils/useAxios"
 import React from "react"
-import useRelearnStore from "store/zustand/domain/useRelearnStore"
+import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
 import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { urls } from "utils/urls"

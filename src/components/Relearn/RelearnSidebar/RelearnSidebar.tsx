@@ -1,6 +1,6 @@
 import { List } from "@mui/material"
 import { useEffect, useState } from "react"
-import useRelearnStore from "store/zustand/domain/useRelearnStore"
+import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
 import { TagDto } from "../../../types/domain/relearn/TagDto"
 import MySidebar from "../../_UI/MySidebar/MySidebar"
 import RelearnSidebarTagList from "./RelearnSidebarTagList/RelearnSidebarTagList"

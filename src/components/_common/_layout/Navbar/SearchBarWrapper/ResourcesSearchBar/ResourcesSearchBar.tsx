@@ -6,7 +6,7 @@ import useDebounce from "hooks/utils/useDebounce"
 import React, { useEffect, useMemo, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { useHistory } from "react-router-dom"
-import useRelearnStore from "store/zustand/domain/useRelearnStore"
+import useResourceDialogStore from "store/zustand/domain/resources/useResourceDialogStore"
 import { SearchResultsDto } from "types/domain/utils/SearchResultsDto"
 import { urls } from "utils/urls"
 import MyTextField from "../../../../../_UI/MyInputs/MyTextField"
@@ -21,14 +21,12 @@ const MyPopper = function (props: React.ComponentProps<typeof Popper>) {
 }
 
 const ResourcesSearchBar = () => {
-  const { setEditingResource } = useRelearnStore()
+  const { setInitialValue: setEditingResource } = useResourceDialogStore()
 
   const MIN_LENGTH = 3
 
   const history = useHistory()
   const [loading, setLoading] = useState(false)
-
-  const [throttle, setThrottle] = useState<NodeJS.Timeout | null>(null)
 
   const { handleSubmit, control, getValues, watch, setValue } =
     useForm<ISearchForm>({

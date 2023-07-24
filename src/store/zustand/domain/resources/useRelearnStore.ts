@@ -9,7 +9,7 @@ interface IStore {
   resources: ResourceDto[]
   hasFirstLoaded: boolean
   tags: TagDto[]
-  editingResource: ResourceDto | null
+
   editingTag: TagDto | null
 
   setResources: (resources: ResourceDto[]) => void
@@ -17,7 +17,6 @@ interface IStore {
   removeResource: (id: number) => void
   removeTag: (id: number) => void
 
-  setEditingResource: (resource: ResourceDto | null) => void
   setEditingTag: (tag: TagDto | null) => void
   moveResource: (data: IMoveResource) => void
 
@@ -29,7 +28,6 @@ const useRelearnStore = create<IStore>((set, get) => ({
   resources: [],
   hasFirstLoaded: false,
   tags: [],
-  editingResource: null,
   editingTag: null,
 
   setResources: (resources) => set({ resources, hasFirstLoaded: true }),
@@ -48,7 +46,6 @@ const useRelearnStore = create<IStore>((set, get) => ({
     }))
   },
 
-  setEditingResource: (resource) => set({ editingResource: resource }),
   setEditingTag: (tag) => set({ editingTag: tag }),
 
   moveResource: (params) => {

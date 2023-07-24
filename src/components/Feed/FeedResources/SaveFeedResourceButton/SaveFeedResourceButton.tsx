@@ -1,6 +1,6 @@
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd"
 import { Box, Button } from "@mui/material"
-import useRelearnStore from "store/zustand/domain/useRelearnStore"
+import useResourceDialogStore from "store/zustand/domain/resources/useResourceDialogStore"
 import { FeedResourceDto } from "../../../../types/domain/feed/FeedResourceDto"
 import { newResourceDto } from "../../../../types/domain/relearn/ResourceDto"
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const SaveFeedResourceButton = (props: Props) => {
-  const { setEditingResource } = useRelearnStore()
+  const { setInitialValue: setEditingResource } = useResourceDialogStore()
 
   const handleClick = () => {
     const resource = newResourceDto()
@@ -21,7 +21,7 @@ const SaveFeedResourceButton = (props: Props) => {
     resource.url = feedResource.url
     resource.thumbnail = feedResource.thumbnail
 
-    setEditingResource(resource)
+    setEditingResource(resource, { checkUrlOnOpen: true })
   }
 
   return (

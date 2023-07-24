@@ -8,7 +8,7 @@ import { useAxios } from "hooks/utils/useAxios"
 import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
 import { useEffect, useState } from "react"
 import { Redirect, useLocation, useParams } from "react-router-dom"
-import useRelearnStore from "store/zustand/domain/useRelearnStore"
+import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import useWindowFocus from "use-window-focus"
 import { urls } from "utils/urls"
@@ -21,6 +21,7 @@ import RelearnContent from "./RelearnContent/RelearnContent"
 import RelearnSidebar from "./RelearnSidebar/RelearnSidebar"
 import TagDialog from "./TagDialog/TagDialog"
 
+// PE 1/3 - rename to ResourcesPage
 const RelearnPage = () => {
   const {
     resources,

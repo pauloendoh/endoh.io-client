@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material"
-import useRelearnStore from "store/zustand/domain/useRelearnStore"
+import useResourceDialogStore from "store/zustand/domain/resources/useResourceDialogStore"
 import { ResourceDto } from "types/domain/relearn/ResourceDto"
 
 type Props = {
@@ -7,7 +7,7 @@ type Props = {
 }
 
 const ResourceSavedMessage = (props: Props) => {
-  const { setEditingResource } = useRelearnStore()
+  const { setInitialValue: setEditingResource } = useResourceDialogStore()
   return (
     <Typography>
       Resource saved!{" "}

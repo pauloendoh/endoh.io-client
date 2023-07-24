@@ -18,7 +18,8 @@ import { useAxios } from "hooks/utils/useAxios"
 import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
 import React, { useEffect } from "react"
 import { MdVerticalAlignBottom, MdVerticalAlignTop } from "react-icons/md"
-import useRelearnStore from "store/zustand/domain/useRelearnStore"
+import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
+import useResourceDialogStore from "store/zustand/domain/resources/useResourceDialogStore"
 import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { urls } from "utils/urls"
@@ -37,11 +38,12 @@ function ResourceMoreIcon(props: Props) {
   const { setSuccessMessage } = useSnackbarStore()
 
   const {
-    setEditingResource,
     removeResource,
     setResources,
     resources: allResources,
   } = useRelearnStore()
+
+  const { setInitialValue: setEditingResource } = useResourceDialogStore()
 
   useEffect(() => {
     if (!props.isHovered) setAnchorEl(null)

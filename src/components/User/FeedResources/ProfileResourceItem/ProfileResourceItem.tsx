@@ -7,7 +7,7 @@ import ResourceDurationLabel from "components/Relearn/RelearnContent/ResourceLis
 import Txt from "components/_UI/Text/Txt"
 import RatingButtonLabel from "components/_common/RatingButton/RatingButtonLabel/RatingButtonLabel"
 import React, { useMemo, useState } from "react"
-import useRelearnStore from "store/zustand/domain/useRelearnStore"
+import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
 import useAuthStore from "store/zustand/useAuthStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { urls } from "utils/urls"

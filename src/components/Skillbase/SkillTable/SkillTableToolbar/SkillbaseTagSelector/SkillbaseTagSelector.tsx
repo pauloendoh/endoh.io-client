@@ -8,7 +8,7 @@ import {
   useTheme,
 } from "@mui/material"
 import { useEffect, useState } from "react"
-import useRelearnStore from "store/zustand/domain/useRelearnStore"
+import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import { TagDto } from "../../../../../types/domain/relearn/TagDto"
 import FlexHCenter from "../../../../_UI/Flexboxes/FlexHCenter"

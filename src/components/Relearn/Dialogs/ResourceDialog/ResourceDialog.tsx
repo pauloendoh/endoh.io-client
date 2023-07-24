@@ -27,7 +27,8 @@ import { DateTime } from "luxon"
 import { useEffect, useMemo, useState } from "react"
 import { MdClose, MdSave } from "react-icons/md"
 import { useHistory, useLocation } from "react-router-dom"
-import useRelearnStore from "store/zustand/domain/useRelearnStore"
+import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
+import useResourceDialogStore from "store/zustand/domain/resources/useResourceDialogStore"
 import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { format } from "timeago.js"
@@ -46,15 +47,11 @@ import ResourceSavedMessage from "./ResourceSavedMessage/ResourceSavedMessage"
 import { useFetchLinkPreview } from "./useFetchLinkPreview/useFetchLinkPreview"
 
 const ResourceDialog = () => {
-  const {
-    resources,
-    tags,
-    editingResource,
-    setEditingResource,
-    removeResource,
-    setResources,
-    setTags,
-  } = useRelearnStore()
+  const { resources, tags, removeResource, setResources, setTags } =
+    useRelearnStore()
+
+  const { initialValue, setInitialValue, checkUrlOnOpen } =
+    useResourceDialogStore()
 
   const axios = useAxios()
   const history = useHistory()
@@ -81,7 +78,7 @@ const ResourceDialog = () => {
         }) || [],
 
     // had to add editingResource because tags were not sorted properly when refreshing page
-    [tags, editingResource]
+    [tags, initialValue]
   )
 
   const clearOpenResourceId = () => {
@@ -100,7 +97,7 @@ const ResourceDialog = () => {
 
     const resource = resources.find((r) => r.id === openResourceId)
     if (resource) {
-      setEditingResource(resource)
+      setInitialValue(resource)
 
       return
     }
@@ -111,13 +108,13 @@ const ResourceDialog = () => {
   }, [openResourceId, resources])
 
   useEffect(() => {
-    if (editingResource) {
+    if (initialValue) {
       setInitialValues({
-        ...editingResource,
-        tag: editingResource?.tag || getCurrentTag(),
+        ...initialValue,
+        tag: initialValue?.tag || getCurrentTag(),
       })
     }
-  }, [editingResource])
+  }, [initialValue])
 
   const [isFetchingLinkPreview, setIsFetchingLinkPreview] = useState(false)
 
@@ -136,8 +133,8 @@ const ResourceDialog = () => {
   }
 
   const [initialValues, setInitialValues] = useState<ResourceDto>({
-    ...editingResource!,
-    tag: editingResource?.tag || getCurrentTag(),
+    ...initialValue!,
+    tag: initialValue?.tag || getCurrentTag(),
   })
 
   const {
@@ -167,11 +164,11 @@ const ResourceDialog = () => {
   })
 
   const isDisabled = useMemo(
-    () => !dirty || !editingResource,
-    [dirty, editingResource]
+    () => !dirty || !initialValue,
+    [dirty, initialValue]
   )
 
-  useConfirmTabClose(!!editingResource && dirty)
+  useConfirmTabClose(!!initialValue && dirty)
 
   const confirmClose = (isDirty: boolean) => {
     if (isDirty) {
@@ -186,7 +183,7 @@ const ResourceDialog = () => {
 
   const closeAndClearQueryParam = () => {
     clearOpenResourceId()
-    setEditingResource(null)
+    setInitialValue(null)
   }
 
   const [isLoading, setIsLoading] = useState(false)
@@ -226,7 +223,7 @@ const ResourceDialog = () => {
         }
 
         if (newResource) {
-          const tag = editingResource?.tag || getCurrentTag()!
+          const tag = initialValue?.tag || getCurrentTag()!
           setInitialValues({
             ...newResource,
             tag: {
@@ -242,6 +239,13 @@ const ResourceDialog = () => {
   }
 
   const [throttle, setThrottle] = useState<NodeJS.Timeout | null>(null)
+
+  useEffect(() => {
+    if (initialValue && checkUrlOnOpen) {
+      fetchLinkPreview(initialValue.url, setFieldValue, setValues)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialValue])
 
   const fetchLinkPreview = useFetchLinkPreview({
     throttle,
@@ -280,7 +284,7 @@ const ResourceDialog = () => {
   return (
     <Dialog
       onClose={() => confirmClose(dirty)}
-      open={!!editingResource}
+      open={!!initialValue}
       fullWidth
       maxWidth="md"
       aria-labelledby="edit-resource-dialog"

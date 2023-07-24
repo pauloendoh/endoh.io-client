@@ -1,20 +1,19 @@
 import { Fab, Tooltip } from "@mui/material"
 import { useDefaultSubmitQuestion } from "hooks/questions/useDefaultSubmitQuestion"
 import { useCallback, useMemo } from "react"
-import { useHotkeys } from "react-hotkeys-hook"
 import { useLocation } from "react-router-dom"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
+import useResourceDialogStore from "store/zustand/domain/resources/useResourceDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
-import useRelearnStore from "store/zustand/domain/useRelearnStore"
 import { buildNoteDto } from "types/domain/questions/NoteDto"
 import { newResourceDto } from "types/domain/relearn/ResourceDto"
-import { sleep } from "utils/sleep"
 import Icons from "utils/styles/Icons"
 import { useQHotkey } from "./useQHotkey"
 
 // PE 2/3
 const NavbarAddButton = () => {
-  const { editingResource, setEditingResource } = useRelearnStore()
+  const { initialValue: editingResource, setInitialValue: setEditingResource } =
+    useResourceDialogStore()
 
   const [openNoteDialog] = useNoteDialogStore((s) => [s.openNoteDialog])
 

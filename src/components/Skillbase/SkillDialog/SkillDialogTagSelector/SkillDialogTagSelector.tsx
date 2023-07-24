@@ -7,7 +7,7 @@ import {
 } from "@mui/material"
 import TagIcon from "components/_UI/Icon/TagIcon"
 import React, { useEffect, useMemo, useState } from "react"
-import useRelearnStore from "store/zustand/domain/useRelearnStore"
+import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
 import { TagDto } from "../../../../types/domain/relearn/TagDto"
 import FlexHCenter from "../../../_UI/Flexboxes/FlexHCenter"
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"

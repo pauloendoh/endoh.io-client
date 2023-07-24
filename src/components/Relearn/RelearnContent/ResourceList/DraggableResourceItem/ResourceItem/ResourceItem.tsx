@@ -6,7 +6,8 @@ import useHover from "hooks/utils/useHover"
 import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
 import { DateTime } from "luxon"
 import { useState } from "react"
-import useRelearnStore from "store/zustand/domain/useRelearnStore"
+import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
+import useResourceDialogStore from "store/zustand/domain/resources/useResourceDialogStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import Icons from "utils/styles/Icons"
 import { urls } from "utils/urls"
@@ -33,7 +34,9 @@ function ResourceItem(props: Props) {
 
   const { isMobile } = useMyMediaQuery()
 
-  const { setResources, setEditingResource } = useRelearnStore()
+  const { setResources } = useRelearnStore()
+
+  const { setInitialValue: setEditingResource } = useResourceDialogStore()
 
   const axios = useAxios()
 

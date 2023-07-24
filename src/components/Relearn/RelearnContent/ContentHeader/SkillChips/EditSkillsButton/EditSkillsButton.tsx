@@ -5,7 +5,7 @@ import { Button } from "@mui/material"
 
 import React, { useState } from "react"
 import { useHistory, useLocation } from "react-router-dom"
-import useRelearnStore from "store/zustand/domain/useRelearnStore"
+import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import { urls } from "utils/urls"
 import { TagDto } from "../../../../../../types/domain/relearn/TagDto"

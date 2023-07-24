@@ -67,7 +67,7 @@ export const useFetchLinkPreview = ({
               if (
                 preview.viewCount &&
                 preview.viewCount > 0 &&
-                values.privateNote.length === 0
+                values?.privateNote?.length === 0
               ) {
                 setFieldValue(
                   "privateNote",

@@ -24,7 +24,7 @@ import {
   useLocation,
   withRouter,
 } from "react-router-dom"
-import useRelearnStore from "store/zustand/domain/useRelearnStore"
+import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
 import useAuthStore from "store/zustand/useAuthStore"
 import LandingPage from "./components/LandingPage/LandingPage"
 import ResetPasswordPage from "./components/ResetPassword/ResetPasswordPage"
