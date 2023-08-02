@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react"
-import { newResourceDto } from "types/domain/relearn/ResourceDto"
+import { buildResourceDto } from "types/domain/relearn/ResourceDto"
 import TestWrapper from "utils/TestWrapper"
 import { describe, expect, it } from "vitest"
 import ResourceItemTaskCheckbox from "./ResourceItemTaskCheckbox"
@@ -10,7 +10,7 @@ describe(`<{ResourceItemTaskCheckbox/> component`, () => {
       render(
         <TestWrapper>
           <ResourceItemTaskCheckbox
-            resource={newResourceDto()}
+            resource={buildResourceDto()}
             onChange={() => null}
           />
         </TestWrapper>
@@ -25,7 +25,9 @@ describe(`<{ResourceItemTaskCheckbox/> component`, () => {
       render(
         <TestWrapper>
           <ResourceItemTaskCheckbox
-            resource={newResourceDto({ completedAt: new Date().toISOString() })}
+            resource={buildResourceDto({
+              completedAt: new Date().toISOString(),
+            })}
             onChange={() => null}
           />
         </TestWrapper>

@@ -1,5 +1,5 @@
 import { Box } from "@mui/material"
-import FeedResourceItem from "components/Feed/FeedResources/FeedResourceItem/FeedResourceItem"
+import FeedResourceItem from "components/Feed/FeedCompletedResources/FeedResourceItem/FeedResourceItem"
 import { Virtuoso } from "react-virtuoso"
 import { FeedResourceDto } from "types/domain/feed/FeedResourceDto"
 

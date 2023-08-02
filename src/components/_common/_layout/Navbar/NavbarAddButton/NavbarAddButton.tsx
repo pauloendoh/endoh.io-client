@@ -6,7 +6,7 @@ import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import useResourceDialogStore from "store/zustand/domain/resources/useResourceDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import { buildNoteDto } from "types/domain/questions/NoteDto"
-import { newResourceDto } from "types/domain/relearn/ResourceDto"
+import { buildResourceDto } from "types/domain/relearn/ResourceDto"
 import Icons from "utils/styles/Icons"
 import { useQHotkey } from "./useQHotkey"
 
@@ -46,7 +46,7 @@ const NavbarAddButton = () => {
       return
     }
 
-    setEditingResource(newResourceDto())
+    setEditingResource(buildResourceDto())
   }, [isQuestionsPage, editingResource, location.pathname, docs])
 
   useQHotkey({

@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react"
-import { newResourceDto } from "types/domain/relearn/ResourceDto"
+import { buildResourceDto } from "types/domain/relearn/ResourceDto"
 import TestWrapper from "utils/TestWrapper"
 import { describe, expect, it } from "vitest"
 import ResourceItem from "./ResourceItem"
@@ -9,7 +9,7 @@ describe(`<{ResourceItem/> component`, () => {
     it("Should render a checkbox", async () => {
       render(
         <TestWrapper>
-          <ResourceItem resource={newResourceDto()} />
+          <ResourceItem resource={buildResourceDto()} />
         </TestWrapper>
       )
 
@@ -20,7 +20,7 @@ describe(`<{ResourceItem/> component`, () => {
       it.skip("Should receive 'Task completed' if the request succeeds", async () => {
         render(
           <TestWrapper>
-            <ResourceItem resource={newResourceDto()} />
+            <ResourceItem resource={buildResourceDto()} />
           </TestWrapper>
         )
 
@@ -42,7 +42,7 @@ describe(`<{ResourceItem/> component`, () => {
         render(
           <TestWrapper>
             <ResourceItem
-              resource={newResourceDto({
+              resource={buildResourceDto({
                 completedAt: new Date().toISOString(),
               })}
             />

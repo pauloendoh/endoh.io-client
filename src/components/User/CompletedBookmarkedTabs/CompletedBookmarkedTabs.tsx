@@ -5,7 +5,8 @@ import { FeedResourceDto } from "types/domain/feed/FeedResourceDto"
 type Props = {
   value: "completed" | "bookmarked"
   onChange: (value: "completed" | "bookmarked") => void
-  resources: FeedResourceDto[]
+  resources?: FeedResourceDto[]
+  completedLabel?: string
 }
 
 const CompletedBookmarkedTabs = ({ ...props }: Props) => {
@@ -14,11 +15,11 @@ const CompletedBookmarkedTabs = ({ ...props }: Props) => {
   }, [props.value])
 
   const completedCount = useMemo(() => {
-    return props.resources.filter((r) => !!r.rating).length
+    return props.resources?.filter((r) => !!r.rating).length || null
   }, [props.resources])
 
   const bookmarkedCount = useMemo(() => {
-    return props.resources.filter((r) => !r.rating).length
+    return props.resources?.filter((r) => !r.rating).length || null
   }, [props.resources])
 
   return (
@@ -28,8 +29,14 @@ const CompletedBookmarkedTabs = ({ ...props }: Props) => {
         props.onChange(newValue === 0 ? "completed" : "bookmarked")
       }}
     >
-      <Tab label={`${completedCount} Completed`} />
-      <Tab label={`${bookmarkedCount} Bookmarked`} />
+      <Tab
+        label={`${completedCount === null ? "" : completedCount} ${
+          props.completedLabel || "Completed"
+        }`}
+      />
+      <Tab
+        label={`${bookmarkedCount === null ? "" : bookmarkedCount} Bookmarked`}
+      />
     </Tabs>
   )
 }

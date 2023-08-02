@@ -131,7 +131,8 @@ export const urls = {
     linkPreview: (urls: string) => `/utils/link-preview?url=${urls}`,
     feed: {
       myUserSuggestions: "v2/feed/my-user-suggestions",
-      resources: "v2/feed/resources",
+      resources: (type: "completed" | "bookmarked") =>
+        "v2/feed/resources?type=" + type,
       lastSeenResource: "/feed/last-seen-resource",
       newResourcesCount: "/feed/new-resources-count",
     },

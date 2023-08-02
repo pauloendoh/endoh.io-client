@@ -2,7 +2,8 @@ import { urls } from "utils/urls"
 
 export const queryKeys = {
   userSuggestions: urls.api.feed.myUserSuggestions,
-  feedResources: urls.api.feed.resources,
+  feedResources: (type: "completed" | "bookmarked") =>
+    urls.api.feed.resources(type),
   resourceSearchResults: "resourceSearchResults",
   notesSearchResults: "notesSearchResults",
   labels: "labels",

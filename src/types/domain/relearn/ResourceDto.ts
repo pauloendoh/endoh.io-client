@@ -21,7 +21,7 @@ export interface ResourceDto {
   tag: TagDto | null
 }
 
-export const newResourceDto = (
+export const buildResourceDto = (
   partial?: Partial<ResourceDto>
 ): ResourceDto => ({
   id: null,
