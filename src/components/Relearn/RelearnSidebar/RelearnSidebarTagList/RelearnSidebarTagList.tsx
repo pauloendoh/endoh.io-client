@@ -4,16 +4,13 @@ import { ExpandLess, ExpandMore } from "@mui/icons-material"
 import AddIcon from "@mui/icons-material/Add"
 import {
   Box,
-  Button,
   Collapse,
   IconButton,
   List,
   ListItem,
   ListItemText,
-  Tooltip,
   useTheme,
 } from "@mui/material"
-import Flex from "components/_UI/Flexboxes/Flex"
 import useGotItMutation from "hooks/react-query/got-it/useGotItMutation"
 import useGotItQuery from "hooks/react-query/got-it/useGotItQuery"
 import { useAxios } from "hooks/utils/useAxios"
@@ -65,12 +62,6 @@ function RelearnSidebarTagList(props: Props) {
 
   const { data: gotIt } = useGotItQuery()
 
-  const shouldShowtooltip = useMemo(() => {
-    if (props.type === "public" || !gotIt || gotIt.createTag) return false
-
-    return true
-  }, [gotIt?.createTag, props.type])
-
   const theme = useTheme()
 
   const { mutate: submitGotIt } = useGotItMutation()
@@ -90,51 +81,18 @@ function RelearnSidebarTagList(props: Props) {
             />
           </FlexVCenter>
         </ListItemText>
-        <Tooltip
-          open={shouldShowtooltip}
-          arrow
-          PopperProps={{
-            sx: {
-              "& .MuiTooltip-tooltip": {
-                backgroundColor: theme.palette.grey[800],
-              },
-              "& .MuiTooltip-arrow": {
-                "&::before": {
-                  backgroundColor: theme.palette.grey[800],
-                },
-              },
-            },
+
+        <IconButton
+          onClick={(e) => {
+            e.stopPropagation()
+            handleAddTag()
+            submitGotIt("createTag")
           }}
-          title={
-            <Box p={1}>
-              <Flex>
-                Add a learning tag. E.g.: Programming, data science, design...
-              </Flex>
-              <Flex justifyContent="end">
-                <Button
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    submitGotIt("createTag")
-                  }}
-                >
-                  Got it
-                </Button>
-              </Flex>
-            </Box>
-          }
+          size="small"
+          id={`add-${props.type}-tag`}
         >
-          <IconButton
-            onClick={(e) => {
-              e.stopPropagation()
-              handleAddTag()
-              submitGotIt("createTag")
-            }}
-            size="small"
-            id={`add-${props.type}-tag`}
-          >
-            <AddIcon />
-          </IconButton>
-        </Tooltip>
+          <AddIcon />
+        </IconButton>
       </ListItem>
 
       <Collapse in={openTags} timeout="auto" unmountOnExit>
