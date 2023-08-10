@@ -35,7 +35,7 @@ const FeedCompletedResources = () => {
   }, [resources?.[0], lastSeenResource])
 
   return (
-    <Box pr={4} pl={1} mb={10}>
+    <Box>
       <Flex justifyContent="flex-end" mb={2}>
         <MinRatingButton
           onChange={(val) => setMinRating(val || 0)}
@@ -47,7 +47,7 @@ const FeedCompletedResources = () => {
         useWindowScroll
         totalCount={filteredResources.length}
         itemContent={(index) => (
-          <Box mb={2}>
+          <Box mb={2} pl={3}>
             <FeedResourceItem feedResource={filteredResources[index]} />
           </Box>
         )}

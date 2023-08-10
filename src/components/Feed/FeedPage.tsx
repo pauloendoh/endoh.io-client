@@ -2,6 +2,7 @@ import { Box, Grid } from "@mui/material"
 import CompletedBookmarkedTabs from "components/User/CompletedBookmarkedTabs/CompletedBookmarkedTabs"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import useUserSuggestionsQuery from "hooks/react-query/feed/useUserSuggestionsQuery"
+import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
 import { useState } from "react"
 import useAuthStore from "store/zustand/useAuthStore"
 import UserSuggestions from "../_common/UserSuggestions/UserSuggestions"
@@ -17,12 +18,14 @@ const FeedPage = () => {
   const [feedType, setFeedType] = useState<"completed" | "bookmarked">(
     "completed"
   )
+
+  const { isMobile } = useMyMediaQuery()
   return (
     <Box pt={3}>
       <Grid container>
-        <Grid item xs={0} lg={3}></Grid>
+        <Grid item xs={0} md={0} lg={4}></Grid>
 
-        <Grid item xs={8} lg={5}>
+        <Grid item xs={12} md={8} lg={4}>
           <FlexVCenter justifyContent={"center"}>
             <CompletedBookmarkedTabs
               onChange={setFeedType}
@@ -32,21 +35,27 @@ const FeedPage = () => {
             />
           </FlexVCenter>
 
-          {feedType === "completed" ? (
-            <FeedCompletedResources />
-          ) : (
-            <FeedBookmarkedResources />
-          )}
+          <Box pr={4} pl={2} mb={10}>
+            {feedType === "completed" ? (
+              <FeedCompletedResources />
+            ) : (
+              <FeedBookmarkedResources />
+            )}
+          </Box>
         </Grid>
 
-        <Grid item xs={4}>
-          <AuthUserSummary />
-          <Box mt={2} />
-          {!!userSuggestions?.length && (
-            <UserSuggestions
-              userSuggestions={userSuggestions}
-              followingTags={followingUsers}
-            />
+        <Grid item xs={0} md={4} lg={4}>
+          {!isMobile && (
+            <>
+              <AuthUserSummary />
+              <Box mt={2} />
+              {!!userSuggestions?.length && (
+                <UserSuggestions
+                  userSuggestions={userSuggestions}
+                  followingTags={followingUsers}
+                />
+              )}
+            </>
           )}
         </Grid>
       </Grid>

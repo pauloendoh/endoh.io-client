@@ -1,7 +1,7 @@
 import { Box, Link } from "@mui/material"
 import Span from "components/_UI/Text/Span"
-import { useMemo } from "react"
-import { LazyLoadImage } from "react-lazy-load-image-component"
+import useElementSize from "hooks/utils/useElementSize"
+import { useMemo, useRef } from "react"
 import "react-lazy-load-image-component/src/effects/blur.css"
 import descriptionPng from "../../../static/images/description.png"
 import linkPng from "../../../static/images/link.png"
@@ -38,8 +38,11 @@ function ResourceThumbnail(props: Props) {
     return props.width ? props.width : 50
   }, [props.width])
 
+  const imageRef = useRef<HTMLImageElement>(null)
+  const { height: imageHeight } = useElementSize(imageRef)
+
   return (
-    <Box position={"relative"}>
+    <Box position={"relative"} height={imageHeight}>
       <Box minWidth={width} width={width} position="relative">
         {isLink() ? (
           <Link
@@ -50,7 +53,8 @@ function ResourceThumbnail(props: Props) {
               e.stopPropagation()
             }}
           >
-            <LazyLoadImage
+            <img
+              ref={imageRef}
               style={{ width: "100%" }}
               alt={props.thumbnailSrc}
               src={getThumbnailSrc()}
@@ -61,13 +65,18 @@ function ResourceThumbnail(props: Props) {
             />
           </Link>
         ) : (
-          <LazyLoadImage style={{ width: "100%" }} src={getThumbnailSrc()} />
+          <img
+            ref={imageRef}
+            alt={props.thumbnailSrc}
+            style={{ width: "100%" }}
+            src={getThumbnailSrc()}
+          />
         )}
       </Box>
       {!!props.estimatedTime && props.estimatedTime !== "00:00h" && (
         <Span
           position="absolute"
-          bottom={16}
+          bottom={-1}
           right={0}
           bgcolor="rgba(0,0,0,0.5)"
           color="white"
