@@ -33,7 +33,7 @@ const SkillLevelTd = (props: Props) => {
           {props.rightValue}
         </FlexVCenter>
       ) : (
-        props.value
+        props.value || null
       )}
     </TableCell>
   )
