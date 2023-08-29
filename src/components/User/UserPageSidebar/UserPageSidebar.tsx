@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Box, List, ListItem, Typography, useTheme } from "@mui/material"
 import ListItemText from "@mui/material/ListItemText"
 import Txt from "components/_UI/Text/Txt"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Link, useHistory, useParams } from "react-router-dom"
 import useProfileStore from "store/zustand/domain/useProfileStore"
 import { SkillDto, buildSkillDto } from "types/domain/skillbase/SkillDto"
@@ -21,13 +21,12 @@ import UserRoadmapsDialog from "./UserRoadmapsDialog/UserRoadmapsDialog"
 const UserPageSidebar = () => {
   const theme = useTheme()
   const history = useHistory()
-  const rootRef = useRef<any>(null)
   const profileStore = useProfileStore()
 
   const [roadmapsDialog, setRoadmapsDialog] = useState(false)
   const [selectedSkill, setSelectedSkill] = useState<SkillDto>(buildSkillDto())
 
-  const { width } = useElementSize(rootRef)
+  const [rootRef, { width }] = useElementSize()
 
   const classes = useStyles()
   const {

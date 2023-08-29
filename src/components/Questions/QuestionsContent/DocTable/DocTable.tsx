@@ -80,8 +80,7 @@ const DocTable = (props: Props) => {
 
   const defaultSubmit = useDefaultSubmitQuestion()
 
-  const toolbarRef = useRef<HTMLDivElement>(null)
-  const { width: toolbarWidth } = useElementSize(toolbarRef)
+  const [toolbarRef, { width: toolbarWidth }] = useElementSize()
 
   const tableContainerRef = useRef<HTMLDivElement>(null)
   const rowVirtualizer = useVirtual({

@@ -13,7 +13,7 @@ import ProfilePicture from "components/_UI/ProfilePicture/ProfilePicture"
 import MyRouterLink from "components/_UI/link/MyRouterLink"
 import ResourceThumbnail from "components/_common/ResourceThumbnail/ResourceThumbnail"
 import useElementSize from "hooks/utils/useElementSize"
-import { useMemo, useRef } from "react"
+import { useMemo } from "react"
 import { Link as RouterLink } from "react-router-dom"
 import { format } from "timeago.js"
 import { FeedResourceDto } from "types/domain/feed/FeedResourceDto"
@@ -29,8 +29,7 @@ interface Props {
 const FeedResourceItem = ({ feedResource }: Props) => {
   const color = useGetColorByRating(feedResource.rating)
 
-  const paperRef = useRef<HTMLDivElement>(null)
-  const { width: paperWidth } = useElementSize(paperRef)
+  const [paperRef, { width: paperWidth }] = useElementSize()
 
   const theme = useTheme()
 

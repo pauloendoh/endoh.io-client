@@ -1,7 +1,7 @@
 import { Box, Link } from "@mui/material"
 import Span from "components/_UI/Text/Span"
 import useElementSize from "hooks/utils/useElementSize"
-import { useMemo, useRef } from "react"
+import { useMemo } from "react"
 import "react-lazy-load-image-component/src/effects/blur.css"
 import descriptionPng from "../../../static/images/description.png"
 import linkPng from "../../../static/images/link.png"
@@ -38,8 +38,7 @@ function ResourceThumbnail(props: Props) {
     return props.width ? props.width : 50
   }, [props.width])
 
-  const imageRef = useRef<HTMLImageElement>(null)
-  const { height: imageHeight } = useElementSize(imageRef)
+  const [imageRef, { height: imageHeight }] = useElementSize()
 
   return (
     <Box position={"relative"} height={imageHeight}>
