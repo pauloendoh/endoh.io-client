@@ -5,15 +5,16 @@ import { Box, Button, CircularProgress, Link, Typography } from "@mui/material"
 import { useAxios } from "hooks/utils/useAxios"
 import React, { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
-import { connect } from "react-redux"
 import { Link as RouterLink } from "react-router-dom"
-import { Dispatch } from "redux"
 import { urls } from "utils/urls"
-import { ApplicationState } from "../../../../store/store"
 import { EmailPostDto } from "../../../../types/domain/auth/EmailPostDto"
 import Flex from "../../../_UI/Flexboxes/Flex"
 import MyTextField from "../../../_UI/MyInputs/MyTextField"
 import H5 from "../../../_UI/Text/H5"
+
+interface Props {
+  onExit: () => void
+}
 
 // PE 2/3
 const ResetPasswordByEmailForm = (props: Props) => {
@@ -128,19 +129,4 @@ const useStyles = makeStyles<Theme>((theme) => ({
   },
 }))
 
-const mapStateToProps = (state: ApplicationState) => ({})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
-
-interface OwnProps {
-  onExit: () => void
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ResetPasswordByEmailForm)
+export default ResetPasswordByEmailForm

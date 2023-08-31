@@ -145,7 +145,7 @@ function ResourceItem(props: Props) {
               </S.DueDateWrapper>
             )}
 
-            {props.resource.completedAt.length > 0 && (
+            {props.resource.completedAt.length > 0 && !isMobile && (
               <ResourceCompletedLabel
                 completedAt={props.resource.completedAt}
               />

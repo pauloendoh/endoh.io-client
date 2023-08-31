@@ -10,17 +10,19 @@ import { Form, Formik } from "formik"
 import { useLogout } from "hooks/auth/useLogout"
 import { useAxios } from "hooks/utils/useAxios"
 import { useState } from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
 import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { urls } from "utils/urls"
-import { ApplicationState } from "../../../../../store/store"
 import MyAxiosError, { MyFieldError } from "../../../../../types/MyAxiosError"
 import { UserDeleteDto } from "../../../../../types/domain/auth/UserDeleteDto"
 import Flex from "../../../../_UI/Flexboxes/Flex"
 import FlexHCenter from "../../../../_UI/Flexboxes/FlexHCenter"
 import MyTextField from "../../../../_UI/MyInputs/MyTextField"
+
+interface Props {
+  open: boolean
+  onClose: () => void
+}
 
 const DeleteAccountDialog = (props: Props) => {
   const [responseErrors, setResponseErrors] = useState([] as MyFieldError[])
@@ -33,7 +35,7 @@ const DeleteAccountDialog = (props: Props) => {
     props.onClose()
   }
 
-  const logout = useLogout(props.dispatch)
+  const logout = useLogout()
 
   const axios = useAxios()
 
@@ -138,21 +140,4 @@ const DeleteAccountDialog = (props: Props) => {
   )
 }
 
-const mapStateToProps = (state: ApplicationState) => ({
-  // editingTag: state.relearn.editingTag,
-})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  dispatch,
-})
-
-interface OwnProps {
-  open: boolean
-  onClose: () => void
-}
-
-type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> &
-  OwnProps
-
-export default connect(mapStateToProps, mapDispatchToProps)(DeleteAccountDialog)
+export default DeleteAccountDialog

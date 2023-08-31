@@ -7,9 +7,7 @@ import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import { useLogout } from "hooks/auth/useLogout"
 import { useState } from "react"
 import { MdHelpOutline } from "react-icons/md"
-import { connect } from "react-redux"
 import { Link, useLocation } from "react-router-dom"
-import { Dispatch } from "redux"
 import useAuthStore from "store/zustand/useAuthStore"
 import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import theme from "utils/consts/theme"
@@ -17,7 +15,7 @@ import ProfilePicture from "../../../../_UI/ProfilePicture/ProfilePicture"
 import KeyboardShortcutsDialog from "./KeyboardShortcutsDialog/KeyboardShortcutsDialog"
 
 // PE 2/3
-const NavbarUserMenu = (props: Props) => {
+const NavbarUserMenu = () => {
   const location = useLocation()
   const { profile, authUser } = useAuthStore()
 
@@ -37,7 +35,7 @@ const NavbarUserMenu = (props: Props) => {
     settingsHref = "/settings/monerate/places"
   }
 
-  const logout = useLogout(props.dispatch)
+  const logout = useLogout()
 
   const openConfirmDialog = useConfirmDialogStore((s) => s.openConfirmDialog)
 
@@ -151,10 +149,4 @@ const NavbarUserMenu = (props: Props) => {
   )
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  dispatch,
-})
-
-type Props = ReturnType<typeof mapDispatchToProps>
-
-export default connect(undefined, mapDispatchToProps)(NavbarUserMenu)
+export default NavbarUserMenu

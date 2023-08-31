@@ -1,5 +1,5 @@
-import { Box, createStyles, Drawer, Theme, Toolbar } from "@mui/material"
-import { makeStyles } from "@mui/styles"
+import { Box, Drawer, Theme, Toolbar } from "@mui/material"
+import { createStyles, makeStyles } from "@mui/styles"
 import React from "react"
 import useSidebarStore from "../../../store/zustand/useSidebarStore"
 import S from "./MySidebar.styles"
@@ -18,6 +18,7 @@ const MySidebar = (props: React.ComponentProps<typeof Drawer>) => {
         // unfortunately, can't remove this
         paper: classes.drawerPaper,
       }}
+      sx={{}}
       {...props}
     >
       <Toolbar />

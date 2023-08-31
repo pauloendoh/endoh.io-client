@@ -1,8 +1,6 @@
 import { Box, Button, Link, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
-import { connect } from "react-redux"
 import { Link as RouterLink } from "react-router-dom"
-import { Dispatch } from "redux"
 import useAuthStore from "store/zustand/useAuthStore"
 import { FollowingUserDto } from "types/domain/feed/FollowingUserDto"
 import { urls } from "utils/urls"
@@ -10,6 +8,11 @@ import { UserSuggestionDto } from "../../../types/domain/feed/UserSuggestionDto"
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
 import ProfilePicture from "../../_UI/ProfilePicture/ProfilePicture"
 import UserSuggestionsDialog from "./UserSuggestionsDialog/UserSuggestionsDialog"
+
+interface Props {
+  userSuggestions: UserSuggestionDto[]
+  followingTags: FollowingUserDto[]
+}
 
 // PE 2/3 - Change to UserSuggestionsSection ?
 function UserSuggestions(props: Props) {
@@ -82,13 +85,4 @@ function UserSuggestions(props: Props) {
   )
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
-
-interface OwnProps {
-  userSuggestions: UserSuggestionDto[]
-  followingTags: FollowingUserDto[]
-}
-
-type Props = ReturnType<typeof mapDispatchToProps> & OwnProps
-
-export default connect(undefined, mapDispatchToProps)(UserSuggestions)
+export default UserSuggestions

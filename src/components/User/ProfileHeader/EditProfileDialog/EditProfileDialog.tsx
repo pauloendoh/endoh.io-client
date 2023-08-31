@@ -14,8 +14,6 @@ import {
 import { Form, Formik, FormikErrors } from "formik"
 import { useEditProfilePicture } from "hooks/auth/useEditProfilePicture"
 import { ChangeEvent, createRef } from "react"
-import { connect } from "react-redux"
-import { Dispatch } from "redux"
 import useProfileStore from "store/zustand/domain/useProfileStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import MyAxiosError from "../../../../types/MyAxiosError"
@@ -26,6 +24,11 @@ import Flex from "../../../_UI/Flexboxes/Flex"
 import MyTextField from "../../../_UI/MyInputs/MyTextField"
 import ProfilePicture from "../../../_UI/ProfilePicture/ProfilePicture"
 
+interface Props {
+  open: boolean
+  onClose: () => void
+}
+
 // PE 2/3
 const EditProfileDialog = (props: Props) => {
   const classes = useStyles()
@@ -35,7 +38,7 @@ const EditProfileDialog = (props: Props) => {
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
 
   const profileStore = useProfileStore()
-  const editProfilePicture = useEditProfilePicture(props.dispatch)
+  const editProfilePicture = useEditProfilePicture()
 
   const handleSubmit = (sentProfile: ProfileDto) => {
     myAxios
@@ -227,15 +230,4 @@ const useStyles = makeStyles<Theme>(() => ({
   },
 }))
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  dispatch,
-})
-
-interface OwnProps {
-  open: boolean
-  onClose: () => void
-}
-
-type Props = ReturnType<typeof mapDispatchToProps> & OwnProps
-
-export default connect(undefined, mapDispatchToProps)(EditProfileDialog)
+export default EditProfileDialog

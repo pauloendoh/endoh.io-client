@@ -6,9 +6,7 @@ import {
 } from "@mui/material"
 import { QueryClientProvider } from "@tanstack/react-query"
 import Snackbars from "components/_UI/SnackBars/Snackbars"
-import { Provider } from "react-redux"
 import { BrowserRouter } from "react-router-dom"
-import store from "store/store"
 import { myQueryClient } from "./consts/myQueryClient"
 import theme from "./consts/theme"
 
@@ -23,21 +21,19 @@ type Props = {
 
 const TestWrapper = (props: Props) => {
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <StyledEngineProvider injectFirst>
-          <ThemeProvider theme={theme}>
-            <QueryClientProvider client={myQueryClient}>
-              <CssBaseline />
+    <BrowserRouter>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <QueryClientProvider client={myQueryClient}>
+            <CssBaseline />
 
-              {props.children}
+            {props.children}
 
-              <Snackbars />
-            </QueryClientProvider>
-          </ThemeProvider>
-        </StyledEngineProvider>
-      </BrowserRouter>
-    </Provider>
+            <Snackbars />
+          </QueryClientProvider>
+        </ThemeProvider>
+      </StyledEngineProvider>
+    </BrowserRouter>
   )
 }
 
