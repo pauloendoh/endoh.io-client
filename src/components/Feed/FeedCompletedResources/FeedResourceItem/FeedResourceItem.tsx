@@ -135,13 +135,15 @@ const FeedResourceItem = ({ feedResource }: Props) => {
                 </MyRouterLink>
               </FlexVCenter>
             </FlexCol>
-            <ResourceThumbnail
-              linkable={true}
-              resourceUrl={feedResource.url}
-              thumbnailSrc={feedResource.thumbnail}
-              width={100}
-              estimatedTime={feedResource.estimatedTime}
-            />{" "}
+            <Box>
+              <ResourceThumbnail
+                linkable={true}
+                resourceUrl={feedResource.url}
+                thumbnailSrc={feedResource.thumbnail}
+                width={100}
+                estimatedTime={feedResource.estimatedTime}
+              />
+            </Box>
           </Flex>
 
           {!!feedResource.publicReview && (
