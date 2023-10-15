@@ -100,6 +100,40 @@ const FeedResourceItem = ({ feedResource }: Props) => {
                   {feedResource.url}
                 </Typography>
               </MuiLink>
+              <FlexVCenter mt={1}>
+                <Typography variant="body2">
+                  {format(
+                    new Date(
+                      verb === "bookmarked"
+                        ? feedResource.createdAt
+                        : feedResource.completedAt
+                    )
+                  )}
+                </Typography>
+
+                <MyRouterLink
+                  to={urls.pages.user.tag(
+                    feedResource.user.username,
+                    feedResource.tag.id
+                  )}
+                >
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      ml: 1,
+                      background: theme.palette.grey[800],
+                      px: 1,
+                      py: 0.5,
+                      borderRadius: 1,
+                      maxWidth: 160,
+                    }}
+                    noWrap
+                    title={feedResource.tag.name}
+                  >
+                    {feedResource.tag.name}
+                  </Typography>
+                </MyRouterLink>
+              </FlexVCenter>
             </FlexCol>
             <ResourceThumbnail
               linkable={true}
@@ -109,40 +143,7 @@ const FeedResourceItem = ({ feedResource }: Props) => {
               estimatedTime={feedResource.estimatedTime}
             />{" "}
           </Flex>
-          <FlexVCenter mt={1}>
-            <Typography variant="body2">
-              {format(
-                new Date(
-                  verb === "bookmarked"
-                    ? feedResource.createdAt
-                    : feedResource.completedAt
-                )
-              )}
-            </Typography>
 
-            <MyRouterLink
-              to={urls.pages.user.tag(
-                feedResource.user.username,
-                feedResource.tag.id
-              )}
-            >
-              <Typography
-                variant="body2"
-                sx={{
-                  ml: 1,
-                  background: theme.palette.grey[800],
-                  px: 1,
-                  py: 0.5,
-                  borderRadius: 1,
-                  maxWidth: 160,
-                }}
-                noWrap
-                title={feedResource.tag.name}
-              >
-                # {feedResource.tag.name}
-              </Typography>
-            </MyRouterLink>
-          </FlexVCenter>
           {!!feedResource.publicReview && (
             <Typography
               sx={{
