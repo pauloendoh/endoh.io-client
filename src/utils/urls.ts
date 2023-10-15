@@ -164,5 +164,6 @@ export const urls = {
     userFollowingUsers: (userId: number) => `/user/${userId}/following-users`,
     userFollowers: (userId: number) => `/user/${userId}/followers`,
     recurrentLearnings: "/recurrent-learnings",
+    newUsers: "/user/new-users",
   },
 }

@@ -5,10 +5,10 @@ import useUserSuggestionsQuery from "hooks/react-query/feed/useUserSuggestionsQu
 import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
 import { useState } from "react"
 import useAuthStore from "store/zustand/useAuthStore"
-import UserSuggestions from "../_common/UserSuggestions/UserSuggestions"
 import AuthUserSummary from "./AuthUserSummary/AuthUserSummary"
 import FeedBookmarkedResources from "./FeedBookmarkedResources/FeedBookmarkedResources"
 import FeedCompletedResources from "./FeedCompletedResources/FeedCompletedResources"
+import NewUsersSection from "./NewUsersSection/NewUsersSection"
 
 // PE 3/3
 const FeedPage = () => {
@@ -49,12 +49,13 @@ const FeedPage = () => {
             <>
               <AuthUserSummary />
               <Box mt={2} />
-              {!!userSuggestions?.length && (
+              {/* {!!userSuggestions?.length && (
                 <UserSuggestions
                   userSuggestions={userSuggestions}
                   followingTags={followingUsers}
                 />
-              )}
+              )} */}
+              <NewUsersSection />
             </>
           )}
         </Grid>
