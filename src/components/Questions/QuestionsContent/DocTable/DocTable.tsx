@@ -89,13 +89,6 @@ const DocTable = (props: Props) => {
     overscan: 10,
   })
 
-  const { virtualItems: virtualRows, totalSize } = rowVirtualizer
-  const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0
-  const paddingBottom =
-    virtualRows.length > 0
-      ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0)
-      : 0
-
   return (
     <Paper>
       <TableContainer className={classes.container} ref={tableContainerRef}>
@@ -125,15 +118,6 @@ const DocTable = (props: Props) => {
           </THead>
 
           <TBody>
-            {paddingTop > 0 && (
-              <TR>
-                <TD
-                  sx={{
-                    height: `${paddingTop}px`,
-                  }}
-                />
-              </TR>
-            )}
             {/* {virtualRows.map((virtualRow) => {
               const index = virtualRow.index
               const note = sortedNotes()[index]
@@ -157,11 +141,6 @@ const DocTable = (props: Props) => {
                 isSmallScreen={isSmallScreen}
               />
             ))}
-            {paddingBottom > 0 && (
-              <tr>
-                <td style={{ height: `${paddingBottom}px` }} />
-              </tr>
-            )}
           </TBody>
         </Table>
       </TableContainer>
