@@ -134,7 +134,7 @@ const DocTable = (props: Props) => {
                 />
               </TR>
             )}
-            {virtualRows.map((virtualRow) => {
+            {/* {virtualRows.map((virtualRow) => {
               const index = virtualRow.index
               const note = sortedNotes()[index]
 
@@ -147,8 +147,8 @@ const DocTable = (props: Props) => {
                   isSmallScreen={isSmallScreen}
                 />
               )
-            })}
-            {/* {sortedNotes().map((note, index) => (
+            })} */}
+            {sortedNotes().map((note, index) => (
               <DocTableRow
                 index={index}
                 key={getRowKey(note)}
@@ -156,7 +156,7 @@ const DocTable = (props: Props) => {
                 onChange={handleNoteChange}
                 isSmallScreen={isSmallScreen}
               />
-            ))} */}
+            ))}
             {paddingBottom > 0 && (
               <tr>
                 <td style={{ height: `${paddingBottom}px` }} />
