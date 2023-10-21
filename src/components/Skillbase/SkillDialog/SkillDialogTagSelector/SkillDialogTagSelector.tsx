@@ -13,6 +13,17 @@ import FlexHCenter from "../../../_UI/Flexboxes/FlexHCenter"
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
 import MyTextField from "../../../_UI/MyInputs/MyTextField"
 
+interface Props {
+  selectedTagId: number | null
+  required?: boolean
+  onChange?: (
+    event: React.ChangeEvent<{}>,
+    value: number | null,
+    reason: AutocompleteChangeReason | null,
+    details?: AutocompleteChangeDetails<unknown>
+  ) => void
+}
+
 const SkillDialogTagSelector = (props: Props) => {
   const [tag, setTag] = useState<TagDto | null>(null)
 
@@ -30,7 +41,7 @@ const SkillDialogTagSelector = (props: Props) => {
   const sortedTags = useMemo(() => {
     if (allTags?.length === 0) return []
     return allTags.sort((a, b) => (Number(a.id) > Number(b.id) ? 1 : -1))
-  }, [allTags])
+  }, [allTags, allTags?.length])
 
   return (
     <Autocomplete // PE 1/3 - dry into <TagSelector/> also used at skill dialog
@@ -59,7 +70,6 @@ const SkillDialogTagSelector = (props: Props) => {
           required={props.required}
           {...params}
           fullWidth
-          InputProps={{ id: "skill-dialog-tag-selector" }}
           size="small"
         />
       )}
@@ -72,17 +82,6 @@ const SkillDialogTagSelector = (props: Props) => {
       }}
     />
   )
-}
-
-interface Props {
-  selectedTagId: number | null
-  required?: boolean
-  onChange?: (
-    event: React.ChangeEvent<{}>,
-    value: number | null,
-    reason: AutocompleteChangeReason | null,
-    details?: AutocompleteChangeDetails<unknown>
-  ) => void
 }
 
 export default SkillDialogTagSelector
