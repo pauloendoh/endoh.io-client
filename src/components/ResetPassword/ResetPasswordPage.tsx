@@ -11,12 +11,12 @@ import {
   Typography,
 } from "@mui/material"
 import { Form, Formik } from "formik"
+import { useAxios } from "hooks/utils/useAxios"
 import { useEffect, useState } from "react"
 import { Redirect, Link as RouterLink } from "react-router-dom"
 import { urls } from "utils/urls"
 import MyAxiosError, { MyFieldError } from "../../types/MyAxiosError"
 import { PasswordResetPostDto } from "../../types/domain/auth/PasswordResetPostDto"
-import myAxios from "../../utils/consts/myAxios"
 import { getQueryParam } from "../../utils/url/getQueryParam"
 import Flex from "../_UI/Flexboxes/Flex"
 import FlexHCenter from "../_UI/Flexboxes/FlexHCenter"
@@ -34,6 +34,8 @@ function ResetPasswordPage() {
   const userId = Number(getQueryParam("userId"))
 
   const [redirectTo, setRedirectTo] = useState("")
+
+  const axios = useAxios()
 
   useEffect(
     () => {
@@ -61,9 +63,10 @@ function ResetPasswordPage() {
     }
 
     setResponseErrors([])
-    myAxios
+    axios
       .post(urls.api.auth.resetPassword, values)
       .then((res) => {
+        debugger
         setSuccess(true)
       })
       .catch((err: MyAxiosError) => {
@@ -117,7 +120,7 @@ function ResetPasswordPage() {
                         type="password"
                         onChange={handleChange}
                         size="small"
-                        label="Password"
+                        label="New password"
                         className="mt-3"
                         fullWidth
                         required
@@ -131,7 +134,7 @@ function ResetPasswordPage() {
                         name="password2"
                         type="password"
                         onChange={handleChange}
-                        label="Confirm password"
+                        label="Confirm new password"
                         className="mt-3"
                         fullWidth
                         required
@@ -150,7 +153,7 @@ function ResetPasswordPage() {
                         style={{ textTransform: "none", fontSize: 16 }}
                         fullWidth
                       >
-                        SEND LINK
+                        Reset password
                         {isSubmitting && (
                           <FlexVCenter ml={2}>
                             <CircularProgress size={20} />
