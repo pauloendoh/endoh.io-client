@@ -23,7 +23,7 @@ const ExpectationsAtLevel = (props: Props) => {
   const theme = useTheme()
   const { setDraggingExpectation, setIsEditingRoadmapItem } =
     useSkillbaseStore()
-  const [editingIndex, setEditingIndex] = useState<number | null>(null)
+  const [editingIndex, setEditingIndex] = useState<number>(-1)
 
   const handleAddExpectation = () => {
     const newExpectation = buildSkillExpectationDto({
@@ -104,7 +104,7 @@ const ExpectationsAtLevel = (props: Props) => {
       ))}
 
       <Box mt={0.5} ml={1}>
-        {editingIndex === null && !props.disabled && (
+        {editingIndex === -1 && !props.disabled && (
           <DarkButton
             onClick={handleAddExpectation}
             size="small"

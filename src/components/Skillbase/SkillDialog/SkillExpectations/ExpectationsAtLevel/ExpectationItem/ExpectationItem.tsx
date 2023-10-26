@@ -19,7 +19,7 @@ interface Props {
   index: number
 
   editingIndex: number | null
-  setEditingIndex: (index: number | null) => void
+  setEditingIndex: (index: number) => void
 }
 
 const ExpectationItem = ({
