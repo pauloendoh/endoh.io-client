@@ -14,6 +14,7 @@ import MyRouterLink from "components/_UI/link/MyRouterLink"
 import ResourceThumbnail from "components/_common/ResourceThumbnail/ResourceThumbnail"
 import useElementSize from "hooks/utils/useElementSize"
 import { useMemo } from "react"
+import { MdLock } from "react-icons/md"
 import { Link as RouterLink } from "react-router-dom"
 import { format } from "timeago.js"
 import { FeedResourceDto } from "types/domain/feed/FeedResourceDto"
@@ -84,6 +85,15 @@ const FeedResourceItem = ({ feedResource }: Props) => {
                 }}
               >
                 {feedResource.rating} - {hoverRatingLabels[feedResource.rating]}
+                {feedResource.tag.isPrivate && (
+                  <MdLock
+                    style={{
+                      position: "relative",
+                      top: 2,
+                      left: 4,
+                    }}
+                  />
+                )}
               </span>
             )}
           </FlexVCenter>
