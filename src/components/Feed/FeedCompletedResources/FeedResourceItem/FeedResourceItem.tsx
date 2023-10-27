@@ -161,6 +161,7 @@ const FeedResourceItem = ({ feedResource }: Props) => {
               sx={{
                 mt: 1,
                 whiteSpace: "pre-wrap",
+                fontStyle: "italic",
               }}
             >
               {feedResource.publicReview}
