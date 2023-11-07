@@ -12,7 +12,7 @@ interface Props {
 const DocSelector = (props: Props) => {
   const docs = useDocsStore((s) => s.docs)
   const selectedDoc = useMemo(
-    () => docs.find((d) => d.id === props.docId),
+    () => docs.find((d) => d.id === props.docId) || null,
     [props.docId, docs]
   )
 
@@ -35,6 +35,7 @@ const DocSelector = (props: Props) => {
         value={selectedDoc}
         options={options}
         getOptionLabel={(doc) => (typeof doc === "string" ? doc : doc.title)}
+        isOptionEqualToValue={(option, value) => option.id === value.id}
         onChange={(e, doc) => {
           if (typeof doc === "string" || !doc) return
           if (doc.id === -1) {
