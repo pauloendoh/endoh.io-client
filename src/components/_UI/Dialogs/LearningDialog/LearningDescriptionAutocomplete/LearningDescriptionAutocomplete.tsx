@@ -112,6 +112,7 @@ const LearningDescriptionAutocomplete = ({ ...props }: Props) => {
                 justifyContent: "center",
                 fontStyle: "italic",
               }}
+              key={option.id}
             >
               + Add recurrent learning
             </li>
@@ -119,7 +120,11 @@ const LearningDescriptionAutocomplete = ({ ...props }: Props) => {
         }
 
         return (
-          <li {...liProps} style={{ display: "flex", alignItems: "center" }}>
+          <li
+            {...liProps}
+            style={{ display: "flex", alignItems: "center" }}
+            key={option.id}
+          >
             <FlexVCenter>
               <FlexCol>
                 <Span>{option.description}</Span>
