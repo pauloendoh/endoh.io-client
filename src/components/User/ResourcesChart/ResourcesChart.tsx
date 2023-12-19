@@ -67,6 +67,9 @@ const ResourcesChart = (props: Props) => {
         <YAxis orientation="right" allowDecimals={false} />
 
         <Tooltip
+          wrapperStyle={{
+            zIndex: 1000,
+          }}
           contentStyle={{
             background: "#292929",
             border: "none",

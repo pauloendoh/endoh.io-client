@@ -108,76 +108,74 @@ const NotesSearchBar = (props: Props) => {
   const defaultSubmit = useDefaultSubmitQuestion()
 
   return (
-    <>
-      <form onSubmit={handleSubmit(submit)}>
-        <Autocomplete
-          loading={isFetching}
-          // if no text, show nothing (don't show 'no resources :(')
+    <form onSubmit={handleSubmit(submit)}>
+      <Autocomplete
+        loading={isFetching}
+        // if no text, show nothing (don't show 'no resources :(')
 
-          noOptionsText={
-            searchQuery.length >= MIN_LENGTH &&
-            debouncedSearchQuery === watch("searchQuery")
-              ? "No questions or docs found :("
-              : "Type at least 3 characters"
-          }
-          options={searchQuery.length >= MIN_LENGTH ? sortedOptions : []}
-          PopperComponent={MyPopper}
-          filterOptions={(notes) => notes} // what this do?
-          renderOption={(liProps, docOrNote) => (
-            <NotesSearchBarOption
-              liProps={liProps}
-              key={docOrNote.id}
-              docOrNote={docOrNote}
-              onClickQuestion={() => {
-                if ("title" in docOrNote) {
-                  return
-                }
+        noOptionsText={
+          searchQuery.length >= MIN_LENGTH &&
+          debouncedSearchQuery === watch("searchQuery")
+            ? "No questions or docs found :("
+            : "Type at least 3 characters"
+        }
+        options={searchQuery.length >= MIN_LENGTH ? sortedOptions : []}
+        PopperComponent={MyPopper}
+        filterOptions={(notes) => notes} // what this do?
+        renderOption={(liProps, docOrNote) => (
+          <NotesSearchBarOption
+            liProps={liProps}
+            key={docOrNote.id}
+            docOrNote={docOrNote}
+            onClickQuestion={() => {
+              if ("title" in docOrNote) {
+                return
+              }
 
-                return onOpenDialog({
-                  initialValue: docOrNote,
-                  onSubmit: defaultSubmit,
-                })
-              }}
-              onClickDoc={(e) => {
-                // @ts-expect-error
-                liProps.onClick(e)
-              }}
-            />
-          )}
-          getOptionLabel={() => searchQuery}
-          clearOnBlur={false}
-          renderInput={(params) => (
-            <Controller
-              control={control}
-              name="searchQuery"
-              render={({ field }) => (
-                <MyTextField
-                  inputRef={inputRef}
-                  {...params}
-                  {...field}
-                  label="Search questions"
-                  size="small"
-                  style={{
-                    width: 240,
-                  }}
-                  InputProps={{
-                    ...params.InputProps,
+              return onOpenDialog({
+                initialValue: docOrNote,
+                onSubmit: defaultSubmit,
+              })
+            }}
+            onClickDoc={(e) => {
+              // @ts-expect-error
+              liProps.onClick(e)
+            }}
+          />
+        )}
+        getOptionLabel={() => searchQuery}
+        clearOnBlur={false}
+        renderInput={(params) => (
+          <Controller
+            control={control}
+            name="searchQuery"
+            render={({ field }) => (
+              <MyTextField
+                inputRef={inputRef}
+                {...params}
+                {...field}
+                label="Search questions"
+                size="small"
+                style={{
+                  width: 240,
+                }}
+                InputProps={{
+                  ...params.InputProps,
 
-                    style: {
-                      borderRadius: "4px 0px 0px 4px",
-                    },
-                  }}
-                  onFocus={() => refetch()}
-                  onCtrlEnter={(e) => {
-                    ctrlSubmit(getValues())
-                  }}
-                />
-              )}
-            />
-          )}
-        />
-      </form>
-    </>
+                  style: {
+                    borderRadius: "4px 0px 0px 4px",
+                  },
+                }}
+                onFocus={() => refetch()}
+                onCtrlEnter={(e) => {
+                  ctrlSubmit(getValues())
+                }}
+              />
+            )}
+          />
+        )}
+      />
+    </form>
   )
 }
 
