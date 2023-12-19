@@ -1,6 +1,10 @@
 import { Grid, Hidden, Typography } from "@mui/material"
+import FlexCol from "components/_UI/Flexboxes/FlexCol"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween"
 import useUserSuggestionsQuery from "hooks/react-query/feed/useUserSuggestionsQuery"
 import { useEffect, useMemo, useState } from "react"
+import { MdLabel } from "react-icons/md"
 import { useHistory, useParams } from "react-router-dom"
 import useProfileStore, {
   resetProfileStore,
@@ -116,22 +120,34 @@ const ProfilePage = () => {
               <ResourcesChart resources={tagResources} />
             </S.ChartWrapper>
 
-            <S.ResourcesContentHeader alignItems={"center"}>
-              <Typography variant="h5">
-                {!selectedTag ? "All resources" : selectedTag.name}{" "}
-              </Typography>
+            <FlexCol mt={3}>
+              <FlexVCenter gap={1} marginX={"auto"}>
+                {!!selectedTag && (
+                  <MdLabel
+                    style={{
+                      color: selectedTag.color,
+                      fontSize: 20,
+                    }}
+                  />
+                )}
+                <Typography variant="h5">
+                  {!selectedTag ? "All resources" : selectedTag.name}{" "}
+                </Typography>
+              </FlexVCenter>
 
-              <CompletedBookmarkedTabs
-                value={selectedTab}
-                onChange={setTabValue}
-                resources={tagResources}
-              />
+              <FlexVCenterBetween>
+                <CompletedBookmarkedTabs
+                  value={selectedTab}
+                  onChange={setTabValue}
+                  resources={tagResources}
+                />
 
-              <MinRatingButton
-                onChange={(val) => setMinRating(val || 0)}
-                value={minRating}
-              />
-            </S.ResourcesContentHeader>
+                <MinRatingButton
+                  onChange={(val) => setMinRating(val || 0)}
+                  value={minRating}
+                />
+              </FlexVCenterBetween>
+            </FlexCol>
 
             <ProfileResources resources={visibleResources} />
           </Grid>
