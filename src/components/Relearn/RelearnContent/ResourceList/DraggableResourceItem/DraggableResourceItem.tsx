@@ -75,7 +75,12 @@ function DraggableResourceItem(props: Props) {
   dragRef(dropRef(ref))
 
   return (
-    <div ref={ref}>
+    <div
+      ref={ref}
+      style={{
+        transform: "translate3d(0,0,0)",
+      }}
+    >
       <Box
         p={1}
         borderBottom="1px solid rgb(255 255 255 / 0.1)" // Could be a const?
