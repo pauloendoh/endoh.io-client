@@ -9,7 +9,7 @@ import {
 } from "@mui/material"
 import { useAxios } from "hooks/utils/useAxios"
 import { useMemo, useState } from "react"
-import { GlobalHotKeys } from "react-hotkeys"
+import { useHotkeys } from "react-hotkeys-hook"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { NoteDto } from "../../../../../../types/domain/questions/NoteDto"
@@ -54,17 +54,12 @@ const FinishedFlashcardDialogChild = (props: Props) => {
       .finally(() => setIsSubmitting(false))
   }
 
-  const keyMap = {
-    onSpacePress: "space",
-  }
-  const handlers = {
-    onSpacePress: async () => {
-      saveResults()
-    },
-  }
+  useHotkeys("space", () => {
+    saveResults()
+  })
 
   return (
-    <GlobalHotKeys keyMap={keyMap} handlers={handlers} allowChanges>
+    <>
       <DialogTitle>
         <S.DialogTitleContent justifyContent="space-between">
           <Typography variant="h6">Finished! </Typography>
@@ -100,7 +95,7 @@ const FinishedFlashcardDialogChild = (props: Props) => {
           Save and Apply Changes (Space)
         </DarkButton>
       </DialogTitle>
-    </GlobalHotKeys>
+    </>
   )
 }
 

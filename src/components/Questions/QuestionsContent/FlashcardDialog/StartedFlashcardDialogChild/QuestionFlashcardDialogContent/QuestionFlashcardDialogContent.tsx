@@ -13,7 +13,7 @@ import {
 import Flex from "components/_UI/Flexboxes/Flex"
 import { useMuiTheme } from "hooks/utils/useMuiTheme"
 import { useEffect, useState } from "react"
-import { GlobalHotKeys } from "react-hotkeys"
+import { useHotkeys } from "react-hotkeys-hook"
 import { MdArrowBack, MdArrowForward } from "react-icons/md"
 import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
 import { NoteDto } from "../../../../../../types/domain/questions/NoteDto"
@@ -45,29 +45,24 @@ const QuestionFlashcardDialogContent = (props: {
     setIsShowingAnswer(false)
   }, [props.questionNumber])
 
-  const keyMap = {
-    onSpacePress: "space",
-    onJPress: "j",
-    onKPress: "k",
-    onLPress: "l",
-  }
-  const handlers = {
-    onSpacePress: async () => {
-      if (!isShowingAnswer) setIsShowingAnswer(true)
-    },
-    onJPress: async () => {
-      if (!isShowingAnswer) setIsShowingAnswer(true)
-      if (isShowingAnswer) props.onWrongAnswer()
-    },
-    onKPress: async () => {
-      if (!isShowingAnswer) setIsShowingAnswer(true)
-      if (isShowingAnswer) props.onHalfAnswer()
-    },
-    onLPress: async () => {
-      if (!isShowingAnswer) setIsShowingAnswer(true)
-      if (isShowingAnswer) props.onCorrectAnswer()
-    },
-  }
+  useHotkeys("space", () => {
+    if (!isShowingAnswer) setIsShowingAnswer(true)
+  })
+
+  useHotkeys("j", () => {
+    if (!isShowingAnswer) setIsShowingAnswer(true)
+    if (isShowingAnswer) props.onWrongAnswer()
+  })
+
+  useHotkeys("k", () => {
+    if (!isShowingAnswer) setIsShowingAnswer(true)
+    if (isShowingAnswer) props.onHalfAnswer()
+  })
+
+  useHotkeys("l", () => {
+    if (!isShowingAnswer) setIsShowingAnswer(true)
+    if (isShowingAnswer) props.onCorrectAnswer()
+  })
 
   const isSmallScreen = useMediaQuery<Theme>((theme) =>
     theme.breakpoints.down("sm")
@@ -76,7 +71,7 @@ const QuestionFlashcardDialogContent = (props: {
   const theme = useMuiTheme()
 
   return (
-    <GlobalHotKeys keyMap={keyMap} handlers={handlers} allowChanges>
+    <>
       <DialogTitle style={{ paddingBottom: 0 }}>
         <Flex justifyContent="space-between">
           <Typography variant="h6">
@@ -214,7 +209,7 @@ const QuestionFlashcardDialogContent = (props: {
           </FlexVCenter>
         )}
       </DialogTitle>
-    </GlobalHotKeys>
+    </>
   )
 }
 

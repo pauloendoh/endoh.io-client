@@ -15,7 +15,7 @@ import Flex from "components/_UI/Flexboxes/Flex"
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
 import sample from "lodash/sample"
 import { useEffect, useState } from "react"
-import { GlobalHotKeys } from "react-hotkeys"
+import { useHotkeys } from "react-hotkeys-hook"
 import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import useSidebarStore from "store/zustand/useSidebarStore"
 import { NoteDto } from "../../../../types/domain/questions/NoteDto"
@@ -143,9 +143,9 @@ const FlashcardDialog = (props: Props) => {
     setTestQuestions(playNotes)
   }
 
-  const onSpacePress = () => {
+  useHotkeys("space", () => {
     shuffleQuestionsAndStart()
-  }
+  })
 
   return (
     <Dialog
@@ -161,10 +161,7 @@ const FlashcardDialog = (props: Props) => {
           onFinish={() => handleClose({ askForConfirmation: false })}
         />
       ) : (
-        <GlobalHotKeys
-          keyMap={{ onSpacePress: "space" }}
-          handlers={{ onSpacePress: onSpacePress }}
-        >
+        <>
           <Flex justifyContent="space-between" style={{ padding: "16px 24px" }}>
             <Txt variant="h6">Test yourself! </Txt>
             <IconButton onClick={() => handleClose()} size="small">
@@ -229,7 +226,7 @@ const FlashcardDialog = (props: Props) => {
               Start! (Space)
             </DarkButton>
           </DialogTitle>
-        </GlobalHotKeys>
+        </>
       )}
     </Dialog>
   )
