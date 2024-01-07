@@ -17,6 +17,10 @@ export const urls = {
     },
     questionsIndex: `/questions`,
     questionsDoc: (docId: number) => `/questions/doc/${docId}`,
+    BigDecisions: {
+      index: "/BigDecisions",
+      decision: (id: number) => `/BigDecisions/${id}`,
+    },
 
     learningDiary: "/LearningDiary",
     skills: {
@@ -135,6 +139,13 @@ export const urls = {
         "v2/feed/resources?type=" + type,
       lastSeenResource: "/feed/last-seen-resource",
       newResourcesCount: "/feed/new-resources-count",
+    },
+
+    BigDecisions: {
+      decision: "v2/BigDecisions/decision",
+      decisionTable: "/BigDecisions/decisionTable",
+      sortProblemsByWeight: `/BigDecisions/decisionTable/sortProblemsByWeight`,
+      decisionTableItem: "/BigDecisions/decisionTableItem",
     },
 
     monerate: {

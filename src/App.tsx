@@ -42,6 +42,9 @@ import { NotificationDto } from "./types/domain/utils/NotificationDto"
 import { myQueryClient } from "./utils/consts/myQueryClient"
 import theme from "./utils/consts/theme"
 import { isValidApplicationPath } from "./utils/domain/app/isValidApplicationPath"
+const BigDecisionsPage = lazy(
+  () => import("./components/Decisions/DecisionsPage")
+)
 
 declare module "@mui/styles/defaultTheme" {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -195,6 +198,9 @@ const App = (props: RouteComponentProps<{}>) => {
 
               <Route path="/questions/doc/:docId" component={QuestionsPage} />
               <Route path="/questions" exact component={QuestionsPage} />
+
+              <Route path="/BigDecisions" exact component={BigDecisionsPage} />
+              <Route path="/BigDecisions/:id" component={BigDecisionsPage} />
 
               <Route path="/user/:username/tag/:tagId" component={UserPage} />
               <Route
