@@ -12,7 +12,7 @@ import { useMemo, useState } from "react"
 import { useHotkeys } from "react-hotkeys-hook"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
-import { NoteDto } from "../../../../../../types/domain/questions/NoteDto"
+import { QuestionDto } from "../../../../../../types/domain/questions/QuestionDto"
 import DarkButton from "../../../../../_UI/Buttons/DarkButton/DarkButton"
 import S from "./FinishedFlashcardDialogChild.styles"
 
@@ -20,7 +20,7 @@ interface Props {
   wrongs: number
   halves: number
   corrects: number
-  results: NoteDto[]
+  results: QuestionDto[]
   onFinish: () => void
 }
 
@@ -45,9 +45,9 @@ const FinishedFlashcardDialogChild = (props: Props) => {
     }))
 
     myAxios
-      .put<NoteDto[]>(urls.api.define.updateManyNotes, data)
+      .put<QuestionDto[]>(urls.api.define.updateManyNotes, data)
       .then((res) => {
-        docsStore.setNotes(res.data)
+        docsStore.setQuestions(res.data)
         setSuccessMessage("Saved!")
         props.onFinish()
       })

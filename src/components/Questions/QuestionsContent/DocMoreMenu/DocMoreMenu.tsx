@@ -20,7 +20,7 @@ import { useHistory } from "react-router-dom"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
-import { NoteDto } from "types/domain/questions/NoteDto"
+import { QuestionDto } from "types/domain/questions/QuestionDto"
 import { urls } from "utils/urls"
 import { DocDto } from "../../../../types/domain/questions/DocDto"
 import DocTitleDialog from "../../DocTitleDialog/DocTitleDialog"
@@ -36,7 +36,7 @@ function DocMoreMenu(props: Props) {
 
   const myAxios = useAxios()
 
-  const { setNotes, notes } = useDocsStore()
+  const { setQuestions: setNotes, questions: notes } = useDocsStore()
   const { openConfirmDialog } = useConfirmDialogStore()
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
 
@@ -82,7 +82,7 @@ function DocMoreMenu(props: Props) {
       title: `Clear ${emptyNotes.length} empty notes?`,
       onConfirm: () => {
         myAxios
-          .delete<NoteDto[]>(urls.api.clearEmptyNotes(props.doc.id))
+          .delete<QuestionDto[]>(urls.api.clearEmptyQuestions(props.doc.id))
           .then((res) => {
             setSuccessMessage("Cleared empty notes")
             setNotes(res.data)

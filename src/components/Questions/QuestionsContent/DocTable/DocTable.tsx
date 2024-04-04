@@ -9,16 +9,16 @@ import { useDefaultSubmitQuestion } from "hooks/questions/useDefaultSubmitQuesti
 import { useAxios } from "hooks/utils/useAxios"
 import useElementSize from "hooks/utils/useElementSize"
 import { useMemo, useRef, useState } from "react"
-import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
+import useQuestionDialogStore from "store/zustand/dialogs/useQuestionDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import { urls } from "utils/urls"
 import {
-  NoteDto,
-  buildNoteDto,
-} from "../../../../types/domain/questions/NoteDto"
+  QuestionDto,
+  buildQuestionDto,
+} from "../../../../types/domain/questions/QuestionDto"
 import DarkButton from "../../../_UI/Buttons/DarkButton/DarkButton"
 import { TBody, TD, THead, TR } from "../../../_UI/Table/MyTableWrappers"
-import AddManyNotesMenuButton from "./AddManyNotesMenuButton/AddManyNotesMenuButton"
+import AddManyQuestionsMenuButton from "./AddManyNotesMenuButton/AddManyQuestionsMenuButton"
 import DocTableRow from "./DocTableRow/DocTableRow"
 
 const DocTable = (props: Props) => {
@@ -26,15 +26,15 @@ const DocTable = (props: Props) => {
 
   const classes = useStyles()
 
-  const [openNoteDialog] = useNoteDialogStore((s) => [
-    s.openNoteDialog,
+  const [openNoteDialog] = useQuestionDialogStore((s) => [
+    s.openDialog,
     s.onClose,
   ])
 
   // for some reason, useMemo does not work very well here
   // I won't bother to fix it now
   const sortedNotes = () => {
-    const filtered = docsStore.notes.filter(
+    const filtered = docsStore.questions.filter(
       (note) => note.docId === props.docId
     )
     const sorted = filtered.sort((a, b) => a.index - b.index)
@@ -47,13 +47,13 @@ const DocTable = (props: Props) => {
 
   const [isSaving, setIsSaving] = useState(false)
 
-  const handleNoteChange = (changed: NoteDto) => {
+  const handleNoteChange = (changed: QuestionDto) => {
     setIsSaving(true)
     clearTimeout(throttle)
     setThrottle(
       setTimeout(() => {
         axios
-          .post<NoteDto>(urls.api.define.note, changed)
+          .post<QuestionDto>(urls.api.define.questions, changed)
           .then((res) => {
             // docsStore.pushOrReplaceNote(res.data)
           })
@@ -62,7 +62,7 @@ const DocTable = (props: Props) => {
     )
   }
 
-  const getRowKey = (note: NoteDto) => {
+  const getRowKey = (note: QuestionDto) => {
     return `${note.id}-${note.weight}-${note.updatedAt}`
   }
 
@@ -157,7 +157,7 @@ const DocTable = (props: Props) => {
           <DarkButton
             onClick={() =>
               openNoteDialog({
-                initialValue: buildNoteDto({
+                initialValue: buildQuestionDto({
                   docId: props.docId,
                 }),
                 onSubmit: defaultSubmit,
@@ -168,7 +168,7 @@ const DocTable = (props: Props) => {
             {toolbarWidth > 500 && " (q)"}
           </DarkButton>
 
-          <AddManyNotesMenuButton docId={props.docId} />
+          <AddManyQuestionsMenuButton docId={props.docId} />
         </FlexVCenter>
 
         {toolbarWidth > 440 && <Typography>{footerLabel}</Typography>}

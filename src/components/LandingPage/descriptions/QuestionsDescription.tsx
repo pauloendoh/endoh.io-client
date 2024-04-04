@@ -5,9 +5,9 @@ import { Link } from "react-router-dom"
 import { urls } from "utils/urls"
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
 
-const NotesDescription = () => {
+const QuestionsDescription = () => {
   return (
-    <Grid id="notes-description" spacing={3} container>
+    <Grid id="questions-description" spacing={3} container>
       <Grid item xs={12} sm={8}>
         <Box>
           <iframe
@@ -28,7 +28,9 @@ const NotesDescription = () => {
           </FlexVCenter>
         </Typography>
 
-        <Typography variant="subtitle1">Study notes and flashcards </Typography>
+        <Typography variant="subtitle1">
+          Study questions and flashcards{" "}
+        </Typography>
 
         <Box mt={2}>
           <Link
@@ -45,4 +47,4 @@ const NotesDescription = () => {
   )
 }
 
-export default NotesDescription
+export default QuestionsDescription

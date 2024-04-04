@@ -3,7 +3,7 @@ import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import { useDefaultSubmitQuestion } from "hooks/questions/useDefaultSubmitQuestion"
 import { useCallback, useMemo } from "react"
 import { MdShuffle } from "react-icons/md"
-import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
+import useQuestionDialogStore from "store/zustand/dialogs/useQuestionDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import getRandomIntInclusive from "utils/math/getRandomIntInclusive"
 
@@ -12,9 +12,9 @@ interface Props {
 }
 
 const QuestionsToRefineListItem = ({ ...props }: Props) => {
-  const [allNotes] = useDocsStore((s) => [s.notes, s.pushOrReplaceNote])
+  const [allNotes] = useDocsStore((s) => [s.questions, s.pushOrReplaceQuestion])
 
-  const [openNoteDialog] = useNoteDialogStore((s) => [s.openNoteDialog])
+  const [openNoteDialog] = useQuestionDialogStore((s) => [s.openDialog])
 
   const filteredQuestions = useMemo(() => {
     if (props.type === "to-refine") {

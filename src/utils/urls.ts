@@ -100,8 +100,8 @@ export const urls = {
     // DEFINE
     define: {
       doc: "define/doc",
-      note: "define/note",
-      updateManyNotes: "/define/note/many",
+      questions: "define/question",
+      updateManyNotes: "/define/question/many",
       questionId: (questionId: number) => `/question/${questionId}`,
     },
     folders: "/playground/folders",
@@ -109,8 +109,10 @@ export const urls = {
     files: "/playground/files",
     saveDocLastOpenedAt: (docId: number) =>
       `define/doc/${docId}/last-opened-at`,
-    createManyNotesAtDoc: (docId: number) => `/define/doc/${docId}/notes/many`,
-    clearEmptyNotes: (docId: number) => `define/doc/${docId}/clear-empty-notes`,
+    createManyQuestionsAtDoc: (docId: number) =>
+      `/define/doc/${docId}/questions/many`,
+    clearEmptyQuestions: (docId: number) =>
+      `define/doc/${docId}/clear-empty-questions`,
     docId: (docId: number) => `docs/${docId}`,
 
     user: {
@@ -126,7 +128,7 @@ export const urls = {
 
     // UTILS
     resourcesSearch: (query: string) => `/search?q=${query}`,
-    notesSearch: (query: string, type: FlashnotesSearchType) =>
+    questionsSearch: (query: string, type: FlashnotesSearchType) =>
       `/flashnotes/search?${new URLSearchParams({
         q: query,
         type,

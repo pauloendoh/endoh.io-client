@@ -3,14 +3,14 @@ import MenuItem from "@mui/material/MenuItem"
 import DarkButton from "components/_UI/Buttons/DarkButton/DarkButton"
 import SaveCancelButtons from "components/_UI/Buttons/SaveCancelButtons"
 import MyTextField from "components/_UI/MyInputs/MyTextField"
-import useCreateManyNotesMutation from "hooks/react-query/questions/note/useCreateManyNotesMutation"
+import useCreateManyQuestionsMutation from "hooks/react-query/questions/note/useCreateManyQuestionsMutation"
 import { useEffect, useMemo, useRef, useState } from "react"
 
 interface Props {
   docId: number
 }
 // PE 2/3
-const AddManyNotesMenuButton = (props: Props) => {
+const AddManyQuestionsMenuButton = (props: Props) => {
   const [anchorEl, setAnchorEl] = useState(null)
 
   const inputRef = useRef<HTMLInputElement>(null)
@@ -41,11 +41,11 @@ const AddManyNotesMenuButton = (props: Props) => {
     [value]
   )
 
-  const { mutate: submitCreation, isLoading } = useCreateManyNotesMutation()
+  const { mutate: submitCreation, isLoading } = useCreateManyQuestionsMutation()
 
   const handleSubmit = () => {
     submitCreation(
-      { docId: props.docId, notesQuantity: value },
+      { docId: props.docId, questionsQuantity: value },
       {
         onSuccess: () => handleCloseMenu(),
       }
@@ -88,7 +88,7 @@ const AddManyNotesMenuButton = (props: Props) => {
               size="small"
               required
               type="number"
-              label="Notes quantity (max: 25)"
+              label="Questions quantity (max: 25)"
               value={value}
               onChange={(e) => {
                 setValue(parseInt(e.currentTarget.value))
@@ -108,4 +108,4 @@ const AddManyNotesMenuButton = (props: Props) => {
   )
 }
 
-export default AddManyNotesMenuButton
+export default AddManyQuestionsMenuButton

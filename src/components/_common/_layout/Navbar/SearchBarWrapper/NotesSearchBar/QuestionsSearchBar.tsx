@@ -2,17 +2,17 @@ import { Autocomplete, Popper } from "@mui/material"
 import { useQueryClient } from "@tanstack/react-query"
 import { useDefaultSubmitQuestion } from "hooks/questions/useDefaultSubmitQuestion"
 import { queryKeys } from "hooks/react-query/queryKeys"
-import useNotesSearchQuery from "hooks/react-query/search/useNotesSearchQuery"
+import useQuestionsSearchQuery from "hooks/react-query/search/useQuestionsSearchQuery"
 import useDebounce from "hooks/utils/useDebounce"
 import React, { useEffect, useMemo, useRef } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { useHotkeys } from "react-hotkeys-hook"
 import { useHistory } from "react-router-dom"
-import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
+import useQuestionDialogStore from "store/zustand/dialogs/useQuestionDialogStore"
 import { SearchResultsDto } from "types/domain/utils/SearchResultsDto"
 import { urls } from "utils/urls"
 import MyTextField from "../../../../../_UI/MyInputs/MyTextField"
-import NotesSearchBarOption from "./NotesSearchBarOption/NotesSearchBarOption"
+import QuestionsSearchBarOption from "./NotesSearchBarOption/QuestionsSearchBarOption"
 import { FlashnotesSearchType } from "./types/FlashnotesSearchType"
 
 interface Props {
@@ -32,7 +32,7 @@ const MyPopper = function (props: React.ComponentProps<typeof Popper>) {
   )
 }
 
-const NotesSearchBar = (props: Props) => {
+const QuestionsSearchBar = (props: Props) => {
   const MIN_LENGTH = 3
 
   const history = useHistory()
@@ -53,7 +53,7 @@ const NotesSearchBar = (props: Props) => {
     data: searchResults,
     refetch,
     isFetching,
-  } = useNotesSearchQuery({
+  } = useQuestionsSearchQuery({
     query: searchQuery,
     minLength: MIN_LENGTH,
     type: props.type,
@@ -71,8 +71,11 @@ const NotesSearchBar = (props: Props) => {
 
   useEffect(() => {
     setValue("searchQuery", "")
-    qc.cancelQueries([queryKeys.notesSearchResults])
-    qc.setQueryData<SearchResultsDto>([queryKeys.notesSearchResults], undefined)
+    qc.cancelQueries([queryKeys.questionsSearchResults])
+    qc.setQueryData<SearchResultsDto>(
+      [queryKeys.questionsSearchResults],
+      undefined
+    )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history.location.search])
 
@@ -93,8 +96,8 @@ const NotesSearchBar = (props: Props) => {
     return []
   }, [searchResults?.notes, searchResults?.docs])
 
-  const [onOpenDialog] = useNoteDialogStore((s) => [
-    s.openNoteDialog,
+  const [onOpenDialog] = useQuestionDialogStore((s) => [
+    s.openDialog,
     s.onClose,
   ])
 
@@ -122,18 +125,18 @@ const NotesSearchBar = (props: Props) => {
         options={searchQuery.length >= MIN_LENGTH ? sortedOptions : []}
         PopperComponent={MyPopper}
         filterOptions={(notes) => notes} // what this do?
-        renderOption={(liProps, docOrNote) => (
-          <NotesSearchBarOption
+        renderOption={(liProps, docOrQuestion) => (
+          <QuestionsSearchBarOption
             liProps={liProps}
-            key={docOrNote.id}
-            docOrNote={docOrNote}
+            key={docOrQuestion.id}
+            docOrQuestion={docOrQuestion}
             onClickQuestion={() => {
-              if ("title" in docOrNote) {
+              if ("title" in docOrQuestion) {
                 return
               }
 
               return onOpenDialog({
-                initialValue: docOrNote,
+                initialValue: docOrQuestion,
                 onSubmit: defaultSubmit,
               })
             }}
@@ -179,4 +182,4 @@ const NotesSearchBar = (props: Props) => {
   )
 }
 
-export default NotesSearchBar
+export default QuestionsSearchBar

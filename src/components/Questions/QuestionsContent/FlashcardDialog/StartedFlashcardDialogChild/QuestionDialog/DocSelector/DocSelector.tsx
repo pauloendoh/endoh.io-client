@@ -30,37 +30,35 @@ const DocSelector = (props: Props) => {
   const { openDocDialog } = useDocDialogStore()
 
   return (
-    <>
-      <Autocomplete
-        value={selectedDoc}
-        options={options}
-        getOptionLabel={(doc) => (typeof doc === "string" ? doc : doc.title)}
-        isOptionEqualToValue={(option, value) => option.id === value.id}
-        onChange={(e, doc) => {
-          if (typeof doc === "string" || !doc) return
-          if (doc.id === -1) {
-            openDocDialog()
-            return
-          }
-          props.onChange(doc.id)
-        }}
-        renderInput={(params) => (
-          <MyTextField {...params} label="Doc" size="small" required />
-        )}
-        renderOption={(liProps, label) => {
-          if (label.id > 0) return <li {...liProps}>{label.title}</li>
+    <Autocomplete
+      value={selectedDoc}
+      options={options}
+      getOptionLabel={(doc) => (typeof doc === "string" ? doc : doc.title)}
+      isOptionEqualToValue={(option, value) => option.id === value.id}
+      onChange={(e, doc) => {
+        if (typeof doc === "string" || !doc) return
+        if (doc.id === -1) {
+          openDocDialog()
+          return
+        }
+        props.onChange(doc.id)
+      }}
+      renderInput={(params) => (
+        <MyTextField {...params} label="Doc" size="small" required />
+      )}
+      renderOption={(liProps, label) => {
+        if (label.id > 0) return <li {...liProps}>{label.title}</li>
 
-          return (
-            <li
-              {...liProps}
-              style={{ display: "flex", justifyContent: "center" }}
-            >
-              + Create new doc
-            </li>
-          )
-        }}
-      />
-    </>
+        return (
+          <li
+            {...liProps}
+            style={{ display: "flex", justifyContent: "center" }}
+          >
+            + Create new doc
+          </li>
+        )
+      }}
+    />
   )
 }
 

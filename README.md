@@ -20,7 +20,7 @@ Relearn is a platform for self-learners. Here, you can find:
 
 ![image](https://user-images.githubusercontent.com/17272651/121969781-61ae8280-cd4b-11eb-9c9a-66ad3c08dd46.png)
 
-### Keep note of your studies, then, create some flashcards
+### Keep questions of your studies, then, create some flashcards
 
 ![image](https://user-images.githubusercontent.com/17272651/121969835-87d42280-cd4b-11eb-9968-037837db18dc.png)
 

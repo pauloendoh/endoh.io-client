@@ -15,18 +15,18 @@ import { useMuiTheme } from "hooks/utils/useMuiTheme"
 import { useEffect, useState } from "react"
 import { useHotkeys } from "react-hotkeys-hook"
 import { MdArrowBack, MdArrowForward } from "react-icons/md"
-import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
-import { NoteDto } from "../../../../../../types/domain/questions/NoteDto"
+import useQuestionDialogStore from "store/zustand/dialogs/useQuestionDialogStore"
+import { QuestionDto } from "../../../../../../types/domain/questions/QuestionDto"
 import DarkButton from "../../../../../_UI/Buttons/DarkButton/DarkButton"
 import FlexVCenter from "../../../../../_UI/Flexboxes/FlexVCenter"
 
 const QuestionFlashcardDialogContent = (props: {
-  question: NoteDto
+  question: QuestionDto
   questionNumber: number
   totalQuestions: number
   docTitle: string
   closeDialog: () => void
-  onEditQuestion: (newQuestion: NoteDto) => void
+  onEditQuestion: (newQuestion: QuestionDto) => void
   onWrongAnswer: () => void
   onHalfAnswer: () => void
   onCorrectAnswer: () => void
@@ -36,8 +36,8 @@ const QuestionFlashcardDialogContent = (props: {
 }) => {
   const [isShowingAnswer, setIsShowingAnswer] = useState(false)
 
-  const [openNoteDialog, closeDialog] = useNoteDialogStore((s) => [
-    s.openNoteDialog,
+  const [openNoteDialog, closeDialog] = useQuestionDialogStore((s) => [
+    s.openDialog,
     s.onClose,
   ])
 

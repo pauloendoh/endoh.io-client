@@ -8,18 +8,18 @@ import { MdInsertDriveFile } from "react-icons/md"
 import { Link, useHistory } from "react-router-dom"
 import { format } from "timeago.js"
 import { DocDto } from "types/domain/questions/DocDto"
-import { NoteDto } from "types/domain/questions/NoteDto"
+import { QuestionDto } from "types/domain/questions/QuestionDto"
 import { urls } from "utils/urls"
 
 type Props = {
-  docOrNote: NoteDto | DocDto
+  docOrQuestion: QuestionDto | DocDto
   onClickQuestion: () => void
   liProps: React.HTMLAttributes<HTMLLIElement>
   onClickDoc: (e: React.MouseEvent) => void
 }
 
-const NotesSearchBarOption = ({
-  docOrNote,
+const QuestionsSearchBarOption = ({
+  docOrQuestion,
   onClickQuestion,
   liProps,
   ...props
@@ -28,12 +28,13 @@ const NotesSearchBarOption = ({
   const history = useHistory()
 
   const backgroundColor = useMemo(() => {
-    return "toRefine" in docOrNote &&
-      (docOrNote.toRefine ||
-        (docOrNote.question.length > 0 && docOrNote.description.length === 0))
+    return "toRefine" in docOrQuestion &&
+      (docOrQuestion.toRefine ||
+        (docOrQuestion.question.length > 0 &&
+          docOrQuestion.description.length === 0))
       ? "#6e4747"
       : undefined
-  }, [docOrNote])
+  }, [docOrQuestion])
 
   return (
     <li
@@ -47,25 +48,25 @@ const NotesSearchBarOption = ({
         backgroundColor,
       }}
       onClick={(e) => {
-        if ("title" in docOrNote) {
-          history.push(urls.pages.questionsDoc(docOrNote.id))
+        if ("title" in docOrQuestion) {
+          history.push(urls.pages.questionsDoc(docOrQuestion.id))
           props.onClickDoc(e)
           return
         }
         onClickQuestion()
       }}
     >
-      {"question" in docOrNote && (
+      {"question" in docOrQuestion && (
         <FlexCol style={{ gap: 4 }} width="100%">
           <Flex justifyContent="space-between" width="100%">
             <Flex style={{ gap: 8 }}>
               <NotesIcon />
-              <Typography>{docOrNote.question}</Typography>
+              <Typography>{docOrQuestion.question}</Typography>
             </Flex>
 
-            {docOrNote.doc?.title && (
+            {docOrQuestion.doc?.title && (
               <Link
-                to={urls.pages.questionsDoc(docOrNote.doc.id)}
+                to={urls.pages.questionsDoc(docOrQuestion.doc.id)}
                 onClick={(e) => {
                   e.stopPropagation()
                   props.onClickDoc(e)
@@ -74,7 +75,7 @@ const NotesSearchBarOption = ({
               >
                 <Typography
                   noWrap
-                  title={docOrNote.doc?.title}
+                  title={docOrQuestion.doc?.title}
                   display="inline"
                   style={{
                     width: 120,
@@ -84,7 +85,7 @@ const NotesSearchBarOption = ({
                     background: theme.palette.grey[700],
                   }}
                 >
-                  {docOrNote.doc?.title}
+                  {docOrQuestion.doc?.title}
                 </Typography>
               </Link>
             )}
@@ -98,23 +99,23 @@ const NotesSearchBarOption = ({
               variant="body2"
               style={{ fontStyle: "italic", marginLeft: 28 }}
             >
-              {docOrNote.description}
+              {docOrQuestion.description}
             </Typography>
             <Typography variant="body2" minWidth={100}>
-              {format(docOrNote.updatedAt)}
+              {format(docOrQuestion.updatedAt)}
             </Typography>
           </Flex>
         </FlexCol>
       )}
-      {"title" in docOrNote && (
+      {"title" in docOrQuestion && (
         <FlexCol style={{ gap: 4 }} width="100%">
           <Flex justifyContent="space-between" width="100%">
             <Flex style={{ gap: 8 }}>
               <MdInsertDriveFile fontSize={24} />
-              <Typography>{docOrNote.title}</Typography>
+              <Typography>{docOrQuestion.title}</Typography>
             </Flex>
             <Typography variant="body2">
-              {format(docOrNote.updatedAt)}
+              {format(docOrQuestion.updatedAt)}
             </Typography>
           </Flex>
         </FlexCol>
@@ -123,4 +124,4 @@ const NotesSearchBarOption = ({
   )
 }
 
-export default NotesSearchBarOption
+export default QuestionsSearchBarOption

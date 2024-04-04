@@ -1,18 +1,18 @@
 import { DocDto } from "types/domain/questions/DocDto"
-import { NoteDto } from "types/domain/questions/NoteDto"
+import { QuestionDto } from "types/domain/questions/QuestionDto"
 import { pushOrReplace } from "utils/array/pushOrReplace"
 import { create } from "zustand"
 
 interface IDocsStore {
   docs: DocDto[]
-  notes: NoteDto[]
+  questions: QuestionDto[]
   hasFirstLoaded: boolean
 
   setDocs: (docs: DocDto[]) => void
-  setNotes: (notes: NoteDto[]) => void
+  setQuestions: (questions: QuestionDto[]) => void
 
   pushOrReplaceDoc: (doc: DocDto) => void
-  pushOrReplaceNote: (note: NoteDto) => void
+  pushOrReplaceQuestion: (question: QuestionDto) => void
 
   isLoadingNewDoc: boolean
   setIsLoadingNewDoc: (isLoadingNewDoc: boolean) => void
@@ -20,15 +20,15 @@ interface IDocsStore {
 
 const useDocsStore = create<IDocsStore>((set, get) => ({
   docs: [],
-  notes: [],
+  questions: [],
   hasFirstLoaded: false,
 
   setDocs: (docs) => {
     set({ docs, hasFirstLoaded: true })
   },
 
-  setNotes: (notes) => {
-    set({ notes })
+  setQuestions: (question) => {
+    set({ questions: question })
   },
 
   pushOrReplaceDoc: (doc) => {
@@ -36,9 +36,9 @@ const useDocsStore = create<IDocsStore>((set, get) => ({
     set({ docs: pushOrReplace(docs, doc, "id") })
   },
 
-  pushOrReplaceNote: (note) => {
-    const { notes } = get()
-    set({ notes: pushOrReplace(notes, note, "id") })
+  pushOrReplaceQuestion: (question) => {
+    const { questions } = get()
+    set({ questions: pushOrReplace(questions, question, "id") })
   },
 
   isLoadingNewDoc: false,

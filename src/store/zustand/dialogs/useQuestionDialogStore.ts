@@ -1,25 +1,28 @@
-import { buildNoteDto, NoteDto } from "types/domain/questions/NoteDto"
+import {
+  buildQuestionDto,
+  QuestionDto,
+} from "types/domain/questions/QuestionDto"
 import { create } from "zustand"
 
-interface INoteDialogStore {
+interface IStore {
   isOpen: boolean
-  initialValue: NoteDto
-  openNoteDialog: (options: {
-    initialValue: NoteDto
-    onSubmit: (value: NoteDto) => void
+  initialValue: QuestionDto
+  openDialog: (options: {
+    initialValue: QuestionDto
+    onSubmit: (value: QuestionDto) => void
     customOnDelete?: () => void
   }) => void
   onClose: () => void
-  onSubmit: (value: NoteDto) => void
+  onSubmit: (value: QuestionDto) => void
   customOnDelete?: () => void
   isSubmitting: boolean
   setIsSubmitting: (value: boolean) => void
 }
 
-const useNoteDialogStore = create<INoteDialogStore>((set, get) => ({
+const useQuestionDialogStore = create<IStore>((set, get) => ({
   isOpen: false,
-  initialValue: buildNoteDto(),
-  openNoteDialog: (options) =>
+  initialValue: buildQuestionDto(),
+  openDialog: (options) =>
     set({
       isOpen: true,
       initialValue: options.initialValue,
@@ -35,4 +38,4 @@ const useNoteDialogStore = create<INoteDialogStore>((set, get) => ({
   setIsSubmitting: (value) => set({ isSubmitting: value }),
 }))
 
-export default useNoteDialogStore
+export default useQuestionDialogStore

@@ -1,24 +1,24 @@
 import { useAxios } from "hooks/utils/useAxios"
-import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
+import useQuestionDialogStore from "store/zustand/dialogs/useQuestionDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
-import { NoteDto } from "types/domain/questions/NoteDto"
+import { QuestionDto } from "types/domain/questions/QuestionDto"
 import { urls } from "utils/urls"
 import QuestionSavedMessage from "./QuestionSavedMessage/QuestionSavedMessage"
 
 export const useDefaultSubmitQuestion = () => {
-  const { onClose, setIsSubmitting } = useNoteDialogStore()
+  const { onClose, setIsSubmitting } = useQuestionDialogStore()
 
-  const { pushOrReplaceNote } = useDocsStore()
+  const { pushOrReplaceQuestion: pushOrReplaceNote } = useDocsStore()
 
   const { setSuccessMessage } = useSnackbarStore()
 
   const axios = useAxios()
-  const onSubmit = (updatedNote: NoteDto) => {
+  const onSubmit = (updatedNote: QuestionDto) => {
     // PE 1/3 - DRY
     setIsSubmitting(true)
     axios
-      .post<NoteDto>(urls.api.define.note, updatedNote)
+      .post<QuestionDto>(urls.api.define.questions, updatedNote)
       .then((res) => {
         pushOrReplaceNote(res.data)
 

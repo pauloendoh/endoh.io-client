@@ -5,7 +5,7 @@ export const queryKeys = {
   feedResources: (type: "completed" | "bookmarked") =>
     urls.api.feed.resources(type),
   resourceSearchResults: "resourceSearchResults",
-  notesSearchResults: "notesSearchResults",
+  questionsSearchResults: "questionsSearchResults",
   labels: "labels",
   skillId: (skillId: number) => `skill-${skillId}`,
   progressMonths: "progressMonths",

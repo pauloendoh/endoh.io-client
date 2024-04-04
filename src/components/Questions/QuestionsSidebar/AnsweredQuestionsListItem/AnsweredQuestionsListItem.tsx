@@ -10,7 +10,7 @@ interface Props {
 }
 
 const AnsweredQuestionsListItem = (props: Props) => {
-  const [allNotes] = useDocsStore((s) => [s.notes])
+  const [allNotes] = useDocsStore((s) => [s.questions])
 
   const answeredQuestions = useMemo(() => {
     return allNotes.filter(

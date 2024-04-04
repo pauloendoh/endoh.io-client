@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
-import { NoteDto } from "types/domain/questions/NoteDto"
+import { QuestionDto } from "types/domain/questions/QuestionDto"
 import { urls } from "utils/urls"
 import { DocDto } from "../../../types/domain/questions/DocDto"
 import SaveCancelButtons from "../../_UI/Buttons/SaveCancelButtons"
@@ -54,8 +54,8 @@ const DocTitleDialog = (props: Props) => {
         docsStore.setIsLoadingNewDoc(true)
         queryClient.invalidateQueries([queryKeys.folders])
         myAxios
-          .get<NoteDto[]>(urls.api.define.note)
-          .then((res) => docsStore.setNotes(res.data))
+          .get<QuestionDto[]>(urls.api.define.questions)
+          .then((res) => docsStore.setQuestions(res.data))
           .finally(() => docsStore.setIsLoadingNewDoc(false))
 
         if (props.afterSave) props.afterSave(res.data)

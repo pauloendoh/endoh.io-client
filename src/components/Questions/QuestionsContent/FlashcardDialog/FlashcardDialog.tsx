@@ -18,7 +18,7 @@ import { useEffect, useState } from "react"
 import { useHotkeys } from "react-hotkeys-hook"
 import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import useSidebarStore from "store/zustand/useSidebarStore"
-import { NoteDto } from "../../../../types/domain/questions/NoteDto"
+import { QuestionDto } from "../../../../types/domain/questions/QuestionDto"
 import { shuffleArray } from "../../../../utils/array/shuffleArray"
 import DarkButton from "../../../_UI/Buttons/DarkButton/DarkButton"
 import FlexHCenter from "../../../_UI/Flexboxes/FlexHCenter"
@@ -30,15 +30,15 @@ import StartedFlashcardDialogChild from "./StartedFlashcardDialogChild/StartedFl
 interface Props {
   open: boolean
   onClose: () => void
-  availableNotes: NoteDto[]
+  availableNotes: QuestionDto[]
 }
 
 const FlashcardDialog = (props: Props) => {
   const [minWeight, setMinWeight] = useState<number | null>(1)
   const [maxTestedTimes, setMaxTestedTimes] = useState<number | null>(null)
-  const [allQuestions, setAllQuestions] = useState<NoteDto[]>([])
+  const [allQuestions, setAllQuestions] = useState<QuestionDto[]>([])
   const [questionsQty, setQuestionsQty] = useState(0)
-  const [testQuestions, setTestQuestions] = useState<NoteDto[]>([])
+  const [testQuestions, setTestQuestions] = useState<QuestionDto[]>([])
 
   const [isIncludingQuestionsToRefine, setIsIncludingQuestionsToRefine] =
     useState(false)
@@ -127,7 +127,7 @@ const FlashcardDialog = (props: Props) => {
       }
     }
 
-    const playNotes: NoteDto[] = []
+    const playNotes: QuestionDto[] = []
     for (let i = 0; i < questionsQty; i++) {
       const randomId = sample(ids) as number
       ids = ids.filter((id) => id !== randomId)

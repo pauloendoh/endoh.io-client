@@ -1,25 +1,28 @@
 import { useMutation } from "@tanstack/react-query"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
-import { NoteDto } from "types/domain/questions/NoteDto"
+import { QuestionDto } from "types/domain/questions/QuestionDto"
 import myAxios from "utils/consts/myAxios"
 import { urls } from "utils/urls"
 
-export default function useCreateManyNotesMutation() {
+export default function useCreateManyQuestionsMutation() {
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
 
-  const [setNotes, notes] = useDocsStore((s) => [s.setNotes, s.notes])
+  const [setQuestions, questions] = useDocsStore((s) => [
+    s.setQuestions,
+    s.questions,
+  ])
 
   return useMutation(
-    (payload: { notesQuantity: number; docId: number }) =>
+    (payload: { questionsQuantity: number; docId: number }) =>
       myAxios
-        .post<NoteDto[]>(urls.api.createManyNotesAtDoc(payload.docId), {
-          notesQuantity: payload.notesQuantity,
+        .post<QuestionDto[]>(urls.api.createManyQuestionsAtDoc(payload.docId), {
+          questionsQuantity: payload.questionsQuantity,
         })
         .then((res) => res.data),
     {
-      onSuccess: (savedNotes, docId) => {
-        setNotes([...notes, ...savedNotes])
+      onSuccess: (savedQuestions, docId) => {
+        setQuestions([...questions, ...savedQuestions])
 
         setSuccessMessage("Notes created!")
       },

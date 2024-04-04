@@ -12,7 +12,7 @@ import { useHistory, useParams } from "react-router-dom"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSidebarStore from "../../store/zustand/useSidebarStore"
 import { DocDto } from "../../types/domain/questions/DocDto"
-import { NoteDto } from "../../types/domain/questions/NoteDto"
+import { QuestionDto } from "../../types/domain/questions/QuestionDto"
 import LoadingPage from "../_common/LoadingPage/LoadingPage"
 import QuestionsContent from "./QuestionsContent/QuestionsContent"
 import QuestionsSidebar from "./QuestionsSidebar/QuestionsSidebar"
@@ -37,8 +37,8 @@ const QuestionsPage = () => {
         .then((res) => docsStore.setDocs(res.data))
 
       myAxios
-        .get<NoteDto[]>(urls.api.define.note)
-        .then((res) => docsStore.setNotes(res.data))
+        .get<QuestionDto[]>(urls.api.define.questions)
+        .then((res) => docsStore.setQuestions(res.data))
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []

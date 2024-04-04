@@ -6,16 +6,16 @@ import clsx from "clsx"
 import { useAxios } from "hooks/utils/useAxios"
 import useDebounce from "hooks/utils/useDebounce"
 import { useEffect, useMemo, useRef, useState } from "react"
-import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
+import useQuestionDialogStore from "store/zustand/dialogs/useQuestionDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { urls } from "utils/urls"
-import { NoteDto } from "../../../../../types/domain/questions/NoteDto"
+import { QuestionDto } from "../../../../../types/domain/questions/QuestionDto"
 
 interface Props {
   index: number
-  question: NoteDto
-  onChange: (newValue: NoteDto) => void
+  question: QuestionDto
+  onChange: (newValue: QuestionDto) => void
   isSmallScreen: boolean
 }
 
@@ -44,9 +44,9 @@ const DocTableRow = (props: Props) => {
   const initialQuestion = useRef(props.question.question)
   const initialDescription = useRef(props.question.description)
 
-  const pushOrReplaceQuestion = useDocsStore((s) => s.pushOrReplaceNote)
-  const [openNoteDialog, closeNoteDialog] = useNoteDialogStore((s) => [
-    s.openNoteDialog,
+  const pushOrReplaceQuestion = useDocsStore((s) => s.pushOrReplaceQuestion)
+  const [openNoteDialog, closeNoteDialog] = useQuestionDialogStore((s) => [
+    s.openDialog,
     s.onClose,
   ])
   const setSuccessMessage = useSnackbarStore((s) => s.setSuccessMessage)
@@ -70,7 +70,7 @@ const DocTableRow = (props: Props) => {
             initialValue: localQuestion,
             onSubmit: (updatedQuestion) => {
               axios
-                .post<NoteDto>(urls.api.define.note, updatedQuestion)
+                .post<QuestionDto>(urls.api.define.questions, updatedQuestion)
                 .then((res) => {
                   pushOrReplaceQuestion(res.data)
                   setLocalQuestion(res.data)

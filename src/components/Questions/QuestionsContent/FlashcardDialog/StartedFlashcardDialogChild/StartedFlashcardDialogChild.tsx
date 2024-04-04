@@ -2,13 +2,13 @@ import { produce } from "immer"
 import React, { useMemo, useState } from "react"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import { upsert } from "utils/array/upsert"
-import { NoteDto } from "../../../../../types/domain/questions/NoteDto"
+import { QuestionDto } from "../../../../../types/domain/questions/QuestionDto"
 import FinishedFlashcardDialogChild from "./FinishedFlashcardDialogChild/FinishedFlashcardDialogChild"
 import QuestionFlashcardDialogContent from "./QuestionFlashcardDialogContent/QuestionFlashcardDialogContent"
 
 // PE 2/3
 const StartedFlashcardDialogChild = (props: {
-  questions: NoteDto[]
+  questions: QuestionDto[]
   onFinish: () => void
 }) => {
   const [localQuestions, setLocalQuestions] = useState(props.questions)
@@ -18,7 +18,7 @@ const StartedFlashcardDialogChild = (props: {
   const [halves, setHalves] = useState(0)
   const [corrects, setCorrects] = useState(0)
 
-  const [results, setResults] = useState<NoteDto[]>([])
+  const [results, setResults] = useState<QuestionDto[]>([])
 
   const handleWrong = () => {
     setWrongs(wrongs + 1)
@@ -65,7 +65,7 @@ const StartedFlashcardDialogChild = (props: {
     [questionIndex, localQuestions]
   )
 
-  const editQuestion = (newNote: NoteDto) => {
+  const editQuestion = (newNote: QuestionDto) => {
     setLocalQuestions(
       produce(localQuestions, (draftNotes) => {
         const index = draftNotes.findIndex((n) => n.id === newNote.id)

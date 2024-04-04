@@ -5,7 +5,7 @@ import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import { useEffect, useState } from "react"
 import { FaLink } from "react-icons/fa"
 import { useLocation } from "react-router-dom"
-import NotesSearchBar from "./NotesSearchBar/NotesSearchBar"
+import QuestionsSearchBar from "./NotesSearchBar/QuestionsSearchBar"
 import { FlashnotesSearchType } from "./NotesSearchBar/types/FlashnotesSearchType"
 import ResourcesSearchBar from "./ResourcesSearchBar/ResourcesSearchBar"
 
@@ -31,7 +31,7 @@ const SearchBarWrapper = (props: Props) => {
     <FlexVCenter>
       {searchType === "resources" && <ResourcesSearchBar />}
       {(searchType === "q&a" || searchType === "questions") && (
-        <NotesSearchBar type={searchType} />
+        <QuestionsSearchBar type={searchType} />
       )}
       <FormControl
         variant="outlined"

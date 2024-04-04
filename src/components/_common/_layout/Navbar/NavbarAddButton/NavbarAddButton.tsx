@@ -2,10 +2,10 @@ import { Fab, Tooltip } from "@mui/material"
 import { useDefaultSubmitQuestion } from "hooks/questions/useDefaultSubmitQuestion"
 import { useCallback, useMemo } from "react"
 import { useLocation } from "react-router-dom"
-import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
+import useQuestionDialogStore from "store/zustand/dialogs/useQuestionDialogStore"
 import useResourceDialogStore from "store/zustand/domain/resources/useResourceDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
-import { buildNoteDto } from "types/domain/questions/NoteDto"
+import { buildQuestionDto } from "types/domain/questions/QuestionDto"
 import { buildResourceDto } from "types/domain/relearn/ResourceDto"
 import Icons from "utils/styles/Icons"
 import { useQHotkey } from "./useQHotkey"
@@ -15,7 +15,7 @@ const NavbarAddButton = () => {
   const { initialValue: editingResource, setInitialValue: setEditingResource } =
     useResourceDialogStore()
 
-  const [openNoteDialog] = useNoteDialogStore((s) => [s.openNoteDialog])
+  const [openNoteDialog] = useQuestionDialogStore((s) => [s.openDialog])
 
   const location = useLocation()
 
@@ -29,7 +29,7 @@ const NavbarAddButton = () => {
     const doc = docs.find((d) => d.id === docId)
 
     openNoteDialog({
-      initialValue: buildNoteDto({
+      initialValue: buildQuestionDto({
         docId: doc?.id,
       }),
       onSubmit: defaultSubmit,

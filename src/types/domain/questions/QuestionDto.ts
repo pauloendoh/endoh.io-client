@@ -1,6 +1,6 @@
 import { DocDto } from "./DocDto"
 
-export interface NoteDto {
+export interface QuestionDto {
   id: number | null
   userId: number
   docId: number
@@ -18,7 +18,7 @@ export interface NoteDto {
   updatedAt: string
 }
 
-export const buildNoteDto = (p?: Partial<NoteDto>): NoteDto => ({
+export const buildQuestionDto = (p?: Partial<QuestionDto>): QuestionDto => ({
   id: null,
   description: "",
   index: 0,

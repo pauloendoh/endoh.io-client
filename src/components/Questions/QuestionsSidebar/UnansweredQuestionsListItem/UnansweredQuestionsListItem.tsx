@@ -4,7 +4,7 @@ import { useDefaultSubmitQuestion } from "hooks/questions/useDefaultSubmitQuesti
 import { useAxios } from "hooks/utils/useAxios"
 import { useCallback, useMemo } from "react"
 import { MdShuffle } from "react-icons/md"
-import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
+import useQuestionDialogStore from "store/zustand/dialogs/useQuestionDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import getRandomIntInclusive from "utils/math/getRandomIntInclusive"
@@ -16,12 +16,12 @@ interface Props {
 const UnansweredQuestionsListItem = (props: Props) => {
   const myAxios = useAxios()
   const [allNotes, pushOrReplaceNote] = useDocsStore((s) => [
-    s.notes,
-    s.pushOrReplaceNote,
+    s.questions,
+    s.pushOrReplaceQuestion,
   ])
 
-  const [openNoteDialog, closeNoteDialog] = useNoteDialogStore((s) => [
-    s.openNoteDialog,
+  const [openNoteDialog, closeNoteDialog] = useQuestionDialogStore((s) => [
+    s.openDialog,
     s.onClose,
   ])
 

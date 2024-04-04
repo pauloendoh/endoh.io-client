@@ -18,7 +18,7 @@ import { useEffect } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { MdInfo } from "react-icons/md"
 import useDocDialogStore from "store/zustand/dialogs/useDocDialogStore"
-import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
+import useQuestionDialogStore from "store/zustand/dialogs/useQuestionDialogStore"
 import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import useSidebarStore from "store/zustand/useSidebarStore"
 import SaveCancelButtons from "../../../../../_UI/Buttons/SaveCancelButtons"
@@ -35,7 +35,7 @@ const QuestionDialog = () => {
     initialValue,
     isSubmitting,
     customOnDelete,
-  } = useNoteDialogStore()
+  } = useQuestionDialogStore()
 
   const { handleSubmit, watch, reset, control, formState, setValue } = useForm({
     defaultValues: initialValue,

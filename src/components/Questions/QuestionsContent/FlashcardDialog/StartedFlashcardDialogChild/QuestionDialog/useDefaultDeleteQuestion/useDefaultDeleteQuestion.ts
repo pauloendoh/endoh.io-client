@@ -1,14 +1,15 @@
 import { useAxios } from "hooks/utils/useAxios"
-import useNoteDialogStore from "store/zustand/dialogs/useNoteDialogStore"
+import useQuestionDialogStore from "store/zustand/dialogs/useQuestionDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { urls } from "utils/urls"
 
 export const useDefaultDeleteQuestion = () => {
-  const { onClose } = useNoteDialogStore()
+  const { onClose } = useQuestionDialogStore()
 
-  const { notes: allQuestions, setNotes: setAllQuestions } = useDocsStore()
+  const { questions: allQuestions, setQuestions: setAllQuestions } =
+    useDocsStore()
 
   const { setSuccessMessage } = useSnackbarStore()
   const axios = useAxios()

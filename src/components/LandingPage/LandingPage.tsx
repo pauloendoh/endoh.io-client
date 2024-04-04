@@ -8,7 +8,7 @@ import { Link as ScrollLink } from "react-scroll"
 import AuthFormWrapper from "./AuthFormWrapper/AuthFormWrapper"
 import FooterDescription from "./descriptions/FooterDescription/FooterDescription"
 import LandingPageDescription from "./descriptions/LandingPageDescription"
-import NotesDescription from "./descriptions/NotesDescription"
+import QuestionsDescription from "./descriptions/QuestionsDescription"
 import RelearnDescription from "./descriptions/RelearnDescription"
 import SkillbaseDescription from "./descriptions/SkillbaseDescription"
 import SocialDescription from "./descriptions/SocialDescription"
@@ -63,7 +63,7 @@ const LandingPage = () => {
       </Box>
 
       <Box mt={15} pb={5}>
-        <NotesDescription />
+        <QuestionsDescription />
       </Box>
 
       <Box mt={15} pb={5}>
