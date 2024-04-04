@@ -39,13 +39,13 @@ const FinishedFlashcardDialogChild = (props: Props) => {
   const saveResults = () => {
     setIsSubmitting(true)
 
-    const data = props.results.map((note) => ({
-      ...note,
-      testedTimes: note.testedTimes + 1,
+    const data = props.results.map((question) => ({
+      ...question,
+      testedTimes: question.testedTimes + 1,
     }))
 
     myAxios
-      .put<QuestionDto[]>(urls.api.define.updateManyNotes, data)
+      .put<QuestionDto[]>(urls.api.define.updateManyQuestions, data)
       .then((res) => {
         docsStore.setQuestions(res.data)
         setSuccessMessage("Saved!")

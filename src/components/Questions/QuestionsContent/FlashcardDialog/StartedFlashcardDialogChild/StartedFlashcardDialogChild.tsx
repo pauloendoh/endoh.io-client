@@ -65,16 +65,18 @@ const StartedFlashcardDialogChild = (props: {
     [questionIndex, localQuestions]
   )
 
-  const editQuestion = (newNote: QuestionDto) => {
+  const editQuestion = (newQuestion: QuestionDto) => {
     setLocalQuestions(
       produce(localQuestions, (draftNotes) => {
-        const index = draftNotes.findIndex((n) => n.id === newNote.id)
-        draftNotes[index] = newNote
+        const index = draftNotes.findIndex((n) => n.id === newQuestion.id)
+        draftNotes[index] = newQuestion
         return draftNotes
       })
     )
 
-    setResults((curr) => upsert(curr, newNote, (r) => r.id === newNote.id))
+    setResults((curr) =>
+      upsert(curr, newQuestion, (r) => r.id === newQuestion.id)
+    )
 
     nextQuestion()
   }

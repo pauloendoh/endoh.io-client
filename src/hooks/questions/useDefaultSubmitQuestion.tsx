@@ -14,11 +14,11 @@ export const useDefaultSubmitQuestion = () => {
   const { setSuccessMessage } = useSnackbarStore()
 
   const axios = useAxios()
-  const onSubmit = (updatedNote: QuestionDto) => {
+  const onSubmit = (updatedQuestion: QuestionDto) => {
     // PE 1/3 - DRY
     setIsSubmitting(true)
     axios
-      .post<QuestionDto>(urls.api.define.questions, updatedNote)
+      .post<QuestionDto>(urls.api.define.questions, updatedQuestion)
       .then((res) => {
         pushOrReplaceNote(res.data)
 

@@ -199,7 +199,7 @@ function DocMoreMenu(props: Props) {
 
       {flashcardDialog && (
         <FlashcardDialog
-          availableNotes={docAvailableQuestions}
+          availableQuestions={docAvailableQuestions}
           open={flashcardDialog}
           onClose={() => setFlashcardDialog(false)}
         />

@@ -30,7 +30,7 @@ import StartedFlashcardDialogChild from "./StartedFlashcardDialogChild/StartedFl
 interface Props {
   open: boolean
   onClose: () => void
-  availableNotes: QuestionDto[]
+  availableQuestions: QuestionDto[]
 }
 
 const FlashcardDialog = (props: Props) => {
@@ -64,7 +64,7 @@ const FlashcardDialog = (props: Props) => {
 
   useEffect(
     () => {
-      let filteredQuestions = props.availableNotes.filter((note) => {
+      let filteredQuestions = props.availableQuestions.filter((note) => {
         return (
           note.weight >= (minWeight || 0) &&
           (maxTestedTimes === null || note.testedTimes <= maxTestedTimes) &&
@@ -88,7 +88,7 @@ const FlashcardDialog = (props: Props) => {
     [
       minWeight,
       props.open,
-      props.availableNotes,
+      props.availableQuestions,
       isIncludingQuestionsToRefine,
       maxTestedTimes,
     ]
@@ -127,20 +127,20 @@ const FlashcardDialog = (props: Props) => {
       }
     }
 
-    const playNotes: QuestionDto[] = []
+    const playQuestions: QuestionDto[] = []
     for (let i = 0; i < questionsQty; i++) {
       const randomId = sample(ids) as number
       ids = ids.filter((id) => id !== randomId)
 
-      const foundNote = props.availableNotes.find(
+      const foundNote = props.availableQuestions.find(
         (note) => note.id === randomId
       )
       if (foundNote) {
-        playNotes.push(foundNote)
+        playQuestions.push(foundNote)
       }
     }
 
-    setTestQuestions(playNotes)
+    setTestQuestions(playQuestions)
   }
 
   useHotkeys("space", () => {

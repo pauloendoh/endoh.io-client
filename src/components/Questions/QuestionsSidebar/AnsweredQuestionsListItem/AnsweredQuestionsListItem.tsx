@@ -40,7 +40,7 @@ const AnsweredQuestionsListItem = (props: Props) => {
       </ListItem>
 
       <FlashcardDialog
-        availableNotes={answeredQuestions}
+        availableQuestions={answeredQuestions}
         open={dialogIsOpen}
         onClose={() => setDialogIsOpen(false)}
       />

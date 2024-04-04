@@ -62,8 +62,8 @@ const DocTable = (props: Props) => {
     )
   }
 
-  const getRowKey = (note: QuestionDto) => {
-    return `${note.id}-${note.weight}-${note.updatedAt}`
+  const getRowKey = (question: QuestionDto) => {
+    return `${question.id}-${question.weight}-${question.updatedAt}`
   }
 
   const theme = useTheme()

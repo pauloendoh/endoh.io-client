@@ -101,7 +101,7 @@ export const urls = {
     define: {
       doc: "define/doc",
       questions: "define/question",
-      updateManyNotes: "/define/question/many",
+      updateManyQuestions: "/define/question/many",
       questionId: (questionId: number) => `/question/${questionId}`,
     },
     folders: "/playground/folders",

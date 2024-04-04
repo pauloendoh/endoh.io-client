@@ -90,11 +90,11 @@ const QuestionsSearchBar = (props: Props) => {
   )
 
   const sortedOptions = useMemo(() => {
-    if (searchResults?.notes && searchResults?.docs)
-      return [...searchResults.docs, ...searchResults.notes.slice(0, 25)]
+    if (searchResults?.questions && searchResults?.docs)
+      return [...searchResults.docs, ...searchResults.questions.slice(0, 25)]
 
     return []
-  }, [searchResults?.notes, searchResults?.docs])
+  }, [searchResults?.questions, searchResults?.docs])
 
   const [onOpenDialog] = useQuestionDialogStore((s) => [
     s.openDialog,
