@@ -125,7 +125,7 @@ const QuestionDialog = () => {
             </Box>
 
             <Flex mt={4} gap={2} flexWrap="wrap">
-              <Box width={isSmallScreen ? "100%" : 220}>
+              <Box flex={1}>
                 <DocSelector
                   docId={watch("docId")}
                   onChange={(docId) =>
@@ -152,7 +152,7 @@ const QuestionDialog = () => {
 
               <MyTextField
                 size="small"
-                label={"Tested"}
+                label={"Tested qty"}
                 type="number"
                 value={watch("testedTimes")}
                 onChange={(e) => {
@@ -163,7 +163,7 @@ const QuestionDialog = () => {
                     shouldDirty: true,
                   })
                 }}
-                sx={{ width: 64 }}
+                sx={{ width: 80 }}
               />
             </Flex>
 
