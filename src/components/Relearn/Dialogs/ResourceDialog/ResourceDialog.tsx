@@ -288,6 +288,7 @@ const ResourceDialog = () => {
       fullWidth
       maxWidth="md"
       aria-labelledby="edit-resource-dialog"
+      fullScreen={isMobile}
     >
       <form onSubmit={formikHandleSubmit}>
         <Backdrop

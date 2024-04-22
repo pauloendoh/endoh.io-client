@@ -43,9 +43,6 @@ const RatingButton = (props: Props) => {
     >
       <Tooltip
         arrow
-        PopperProps={{
-          disablePortal: true,
-        }}
         onClose={handleTooltipClose}
         open={open}
         disableFocusListener
