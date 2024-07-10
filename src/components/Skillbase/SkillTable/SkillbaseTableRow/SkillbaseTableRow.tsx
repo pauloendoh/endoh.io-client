@@ -143,6 +143,10 @@ const SkillbaseTableRow = (props: Props) => {
       />
       <SkillLevelTD value={Number(props.skill.goalLevel)} />
 
+      <TableCell align="center" width={100}>
+        {props.skill.priority}
+      </TableCell>
+
       <TableCell>
         {tag ? (
           <FlexVCenter>

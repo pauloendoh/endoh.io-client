@@ -51,7 +51,7 @@ const LabelsSelector = (props: Props) => {
         typeof option === "string" ? option : option.name
       }
       renderInput={(params) => (
-        <MyTextField {...params} label="Labels" size="small" />
+        <MyTextField {...params} label="Labels" size="medium" />
       )}
       renderOption={(liProps, label) => (
         <LabelSelectorOption
@@ -73,6 +73,7 @@ const LabelsSelector = (props: Props) => {
           />
         ))
       }
+      fullWidth
     />
   )
 }

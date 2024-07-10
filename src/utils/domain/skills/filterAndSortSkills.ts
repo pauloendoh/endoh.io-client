@@ -45,6 +45,12 @@ export default function filterAndSortSkills(
       } else {
         skills = skills.sort((a, b) => (b[property] || 0) - (a[property] || 0))
       }
+    } else if (property === "priority") {
+      if (order === "asc") {
+        skills = skills.sort((a, b) => (a.priority ?? 0) - (b.priority ?? 0))
+      } else {
+        skills = skills.sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0))
+      }
     } else if (property === "dependencies") {
       if (order === "asc") {
         skills = skills.sort(

@@ -8,6 +8,7 @@ import {
   Tooltip,
   useTheme,
 } from "@mui/material"
+import MyTextField from "components/_UI/MyInputs/MyTextField"
 import Txt from "components/_UI/Text/Txt"
 import { useFormik } from "formik"
 import useSaveSkill from "hooks/skillbase/useSaveSkill"
@@ -155,7 +156,7 @@ const SkillDialog = () => {
             </FlexVCenter>
 
             {initialValue && (
-              <Box mt={2}>
+              <FlexVCenter mt={2} gap={2}>
                 <LabelsSelector
                   selectedLabels={formik.values.labels || []}
                   onChange={(labels) => formik.setFieldValue("labels", labels)}
@@ -163,7 +164,26 @@ const SkillDialog = () => {
                   setLabelDialogOpen={setLabelDialogOpen}
                   setLabelDialogInitialValue={setLabelDialogInitialValue}
                 />
-              </Box>
+                <MyTextField
+                  label="Priority"
+                  type="number"
+                  value={formik.values.priority}
+                  onChange={(e) => {
+                    if (e.target.value !== "") {
+                      formik.setFieldValue("priority", Number(e.target.value))
+                    } else {
+                      formik.setFieldValue("priority", null)
+                    }
+                  }}
+                  size="medium"
+                  style={{
+                    width: 100,
+                  }}
+                  inputProps={{
+                    step: 0.1,
+                  }}
+                />
+              </FlexVCenter>
             )}
           </DialogTitle>
 

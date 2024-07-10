@@ -15,6 +15,7 @@ export interface SkillDto {
   name: string
   currentLevel: number | null
   goalLevel: number | null
+  priority: number | null
 
   isPublic: boolean
 
@@ -36,6 +37,7 @@ export const buildSkillDto = (tagId: number | null = null): SkillDto => ({
   name: "",
   currentLevel: null,
   goalLevel: null,
+  priority: null,
 
   isPublic: false,
 

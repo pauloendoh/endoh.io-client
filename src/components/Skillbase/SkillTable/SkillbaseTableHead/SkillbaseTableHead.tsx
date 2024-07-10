@@ -33,7 +33,11 @@ const headCells: IHeaderCell[] = [
     label: "Goal",
     align: "center",
   },
-
+  {
+    id: "priority",
+    label: "Priority",
+    align: "center",
+  },
   {
     id: "tagId",
     label: "Tag",
