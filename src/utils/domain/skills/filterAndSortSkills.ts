@@ -79,14 +79,8 @@ export default function filterAndSortSkills(
     }
   }
 
-  if (byText.length > 0)
+  if (byText.length > 0) {
     return skills.filter((skill) => multiwordSearch(skill.name, byText))
-
-  if (tag === "Untagged") {
-    skills = skills.filter((s) => s.tagId === null)
-  } else if (tag?.id) {
-    const tagId = tag.id
-    skills = skills.filter((s) => s.tagId === tagId)
   }
 
   if (hidingDone)
