@@ -42,6 +42,12 @@ const FeedResourceItem = ({ feedResource }: Props) => {
     return "bookmarked"
   }, [feedResource.rating])
 
+  const timeagoValue = useMemo(() => {
+    return new Date(
+      verb === "bookmarked" ? feedResource.createdAt : feedResource.completedAt
+    )
+  }, [feedResource.createdAt, feedResource.completedAt, verb])
+
   return (
     <Box>
       <Paper
@@ -111,14 +117,11 @@ const FeedResourceItem = ({ feedResource }: Props) => {
                 </Typography>
               </MuiLink>
               <FlexVCenter mt={1}>
-                <Typography variant="body2">
-                  {format(
-                    new Date(
-                      verb === "bookmarked"
-                        ? feedResource.createdAt
-                        : feedResource.completedAt
-                    )
-                  )}
+                <Typography
+                  variant="body2"
+                  title={timeagoValue.toLocaleDateString()}
+                >
+                  {format(timeagoValue)}
                 </Typography>
 
                 <MyRouterLink
