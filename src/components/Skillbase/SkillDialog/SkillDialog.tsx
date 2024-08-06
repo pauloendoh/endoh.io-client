@@ -165,7 +165,7 @@ const SkillDialog = () => {
                   setLabelDialogInitialValue={setLabelDialogInitialValue}
                 />
                 <MyTextField
-                  label="Priority"
+                  label="Interest"
                   type="number"
                   value={formik.values.priority}
                   onChange={(e) => {
@@ -178,6 +178,29 @@ const SkillDialog = () => {
                   size="medium"
                   style={{
                     width: 100,
+                  }}
+                  inputProps={{
+                    step: 0.1,
+                  }}
+                />
+
+                <MyTextField
+                  label="Discomfort"
+                  type="number"
+                  value={formik.values.discomfortZone}
+                  onChange={(e) => {
+                    if (e.target.value !== "") {
+                      formik.setFieldValue(
+                        "discomfortZone",
+                        Number(e.target.value)
+                      )
+                    } else {
+                      formik.setFieldValue("discomfortZone", null)
+                    }
+                  }}
+                  size="medium"
+                  style={{
+                    width: 120,
                   }}
                   inputProps={{
                     step: 0.1,

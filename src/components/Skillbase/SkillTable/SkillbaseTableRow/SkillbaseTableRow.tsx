@@ -1,7 +1,6 @@
 import { Theme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 
-import LabelIcon from "@mui/icons-material/Label"
 import { Box, Checkbox, TableCell, TableRow, useTheme } from "@mui/material"
 import Flex from "components/_UI/Flexboxes/Flex"
 import FlexCol from "components/_UI/Flexboxes/FlexCol"
@@ -11,7 +10,7 @@ import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import { TagDto } from "../../../../types/domain/relearn/TagDto"
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto"
-import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
+import { calculateSkillExperience } from "../calculateSkillExperience/calculateSkillExperience"
 import SkillLevelTD from "./SkillLevelTd/SkillLevelTd"
 
 interface Props {
@@ -144,16 +143,14 @@ const SkillbaseTableRow = (props: Props) => {
       <SkillLevelTD value={Number(props.skill.goalLevel)} />
 
       <TableCell align="center" width={100}>
-        {props.skill.priority}
+        {calculateSkillExperience(props.skill)}
       </TableCell>
 
-      <TableCell>
-        {tag ? (
-          <FlexVCenter>
-            <LabelIcon style={{ color: tag.color }} />
-            <Box ml={1}>{tag.name}</Box>
-          </FlexVCenter>
-        ) : null}
+      <TableCell align="center" width={100}>
+        {props.skill.priority}
+      </TableCell>
+      <TableCell align="center" width={120}>
+        {props.skill.discomfortZone}
       </TableCell>
 
       <TableCell padding="checkbox">

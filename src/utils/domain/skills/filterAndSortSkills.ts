@@ -1,3 +1,4 @@
+import { calculateSkillExperience } from "components/Skillbase/SkillTable/calculateSkillExperience/calculateSkillExperience"
 import multiwordSearch from "endoh-utils/dist/text/multiwordSearch"
 import { TagDto } from "../../../types/domain/relearn/TagDto"
 import { ISortSkillBy } from "../../../types/domain/skillbase/ISortSkillBy"
@@ -76,6 +77,16 @@ export default function filterAndSortSkills(
         skills = skills.sort(
           (a, b) => b.expectations.length - a.expectations.length
         )
+    } else if (property === "skillExperience") {
+      if (order === "asc") {
+        skills = skills.sort(
+          (a, b) => calculateSkillExperience(a) - calculateSkillExperience(b)
+        )
+      } else {
+        skills = skills.sort(
+          (a, b) => calculateSkillExperience(b) - calculateSkillExperience(a)
+        )
+      }
     }
   }
 
