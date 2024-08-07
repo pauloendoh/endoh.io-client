@@ -43,7 +43,7 @@ interface ISkillbaseStore {
 const useSkillbaseStore = create<ISkillbaseStore>((set, get) => ({
   skills: [],
   hasFirstLoaded: false,
-  sortBy: { property: "skillExperience", order: "desc" },
+  sortBy: { property: "priority", order: "desc" },
   editingSkill: null,
 
   sidebarIsOpen: false,

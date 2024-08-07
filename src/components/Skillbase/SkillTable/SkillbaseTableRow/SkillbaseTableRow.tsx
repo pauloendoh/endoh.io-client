@@ -10,7 +10,6 @@ import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import { TagDto } from "../../../../types/domain/relearn/TagDto"
 import { SkillDto } from "../../../../types/domain/skillbase/SkillDto"
-import { calculateSkillExperience } from "../calculateSkillExperience/calculateSkillExperience"
 import SkillLevelTD from "./SkillLevelTd/SkillLevelTd"
 
 interface Props {
@@ -143,14 +142,7 @@ const SkillbaseTableRow = (props: Props) => {
       <SkillLevelTD value={Number(props.skill.goalLevel)} />
 
       <TableCell align="center" width={100}>
-        {calculateSkillExperience(props.skill)}
-      </TableCell>
-
-      <TableCell align="center" width={100}>
         {props.skill.priority}
-      </TableCell>
-      <TableCell align="center" width={120}>
-        {props.skill.discomfortZone}
       </TableCell>
 
       <TableCell padding="checkbox">

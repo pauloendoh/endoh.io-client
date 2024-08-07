@@ -33,20 +33,10 @@ const headCells: IHeaderCell[] = [
     label: "Goal",
     align: "center",
   },
-  {
-    id: "skillExperience",
-    label: "EXP",
-    align: "center",
-  },
 
   {
     id: "priority",
-    label: "Interest",
-    align: "center",
-  },
-  {
-    id: "discomfortZone",
-    label: "Discomfort",
+    label: "Priority",
     align: "center",
   },
 ]
