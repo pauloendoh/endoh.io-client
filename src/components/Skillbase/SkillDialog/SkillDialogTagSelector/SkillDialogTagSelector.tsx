@@ -53,7 +53,7 @@ const SkillDialogTagSelector = (props: Props) => {
             <FlexVCenter>
               <TagIcon tag={option} />
               <Box ml={1}>
-                <Typography variant="body2">{option.name}</Typography>
+                <Typography>{option.name}</Typography>
               </Box>
             </FlexVCenter>
           ) : (
