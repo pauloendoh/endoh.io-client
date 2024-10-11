@@ -510,7 +510,10 @@ const ResourceDialog = () => {
                 )
               }}
             />
-            <Typography variant="body2">
+            <Typography
+              variant="body2"
+              title={new Date(values.completedAt).toLocaleDateString()}
+            >
               {completedOverOneDayAgo && format(values.completedAt)}
             </Typography>
           </FlexVCenter>
