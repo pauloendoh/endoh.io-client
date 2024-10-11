@@ -95,7 +95,7 @@ function DraggableResourceItem(props: Props) {
             : "unset",
         }}
       >
-        <ResourceItem resource={props.resource} />
+        <ResourceItem index={props.index} resource={props.resource} />
       </Box>
     </div>
   )

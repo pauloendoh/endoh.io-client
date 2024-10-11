@@ -25,6 +25,7 @@ import ShowMoreTextField from "./ShowMoreTextField/ShowMoreTextField"
 interface Props {
   resource: ResourceDto
   showTag?: boolean
+  index?: number
 }
 
 // PE 1/3
@@ -131,6 +132,7 @@ function ResourceItem(props: Props) {
             )}
           </S.TitleLinkWrapper>
           <ResourceMoreIcon
+            index={props.index}
             resource={props.resource}
             isHovered={isHovering || isMobile}
           />

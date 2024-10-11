@@ -1,23 +1,23 @@
-import { Theme } from "@mui/material"
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz"
+
+import { IconButton, Theme, useTheme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 import { pushOrReplace } from "endoh-utils"
 
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
 import FileCopyIcon from "@mui/icons-material/FileCopy"
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz"
-import {
-  Box,
-  IconButton,
-  ListItemIcon,
-  Menu,
-  MenuItem,
-  Typography,
-} from "@mui/material"
+import { Box, ListItemIcon, Menu, MenuItem, Typography } from "@mui/material"
+import FlexCenter from "components/_UI/Flexboxes/FlexCenter"
 import { useAxios } from "hooks/utils/useAxios"
 import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
 import React, { useEffect } from "react"
-import { MdVerticalAlignBottom, MdVerticalAlignTop } from "react-icons/md"
+import {
+  MdMore,
+  MdMoreHoriz,
+  MdVerticalAlignBottom,
+  MdVerticalAlignTop,
+} from "react-icons/md"
 import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
 import useResourceDialogStore from "store/zustand/domain/resources/useResourceDialogStore"
 import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
@@ -28,6 +28,7 @@ import { ResourceDto } from "../../../../../../types/domain/relearn/ResourceDto"
 interface Props {
   resource: ResourceDto
   isHovered: boolean
+  index?: number
 }
 
 // PE 1/3
@@ -123,38 +124,53 @@ function ResourceMoreIcon(props: Props) {
 
   const { isMobile } = useMyMediaQuery()
 
+  const theme = useTheme()
+
   return (
     <React.Fragment>
       {/* 'More' icon - PE 1/3 - can be a specific component */}
       <div>
-        <Box
-          sx={
-            isMobile
-              ? undefined
-              : {
-                  width: 32,
-                  minWidth: 32,
-                }
-          }
-        >
+        <Box>
           {props.isHovered && (
-            <IconButton
-              size="small"
-              id="resource-more-icon"
-              aria-label="resource-more-icon"
-              onClick={(e) => {
-                handleOpenMore(e)
-              }}
-              sx={
-                isMobile
-                  ? {
-                      padding: 0,
-                    }
-                  : undefined
-              }
-            >
-              <MoreHorizIcon />
-            </IconButton>
+            <>
+              {props.index !== undefined ? (
+                <FlexCenter
+                  sx={{
+                    cursor: "pointer",
+                    backgroundColor: theme.palette.grey[800],
+                    borderRadius: 1,
+                    px: 1,
+                    py: 0.25,
+                    ":hover": {
+                      backgroundColor: theme.palette.grey[700],
+                    },
+                  }}
+                  onClick={(e) => {
+                    handleOpenMore(e)
+                  }}
+                >
+                  <Typography variant="caption">{props.index + 1}</Typography>
+                </FlexCenter>
+              ) : (
+                <IconButton
+                  size="small"
+                  id="resource-more-icon"
+                  aria-label="resource-more-icon"
+                  onClick={(e) => {
+                    handleOpenMore(e)
+                  }}
+                  sx={
+                    isMobile
+                      ? {
+                          padding: 0,
+                        }
+                      : undefined
+                  }
+                >
+                  <MdMoreHoriz />
+                </IconButton>
+              )}
+            </>
           )}
         </Box>
         <Menu
