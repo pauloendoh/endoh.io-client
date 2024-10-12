@@ -170,6 +170,20 @@ const FeedResourceItem = ({ feedResource }: Props) => {
               {feedResource.publicReview}
             </Typography>
           )}
+
+          {!!feedResource.privateNote && (
+            <Typography
+              sx={{
+                mt: 1,
+                whiteSpace: "pre-wrap",
+                fontStyle: "italic",
+                opacity: 0.7,
+              }}
+            >
+              {feedResource.privateNote}
+            </Typography>
+          )}
+
           <Divider
             sx={{
               mt: 1,

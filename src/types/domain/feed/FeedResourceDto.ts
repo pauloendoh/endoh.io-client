@@ -17,5 +17,6 @@ export interface FeedResourceDto {
   rating: number
   completedAt: string
   publicReview: string
+  privateNote: string
   createdAt: string
 }

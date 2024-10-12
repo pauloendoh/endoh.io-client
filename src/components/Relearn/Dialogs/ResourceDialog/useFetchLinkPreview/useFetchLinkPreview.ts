@@ -1,4 +1,3 @@
-import { shortNumberFormatter } from "endoh-utils"
 import { LinkPreviewDto } from "generated/graphql"
 import { useAxios } from "hooks/utils/useAxios"
 import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
@@ -62,19 +61,6 @@ export const useFetchLinkPreview = ({
               setFieldValue("thumbnail", preview.image)
               if (preview.url) {
                 setFieldValue("url", preview.url)
-              }
-
-              if (
-                preview.viewCount &&
-                preview.viewCount > 0 &&
-                values?.privateNote?.length === 0
-              ) {
-                setFieldValue(
-                  "privateNote",
-                  `${shortNumberFormatter(
-                    preview.viewCount
-                  )} views - ${new Date().toDateString()}`
-                )
               }
 
               if (preview.alreadySavedResource) {
