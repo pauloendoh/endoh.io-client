@@ -1,5 +1,4 @@
 import Txt from "../../../../_UI/Text/Txt"
-import S from "./MinWeightInput.styles"
 
 interface Props {
   value: number | null
@@ -12,7 +11,7 @@ interface Props {
 const MinWeightInput = (props: Props) => {
   return (
     <Txt variant="h5">
-      <S.Input
+      <input
         type="number"
         value={props.value || ""}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,6 +23,16 @@ const MinWeightInput = (props: Props) => {
           props.onChange(Number(e.target.value))
         }}
         min={props.min}
+        style={{
+          width: 50,
+          textAlign: "center",
+          fontFamily: "inherit",
+          fontSize: "inherit",
+          background: "none",
+          border: "none",
+          borderBottom: "1px solid white",
+          color: "inherit",
+        }}
       />
       <span style={{ marginLeft: 8 }}>{props.label || "min weight"} </span>
     </Txt>

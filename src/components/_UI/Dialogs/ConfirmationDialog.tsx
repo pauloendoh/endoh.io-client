@@ -1,10 +1,16 @@
-import { Theme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 
-import { Box, Button, Dialog, DialogContent, DialogTitle } from "@mui/material"
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Theme,
+} from "@mui/material"
 import useConfirmDialogStore from "../../../store/zustand/useConfirmDialogStore"
+import FlexVCenter from "../Flexboxes/FlexVCenter"
 import Txt from "../Text/Txt"
-import S from "./ConfirmationDialog.styles"
 
 const ConfirmationDialog = () => {
   const {
@@ -44,8 +50,8 @@ const ConfirmationDialog = () => {
           </DialogContent>
         )}
 
-        <DialogTitle>
-          <S.ButtonsWrapper>
+        <DialogTitle justifyContent={"flex-end"} gap={1}>
+          <FlexVCenter>
             <Button
               id="confirm-button"
               variant="contained"
@@ -58,7 +64,7 @@ const ConfirmationDialog = () => {
             <Button size="small" onClick={closeConfirmDialog}>
               Cancel
             </Button>
-          </S.ButtonsWrapper>
+          </FlexVCenter>
         </DialogTitle>
       </Box>
     </Dialog>

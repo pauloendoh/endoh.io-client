@@ -20,7 +20,6 @@ export const useFetchLinkPreview = ({
   throttle,
   setThrottle,
   setIsFetchingLinkPreview,
-  values,
   tags,
 }: HookOptions) => {
   const { openConfirmDialog } = useConfirmDialogStore()

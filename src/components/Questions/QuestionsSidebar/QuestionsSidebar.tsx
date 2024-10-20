@@ -13,7 +13,6 @@ interface Props {
 }
 
 function QuestionsSidebar(props: Props) {
-  // PE 2/3 - change to styled-components ?
   const classes = useStyles()
   const { sidebarIsOpen } = useSidebarStore()
 

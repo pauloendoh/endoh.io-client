@@ -4,6 +4,7 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn"
 import TwitterIcon from "@mui/icons-material/Twitter"
 import {
   Avatar,
+  Box,
   createStyles,
   Hidden,
   IconButton,
@@ -11,9 +12,10 @@ import {
   Theme,
 } from "@mui/material"
 import { makeStyles } from "@mui/styles"
+import Flex from "components/_UI/Flexboxes/Flex"
+import FlexCol from "components/_UI/Flexboxes/FlexCol"
 import Txt from "components/_UI/Text/Txt"
 import pauloendoh from "static/images/pauloendoh.jpg"
-import S from "./FooterDescription.styles"
 
 // PE 2/3 - DRY - separate social links in a const array and map it
 const FooterDescription = () => {
@@ -33,19 +35,19 @@ const FooterDescription = () => {
   }
 
   return (
-    <S.FooterDescription>
+    <Flex>
       <Avatar
         alt="Paulo Endoh"
         src={pauloendoh}
         className={classes.largeAvatar}
       />
-      <S.Content>
-        <S.TextWrapper>
+      <FlexCol ml={2} gap={2}>
+        <FlexCol gap={1}>
           <Txt style={{ fontWeight: "bold" }}>Paulo Ricardo Endoh</Txt>
           <Txt>
             {getMyAge()} years old computer science student from São Paulo
           </Txt>
-        </S.TextWrapper>
+        </FlexCol>
 
         <Hidden smDown>
           <Txt>
@@ -56,7 +58,7 @@ const FooterDescription = () => {
           </Txt>
         </Hidden>
 
-        <S.SocialIconsWrapper>
+        <Box>
           <IconButton
             size="small"
             href="https://twitter.com/pauloendoh_"
@@ -85,13 +87,13 @@ const FooterDescription = () => {
           >
             <GitHubIcon />
           </IconButton>
-        </S.SocialIconsWrapper>
+        </Box>
 
         <Link href="mailto:pauloendoh@gmail.com">
           <Txt>pauloendoh@gmail.com</Txt>
         </Link>
-      </S.Content>
-    </S.FooterDescription>
+      </FlexCol>
+    </Flex>
   )
 }
 

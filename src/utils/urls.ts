@@ -94,7 +94,6 @@ export const urls = {
       index: "/skillbase",
       skill: "/skillbase/skill",
       tag: "/skillbase/tag",
-      progress: "/skillbase/progress",
     },
 
     // DEFINE
