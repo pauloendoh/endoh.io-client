@@ -72,6 +72,7 @@ const MoveResourcesToTagDialog = (props: Props) => {
         </DialogContent>
         <DialogTitle>
           <SaveCancelButtons
+            onEnabledAndCtrlEnter={handleSubmit}
             isLoading={submitting}
             disabled={submitting}
             onCancel={props.onClose}
