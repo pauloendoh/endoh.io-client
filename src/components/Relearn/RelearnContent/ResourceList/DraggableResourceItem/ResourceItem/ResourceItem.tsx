@@ -187,7 +187,7 @@ function ResourceItem(props: Props) {
                   color: theme.palette.text.secondary,
                 }}
               />
-              <Txt color="textSecondary">Public review</Txt>
+              <Txt color="textSecondary">Public notes</Txt>
             </FlexVCenter>
 
             <ShowMoreTextField text={props.resource.publicReview} />

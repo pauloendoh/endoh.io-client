@@ -518,7 +518,6 @@ const ResourceDialog = () => {
             </Typography>
           </FlexVCenter>
 
-          {/* public review */}
           <Box mt={2}>
             <MyTextField
               id="publicReview"
@@ -536,7 +535,7 @@ const ResourceDialog = () => {
                     icon={faGlobeAmericas}
                     style={{ marginRight: 4 }}
                   />
-                  Public Review
+                  Public Notes
                 </FlexVCenter>
               }
             />

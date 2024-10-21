@@ -124,7 +124,7 @@ function ProfileResourceItem(props: Props) {
             <MyTextField
               value={props.resource.publicReview}
               fullWidth
-              label="Public Review"
+              label="Public Notes"
               disabled
               multiline
             />
