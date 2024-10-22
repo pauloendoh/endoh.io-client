@@ -196,7 +196,8 @@ const App = (props: RouteComponentProps<{}>) => {
               <Route path="/skills" component={SkillbasePage} />
               <Route path="/feed" component={FeedPage} />
 
-              <Route path="/questions/doc/:docId" component={QuestionsPage} />
+              <Route path="/questions/doc/:deckId" component={QuestionsPage} />
+              <Route path="/questions/deck/:deckId" component={QuestionsPage} />
               <Route path="/questions" exact component={QuestionsPage} />
 
               <Route path="/BigDecisions" exact component={BigDecisionsPage} />

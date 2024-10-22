@@ -21,7 +21,7 @@ import QuestionsSidebar from "./QuestionsSidebar/QuestionsSidebar"
 const QuestionsPage = () => {
   const history = useHistory()
   const docsStore = useDocsStore()
-  const { docId: paramDocId } = useParams<{ docId: string }>()
+  const { deckId: paramDeckId } = useParams<{ deckId: string }>()
   const [selectedDocId, setSelectedDocId] = useState<number | null>(null)
 
   const myAxios = useAxios()
@@ -45,8 +45,8 @@ const QuestionsPage = () => {
   )
 
   useEffect(() => {
-    if (paramDocId && docsStore.hasFirstLoaded) {
-      const docId = Number(paramDocId)
+    if (paramDeckId && docsStore.hasFirstLoaded) {
+      const docId = Number(paramDeckId)
 
       const doc = docsStore.docs.find((doc) => doc.id === docId)
       if (!doc) {
@@ -59,12 +59,12 @@ const QuestionsPage = () => {
       setSelectedDocId(null)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [paramDocId, docsStore.docs])
+  }, [paramDeckId, docsStore.docs])
 
   useEffect(
     () => {
       // open last opened tag
-      if (!paramDocId && docsStore.docs?.length > 0) {
+      if (!paramDeckId && docsStore.docs?.length > 0) {
         const sortedByLastOpened = docsStore.docs.sort((a, b) => {
           if (a.lastOpenedAt === undefined) return -1
           if (b.lastOpenedAt === undefined) return 1
@@ -73,11 +73,11 @@ const QuestionsPage = () => {
         })
 
         const docId = sortedByLastOpened[0].id
-        history.push(urls.pages.questions.docId(docId))
+        history.push(urls.pages.questions.deckId(docId))
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [docsStore.docs, paramDocId]
+    [docsStore.docs, paramDeckId]
   )
 
   const classes = useStyles()

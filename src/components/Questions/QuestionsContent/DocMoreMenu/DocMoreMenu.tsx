@@ -131,7 +131,7 @@ function DocMoreMenu(props: Props) {
             <EditIcon fontSize="small" />
           </ListItemIcon>
           <Typography variant="inherit" noWrap>
-            Edit doc
+            Edit deck
           </Typography>
         </MenuItem>
 
@@ -188,7 +188,7 @@ function DocMoreMenu(props: Props) {
         initialValue={{ title: props.doc.title }}
         open={openTitleDialog}
         afterSave={(doc) => {
-          history.push(urls.pages.questionsDoc(doc.id))
+          history.push(urls.pages.questionsDeck(doc.id))
           setOpenTitleDialog(false)
         }}
         onClose={() => {

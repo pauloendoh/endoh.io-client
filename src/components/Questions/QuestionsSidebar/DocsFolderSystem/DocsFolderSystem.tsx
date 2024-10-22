@@ -126,7 +126,7 @@ export default function DocsFolderSystem() {
                   : undefined,
               }}
             >
-              <Txt>Docs</Txt>
+              <Txt>Decks</Txt>
               <FlexVCenter paddingRight={1} style={{ gap: 8 }}>
                 <Tooltip title="Add doc">
                   <IconButton
@@ -177,7 +177,7 @@ export default function DocsFolderSystem() {
         }}
         onClose={() => setFileDialogParentFolderId(null)}
         afterSave={(doc) => {
-          history.push(urls.pages.questionsDoc(doc.id))
+          history.push(urls.pages.questionsDeck(doc.id))
 
           setFileDialogParentFolderId(null)
         }}
@@ -188,7 +188,7 @@ export default function DocsFolderSystem() {
         initialValue={{ title: "" }}
         onClose={() => setOpenTitleDialog(false)}
         afterSave={(doc) => {
-          history.push(urls.pages.questionsDoc(doc.id))
+          history.push(urls.pages.questionsDeck(doc.id))
           setOpenTitleDialog(false)
         }}
       />

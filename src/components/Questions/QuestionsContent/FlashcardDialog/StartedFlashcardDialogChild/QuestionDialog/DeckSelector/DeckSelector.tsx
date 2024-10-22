@@ -9,7 +9,7 @@ interface Props {
   onChange: (docId: number) => void
 }
 
-const DocSelector = (props: Props) => {
+const DeckSelector = (props: Props) => {
   const docs = useDocsStore((s) => s.docs)
   const selectedDoc = useMemo(
     () => docs.find((d) => d.id === props.docId) || null,
@@ -18,13 +18,13 @@ const DocSelector = (props: Props) => {
 
   const options = useMemo(() => {
     const sorted =
-      docs?.sort((a, b) => {
+      [...(docs ?? [])].sort((a, b) => {
         if (a.id < b.id) return -1
         if (a.id > b.id) return 1
         return 0
       }) || []
 
-    return [{ id: -1, title: "Create new doc" }, ...sorted]
+    return [{ id: -1, title: "Create new deck" }, ...sorted]
   }, [docs])
 
   const { openDocDialog } = useDocDialogStore()
@@ -44,7 +44,7 @@ const DocSelector = (props: Props) => {
         props.onChange(doc.id)
       }}
       renderInput={(params) => (
-        <MyTextField {...params} label="Doc" size="small" required />
+        <MyTextField {...params} label="Deck" size="small" required />
       )}
       renderOption={(liProps, label) => {
         if (label.id > 0) return <li {...liProps}>{label.title}</li>
@@ -54,7 +54,7 @@ const DocSelector = (props: Props) => {
             {...liProps}
             style={{ display: "flex", justifyContent: "center" }}
           >
-            + Create new doc
+            + Create new deck
           </li>
         )
       }}
@@ -62,4 +62,4 @@ const DocSelector = (props: Props) => {
   )
 }
 
-export default DocSelector
+export default DeckSelector

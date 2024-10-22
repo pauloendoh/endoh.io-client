@@ -72,7 +72,7 @@ export default function FolderMoreIcon({ folder, ...props }: Props) {
             <Icons.InsertDriveFile fontSize="small" />
           </ListItemIcon>
           <Typography variant="inherit" noWrap>
-            New doc
+            New deck
           </Typography>
         </MenuItem>
 

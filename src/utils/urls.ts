@@ -16,7 +16,7 @@ export const urls = {
       tagId: (tagId: number) => `/resources/tag/${tagId}`,
     },
     questionsIndex: `/questions`,
-    questionsDoc: (docId: number) => `/questions/doc/${docId}`,
+    questionsDeck: (deckId: number) => `/questions/deck/${deckId}`,
     BigDecisions: {
       index: "/BigDecisions",
       decision: (id: number) => `/BigDecisions/${id}`,
@@ -41,7 +41,7 @@ export const urls = {
     },
     questions: {
       index: "/questions",
-      docId: (docId: number) => `/questions/doc/${docId}`,
+      deckId: (deckId: number) => `/questions/deck/${deckId}`,
     },
     user: {
       index: (username: string) => `/user/${username}`,

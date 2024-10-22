@@ -49,7 +49,7 @@ export default function DocTreeItem({ doc }: Props) {
       }}
       label={
         <Link
-          to={urls.pages.questionsDoc(doc.id)}
+          to={urls.pages.questionsDeck(doc.id)}
           style={{ color: "unset", textDecoration: "none" }}
         >
           <FlexVCenter

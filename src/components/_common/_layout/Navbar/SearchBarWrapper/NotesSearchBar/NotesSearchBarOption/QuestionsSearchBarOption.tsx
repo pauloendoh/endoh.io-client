@@ -49,7 +49,7 @@ const QuestionsSearchBarOption = ({
       }}
       onClick={(e) => {
         if ("title" in docOrQuestion) {
-          history.push(urls.pages.questionsDoc(docOrQuestion.id))
+          history.push(urls.pages.questionsDeck(docOrQuestion.id))
           props.onClickDoc(e)
           return
         }
@@ -66,7 +66,7 @@ const QuestionsSearchBarOption = ({
 
             {docOrQuestion.doc?.title && (
               <Link
-                to={urls.pages.questionsDoc(docOrQuestion.doc.id)}
+                to={urls.pages.questionsDeck(docOrQuestion.doc.id)}
                 onClick={(e) => {
                   e.stopPropagation()
                   props.onClickDoc(e)

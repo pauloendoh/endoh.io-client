@@ -23,7 +23,7 @@ import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import useSidebarStore from "store/zustand/useSidebarStore"
 import SaveCancelButtons from "../../../../../_UI/Buttons/SaveCancelButtons"
 import MyTextField from "../../../../../_UI/MyInputs/MyTextField"
-import DocSelector from "./DocSelector/DocSelector"
+import DeckSelector from "./DeckSelector/DeckSelector"
 import { useDefaultDeleteQuestion } from "./useDefaultDeleteQuestion/useDefaultDeleteQuestion"
 
 const QuestionDialog = () => {
@@ -126,7 +126,7 @@ const QuestionDialog = () => {
 
             <Flex mt={4} gap={2} flexWrap="wrap">
               <Box flex={1}>
-                <DocSelector
+                <DeckSelector
                   docId={watch("docId")}
                   onChange={(docId) =>
                     setValue("docId", docId, { shouldDirty: true })
