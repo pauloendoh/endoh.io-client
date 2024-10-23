@@ -3,7 +3,7 @@ import useResourceDialogStore from "store/zustand/domain/resources/useResourceDi
 import { ResourceDto } from "types/domain/relearn/ResourceDto"
 
 type Props = {
-  allResources: ResourceDto[]
+  resource: ResourceDto
 }
 
 const ResourceSavedMessage = (props: Props) => {
@@ -12,17 +12,13 @@ const ResourceSavedMessage = (props: Props) => {
     <Typography>
       Resource saved!{" "}
       <span
+        role="button"
         style={{
           cursor: "pointer",
           fontWeight: 500,
         }}
         onClick={() => {
-          const newestResource = props.allResources.sort((a, b) =>
-            b.updatedAt.localeCompare(a.updatedAt)
-          )[0]
-          setEditingResource(
-            props.allResources.find((r) => r.id === newestResource.id) || null
-          )
+          setEditingResource(props.resource)
         }}
       >
         Open

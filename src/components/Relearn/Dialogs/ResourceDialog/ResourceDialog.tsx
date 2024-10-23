@@ -47,8 +47,14 @@ import ResourceSavedMessage from "./ResourceSavedMessage/ResourceSavedMessage"
 import { useFetchLinkPreview } from "./useFetchLinkPreview/useFetchLinkPreview"
 
 const ResourceDialog = () => {
-  const { resources, tags, removeResource, setResources, setTags } =
-    useRelearnStore()
+  const {
+    resources,
+    tags,
+    removeResource,
+    setResources,
+    setTags,
+    pushOrReplaceResource,
+  } = useRelearnStore()
 
   const { initialValue, setInitialValue, checkUrlOnOpen } =
     useResourceDialogStore()
@@ -198,38 +204,24 @@ const ResourceDialog = () => {
       },
     }
     axios
-      .post<ResourceDto[]>(urls.api.relearn.resource, payload)
+      .post<ResourceDto>(urls.api.relearn.resource, payload)
       .then((res) => {
-        const currentResources = [...resources]
+        const newResource = res.data
 
-        setResources(res.data)
-        setSuccessMessage(<ResourceSavedMessage allResources={res.data} />)
+        pushOrReplaceResource(res.data)
+
+        setSuccessMessage(<ResourceSavedMessage resource={res.data} />)
 
         axios.get<TagDto[]>(urls.api.relearn.tag).then((res) => {
           setTags(res.data)
         })
 
+        setInitialValues({
+          ...newResource,
+        })
+
         if (closeAfterSaving) {
           closeAndClearQueryParam()
-          return
-        }
-
-        let newResource = res.data.find((r) => r.id === resource.id)
-        if (!newResource) {
-          // Why should this happen?
-          alert("Resource not found")
-          const prevResourcesIds = currentResources.map((r) => r.id)
-          newResource = res.data.find((r) => !prevResourcesIds.includes(r.id))
-        }
-
-        if (newResource) {
-          const tag = initialValue?.tag || getCurrentTag()!
-          setInitialValues({
-            ...newResource,
-            tag: {
-              ...tag,
-            },
-          })
         }
       })
       .catch((err: AxiosError) => {

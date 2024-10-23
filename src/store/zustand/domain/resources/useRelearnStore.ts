@@ -1,3 +1,4 @@
+import { upsert } from "endoh-utils"
 import { IMoveResource } from "types/domain/relearn/IMoveResource"
 import { ResourceDto } from "types/domain/relearn/ResourceDto"
 import { TagDto } from "types/domain/relearn/TagDto"
@@ -13,6 +14,7 @@ interface IStore {
   editingTag: TagDto | null
 
   setResources: (resources: ResourceDto[]) => void
+  pushOrReplaceResource: (resource: ResourceDto) => void
   setTags: (tags: TagDto[]) => void
   removeResource: (id: number) => void
   removeTag: (id: number) => void
@@ -31,6 +33,18 @@ const useRelearnStore = create<IStore>((set, get) => ({
   editingTag: null,
 
   setResources: (resources) => set({ resources, hasFirstLoaded: true }),
+  pushOrReplaceResource: (resource) => {
+    set((state) => {
+      return {
+        ...state,
+        resources: upsert(
+          state.resources,
+          resource,
+          (a) => a.id === resource.id
+        ),
+      }
+    })
+  },
   setTags: (tags) => set({ tags }),
   removeResource: (id) => {
     set((state) => ({
