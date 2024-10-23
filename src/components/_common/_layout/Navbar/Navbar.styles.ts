@@ -1,15 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { AppBar, styled, Tab, Tabs, Toolbar } from "@mui/material"
+import { AppBar, styled, Toolbar } from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
-import React from "react"
-import { Link } from "react-router-dom"
 import theme from "utils/consts/theme"
-import { mediaQueries } from "utils/styles/mediaQueries"
-
-type NavbarTabProps = React.ComponentProps<typeof Tab> & {
-  component: typeof Link
-  to: string
-}
 
 const S = {
   AppBarRoot: styled(AppBar)`
@@ -27,29 +19,6 @@ const S = {
     color: ${(props) => props.theme.palette.secondary.main};
     height: 24px !important;
     width: 18px !important;
-  `,
-
-  NavbarTabs: styled(Tabs)`
-    position: relative;
-    z-index: 1202;
-  `,
-
-  NavbarTab: styled(Tab)<NavbarTabProps>`
-    width: inherit;
-    color: white;
-
-    & svg {
-      height: 16px;
-      font-size: 16px;
-    }
-
-    ${mediaQueries.isBiggerThan(950)} {
-      min-width: 100px;
-    }
-
-    ${mediaQueries.isSmallerThan(950)} {
-      min-width: auto;
-    }
   `,
 
   RightButtonsWrapper: styled(FlexVCenter)({

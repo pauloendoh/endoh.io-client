@@ -13,7 +13,7 @@ import useNewResourcesCountQuery from "hooks/react-query/feed/last-seen-resource
 import { useMemo, useState } from "react"
 import { MdArrowDropDown, MdOutlineMoreHoriz } from "react-icons/md"
 import { Link, useLocation } from "react-router-dom"
-import utils from "../NavbarTabs/NavbarTabs.utils"
+import useUtils from "../NavbarTabs/NavbarTabs.utils"
 
 // PE 2/3
 const NavbarResponsiveMenu = () => {
@@ -32,16 +32,16 @@ const NavbarResponsiveMenu = () => {
     setAnchorEl(null)
   }
 
+  const { navbarTabs } = useUtils()
+
   const selectedTab = useMemo(() => {
-    const tab = utils.navbarTabs.find((tab) =>
-      location.pathname.includes(tab.to)
-    )
+    const tab = navbarTabs.find((tab) => location.pathname.includes(tab.to))
     if (tab) return tab
 
     if (location.pathname.includes("/user")) {
-      return utils.navbarTabs[1]
+      return navbarTabs[1]
     }
-    return utils.navbarTabs[0]
+    return navbarTabs[0]
   }, [location])
 
   const { data: newResourcesCount } = useNewResourcesCountQuery()
@@ -82,7 +82,7 @@ const NavbarResponsiveMenu = () => {
           open={Boolean(anchorEl)}
           onClose={handleCloseMenu}
         >
-          {utils.navbarTabs.map((tab) => (
+          {navbarTabs.map((tab) => (
             <MenuItem
               key={tab.id}
               component={Link}

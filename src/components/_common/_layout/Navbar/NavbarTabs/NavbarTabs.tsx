@@ -1,11 +1,9 @@
 import { Link as RouterLink, useLocation } from "react-router-dom"
 
-import { Badge } from "@mui/material"
-import useNewResourcesCountQuery from "hooks/react-query/feed/last-seen-resource/useNewResourcesCountQuery"
+import { Badge, Tab, Tabs } from "@mui/material"
 import { useMemo } from "react"
 import { urls } from "utils/urls"
-import S from "../Navbar.styles"
-import utils from "./NavbarTabs.utils"
+import useUtils from "./NavbarTabs.utils"
 
 const NavbarTabs = () => {
   const location = useLocation()
@@ -20,39 +18,56 @@ const NavbarTabs = () => {
     return false
   }, [location])
 
-  const { data: newResourcesCount } = useNewResourcesCountQuery()
+  const { navbarTabs } = useUtils()
 
   return (
-    <S.NavbarTabs
+    <Tabs
       value={tabIndex}
       indicatorColor="primary"
       textColor="primary"
       aria-label="disabled tabs example"
+      sx={{
+        zIndex: 1202,
+        position: "relative",
+      }}
     >
-      {utils.navbarTabs.map((tab) => (
-        <Badge
+      {navbarTabs.map((tab) => (
+        <Tab
+          id={tab.id}
+          component={RouterLink}
+          to={tab.to}
           key={tab.id}
-          badgeContent={tab.id === "feed-tab" && newResourcesCount}
-          color="error"
-          invisible={tab.id !== "feed-tab"}
+          label={
+            <Badge
+              badgeContent={tab.badgeCount}
+              color="error"
+              invisible={!tab.badgeCount}
+              sx={{
+                "& .MuiBadge-badge": {
+                  right: -8,
+                  top: -16,
+                },
+              }}
+            >
+              {tab.label}
+            </Badge>
+          }
+          icon={tab.icon}
           sx={{
-            "& .MuiBadge-badge": {
-              right: 16,
-              top: 16,
+            width: "inherit",
+            color: "white",
+            minWidth: {
+              md: 100,
+              xs: "auto",
+            },
+            "& svg": {
+              height: 16,
+              fontSize: 16,
             },
           }}
-        >
-          <S.NavbarTab
-            id={tab.id}
-            component={RouterLink}
-            to={tab.to}
-            key={tab.id}
-            label={tab.label}
-            icon={tab.icon}
-          />
-        </Badge>
+        />
       ))}
-    </S.NavbarTabs>
+    </Tabs>
   )
 }
 
