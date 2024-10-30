@@ -46,7 +46,7 @@ const SkillbaseTable = (props: Props) => {
   const [progressDialog, setProgressDialog] = useState(false)
   const [selectedIds, setSelectedIds] = useState<number[]>([])
 
-  // Transform this into a utility hook
+  // PE 1/3 Transform this into a utility hook
   const [visibleSkills, setVisibleSkills] = useState<SkillDto[]>(
     filterAndSortSkills(
       allSkills,

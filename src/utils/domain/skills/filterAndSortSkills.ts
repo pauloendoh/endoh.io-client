@@ -5,10 +5,11 @@ import { ISortSkillBy } from "../../../types/domain/skillbase/ISortSkillBy"
 import { SkillDto } from "../../../types/domain/skillbase/SkillDto"
 import skillIsIncompleted from "./skillIsIncompleted"
 
+// PE 2/3 - remove default
 export default function filterAndSortSkills(
   allSkills: SkillDto[],
   sortBy: ISortSkillBy,
-  tag: TagDto | "Untagged",
+  tag: TagDto | "Untagged", // PE 1/3 - remove this parameter + use object parameter
   hidingDone: boolean,
   labelIds: number[],
   byText: string,

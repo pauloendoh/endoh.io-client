@@ -49,6 +49,8 @@ const SkillDialog = () => {
   const { openConfirmDialog } = useConfirmDialogStore()
 
   const [labelDialogOpen, setLabelDialogOpen] = useState(false)
+
+  // PE 1/3 - 20241030 - considerar remover essas coisas referentes a label?
   const [labelDialogInitialValue, setLabelDialogInitialValue] = useState(
     newLabelDto()
   )
@@ -255,7 +257,7 @@ const SkillDialog = () => {
 
       <EditLabelDialog
         open={labelDialogOpen}
-        skillId={getInitialValues().id || 0}
+        skillId={getInitialValues().id ?? 0}
         initialValue={labelDialogInitialValue}
         onClose={() => setLabelDialogOpen(false)}
       />

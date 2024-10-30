@@ -49,6 +49,7 @@ const SkillTableToolbar = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedSearchSkillName])
 
+  // PE 1/3 - 20241030 -- considerar remover essas coisas referentes a tag e label
   const [tagSelectorValue, setTagSelectorValue] = useState<optionTypes>("All")
   const handleTagChange = (value: optionTypes) => {
     if (value === "All") history.push(urls.pages.skills.index)
