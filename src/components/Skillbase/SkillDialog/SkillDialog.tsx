@@ -8,6 +8,7 @@ import {
   Tooltip,
   useTheme,
 } from "@mui/material"
+import Flex from "components/_UI/Flexboxes/Flex"
 import MyTextField from "components/_UI/MyInputs/MyTextField"
 import Txt from "components/_UI/Text/Txt"
 import { useFormik } from "formik"
@@ -29,7 +30,6 @@ import { getCurrentTagId } from "../../../utils/skillbase/getCurrentTagId"
 import SaveCancelButtons from "../../_UI/Buttons/SaveCancelButtons"
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
 import SelectSkillLevel from "./SelectSkillLevel/SelectSkillLevel"
-import LabelsSelector from "./SkillDialogLabels/LabelsSelector/LabelsSelector"
 import EditLabelDialog from "./SkillDialogLabels/SelectSkillLabelsDialog/EditLabelDialog/EditLabelDialog"
 import TitleTextField from "./SkillDialogTitleTextField/SkillDialogTitleTextField"
 import SkillExpectations from "./SkillExpectations/SkillExpectations"
@@ -133,58 +133,64 @@ const SkillDialog = () => {
             </FlexVCenter>
 
             {/* Separate into <SkillLevelSelectors/> */}
-            <FlexVCenter mt={3} style={{ fontSize: 14, fontWeight: "normal" }}>
-              <SelectSkillLevel
-                type="currentLevel"
-                value={formik.values.currentLevel || 0}
-                onChange={(newValue: number | null) => {
-                  formik.setFieldValue("currentLevel", newValue)
-                }}
-              />
-              <MdOutlineArrowRightAlt
-                fontSize={24}
-                style={{ marginRight: 20, marginTop: 8 }}
-              />
+            <Flex justifyContent={"space-between"} alignItems={"flex-end"}>
+              <FlexVCenter
+                mt={3}
+                style={{ fontSize: 14, fontWeight: "normal" }}
+                pb={0.5}
+              >
+                <SelectSkillLevel
+                  type="currentLevel"
+                  value={formik.values.currentLevel || 0}
+                  onChange={(newValue: number | null) => {
+                    formik.setFieldValue("currentLevel", newValue)
+                  }}
+                />
+                <MdOutlineArrowRightAlt
+                  fontSize={24}
+                  style={{ marginRight: 20, marginTop: 8 }}
+                />
 
-              <SelectSkillLevel
-                type="goalLevel"
-                value={formik.values.goalLevel || 0}
-                onChange={(newValue: number | null) => {
-                  formik.setFieldValue("goalLevel", newValue)
-                }}
-              />
-            </FlexVCenter>
+                <SelectSkillLevel
+                  type="goalLevel"
+                  value={formik.values.goalLevel || 0}
+                  onChange={(newValue: number | null) => {
+                    formik.setFieldValue("goalLevel", newValue)
+                  }}
+                />
+              </FlexVCenter>
 
-            {initialValue && (
-              <FlexVCenter mt={2} gap={2}>
-                <LabelsSelector
+              {initialValue && (
+                <FlexVCenter mt={2} gap={2}>
+                  {/* <LabelsSelector
                   selectedLabels={formik.values.labels || []}
                   onChange={(labels) => formik.setFieldValue("labels", labels)}
                   skillId={getInitialValues().id || 0}
                   setLabelDialogOpen={setLabelDialogOpen}
                   setLabelDialogInitialValue={setLabelDialogInitialValue}
-                />
-                <MyTextField
-                  label="Priority"
-                  type="number"
-                  value={formik.values.priority}
-                  onChange={(e) => {
-                    if (e.target.value !== "") {
-                      formik.setFieldValue("priority", Number(e.target.value))
-                    } else {
-                      formik.setFieldValue("priority", null)
-                    }
-                  }}
-                  size="medium"
-                  style={{
-                    width: 100,
-                  }}
-                  inputProps={{
-                    step: 0.1,
-                  }}
-                />
-              </FlexVCenter>
-            )}
+                /> */}
+                  <MyTextField
+                    label="Priority"
+                    type="number"
+                    value={formik.values.priority}
+                    onChange={(e) => {
+                      if (e.target.value !== "") {
+                        formik.setFieldValue("priority", Number(e.target.value))
+                      } else {
+                        formik.setFieldValue("priority", null)
+                      }
+                    }}
+                    size="small"
+                    style={{
+                      width: 100,
+                    }}
+                    inputProps={{
+                      step: 0.1,
+                    }}
+                  />
+                </FlexVCenter>
+              )}
+            </Flex>
           </DialogTitle>
 
           <DialogContent
@@ -194,7 +200,7 @@ const SkillDialog = () => {
             }}
           >
             <SkillExpectations
-              currentLevel={formik.values.currentLevel || 0}
+              currentLevel={formik.values.currentLevel ?? 0}
               expectations={formik.values.expectations}
               onChangeExpectations={(expectations) =>
                 formik.setFieldValue("expectations", expectations)
