@@ -95,7 +95,7 @@ const FeedResourceItem = ({ feedResource }: Props) => {
                   <MdLock
                     style={{
                       position: "relative",
-                      top: 2,
+                      top: 1,
                       left: 4,
                     }}
                   />
