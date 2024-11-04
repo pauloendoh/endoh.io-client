@@ -12,6 +12,8 @@ interface IStore {
   tags: TagDto[]
 
   editingTag: TagDto | null
+  currentTagId: number | null
+  setCurrentTagId: (tagId: number | null) => void
 
   setResources: (resources: ResourceDto[]) => void
   pushOrReplaceResource: (resource: ResourceDto) => void
@@ -31,6 +33,9 @@ const useRelearnStore = create<IStore>((set, get) => ({
   hasFirstLoaded: false,
   tags: [],
   editingTag: null,
+
+  currentTagId: null,
+  setCurrentTagId: (tagId) => set({ currentTagId: tagId }),
 
   setResources: (resources) => set({ resources, hasFirstLoaded: true }),
   pushOrReplaceResource: (resource) => {

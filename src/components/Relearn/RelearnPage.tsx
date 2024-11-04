@@ -28,6 +28,7 @@ const RelearnPage = () => {
     hasFirstLoaded,
     tags: allTags,
     setResources,
+    setCurrentTagId,
   } = useRelearnStore()
 
   const classes = useStyles()
@@ -136,6 +137,10 @@ const RelearnPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [allTags, params.tagId]
   )
+
+  useEffect(() => {
+    setCurrentTagId(params.tagId ? Number(params.tagId) : null)
+  }, [params.tagId])
 
   if (redirectTo.length > 0) {
     return <Redirect to={redirectTo} />

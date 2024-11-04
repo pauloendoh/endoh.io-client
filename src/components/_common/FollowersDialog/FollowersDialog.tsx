@@ -47,6 +47,7 @@ const FollowersDialog = (props: Props) => {
                 />
                 <Box ml={2}>
                   <Box>
+                    {/* PE 1/3 - criar um MyLink */}
                     <Link
                       component={RouterLink}
                       variant="body1"
