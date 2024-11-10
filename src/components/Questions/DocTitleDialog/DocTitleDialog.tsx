@@ -79,11 +79,11 @@ const DocTitleDialog = (props: Props) => {
       open={props.open}
       fullWidth
       maxWidth="xs"
-      aria-labelledby="doc-title-dialog"
+      aria-labelledby="deck-title-dialog"
     >
       <Box pb={1} px={1}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogTitle id="doc-title-dialog-title">Doc Title</DialogTitle>
+          <DialogTitle id="deck-title-dialog-title">Deck Title</DialogTitle>
           <DialogContent>
             <Box>
               <Controller
