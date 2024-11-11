@@ -66,7 +66,6 @@ function ResetPasswordPage() {
     axios
       .post(urls.api.auth.resetPassword, values)
       .then((res) => {
-        debugger
         setSuccess(true)
       })
       .catch((err: MyAxiosError) => {

@@ -6,13 +6,12 @@ import ResourceCompletedLabel from "components/Relearn/RelearnContent/ResourceLi
 import ResourceDurationLabel from "components/Relearn/RelearnContent/ResourceList/DraggableResourceItem/ResourceItem/ResourceDurationLabel/ResourceDurationLabel"
 import Txt from "components/_UI/Text/Txt"
 import RatingButtonLabel from "components/_common/RatingButton/RatingButtonLabel/RatingButtonLabel"
+import { useSaveResourceMutation } from "hooks/relearn/useSaveResourceMutation"
 import React, { useMemo, useState } from "react"
 import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
 import useAuthStore from "store/zustand/useAuthStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
-import { urls } from "utils/urls"
 import { ResourceDto } from "../../../../types/domain/relearn/ResourceDto"
-import myAxios from "../../../../utils/consts/myAxios"
 import { urlIsValid } from "../../../../utils/url/isValidUrl"
 import ResourceMoreIcon from "../../../Relearn/RelearnContent/ResourceList/DraggableResourceItem/ResourceMoreIcon/ResourceMoreIcon"
 import Flex from "../../../_UI/Flexboxes/Flex"
@@ -43,20 +42,20 @@ function ProfileResourceItem(props: Props) {
   }
 
   const { setSuccessMessage } = useSnackbarStore()
+  const { mutate } = useSaveResourceMutation()
 
   const handleSaveRating = (rating: number | null) => {
     const resource = { ...props.resource, rating } as ResourceDto
-    myAxios
-      .post<ResourceDto[]>(urls.api.relearn.resource, resource)
-      .then((res) => {
-        setResources(res.data)
 
+    mutate(resource, {
+      onSuccess: (res) => {
         if (resource.rating) {
           setSuccessMessage("Resource rated!")
         } else {
           setSuccessMessage("Rating removed!")
         }
-      })
+      },
+    })
   }
 
   const isOwner = useMemo(() => {

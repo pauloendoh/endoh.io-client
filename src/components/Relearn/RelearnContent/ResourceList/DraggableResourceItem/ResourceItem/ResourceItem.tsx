@@ -1,6 +1,7 @@
 import EventIcon from "@mui/icons-material/Event"
 import { Box, Link, useTheme } from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import { useSaveResourceMutation } from "hooks/relearn/useSaveResourceMutation"
 import { useAxios } from "hooks/utils/useAxios"
 import useHover from "hooks/utils/useHover"
 import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
@@ -42,24 +43,23 @@ function ResourceItem(props: Props) {
   const axios = useAxios()
 
   const [isSaving, setIsSaving] = useState(false)
+  const { mutate } = useSaveResourceMutation()
   const handleSaveRating = (rating: number | null) => {
     const resource = { ...props.resource, rating } as ResourceDto
 
     setIsSaving(true)
-    axios
-      .post<ResourceDto[]>(urls.api.relearn.resource, resource)
-      .then((res) => {
-        setResources(res.data)
-
+    mutate(resource, {
+      onSuccess: () => {
         if (resource.rating) {
           setSuccessMessage("Resource rated!")
         } else {
           setSuccessMessage("Rating removed!")
         }
-      })
-      .finally(() => {
+      },
+      onSettled: () => {
         setIsSaving(false)
-      })
+      },
+    })
   }
 
   const onChangeTaskChecked = (checked: boolean) => {

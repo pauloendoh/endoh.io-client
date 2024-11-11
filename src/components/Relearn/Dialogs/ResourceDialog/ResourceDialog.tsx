@@ -13,12 +13,12 @@ import {
   IconButton,
   Typography,
 } from "@mui/material"
-import { AxiosError } from "axios"
 import FlexHCenter from "components/_UI/Flexboxes/FlexHCenter"
 import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween"
 import TagIcon from "components/_UI/Icon/TagIcon"
 import Txt from "components/_UI/Text/Txt"
 import { FormikErrors, useFormik } from "formik"
+import { useSaveResourceMutation } from "hooks/relearn/useSaveResourceMutation"
 import useQueryParams from "hooks/utils/react-router/useQueryParams"
 import { useAxios } from "hooks/utils/useAxios"
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
@@ -43,18 +43,11 @@ import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
 import MyTextField from "../../../_UI/MyInputs/MyTextField"
 import RatingButton from "../../../_common/RatingButton/RatingButton"
 import ResourceDialogMoreMenu from "./ResourceDialogMoreMenu/ResourceDialogMoreMenu"
-import ResourceSavedMessage from "./ResourceSavedMessage/ResourceSavedMessage"
 import { useFetchLinkPreview } from "./useFetchLinkPreview/useFetchLinkPreview"
 
 const ResourceDialog = () => {
-  const {
-    resources,
-    tags,
-    removeResource,
-    setResources,
-    setTags,
-    pushOrReplaceResource,
-  } = useRelearnStore()
+  const { resources, tags, removeResource, setTags, pushOrReplaceResource } =
+    useRelearnStore()
 
   const { initialValue, setInitialValue, checkUrlOnOpen } =
     useResourceDialogStore()
@@ -194,8 +187,11 @@ const ResourceDialog = () => {
 
   const [isLoading, setIsLoading] = useState(false)
 
+  const { mutate } = useSaveResourceMutation()
+
   const handleSubmit = (resource: ResourceDto, closeAfterSaving = true) => {
     setIsLoading(true)
+
     const payload: ResourceDto = {
       ...resource,
       tag: {
@@ -203,19 +199,9 @@ const ResourceDialog = () => {
         resources: [],
       },
     }
-    axios
-      .post<ResourceDto>(urls.api.relearn.resource, payload)
-      .then((res) => {
-        const newResource = res.data
 
-        pushOrReplaceResource(res.data)
-
-        setSuccessMessage(<ResourceSavedMessage resource={res.data} />)
-
-        axios.get<TagDto[]>(urls.api.relearn.tag).then((res) => {
-          setTags(res.data)
-        })
-
+    mutate(payload, {
+      onSuccess: (newResource) => {
         setInitialValues({
           ...newResource,
         })
@@ -223,11 +209,11 @@ const ResourceDialog = () => {
         if (closeAfterSaving) {
           closeAndClearQueryParam()
         }
-      })
-      .catch((err: AxiosError) => {
-        setErrorMessage(err.message || "Error while saving resource.")
-      })
-      .finally(() => setIsLoading(false))
+      },
+      onSettled: () => {
+        setIsLoading(false)
+      },
+    })
   }
 
   const [throttle, setThrottle] = useState<NodeJS.Timeout | null>(null)
