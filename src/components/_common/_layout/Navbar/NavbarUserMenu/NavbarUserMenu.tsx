@@ -62,14 +62,12 @@ const NavbarUserMenu = () => {
         aria-controls="simple-menu"
         aria-haspopup="true"
       >
-        {profile && authUser && (
-          <ProfilePicture
-            isLink={false}
-            pictureUrl={profile?.pictureUrl}
-            username={authUser?.username}
-            size="1.875rem"
-          />
-        )}
+        <ProfilePicture
+          isLink={false}
+          pictureUrl={profile?.pictureUrl || ""}
+          username={authUser?.username || ""}
+          size="1.875rem"
+        />
       </IconButton>
 
       <Menu
