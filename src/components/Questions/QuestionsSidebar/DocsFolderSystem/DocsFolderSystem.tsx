@@ -72,14 +72,14 @@ export default function DocsFolderSystem() {
     return filtered.sort((a, b) => a.title.localeCompare(b.title))
   }, [docs])
 
-  const { docId } = useParams<{ docId?: string }>()
+  const { deckId } = useParams<{ deckId?: string }>()
 
   useEffect(() => {
     if (docs.length === 0 || sortedFolders.length === 0) return
 
     let expandNodeIds = ["root"]
-    if (docId) {
-      let doc = docs.find((d) => d.id === Number(docId))
+    if (deckId) {
+      let doc = docs.find((d) => d.id === Number(deckId))
 
       const allFolders = spreadFolders(sortedFolders)
 
@@ -95,7 +95,7 @@ export default function DocsFolderSystem() {
 
       setExpandedNodes(expandNodeIds)
     }
-  }, [docs, sortedFolders, docId])
+  }, [docs, sortedFolders, deckId])
 
   const [openTitleDialog, setOpenTitleDialog] = useState(false)
 
@@ -106,7 +106,7 @@ export default function DocsFolderSystem() {
         defaultExpandIcon={<Icons.ChevronRight />}
         style={{ width: 300 }}
         expanded={expandedNodes}
-        selected={docId ? `doc-${docId}` : ""}
+        selected={deckId ? `doc-${deckId}` : ""}
       >
         <TreeItem
           nodeId="root"
