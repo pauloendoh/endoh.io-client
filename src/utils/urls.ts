@@ -81,6 +81,7 @@ export const urls = {
         `/move-resource-to-first/${resourceId}`,
       moveResourceToLast: (resourceId: number) =>
         `/move-resource-to-last/${resourceId}`,
+      moveResourceToPosition: () => `/relearn/move-resource-to-position`,
     },
     // Skillbase
     skillbase: {

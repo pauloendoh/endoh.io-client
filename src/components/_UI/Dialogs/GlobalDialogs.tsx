@@ -14,6 +14,7 @@ import useLearningsPerDayDialogStore from "store/zustand/dialogs/useLearningsPer
 import useRecurrentLearningDialogStore from "store/zustand/dialogs/useRecurrentLearningDialogStore"
 import { buildLearning } from "utils/builders"
 import FollowersDialogV2 from "./FollowersDialogV2/FollowersDialogV2"
+import NumberDialog from "./NumberDialog"
 import RecurrentLearningDialog from "./RecurrentLearningDialog/RecurrentLearningDialog"
 
 interface Props {
@@ -36,6 +37,7 @@ const GlobalDialogs = (props: Props) => {
   return (
     <>
       <ConfirmDialog />
+      <NumberDialog />
       <ResourceDialog />
       <SkillDialog />
       <QuestionDialog />

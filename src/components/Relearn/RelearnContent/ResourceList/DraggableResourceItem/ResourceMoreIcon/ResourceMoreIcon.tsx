@@ -1,6 +1,4 @@
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz"
-
-import { IconButton, Theme, useTheme } from "@mui/material"
+import { Divider, IconButton, Theme, useTheme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 import { pushOrReplace } from "endoh-utils"
 
@@ -9,11 +7,12 @@ import EditIcon from "@mui/icons-material/Edit"
 import FileCopyIcon from "@mui/icons-material/FileCopy"
 import { Box, ListItemIcon, Menu, MenuItem, Typography } from "@mui/material"
 import FlexCenter from "components/_UI/Flexboxes/FlexCenter"
+import { useMoveResourceToPositionMutation } from "hooks/react-query/relearn/useMoveResourceToPositionMutation"
 import { useAxios } from "hooks/utils/useAxios"
 import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
 import React, { useEffect } from "react"
+import { IoMdMove } from "react-icons/io"
 import {
-  MdMore,
   MdMoreHoriz,
   MdVerticalAlignBottom,
   MdVerticalAlignTop,
@@ -21,6 +20,7 @@ import {
 import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
 import useResourceDialogStore from "store/zustand/domain/resources/useResourceDialogStore"
 import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
+import { useNumberDialogStore } from "store/zustand/useNumberDialogStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { urls } from "utils/urls"
 import { ResourceDto } from "../../../../../../types/domain/relearn/ResourceDto"
@@ -36,12 +36,15 @@ function ResourceMoreIcon(props: Props) {
   const classes = useStyles()
   const { openConfirmDialog } = useConfirmDialogStore()
 
+  const { openDialog: openNumberDialog } = useNumberDialogStore()
+
   const { setSuccessMessage } = useSnackbarStore()
 
   const {
     removeResource,
     setResources,
     resources: allResources,
+    moveResource,
   } = useRelearnStore()
 
   const { setInitialValue: setEditingResource } = useResourceDialogStore()
@@ -125,6 +128,10 @@ function ResourceMoreIcon(props: Props) {
   const { isMobile } = useMyMediaQuery()
 
   const theme = useTheme()
+
+  const { mutate: submitMoveResource } = useMoveResourceToPositionMutation({
+    showSuccessMessage: true,
+  })
 
   return (
     <React.Fragment>
@@ -215,30 +222,60 @@ function ResourceMoreIcon(props: Props) {
             </Typography>
           </MenuItem>
           {!props.resource.completedAt && (
-            <MenuItem onClick={handleMoveToFirst}>
-              <ListItemIcon>
-                <MdVerticalAlignTop />
-              </ListItemIcon>
-              <Typography variant="inherit" noWrap>
-                Move to first
-              </Typography>
-            </MenuItem>
-          )}
-          {!props.resource.completedAt && (
-            <MenuItem onClick={handleMoveToLast}>
-              <ListItemIcon>
-                <MdVerticalAlignBottom />
-              </ListItemIcon>
-              <Typography variant="inherit" noWrap>
-                Move to last
-              </Typography>
-            </MenuItem>
+            <>
+              <Divider />
+              <MenuItem
+                onClick={() => {
+                  openNumberDialog({
+                    title: "Move to position",
+                    onChange: (value) => {
+                      const numValue = Number(value)
+                      if (!isNaN(numValue) && numValue > 0) {
+                        submitMoveResource({
+                          currentPosition: props.index! + 1,
+                          newPosition: numValue,
+                          resourceId: props.resource.id!,
+                          tagId: props.resource.tag?.id!,
+                        })
+                      } else {
+                        alert("Invalid position number")
+                      }
+                    },
+                  })
+                }}
+              >
+                <ListItemIcon>
+                  <IoMdMove />
+                </ListItemIcon>
+                <Typography variant="inherit" noWrap>
+                  Move to position
+                </Typography>
+              </MenuItem>
+
+              <MenuItem onClick={handleMoveToFirst}>
+                <ListItemIcon>
+                  <MdVerticalAlignTop />
+                </ListItemIcon>
+                <Typography variant="inherit" noWrap>
+                  Move to first
+                </Typography>
+              </MenuItem>
+              <MenuItem onClick={handleMoveToLast}>
+                <ListItemIcon>
+                  <MdVerticalAlignBottom />
+                </ListItemIcon>
+                <Typography variant="inherit" noWrap>
+                  Move to last
+                </Typography>
+              </MenuItem>
+            </>
           )}
 
+          <Divider />
           <MenuItem
             onClick={() => {
               handleCloseMore()
-              handleDeleteResource(props.resource.id || 0)
+              handleDeleteResource(props.resource.id ?? 0)
             }}
             id="delete-resource-button"
           >
