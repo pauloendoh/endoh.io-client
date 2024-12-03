@@ -132,7 +132,7 @@ function ResourceItem(props: Props) {
             )}
           </S.TitleLinkWrapper>
           <ResourceMoreIcon
-            index={props.resource.position!}
+            index={props.index}
             resource={props.resource}
             isHovered={isHovering || isMobile}
           />

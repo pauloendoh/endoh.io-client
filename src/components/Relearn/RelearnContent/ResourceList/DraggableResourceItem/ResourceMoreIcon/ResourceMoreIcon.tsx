@@ -25,7 +25,7 @@ import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { urls } from "utils/urls"
 import { ResourceDto } from "../../../../../../types/domain/relearn/ResourceDto"
 
-interface Props {
+type Props = {
   resource: ResourceDto
   isHovered: boolean
   index?: number
@@ -44,7 +44,6 @@ function ResourceMoreIcon(props: Props) {
     removeResource,
     setResources,
     resources: allResources,
-    moveResource,
   } = useRelearnStore()
 
   const { setInitialValue: setEditingResource } = useResourceDialogStore()
@@ -292,6 +291,7 @@ function ResourceMoreIcon(props: Props) {
   )
 }
 
+// PE 1/3 - stop using this if possible
 const useStyles = makeStyles<Theme>((theme) => ({
   listItemIcon: {
     width: 16,

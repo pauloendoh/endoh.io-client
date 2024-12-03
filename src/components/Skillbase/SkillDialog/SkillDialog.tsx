@@ -116,8 +116,12 @@ const SkillDialog = () => {
         <form onSubmit={formik.handleSubmit}>
           {/* Separate into <SkillDialogTitle skill={skill}/> */}
           <DialogTitle id="skill-dialog-title">
-            <FlexVCenter justifyContent="space-between">
-              <FlexVCenter width="80%">
+            <Flex justifyContent="space-between" gap={2}>
+              <FlexVCenter
+                sx={{
+                  width: "fill-available",
+                }}
+              >
                 <TitleTextField
                   value={formik.values.name}
                   onChange={(newValue) =>
@@ -127,12 +131,14 @@ const SkillDialog = () => {
               </FlexVCenter>
 
               {!!formik.values.id && (
-                <SkillMoreIcon
-                  skillId={formik.values.id}
-                  afterDelete={() => setEditingSkill(null)}
-                />
+                <div>
+                  <SkillMoreIcon
+                    skillId={formik.values.id}
+                    afterDelete={() => setEditingSkill(null)}
+                  />
+                </div>
               )}
-            </FlexVCenter>
+            </Flex>
 
             {/* Separate into <SkillLevelSelectors/> */}
             <Flex justifyContent={"space-between"} alignItems={"flex-end"}>

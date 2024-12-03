@@ -19,6 +19,7 @@ const SkillDialogTitleTextField = (props: Props) => {
       className={classes.nameTextField}
       placeholder="Untitled skill"
       fullWidth
+      multiline
       variant="standard"
       InputProps={{
         className: classes.nameInput,
