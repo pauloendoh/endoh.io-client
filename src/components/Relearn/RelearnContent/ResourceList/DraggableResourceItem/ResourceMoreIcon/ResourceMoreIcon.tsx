@@ -1,4 +1,4 @@
-import { Divider, IconButton, Theme, useTheme } from "@mui/material"
+import { Divider, Theme, useTheme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 import { pushOrReplace } from "endoh-utils"
 
@@ -12,11 +12,7 @@ import { useAxios } from "hooks/utils/useAxios"
 import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
 import React, { useEffect } from "react"
 import { IoMdMove } from "react-icons/io"
-import {
-  MdMoreHoriz,
-  MdVerticalAlignBottom,
-  MdVerticalAlignTop,
-} from "react-icons/md"
+import { MdVerticalAlignBottom, MdVerticalAlignTop } from "react-icons/md"
 import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
 import useResourceDialogStore from "store/zustand/domain/resources/useResourceDialogStore"
 import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
@@ -137,46 +133,25 @@ function ResourceMoreIcon(props: Props) {
       {/* 'More' icon - PE 1/3 - can be a specific component */}
       <div>
         <Box>
-          {props.isHovered && (
-            <>
-              {props.index !== undefined ? (
-                <FlexCenter
-                  sx={{
-                    cursor: "pointer",
-                    backgroundColor: theme.palette.grey[800],
-                    borderRadius: 1,
-                    px: 1,
-                    py: 0.25,
-                    ":hover": {
-                      backgroundColor: theme.palette.grey[700],
-                    },
-                  }}
-                  onClick={(e) => {
-                    handleOpenMore(e)
-                  }}
-                >
-                  <Typography variant="caption">{props.index + 1}</Typography>
-                </FlexCenter>
-              ) : (
-                <IconButton
-                  size="small"
-                  id="resource-more-icon"
-                  aria-label="resource-more-icon"
-                  onClick={(e) => {
-                    handleOpenMore(e)
-                  }}
-                  sx={
-                    isMobile
-                      ? {
-                          padding: 0,
-                        }
-                      : undefined
-                  }
-                >
-                  <MdMoreHoriz />
-                </IconButton>
-              )}
-            </>
+          {props.index !== undefined && (
+            <FlexCenter
+              sx={{
+                visibility: props.isHovered ? "visible" : "hidden",
+                cursor: "pointer",
+                backgroundColor: theme.palette.grey[800],
+                borderRadius: 1,
+                px: 1,
+                py: 0.25,
+                ":hover": {
+                  backgroundColor: theme.palette.grey[700],
+                },
+              }}
+              onClick={(e) => {
+                handleOpenMore(e)
+              }}
+            >
+              <Typography variant="caption">{props.index + 1}</Typography>
+            </FlexCenter>
           )}
         </Box>
         <Menu
