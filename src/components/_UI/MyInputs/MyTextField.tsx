@@ -34,6 +34,7 @@ const MyTextField = React.forwardRef<HTMLDivElement, Props>(
             onCtrlEnter(e)
           } else if (props.onKeyDown) props.onKeyDown(e)
         }}
+        defaultValue={props.defaultValue || props.value}
       />
     )
   }
