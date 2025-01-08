@@ -1,4 +1,4 @@
-import { Theme } from "@mui/material"
+import { Theme, useTheme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 
 import EditIcon from "@mui/icons-material/Edit"
@@ -94,6 +94,8 @@ function DocMoreMenu(props: Props) {
 
   const { mutate: submitDeleteDoc } = useDeleteDocMutation()
   const history = useHistory()
+
+  const theme = useTheme()
 
   return (
     <React.Fragment>

@@ -1,5 +1,6 @@
-import { Button, ListItem, ListItemText } from "@mui/material"
+import { ListItem, ListItemText } from "@mui/material"
 import FlashcardDialog from "components/Questions/QuestionsContent/FlashcardDialog/FlashcardDialog"
+import DarkButton from "components/_UI/Buttons/DarkButton/DarkButton"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import { useMemo, useState } from "react"
 import { MdPlayCircleFilled } from "react-icons/md"
@@ -25,17 +26,15 @@ const AnsweredQuestionsListItem = (props: Props) => {
     <>
       <ListItem>
         <ListItemText>
-          <Button
+          <DarkButton
             onClick={() => setDialogIsOpen(true)}
             startIcon={<MdPlayCircleFilled />}
             fullWidth
-            variant="contained"
-            color="primary"
           >
             <FlexVCenter justifyContent="space-between">
               Exercise your memory!
             </FlexVCenter>
-          </Button>
+          </DarkButton>
         </ListItemText>
       </ListItem>
 

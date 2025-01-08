@@ -1,4 +1,10 @@
-import { Theme, Typography, useMediaQuery, useTheme } from "@mui/material"
+import {
+  Button,
+  Theme,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material"
 import { makeStyles } from "@mui/styles"
 import { useVirtual } from "react-virtual"
 import { format } from "timeago.js"
@@ -16,7 +22,6 @@ import {
   QuestionDto,
   buildQuestionDto,
 } from "../../../../types/domain/questions/QuestionDto"
-import DarkButton from "../../../_UI/Buttons/DarkButton/DarkButton"
 import { TBody, TD, THead, TR } from "../../../_UI/Table/MyTableWrappers"
 import AddManyQuestionsMenuButton from "./AddManyNotesMenuButton/AddManyQuestionsMenuButton"
 import DocTableRow from "./DocTableRow/DocTableRow"
@@ -154,7 +159,9 @@ const DocTable = (props: Props) => {
         }}
       >
         <FlexVCenter gap={2}>
-          <DarkButton
+          <Button
+            variant="contained"
+            color="primary"
             onClick={() =>
               openNoteDialog({
                 initialValue: buildQuestionDto({
@@ -166,7 +173,7 @@ const DocTable = (props: Props) => {
           >
             + Add question
             {toolbarWidth > 500 && " (q)"}
-          </DarkButton>
+          </Button>
 
           <AddManyQuestionsMenuButton docId={props.docId} />
         </FlexVCenter>
