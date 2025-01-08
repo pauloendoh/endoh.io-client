@@ -1,6 +1,7 @@
 import EventIcon from "@mui/icons-material/Event"
 import { Box, Link, useTheme } from "@mui/material"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import MySeeMore from "components/_UI/Text/MySeeMore/MySeeMore"
 import { useSaveResourceMutation } from "hooks/relearn/useSaveResourceMutation"
 import { useAxios } from "hooks/utils/useAxios"
 import useHover from "hooks/utils/useHover"
@@ -110,7 +111,16 @@ function ResourceItem(props: Props) {
       <S.Content>
         <S.TitleLinkMoreWrapper>
           <S.TitleLinkWrapper>
-            <Txt>{props.resource.title}</Txt>
+            <MySeeMore
+              maxLines={2}
+              buttonsText={{
+                seeMore: "Expand",
+                seeLess: "Hide",
+              }}
+            >
+              {props.resource.title}
+            </MySeeMore>
+
             {props.resource.url.length > 0 && (
               <Link
                 href={props.resource.url}
