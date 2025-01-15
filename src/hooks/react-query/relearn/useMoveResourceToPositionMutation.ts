@@ -31,15 +31,19 @@ export const useMoveResourceToPositionMutation = (options?: {
 
         const resources = useRelearnStore.getState().resources
 
-        const tagResources = resources.filter((r) => r.tag?.id === input.tagId)
+        const savedResources = resources.filter(
+          (r) => r.tag?.id === input.tagId && !r.completedAt
+        )
 
-        const foundIndex = tagResources.findIndex(
+        debugger
+
+        const foundIndex = savedResources.findIndex(
           (r) => r.id === input.resourceId
         )
 
         if (foundIndex === -1) return
 
-        let newTagResources = [...tagResources]
+        let newTagResources = [...savedResources]
 
         const [removed] = newTagResources.splice(input.currentPosition - 1, 1)
 

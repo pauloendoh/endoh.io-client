@@ -196,7 +196,7 @@ function ResourceMoreIcon(props: Props) {
             </Typography>
           </MenuItem>
           {!props.resource.completedAt && (
-            <>
+            <div>
               <Divider />
               <MenuItem
                 onClick={() => {
@@ -242,7 +242,7 @@ function ResourceMoreIcon(props: Props) {
                   Move to last
                 </Typography>
               </MenuItem>
-            </>
+            </div>
           )}
 
           <Divider />
