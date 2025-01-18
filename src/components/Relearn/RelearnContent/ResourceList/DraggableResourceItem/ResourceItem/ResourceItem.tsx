@@ -118,13 +118,6 @@ function ResourceItem(props: Props) {
                 seeLess: "Hide",
               }}
             >
-              <span
-                style={{
-                  color: "orange",
-                }}
-              >
-                [{props.resource.position}]{" "}
-              </span>
               {props.resource.title}
             </MySeeMore>
 
