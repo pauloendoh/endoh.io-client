@@ -360,31 +360,17 @@ const ResourceDialog = () => {
             )}
 
             <Box flexGrow={1}>
-              <Box position="relative">
-                <MyTextField
-                  sx={{ mt: 1 }}
-                  id="title"
-                  name="title"
-                  value={values.title}
-                  inputProps={{ "aria-label": "resource-title-input" }}
-                  label="Title"
-                  required
-                  onChange={handleChange}
-                  fullWidth
-                  autoFocus
-                  InputLabelProps={{
-                    shrink: !!values.title,
-                  }}
-                  onClickClearIcon={() => {
-                    setFieldValue("title", "")
-                  }}
-                />
-              </Box>
-              <Box mt={2} position="relative">
+              <Box
+                position="relative"
+                sx={{
+                  mt: 1,
+                }}
+              >
                 <MyTextField
                   id="url"
                   name="url"
                   value={values.url}
+                  autoFocus
                   onChange={(e) => {
                     handleChange(e)
                     fetchLinkPreview(e.target.value, setFieldValue, setValues)
@@ -404,6 +390,27 @@ const ResourceDialog = () => {
                   />
                 )}
               </Box>
+
+              <Box position="relative">
+                <MyTextField
+                  sx={{ mt: 2 }}
+                  id="title"
+                  name="title"
+                  value={values.title}
+                  inputProps={{ "aria-label": "resource-title-input" }}
+                  label="Title"
+                  required
+                  onChange={handleChange}
+                  fullWidth
+                  InputLabelProps={{
+                    shrink: !!values.title,
+                  }}
+                  onClickClearIcon={() => {
+                    setFieldValue("title", "")
+                  }}
+                />
+              </Box>
+
               <FlexVCenter justifyContent="space-between">
                 <FlexVCenter mt={1}></FlexVCenter>
 
