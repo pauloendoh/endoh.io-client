@@ -46,8 +46,7 @@ import ResourceDialogMoreMenu from "./ResourceDialogMoreMenu/ResourceDialogMoreM
 import { useFetchLinkPreview } from "./useFetchLinkPreview/useFetchLinkPreview"
 
 const ResourceDialog = () => {
-  const { resources, tags, removeResource, setTags, pushOrReplaceResource } =
-    useRelearnStore()
+  const { resources, tags, removeResource } = useRelearnStore()
 
   const { initialValue, setInitialValue, checkUrlOnOpen } =
     useResourceDialogStore()
@@ -56,7 +55,7 @@ const ResourceDialog = () => {
   const history = useHistory()
   const location = useLocation()
   const { openConfirmDialog } = useConfirmDialogStore()
-  const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
+  const { setSuccessMessage } = useSnackbarStore()
   const queryParams = useQueryParams()
 
   const openResourceId = useMemo(
@@ -67,8 +66,8 @@ const ResourceDialog = () => {
 
   const sortedTags = useMemo(
     () =>
-      tags
-        ?.sort((a, b) => ((a.id || 0) > (b.id || 0) ? 1 : -1))
+      [...tags]
+        ?.sort((a, b) => ((a.id ?? 0) > (b.id ?? 0) ? 1 : -1))
         .sort((a, b) => {
           // !isPrivate tags first
           if (a.isPrivate && !b.isPrivate) return 1
@@ -111,6 +110,18 @@ const ResourceDialog = () => {
       setInitialValues({
         ...initialValue,
         tag: initialValue?.tag || getCurrentTag(),
+      })
+
+      navigator.clipboard.readText().then((copiedText) => {
+        if (urlIsValid(copiedText)) {
+          setInitialValues({
+            ...initialValue,
+            url: copiedText,
+            tag: initialValue?.tag || getCurrentTag(),
+          })
+
+          fetchLinkPreview(copiedText, setFieldValue, setValues)
+        }
       })
     }
   }, [initialValue])
@@ -360,10 +371,28 @@ const ResourceDialog = () => {
             )}
 
             <Box flexGrow={1}>
+              <MyTextField
+                sx={{ mt: 1 }}
+                id="title"
+                name="title"
+                value={values.title}
+                inputProps={{ "aria-label": "resource-title-input" }}
+                label="Title"
+                required
+                onChange={handleChange}
+                fullWidth
+                InputLabelProps={{
+                  shrink: !!values.title,
+                }}
+                onClickClearIcon={() => {
+                  setFieldValue("title", "")
+                }}
+              />
+
               <Box
                 position="relative"
                 sx={{
-                  mt: 1,
+                  mt: 2,
                 }}
               >
                 <MyTextField
@@ -389,26 +418,6 @@ const ResourceDialog = () => {
                     size={16}
                   />
                 )}
-              </Box>
-
-              <Box position="relative">
-                <MyTextField
-                  sx={{ mt: 2 }}
-                  id="title"
-                  name="title"
-                  value={values.title}
-                  inputProps={{ "aria-label": "resource-title-input" }}
-                  label="Title"
-                  required
-                  onChange={handleChange}
-                  fullWidth
-                  InputLabelProps={{
-                    shrink: !!values.title,
-                  }}
-                  onClickClearIcon={() => {
-                    setFieldValue("title", "")
-                  }}
-                />
               </Box>
 
               <FlexVCenter justifyContent="space-between">
