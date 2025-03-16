@@ -112,17 +112,19 @@ const ResourceDialog = () => {
         tag: initialValue?.tag || getCurrentTag(),
       })
 
-      navigator.clipboard.readText().then((copiedText) => {
-        if (urlIsValid(copiedText)) {
-          setInitialValues({
-            ...initialValue,
-            url: copiedText,
-            tag: initialValue?.tag || getCurrentTag(),
-          })
+      if (!initialValue.url) {
+        navigator.clipboard.readText().then((copiedText) => {
+          if (urlIsValid(copiedText)) {
+            setInitialValues({
+              ...initialValue,
+              url: copiedText,
+              tag: initialValue?.tag || getCurrentTag(),
+            })
 
-          fetchLinkPreview(copiedText, setFieldValue, setValues)
-        }
-      })
+            fetchLinkPreview(copiedText, setFieldValue, setValues)
+          }
+        })
+      }
     }
   }, [initialValue])
 
