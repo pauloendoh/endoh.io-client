@@ -6,7 +6,9 @@ import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { TagDto } from "../../../types/domain/relearn/TagDto"
 import { urls } from "../../../utils/urls"
 
-export function useSaveTagMutation() {
+export function useSaveTagMutation(options?: {
+  disableSuccessMessage?: boolean
+}) {
   const axios = useAxios()
   const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
   const { setTags, tags } = useRelearnStore()
@@ -20,12 +22,17 @@ export function useSaveTagMutation() {
         .then((res) => res.data),
     {
       onSuccess: (saved) => {
-        setSuccessMessage("Tag saved!")
         const updatedTags = upsert(tags, saved, (tag) => tag.id === saved.id)
         setTags(updatedTags)
+
+        if (options?.disableSuccessMessage) {
+          return
+        }
+        setSuccessMessage("Tag saved!")
       },
       onError: (err) => {
-        setErrorMessage(JSON.stringify(err))
+        console.log(err)
+        setErrorMessage("Failed to save tag")
       },
     }
   )
