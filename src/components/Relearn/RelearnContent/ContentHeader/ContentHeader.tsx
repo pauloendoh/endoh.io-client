@@ -185,13 +185,11 @@ function ContentHeader(props: Props) {
                   {
                     label: "Default sorting",
                     selected: tag?.sortingBy === "default",
-                    disabled: tag?.sortingBy === "default",
                     onClick: () => handleChangeSorting("default"),
                   },
                   {
                     label: "Sorting by priority",
                     selected: tag?.sortingBy === "priority",
-                    disabled: tag?.sortingBy === "priority",
                     onClick: () => handleChangeSorting("priority"),
                   },
                 ],
