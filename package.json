@@ -93,7 +93,10 @@
     "extends": [
       "plugin:react-hooks/recommended",
       "react-app"
-    ]
+    ],
+    "rules": {
+      "react-hooks/exhaustive-deps": "off"
+    }
   },
   "browserslist": {
     "production": [

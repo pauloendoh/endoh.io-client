@@ -19,6 +19,7 @@ import TagIcon from "components/_UI/Icon/TagIcon"
 import Txt from "components/_UI/Text/Txt"
 import { FormikErrors, useFormik } from "formik"
 import { useSaveResourceMutation } from "hooks/relearn/useSaveResourceMutation"
+import { useMyPathParams } from "hooks/utils/react-router/useMyPathParams"
 import useQueryParams from "hooks/utils/react-router/useQueryParams"
 import { useAxios } from "hooks/utils/useAxios"
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
@@ -109,7 +110,7 @@ const ResourceDialog = () => {
     if (initialValue) {
       setInitialValues({
         ...initialValue,
-        tag: initialValue?.tag || getCurrentTag(),
+        tag: initialValue?.tag || getCurrentPageTag(),
       })
 
       if (!initialValue.url) {
@@ -118,7 +119,7 @@ const ResourceDialog = () => {
             setInitialValues({
               ...initialValue,
               url: copiedText,
-              tag: initialValue?.tag || getCurrentTag(),
+              tag: initialValue?.tag || getCurrentPageTag(),
             })
 
             fetchLinkPreview(copiedText, setFieldValue, setValues)
@@ -130,9 +131,11 @@ const ResourceDialog = () => {
 
   const [isFetchingLinkPreview, setIsFetchingLinkPreview] = useState(false)
 
-  const getCurrentTag = (): TagDto | null => {
+  const { tagId: pathTagId } = useMyPathParams()
+
+  const getCurrentPageTag = (): TagDto | null => {
     if (location.pathname.startsWith(urls.pages.resources.tag)) {
-      const tagId = Number(location.pathname.split("/").pop())
+      const tagId = Number(pathTagId)
       if (tagId) {
         const currentTag = sortedTags.find((t) => t.id === tagId)
         if (currentTag) {
@@ -146,13 +149,12 @@ const ResourceDialog = () => {
 
   const [initialValues, setInitialValues] = useState<ResourceDto>({
     ...initialValue!,
-    tag: initialValue?.tag || getCurrentTag(),
+    tag: initialValue?.tag || getCurrentPageTag(),
   })
 
   const {
     errors,
     values,
-
     submitForm,
     handleChange,
     setFieldValue,
@@ -493,25 +495,43 @@ const ResourceDialog = () => {
               </Grid>
             </Grid>
           </Box>
-          <FlexVCenter mt={2} gap={2}>
-            <RatingButton
-              rating={values.rating}
-              onChange={(newRating) => {
-                setFieldValue("rating", newRating)
+          <FlexVCenter mt={2} justifyContent={"space-between"}>
+            <FlexVCenter gap={2}>
+              <RatingButton
+                rating={values.rating}
+                onChange={(newRating) => {
+                  setFieldValue("rating", newRating)
 
-                // If you're adding a rating, set "completedAt"
-                setFieldValue(
-                  "completedAt",
-                  !!newRating ? new Date().toISOString() : ""
-                )
-              }}
-            />
-            <Typography
-              variant="body2"
-              title={new Date(values.completedAt).toLocaleDateString()}
-            >
-              {completedOverOneDayAgo && format(values.completedAt)}
-            </Typography>
+                  // If you're adding a rating, set "completedAt"
+                  setFieldValue(
+                    "completedAt",
+                    newRating ? new Date().toISOString() : ""
+                  )
+                }}
+              />
+              <Typography
+                variant="body2"
+                title={new Date(values.completedAt).toLocaleDateString()}
+              >
+                {completedOverOneDayAgo && format(values.completedAt)}
+              </Typography>
+            </FlexVCenter>
+            {values.tag?.sortingBy === "priority" && (
+              <MyTextField
+                label="Priority"
+                value={values.priority ?? ""}
+                sx={{
+                  width: 120,
+                }}
+                onChange={(e) => {
+                  setFieldValue("priority", Number(e.target.value))
+                }}
+                type="number"
+                inputProps={{
+                  step: 0.1,
+                }}
+              />
+            )}
           </FlexVCenter>
 
           <Box mt={2}>

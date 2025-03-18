@@ -1,6 +1,6 @@
 import LabelIcon from "@mui/icons-material/Label"
 import { ListItem, ListItemText, Typography, useTheme } from "@mui/material"
-import useSaveTagLastOpenedAt from "hooks/react-query/relearn/useSaveTagLastOpenedAt"
+import useUpdateTagLastOpenedAtMutation from "hooks/react-query/relearn/useUpdateTagLastOpenedAtMutation"
 import { useEffect, useState } from "react"
 import { Link, Redirect, useLocation } from "react-router-dom"
 import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
@@ -19,13 +19,7 @@ interface Props {
 function TagListItem(props: Props) {
   const location = useLocation()
 
-  const {
-    resources: allResources,
-    tags: allTags,
-    setEditingTag,
-    setTags,
-    removeTag,
-  } = useRelearnStore()
+  const { resources: allResources, tags: allTags, setTags } = useRelearnStore()
 
   // PE 2/3 -  desnecessário?
   const [pathName, setPathName] = useState(location.pathname)
@@ -42,7 +36,7 @@ function TagListItem(props: Props) {
     setIsHovered(false)
   }
 
-  const { mutate: saveTagLastOpenedAt } = useSaveTagLastOpenedAt()
+  const { mutate: saveTagLastOpenedAt } = useUpdateTagLastOpenedAtMutation()
   const handleSaveTagLastOpenedAt = (tagId: number) => {
     saveTagLastOpenedAt(tagId, {
       onSuccess: (savedTag) => {

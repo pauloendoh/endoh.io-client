@@ -2,7 +2,11 @@ import { Theme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 
 import { Box, Tab, Tabs, Typography } from "@mui/material"
-import React, { useEffect, useRef, useState } from "react"
+import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
+import { MySimpleMenu } from "components/_UI/MySimpleMenu/MySimpleMenu"
+import { useSaveTagMutation } from "hooks/react-query/relearn/useSaveTagMutation"
+import { useMyPathParams } from "hooks/utils/react-router/useMyPathParams"
+import React, { useEffect, useMemo, useRef, useState } from "react"
 import { useDrop } from "react-dnd"
 import { useLocation } from "react-router-dom"
 import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
@@ -33,15 +37,16 @@ function ContentHeader(props: Props) {
 
   const rootRef = useRef<HTMLDivElement>(null)
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    const newHeight = rootRef.current?.clientHeight || 0
+    const newHeight = rootRef.current?.clientHeight ?? 0
     if (height !== newHeight) {
       setHeight(newHeight)
     }
-  })
+  }, [rootRef.current?.clientHeight])
 
-  // PE 2/3
+  const { tagId } = useMyPathParams()
+
+  // PE 1/3 -- useMemo instead?
   useEffect(() => {
     const { pathname } = location
 
@@ -54,10 +59,10 @@ function ContentHeader(props: Props) {
       const tagId = Number(pathname.split("/").pop())
 
       if (tagId) {
-        const currentTag = allTags.find((t) => t.id === tagId)
-        if (currentTag) {
-          setTag(currentTag)
-          document.title = currentTag.name + " - Relearn"
+        const foundTag = allTags.find((t) => t.id === tagId)
+        if (foundTag) {
+          setTag(foundTag)
+          document.title = foundTag.name + " - Relearn"
         }
       }
     }
@@ -90,17 +95,40 @@ function ContentHeader(props: Props) {
           window.scrollBy(0, -10)
         }, 10)
       )
-    } else {
-      if (scrollInterval) {
-        clearInterval(scrollInterval)
-        setScrollInterval(null)
-      }
+    } else if (scrollInterval) {
+      clearInterval(scrollInterval)
+      setScrollInterval(null)
     }
   }, [isOver])
 
   const isResponsiveSearching = useResponsiveStore(
     (s) => s.isResponsiveSearching
   )
+
+  const { mutate: submitSaveTag, isLoading } = useSaveTagMutation()
+  const handleChangeSorting = (sortingBy: "default" | "priority") => {
+    if (!tag) {
+      alert("No tag selected!")
+      return
+    }
+    if (tag) {
+      submitSaveTag({
+        ...tag,
+        id: tag.id,
+        sortingBy,
+      })
+    }
+  }
+
+  const sortingMenuLabel = useMemo(() => {
+    if (isLoading || !tag) {
+      return "Loading..."
+    }
+
+    return tag?.sortingBy === "default"
+      ? "Default sorting"
+      : "Sorting by priority"
+  }, [tag])
 
   return (
     <div
@@ -119,24 +147,56 @@ function ContentHeader(props: Props) {
       {selectedResourceIds.length > 0 ? (
         <SelectedResourcesOptions />
       ) : (
-        <Tabs
-          className={classes.tabs}
-          value={props.tabIndex}
-          indicatorColor="primary"
-          textColor="primary"
-          onChange={handleChangeTab}
-          aria-label="disabled tabs example"
-        >
-          <Tab
-            className={classes.tab}
-            label={`${props.todoResources.length} Bookmarked`}
+        <FlexVCenter justifyContent={"space-between"}>
+          <Tabs
+            className={classes.tabs}
+            value={props.tabIndex}
+            indicatorColor="primary"
+            textColor="primary"
+            onChange={handleChangeTab}
+            aria-label="disabled tabs example"
+          >
+            <Tab
+              className={classes.tab}
+              label={`${props.todoResources.length} Bookmarked`}
+            />
+            <Tab
+              className={classes.tab}
+              id="completed-resources-tab-button"
+              label={`${props.completedResources.length} Completed`}
+            />
+          </Tabs>
+
+          <MySimpleMenu
+            target={
+              <Typography
+                sx={{
+                  "&:hover": {
+                    textDecoration: "underline",
+                  },
+                }}
+              >
+                {sortingMenuLabel}
+              </Typography>
+            }
+            items={[
+              [
+                {
+                  label: "Default sorting",
+                  selected: tag?.sortingBy === "default",
+                  disabled: tag?.sortingBy === "default",
+                  onClick: () => handleChangeSorting("default"),
+                },
+                {
+                  label: "Sorting by priority",
+                  selected: tag?.sortingBy === "priority",
+                  disabled: tag?.sortingBy === "priority",
+                  onClick: () => handleChangeSorting("priority"),
+                },
+              ],
+            ]}
           />
-          <Tab
-            className={classes.tab}
-            id="completed-resources-tab-button"
-            label={`${props.completedResources.length} Completed`}
-          />
-        </Tabs>
+        </FlexVCenter>
       )}
     </div>
   )

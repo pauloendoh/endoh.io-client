@@ -7,49 +7,22 @@ import {
   DialogTitle,
   FormControlLabel,
 } from "@mui/material"
-import { upsert } from "endoh-utils"
 import { Form, Formik } from "formik"
-import { useAxios } from "hooks/utils/useAxios"
+import { useSaveTagMutation } from "hooks/react-query/relearn/useSaveTagMutation"
 import { useHistory } from "react-router-dom"
 import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
-import useSnackbarStore from "store/zustand/useSnackbarStore"
-import MyAxiosError from "types/MyAxiosError"
 import { urls } from "utils/urls"
-import { TagDto } from "../../../types/domain/relearn/TagDto"
 import Flex from "../../_UI/Flexboxes/Flex"
 import FlexVCenter from "../../_UI/Flexboxes/FlexVCenter"
 import MyTextField from "../../_UI/MyInputs/MyTextField"
 import TagColorSelector from "./TagColorSelector/TagColorSelector"
 
-// PE 2/3
 const TagDialog = () => {
   const history = useHistory()
 
-  const { setSuccessMessage, setErrorMessage } = useSnackbarStore()
-  const { editingTag, setEditingTag, setTags, tags } = useRelearnStore()
+  const { editingTag, setEditingTag } = useRelearnStore()
 
-  const axios = useAxios()
-  const handleSubmit = (sentTag: TagDto) => {
-    axios
-      .post<TagDto>(urls.api.relearn.tag, sentTag)
-      .then((res) => {
-        setSuccessMessage("Tag saved!")
-        const savedTag = res.data
-        const updatedTags = upsert(
-          tags,
-          res.data,
-          (tag) => tag.id === savedTag.id
-        )
-        setTags(updatedTags)
-        history.push(urls.pages.resources.tag + "/" + savedTag.id)
-      })
-      .catch((err: MyAxiosError) => {
-        setErrorMessage(err.response?.data.errors[0].message)
-      })
-      .finally(() => {
-        setEditingTag(null)
-      })
-  }
+  const { mutate: submitSave, isLoading } = useSaveTagMutation()
 
   return (
     <Dialog
@@ -65,11 +38,16 @@ const TagDialog = () => {
         {editingTag && (
           <Formik
             initialValues={editingTag}
-            onSubmit={(formikValues, { setSubmitting }) => {
-              handleSubmit(formikValues)
+            onSubmit={(formikValues) => {
+              submitSave(formikValues, {
+                onSuccess: (saved) => {
+                  history.push(urls.pages.resources.tag + "/" + saved.id)
+                  setEditingTag(null)
+                },
+              })
             }}
           >
-            {({ values, isSubmitting, setFieldValue, handleChange }) => (
+            {({ values, setFieldValue, handleChange }) => (
               <Form>
                 <DialogTitle id="edit-tag-dialog-title">
                   {values.id ? "Edit Tag" : "Add Tag"}
@@ -118,7 +96,7 @@ const TagDialog = () => {
 
                   <Flex mt={4}>
                     <Button
-                      disabled={isSubmitting}
+                      disabled={isLoading}
                       type="submit"
                       variant="contained"
                       color="primary"

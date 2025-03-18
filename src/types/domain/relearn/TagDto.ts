@@ -11,6 +11,7 @@ export interface TagDto {
   updatedAt: string
   lastOpenedAt: string | null
   resources: ResourceDto[]
+  sortingBy: "default" | "priority"
 }
 
 export const newTagDto = (): TagDto => ({
@@ -24,4 +25,5 @@ export const newTagDto = (): TagDto => ({
   updatedAt: new Date().toISOString(),
   lastOpenedAt: null,
   resources: [],
+  sortingBy: "default",
 })

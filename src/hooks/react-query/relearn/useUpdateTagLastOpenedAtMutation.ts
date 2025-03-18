@@ -3,7 +3,7 @@ import { TagDto } from "../../../types/domain/relearn/TagDto"
 import myAxios from "../../../utils/consts/myAxios"
 import { urls } from "../../../utils/urls"
 
-export default function useSaveTagLastOpenedAt() {
+export default function useUpdateTagLastOpenedAtMutation() {
   return useMutation(
     (tagId: number) =>
       myAxios

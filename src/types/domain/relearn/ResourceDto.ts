@@ -9,6 +9,7 @@ export interface ResourceDto {
   estimatedTime: string
   dueDate: string
   rating: number | null
+  priority: number | null
   completedAt: string
   position: number | null
   publicReview: string
@@ -32,6 +33,7 @@ export const buildResourceDto = (
   estimatedTime: "00:00h",
   dueDate: "",
   rating: null,
+  priority: null,
   completedAt: "",
   position: null,
   publicReview: "",
