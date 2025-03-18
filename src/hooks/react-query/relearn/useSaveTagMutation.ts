@@ -12,7 +12,12 @@ export function useSaveTagMutation() {
   const { setTags, tags } = useRelearnStore()
   return useMutation(
     (tag: TagDto) =>
-      axios.post<TagDto>(urls.api.relearn.tag, tag).then((res) => res.data),
+      axios
+        .post<TagDto>(urls.api.relearn.tag, {
+          ...tag,
+          resources: [],
+        })
+        .then((res) => res.data),
     {
       onSuccess: (saved) => {
         setSuccessMessage("Tag saved!")
