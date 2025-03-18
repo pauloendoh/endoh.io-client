@@ -8,9 +8,9 @@ import FileCopyIcon from "@mui/icons-material/FileCopy"
 import { Box, ListItemIcon, Menu, MenuItem, Typography } from "@mui/material"
 import FlexCenter from "components/_UI/Flexboxes/FlexCenter"
 import { useMoveResourceToPositionMutation } from "hooks/react-query/relearn/useMoveResourceToPositionMutation"
+import { useTagQueryUtils } from "hooks/react-query/relearn/useTagQueryUtils"
 import { useAxios } from "hooks/utils/useAxios"
-import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
-import React, { useEffect } from "react"
+import React, { useMemo } from "react"
 import { IoMdMove } from "react-icons/io"
 import { MdVerticalAlignBottom, MdVerticalAlignTop } from "react-icons/md"
 import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
@@ -23,11 +23,9 @@ import { ResourceDto } from "../../../../../../types/domain/relearn/ResourceDto"
 
 type Props = {
   resource: ResourceDto
-  isHovered: boolean
   index?: number
 }
 
-// PE 1/3
 function ResourceMoreIcon(props: Props) {
   const classes = useStyles()
   const { openConfirmDialog } = useConfirmDialogStore()
@@ -43,10 +41,6 @@ function ResourceMoreIcon(props: Props) {
   } = useRelearnStore()
 
   const { setInitialValue: setEditingResource } = useResourceDialogStore()
-
-  useEffect(() => {
-    if (!props.isHovered) setAnchorEl(null)
-  }, [props.isHovered])
 
   // Anchor when you click 'More' icon
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
@@ -120,82 +114,92 @@ function ResourceMoreIcon(props: Props) {
       })
   }
 
-  const { isMobile } = useMyMediaQuery()
-
   const theme = useTheme()
 
   const { mutate: submitMoveResource } = useMoveResourceToPositionMutation({
     showSuccessMessage: true,
   })
 
+  const resourceTag = useTagQueryUtils(props.resource.tag?.id)
+  const label = useMemo(() => {
+    if (resourceTag?.sortingBy === "priority") {
+      return props.resource.priority ?? "?"
+    }
+
+    return (props.index ?? 0) + 1
+  }, [props.resource.priority, resourceTag])
+
+  const sortingByPriority = resourceTag?.sortingBy === "priority"
+
   return (
-    <React.Fragment>
-      {/* 'More' icon - PE 1/3 - can be a specific component */}
-      <div>
-        <Box>
-          {props.index !== undefined && (
-            <FlexCenter
-              sx={{
-                visibility: props.isHovered ? "visible" : "hidden",
-                cursor: "pointer",
-                backgroundColor: theme.palette.grey[800],
-                borderRadius: 1,
-                px: 1,
-                py: 0.25,
-                ":hover": {
-                  backgroundColor: theme.palette.grey[700],
-                },
-              }}
-              onClick={(e) => {
-                handleOpenMore(e)
-              }}
-            >
-              <Typography variant="caption">{props.index + 1}</Typography>
-            </FlexCenter>
-          )}
-        </Box>
-        <Menu
-          id="tag-more"
-          anchorEl={anchorEl}
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          transformOrigin={{ vertical: "top", horizontal: "right" }}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={(e) => {
-            const event = e as any
-            event.preventDefault()
+    <div>
+      <Box>
+        {props.index !== undefined && (
+          <FlexCenter
+            sx={{
+              cursor: "pointer",
+              backgroundColor: sortingByPriority ? "#c862acbd" : "#2c2c2c",
+
+              borderRadius: 1,
+              px: 1,
+              py: 0.25,
+              ":hover": {
+                backgroundColor: sortingByPriority
+                  ? theme.palette.secondary.main
+                  : theme.palette.grey[800],
+              },
+            }}
+            onClick={(e) => {
+              handleOpenMore(e)
+            }}
+          >
+            <Typography variant="caption">{label}</Typography>
+          </FlexCenter>
+        )}
+      </Box>
+      <Menu
+        id="tag-more"
+        anchorEl={anchorEl}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={(e) => {
+          const event = e as any
+          event.preventDefault()
+          handleCloseMore()
+        }}
+      >
+        <MenuItem
+          onClick={(e) => {
             handleCloseMore()
+            setEditingResource(props.resource)
           }}
         >
-          <MenuItem
-            onClick={(e) => {
-              handleCloseMore()
-              setEditingResource(props.resource)
-            }}
-          >
-            <ListItemIcon className={classes.listItemIcon}>
-              <EditIcon fontSize="small" />
-            </ListItemIcon>
-            <Typography variant="inherit" noWrap>
-              Edit
-            </Typography>
-          </MenuItem>
+          <ListItemIcon className={classes.listItemIcon}>
+            <EditIcon fontSize="small" />
+          </ListItemIcon>
+          <Typography variant="inherit" noWrap>
+            Edit
+          </Typography>
+        </MenuItem>
 
-          <MenuItem
-            onClick={(e) => {
-              e.preventDefault()
-              handleCloseMore()
-              duplicateResource(props.resource)
-            }}
-          >
-            <ListItemIcon className={classes.listItemIcon}>
-              <FileCopyIcon fontSize="small" />
-            </ListItemIcon>
-            <Typography variant="inherit" noWrap>
-              Duplicate
-            </Typography>
-          </MenuItem>
-          {!props.resource.completedAt && (
+        <MenuItem
+          onClick={(e) => {
+            e.preventDefault()
+            handleCloseMore()
+            duplicateResource(props.resource)
+          }}
+        >
+          <ListItemIcon className={classes.listItemIcon}>
+            <FileCopyIcon fontSize="small" />
+          </ListItemIcon>
+          <Typography variant="inherit" noWrap>
+            Duplicate
+          </Typography>
+        </MenuItem>
+        {!props.resource.completedAt &&
+          resourceTag?.sortingBy === "default" && (
             <div>
               <Divider />
               <MenuItem
@@ -209,7 +213,7 @@ function ResourceMoreIcon(props: Props) {
                           currentPosition: props.index! + 1,
                           newPosition: numValue,
                           resourceId: props.resource.id!,
-                          tagId: props.resource.tag?.id!,
+                          tagId: resourceTag?.id!,
                         })
                       } else {
                         alert("Invalid position number")
@@ -245,24 +249,23 @@ function ResourceMoreIcon(props: Props) {
             </div>
           )}
 
-          <Divider />
-          <MenuItem
-            onClick={() => {
-              handleCloseMore()
-              handleDeleteResource(props.resource.id ?? 0)
-            }}
-            id="delete-resource-button"
-          >
-            <ListItemIcon className={classes.listItemIcon}>
-              <DeleteIcon fontSize="small" color="error" />
-            </ListItemIcon>
-            <Typography variant="inherit" noWrap color="error">
-              Delete
-            </Typography>
-          </MenuItem>
-        </Menu>
-      </div>
-    </React.Fragment>
+        <Divider />
+        <MenuItem
+          onClick={() => {
+            handleCloseMore()
+            handleDeleteResource(props.resource.id ?? 0)
+          }}
+          id="delete-resource-button"
+        >
+          <ListItemIcon className={classes.listItemIcon}>
+            <DeleteIcon fontSize="small" color="error" />
+          </ListItemIcon>
+          <Typography variant="inherit" noWrap color="error">
+            Delete
+          </Typography>
+        </MenuItem>
+      </Menu>
+    </div>
   )
 }
 

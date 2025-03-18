@@ -3,7 +3,7 @@ import { makeStyles } from "@mui/styles"
 
 import { Box } from "@mui/material"
 import useMultiSelectResource from "hooks/relearn/useMultiSelectResource"
-import { useRef } from "react"
+import { useMemo, useRef } from "react"
 import { useDrag, useDrop } from "react-dnd"
 import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
@@ -18,7 +18,7 @@ interface Props {
 
 // PE 1/3
 function DraggableResourceItem(props: Props) {
-  const { moveResource, setResources } = useRelearnStore()
+  const { moveResource } = useRelearnStore()
 
   const classes = useStyles()
   const { idIsSelected } = useMultiSelectResource()
@@ -72,11 +72,16 @@ function DraggableResourceItem(props: Props) {
     },
   })
 
-  dragRef(dropRef(ref))
+  dragRef(ref)
+  dropRef(ref)
+
+  const canGrab = useMemo(() => {
+    return props.resource.tag?.sortingBy === "default"
+  }, [props.resource.tag?.sortingBy])
 
   return (
     <div
-      ref={ref}
+      ref={canGrab ? ref : undefined}
       style={{
         transform: "translate3d(0,0,0)",
       }}
@@ -93,6 +98,7 @@ function DraggableResourceItem(props: Props) {
           background: idIsSelected(props.resource.id || 0)
             ? "rgb(255 255 255 / 0.1)"
             : "unset",
+          cursor: canGrab ? "grab" : "unset",
         }}
       >
         <ResourceItem index={props.index} resource={props.resource} />

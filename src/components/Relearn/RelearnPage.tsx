@@ -104,7 +104,7 @@ const RelearnPage = () => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [resources, location]
+    [resources, resources.map((r) => r.priority).join(""), location]
   )
 
   useEffect(() => {

@@ -167,35 +167,37 @@ function ContentHeader(props: Props) {
             />
           </Tabs>
 
-          <MySimpleMenu
-            target={
-              <Typography
-                sx={{
-                  "&:hover": {
-                    textDecoration: "underline",
+          {props.tabIndex === 0 && (
+            <MySimpleMenu
+              target={
+                <Typography
+                  sx={{
+                    "&:hover": {
+                      textDecoration: "underline",
+                    },
+                  }}
+                >
+                  {sortingMenuLabel}
+                </Typography>
+              }
+              items={[
+                [
+                  {
+                    label: "Default sorting",
+                    selected: tag?.sortingBy === "default",
+                    disabled: tag?.sortingBy === "default",
+                    onClick: () => handleChangeSorting("default"),
                   },
-                }}
-              >
-                {sortingMenuLabel}
-              </Typography>
-            }
-            items={[
-              [
-                {
-                  label: "Default sorting",
-                  selected: tag?.sortingBy === "default",
-                  disabled: tag?.sortingBy === "default",
-                  onClick: () => handleChangeSorting("default"),
-                },
-                {
-                  label: "Sorting by priority",
-                  selected: tag?.sortingBy === "priority",
-                  disabled: tag?.sortingBy === "priority",
-                  onClick: () => handleChangeSorting("priority"),
-                },
-              ],
-            ]}
-          />
+                  {
+                    label: "Sorting by priority",
+                    selected: tag?.sortingBy === "priority",
+                    disabled: tag?.sortingBy === "priority",
+                    onClick: () => handleChangeSorting("priority"),
+                  },
+                ],
+              ]}
+            />
+          )}
         </FlexVCenter>
       )}
     </div>

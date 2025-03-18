@@ -1,5 +1,7 @@
 import { Box, Container } from "@mui/material"
 import Flex from "components/_UI/Flexboxes/Flex"
+import { useTagQueryUtils } from "hooks/react-query/relearn/useTagQueryUtils"
+import { useMyPathParams } from "hooks/utils/react-router/useMyPathParams"
 import { useEffect, useRef, useState } from "react"
 import { useLocation } from "react-router-dom"
 import { ResourceDto } from "../../../types/domain/relearn/ResourceDto"
@@ -17,6 +19,9 @@ function RelearnContent(props: { resources: ResourceDto[] }) {
   const previousPathnameRef = useRef("")
   const location = useLocation()
 
+  const { tagId } = useMyPathParams()
+  const tag = useTagQueryUtils(Number(tagId))
+
   // PE 2/3 - it's not clear if this props.resources is "ALL RESOURCES" or "RESOURCES FROM LIST"
   useEffect(() => {
     // When changing to another tag, go to "TO-DO" resources
@@ -25,11 +30,28 @@ function RelearnContent(props: { resources: ResourceDto[] }) {
       previousPathnameRef.current = location.pathname
     }
 
-    const todo = filterTodo(props.resources).sort(
-      (a, b) => (a.position || 0) - (b.position || 0)
-    )
+    let todos = filterTodo(props.resources)
 
-    setTodo(todo)
+    if (tag?.sortingBy === "default") {
+      todos = todos.sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
+    }
+    if (tag?.sortingBy === "priority") {
+      todos = todos.sort(
+        // desc, nulls first
+        (a, b) => {
+          if (a.priority !== null && b.priority === null) {
+            return 1
+          }
+          if (a.priority === null && b.priority !== null) {
+            return -1
+          }
+
+          return (b.priority ?? 0) - (a.priority ?? 0)
+        }
+      )
+    }
+
+    setTodo(todos)
 
     const completed = props.resources
       .filter(
@@ -42,7 +64,11 @@ function RelearnContent(props: { resources: ResourceDto[] }) {
       )
 
     setCompleted(completed)
-  }, [props.resources])
+  }, [
+    props.resources,
+    props.resources.map((r) => r.priority).join(""),
+    tag?.sortingBy,
+  ])
 
   return (
     <Container maxWidth="md">

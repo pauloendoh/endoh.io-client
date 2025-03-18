@@ -30,7 +30,6 @@ interface Props {
   index?: number
 }
 
-// PE 1/3
 function ResourceItem(props: Props) {
   const { setSuccessMessage } = useSnackbarStore()
   const { handleMouseEnter, handleMouseLeave, isHovering } = useHover()
@@ -141,11 +140,7 @@ function ResourceItem(props: Props) {
               </Link>
             )}
           </S.TitleLinkWrapper>
-          <ResourceMoreIcon
-            index={props.index}
-            resource={props.resource}
-            isHovered={isHovering || isMobile}
-          />
+          <ResourceMoreIcon index={props.index} resource={props.resource} />
         </S.TitleLinkMoreWrapper>
 
         <S.IconsRow>

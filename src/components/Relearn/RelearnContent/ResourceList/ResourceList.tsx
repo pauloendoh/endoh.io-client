@@ -1,6 +1,3 @@
-import { Theme } from "@mui/material"
-import { makeStyles } from "@mui/styles"
-
 import { Box } from "@mui/material"
 import useMultiSelectResource from "hooks/relearn/useMultiSelectResource"
 import { Virtuoso } from "react-virtuoso"
@@ -15,8 +12,6 @@ function ResourceList({
   resources: ResourceDto[]
   isDraggable: boolean
 }) {
-  const classes = useStyles()
-
   const { onCtrlClick, idIsSelected, onShiftClick } = useMultiSelectResource()
 
   if (isDraggable)
@@ -40,11 +35,7 @@ function ResourceList({
               }
             }}
           >
-            <DraggableResourceItem
-              resource={resource}
-              index={index}
-              className={classes.resourceItem}
-            />
+            <DraggableResourceItem resource={resource} index={index} />
           </div>
         ))}
       </>
@@ -84,11 +75,5 @@ function ResourceList({
     />
   )
 }
-
-const useStyles = makeStyles<Theme>((theme) => ({
-  resourceItem: {
-    cursor: "grab",
-  },
-}))
 
 export default ResourceList
