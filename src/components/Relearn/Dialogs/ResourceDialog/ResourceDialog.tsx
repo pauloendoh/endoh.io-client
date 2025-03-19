@@ -524,6 +524,10 @@ const ResourceDialog = () => {
                   width: 120,
                 }}
                 onChange={(e) => {
+                  if (e.target.value === "") {
+                    setFieldValue("priority", null)
+                    return
+                  }
                   setFieldValue("priority", Number(e.target.value))
                 }}
                 type="number"
