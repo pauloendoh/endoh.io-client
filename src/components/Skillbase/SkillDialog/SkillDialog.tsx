@@ -58,8 +58,6 @@ const SkillDialog = () => {
   useEffect(() => {
     if (initialValue?.currentLevel && initialValue?.currentLevel > 0)
       scrollToNextLevel()
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialValue])
 
   const getInitialValues = (): SkillDto => {

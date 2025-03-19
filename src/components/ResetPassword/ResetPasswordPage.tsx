@@ -37,16 +37,12 @@ function ResetPasswordPage() {
 
   const axios = useAxios()
 
-  useEffect(
-    () => {
-      if (token.length === 0 || !userId) {
-        setRedirectTo(urls.pages.index)
-      }
-      document.title = "Reset Password - Relearn"
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+  useEffect(() => {
+    if (token.length === 0 || !userId) {
+      setRedirectTo(urls.pages.index)
+    }
+    document.title = "Reset Password - Relearn"
+  }, [])
 
   const handleSubmit = (
     values: PasswordResetPostDto,

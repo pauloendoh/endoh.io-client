@@ -52,7 +52,6 @@ const UserPageSidebar = () => {
     }
     setSelectedSkill(buildSkillDto())
     setRoadmapsDialog(false)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [skillIdStr, profileStore.publicSkills])
 
   const ratedResourcesCount = useMemo(() => {

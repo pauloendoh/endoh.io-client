@@ -59,8 +59,6 @@ const EditLabelDialog = (props: Props) => {
 
   useEffect(() => {
     if (props.open) reset(props.initialValue)
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.open])
 
   const skills = useSkillbaseStore((s) => s.skills)

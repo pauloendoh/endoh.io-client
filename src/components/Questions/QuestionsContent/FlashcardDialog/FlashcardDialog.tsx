@@ -62,37 +62,33 @@ const FlashcardDialog = (props: Props) => {
     if (!props.open && isSmallScreen) openSidebar()
   }, [props.open])
 
-  useEffect(
-    () => {
-      let filteredQuestions = props.availableQuestions.filter((note) => {
-        return (
-          note.weight >= (minWeight || 0) &&
-          (maxTestedTimes === null || note.testedTimes <= maxTestedTimes) &&
-          note.question.trim().length > 0 &&
-          note.description.trim().length > 0
-        )
-      })
+  useEffect(() => {
+    let filteredQuestions = props.availableQuestions.filter((note) => {
+      return (
+        note.weight >= (minWeight || 0) &&
+        (maxTestedTimes === null || note.testedTimes <= maxTestedTimes) &&
+        note.question.trim().length > 0 &&
+        note.description.trim().length > 0
+      )
+    })
 
-      if (!isIncludingQuestionsToRefine)
-        filteredQuestions = filteredQuestions.filter((q) => !q.toRefine)
+    if (!isIncludingQuestionsToRefine)
+      filteredQuestions = filteredQuestions.filter((q) => !q.toRefine)
 
-      setAllQuestions(filteredQuestions)
+    setAllQuestions(filteredQuestions)
 
-      if (filteredQuestions.length >= 10) {
-        setQuestionsQty(10)
-        return
-      }
-      setQuestionsQty(filteredQuestions.length)
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      minWeight,
-      props.open,
-      props.availableQuestions,
-      isIncludingQuestionsToRefine,
-      maxTestedTimes,
-    ]
-  )
+    if (filteredQuestions.length >= 10) {
+      setQuestionsQty(10)
+      return
+    }
+    setQuestionsQty(filteredQuestions.length)
+  }, [
+    minWeight,
+    props.open,
+    props.availableQuestions,
+    isIncludingQuestionsToRefine,
+    maxTestedTimes,
+  ])
 
   const openConfirmDialog = useConfirmDialogStore((s) => s.openConfirmDialog)
   const handleClose = (options?: { askForConfirmation?: boolean }) => {

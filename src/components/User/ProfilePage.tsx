@@ -83,26 +83,22 @@ const ProfilePage = () => {
       })
   }, [tagResources, minRating, selectedTab])
 
-  useEffect(
-    () => {
-      document.title = username + " - Relearn"
+  useEffect(() => {
+    document.title = username + " - Relearn"
 
-      resetProfileStore()
+    resetProfileStore()
 
-      myAxios
-        .get<UserInfoDto>(urls.api.user.userInfo(username))
-        .then((res) => {
-          setUserInfo(res.data)
-        })
-        .catch((err) => {
-          if (err.response && err.response.status === 404) {
-            history.push(urls.pages.notFound)
-          }
-        })
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [username]
-  )
+    myAxios
+      .get<UserInfoDto>(urls.api.user.userInfo(username))
+      .then((res) => {
+        setUserInfo(res.data)
+      })
+      .catch((err) => {
+        if (err.response && err.response.status === 404) {
+          history.push(urls.pages.notFound)
+        }
+      })
+  }, [username])
 
   return (
     <S.UserPageRoot>

@@ -64,79 +64,65 @@ const RelearnPage = () => {
     }
 
     fetchResourcesAndSkills()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  useEffect(
-    () => {
-      if (windowFocused) fetchResourcesAndSkills()
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [windowFocused]
-  )
+  useEffect(() => {
+    if (windowFocused) fetchResourcesAndSkills()
+  }, [windowFocused])
 
   const location = useLocation()
 
   // filter resources by tag (from path name)
   const [filteredResources, setFilteredResources] = useState<ResourceDto[]>([])
-  useEffect(
-    () => {
-      setRedirectTo("")
-      const { pathname } = location
+  useEffect(() => {
+    setRedirectTo("")
+    const { pathname } = location
 
-      // Filtrando resource por tags. Melhor colocar em outro arquivo?
-      if (pathname === urls.pages.resources.index) {
+    // Filtrando resource por tags. Melhor colocar em outro arquivo?
+    if (pathname === urls.pages.resources.index) {
+      setFilteredResources(
+        resources.filter((resource) => resource.tag === null)
+      )
+      document.title = "Untagged - Relearn"
+    } else if (pathname.startsWith(urls.pages.resources.tag)) {
+      const tagId = Number(pathname.split("/").pop())
+      if (tagId) {
         setFilteredResources(
-          resources.filter((resource) => resource.tag === null)
+          resources.filter((resource) => {
+            return resource.tag?.id === tagId
+          })
         )
-        document.title = "Untagged - Relearn"
-      } else if (pathname.startsWith(urls.pages.resources.tag)) {
-        const tagId = Number(pathname.split("/").pop())
-        if (tagId) {
-          setFilteredResources(
-            resources.filter((resource) => {
-              return resource.tag?.id === tagId
-            })
-          )
 
-          // setSkillsStore(allSkills.filter((skill) => skill.tagId === tagId));
-        }
+        // setSkillsStore(allSkills.filter((skill) => skill.tagId === tagId));
       }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [resources, resources.map((r) => r.priority).join(""), location]
-  )
+    }
+  }, [resources, resources.map((r) => r.priority).join(""), location])
 
   useEffect(() => {
     clearSelectedIds()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname])
 
-  useEffect(
-    () => {
-      // open last opened tag
-      if (allTags?.length > 0) {
-        const lastOpened = allTags.sort((a, b) => {
-          if (a.lastOpenedAt === (undefined || null)) return -1
-          if (b.lastOpenedAt === (undefined || null)) return 1
+  useEffect(() => {
+    // open last opened tag
+    if (allTags?.length > 0) {
+      const lastOpened = allTags.sort((a, b) => {
+        if (a.lastOpenedAt === (undefined || null)) return -1
+        if (b.lastOpenedAt === (undefined || null)) return 1
 
-          return a.lastOpenedAt > b.lastOpenedAt ? -1 : 1
-        })[0]
+        return a.lastOpenedAt > b.lastOpenedAt ? -1 : 1
+      })[0]
 
-        if (!params.tagId) {
-          setRedirectTo(urls.pages.resources.tagId(lastOpened.id || 0))
-          return
-        }
-
-        const foundTag = allTags.find((tag) => tag.id === Number(params.tagId))
-        if (!foundTag) {
-          setRedirectTo(urls.pages.resources.tagId(lastOpened.id || 0))
-        }
+      if (!params.tagId) {
+        setRedirectTo(urls.pages.resources.tagId(lastOpened.id || 0))
+        return
       }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [allTags, params.tagId]
-  )
+
+      const foundTag = allTags.find((tag) => tag.id === Number(params.tagId))
+      if (!foundTag) {
+        setRedirectTo(urls.pages.resources.tagId(lastOpened.id || 0))
+      }
+    }
+  }, [allTags, params.tagId])
 
   useEffect(() => {
     setCurrentTagId(params.tagId ? Number(params.tagId) : null)

@@ -46,7 +46,6 @@ const SkillTableToolbar = (props: Props) => {
 
   useEffect(() => {
     setFilterByText(debouncedSearchSkillName)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedSearchSkillName])
 
   // PE 1/3 - 20241030 -- considerar remover essas coisas referentes a tag e label
@@ -70,7 +69,6 @@ const SkillTableToolbar = (props: Props) => {
       setErrorMessage("Could not find tag")
       history.push(urls.pages.skills.index)
     } else setTagSelectorValue("All")
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location])
 
   return (

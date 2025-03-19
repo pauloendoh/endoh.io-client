@@ -37,7 +37,6 @@ function UserSuggestions(props: Props) {
       (suggestion) => dontShowIds.includes(suggestion.suggestedUserId) === false
     )
     setSuggestions(filteredSuggestions)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.followingTags, props.userSuggestions])
 
   return (

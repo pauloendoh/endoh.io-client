@@ -59,31 +59,27 @@ const SkillbaseTable = (props: Props) => {
     )
   )
 
-  useEffect(
-    () => {
-      setVisibleSkills(
-        filterAndSortSkills(
-          allSkills,
-          sortBy,
-          props.tag,
-          filter.hidingDone,
-          filter.labelIds,
-          filter.byText,
-          filter.currentGoal
-        )
+  useEffect(() => {
+    setVisibleSkills(
+      filterAndSortSkills(
+        allSkills,
+        sortBy,
+        props.tag,
+        filter.hidingDone,
+        filter.labelIds,
+        filter.byText,
+        filter.currentGoal
       )
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      allSkills,
-      sortBy,
-      props.tag,
-      filter.hidingDone,
-      filter.labelIds,
-      filter.byText,
-      filter.currentGoal,
-    ]
-  )
+    )
+  }, [
+    allSkills,
+    sortBy,
+    props.tag,
+    filter.hidingDone,
+    filter.labelIds,
+    filter.byText,
+    filter.currentGoal,
+  ])
 
   const sortByProperty = (property: keyof SkillDto) => {
     // if sorting the same column, order = "asc"

@@ -28,21 +28,17 @@ const QuestionsPage = () => {
 
   const { sidebarIsOpen, openSidebar } = useSidebarStore()
 
-  useEffect(
-    () => {
-      openSidebar()
+  useEffect(() => {
+    openSidebar()
 
-      myAxios
-        .get<DocDto[]>(urls.api.define.doc)
-        .then((res) => docsStore.setDocs(res.data))
+    myAxios
+      .get<DocDto[]>(urls.api.define.doc)
+      .then((res) => docsStore.setDocs(res.data))
 
-      myAxios
-        .get<QuestionDto[]>(urls.api.define.questions)
-        .then((res) => docsStore.setQuestions(res.data))
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+    myAxios
+      .get<QuestionDto[]>(urls.api.define.questions)
+      .then((res) => docsStore.setQuestions(res.data))
+  }, [])
 
   useEffect(() => {
     if (paramDeckId && docsStore.hasFirstLoaded) {
@@ -58,27 +54,22 @@ const QuestionsPage = () => {
     } else {
       setSelectedDocId(null)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paramDeckId, docsStore.docs])
 
-  useEffect(
-    () => {
-      // open last opened tag
-      if (!paramDeckId && docsStore.docs?.length > 0) {
-        const sortedByLastOpened = docsStore.docs.sort((a, b) => {
-          if (a.lastOpenedAt === undefined) return -1
-          if (b.lastOpenedAt === undefined) return 1
+  useEffect(() => {
+    // open last opened tag
+    if (!paramDeckId && docsStore.docs?.length > 0) {
+      const sortedByLastOpened = docsStore.docs.sort((a, b) => {
+        if (a.lastOpenedAt === undefined) return -1
+        if (b.lastOpenedAt === undefined) return 1
 
-          return a.lastOpenedAt > b.lastOpenedAt ? -1 : 1
-        })
+        return a.lastOpenedAt > b.lastOpenedAt ? -1 : 1
+      })
 
-        const docId = sortedByLastOpened[0].id
-        history.push(urls.pages.questions.deckId(docId))
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [docsStore.docs, paramDeckId]
-  )
+      const docId = sortedByLastOpened[0].id
+      history.push(urls.pages.questions.deckId(docId))
+    }
+  }, [docsStore.docs, paramDeckId])
 
   const classes = useStyles()
 

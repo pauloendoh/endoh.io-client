@@ -43,29 +43,21 @@ const SkillbaseTableRow = (props: Props) => {
     return props.skill.currentLevel === props.skill.goalLevel
   }, [props.skill])
 
-  useEffect(
-    () => {
-      if (props.skill.tagId) {
-        setTag(findTagById(props.skill.tagId))
-      }
+  useEffect(() => {
+    if (props.skill.tagId) {
+      setTag(findTagById(props.skill.tagId))
+    }
 
-      return () => {
-        window.removeEventListener("keydown", openDialogShortcutEvent)
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+    return () => {
+      window.removeEventListener("keydown", openDialogShortcutEvent)
+    }
+  }, [])
 
-  useEffect(
-    () => {
-      if (props.skill.tagId) {
-        setTag(findTagById(props.skill.tagId))
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.skill.tagId, allTags]
-  )
+  useEffect(() => {
+    if (props.skill.tagId) {
+      setTag(findTagById(props.skill.tagId))
+    }
+  }, [props.skill.tagId, allTags])
 
   const currentGoalStep = useMemo(() => {
     return props.skill.expectations?.find((e) => e.isCurrentGoal)

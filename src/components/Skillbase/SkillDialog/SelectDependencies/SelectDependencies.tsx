@@ -29,17 +29,13 @@ const SelectDependencies = (props: Props) => {
   const [options, setOptions] = useState<SkillDto[]>(allSkills)
 
   // filtering options
-  useEffect(
-    () => {
-      const dontShowTheseIds = [props.parentSkillId]
+  useEffect(() => {
+    const dontShowTheseIds = [props.parentSkillId]
 
-      setOptions(
-        allSkills.filter((skill) => !dontShowTheseIds.includes(skill.id || 0))
-      )
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [allSkills, props.selected]
-  )
+    setOptions(
+      allSkills.filter((skill) => !dontShowTheseIds.includes(skill.id || 0))
+    )
+  }, [allSkills, props.selected])
 
   return (
     <Box>

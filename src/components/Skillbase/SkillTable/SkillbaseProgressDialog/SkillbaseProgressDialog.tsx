@@ -45,7 +45,6 @@ const SkillbaseProgressDialog = (props: Props) => {
 
   useEffect(() => {
     if (props.open) refetch()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.open])
 
   useEffect(() => {

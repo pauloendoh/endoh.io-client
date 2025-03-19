@@ -49,8 +49,6 @@ const RecurrentLearningDialog = (props: Props) => {
         setFocus("description")
       }, 100)
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.isOpen])
 
   const { onSuccess } = useRecurrentLearningDialogStore()

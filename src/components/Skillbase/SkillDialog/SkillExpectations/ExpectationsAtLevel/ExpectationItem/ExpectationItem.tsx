@@ -134,7 +134,6 @@ const ExpectationItem = ({
 
   useEffect(() => {
     if (localIsDragging) setDraggingExpectation(expectation)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [localIsDragging])
 
   const isDragging = useMemo(() => {

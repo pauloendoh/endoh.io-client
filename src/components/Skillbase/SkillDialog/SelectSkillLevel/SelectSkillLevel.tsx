@@ -53,13 +53,9 @@ const SelectSkillLevel = (props: Props) => {
   }
 
   const [label, setLabel] = useState(getLabel())
-  useEffect(
-    () => {
-      setLabel(getLabel())
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [hoverValue]
-  )
+  useEffect(() => {
+    setLabel(getLabel())
+  }, [hoverValue])
 
   return (
     <Box>

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect } from "react"
 
 const useConfirmTabClose = (
   mustConfirm: boolean,
@@ -7,16 +7,15 @@ const useConfirmTabClose = (
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       if (mustConfirm) {
-        event.returnValue = message;
-        return message;
+        event.returnValue = message
+        return message
       }
-    };
+    }
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+    window.addEventListener("beforeunload", handleBeforeUnload)
 
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mustConfirm]);
-};
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload)
+  }, [mustConfirm])
+}
 
-export default useConfirmTabClose;
+export default useConfirmTabClose

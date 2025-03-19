@@ -76,18 +76,13 @@ const QuestionsSearchBar = (props: Props) => {
       [queryKeys.questionsSearchResults],
       undefined
     )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history.location.search])
 
   const debouncedSearchQuery = useDebounce(watch("searchQuery"), 250)
 
-  useEffect(
-    () => {
-      refetch()
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [debouncedSearchQuery]
-  )
+  useEffect(() => {
+    refetch()
+  }, [debouncedSearchQuery])
 
   const sortedOptions = useMemo(() => {
     if (searchResults?.questions && searchResults?.docs)

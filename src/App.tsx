@@ -88,7 +88,6 @@ const App = (props: RouteComponentProps<{}>) => {
     setTimeout(() => {
       setIsLoading(false)
     }, 500)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -101,49 +100,39 @@ const App = (props: RouteComponentProps<{}>) => {
     // ReactGA.pageview(location.pathname)
   }, [location])
 
-  useEffect(
-    () => {
-      // Redirect after login
-      if (authUser) {
-        const nextUrl = new URLSearchParams(location.search).get("next")
-        if (nextUrl) {
-          props.history.push(nextUrl)
-        }
+  useEffect(() => {
+    // Redirect after login
+    if (authUser) {
+      const nextUrl = new URLSearchParams(location.search).get("next")
+      if (nextUrl) {
+        props.history.push(nextUrl)
+      }
 
-        axios
-          .get<FollowingTagDto[]>(
-            urls.api.user.followingTags(authUser.username)
-          )
-          .then((res) => {
-            setFollowingTags(res.data)
-          })
-
-        axios
-          .get<UserPreferenceDto>(urls.api.auth.userPreference)
-          .then((res) => {
-            setPreference(res.data)
-          })
-
-        axios.get<TagDto[]>(urls.api.relearn.tag).then((res) => {
-          setTags(res.data)
+      axios
+        .get<FollowingTagDto[]>(urls.api.user.followingTags(authUser.username))
+        .then((res) => {
+          setFollowingTags(res.data)
         })
 
-        axios
-          .get<UserInfoDto>(urls.api.user.userInfo(authUser.username))
-          .then((res) => {
-            setAuthProfile(res.data)
-          })
+      axios.get<UserPreferenceDto>(urls.api.auth.userPreference).then((res) => {
+        setPreference(res.data)
+      })
 
-        axios
-          .get<NotificationDto[]>(urls.api.utils.notifications)
-          .then((res) => {
-            setNotifications(res.data)
-          })
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [authUser]
-  )
+      axios.get<TagDto[]>(urls.api.relearn.tag).then((res) => {
+        setTags(res.data)
+      })
+
+      axios
+        .get<UserInfoDto>(urls.api.user.userInfo(authUser.username))
+        .then((res) => {
+          setAuthProfile(res.data)
+        })
+
+      axios.get<NotificationDto[]>(urls.api.utils.notifications).then((res) => {
+        setNotifications(res.data)
+      })
+    }
+  }, [authUser])
 
   // PE 2/3 - Not very scalable...
   let redirectAfterLogout = "/"
@@ -217,9 +206,8 @@ const App = (props: RouteComponentProps<{}>) => {
               <Route path="/search" component={SearchPage} />
             </Switch>
           </Suspense>
+          <GlobalDialogs />
         </Box>
-
-        <GlobalDialogs />
       </Box>
     )
   }

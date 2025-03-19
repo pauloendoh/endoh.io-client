@@ -22,7 +22,6 @@ const SkillDialogLabels = (props: Props) => {
         Number(a.id) > Number(b.id) ? 1 : -1
       ) || []
     )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(props.skill)])
 
   return (

@@ -50,8 +50,6 @@ const QuestionDialog = () => {
     if (isOpen) reset(initialValue)
 
     if (isOpen && isSmallScreen) closeSidebar()
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen])
 
   useConfirmTabClose(isOpen && formState.isDirty)

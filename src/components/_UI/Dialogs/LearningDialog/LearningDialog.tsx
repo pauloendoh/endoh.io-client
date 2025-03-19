@@ -52,8 +52,6 @@ const LearningDialog = (props: Props) => {
         }
       }, 100)
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.isOpen])
 
   const qc = useQueryClient()

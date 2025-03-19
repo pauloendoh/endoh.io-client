@@ -29,14 +29,10 @@ const SkillDialogTagSelector = (props: Props) => {
 
   const { tags: allTags } = useRelearnStore()
 
-  useEffect(
-    () => {
-      if (props.selectedTagId)
-        setTag(allTags.find((tag) => tag.id === props.selectedTagId) || null)
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.selectedTagId]
-  )
+  useEffect(() => {
+    if (props.selectedTagId)
+      setTag(allTags.find((tag) => tag.id === props.selectedTagId) || null)
+  }, [props.selectedTagId])
 
   const sortedTags = useMemo(() => {
     if (allTags?.length === 0) return []

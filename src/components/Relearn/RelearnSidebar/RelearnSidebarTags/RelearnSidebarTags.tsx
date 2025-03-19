@@ -38,15 +38,11 @@ function RelearnSidebarTags(props: Props) {
   const { setTags, setEditingTag } = useRelearnStore()
 
   // PE 2/3 - melhor deixar o setTags no RelearnPage ? E chamar tudo de uma vez em uma request?
-  useEffect(
-    () => {
-      axios.get<TagDto[]>(urls.api.relearn.tag).then((res) => {
-        setTags(res.data)
-      })
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+  useEffect(() => {
+    axios.get<TagDto[]>(urls.api.relearn.tag).then((res) => {
+      setTags(res.data)
+    })
+  }, [])
 
   const handleAddTag = () => {
     const newTag = newTagDto()

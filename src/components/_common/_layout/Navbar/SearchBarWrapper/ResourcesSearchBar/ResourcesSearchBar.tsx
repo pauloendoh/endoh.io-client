@@ -61,18 +61,13 @@ const ResourcesSearchBar = () => {
       [queryKeys.resourceSearchResults],
       undefined
     )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history.location.search])
 
   const debouncedSearchQuery = useDebounce(watch("searchQuery"), 250)
 
-  useEffect(
-    () => {
-      refetch()
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [debouncedSearchQuery]
-  )
+  useEffect(() => {
+    refetch()
+  }, [debouncedSearchQuery])
 
   useEffect(() => {
     if (searchResults) setLoading(false)
@@ -89,7 +84,6 @@ const ResourcesSearchBar = () => {
   const freeSolo = useMemo(() => {
     const searchQuery = watch("searchQuery")
     return Boolean(searchQuery && searchQuery.length < MIN_LENGTH)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watch("searchQuery")])
 
   const noOptionsText = useMemo(() => {
@@ -97,7 +91,6 @@ const ResourcesSearchBar = () => {
     return searchQuery && searchQuery.length >= MIN_LENGTH
       ? "No resources found :("
       : "Type at least 3 characters"
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watch("searchQuery"), debouncedSearchQuery])
 
   const options = useMemo(() => {
@@ -105,7 +98,6 @@ const ResourcesSearchBar = () => {
     return searchQuery && searchQuery.length >= MIN_LENGTH
       ? sortedResources
       : []
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortedResources, watch("searchQuery")])
 
   return (

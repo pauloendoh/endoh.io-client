@@ -22,19 +22,14 @@ const DecisionsPage = () => {
   useEffect(() => {
     document.title = siteTitles.decisions
     openSidebar()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const { data: allDecisions } = useDecisionsQuery()
   const history = useHistory()
-  useEffect(
-    () => {
-      if (decisionId === null && allDecisions?.length)
-        history.push(urls.pages.BigDecisions.decision(allDecisions[0].id!!))
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [allDecisions]
-  )
+  useEffect(() => {
+    if (decisionId === null && allDecisions?.length)
+      history.push(urls.pages.BigDecisions.decision(allDecisions[0].id!!))
+  }, [allDecisions])
 
   const {
     decisionDialogOpen,

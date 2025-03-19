@@ -49,8 +49,6 @@ const DecisionDialog = (props: Props) => {
 
   useEffect(() => {
     if (props.open) reset(props.initialValue)
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.open])
 
   return (

@@ -19,7 +19,6 @@ import TagIcon from "components/_UI/Icon/TagIcon"
 import Txt from "components/_UI/Text/Txt"
 import { FormikErrors, useFormik } from "formik"
 import { useSaveResourceMutation } from "hooks/relearn/useSaveResourceMutation"
-import { useMyPathParams } from "hooks/utils/react-router/useMyPathParams"
 import useQueryParams from "hooks/utils/react-router/useQueryParams"
 import { useAxios } from "hooks/utils/useAxios"
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
@@ -131,11 +130,10 @@ const ResourceDialog = () => {
 
   const [isFetchingLinkPreview, setIsFetchingLinkPreview] = useState(false)
 
-  const { tagId: pathTagId } = useMyPathParams()
-
   const getCurrentPageTag = (): TagDto | null => {
     if (location.pathname.startsWith(urls.pages.resources.tag)) {
-      const tagId = Number(pathTagId)
+      const tagId = Number(location.pathname.split("/").pop())
+
       if (tagId) {
         const currentTag = sortedTags.find((t) => t.id === tagId)
         if (currentTag) {
@@ -384,6 +382,7 @@ const ResourceDialog = () => {
                 label="Title"
                 required
                 onChange={handleChange}
+                autoFocus
                 fullWidth
                 InputLabelProps={{
                   shrink: !!values.title,
@@ -403,7 +402,6 @@ const ResourceDialog = () => {
                   id="url"
                   name="url"
                   value={values.url}
-                  autoFocus
                   onChange={(e) => {
                     handleChange(e)
                     fetchLinkPreview(e.target.value, setFieldValue, setValues)

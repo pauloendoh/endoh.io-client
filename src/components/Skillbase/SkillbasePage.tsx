@@ -39,18 +39,13 @@ const SkillbasePage = () => {
     })
   }
 
-  useEffect(
-    () => {
-      closeSidebar()
-      fetchSkills()
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+  useEffect(() => {
+    closeSidebar()
+    fetchSkills()
+  }, [])
 
   useEffect(() => {
     if (windowFocused) fetchSkills()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [windowFocused])
 
   useEffect(() => {
