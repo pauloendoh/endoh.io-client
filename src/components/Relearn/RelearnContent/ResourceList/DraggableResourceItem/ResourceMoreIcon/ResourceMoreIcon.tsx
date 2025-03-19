@@ -13,6 +13,7 @@ import { useAxios } from "hooks/utils/useAxios"
 import React, { useMemo } from "react"
 import { IoMdMove } from "react-icons/io"
 import { MdVerticalAlignBottom, MdVerticalAlignTop } from "react-icons/md"
+import { Link } from "react-router-dom"
 import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
 import useResourceDialogStore from "store/zustand/domain/resources/useResourceDialogStore"
 import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
@@ -171,6 +172,11 @@ function ResourceMoreIcon(props: Props) {
         }}
       >
         <MenuItem
+          component={Link}
+          to={urls.pages.openResourceId(
+            props.resource.id!,
+            urls.pages.resources.tagId(props.resource.tag?.id!)
+          )}
           onClick={(e) => {
             handleCloseMore()
             setEditingResource(props.resource)
