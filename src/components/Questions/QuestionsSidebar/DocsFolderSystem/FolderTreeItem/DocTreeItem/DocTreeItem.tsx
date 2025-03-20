@@ -7,7 +7,7 @@ import useSaveDocLastOpenedAt from "hooks/react-query/questions/useSaveDocLastOp
 import { useRef } from "react"
 import { useDrag } from "react-dnd"
 import { MdInsertDriveFile } from "react-icons/md"
-import { Link, useHistory } from "react-router-dom"
+import { Link } from "react-router-dom"
 import useFlashnotesStore from "store/zustand/domain/useFlashnotesStore"
 import { DocDto } from "types/domain/questions/DocDto"
 import { urls } from "utils/urls"
@@ -30,8 +30,6 @@ export default function DocTreeItem({ doc }: Props) {
     item: doc,
     collect: (monitor) => ({}),
   })
-
-  const history = useHistory()
 
   const htmlDragDocRef = useRef<HTMLDivElement>()
   dragDocRef(htmlDragDocRef)

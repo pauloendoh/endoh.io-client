@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { queryKeys } from "hooks/react-query/queryKeys"
 import { useAxios } from "hooks/utils/useAxios"
-import { useHistory } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 
@@ -14,7 +14,7 @@ export default function useDeleteDocMutation() {
   const [setDocs, docs] = useDocsStore((s) => [s.setDocs, s.docs])
   const queryClient = useQueryClient()
 
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const axios = useAxios()
 
@@ -23,7 +23,7 @@ export default function useDeleteDocMutation() {
       axios.delete(urls.api.docId(docId)).then((res) => res.data),
     {
       onSuccess: (_, docId) => {
-        history.push(urls.pages.questionsIndex)
+        navigate(urls.pages.questionsIndex)
 
         queryClient.invalidateQueries([queryKeys.folders])
 

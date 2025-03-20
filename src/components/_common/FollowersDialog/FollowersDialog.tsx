@@ -18,6 +18,9 @@ const FollowersDialog = (props: Props) => {
     props.onClose()
   }
 
+  if (!username) {
+    return null
+  }
   return (
     <Dialog
       onClose={onClose}
@@ -28,7 +31,7 @@ const FollowersDialog = (props: Props) => {
     >
       <Box pb={1} px={1}>
         <DialogTitle id="followers-title">
-          {username?.length > 0 ? (
+          {username.length > 0 ? (
             <span>{username}'s followers</span>
           ) : (
             <span>Your followers</span>

@@ -19,6 +19,10 @@ const FollowingUsersDialog = (props: Props) => {
     props.onClose()
   }
 
+  if (!username) {
+    return null
+  }
+
   return (
     <Dialog
       onClose={onClose}

@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { useHistory, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import useDialogsStore from "store/zustand/useDialogsStore"
 import { siteTitles } from "utils/consts/siteTitles"
 import { stringIsValidNumber } from "utils/math/stringIsValidNumber"
@@ -17,7 +17,7 @@ const DecisionsPage = () => {
   const { id: queryId } = useParams<{ id: string }>()
   const { openSidebar } = useSidebarStore()
 
-  const decisionId = stringIsValidNumber(queryId) ? Number(queryId) : null
+  const decisionId = stringIsValidNumber(queryId!) ? Number(queryId) : null
 
   useEffect(() => {
     document.title = siteTitles.decisions
@@ -25,10 +25,10 @@ const DecisionsPage = () => {
   }, [])
 
   const { data: allDecisions } = useDecisionsQuery()
-  const history = useHistory()
+  const navigate = useNavigate()
   useEffect(() => {
     if (decisionId === null && allDecisions?.length)
-      history.push(urls.pages.BigDecisions.decision(allDecisions[0].id!!))
+      navigate(urls.pages.BigDecisions.decision(allDecisions[0].id!!))
   }, [allDecisions])
 
   const {

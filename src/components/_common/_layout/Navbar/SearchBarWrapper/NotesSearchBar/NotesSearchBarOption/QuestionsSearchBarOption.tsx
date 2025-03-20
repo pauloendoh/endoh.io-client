@@ -5,7 +5,7 @@ import Flex from "components/_UI/Flexboxes/Flex"
 import FlexCol from "components/_UI/Flexboxes/FlexCol"
 import { useMemo } from "react"
 import { MdInsertDriveFile } from "react-icons/md"
-import { Link, useHistory } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { format } from "timeago.js"
 import { DocDto } from "types/domain/questions/DocDto"
 import { QuestionDto } from "types/domain/questions/QuestionDto"
@@ -25,7 +25,7 @@ const QuestionsSearchBarOption = ({
   ...props
 }: Props) => {
   const theme = useTheme()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const backgroundColor = useMemo(() => {
     return "toRefine" in docOrQuestion &&
@@ -49,7 +49,7 @@ const QuestionsSearchBarOption = ({
       }}
       onClick={(e) => {
         if ("title" in docOrQuestion) {
-          history.push(urls.pages.questionsDeck(docOrQuestion.id))
+          navigate(urls.pages.questionsDeck(docOrQuestion.id))
           props.onClickDoc(e)
           return
         }

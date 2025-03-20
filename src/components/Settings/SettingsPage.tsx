@@ -1,6 +1,6 @@
 import { Box } from "@mui/material"
 import { useEffect } from "react"
-import { Redirect, Route, Switch } from "react-router-dom"
+import { Navigate, Route, Routes } from "react-router-dom"
 import useAuthStore from "store/zustand/useAuthStore"
 import { urls } from "utils/urls"
 import Flex from "../_UI/Flexboxes/Flex"
@@ -19,24 +19,18 @@ function SettingsPage() {
     <Flex height="100%">
       <SettingsSidebar />
       <Box pt={1} px={4} flexGrow={1}>
-        <Switch>
+        <Routes>
           {authUser?.userExpiresAt ? (
-            <Route
-              path={urls.pages.settings.account}
-              component={KeepTempUserPaper}
-            />
+            <Route path={"/account"} element={<KeepTempUserPaper />} />
           ) : (
-            <Route
-              path={urls.pages.settings.account}
-              component={PersonalInformationPaper}
-            />
+            <Route path={"/account"} element={<PersonalInformationPaper />} />
           )}
 
           <Route
-            path="/"
-            render={() => <Redirect to={urls.pages.settings.account} />}
+            path="*"
+            element={<Navigate to={urls.pages.settings.account} replace />}
           />
-        </Switch>
+        </Routes>
       </Box>
     </Flex>
   )

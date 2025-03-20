@@ -17,12 +17,11 @@ import { Suspense, lazy, useEffect, useState } from "react"
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import {
-  Redirect,
+  Navigate,
   Route,
-  RouteComponentProps,
-  Switch,
+  Routes,
   useLocation,
-  withRouter,
+  useNavigate,
 } from "react-router-dom"
 import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
 import useAuthStore from "store/zustand/useAuthStore"
@@ -63,7 +62,7 @@ const LearningDiaryPage = lazy(
 )
 
 // PE 2/3
-const App = (props: RouteComponentProps<{}>) => {
+const App = () => {
   const { setTags } = useRelearnStore()
 
   const axios = useAxios()
@@ -100,12 +99,14 @@ const App = (props: RouteComponentProps<{}>) => {
     // ReactGA.pageview(location.pathname)
   }, [location])
 
+  const navigate = useNavigate()
+
   useEffect(() => {
     // Redirect after login
     if (authUser) {
       const nextUrl = new URLSearchParams(location.search).get("next")
       if (nextUrl) {
-        props.history.push(nextUrl)
+        navigate(nextUrl)
       }
 
       axios
@@ -147,7 +148,7 @@ const App = (props: RouteComponentProps<{}>) => {
   }
 
   if (window.location.href.includes("/define")) {
-    props.history.push(urls.pages.questionsIndex)
+    navigate(urls.pages.questionsIndex)
   }
 
   if (isValidApplicationPath(location.pathname)) {
@@ -156,17 +157,16 @@ const App = (props: RouteComponentProps<{}>) => {
 
   // PE 2/3 - routes = nome ruim?
   let routes = (
-    <Switch>
-      <Route path="/" exact component={LandingPage} />
-      <Route path="/password-reset" component={ResetPasswordPage} />
-      <Redirect to={redirectAfterLogout} />
-    </Switch>
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/password-reset" element={<ResetPasswordPage />} />
+      <Route path="*" element={<Navigate to={redirectAfterLogout} />} />
+    </Routes>
   )
 
   // PE 2/3 - Talvez criar um <UserRoutes/> ?
   if (authUser) {
-    if (location.pathname === "/")
-      props.history.push(urls.pages.resources.index)
+    if (location.pathname === "/") navigate(urls.pages.resources.index)
     routes = (
       <Box height="100%">
         {location.pathname.startsWith("/settings/") ? (
@@ -177,34 +177,40 @@ const App = (props: RouteComponentProps<{}>) => {
 
         <Box pt={10}>
           <Suspense fallback={<LoadingPage />}>
-            <Switch>
-              <Route path="/resources/tag/:tagId" component={RelearnPage} />
-              <Route path="/resources" component={RelearnPage} />
+            <Routes>
+              <Route path="/resources/tag/:tagId" element={<RelearnPage />} />
+              <Route path="/resources" element={<RelearnPage />} />
 
-              <Route path="/skills/tag/:tagId" component={SkillbasePage} />
-              <Route path="/skills" component={SkillbasePage} />
-              <Route path="/feed" component={FeedPage} />
+              <Route path="/skills/tag/:tagId" element={<SkillbasePage />} />
+              <Route path="/skills" element={<SkillbasePage />} />
+              <Route path="/feed" element={<FeedPage />} />
 
-              <Route path="/questions/doc/:deckId" component={QuestionsPage} />
-              <Route path="/questions/deck/:deckId" component={QuestionsPage} />
-              <Route path="/questions" exact component={QuestionsPage} />
+              <Route
+                path="/questions/doc/:deckId"
+                element={<QuestionsPage />}
+              />
+              <Route
+                path="/questions/deck/:deckId"
+                element={<QuestionsPage />}
+              />
+              <Route path="/questions" element={<QuestionsPage />} />
 
-              <Route path="/BigDecisions" exact component={BigDecisionsPage} />
-              <Route path="/BigDecisions/:id" component={BigDecisionsPage} />
+              <Route path="/BigDecisions" element={<BigDecisionsPage />} />
+              <Route path="/BigDecisions/:id" element={<BigDecisionsPage />} />
 
-              <Route path="/user/:username/tag/:tagId" component={UserPage} />
+              <Route path="/user/:username/tag/:tagId" element={<UserPage />} />
               <Route
                 path="/user/:username/roadmap/:skillId"
-                component={UserPage}
+                element={<UserPage />}
               />
-              <Route path="/user/:username" component={UserPage} />
+              <Route path="/user/:username" element={<UserPage />} />
 
-              <Route path="/settings" component={SettingsPage} />
-              <Route path="/LearningDiary" component={LearningDiaryPage} />
+              <Route path="/settings/*" element={<SettingsPage />} />
+              <Route path="/LearningDiary" element={<LearningDiaryPage />} />
 
-              <Route path="/404" component={NotFoundPage} />
-              <Route path="/search" component={SearchPage} />
-            </Switch>
+              <Route path="/404" element={<NotFoundPage />} />
+              <Route path="/search" element={<SearchPage />} />
+            </Routes>
           </Suspense>
           <GlobalDialogs />
         </Box>
@@ -231,4 +237,4 @@ const App = (props: RouteComponentProps<{}>) => {
   )
 }
 
-export default withRouter(App)
+export default App

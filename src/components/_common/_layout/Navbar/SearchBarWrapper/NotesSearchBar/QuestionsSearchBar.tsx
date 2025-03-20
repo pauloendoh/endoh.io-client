@@ -7,7 +7,7 @@ import useDebounce from "hooks/utils/useDebounce"
 import React, { useEffect, useMemo, useRef } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { useHotkeys } from "react-hotkeys-hook"
-import { useHistory } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import useQuestionDialogStore from "store/zustand/dialogs/useQuestionDialogStore"
 import { SearchResultsDto } from "types/domain/utils/SearchResultsDto"
 import { urls } from "utils/urls"
@@ -35,7 +35,7 @@ const MyPopper = function (props: React.ComponentProps<typeof Popper>) {
 const QuestionsSearchBar = (props: Props) => {
   const MIN_LENGTH = 3
 
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const { handleSubmit, control, getValues, watch, setValue } =
     useForm<ISearchForm>({
@@ -69,6 +69,7 @@ const QuestionsSearchBar = (props: Props) => {
 
   const qc = useQueryClient()
 
+  const [searchParams] = useSearchParams()
   useEffect(() => {
     setValue("searchQuery", "")
     qc.cancelQueries([queryKeys.questionsSearchResults])
@@ -76,7 +77,7 @@ const QuestionsSearchBar = (props: Props) => {
       [queryKeys.questionsSearchResults],
       undefined
     )
-  }, [history.location.search])
+  }, [searchParams])
 
   const debouncedSearchQuery = useDebounce(watch("searchQuery"), 250)
 

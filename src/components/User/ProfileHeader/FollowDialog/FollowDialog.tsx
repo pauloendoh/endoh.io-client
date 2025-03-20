@@ -63,6 +63,10 @@ const FollowDialog = (props: Props) => {
       isFollowing: selectedTagIds.includes(Number(publicTag.id)),
     }))
 
+    if (!username) {
+      return
+    }
+
     axios
       .post<FollowingTagDto[]>(urls.api.user.followingTags(username), data)
       .then((res) => {

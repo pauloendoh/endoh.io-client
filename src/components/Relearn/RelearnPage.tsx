@@ -7,7 +7,7 @@ import useMultiSelectResource from "hooks/relearn/useMultiSelectResource"
 import { useAxios } from "hooks/utils/useAxios"
 import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
 import { useEffect, useState } from "react"
-import { Redirect, useLocation, useParams } from "react-router-dom"
+import { Navigate, useLocation, useParams } from "react-router-dom"
 import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import useWindowFocus from "use-window-focus"
@@ -129,7 +129,7 @@ const RelearnPage = () => {
   }, [params.tagId])
 
   if (redirectTo.length > 0) {
-    return <Redirect to={redirectTo} />
+    return <Navigate to={redirectTo} replace />
   }
 
   return (

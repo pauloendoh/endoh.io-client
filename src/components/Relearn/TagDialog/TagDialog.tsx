@@ -9,7 +9,7 @@ import {
 } from "@mui/material"
 import { Form, Formik } from "formik"
 import { useSaveTagMutation } from "hooks/react-query/relearn/useSaveTagMutation"
-import { useHistory } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
 import { urls } from "utils/urls"
 import Flex from "../../_UI/Flexboxes/Flex"
@@ -18,7 +18,7 @@ import MyTextField from "../../_UI/MyInputs/MyTextField"
 import TagColorSelector from "./TagColorSelector/TagColorSelector"
 
 const TagDialog = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const { editingTag, setEditingTag } = useRelearnStore()
 
@@ -41,7 +41,7 @@ const TagDialog = () => {
             onSubmit={(formikValues) => {
               submitSave(formikValues, {
                 onSuccess: (saved) => {
-                  history.push(urls.pages.resources.tag + "/" + saved.id)
+                  navigate(urls.pages.resources.tag + "/" + saved.id)
                   setEditingTag(null)
                 },
               })

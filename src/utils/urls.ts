@@ -179,4 +179,4 @@ export const urls = {
     recurrentLearnings: "/recurrent-learnings",
     newUsers: "/user/new-users",
   },
-}
+} as const

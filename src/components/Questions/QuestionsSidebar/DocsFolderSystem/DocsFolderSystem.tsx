@@ -9,7 +9,7 @@ import useSaveFolderMutation from "hooks/react-query/folders/useSaveFolderMutati
 import { useEffect, useMemo, useRef, useState } from "react"
 import { useDrop } from "react-dnd"
 import { RiFileAddFill } from "react-icons/ri"
-import { useHistory, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import useFolderDialogStore from "store/zustand/dialogs/useFolderDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useFlashnotesStore from "store/zustand/domain/useFlashnotesStore"
@@ -23,7 +23,7 @@ import FolderTreeItem from "./FolderTreeItem/FolderTreeItem"
 import { spreadFolders } from "./spreadFolders/spreadFolders"
 
 export default function DocsFolderSystem() {
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const { fileDialogParentFolderId, setFileDialogParentFolderId } =
     useFlashnotesStore()
@@ -177,7 +177,7 @@ export default function DocsFolderSystem() {
         }}
         onClose={() => setFileDialogParentFolderId(null)}
         afterSave={(doc) => {
-          history.push(urls.pages.questionsDeck(doc.id))
+          navigate(urls.pages.questionsDeck(doc.id))
 
           setFileDialogParentFolderId(null)
         }}
@@ -188,7 +188,7 @@ export default function DocsFolderSystem() {
         initialValue={{ title: "" }}
         onClose={() => setOpenTitleDialog(false)}
         afterSave={(doc) => {
-          history.push(urls.pages.questionsDeck(doc.id))
+          navigate(urls.pages.questionsDeck(doc.id))
           setOpenTitleDialog(false)
         }}
       />

@@ -25,7 +25,7 @@ export default function useDeleteDecisionMutation() {
         )
         // props.setSuccessMessage("Decision saved!")
         // handleClose()
-        // history.push(PATHS.BigDecisions.decision(res.data))
+        // navigate(PATHS.BigDecisions.decision(res.data))
       },
     }
   )

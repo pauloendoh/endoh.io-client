@@ -7,7 +7,7 @@ import { Box, List, ListItem, Typography, useTheme } from "@mui/material"
 import ListItemText from "@mui/material/ListItemText"
 import Txt from "components/_UI/Text/Txt"
 import { useEffect, useMemo, useState } from "react"
-import { Link, useHistory, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import useProfileStore from "store/zustand/domain/useProfileStore"
 import { SkillDto, buildSkillDto } from "types/domain/skillbase/SkillDto"
 import { urls } from "utils/urls"
@@ -20,7 +20,7 @@ import UserRoadmapsDialog from "./UserRoadmapsDialog/UserRoadmapsDialog"
 
 const UserPageSidebar = () => {
   const theme = useTheme()
-  const history = useHistory()
+  const navigate = useNavigate()
   const profileStore = useProfileStore()
 
   const [roadmapsDialog, setRoadmapsDialog] = useState(false)
@@ -57,6 +57,10 @@ const UserPageSidebar = () => {
   const ratedResourcesCount = useMemo(() => {
     return profileStore.resources.filter((r) => r.rating > 0).length
   }, [profileStore.resources])
+
+  if (!username || !tagId) {
+    return null
+  }
 
   return (
     <Box maxWidth={300} {...({ ref: rootRef } as any)}>
@@ -148,7 +152,7 @@ const UserPageSidebar = () => {
         open={roadmapsDialog}
         skill={selectedSkill}
         onClose={() => {
-          history.push(urls.pages.user.index(username))
+          navigate(urls.pages.user.index(username))
         }}
       />
     </Box>

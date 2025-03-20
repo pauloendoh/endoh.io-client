@@ -1,14 +1,13 @@
 import { urls } from "utils/urls"
 
-import { SxProps, Theme, useMediaQuery, useTheme } from "@mui/material"
+import { Box, SxProps, Theme, useMediaQuery, useTheme } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 
-import { Box } from "@mui/material"
 import classNames from "classnames"
 import Flex from "components/_UI/Flexboxes/Flex"
 import { useAxios } from "hooks/utils/useAxios"
 import React, { useEffect, useState } from "react"
-import { useHistory, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSidebarStore from "../../store/zustand/useSidebarStore"
 import { DocDto } from "../../types/domain/questions/DocDto"
@@ -19,7 +18,7 @@ import QuestionsSidebar from "./QuestionsSidebar/QuestionsSidebar"
 
 // PE 3/3
 const QuestionsPage = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const docsStore = useDocsStore()
   const { deckId: paramDeckId } = useParams<{ deckId: string }>()
   const [selectedDocId, setSelectedDocId] = useState<number | null>(null)
@@ -46,7 +45,7 @@ const QuestionsPage = () => {
 
       const doc = docsStore.docs.find((doc) => doc.id === docId)
       if (!doc) {
-        history.push(urls.pages.questions.index)
+        navigate(urls.pages.questions.index)
         return
       }
       setSelectedDocId(docId)
@@ -67,7 +66,7 @@ const QuestionsPage = () => {
       })
 
       const docId = sortedByLastOpened[0].id
-      history.push(urls.pages.questions.deckId(docId))
+      navigate(urls.pages.questions.deckId(docId))
     }
   }, [docsStore.docs, paramDeckId])
 

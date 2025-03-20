@@ -5,7 +5,7 @@ import useResourcesSearchQuery from "hooks/react-query/search/useResourcesSearch
 import useDebounce from "hooks/utils/useDebounce"
 import React, { useEffect, useMemo, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
-import { useHistory } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import useResourceDialogStore from "store/zustand/domain/resources/useResourceDialogStore"
 import { SearchResultsDto } from "types/domain/utils/SearchResultsDto"
 import { urls } from "utils/urls"
@@ -25,7 +25,7 @@ const ResourcesSearchBar = () => {
 
   const MIN_LENGTH = 3
 
-  const history = useHistory()
+  const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
 
   const { handleSubmit, control, getValues, watch, setValue } =
@@ -42,7 +42,7 @@ const ResourcesSearchBar = () => {
 
   const submit = (values: ISearchForm) => {
     if (values.searchQuery?.length)
-      history.push(urls.pages.search(values.searchQuery))
+      navigate(urls.pages.search(values.searchQuery))
   }
 
   const ctrlSubmit = (values: ISearchForm) => {
@@ -53,6 +53,8 @@ const ResourcesSearchBar = () => {
 
   const qc = useQueryClient()
 
+  const [searchParams] = useSearchParams()
+
   useEffect(() => {
     setLoading(false)
     setValue("searchQuery", "")
@@ -61,7 +63,7 @@ const ResourcesSearchBar = () => {
       [queryKeys.resourceSearchResults],
       undefined
     )
-  }, [history.location.search])
+  }, [searchParams])
 
   const debouncedSearchQuery = useDebounce(watch("searchQuery"), 250)
 

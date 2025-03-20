@@ -26,7 +26,7 @@ import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
 import { DateTime } from "luxon"
 import { useEffect, useMemo, useState } from "react"
 import { MdClose, MdSave } from "react-icons/md"
-import { useHistory, useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
 import useResourceDialogStore from "store/zustand/domain/resources/useResourceDialogStore"
 import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
@@ -52,7 +52,7 @@ const ResourceDialog = () => {
     useResourceDialogStore()
 
   const axios = useAxios()
-  const history = useHistory()
+  const navigate = useNavigate()
   const location = useLocation()
   const { openConfirmDialog } = useConfirmDialogStore()
   const { setSuccessMessage } = useSnackbarStore()
@@ -81,7 +81,7 @@ const ResourceDialog = () => {
 
   const clearOpenResourceId = () => {
     queryParams.delete("openResourceId")
-    history.push(`${location.pathname}?${queryParams.toString()}`)
+    navigate(`${location.pathname}?${queryParams.toString()}`)
   }
 
   // Testing ?openResourceId -> should open a resource dialog

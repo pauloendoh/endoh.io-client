@@ -1,7 +1,7 @@
 import { Box, Dialog, DialogContent, DialogTitle } from "@mui/material"
 import { useEffect } from "react"
 import { Controller, useForm } from "react-hook-form"
-import { useHistory } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
 import { urls } from "utils/urls"
 import usePostDecisionMutation from "../../../hooks/BigDecisions/Decision/usePostDecisionMutation"
@@ -17,7 +17,7 @@ interface Props {
 }
 
 const DecisionDialog = (props: Props) => {
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const { setSuccessMessage } = useSnackbarStore()
 
@@ -32,7 +32,7 @@ const DecisionDialog = (props: Props) => {
       onSuccess: (data) => {
         setSuccessMessage("Decision saved!")
         handleClose()
-        history.push(urls.pages.BigDecisions.decision(data.id!!))
+        navigate(urls.pages.BigDecisions.decision(data.id!!))
       },
     })
   }

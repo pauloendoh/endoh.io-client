@@ -4,7 +4,7 @@ import { makeStyles } from "@mui/styles"
 import { Button } from "@mui/material"
 
 import React, { useState } from "react"
-import { useHistory, useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import { urls } from "utils/urls"
@@ -17,7 +17,7 @@ function EditSkillsButton() {
   const { tags: allTags } = useRelearnStore()
 
   const classes = useStyles()
-  const history = useHistory()
+  const navigate = useNavigate()
   const { skills: allSkills } = useSkillbaseStore()
   const { pathname } = useLocation()
 
@@ -36,7 +36,7 @@ function EditSkillsButton() {
     if (tagId) {
       const currentTag = allTags.find((t) => t.id === tagId)
       setTagForDialog(currentTag || null)
-    } else history.push(urls.pages.skills.index)
+    } else navigate(urls.pages.skills.index)
   }
 
   const handleCloseDialog = () => {

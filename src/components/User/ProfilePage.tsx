@@ -5,7 +5,7 @@ import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween"
 import useUserSuggestionsQuery from "hooks/react-query/feed/useUserSuggestionsQuery"
 import { useEffect, useMemo, useState } from "react"
 import { MdLabel } from "react-icons/md"
-import { useHistory, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import useProfileStore, {
   resetProfileStore,
 } from "store/zustand/domain/useProfileStore"
@@ -25,7 +25,7 @@ import UserPageSidebar from "./UserPageSidebar/UserPageSidebar"
 
 // PE 1/3 - renam eto UserProfilePage
 const ProfilePage = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const { followingUsers } = useAuthStore()
 
   const { publicTags, privateTags, resources, profile, setUserInfo } =
@@ -84,6 +84,9 @@ const ProfilePage = () => {
   }, [tagResources, minRating, selectedTab])
 
   useEffect(() => {
+    if (!username) {
+      return
+    }
     document.title = username + " - Relearn"
 
     resetProfileStore()
@@ -95,7 +98,7 @@ const ProfilePage = () => {
       })
       .catch((err) => {
         if (err.response && err.response.status === 404) {
-          history.push(urls.pages.notFound)
+          navigate(urls.pages.notFound)
         }
       })
   }, [username])

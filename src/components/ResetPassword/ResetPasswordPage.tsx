@@ -13,7 +13,7 @@ import {
 import { Form, Formik } from "formik"
 import { useAxios } from "hooks/utils/useAxios"
 import { useEffect, useState } from "react"
-import { Redirect, Link as RouterLink } from "react-router-dom"
+import { Navigate, Link as RouterLink } from "react-router-dom"
 import { urls } from "utils/urls"
 import MyAxiosError, { MyFieldError } from "../../types/MyAxiosError"
 import { PasswordResetPostDto } from "../../types/domain/auth/PasswordResetPostDto"
@@ -75,7 +75,7 @@ function ResetPasswordPage() {
     <Container maxWidth="sm">
       {redirectTo.length > 0 ? (
         // TODO: instead of redirecting, show a message of "token is invalid"
-        <Redirect to={redirectTo} />
+        <Navigate to={redirectTo} replace />
       ) : null}
       <Box mx="auto">
         <FlexHCenter mt={10} mb={3}>

@@ -21,7 +21,7 @@ const ProfileHeader = () => {
 
   const { profile } = useProfileStore()
 
-  if (!profile) return null
+  if (!profile || !username) return null
 
   return (
     <Flex>

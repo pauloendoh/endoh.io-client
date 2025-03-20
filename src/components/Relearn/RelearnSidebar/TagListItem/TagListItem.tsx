@@ -2,7 +2,7 @@ import LabelIcon from "@mui/icons-material/Label"
 import { ListItem, ListItemText, Typography, useTheme } from "@mui/material"
 import useUpdateTagLastOpenedAtMutation from "hooks/react-query/relearn/useUpdateTagLastOpenedAtMutation"
 import { useEffect, useState } from "react"
-import { Link, Redirect, useLocation } from "react-router-dom"
+import { Link, Navigate, useLocation } from "react-router-dom"
 import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
 import { pushOrReplace } from "utils/array/pushOrReplace"
 import { urls } from "utils/urls"
@@ -101,7 +101,7 @@ function TagListItem(props: Props) {
           </Typography>
         </S.ResourcesCountWrapper>
       )}
-      {redirectTo.length > 0 && <Redirect to={redirectTo} />}
+      {redirectTo.length > 0 && <Navigate to={redirectTo} replace />}
     </ListItem>
   )
 }

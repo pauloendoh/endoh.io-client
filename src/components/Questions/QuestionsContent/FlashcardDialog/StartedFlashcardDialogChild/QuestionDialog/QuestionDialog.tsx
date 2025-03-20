@@ -13,6 +13,7 @@ import {
 import Flex from "components/_UI/Flexboxes/Flex"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import FlexVCenterBetween from "components/_UI/Flexboxes/FlexVCenterBetween"
+import useQueryParams from "hooks/utils/react-router/useQueryParams"
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
 import { useEffect } from "react"
 import { Controller, useForm } from "react-hook-form"
@@ -46,8 +47,16 @@ const QuestionDialog = () => {
     theme.breakpoints.down("sm")
   )
 
+  const queryParams = useQueryParams()
+
   useEffect(() => {
-    if (isOpen) reset(initialValue)
+    if (isOpen) {
+      reset(initialValue)
+
+      if (initialValue.id) {
+        queryParams.set("openQuestionId", String(initialValue.id))
+      }
+    }
 
     if (isOpen && isSmallScreen) closeSidebar()
   }, [isOpen])
@@ -56,14 +65,21 @@ const QuestionDialog = () => {
 
   const openConfirmDialog = useConfirmDialogStore((s) => s.openConfirmDialog)
 
+  const openQuestionId = queryParams.get("openQuestionId")
+
+  const handleForceClose = () => {
+    queryParams.delete("openQuestionId")
+    onClose()
+  }
+
   const handleConfirmClose = () => {
     if (!formState.isDirty) {
-      onClose()
+      handleForceClose()
       return
     }
 
     openConfirmDialog({
-      onConfirm: () => onClose(),
+      onConfirm: () => handleForceClose(),
       title: "Discard changes?",
     })
   }

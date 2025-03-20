@@ -16,7 +16,7 @@ import React, { useMemo, useState } from "react"
 import { AiOutlineClear } from "react-icons/ai"
 import { IoMdPlayCircle } from "react-icons/io"
 import { MdDelete } from "react-icons/md"
-import { useHistory } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
@@ -93,7 +93,7 @@ function DocMoreMenu(props: Props) {
   }
 
   const { mutate: submitDeleteDoc } = useDeleteDocMutation()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const theme = useTheme()
 
@@ -190,7 +190,7 @@ function DocMoreMenu(props: Props) {
         initialValue={{ title: props.doc.title }}
         open={openTitleDialog}
         afterSave={(doc) => {
-          history.push(urls.pages.questionsDeck(doc.id))
+          navigate(urls.pages.questionsDeck(doc.id))
           setOpenTitleDialog(false)
         }}
         onClose={() => {

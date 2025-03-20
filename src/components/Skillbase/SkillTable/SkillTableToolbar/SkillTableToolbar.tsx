@@ -14,7 +14,7 @@ import Txt from "components/_UI/Text/Txt"
 import useDebounce from "hooks/utils/useDebounce"
 import { useEffect, useState } from "react"
 import { MdSearch } from "react-icons/md"
-import { useHistory, useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import useRelearnStore from "store/zustand/domain/resources/useRelearnStore"
 import useSkillbaseStore from "store/zustand/domain/useSkillbaseStore"
 import useSnackbarStore from "store/zustand/useSnackbarStore"
@@ -35,7 +35,7 @@ const SkillTableToolbar = (props: Props) => {
   const { tags: allTags } = useRelearnStore()
 
   const classes = useStyles()
-  const history = useHistory()
+  const navigate = useNavigate()
   const location = useLocation()
   const { setErrorMessage } = useSnackbarStore()
   const { setFilterByText } = useSkillbaseStore()
@@ -51,9 +51,9 @@ const SkillTableToolbar = (props: Props) => {
   // PE 1/3 - 20241030 -- considerar remover essas coisas referentes a tag e label
   const [tagSelectorValue, setTagSelectorValue] = useState<optionTypes>("All")
   const handleTagChange = (value: optionTypes) => {
-    if (value === "All") history.push(urls.pages.skills.index)
-    else if (value === "Untagged") history.push(urls.pages.skills.untagged)
-    else history.push(urls.pages.skills.tag + "/" + value.id)
+    if (value === "All") navigate(urls.pages.skills.index)
+    else if (value === "Untagged") navigate(urls.pages.skills.untagged)
+    else navigate(urls.pages.skills.tag + "/" + value.id)
   }
 
   useEffect(() => {
@@ -67,7 +67,7 @@ const SkillTableToolbar = (props: Props) => {
         return
       }
       setErrorMessage("Could not find tag")
-      history.push(urls.pages.skills.index)
+      navigate(urls.pages.skills.index)
     } else setTagSelectorValue("All")
   }, [location])
 
