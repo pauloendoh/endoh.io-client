@@ -19,7 +19,7 @@ import TagIcon from "components/_UI/Icon/TagIcon"
 import Txt from "components/_UI/Text/Txt"
 import { FormikErrors, useFormik } from "formik"
 import { useSaveResourceMutation } from "hooks/relearn/useSaveResourceMutation"
-import useQueryParams from "hooks/utils/react-router/useQueryParams"
+import useMyQueryParams from "hooks/utils/react-router/useQueryParams"
 import { useAxios } from "hooks/utils/useAxios"
 import useConfirmTabClose from "hooks/utils/useConfirmTabClose"
 import { useMyMediaQuery } from "hooks/utils/useMyMediaQuery"
@@ -56,7 +56,7 @@ const ResourceDialog = () => {
   const location = useLocation()
   const { openConfirmDialog } = useConfirmDialogStore()
   const { setSuccessMessage } = useSnackbarStore()
-  const queryParams = useQueryParams()
+  const queryParams = useMyQueryParams()
 
   const openResourceId = useMemo(
     () => Number(queryParams.get("openResourceId")) || undefined,

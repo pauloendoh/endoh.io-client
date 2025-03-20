@@ -186,10 +186,6 @@ const App = () => {
               <Route path="/feed" element={<FeedPage />} />
 
               <Route
-                path="/questions/doc/:deckId"
-                element={<QuestionsPage />}
-              />
-              <Route
                 path="/questions/deck/:deckId"
                 element={<QuestionsPage />}
               />

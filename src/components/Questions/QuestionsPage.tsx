@@ -5,9 +5,11 @@ import { makeStyles } from "@mui/styles"
 
 import classNames from "classnames"
 import Flex from "components/_UI/Flexboxes/Flex"
+import { useDefaultSubmitQuestion } from "hooks/questions/useDefaultSubmitQuestion"
 import { useAxios } from "hooks/utils/useAxios"
 import React, { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams, useSearchParams } from "react-router-dom"
+import useQuestionDialogStore from "store/zustand/dialogs/useQuestionDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSidebarStore from "../../store/zustand/useSidebarStore"
 import { DocDto } from "../../types/domain/questions/DocDto"
@@ -40,7 +42,7 @@ const QuestionsPage = () => {
   }, [])
 
   useEffect(() => {
-    if (paramDeckId && docsStore.hasFirstLoaded) {
+    if (paramDeckId && docsStore.HasLoadedDocs) {
       const docId = Number(paramDeckId)
 
       const doc = docsStore.docs.find((doc) => doc.id === docId)
@@ -70,6 +72,27 @@ const QuestionsPage = () => {
     }
   }, [docsStore.docs, paramDeckId])
 
+  const [searchParams] = useSearchParams()
+  const [hasFirstChecked, setHasFirstChecked] = useState(false)
+  const { openDialog: openQuestionDialog } = useQuestionDialogStore()
+  const defaultSubmitQuestion = useDefaultSubmitQuestion()
+  useEffect(() => {
+    if (docsStore.questions.length > 0 && !hasFirstChecked) {
+      setHasFirstChecked(true)
+      const openQuestionId = searchParams.get("openQuestionId")
+      if (openQuestionId) {
+        const questionId = Number(openQuestionId)
+        const question = docsStore.questions.find((q) => q.id === questionId)
+        if (question) {
+          openQuestionDialog({
+            initialValue: question,
+            onSubmit: defaultSubmitQuestion,
+          })
+        }
+      }
+    }
+  }, [docsStore.questions])
+
   const classes = useStyles()
 
   const theme = useTheme()
@@ -94,7 +117,7 @@ const QuestionsPage = () => {
           flexGrow={1}
           sx={sidebarIsOpen ? sx : undefined}
         >
-          {docsStore.hasFirstLoaded ? (
+          {docsStore.HasLoadedDocs ? (
             <React.Fragment>
               {selectedDocId && <QuestionsContent docId={selectedDocId} />}
             </React.Fragment>

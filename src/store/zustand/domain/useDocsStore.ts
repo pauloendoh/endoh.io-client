@@ -6,7 +6,7 @@ import { create } from "zustand"
 interface IDocsStore {
   docs: DocDto[]
   questions: QuestionDto[]
-  hasFirstLoaded: boolean
+  HasLoadedDocs: boolean
 
   setDocs: (docs: DocDto[]) => void
   setQuestions: (questions: QuestionDto[]) => void
@@ -21,10 +21,10 @@ interface IDocsStore {
 const useDocsStore = create<IDocsStore>((set, get) => ({
   docs: [],
   questions: [],
-  hasFirstLoaded: false,
+  HasLoadedDocs: false,
 
   setDocs: (docs) => {
-    set({ docs, hasFirstLoaded: true })
+    set({ docs, HasLoadedDocs: true })
   },
 
   setQuestions: (question) => {
