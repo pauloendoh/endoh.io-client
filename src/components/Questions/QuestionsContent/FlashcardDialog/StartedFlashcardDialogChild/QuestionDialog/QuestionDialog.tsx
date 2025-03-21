@@ -226,7 +226,7 @@ const QuestionDialog = () => {
 
             {authUser?.username === "pauloendoh" && (
               <Box mt={2}>
-                <AskGPTSection question={watch("question")} />
+                <AskGPTSection key={watch("id")} question={watch("question")} />
               </Box>
             )}
           </DialogContent>

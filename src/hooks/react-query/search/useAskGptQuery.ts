@@ -22,6 +22,7 @@ export const useAskGptQuery = (
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       refetchOnMount: false,
+      keepPreviousData: false,
     }
   )
 }

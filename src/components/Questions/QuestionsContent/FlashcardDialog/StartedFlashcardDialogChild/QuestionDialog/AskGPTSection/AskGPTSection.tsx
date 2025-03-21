@@ -2,6 +2,7 @@ import { Box, Skeleton, Typography } from "@mui/material"
 import FlexCol from "components/_UI/Flexboxes/FlexCol"
 import FlexVCenter from "components/_UI/Flexboxes/FlexVCenter"
 import { useAskGptQuery } from "hooks/react-query/search/useAskGptQuery"
+import { useEffect, useState } from "react"
 import { MdOutlineWorkspacePremium } from "react-icons/md"
 
 type Props = {
@@ -9,9 +10,18 @@ type Props = {
 }
 
 export const AskGPTSection = ({ ...props }: Props) => {
-  const { data, isFetching, refetch } = useAskGptQuery(props.question, {
+  const [localQuestion, setLocalQuestion] = useState("")
+
+  const { data, isFetching, refetch } = useAskGptQuery(localQuestion, {
     disable: true,
   })
+
+  useEffect(() => {
+    if (!!localQuestion && !isFetching) {
+      setLocalQuestion(props.question)
+      refetch()
+    }
+  }, [localQuestion])
 
   return (
     <FlexCol className={`AskGPTSection`} gap={2}>
@@ -25,7 +35,7 @@ export const AskGPTSection = ({ ...props }: Props) => {
         }}
         onClick={() => {
           if (props.question && !isFetching) {
-            refetch()
+            setLocalQuestion(props.question)
           }
         }}
       >
