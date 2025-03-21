@@ -11,6 +11,7 @@ type Props = {
 
 export const AskGPTSection = ({ ...props }: Props) => {
   const [localQuestion, setLocalQuestion] = useState("")
+  const [fetchCount, setFetchCount] = useState(0)
 
   const { data, isFetching, refetch } = useAskGptQuery(localQuestion, {
     disable: true,
@@ -20,7 +21,7 @@ export const AskGPTSection = ({ ...props }: Props) => {
     if (!!localQuestion && !isFetching) {
       refetch()
     }
-  }, [localQuestion])
+  }, [localQuestion, fetchCount])
 
   return (
     <FlexCol className={`AskGPTSection`} gap={2}>
@@ -35,6 +36,7 @@ export const AskGPTSection = ({ ...props }: Props) => {
         onClick={() => {
           if (props.question && !isFetching) {
             setLocalQuestion(props.question)
+            setFetchCount((curr) => curr + 1)
           }
         }}
       >
