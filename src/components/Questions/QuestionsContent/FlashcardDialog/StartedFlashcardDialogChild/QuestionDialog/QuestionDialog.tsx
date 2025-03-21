@@ -20,10 +20,12 @@ import { MdInfo } from "react-icons/md"
 import { useSearchParams } from "react-router-dom"
 import useDocDialogStore from "store/zustand/dialogs/useDocDialogStore"
 import useQuestionDialogStore from "store/zustand/dialogs/useQuestionDialogStore"
+import useAuthStore from "store/zustand/useAuthStore"
 import useConfirmDialogStore from "store/zustand/useConfirmDialogStore"
 import useSidebarStore from "store/zustand/useSidebarStore"
 import SaveCancelButtons from "../../../../../_UI/Buttons/SaveCancelButtons"
 import MyTextField from "../../../../../_UI/MyInputs/MyTextField"
+import { AskGPTSection } from "./AskGPTSection/AskGPTSection"
 import DeckSelector from "./DeckSelector/DeckSelector"
 import { useDefaultDeleteQuestion } from "./useDefaultDeleteQuestion/useDefaultDeleteQuestion"
 
@@ -91,6 +93,8 @@ const QuestionDialog = () => {
   }
 
   const defaultDeleteQuestion = useDefaultDeleteQuestion()
+
+  const { authUser } = useAuthStore()
 
   return (
     <Dialog
@@ -219,6 +223,12 @@ const QuestionDialog = () => {
                 }
               />
             </Box>
+
+            {authUser?.username === "pauloendoh" && (
+              <Box mt={2}>
+                <AskGPTSection question={watch("question")} />
+              </Box>
+            )}
           </DialogContent>
           <DialogTitle>
             <FlexVCenterBetween width="100%">

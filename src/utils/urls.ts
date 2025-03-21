@@ -103,6 +103,7 @@ export const urls = {
       questions: "define/question",
       updateManyQuestions: "/define/question/many",
       questionId: (questionId: number) => `/question/${questionId}`,
+      askGpt: (question: string) => `/ask-gpt?question=${question}`,
     },
     folders: "/playground/folders",
     folderId: (folderId: number) => "/playground/folders/" + folderId,
