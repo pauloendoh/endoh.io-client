@@ -50,12 +50,7 @@ export const AskGPTSection = ({ ...props }: Props) => {
           </FlexCol>
         )}
         {!isFetching && !!data && (
-          <FlexCol
-            gap={0.5}
-            sx={{
-              fontStyle: "italic",
-            }}
-          >
+          <FlexCol gap={0.5}>
             <Typography
               sx={{
                 fontWeight: "bold",
