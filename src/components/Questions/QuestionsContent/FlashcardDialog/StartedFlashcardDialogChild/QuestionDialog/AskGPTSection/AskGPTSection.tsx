@@ -39,7 +39,7 @@ export const AskGPTSection = ({ ...props }: Props) => {
             <Skeleton variant="rectangular" height={240} />
           </FlexCol>
         )}
-        {!isFetching && (
+        {!isFetching && !!data && (
           <FlexCol
             gap={0.5}
             sx={{
