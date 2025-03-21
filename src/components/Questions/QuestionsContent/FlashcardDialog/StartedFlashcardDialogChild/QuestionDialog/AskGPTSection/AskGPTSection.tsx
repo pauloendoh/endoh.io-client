@@ -18,7 +18,6 @@ export const AskGPTSection = ({ ...props }: Props) => {
 
   useEffect(() => {
     if (!!localQuestion && !isFetching) {
-      setLocalQuestion(props.question)
       refetch()
     }
   }, [localQuestion])
@@ -56,7 +55,7 @@ export const AskGPTSection = ({ ...props }: Props) => {
                 fontWeight: "bold",
               }}
             >
-              {props.question}
+              {localQuestion}
             </Typography>
             <Typography
               sx={{
