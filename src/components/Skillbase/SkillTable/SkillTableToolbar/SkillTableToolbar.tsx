@@ -23,6 +23,7 @@ import { TagDto } from "../../../../types/domain/relearn/TagDto"
 import { getCurrentTag } from "../../../../utils/skillbase/getCurrentTag"
 import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
 import TagIcon from "../../../_UI/Icon/TagIcon"
+import SkillbaseFilterButton from "./SkillbaseFilterButton/SkillbaseFilterButton"
 import { optionTypes } from "./SkillbaseTagSelector/SkillbaseTagSelector"
 
 type Props = {
@@ -118,7 +119,7 @@ const SkillTableToolbar = (props: Props) => {
                 />
               </FlexVCenter>
 
-              {/* <SkillbaseFilterButton /> */}
+              <SkillbaseFilterButton />
             </FlexVCenter>
           )}
         </Box>

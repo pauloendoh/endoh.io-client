@@ -49,6 +49,7 @@ const SkillbaseTable = (props: Props) => {
   // PE 1/3 Transform this into a utility hook
   const [visibleSkills, setVisibleSkills] = useState<SkillDto[]>(
     filterAndSortSkills(
+      // PE 1/3 - global states don't need to be passed
       allSkills,
       sortBy,
       props.tag,

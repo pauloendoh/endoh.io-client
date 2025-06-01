@@ -14,7 +14,7 @@ interface Props {
   setLabelDialogInitialValue: (label: LabelDto) => void
 }
 
-const LabelsSelector = (props: Props) => {
+export const LabelsSelector = (props: Props) => {
   const { data: labels } = useLabelsQuery()
 
   const sortedLabels = useMemo(() => {
@@ -51,7 +51,7 @@ const LabelsSelector = (props: Props) => {
         typeof option === "string" ? option : option.name
       }
       renderInput={(params) => (
-        <MyTextField {...params} label="Labels" size="medium" />
+        <MyTextField {...params} label="Labels" size="small" />
       )}
       renderOption={(liProps, label) => (
         <LabelSelectorOption
@@ -77,5 +77,3 @@ const LabelsSelector = (props: Props) => {
     />
   )
 }
-
-export default LabelsSelector

@@ -15,7 +15,7 @@ const SkillExpectations = (props: Props) => {
   const levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
   return (
-    <Box mt={2} maxHeight={450}>
+    <Box>
       <Txt variant="h5">Your roadmap</Txt>
 
       {levels.map((level) => (
