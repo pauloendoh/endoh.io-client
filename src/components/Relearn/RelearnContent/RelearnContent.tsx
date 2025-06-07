@@ -37,13 +37,20 @@ function RelearnContent(props: { resources: ResourceDto[] }) {
     }
     if (tag?.sortingBy === "priority") {
       todos = todos.sort(
-        // desc, nulls first
+        // desc, nulls first/ if equal, createdAt oldest first
         (a, b) => {
           if (a.priority !== null && b.priority === null) {
             return 1
           }
           if (a.priority === null && b.priority !== null) {
             return -1
+          }
+
+          const aPriority = a.priority ?? 0
+          const bPriority = b.priority ?? 0
+
+          if (aPriority === bPriority) {
+            return a.createdAt.localeCompare(b.createdAt)
           }
 
           return (b.priority ?? 0) - (a.priority ?? 0)
