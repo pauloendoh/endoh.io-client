@@ -81,7 +81,7 @@ const RelearnPage = () => {
     // Filtrando resource por tags. Melhor colocar em outro arquivo?
     if (pathname === urls.pages.resources.index) {
       setFilteredResources(
-        resources.filter((resource) => resource.tag === null)
+        resources.filter((resource) => resource.tag === null),
       )
       document.title = "Untagged - Relearn"
     } else if (pathname.startsWith(urls.pages.resources.tag)) {
@@ -90,7 +90,7 @@ const RelearnPage = () => {
         setFilteredResources(
           resources.filter((resource) => {
             return resource.tag?.id === tagId
-          })
+          }),
         )
 
         // setSkillsStore(allSkills.filter((skill) => skill.tagId === tagId));
@@ -106,8 +106,12 @@ const RelearnPage = () => {
     // open last opened tag
     if (allTags?.length > 0) {
       const lastOpened = allTags.sort((a, b) => {
-        if (a.lastOpenedAt === (undefined || null)) return -1
-        if (b.lastOpenedAt === (undefined || null)) return 1
+        if (a.lastOpenedAt === undefined || a.lastOpenedAt === null) {
+          return -1
+        }
+        if (b.lastOpenedAt === undefined || b.lastOpenedAt === null) {
+          return 1
+        }
 
         return a.lastOpenedAt > b.lastOpenedAt ? -1 : 1
       })[0]

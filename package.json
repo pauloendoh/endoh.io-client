@@ -3,10 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "homepage": "https://relearn.to/",
-  "engines": {
-    "node": "18.12.0",
-    "npm": "8.19.2"
-  },
   "scripts": {
     "dev": "vite --port 8000",
     "build": "vite build",
@@ -19,7 +15,6 @@
     "codegen": "graphql-codegen --config codegen.yml --watch"
   },
   "dependencies": {
-    "@date-io/date-fns": "2.x",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
