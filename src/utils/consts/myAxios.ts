@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
 const myAxios = axios.create()
 
@@ -24,3 +24,28 @@ myAxios.interceptors.response.use(
 )
 
 export default myAxios
+
+// https://orval.dev/guides/custom-axios#custom-instance
+export const customInstance = <T>(
+  config: AxiosRequestConfig,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<T>> => {
+  const source = axios.CancelToken.source()
+  const promise = myAxios({
+    ...config,
+    ...options,
+    cancelToken: source.token,
+  })
+
+  // @ts-ignore
+  promise.cancel = () => {
+    source.cancel("Query was cancelled")
+  }
+
+  return promise
+}
+
+// In some case with react-query and swr you want to be able to override the return error type so you can also do it here like this
+export type ErrorType<Error> = AxiosError<Error>
+
+export type BodyType<BodyData> = BodyData

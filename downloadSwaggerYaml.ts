@@ -22,6 +22,14 @@ export async function downloadSwaggerYaml() {
   fs.writeFileSync(outputPath, data)
 
   console.log(`swagger.yaml file downloaded successfully to ${outputPath}`)
+
+  const orvalDir = "./src/orval/generated"
+  if (fs.existsSync(orvalDir)) {
+    fs.rmSync(orvalDir, { recursive: true, force: true })
+    console.log(`Deleted directory: ${orvalDir}`)
+  } else {
+    console.log(`Directory does not exist: ${orvalDir}`)
+  }
 }
 
 downloadSwaggerYaml()

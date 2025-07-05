@@ -10,6 +10,7 @@ paths:
           required: true
           schema:
             type: string
+      operationId: getAllMyQuestions
       responses:
         "200":
           description: "200"
@@ -68,6 +69,7 @@ paths:
           required: true
           schema:
             type: string
+      operationId: askGpt
       responses:
         "200":
           description: "200"
@@ -94,5 +96,10 @@ paths:
                 required:
                   - message
 info:
-  title: API
+  title: My API
   version: 1.0.0
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

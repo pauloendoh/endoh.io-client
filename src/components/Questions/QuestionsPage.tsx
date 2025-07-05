@@ -7,13 +7,13 @@ import classNames from "classnames"
 import Flex from "components/_UI/Flexboxes/Flex"
 import { useDefaultSubmitQuestion } from "hooks/questions/useDefaultSubmitQuestion"
 import { useAxios } from "hooks/utils/useAxios"
+import { api } from "orval/api"
 import React, { useEffect, useState } from "react"
 import { useNavigate, useParams, useSearchParams } from "react-router-dom"
 import useQuestionDialogStore from "store/zustand/dialogs/useQuestionDialogStore"
 import useDocsStore from "store/zustand/domain/useDocsStore"
 import useSidebarStore from "../../store/zustand/useSidebarStore"
 import { DocDto } from "../../types/domain/questions/DocDto"
-import { QuestionDto } from "../../types/domain/questions/QuestionDto"
 import LoadingPage from "../_common/LoadingPage/LoadingPage"
 import QuestionsContent from "./QuestionsContent/QuestionsContent"
 import QuestionsSidebar from "./QuestionsSidebar/QuestionsSidebar"
@@ -36,8 +36,8 @@ const QuestionsPage = () => {
       .get<DocDto[]>(urls.api.define.doc)
       .then((res) => docsStore.setDocs(res.data))
 
-    myAxios
-      .get<QuestionDto[]>(urls.api.define.questions)
+    api.question
+      .getAllMyQuestions()
       .then((res) => docsStore.setQuestions(res.data))
   }, [])
 
