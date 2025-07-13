@@ -139,7 +139,7 @@
     "@types/styled-components": "^5.1.26",
     "ajv": "^8.17.1",
     "cypress": "^12.17.0",
-    "happy-dom": "^10.0.3",
+    "happy-dom": "^18.0.1",
     "husky": "^8.0.3",
     "orval": "^7.10.0",
     "vite-plugin-environment": "^1.1.3",
