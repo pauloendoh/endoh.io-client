@@ -134,7 +134,6 @@ export const urls = {
         q: query,
         type,
       }).toString()}`,
-    userGotIt: "/got-it",
     linkPreview: (urls: string) => `/utils/link-preview?url=${urls}`,
     feed: {
       myUserSuggestions: "v2/feed/my-user-suggestions",

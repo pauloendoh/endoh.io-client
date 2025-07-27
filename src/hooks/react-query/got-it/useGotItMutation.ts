@@ -1,25 +1,26 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { useAxios } from "hooks/utils/useAxios"
-import { urls } from "utils/urls"
+import { api } from "orval/api"
 import { queryKeys } from "../queryKeys"
 import { GotItDto } from "./types/GotItDto"
 
 export default function useGotItMutation() {
   const queryClient = useQueryClient()
 
-  const axios = useAxios()
-
   return useMutation(
-    (key: keyof GotItDto) => {
+    async (gotItKey: keyof GotItDto) => {
       const currentGotIt = queryClient.getQueryData<GotItDto>([queryKeys.gotIt])
-
-      if (currentGotIt && typeof currentGotIt[key] === "boolean") {
-        // @ts-expect-error
-        currentGotIt[key] = true
+      if (!currentGotIt) {
+        throw new Error("This should not happen")
       }
-      return axios
-        .put<GotItDto>(urls.api.userGotIt, currentGotIt)
-        .then((res) => res.data)
+
+      if (typeof currentGotIt[gotItKey] === "boolean") {
+        // @ts-expect-error
+        currentGotIt[gotItKey] = true
+        const data = await api.gotIt
+          .updateUserGotIt(currentGotIt)
+          .then((res) => res.data)
+        return data
+      }
     },
     {
       onSuccess: (savedDto) => {

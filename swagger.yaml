@@ -95,6 +95,68 @@ paths:
                       - You're not allowed to access this resource.
                 required:
                   - message
+  /got-it:
+    get:
+      tags: &a2
+        - gotIt
+      parameters:
+        - name: x-auth-token
+          in: header
+          required: true
+          schema:
+            type: string
+      operationId: getUserGotIt
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  createTag:
+                    type: boolean
+                required:
+                  - id
+    put:
+      tags: *a2
+      parameters:
+        - name: x-auth-token
+          in: header
+          required: true
+          schema:
+            type: string
+      operationId: updateUserGotIt
+      requestBody:
+        description: Body
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: number
+                createTag:
+                  type: boolean
+              required:
+                - id
+                - createTag
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  createTag:
+                    type: boolean
+                required:
+                  - id
 info:
   title: My API
   version: 1.0.0

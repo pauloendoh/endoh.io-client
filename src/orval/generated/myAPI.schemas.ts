@@ -38,3 +38,18 @@ export type AskGpt403 = {
   message: AskGpt403Message;
 };
 
+export type GetUserGotIt200 = {
+  id: number;
+  createTag?: boolean;
+};
+
+export type UpdateUserGotItBody = {
+  id: number;
+  createTag: boolean;
+};
+
+export type UpdateUserGotIt200 = {
+  id: number;
+  createTag?: boolean;
+};
+
