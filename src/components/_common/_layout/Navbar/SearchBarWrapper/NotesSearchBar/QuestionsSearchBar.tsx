@@ -7,7 +7,7 @@ import useDebounce from "hooks/utils/useDebounce"
 import React, { useEffect, useMemo, useRef } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { useHotkeys } from "react-hotkeys-hook"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import { useSearchParams } from "react-router-dom"
 import useQuestionDialogStore from "store/zustand/dialogs/useQuestionDialogStore"
 import { SearchResultsDto } from "types/domain/utils/SearchResultsDto"
 import { urls } from "utils/urls"
@@ -35,18 +35,15 @@ const MyPopper = function (props: React.ComponentProps<typeof Popper>) {
 const QuestionsSearchBar = (props: Props) => {
   const MIN_LENGTH = 3
 
-  const navigate = useNavigate()
-
-  const { handleSubmit, control, getValues, watch, setValue } =
-    useForm<ISearchForm>({
-      defaultValues: {
-        searchQuery: "",
-      },
-    })
+  const form = useForm<ISearchForm>({
+    defaultValues: {
+      searchQuery: "",
+    },
+  })
 
   const searchQuery = useMemo(
-    () => watch("searchQuery") || "",
-    [watch("searchQuery")]
+    () => form.watch("searchQuery") || "",
+    [form.watch("searchQuery")]
   )
 
   const {
@@ -71,7 +68,6 @@ const QuestionsSearchBar = (props: Props) => {
 
   const [searchParams] = useSearchParams()
   useEffect(() => {
-    setValue("searchQuery", "")
     qc.cancelQueries([queryKeys.questionsSearchResults])
     qc.setQueryData<SearchResultsDto>(
       [queryKeys.questionsSearchResults],
@@ -79,7 +75,7 @@ const QuestionsSearchBar = (props: Props) => {
     )
   }, [searchParams])
 
-  const debouncedSearchQuery = useDebounce(watch("searchQuery"), 250)
+  const debouncedSearchQuery = useDebounce(form.watch("searchQuery"), 250)
 
   useEffect(() => {
     refetch()
@@ -92,10 +88,7 @@ const QuestionsSearchBar = (props: Props) => {
     return []
   }, [searchResults?.questions, searchResults?.docs])
 
-  const [onOpenDialog] = useQuestionDialogStore((s) => [
-    s.openDialog,
-    s.onClose,
-  ])
+  const [openQuestionDialog] = useQuestionDialogStore((s) => [s.openDialog])
 
   const inputRef = useRef<HTMLInputElement | null>(null)
   useHotkeys("f", () => {
@@ -107,14 +100,14 @@ const QuestionsSearchBar = (props: Props) => {
   const defaultSubmit = useDefaultSubmitQuestion()
 
   return (
-    <form onSubmit={handleSubmit(submit)}>
+    // PE 1/3 - doesn't need this submit and <form> ?
+    <form onSubmit={form.handleSubmit(submit)}>
       <Autocomplete
         loading={isFetching}
         // if no text, show nothing (don't show 'no resources :(')
-
         noOptionsText={
           searchQuery.length >= MIN_LENGTH &&
-          debouncedSearchQuery === watch("searchQuery")
+          debouncedSearchQuery === form.watch("searchQuery")
             ? "No questions or docs found :("
             : "Type at least 3 characters"
         }
@@ -131,7 +124,7 @@ const QuestionsSearchBar = (props: Props) => {
                 return
               }
 
-              return onOpenDialog({
+              return openQuestionDialog({
                 initialValue: docOrQuestion,
                 onSubmit: defaultSubmit,
               })
@@ -146,7 +139,7 @@ const QuestionsSearchBar = (props: Props) => {
         clearOnBlur={false}
         renderInput={(params) => (
           <Controller
-            control={control}
+            control={form.control}
             name="searchQuery"
             render={({ field }) => (
               <MyTextField
@@ -167,7 +160,7 @@ const QuestionsSearchBar = (props: Props) => {
                 }}
                 onFocus={() => refetch()}
                 onCtrlEnter={(e) => {
-                  ctrlSubmit(getValues())
+                  ctrlSubmit(form.getValues())
                 }}
               />
             )}
