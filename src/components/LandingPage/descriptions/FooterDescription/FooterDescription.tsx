@@ -8,8 +8,7 @@ import {
   createStyles,
   Hidden,
   IconButton,
-  Link,
-  Theme,
+  Theme
 } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 import Flex from "components/_UI/Flexboxes/Flex"
@@ -43,9 +42,9 @@ const FooterDescription = () => {
       />
       <FlexCol ml={2} gap={2}>
         <FlexCol gap={1}>
-          <Txt style={{ fontWeight: "bold" }}>Paulo Ricardo Endoh</Txt>
+          <Txt style={{ fontWeight: "bold" }}>Paulinn</Txt>
           <Txt>
-            {getMyAge()} years old computer science student from São Paulo
+            {getMyAge()} years old computer science graduate from São Paulo
           </Txt>
         </FlexCol>
 
@@ -61,14 +60,14 @@ const FooterDescription = () => {
         <Box>
           <IconButton
             size="small"
-            href="https://twitter.com/pauloendoh_"
+            href="https://twitter.com/paulinn1001"
             target="_blank"
           >
             <TwitterIcon />
           </IconButton>
           <IconButton
             size="small"
-            href="https://www.instagram.com/pauloendoh/"
+            href="https://www.instagram.com/paulinn1001/"
             target="_blank"
           >
             <InstagramIcon />
@@ -89,9 +88,7 @@ const FooterDescription = () => {
           </IconButton>
         </Box>
 
-        <Link href="mailto:pauloendoh@gmail.com">
-          <Txt>pauloendoh@gmail.com</Txt>
-        </Link>
+   
       </FlexCol>
     </Flex>
   )
