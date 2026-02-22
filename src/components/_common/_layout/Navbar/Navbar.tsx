@@ -11,6 +11,7 @@ import FlexVCenter from "../../../_UI/Flexboxes/FlexVCenter"
 import LeftToggleButton from "./LeftToggleButton/LeftToggleButton"
 import S from "./Navbar.styles"
 import NavbarAddButton from "./NavbarAddButton/NavbarAddButton"
+import { useQHotkey } from "./NavbarAddButton/useQHotkey"
 import NavbarResponsiveMenu from "./NavbarResponsiveMenu/NavbarResponsiveMenu"
 import NavbarTabs from "./NavbarTabs/NavbarTabs"
 import NavbarUserMenu from "./NavbarUserMenu/NavbarUserMenu"
@@ -23,7 +24,7 @@ const Navbar = () => {
   const isXsScreen = useMediaQuery(theme.breakpoints.down("sm"))
 
   const [isResponsiveSearching, setIsResponsiveSearching] = useResponsiveStore(
-    (s) => [s.isResponsiveSearching, s.setIsResponsiveSearching]
+    (s) => [s.isResponsiveSearching, s.setIsResponsiveSearching],
   )
 
   const closeSidebar = useSidebarStore((s) => s.closeSidebar)
@@ -31,6 +32,8 @@ const Navbar = () => {
   useEffect(() => {
     if (!isXsScreen) setIsResponsiveSearching(false)
   }, [isXsScreen])
+
+  const { runQHotkeyManually } = useQHotkey()
 
   return (
     <S.AppBarRoot position="fixed" elevation={0}>
@@ -41,7 +44,7 @@ const Navbar = () => {
               <MdArrowBack />
             </IconButton>
 
-            <SearchBarWrapper />
+            <SearchBarWrapper autoFocusQuestionSearchBar />
           </FlexVCenter>
         ) : (
           <>
@@ -78,7 +81,7 @@ const Navbar = () => {
 
             <S.RightButtonsWrapper>
               {isDownLg && <NavbarResponsiveMenu />}
-              <NavbarAddButton />
+              <NavbarAddButton onClick={runQHotkeyManually} />
               <Notification />
               <NavbarUserMenu />
             </S.RightButtonsWrapper>

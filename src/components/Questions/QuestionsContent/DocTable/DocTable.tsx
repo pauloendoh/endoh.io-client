@@ -6,7 +6,6 @@ import {
   useTheme,
 } from "@mui/material"
 import { makeStyles } from "@mui/styles"
-import { useVirtual } from "react-virtual"
 import { format } from "timeago.js"
 
 import { Paper, Table, TableContainer, Toolbar } from "@mui/material"
@@ -31,7 +30,7 @@ const DocTable = (props: Props) => {
 
   const classes = useStyles()
 
-  const [openNoteDialog] = useQuestionDialogStore((s) => [
+  const [openQuestionDialog] = useQuestionDialogStore((s) => [
     s.openDialog,
     s.onClose,
   ])
@@ -40,9 +39,9 @@ const DocTable = (props: Props) => {
   // I won't bother to fix it now
   const sortedNotes = () => {
     const filtered = docsStore.questions.filter(
-      (note) => note.docId === props.docId
+      (note) => note.docId === props.docId,
     )
-    const sorted = filtered.sort((a, b) => a.index - b.index)
+    const sorted = [...filtered].sort((a, b) => a.index - b.index)
     return sorted
   }
 
@@ -63,7 +62,7 @@ const DocTable = (props: Props) => {
             // docsStore.pushOrReplaceNote(res.data)
           })
           .finally(() => setIsSaving(false))
-      }, 500)
+      }, 500),
     )
   }
 
@@ -78,7 +77,7 @@ const DocTable = (props: Props) => {
     if (isSaving) return "Saving..."
     if (sortedNotes()?.length === 0) return ""
     const lastSaved = sortedNotes().sort((a, b) =>
-      b.updatedAt.localeCompare(a.updatedAt)
+      b.updatedAt.localeCompare(a.updatedAt),
     )[0]
     return `Updated ${format(lastSaved.updatedAt)}`
   }, [sortedNotes(), isSaving])
@@ -88,11 +87,6 @@ const DocTable = (props: Props) => {
   const [toolbarRef, { width: toolbarWidth }] = useElementSize()
 
   const tableContainerRef = useRef<HTMLDivElement>(null)
-  const rowVirtualizer = useVirtual({
-    parentRef: tableContainerRef,
-    size: sortedNotes().length,
-    overscan: 10,
-  })
 
   return (
     <Paper>
@@ -163,7 +157,7 @@ const DocTable = (props: Props) => {
             variant="contained"
             color="primary"
             onClick={() =>
-              openNoteDialog({
+              openQuestionDialog({
                 initialValue: buildQuestionDto({
                   docId: props.docId,
                 }),

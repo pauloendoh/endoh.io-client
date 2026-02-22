@@ -10,7 +10,7 @@ import { FlashnotesSearchType } from "./NotesSearchBar/types/FlashnotesSearchTyp
 import ResourcesSearchBar from "./ResourcesSearchBar/ResourcesSearchBar"
 
 interface Props {
-  test?: string
+  autoFocusQuestionSearchBar?: boolean
 }
 
 const SearchBarWrapper = (props: Props) => {
@@ -31,7 +31,10 @@ const SearchBarWrapper = (props: Props) => {
     <FlexVCenter>
       {searchType === "resources" && <ResourcesSearchBar />}
       {(searchType === "q&a" || searchType === "questions") && (
-        <QuestionsSearchBar type={searchType} />
+        <QuestionsSearchBar
+          type={searchType}
+          autoFocus={props.autoFocusQuestionSearchBar}
+        />
       )}
       <FormControl
         variant="outlined"

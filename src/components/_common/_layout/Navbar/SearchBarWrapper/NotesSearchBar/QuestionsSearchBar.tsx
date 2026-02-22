@@ -17,6 +17,7 @@ import { FlashnotesSearchType } from "./types/FlashnotesSearchType"
 
 interface Props {
   type: FlashnotesSearchType
+  autoFocus?: boolean
 }
 interface ISearchForm {
   searchQuery?: string
@@ -43,7 +44,7 @@ const QuestionsSearchBar = (props: Props) => {
 
   const searchQuery = useMemo(
     () => form.watch("searchQuery") || "",
-    [form.watch("searchQuery")]
+    [form.watch("searchQuery")],
   )
 
   const {
@@ -71,7 +72,7 @@ const QuestionsSearchBar = (props: Props) => {
     qc.cancelQueries([queryKeys.questionsSearchResults])
     qc.setQueryData<SearchResultsDto>(
       [queryKeys.questionsSearchResults],
-      undefined
+      undefined,
     )
   }, [searchParams])
 
@@ -158,6 +159,7 @@ const QuestionsSearchBar = (props: Props) => {
                     borderRadius: "4px 0px 0px 4px",
                   },
                 }}
+                autoFocus={props.autoFocus}
                 onFocus={() => refetch()}
                 onCtrlEnter={(e) => {
                   ctrlSubmit(form.getValues())
